@@ -542,7 +542,6 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <thead>
 <tr>
 <th class="table-checkbox"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
-<th>UID</th>
 <th>帳號名稱</th>
 <th>暱稱</th>
 <th>角色類型</th>
@@ -966,7 +965,6 @@ function renderTable(){
     }
     return `<tr>
       <td class="table-checkbox"><input type="checkbox" ${checked} onchange="toggleSelect('${a.account}')"></td>
-      <td style="color:#999;font-size:12px">${a.uid}</td>
       <td><strong>${a.account}</strong></td>
       <td>${a.nickname}</td>
       <td><span class="badge ${badge}">${a.role}</span></td>
@@ -1078,8 +1076,8 @@ if(btn)btn.innerHTML=isFs
 :'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 }
 function exportCSV(){
-  const headers=['UID','帳號名稱','暱稱','角色類型','最後登入時間','最後登入 IP','狀態'];
-  const rows=filtered.map(a=>[a.uid,a.account,a.nickname,a.role,a.lastLogin,a.lastIP,a.status==='active'?'啟用':'禁用']);
+  const headers=['帳號名稱','暱稱','角色類型','最後登入時間','最後登入 IP','狀態'];
+  const rows=filtered.map(a=>[a.account,a.nickname,a.role,a.lastLogin,a.lastIP,a.status==='active'?'啟用':'禁用']);
   const bom='\uFEFF';
   const csv=bom+[headers.join(','),...rows.map(r=>r.map(c=>`"${c}"`).join(','))].join('\n');
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
