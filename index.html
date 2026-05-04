@@ -764,34 +764,18 @@ tr:hover td{background:rgba(59,130,246,.02)}
 </div>
 <button class="modal-close" onclick="closeModal('resetPwModal')">✕</button>
 </div>
-<div class="modal-body">
-<div class="warning-banner">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-<div>重設密碼後，帳號 <strong id="resetPwAccount"></strong> 下次登入將被強制修改密碼。此操作不可撤銷。</div>
+<div class="modal-body" style="text-align:center;padding:32px 24px">
+<div style="margin-bottom:16px;color:#475569;font-size:14px">隨機密碼為</div>
+<div style="display:inline-flex;align-items:center;gap:8px;background:#F1F5F9;border-radius:20px;padding:8px 16px;margin-bottom:8px">
+<span id="generatedPw" style="font-family:monospace;font-size:18px;letter-spacing:1.5px;color:#1E293B;font-weight:600"></span>
+<button onclick="copyPw()" style="background:none;border:none;cursor:pointer;padding:2px;display:flex;align-items:center" title="複製密碼">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+</button>
 </div>
-<div class="radio-group">
-<label class="radio-label"><input type="radio" name="pwMode" value="auto" checked onchange="togglePwMode()"> 系統自動產生</label>
-<label class="radio-label"><input type="radio" name="pwMode" value="manual" onchange="togglePwMode()"> 手動輸入</label>
+<div style="font-size:12px;color:#94A3B8;margin-top:4px">帳號 <strong id="resetPwAccount" style="color:#475569"></strong> 下次登入將被強制修改密碼</div>
 </div>
-<div id="pwAutoSection">
-<div class="copy-wrap">
-<input type="text" class="form-input" id="generatedPw" readonly value="" style="font-family:monospace;letter-spacing:1px">
-<button class="btn btn-sm btn-outline btn-copy" onclick="copyPw()">複製</button>
-</div>
-<div class="form-hint" style="margin-top:6px">12 位隨機密碼，含大小寫、數字、特殊字元</div>
-</div>
-<div id="pwManualSection" style="display:none">
-<div class="form-group" style="margin-bottom:0">
-<div class="password-wrap">
-<input type="password" class="form-input" id="manualPw" placeholder="8-32 字元，含大小寫、數字及特殊字元">
-<button class="pw-toggle" onclick="togglePw('manualPw')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button class="btn btn-outline" onclick="closeModal('resetPwModal')">取消</button>
-<button class="btn btn-danger" onclick="submitResetPw()">確認重設</button>
+<div class="modal-footer" style="justify-content:flex-end;border-top:1px solid #E5E7EB;padding:12px 24px">
+<button class="btn" style="background:#1E293B;color:#fff;min-width:80px" onclick="submitResetPw()">確認</button>
 </div>
 </div>
 </div>
@@ -1372,22 +1356,14 @@ function generatePw(){
 function openResetPwModal(idx){
   const a=filtered[idx];
   document.getElementById('resetPwAccount').textContent=a.account;
-  document.getElementById('generatedPw').value=generatePw();
-  document.querySelector('input[name="pwMode"][value="auto"]').checked=true;
-  togglePwMode();
+  document.getElementById('generatedPw').textContent=generatePw();
   openModal('resetPwModal');
 }
-function togglePwMode(){
-  const auto=document.querySelector('input[name="pwMode"]:checked').value==='auto';
-  document.getElementById('pwAutoSection').style.display=auto?'':'none';
-  document.getElementById('pwManualSection').style.display=auto?'none':'';
-}
 function copyPw(){
-  const pw=document.getElementById('generatedPw').value;
+  const pw=document.getElementById('generatedPw').textContent;
   navigator.clipboard.writeText(pw).then(()=>showToast('密碼已複製到剪貼簿'));
 }
-function submitResetPw(){closeModal('resetPwModal');showToast('密碼已重設，下次登入需強制修改');}
-function togglePw(id){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';}
+function submitResetPw(){closeModal('resetPwModal');showToast('密碼重設成功');}
 
 // === Disable / Enable ===
 function openDisableModal(idx){
