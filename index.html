@@ -898,8 +898,20 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <option value="編輯角色">編輯角色</option>
 <option value="密碼重設">密碼重設</option>
 </select>
-<input type="date" class="filter-input" id="auditDateFrom" onchange="filterAuditLogs()" style="min-width:140px" title="起始日期">
-<input type="date" class="filter-input" id="auditDateTo" onchange="filterAuditLogs()" style="min-width:140px" title="結束日期">
+<div style="position:relative;display:inline-block" id="dateRangeWrap">
+<div class="filter-input" id="dateRangeBtn" onclick="toggleDatePicker()" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-width:220px;user-select:none">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+<span id="dateRangeLabel">全部時間</span>
+</div>
+<div id="datePickerDropdown" style="display:none;position:absolute;top:100%;left:0;margin-top:6px;background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);z-index:200;padding:0;min-width:560px">
+<div style="display:flex">
+<div id="datePresets" style="width:140px;border-right:1px solid #E5E7EB;padding:8px 0;flex-shrink:0"></div>
+<div style="flex:1;padding:16px">
+<div style="display:flex;gap:16px" id="dateCalendars"></div>
+</div>
+</div>
+</div>
+</div>
 <button class="btn btn-primary" style="font-size:14px" onclick="filterAuditLogs()">查詢</button>
 <button class="btn btn-outline" style="font-size:14px" onclick="resetAuditFilter()">重置</button>
 </div>
@@ -1426,24 +1438,141 @@ const auditLogs = [
 let filteredAudit = [...auditLogs];
 let auditPage = 1;
 const auditPageSize = 10;
-let auditSortDir = 'desc'; // desc=新到舊, asc=舊到新, null=預設
+let auditSortDir = 'desc';
+let auditDateFrom = null;
+let auditDateTo = null;
+let dpMonth1 = null; // left calendar month
+let dpMonth2 = null; // right calendar month
+let dpSelStart = null;
+let dpSelEnd = null;
+let dpSelecting = false;
 
 function openAuditModal(){
   resetAuditFilter();
   openModal('auditModal');
 }
+
+// Date range picker
+function toggleDatePicker(){
+  const dd = document.getElementById('datePickerDropdown');
+  if(dd.style.display==='none'){
+    const now = new Date();
+    dpMonth1 = new Date(now.getFullYear(), now.getMonth(), 1);
+    dpMonth2 = new Date(now.getFullYear(), now.getMonth()+1, 1);
+    renderDatePicker();
+    dd.style.display='block';
+  } else dd.style.display='none';
+}
+function fmtD(d){return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')}
+function fmtDash(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function getPresets(){
+  const now=new Date(), y=now.getFullYear(), m=now.getMonth(), d=now.getDate();
+  const yesterday=new Date(y,m,d-1);
+  const weekStart=new Date(y,m,d-(now.getDay()||7)+1);
+  const weekEnd=new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+6);
+  const lastWeekStart=new Date(weekStart); lastWeekStart.setDate(lastWeekStart.getDate()-7);
+  const lastWeekEnd=new Date(weekStart); lastWeekEnd.setDate(lastWeekEnd.getDate()-1);
+  const monthStart=new Date(y,m,1);
+  const monthEnd=new Date(y,m+1,0);
+  const lastMonthStart=new Date(y,m-1,1);
+  const lastMonthEnd=new Date(y,m,0);
+  return [
+    {label:'昨日',from:yesterday,to:yesterday},
+    {label:'本週',from:weekStart,to:weekEnd},
+    {label:'上週',from:lastWeekStart,to:lastWeekEnd},
+    {label:'本月',from:monthStart,to:monthEnd},
+    {label:'上月',from:lastMonthStart,to:lastMonthEnd},
+  ];
+}
+function renderDatePicker(){
+  // presets
+  const presets=getPresets();
+  document.getElementById('datePresets').innerHTML=presets.map((p,i)=>{
+    const active=auditDateFrom&&auditDateTo&&fmtDash(p.from)===auditDateFrom&&fmtDash(p.to)===auditDateTo;
+    return `<div onclick="applyPreset(${i})" style="padding:8px 16px;font-size:13px;cursor:pointer;transition:all .15s;${active?'background:rgba(59,130,246,.08);color:#2563EB;border-left:3px solid #2563EB;font-weight:500':'color:#475569;border-left:3px solid transparent'}">${p.label}<div style="font-size:11px;color:#94A3B8;margin-top:2px">${fmtDash(p.from)} - ${fmtDash(p.to)}</div></div>`;
+  }).join('');
+  // calendars
+  document.getElementById('dateCalendars').innerHTML=renderCal(dpMonth1,'L')+renderCal(dpMonth2,'R');
+}
+function renderCal(month,side){
+  const y=month.getFullYear(),m=month.getMonth();
+  const days=['日','一','二','三','四','五','六'];
+  const firstDay=new Date(y,m,1).getDay();
+  const lastDate=new Date(y,m+1,0).getDate();
+  const prevLast=new Date(y,m,0).getDate();
+  let html=`<div style="width:200px"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><button onclick="shiftMonth('${side}',-1)" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748B;font-size:16px">&lt;</button><span style="font-size:13px;font-weight:600;color:#1E293B">${y}年${m+1}月</span><button onclick="shiftMonth('${side}',1)" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748B;font-size:16px">&gt;</button></div>`;
+  html+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#94A3B8;margin-bottom:4px">${days.map(d=>`<div style="padding:4px">${d}</div>`).join('')}</div>`;
+  html+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12px">`;
+  // prev month trailing
+  for(let i=firstDay-1;i>=0;i--){
+    const dd=prevLast-i;
+    html+=`<div style="padding:5px;color:#CBD5E1">${dd}</div>`;
+  }
+  // current month
+  for(let d=1;d<=lastDate;d++){
+    const dt=fmtDash(new Date(y,m,d));
+    const isStart=dpSelStart&&dt===dpSelStart;
+    const isEnd=dpSelEnd&&dt===dpSelEnd;
+    const inRange=dpSelStart&&dpSelEnd&&dt>=dpSelStart&&dt<=dpSelEnd;
+    let bg='transparent',color='#1E293B',radius='50%',fw='400';
+    if(isStart||isEnd){bg='#2563EB';color='#fff';fw='600';}
+    else if(inRange){bg='rgba(37,99,235,.08);';color='#2563EB';}
+    html+=`<div onclick="pickDate('${dt}')" style="padding:5px;cursor:pointer;border-radius:${radius};background:${bg};color:${color};font-weight:${fw};transition:all .15s" onmouseover="this.style.background=this.style.background==='rgb(37, 99, 235)'?'#2563EB':'rgba(37,99,235,.12)'" onmouseout="this.style.background='${bg}'">${d}</div>`;
+  }
+  // next month leading
+  const totalCells=firstDay+lastDate;
+  const remaining=totalCells%7===0?0:7-totalCells%7;
+  for(let d=1;d<=remaining;d++){
+    html+=`<div style="padding:5px;color:#CBD5E1">${d}</div>`;
+  }
+  html+=`</div></div>`;
+  return html;
+}
+function shiftMonth(side,dir){
+  if(side==='L'){dpMonth1.setMonth(dpMonth1.getMonth()+dir);}
+  else{dpMonth2.setMonth(dpMonth2.getMonth()+dir);}
+  renderDatePicker();
+}
+function pickDate(dt){
+  if(!dpSelecting||!dpSelStart){
+    dpSelStart=dt;dpSelEnd=null;dpSelecting=true;
+  } else {
+    if(dt<dpSelStart){dpSelEnd=dpSelStart;dpSelStart=dt;}
+    else dpSelEnd=dt;
+    dpSelecting=false;
+    applyDateRange(dpSelStart,dpSelEnd);
+  }
+  renderDatePicker();
+}
+function applyPreset(idx){
+  const p=getPresets()[idx];
+  dpSelStart=fmtDash(p.from);dpSelEnd=fmtDash(p.to);
+  applyDateRange(dpSelStart,dpSelEnd);
+  renderDatePicker();
+}
+function applyDateRange(from,to){
+  auditDateFrom=from;auditDateTo=to;
+  document.getElementById('dateRangeLabel').textContent=from.replace(/-/g,'/')+' - '+to.replace(/-/g,'/');
+  document.getElementById('datePickerDropdown').style.display='none';
+  filterAuditLogs();
+}
+// close picker on outside click
+document.addEventListener('click',function(e){
+  const wrap=document.getElementById('dateRangeWrap');
+  if(wrap&&!wrap.contains(e.target)){
+    document.getElementById('datePickerDropdown').style.display='none';
+  }
+});
 function filterAuditLogs(){
   const op = document.getElementById('auditSearchOp').value.toLowerCase();
   const target = document.getElementById('auditSearchTarget').value.toLowerCase();
   const type = document.getElementById('auditTypeFilter').value;
-  const from = document.getElementById('auditDateFrom').value;
-  const to = document.getElementById('auditDateTo').value;
   filteredAudit = auditLogs.filter(l => {
     if(op && !l.operator.toLowerCase().includes(op)) return false;
     if(target && !l.target.toLowerCase().includes(target)) return false;
     if(type && l.type !== type) return false;
-    if(from && l.time.slice(0,10).replace(/\//g,'-') < from) return false;
-    if(to && l.time.slice(0,10).replace(/\//g,'-') > to) return false;
+    if(auditDateFrom && l.time.slice(0,10).replace(/\//g,'-') < auditDateFrom) return false;
+    if(auditDateTo && l.time.slice(0,10).replace(/\//g,'-') > auditDateTo) return false;
     return true;
   });
   auditPage = 1;
@@ -1453,8 +1582,9 @@ function resetAuditFilter(){
   document.getElementById('auditSearchOp').value='';
   document.getElementById('auditSearchTarget').value='';
   document.getElementById('auditTypeFilter').value='';
-  document.getElementById('auditDateFrom').value='';
-  document.getElementById('auditDateTo').value='';
+  auditDateFrom=null;auditDateTo=null;
+  dpSelStart=null;dpSelEnd=null;
+  document.getElementById('dateRangeLabel').textContent='全部時間';
   filteredAudit = [...auditLogs];
   auditPage = 1;
   renderAuditTable();
