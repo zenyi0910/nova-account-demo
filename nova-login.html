@@ -6,301 +6,241 @@
 <title>星運娛樂城 - 登入</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#c41230;--red-dark:#8b0a1e;--gold:#f5c842;--gold-dark:#c9a020;--teal:#2bb5a0;--dark:#1a1a2e;--darker:#0f0f1f;--text:#fff;--text-dim:#999;--cream:#fdf6e3;--cream-dark:#f0e4c8}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--darker);color:var(--text);display:flex;justify-content:center;min-height:100vh;overflow:hidden}
-.app{width:100%;max-width:430px;min-height:100vh;position:relative;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#76090a;color:#fff;min-height:100vh;overflow-x:hidden}
+.app{width:100%;max-width:430px;margin:0 auto;min-height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center}
 
-/* Background — deep red with decorative elements */
-.bg-layer{position:absolute;inset:0;background:linear-gradient(180deg,#5a0a18 0%,#8b1228 30%,#a01530 60%,#7a1020 100%);z-index:0}
-.bg-decor{position:absolute;bottom:0;left:0;right:0;height:120px;z-index:1;overflow:hidden}
-.bg-decor svg{width:100%;height:100%}
+/* Background */
+.bg-layer{position:absolute;inset:0;background:#76090a url('https://www.kcfgmtb.com/assets/login_bg-Bi1SMT6m.png') repeat-x center top/auto 100%;z-index:0}
+
+/* Rotating light effect */
+.light-rotate{position:absolute;left:50%;bottom:0;transform:translateX(-50%) translateY(50%);width:100dvh;height:100dvh;z-index:1;pointer-events:none;animation:spin 20s linear infinite;opacity:.4}
+@keyframes spin{from{transform:translateX(-50%) translateY(50%) rotate(0deg)}to{transform:translateX(-50%) translateY(50%) rotate(360deg)}}
+
+/* Coins at bottom */
+.coins-bottom{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;z-index:5;pointer-events:none}
+.coins-bottom img{width:100%;display:block}
+
+/* Main content */
+.login-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;width:60%;min-width:240px;gap:16px;padding-top:10vh;padding-bottom:120px}
+
+/* Logo */
+.logo-wrap{margin-bottom:8px}
+.logo-wrap img{width:240px;height:auto;display:block}
+
+/* Full-width pill buttons (LINE, SMS) */
+.btn-pill{width:100%;height:48px;border-radius:9999px;border:none;cursor:pointer;padding:1px;background:transparent;transition:transform .15s}
+.btn-pill:active{transform:scale(.93)}
+.btn-pill-inner{width:100%;height:100%;display:flex;align-items:center;gap:8px;justify-content:start;border-radius:9999px;padding-left:16px;color:#fff;font-size:13px;font-weight:600}
+.btn-pill-inner svg,.btn-pill-inner img{width:24px;height:24px;flex-shrink:0}
+
+.btn-line .btn-pill-inner{background:#06c755;box-shadow:0 8px 16px 0 rgba(6,199,85,.48),inset -2px -4px 6px 0 rgba(6,199,85,.72),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.btn-sms .btn-pill-inner{background:#e74c3c;box-shadow:0 8px 16px 0 rgba(231,76,60,.48),inset -2px -4px 2px 0 rgba(235,93,76,.72),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+
+/* Circle buttons row */
+.circle-row{display:flex;align-items:flex-start;justify-content:center;gap:20px;width:100%;margin-top:8px}
+.circle-btn-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.btn-circle{width:72px;height:72px;border-radius:50%;border:none;cursor:pointer;padding:1px;background:transparent;transition:transform .15s}
+.btn-circle:active{transform:scale(.9)}
+.btn-circle-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;color:#fff;gap:2px}
+.btn-circle-inner svg{width:24px;height:24px;fill:#fff}
+.btn-circle-inner span{font-size:10px;font-weight:600}
+
+.btn-phone .btn-circle-inner{background:#4f46e5;box-shadow:0 8px 16px 0 rgba(231,76,255,.48),inset -2px -4px 2px 0 rgba(200,100,255,.72),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.btn-account .btn-circle-inner{background:#f5a623;box-shadow:0 8px 16px 0 rgba(245,166,35,.48),inset -2px -4px 2px 0 rgba(252,186,43,.72),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.btn-telegram .btn-circle-inner{background:#4e9edb;box-shadow:0 8px 16px 0 rgba(78,158,219,.48),inset -2px -4px 2px 0 rgba(83,131,227,.72),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+
+/* Star city exclusive label */
+.exclusive-label{font-size:10px;color:var(--gold,#f5c842);text-align:center;margin-top:-4px}
+
+/* Customer service */
+.cs-link{display:flex;align-items:center;gap:6px;cursor:pointer;margin-top:12px;opacity:.8;transition:opacity .15s}
+.cs-link:hover{opacity:1}
+.cs-link svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.5}
+.cs-link span{font-size:12px;color:#fff}
+
+/* Floating right buttons */
+.float-right{position:fixed;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:20}
+.float-btn{width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.float-btn svg{width:16px;height:16px;stroke:#fff;stroke-width:1.5;fill:none}
 
 /* Age verification overlay */
-.age-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.age-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);z-index:300;display:flex;align-items:center;justify-content:center}
 .age-overlay.hidden{display:none}
-.age-card{background:#fff;border-radius:16px;width:85%;max-width:340px;padding:28px 24px;text-align:center}
-.age-card h2{font-size:18px;color:#333;margin-bottom:6px}
-.age-card p{font-size:13px;color:#666;margin-bottom:20px;line-height:1.5}
-.age-card .age-icon{width:60px;height:60px;margin:0 auto 16px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center}
-.age-card .age-icon svg{width:32px;height:32px;fill:#fff}
-.age-btns{display:flex;gap:10px}
-.age-btn{flex:1;padding:12px;border-radius:24px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:transform .1s}
-.age-btn:active{transform:scale(.96)}
-.age-btn-no{background:#eee;color:#666}
-.age-btn-yes{background:var(--teal);color:#fff}
-.age-check{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:12px;color:#999}
-.age-check input{accent-color:var(--teal)}
+.age-dialog{position:relative;width:90%;max-width:400px}
+.age-ribbon{position:absolute;top:-2px;left:0;right:0;z-index:40;height:72px}
+.age-ribbon img{width:100%;height:100%;object-fit:contain}
+.age-ribbon-text{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:18px;font-weight:600;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);z-index:50;letter-spacing:2px}
+.age-card{margin-top:32px;background:#fafafa;border:8px solid #f4b63f;border-radius:24px;padding:40px 20px 24px;display:flex;flex-direction:column;align-items:center;gap:16px;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.age-icon{width:100%;height:56px;object-fit:contain}
+.age-text{font-size:12px;color:#452201;font-weight:600;text-align:center;line-height:1.6}
+.age-btns{display:flex;gap:8px;width:100%}
+.age-btn{flex:1;height:48px;border-radius:9999px;border:none;cursor:pointer;padding:4px;background:transparent;transition:transform .15s}
+.age-btn:active{transform:scale(.9)}
+.age-btn-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:9999px;font-size:12px;font-weight:600;color:#fff}
+.age-btn-no .age-btn-inner{background:#ff842f;box-shadow:0 8px 16px 0 rgba(230,60,0,.48),inset -2px -4px 2px 0 rgba(230,80,0,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.age-btn-yes .age-btn-inner{background:#2d6fd4;box-shadow:0 8px 16px 0 rgba(45,111,212,.48),inset -2px -4px 2px 0 rgba(30,90,180,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.age-check{display:flex;align-items:center;gap:6px;font-size:13px;color:#777}
+.age-check input{width:18px;height:18px;accent-color:#2d6fd4}
 
-/* Login method selector */
-.login-area{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;height:100vh;padding-top:15vh}
-.login-logo{margin-bottom:24px;text-align:center}
-.login-logo .logo-text{font-size:28px;font-weight:800;color:var(--gold);text-shadow:0 2px 12px rgba(0,0,0,.4);letter-spacing:2px}
-.login-logo .logo-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px}
-
-.method-grid{display:flex;gap:0;width:90%;max-width:360px;justify-content:center;margin-bottom:20px}
-.method-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 16px;cursor:pointer;border:none;background:none;color:var(--text);transition:opacity .15s;min-width:72px}
-.method-btn:active{opacity:.7}
-.method-btn .method-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1)}
-.method-btn .method-icon svg{width:24px;height:24px}
-.method-btn span{font-size:11px;color:rgba(255,255,255,.7)}
-.method-btn.active .method-icon{background:var(--teal);border-color:var(--teal)}
-.method-btn.active span{color:#fff;font-weight:600}
-
-/* Login form card */
-.login-card{width:90%;max-width:360px;background:var(--cream);border:2px solid var(--gold);border-radius:20px;overflow:hidden;position:relative}
-.login-card-header{background:linear-gradient(135deg,var(--gold),var(--gold-dark));padding:10px 20px;text-align:center;position:relative}
-.login-card-header::before,.login-card-header::after{content:'';position:absolute;top:50%;width:20px;height:30px;background:var(--gold-dark);border-radius:0 0 10px 10px;transform:translateY(-50%)}
-.login-card-header::before{left:-6px;border-radius:0 10px 10px 0}
-.login-card-header::after{right:-6px;border-radius:10px 0 0 10px}
-.login-card-header h3{font-size:16px;color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.2)}
-.login-card-body{padding:20px}
-
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;color:#666;margin-bottom:6px;font-weight:500}
-.form-input-wrap{position:relative}
-.form-input{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:14px;background:var(--cream-dark);color:#333;outline:none;transition:border-color .2s}
-.form-input:focus{border-color:var(--teal)}
-.form-input::placeholder{color:#bbb}
-.input-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px}
-.input-toggle svg{width:20px;height:20px;fill:none;stroke:#999;stroke-width:2}
-
-.form-note{font-size:11px;color:#999;text-align:center;margin:12px 0 16px;line-height:1.4}
-
-.btn-login{width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer;transition:transform .1s,opacity .15s}
-.btn-login:active{transform:scale(.97)}
-.btn-login:hover{opacity:.9}
-
-/* Phone login form */
-.phone-form .phone-row{display:flex;gap:8px}
-.phone-form .country-code{width:80px;padding:12px 10px;border:1px solid #ddd;border-radius:10px;font-size:14px;background:var(--cream-dark);color:#333;text-align:center}
-.phone-form .phone-input{flex:1}
-.phone-form .sms-row{display:flex;gap:8px;margin-top:14px}
-.phone-form .sms-input{flex:1}
-.phone-form .btn-sms{white-space:nowrap;padding:12px 16px;background:none;border:1px solid var(--teal);color:var(--teal);border-radius:10px;font-size:13px;cursor:pointer;font-weight:500}
-
-/* Bottom nav hint */
-.bottom-hint{position:absolute;bottom:40px;left:0;right:0;text-align:center;z-index:10}
-.bottom-hint a{color:rgba(255,255,255,.5);font-size:12px;text-decoration:none}
-.bottom-hint a:hover{color:rgba(255,255,255,.8)}
-
-/* Close button */
-.btn-close-login{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.3);background:rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
-.btn-close-login svg{width:16px;height:16px;stroke:rgba(255,255,255,.5);stroke-width:2;fill:none}
-
-/* Decorative coins */
-.coin-decor{position:absolute;z-index:2;pointer-events:none}
-.coin-decor.c1{bottom:30px;left:10%;width:40px;height:40px;opacity:.7}
-.coin-decor.c2{bottom:60px;right:8%;width:32px;height:32px;opacity:.5;transform:rotate(20deg)}
-.coin-decor.c3{bottom:10px;left:40%;width:28px;height:28px;opacity:.4;transform:rotate(-15deg)}
-.coin-decor.c4{bottom:50px;left:25%;width:24px;height:24px;opacity:.3}
-.coin-decor.c5{bottom:20px;right:25%;width:36px;height:36px;opacity:.6;transform:rotate(10deg)}
-
-/* Gems at bottom */
-.gem-row{position:absolute;bottom:0;left:0;right:0;height:60px;z-index:2;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:0 20px;pointer-events:none}
-.gem{border-radius:4px 4px 0 0;opacity:.6}
+/* Account login modal */
+.login-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center}
+.login-modal.show{display:flex}
+.login-dialog{position:relative;width:90%;max-width:400px}
+.login-ribbon{position:absolute;top:-2px;left:0;right:0;z-index:40;height:72px}
+.login-ribbon img{width:100%;height:100%;object-fit:contain}
+.login-ribbon-text{position:absolute;top:16px;left:50%;transform:translateX(-50%);font-size:18px;font-weight:600;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);z-index:50;letter-spacing:2px}
+.login-card{margin-top:32px;background:#fafafa;border:8px solid #f4b63f;border-radius:24px;padding:40px 20px 24px}
+.login-card .form-group{margin-bottom:12px}
+.login-card .form-input{width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:14px;background:#f0e8d8;color:#333;outline:none}
+.login-card .form-input:focus{border-color:#f5a623}
+.login-card .form-input::placeholder{color:#bbb}
+.login-card .input-wrap{position:relative}
+.login-card .input-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer}
+.login-card .input-toggle svg{width:20px;height:20px;fill:none;stroke:#999;stroke-width:2}
+.login-card .form-note{font-size:11px;color:#999;text-align:center;margin:12px 0}
+.login-card .btn-submit{width:100%;height:44px;border-radius:9999px;border:none;cursor:pointer;padding:4px;background:transparent}
+.login-card .btn-submit-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:9999px;background:#2bb5a0;color:#fff;font-size:14px;font-weight:600;box-shadow:0 8px 16px 0 rgba(43,181,160,.48),inset -2px -4px 2px 0 rgba(30,150,130,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.login-close{position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.4);background:rgba(0,0,0,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:60}
+.login-close svg{width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none}
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- Background -->
   <div class="bg-layer"></div>
+  <img class="light-rotate" src="https://www.kcfgmtb.com/assets/light_rotate-CfjcZJ5s.png" alt="">
+  <div class="coins-bottom"><img src="https://www.kcfgmtb.com/assets/coins-BdgkNqFw.png" alt="coins"></div>
 
-  <!-- Decorative coins -->
-  <svg class="coin-decor c1" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#f5c842" stroke="#c9a020" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#8b6914">$</text></svg>
-  <svg class="coin-decor c2" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#f5c842" stroke="#c9a020" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#8b6914">$</text></svg>
-  <svg class="coin-decor c3" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#f5c842" stroke="#c9a020" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#8b6914">$</text></svg>
-  <svg class="coin-decor c4" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#e8b830" stroke="#b89020" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b6914">$</text></svg>
-  <svg class="coin-decor c5" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="#f5c842" stroke="#c9a020" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#8b6914">$</text></svg>
-
-  <!-- Gem decorations at bottom -->
-  <div class="gem-row">
-    <div class="gem" style="width:18px;height:22px;background:linear-gradient(135deg,#e74c3c,#c0392b)"></div>
-    <div class="gem" style="width:14px;height:18px;background:linear-gradient(135deg,#2ecc71,#27ae60)"></div>
-    <div class="gem" style="width:20px;height:26px;background:linear-gradient(135deg,#3498db,#2980b9)"></div>
-    <div class="gem" style="width:16px;height:20px;background:linear-gradient(135deg,#f39c12,#e67e22)"></div>
-    <div class="gem" style="width:12px;height:16px;background:linear-gradient(135deg,#9b59b6,#8e44ad)"></div>
-    <div class="gem" style="width:18px;height:24px;background:linear-gradient(135deg,#e74c3c,#c0392b)"></div>
-    <div class="gem" style="width:14px;height:18px;background:linear-gradient(135deg,#1abc9c,#16a085)"></div>
-    <div class="gem" style="width:22px;height:28px;background:linear-gradient(135deg,#f5c842,#c9a020)"></div>
-    <div class="gem" style="width:16px;height:20px;background:linear-gradient(135deg,#3498db,#2980b9)"></div>
-    <div class="gem" style="width:12px;height:14px;background:linear-gradient(135deg,#e74c3c,#c0392b)"></div>
-  </div>
-
-  <!-- Login area -->
-  <div class="login-area">
-    <div class="login-logo">
-      <div class="logo-text">星運娛樂城</div>
-      <div class="logo-sub">NOVA Entertainment</div>
+  <div class="login-content">
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="https://www.kcfgmtb.com/assets/logo_l-DvzYi9B7.png" alt="星運娛樂城">
     </div>
 
-    <!-- Method selector -->
-    <div class="method-grid" id="methodGrid">
-      <button class="method-btn" onclick="switchMethod('line')" data-method="line">
-        <div class="method-icon"><svg viewBox="0 0 24 24" fill="#06C755"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M12 1C5.926 1 1 5.07 1 10.14c0 4.543 4.03 8.346 9.47 9.065.368.08.87.243.997.558.114.285.074.731.036 1.02l-.16.96c-.05.285-.227 1.115 .977.607 1.203-.508 6.473-3.814 8.834-6.527C22.845 14.035 23 12.172 23 10.14 23 5.07 18.066 1 12 1"/></svg></div>
-        <span>LINE</span>
-      </button>
-      <button class="method-btn" onclick="switchMethod('sms')" data-method="sms">
-        <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-        <span>簡訊</span>
-      </button>
-      <button class="method-btn" onclick="switchMethod('phone')" data-method="phone">
-        <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
-        <span>手機</span>
-      </button>
-      <button class="method-btn active" onclick="switchMethod('account')" data-method="account">
-        <div class="method-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <span>帳號</span>
-      </button>
-      <button class="method-btn" onclick="switchMethod('telegram')" data-method="telegram">
-        <div class="method-icon"><svg viewBox="0 0 24 24" fill="#29B6F6"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></div>
-        <span>Telegram</span>
-      </button>
-    </div>
+    <!-- LINE button (full width pill) -->
+    <button class="btn-pill btn-line" onclick="alert('LINE 登入')">
+      <div class="btn-pill-inner">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M12 1C5.926 1 1 5.07 1 10.14c0 4.543 4.03 8.346 9.47 9.065.368.08.87.243.997.558.114.285.074.731.036 1.02l-.16.96c-.05.285-.227 1.115.977.607 1.203-.508 6.473-3.814 8.834-6.527C22.845 14.035 23 12.172 23 10.14 23 5.07 18.066 1 12 1"/></svg>
+        LINE
+      </div>
+    </button>
 
-    <!-- Account login form (default) -->
-    <div class="login-card" id="accountForm">
-      <div class="login-card-header"><h3>帳號</h3></div>
-      <div class="login-card-body">
-        <div class="form-group">
-          <div class="form-input-wrap">
-            <input class="form-input" type="text" placeholder="請輸入帳號" id="loginUser">
+    <!-- SMS button (full width pill) -->
+    <button class="btn-pill btn-sms" onclick="alert('簡訊登入')">
+      <div class="btn-pill-inner">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12zM7 9h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+        簡訊
+      </div>
+    </button>
+
+    <!-- Circle buttons row -->
+    <div class="circle-row">
+      <div class="circle-btn-wrap">
+        <button class="btn-circle btn-phone" onclick="alert('手機登入')">
+          <div class="btn-circle-inner">
+            <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="18" r="1" fill="#fff"/></svg>
+            <span>手機</span>
           </div>
-        </div>
-        <div class="form-group">
-          <div class="form-input-wrap">
-            <input class="form-input" type="password" placeholder="請輸入密碼" id="loginPass">
-            <button class="input-toggle" onclick="togglePw()" aria-label="顯示密碼">
-              <svg viewBox="0 0 24 24" id="eyeIcon"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-            </button>
+        </button>
+        <div class="exclusive-label">星城會員專屬</div>
+      </div>
+      <div class="circle-btn-wrap">
+        <button class="btn-circle btn-account" onclick="showLoginModal()">
+          <div class="btn-circle-inner">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="7" r="4" fill="none" stroke="#fff" stroke-width="2"/></svg>
+            <span>帳號</span>
           </div>
-        </div>
-        <div class="form-note">注意：本功能僅供已完成帳號綁定者使用</div>
-        <button class="btn-login" onclick="doLogin()">登入</button>
+        </button>
+      </div>
+      <div class="circle-btn-wrap">
+        <button class="btn-circle btn-telegram" onclick="alert('Telegram 登入')">
+          <div class="btn-circle-inner">
+            <svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" fill="#fff"/></svg>
+            <span>Telegram</span>
+          </div>
+        </button>
       </div>
     </div>
 
-    <!-- Phone login form -->
-    <div class="login-card phone-form" id="phoneForm" style="display:none">
-      <div class="login-card-header"><h3>手機</h3></div>
-      <div class="login-card-body">
-        <div class="form-group">
-          <div class="phone-row">
-            <input class="country-code" value="+886" readonly>
-            <input class="form-input phone-input" type="tel" placeholder="手機號碼">
-          </div>
-        </div>
-        <div class="form-group sms-row">
-          <input class="form-input sms-input" type="text" placeholder="驗證碼">
-          <button class="btn-sms" onclick="sendSms()">發送驗證碼</button>
-        </div>
-        <div class="form-note">將發送簡訊驗證碼至您的手機</div>
-        <button class="btn-login" onclick="doLogin()">登入</button>
-      </div>
-    </div>
-
-    <!-- SMS login form -->
-    <div class="login-card phone-form" id="smsForm" style="display:none">
-      <div class="login-card-header"><h3>簡訊</h3></div>
-      <div class="login-card-body">
-        <div class="form-group">
-          <div class="phone-row">
-            <input class="country-code" value="+886" readonly>
-            <input class="form-input phone-input" type="tel" placeholder="手機號碼">
-          </div>
-        </div>
-        <div class="form-group sms-row">
-          <input class="form-input sms-input" type="text" placeholder="驗證碼">
-          <button class="btn-sms" onclick="sendSms()">發送驗證碼</button>
-        </div>
-        <button class="btn-login" onclick="doLogin()">登入</button>
-      </div>
-    </div>
-
-    <!-- Placeholder for LINE / Telegram -->
-    <div class="login-card" id="lineForm" style="display:none">
-      <div class="login-card-header"><h3>LINE 登入</h3></div>
-      <div class="login-card-body">
-        <div class="form-note" style="margin:0">點擊下方按鈕將跳轉至 LINE 授權頁面</div>
-        <button class="btn-login" style="margin-top:16px;background:#06C755" onclick="doLogin()">使用 LINE 登入</button>
-      </div>
-    </div>
-    <div class="login-card" id="telegramForm" style="display:none">
-      <div class="login-card-header"><h3>Telegram 登入</h3></div>
-      <div class="login-card-body">
-        <div class="form-note" style="margin:0">點擊下方按鈕將跳轉至 Telegram 授權</div>
-        <button class="btn-login" style="margin-top:16px;background:#29B6F6" onclick="doLogin()">使用 Telegram 登入</button>
-      </div>
+    <!-- Customer service -->
+    <div class="cs-link" onclick="alert('聯絡客服')">
+      <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+      <span>聯絡客服</span>
     </div>
   </div>
+</div>
 
-  <!-- Close button -->
-  <button class="btn-close-login" onclick="window.location.href='nova-frontend.html'" aria-label="關閉">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+<!-- Floating right buttons -->
+<div class="float-right">
+  <button class="float-btn" onclick="document.documentElement.requestFullscreen?.()">
+    <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+  </button>
+  <button class="float-btn" onclick="alert('聊天')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
   </button>
 </div>
 
-<!-- Age verification overlay -->
+<!-- Age verification -->
 <div class="age-overlay" id="ageOverlay">
-  <div class="age-card">
-    <div class="age-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+  <div class="age-dialog">
+    <div class="age-ribbon">
+      <img src="https://www.kcfgmtb.com/assets/dialog_header-WtX8VCKN.png" alt="">
     </div>
-    <h2>年齡驗證</h2>
-    <p>提醒：本網站服務於遊戲軟體分級為限制級，使用本服務前請確認您已滿18歲。</p>
-    <div class="age-btns">
-      <button class="age-btn age-btn-no" onclick="window.location.href='https://www.google.com'">未滿18歲</button>
-      <button class="age-btn age-btn-yes" onclick="closeAge()">已滿18歲</button>
+    <div class="age-ribbon-text">溫馨提醒</div>
+    <div class="age-card">
+      <img class="age-icon" src="https://www.kcfgmtb.com/assets/icon_18_-Bu1vIDuq.png" alt="18+">
+      <div class="age-text">提醒：本網站服務於遊戲軟體分級為限制級，使用本服務前請確認您已滿18歲。</div>
+      <div class="age-btns">
+        <button class="age-btn age-btn-no" onclick="window.location.href='https://www.google.com'">
+          <div class="age-btn-inner">未滿18歲</div>
+        </button>
+        <button class="age-btn age-btn-yes" onclick="closeAge()">
+          <div class="age-btn-inner">已滿18歲</div>
+        </button>
+      </div>
+      <label class="age-check"><input type="checkbox">不再顯示</label>
     </div>
-    <label class="age-check"><input type="checkbox" id="ageNoShow">不再顯示</label>
+  </div>
+</div>
+
+<!-- Account login modal -->
+<div class="login-modal" id="loginModal">
+  <div class="login-dialog">
+    <div class="login-ribbon">
+      <img src="https://www.kcfgmtb.com/assets/dialog_header-WtX8VCKN.png" alt="">
+    </div>
+    <div class="login-ribbon-text">帳號</div>
+    <div class="login-card">
+      <div class="form-group">
+        <input class="form-input" type="text" placeholder="請輸入帳號">
+      </div>
+      <div class="form-group">
+        <div class="input-wrap">
+          <input class="form-input" type="password" placeholder="請輸入密碼" id="pwInput">
+          <button class="input-toggle" onclick="togglePw()" aria-label="顯示密碼">
+            <svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-note">注意：本功能僅供已完成帳號綁定者使用</div>
+      <button class="btn-submit" onclick="doLogin()">
+        <div class="btn-submit-inner">登入</div>
+      </button>
+    </div>
+    <button class="login-close" onclick="closeLoginModal()">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 </div>
 
 <script>
-/* Age verification */
-function closeAge(){
-  document.getElementById('ageOverlay').classList.add('hidden');
-}
-
-/* Method switching */
-const forms = ['accountForm','phoneForm','smsForm','lineForm','telegramForm'];
-const methodMap = {account:'accountForm',phone:'phoneForm',sms:'smsForm',line:'lineForm',telegram:'telegramForm'};
-
-function switchMethod(method){
-  document.querySelectorAll('.method-btn').forEach(b=>{
-    b.classList.toggle('active', b.dataset.method===method);
-  });
-  forms.forEach(f=>document.getElementById(f).style.display='none');
-  document.getElementById(methodMap[method]).style.display='';
-}
-
-/* Password toggle */
-let pwVisible = false;
+function closeAge(){document.getElementById('ageOverlay').classList.add('hidden')}
+function showLoginModal(){document.getElementById('loginModal').classList.add('show')}
+function closeLoginModal(){document.getElementById('loginModal').classList.remove('show')}
 function togglePw(){
-  pwVisible = !pwVisible;
-  document.getElementById('loginPass').type = pwVisible ? 'text' : 'password';
-  document.getElementById('eyeIcon').innerHTML = pwVisible
-    ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
-    : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  const inp=document.getElementById('pwInput');
+  inp.type=inp.type==='password'?'text':'password';
 }
-
-/* SMS countdown */
-function sendSms(){
-  const btn = event.target;
-  let sec = 60;
-  btn.disabled = true;
-  btn.textContent = sec + 's';
-  const t = setInterval(()=>{
-    sec--;
-    btn.textContent = sec + 's';
-    if(sec<=0){clearInterval(t);btn.disabled=false;btn.textContent='發送驗證碼';}
-  },1000);
-}
-
-/* Login action */
-function doLogin(){
-  /* Demo: redirect to lobby */
-  window.location.href = 'nova-frontend.html';
-}
+function doLogin(){window.location.href='nova-frontend.html'}
 </script>
 </body>
 </html>
