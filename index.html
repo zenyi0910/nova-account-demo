@@ -378,8 +378,15 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="content">
 <div class="card">
 <div class="card-header">
-<div class="card-title">帳號權限管理</div>
+<div>
+<div class="card-title" style="display:flex;align-items:center;gap:10px"><span style="width:4px;height:20px;background:linear-gradient(180deg,#3B82F6,#06B6D4);border-radius:2px;display:inline-block"></span>帳號權限管理</div>
+<div style="font-size:12px;color:#94A3B8;margin-top:4px;padding-left:14px">管理系統帳號、角色類型與模組存取權限。</div>
+</div>
 <div style="display:flex;gap:8px">
+<button class="btn btn-outline" onclick="exportCSV()">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+匯出 CSV
+</button>
 <button class="btn btn-outline" onclick="openRoleModal()">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
 角色管理
@@ -920,6 +927,19 @@ function batchAction(type){
 // === Modal Helpers ===
 function openModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
+function exportCSV(){
+  const headers=['UID','帳號名稱','暱稱','角色類型','最後登入時間','最後登入 IP','狀態'];
+  const rows=filtered.map(a=>[a.uid,a.account,a.nickname,a.role,a.lastLogin,a.lastIP,a.status==='active'?'啟用':'禁用']);
+  const bom='\uFEFF';
+  const csv=bom+[headers.join(','),...rows.map(r=>r.map(c=>`"${c}"`).join(','))].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`帳號列表_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('CSV 匯出成功');
+}
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
   t.className='toast toast-'+(type||'success')+' show';
