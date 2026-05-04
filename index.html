@@ -1159,7 +1159,12 @@ function togglePermGroupExpand(el,roleIdx,showCount){
 function filterRoles(){renderRoleTable();}
 function renderPermGrid(containerId,checked){
   const c=document.getElementById(containerId);
-  c.innerHTML=Object.entries(moduleGroups).map(([group,mods])=>{
+  c.innerHTML=Object.entries(moduleGroups).map(([group,mods],gi)=>{
+    const groupPerms=mods.flatMap(m=>permActions.map(a=>`${m}-${a}`));
+    const allGroupChecked=groupPerms.every(p=>checked.includes(p));
+    const someGroupChecked=groupPerms.some(p=>checked.includes(p));
+    const groupCk=allGroupChecked?'checked':'';
+    const groupIndet=!allGroupChecked&&someGroupChecked?'data-indeterminate="true"':'';
     const groupHTML=mods.map(m=>{
       const modulePerms = permActions.map(a => `${m}-${a}`);
       const allChecked = modulePerms.every(p => checked.includes(p));
@@ -1168,15 +1173,33 @@ function renderPermGrid(containerId,checked){
       const actionHTML = permActions.map(a => {
         const perm = `${m}-${a}`;
         const ck = checked.includes(perm) ? 'checked' : '';
-        return `<label class="perm-action"><input type="checkbox" value="${perm}" ${ck}><span>${a}</span></label>`;
+        return `<label class="perm-action"><input type="checkbox" value="${perm}" ${ck} onchange="updateGroupCheckbox('${containerId}',${gi})"><span>${a}</span></label>`;
       }).join('');
       return `<div class="${moduleClass}"><div class="perm-module-name">${m}</div><div class="perm-actions">${actionHTML}</div></div>`;
     }).join('');
-    return `<div class="perm-group"><div class="perm-group-title">${group}</div>${groupHTML}</div>`;
+    return `<div class="perm-group"><div class="perm-group-title"><input type="checkbox" class="group-checkbox" data-group="${gi}" ${groupCk} ${groupIndet} onchange="toggleGroupPerms('${containerId}',${gi},this.checked)">${group}</div>${groupHTML}</div>`;
   }).join('');
+  // 設定 indeterminate 狀態
+  c.querySelectorAll('[data-indeterminate="true"]').forEach(cb=>{cb.indeterminate=true;cb.removeAttribute('data-indeterminate');});
 }
 function getCheckedPerms(containerId){
-  return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i=>i.value);
+  return [...document.querySelectorAll(`#${containerId} input:checked`)].map(i=>i.value).filter(v=>v);
+}
+function toggleGroupPerms(containerId,groupIdx,checked){
+  const c=document.getElementById(containerId);
+  const groups=c.querySelectorAll('.perm-group');
+  if(!groups[groupIdx]) return;
+  groups[groupIdx].querySelectorAll('.perm-actions input[type="checkbox"]').forEach(cb=>{cb.checked=checked;});
+}
+function updateGroupCheckbox(containerId,groupIdx){
+  const c=document.getElementById(containerId);
+  const groups=c.querySelectorAll('.perm-group');
+  if(!groups[groupIdx]) return;
+  const cbs=[...groups[groupIdx].querySelectorAll('.perm-actions input[type="checkbox"]')];
+  const allChecked=cbs.every(cb=>cb.checked);
+  const someChecked=cbs.some(cb=>cb.checked);
+  const groupCb=groups[groupIdx].querySelector('.group-checkbox');
+  if(groupCb){groupCb.checked=allChecked;groupCb.indeterminate=!allChecked&&someChecked;}
 }
 function submitNewRole(){
   const name=document.getElementById('newRoleName').value.trim();
