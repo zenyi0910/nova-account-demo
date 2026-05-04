@@ -570,6 +570,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
 匯出 CSV
 </button>
+<button class="btn btn-outline" onclick="openAuditModal()">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+操作日誌
+</button>
 <button class="btn btn-outline" onclick="openRoleModal()">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
 角色管理
@@ -860,6 +864,59 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <button class="btn btn-primary" onclick="submitNewRole()">建立角色</button>
 </div>
 </div>
+</div>
+</div>
+</div>
+
+<!-- Audit Log Modal -->
+<div class="modal-overlay" id="auditModal">
+<div class="modal" style="width:95vw;max-width:1200px;max-height:90vh">
+<div class="modal-header">
+<div class="modal-header-left">
+<div class="modal-header-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+<div class="modal-title">操作日誌</div>
+</div>
+<div class="modal-header-actions">
+<button class="modal-resize" onclick="toggleModalSize('auditModal')" title="切換視窗大小"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+<button class="modal-close" onclick="closeModal('auditModal')">✕</button>
+</div>
+</div>
+<div class="modal-body" style="padding:20px 24px">
+<div class="filter-bar" style="margin-bottom:14px">
+<input type="text" class="filter-input" id="auditSearchOp" placeholder="搜尋操作者..." oninput="filterAuditLogs()" style="min-width:140px">
+<input type="text" class="filter-input" id="auditSearchTarget" placeholder="搜尋目標帳號..." oninput="filterAuditLogs()" style="min-width:140px">
+<select class="filter-select" id="auditTypeFilter" onchange="filterAuditLogs()" style="min-width:130px">
+<option value="">全部操作</option>
+<option value="登入">登入</option>
+<option value="登出">登出</option>
+<option value="新增帳號">新增帳號</option>
+<option value="編輯帳號">編輯帳號</option>
+<option value="刪除帳號">刪除帳號</option>
+<option value="角色變更">角色變更</option>
+<option value="密碼重設">密碼重設</option>
+<option value="停用帳號">停用帳號</option>
+<option value="啟用帳號">啟用帳號</option>
+</select>
+<input type="date" class="filter-input" id="auditDateFrom" onchange="filterAuditLogs()" style="min-width:140px" title="起始日期">
+<input type="date" class="filter-input" id="auditDateTo" onchange="filterAuditLogs()" style="min-width:140px" title="結束日期">
+<button class="btn btn-primary" style="font-size:14px" onclick="filterAuditLogs()">查詢</button>
+<button class="btn btn-outline" style="font-size:14px" onclick="resetAuditFilter()">重置</button>
+</div>
+<div style="font-size:12px;color:#94A3B8;margin-bottom:10px">日誌不可刪除、不可篡改。共 <span id="auditTotal">0</span> 筆紀錄</div>
+<div class="table-wrap" style="max-height:55vh;overflow-y:auto">
+<table style="width:100%">
+<thead><tr>
+<th style="width:150px">操作時間</th>
+<th style="width:100px">操作者</th>
+<th style="width:100px">操作類型</th>
+<th style="width:100px">目標帳號</th>
+<th style="width:120px">IP</th>
+<th style="min-width:200px">變更內容</th>
+</tr></thead>
+<tbody id="auditTableBody"></tbody>
+</table>
+</div>
+<div id="auditPagination" style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;font-size:13px;color:#64748B"></div>
 </div>
 </div>
 </div>
@@ -1338,6 +1395,88 @@ function enableAccount(idx){
   filtered[idx].status='active';
   showToast(`帳號 ${filtered[idx].account} 已啟用`);
   renderTable();
+}
+
+// === Audit Log ===
+const auditLogs = [
+  {time:'2026/04/30 09:15:22',operator:'yi_sa',type:'登入',target:'yi_sa',ip:'192.168.50.5',detail:'登入成功'},
+  {time:'2026/04/30 09:18:05',operator:'yi_sa',type:'編輯帳號',target:'chen_ops',ip:'192.168.50.5',detail:'暱稱：陳小華 → 陳小明'},
+  {time:'2026/04/30 09:20:33',operator:'yi_sa',type:'角色變更',target:'huang_cs',ip:'192.168.50.5',detail:'角色：客服專員 → 客服主管'},
+  {time:'2026/04/30 09:25:10',operator:'yi_sa',type:'密碼重設',target:'zhang_fin',ip:'192.168.50.5',detail:'密碼已重設'},
+  {time:'2026/04/30 09:30:00',operator:'yi_sa',type:'新增帳號',target:'new_user01',ip:'192.168.50.5',detail:'角色：營運專員'},
+  {time:'2026/04/30 09:35:44',operator:'yi_sa',type:'停用帳號',target:'xu_read',ip:'192.168.50.5',detail:'狀態：啟用 → 禁用'},
+  {time:'2026/04/30 08:30:11',operator:'superadmin',type:'登入',target:'superadmin',ip:'192.168.1.100',detail:'登入成功'},
+  {time:'2026/04/30 08:45:00',operator:'superadmin',type:'新增帳號',target:'test_acc',ip:'192.168.1.100',detail:'角色：唯讀'},
+  {time:'2026/04/30 08:50:22',operator:'superadmin',type:'刪除帳號',target:'old_user',ip:'192.168.1.100',detail:'帳號永久刪除'},
+  {time:'2026/04/29 17:45:00',operator:'wang_ops',type:'登入',target:'wang_ops',ip:'192.168.1.55',detail:'登入成功'},
+  {time:'2026/04/29 17:50:15',operator:'wang_ops',type:'編輯帳號',target:'chen_ops',ip:'192.168.1.55',detail:'備註：新增工作說明'},
+  {time:'2026/04/29 18:00:00',operator:'wang_ops',type:'登出',target:'wang_ops',ip:'192.168.1.55',detail:'正常登出'},
+  {time:'2026/04/29 14:20:00',operator:'yi_sa',type:'啟用帳號',target:'liu_tech',ip:'192.168.50.5',detail:'狀態：禁用 → 啟用'},
+  {time:'2026/04/29 10:00:00',operator:'superadmin',type:'角色變更',target:'wu_data',ip:'192.168.1.100',detail:'角色：唯讀 → 數據分析師'},
+  {time:'2026/04/28 16:30:00',operator:'yi_sa',type:'密碼重設',target:'lin_cs',ip:'192.168.50.5',detail:'密碼已重設'},
+  {time:'2026/04/28 09:00:00',operator:'superadmin',type:'登入',target:'superadmin',ip:'192.168.1.100',detail:'登入成功'},
+  {time:'2026/04/27 11:00:00',operator:'lin_cs',type:'登入',target:'lin_cs',ip:'192.168.2.10',detail:'登入成功'},
+  {time:'2026/04/27 10:00:00',operator:'xu_read',type:'登入',target:'xu_read',ip:'192.168.4.20',detail:'登入成功'},
+  {time:'2026/04/26 09:15:00',operator:'yi_sa',type:'新增帳號',target:'huang_cs',ip:'192.168.50.5',detail:'角色：客服專員'},
+  {time:'2026/04/25 14:00:00',operator:'superadmin',type:'編輯帳號',target:'wang_ops',ip:'192.168.1.100',detail:'暱稱：王主管 → 王經理'},
+];
+let filteredAudit = [...auditLogs];
+let auditPage = 1;
+const auditPageSize = 10;
+
+function openAuditModal(){
+  resetAuditFilter();
+  openModal('auditModal');
+}
+function filterAuditLogs(){
+  const op = document.getElementById('auditSearchOp').value.toLowerCase();
+  const target = document.getElementById('auditSearchTarget').value.toLowerCase();
+  const type = document.getElementById('auditTypeFilter').value;
+  const from = document.getElementById('auditDateFrom').value;
+  const to = document.getElementById('auditDateTo').value;
+  filteredAudit = auditLogs.filter(l => {
+    if(op && !l.operator.toLowerCase().includes(op)) return false;
+    if(target && !l.target.toLowerCase().includes(target)) return false;
+    if(type && l.type !== type) return false;
+    if(from && l.time.slice(0,10).replace(/\//g,'-') < from) return false;
+    if(to && l.time.slice(0,10).replace(/\//g,'-') > to) return false;
+    return true;
+  });
+  auditPage = 1;
+  renderAuditTable();
+}
+function resetAuditFilter(){
+  document.getElementById('auditSearchOp').value='';
+  document.getElementById('auditSearchTarget').value='';
+  document.getElementById('auditTypeFilter').value='';
+  document.getElementById('auditDateFrom').value='';
+  document.getElementById('auditDateTo').value='';
+  filteredAudit = [...auditLogs];
+  auditPage = 1;
+  renderAuditTable();
+}
+function renderAuditTable(){
+  const tbody = document.getElementById('auditTableBody');
+  const start = (auditPage-1)*auditPageSize;
+  const page = filteredAudit.slice(start, start+auditPageSize);
+  document.getElementById('auditTotal').textContent = filteredAudit.length;
+  const typeColors = {'登入':'#3B82F6','登出':'#64748B','新增帳號':'#10B981','編輯帳號':'#F59E0B','刪除帳號':'#EF4444','角色變更':'#8B5CF6','密碼重設':'#EC4899','停用帳號':'#EF4444','啟用帳號':'#10B981'};
+  tbody.innerHTML = page.map(l => {
+    const c = typeColors[l.type] || '#64748B';
+    return `<tr>
+      <td style="font-size:12px;color:#666;white-space:nowrap">${l.time}</td>
+      <td><strong>${l.operator}</strong></td>
+      <td><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;background:${c}15;color:${c};font-weight:500">${l.type}</span></td>
+      <td>${l.target}</td>
+      <td style="font-size:12px;color:#666;font-family:monospace">${l.ip}</td>
+      <td style="font-size:12px;color:#475569">${l.detail}</td>
+    </tr>`;
+  }).join('');
+  // pagination
+  const totalPages = Math.ceil(filteredAudit.length / auditPageSize) || 1;
+  const pag = document.getElementById('auditPagination');
+  pag.innerHTML = `<span>顯示 ${filteredAudit.length ? start+1 : 0}-${Math.min(start+auditPageSize, filteredAudit.length)} / 共 ${filteredAudit.length} 筆</span>
+    <div style="display:flex;gap:4px">${Array.from({length:totalPages},(_,i)=>`<button class="btn btn-sm ${i+1===auditPage?'btn-primary':'btn-outline'}" onclick="auditPage=${i+1};renderAuditTable()" style="min-width:32px">${i+1}</button>`).join('')}</div>`;
 }
 
 // === Role Management ===
