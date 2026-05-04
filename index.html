@@ -251,12 +251,8 @@ tr:hover td{background:rgba(59,130,246,.02)}
 ::-webkit-scrollbar-thumb:hover{background:#999}
 
 /* === Sidebar Trigger === */
-.sidebar-trigger{display:none}
-@media (min-width: 769px) {
-  .sidebar-trigger{display:block;position:absolute;top:20px;right:-40px;width:32px;height:32px;background:rgba(255,255,255,.9);border:1px solid rgba(148,163,184,.2);border-radius:8px;cursor:pointer;transition:all .2s;z-index:5}
-  .sidebar-trigger:hover{background:#fff;border-color:rgba(59,130,246,.3)}
-  .sidebar.collapsed .sidebar-trigger{right:auto;left:calc(100% + 8px)}
-}
+.sidebar-trigger{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:transparent;border:none;border-radius:8px;cursor:pointer;transition:all .2s;color:#64748B}
+.sidebar-trigger:hover{background:rgba(148,163,184,.15);color:#334155}
 
 /* === Version === */
 .version-tag{position:fixed;bottom:8px;right:12px;font-size:10px;color:#999}
@@ -271,7 +267,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
   .sidebar.show{width:240px;box-shadow:4px 0 12px rgba(0,0,0,.15)}
   .main{margin-left:60px;max-width:calc(100vw - 60px);overflow-x:hidden}
   .main.sidebar-expanded{margin-left:240px;max-width:calc(100vw - 240px)}
-  .sidebar-trigger{display:block!important;position:fixed;top:12px;left:12px;z-index:999;width:40px;height:40px;background:#fff;border-radius:8px;border:1px solid rgba(148,163,184,.2);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .sidebar-trigger{position:fixed;top:12px;left:12px;z-index:999;width:40px;height:40px;background:#fff;border-radius:8px;border:1px solid rgba(148,163,184,.2);box-shadow:0 2px 8px rgba(0,0,0,.08)}
   
   /* Sidebar collapsed state (icon-only) */
   .sidebar:not(.show) .sidebar-logo{padding:16px 0;justify-content:center}
@@ -1280,16 +1276,14 @@ function openRoleModal(){
   switchRoleTab('list',document.querySelector('.tabs .tab'));
   openModal('roleModal');
 }
-function openRoleModalWithFilter(roleName){
-  renderRoleTable();
-  renderPermGrid('newRolePerms',[]);
-  document.getElementById('newRoleName').value='';
-  document.getElementById('newRoleNote').value='';
-  switchRoleTab('list',document.querySelector('.tabs .tab'));
-  // 帶入角色篩選
-  document.getElementById('roleFilterInput').value=roleName;
-  renderRoleTable();
-  openModal('roleModal');
+function filterByRole(roleName){
+  // 關閉角色管理 modal（如果開著）
+  closeModal('roleModal');
+  // 設定角色篩選下拉並觸發篩選
+  document.getElementById('roleFilter').value=roleName;
+  filterTable();
+  // 捲動到表格頂部
+  document.querySelector('.content').scrollIntoView({behavior:'smooth'});
 }
 function switchRoleTab(tab,el){
   document.querySelectorAll('#roleModal .tab').forEach(t=>t.classList.remove('active'));
@@ -1360,7 +1354,7 @@ function renderRoleTable(){
     </button><button class="btn btn-icon btn-sm" onclick="openDeleteRoleModal(${i})" title="刪除角色">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
     </button>`;}
-    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td style="text-align:center"><a href="javascript:void(0)" onclick="openRoleModalWithFilter('${r.name}')" style="color:#2563EB;text-decoration:underline;cursor:pointer">${count}</a></td><td><div class="perm-cell">${permHTML}${expandBtn}</div></td><td style="white-space:nowrap">${ops}</td></tr>`;
+    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td style="text-align:center"><a href="javascript:void(0)" onclick="filterByRole('${r.name}')" style="color:#2563EB;text-decoration:underline;cursor:pointer">${count}</a></td><td><div class="perm-cell">${permHTML}${expandBtn}</div></td><td style="white-space:nowrap">${ops}</td></tr>`;
   }).join('');
 }
 function togglePermExpand(el,roleIdx){
