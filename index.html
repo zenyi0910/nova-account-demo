@@ -239,6 +239,88 @@ tr:hover td{background:rgba(59,130,246,.02)}
 
 /* === Version === */
 .version-tag{position:fixed;bottom:8px;right:12px;font-size:10px;color:#999}
+
+/* === Mobile Responsive === */
+.sidebar-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:999;opacity:0;transition:opacity .3s ease;display:none}
+@media (max-width: 768px) {
+  .sidebar-overlay{display:block}
+  /* Layout */
+  .sidebar{transform:translateX(-240px);z-index:1000}
+  .sidebar.show{transform:translateX(0);box-shadow:4px 0 12px rgba(0,0,0,.15)}
+  .main{margin-left:0}
+  .sidebar-trigger{display:block!important;position:fixed;top:12px;left:12px;z-index:999;width:40px;height:40px;background:#fff;border-radius:8px;border:1px solid rgba(148,163,184,.2);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  
+  /* Topbar */
+  .topbar{padding:0 16px;height:60px}
+  .breadcrumb{font-size:14px;margin-left:48px}
+  .topbar-right{gap:8px}
+  .topbar-icon-btn{width:32px;height:32px}
+  
+  /* Content */
+  .content{padding:16px}
+  
+  /* Card */
+  .card{padding:20px;border-radius:12px}
+  .card-header{flex-direction:column;align-items:flex-start;gap:12px}
+  .card-title{font-size:16px}
+  
+  /* Filter Bar */
+  .filter-bar{flex-direction:column;gap:12px}
+  .filter-input,.filter-select{width:100%;min-width:auto}
+  
+  /* Buttons */
+  .btn{width:100%;justify-content:center}
+  .btn-group{display:flex;gap:12px}
+  .btn-group .btn{flex:1}
+  .card-header .btn{width:auto}
+  
+  /* Table */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{min-width:800px}
+  
+  /* Modal */
+  .modal{width:calc(100vw - 32px);max-width:none;max-height:90vh;margin:0 16px}
+  .modal.modal-fullscreen{width:calc(100vw - 32px);max-width:none}
+  .modal-header{padding:16px 20px}
+  .modal-body{padding:20px}
+  .modal-footer{padding:12px 20px;flex-direction:column-reverse;gap:8px}
+  .modal-footer .btn{width:100%;margin:0}
+  
+  /* Form */
+  .form-row{grid-template-columns:1fr;gap:0}
+  .form-input,.form-select,.form-textarea{font-size:16px;padding:12px 14px}
+  .form-label{font-size:14px}
+  
+  /* Tabs */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+  .tab{white-space:nowrap;padding:10px 16px;font-size:14px}
+  
+  /* Permission Grid */
+  .perm-module{flex-direction:column;align-items:flex-start;padding:12px}
+  .perm-module-name{width:100%;margin-bottom:8px}
+  .perm-actions{width:100%;margin-left:0;justify-content:flex-start}
+  
+  /* Pagination */
+  .pagination{flex-direction:column;gap:12px;align-items:stretch}
+  .pagination-pages{justify-content:center}
+  
+  /* Hide desktop elements */
+  .sidebar-logo span{display:none}
+  .topbar-divider{display:none}
+  
+  /* Touch optimization */
+  .menu-item,.dropdown-item,.btn,.page-btn{min-height:44px}
+}
+
+@media (max-width: 480px) {
+  .breadcrumb{font-size:13px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .card-title{font-size:15px}
+  .modal{width:calc(100vw - 24px);margin:0 12px}
+  .modal-header{padding:14px 16px}
+  .modal-body{padding:16px}
+  .content{padding:12px}
+}
+
 </style>
 </head>
 <body>
@@ -1283,8 +1365,25 @@ function submitDeleteRole(){
 function toggleSidebar(){
   const sidebar=document.querySelector('.sidebar');
   const main=document.querySelector('.main');
-  sidebar.classList.toggle('collapsed');
-  main.classList.toggle('sidebar-collapsed');
+  if(window.innerWidth<=768){
+    sidebar.classList.toggle('show');
+    if(sidebar.classList.contains('show')){
+      const overlay=document.createElement('div');
+      overlay.className='sidebar-overlay';
+      overlay.onclick=()=>toggleSidebar();
+      document.body.appendChild(overlay);
+      setTimeout(()=>overlay.style.opacity='1',10);
+    }else{
+      const overlay=document.querySelector('.sidebar-overlay');
+      if(overlay){
+        overlay.style.opacity='0';
+        setTimeout(()=>overlay.remove(),300);
+      }
+    }
+  }else{
+    sidebar.classList.toggle('collapsed');
+    main.classList.toggle('sidebar-collapsed');
+  }
 }
 function toggleSidebarMenu(){
   const dropdown = document.getElementById('sidebarDropdown');
