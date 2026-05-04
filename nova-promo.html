@@ -6,224 +6,98 @@
 <title>星運娛樂城 - 優惠活動</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#c41230;--gold:#f5c842;--gold-dark:#c9a020;--dark:#1a1a2e;--darker:#0f0f1f;--card-bg:#2a2a3e;--text:#fff;--text-dim:#aaa;--green:#4dc9a0;--teal:#2bb5a0;--vip-purple:#9b59b6;--border:rgba(255,255,255,.08)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a14;color:var(--text);display:flex;justify-content:center;min-height:100vh}
-.app{width:100%;max-width:430px;min-height:100vh;background:var(--darker);position:relative;display:flex;flex-direction:column}
-
-.header{background:linear-gradient(135deg,var(--red),#8b0a1e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.header-back{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
-.header-back svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none}
-.header-title{font-size:16px;font-weight:600}
-.header-right{width:30px}
-
-.content{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);position:relative;display:flex;flex-direction:column}
+.header{background:linear-gradient(135deg,#8b0a1e,#5a0612);padding:12px 14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(245,200,66,.15)}
+.header-title{font-size:16px;font-weight:600;color:#f5c842}
+.content{flex:1;overflow-y:auto;padding-bottom:10px}
 
 /* Filter tabs */
-.filter-tabs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-bottom:2px}
+.filter-tabs{display:flex;gap:0;padding:10px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .filter-tabs::-webkit-scrollbar{display:none}
-.filter-tab{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:500;white-space:nowrap;cursor:pointer;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-dim);transition:all .2s}
-.filter-tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.filter-tab{padding:7px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;white-space:nowrap;border-radius:16px;transition:all .2s;font-family:inherit}
+.filter-tab.active{color:#452201;background:linear-gradient(135deg,#f5c842,#e8a820);font-weight:600;box-shadow:0 2px 8px rgba(245,200,66,.3)}
 
-/* Promo card */
-.promo-card{background:var(--card-bg);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s}
+/* Promo cards */
+.promo-list{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.promo-card{border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);overflow:hidden;cursor:pointer;transition:transform .15s}
 .promo-card:active{transform:scale(.98)}
-.promo-banner{height:140px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.promo-banner{position:relative;aspect-ratio:16/7;overflow:hidden}
 .promo-banner .bg{position:absolute;inset:0}
-.promo-banner .content-inner{position:relative;z-index:1;text-align:center;padding:16px}
-.promo-banner h3{font-size:18px;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.5);margin-bottom:4px}
-.promo-banner p{font-size:12px;color:rgba(255,255,255,.8)}
-.promo-tags{position:absolute;top:10px;left:10px;display:flex;gap:4px;z-index:2}
-.promo-tag{font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600}
-.tag-hot{background:var(--red);color:#fff}
-.tag-new{background:var(--green);color:#fff}
-.tag-vip{background:var(--vip-purple);color:#fff}
-.tag-limited{background:var(--gold);color:#333}
-.promo-countdown{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.6);border-radius:8px;padding:4px 8px;font-size:10px;color:#fff;display:flex;align-items:center;gap:4px;z-index:2}
-.promo-countdown svg{width:12px;height:12px;stroke:#fff;stroke-width:2;fill:none}
-.promo-body{padding:14px}
-.promo-title{font-size:14px;font-weight:600;margin-bottom:6px}
-.promo-desc{font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:10px}
-.promo-footer{display:flex;align-items:center;justify-content:space-between}
-.promo-period{font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:4px}
-.promo-period svg{width:14px;height:14px;stroke:var(--text-dim);stroke-width:2;fill:none}
-.promo-btn{padding:6px 16px;border-radius:16px;border:none;font-size:11px;font-weight:600;cursor:pointer;transition:opacity .15s}
-.promo-btn:active{opacity:.8}
-.promo-btn.claim{background:var(--teal);color:#fff}
-.promo-btn.detail{background:rgba(255,255,255,.1);color:var(--text-dim)}
-.promo-btn.ended{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);cursor:not-allowed}
+.promo-banner .inner{position:relative;z-index:1;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.promo-banner h3{font-size:16px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.promo-banner .subtitle{font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
+.promo-tag{position:absolute;top:8px;left:8px;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600;z-index:2}
+.tag-limited{background:#e74c3c;color:#fff}
+.tag-daily{background:#2bb5a0;color:#fff}
+.tag-new{background:#f5c842;color:#452201}
+.tag-vip{background:#9b59b6;color:#fff}
+.promo-body{padding:12px 16px}
+.promo-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+.promo-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.promo-time{display:flex;align-items:center;gap:4px;font-size:10px;color:rgba(255,255,255,.3)}
+.promo-time svg{width:12px;height:12px}
+.promo-btn{border:none;cursor:pointer;border-radius:16px;padding:6px 16px;font-size:11px;font-weight:600;font-family:inherit;color:#fff;background:linear-gradient(135deg,#2bb5a0,#1a9a88);box-shadow:0 2px 6px rgba(43,181,160,.3)}
+.promo-progress{margin-top:8px}
+.promo-progress-bar{height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.promo-progress-fill{height:100%;border-radius:2px;transition:width .6s}
+.promo-progress-text{font-size:9px;color:rgba(255,255,255,.3);margin-top:3px;text-align:right}
 
-/* Progress bar in card */
-.promo-progress{margin:8px 0}
-.progress-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;border-radius:3px;transition:width .5s}
-.progress-label{display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:var(--text-dim)}
-
-/* Bottom tab bar */
-.tab-bar{display:flex;align-items:center;justify-content:space-around;background:var(--dark);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 12px;color:var(--text-dim);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
-.tab-item.active{color:var(--gold)}
-.tab-item svg{width:22px;height:22px}
-.tab-item span{font-size:10px}
+/* Countdown */
+.countdown{display:flex;gap:4px;align-items:center}
+.cd-block{background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:4px;padding:2px 5px;font-size:10px;font-weight:600;color:#e74c3c;min-width:22px;text-align:center}
+.cd-sep{color:rgba(231,76,60,.5);font-size:10px}
 
 /* Detail modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;align-items:flex-end;justify-content:center}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;justify-content:center;align-items:flex-end}
 .modal-overlay.show{display:flex}
-.modal-sheet{background:var(--dark);border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:80vh;overflow-y:auto;padding:0 0 env(safe-area-inset-bottom,16px)}
-.modal-handle{width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:10px auto}
-.modal-sheet-header{padding:0 20px 16px;border-bottom:1px solid var(--border)}
-.modal-sheet-header h3{font-size:16px;font-weight:600}
-.modal-sheet-body{padding:20px}
-.modal-sheet-body p{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:12px}
-.modal-sheet-body .rule-item{display:flex;gap:8px;padding:8px 0}
-.modal-sheet-body .rule-num{width:20px;height:20px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:600}
-.modal-sheet-body .rule-text{font-size:12px;color:var(--text-dim);line-height:1.5}
-.modal-close-btn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;margin-top:16px}
+.modal-sheet{width:100%;max-width:430px;background:#2a0a12;border-radius:16px 16px 0 0;max-height:80vh;display:flex;flex-direction:column}
+.modal-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:10px auto}
+.modal-header{padding:4px 16px 12px;display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:16px;font-weight:600;color:#f5c842}
+.modal-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:20px}
+.modal-body{flex:1;overflow-y:auto;padding:0 16px 20px}
+.modal-body h4{font-size:13px;font-weight:600;margin:12px 0 6px;color:rgba(255,255,255,.7)}
+.modal-body p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+.modal-body ul{padding-left:16px;margin:6px 0}
+.modal-body li{font-size:12px;color:rgba(255,255,255,.45);line-height:1.8}
+.modal-action{padding:12px 16px 20px}
+.modal-action .submit-btn{width:100%;border:none;cursor:pointer;border-radius:12px;padding:14px;font-size:14px;font-weight:700;font-family:inherit;color:#fff;background:linear-gradient(135deg,#2bb5a0,#1a9a88);box-shadow:0 4px 12px rgba(43,181,160,.3)}
+
+/* Tab bar */
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:linear-gradient(0deg,#1a0a0e,#2a0a12);border-top:1px solid rgba(245,200,66,.1);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.35);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
+.tab-item.active{color:#f5c842}
+.tab-item svg{width:20px;height:20px}
+.tab-item span{font-size:9px}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="header">
-    <button class="header-back" onclick="window.location.href='nova-frontend.html'" aria-label="返回">
-      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    </button>
-    <div class="header-title">優惠活動</div>
-    <div class="header-right"></div>
-  </div>
-
+  <div class="header"><div class="header-title">優惠活動</div></div>
   <div class="content">
-    <!-- Filter tabs -->
-    <div class="filter-tabs">
+    <div class="filter-tabs" id="filterTabs">
       <button class="filter-tab active" onclick="filterPromo(this,'all')">全部</button>
       <button class="filter-tab" onclick="filterPromo(this,'deposit')">儲值</button>
       <button class="filter-tab" onclick="filterPromo(this,'daily')">每日</button>
       <button class="filter-tab" onclick="filterPromo(this,'vip')">VIP</button>
-      <button class="filter-tab" onclick="filterPromo(this,'newbie')">新手</button>
       <button class="filter-tab" onclick="filterPromo(this,'limited')">限時</button>
+      <button class="filter-tab" onclick="filterPromo(this,'newbie')">新手</button>
     </div>
-
-    <!-- Promo 1: 首儲加碼 -->
-    <div class="promo-card" data-cat="deposit newbie limited" onclick="showDetail('first')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#8b0a1e,#c41230)"></div>
-        <div class="promo-tags"><span class="promo-tag tag-hot">HOT</span><span class="promo-tag tag-limited">限時</span></div>
-        <div class="promo-countdown"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span id="cd1">23:45:12</span></div>
-        <div class="content-inner"><h3 style="color:var(--gold)">首儲加碼 100%</h3><p>最高贈送 500,000 彩金</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">新會員首次儲值翻倍送</div>
-        <div class="promo-desc">首次儲值即享 100% 加碼，儲 500 送 500，最高贈送 500,000。限新註冊 7 天內使用。</div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>即日起 ~ 2026/06/30</div>
-          <button class="promo-btn claim" onclick="event.stopPropagation();alert('前往儲值')">立即領取</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Promo 2: 每日簽到 -->
-    <div class="promo-card" data-cat="daily" onclick="showDetail('checkin')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#1a3a6a,#2a5a9a)"></div>
-        <div class="promo-tags"><span class="promo-tag tag-new">NEW</span></div>
-        <div class="content-inner"><h3>每日簽到 領取獎勵</h3><p>連續簽到 7 天送 VIP 體驗券</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">每日簽到送彩金</div>
-        <div class="promo-desc">每天登入即可領取簽到獎勵，連續 7 天額外贈送 VIP 3 天體驗券。</div>
-        <div class="promo-progress">
-          <div class="progress-bar"><div class="progress-fill" style="width:57%;background:linear-gradient(90deg,var(--teal),var(--gold))"></div></div>
-          <div class="progress-label"><span>已簽到 4/7 天</span><span>再 3 天領 VIP 券</span></div>
-        </div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>每日重置</div>
-          <button class="promo-btn claim" onclick="event.stopPropagation();alert('今日已簽到')">今日簽到</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Promo 3: VIP 專屬 -->
-    <div class="promo-card" data-cat="vip" onclick="showDetail('vip')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#4a1060,#7a2090)"></div>
-        <div class="promo-tags"><span class="promo-tag tag-vip">VIP</span></div>
-        <div class="content-inner"><h3 style="color:#d4a0ff">VIP 專屬返水</h3><p>最高 1.2% 無上限返水</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">VIP 每週返水</div>
-        <div class="promo-desc">VIP 會員每週自動結算返水，等級越高比例越高。VIP3 享 0.6%，VIP5 享 1.2%。</div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>每週一結算</div>
-          <button class="promo-btn detail" onclick="event.stopPropagation()">查看詳情</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Promo 4: 紅包雨 -->
-    <div class="promo-card" data-cat="limited" onclick="showDetail('redrain')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#8b2020,#c44040)"></div>
-        <div class="promo-tags"><span class="promo-tag tag-hot">HOT</span></div>
-        <div class="promo-countdown"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span id="cd2">02:15:33</span></div>
-        <div class="content-inner"><h3 style="color:#ff6b6b">紅包雨 隨機掉落</h3><p>手慢就沒了，立即參與</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">限時紅包雨活動</div>
-        <div class="promo-desc">每日 20:00-22:00 隨機掉落紅包，最高可獲得 88,888 彩金。手速決定一切。</div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>每日 20:00-22:00</div>
-          <button class="promo-btn claim" onclick="event.stopPropagation();alert('活動尚未開始')">參與活動</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Promo 5: 好友推薦 -->
-    <div class="promo-card" data-cat="deposit" onclick="showDetail('refer')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#1a4a3a,#2a6a5a)"></div>
-        <div class="content-inner"><h3 style="color:var(--green)">好友推薦 雙重獎勵</h3><p>推薦好友註冊，雙方各得 10,000</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">邀請好友賺彩金</div>
-        <div class="promo-desc">分享專屬推薦連結，好友完成首儲後雙方各獲得 10,000 彩金。推薦無上限。</div>
-        <div class="promo-progress">
-          <div class="progress-bar"><div class="progress-fill" style="width:30%;background:var(--green)"></div></div>
-          <div class="progress-label"><span>已推薦 3 人</span><span>已獲得 30,000</span></div>
-        </div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>長期有效</div>
-          <button class="promo-btn claim" onclick="event.stopPropagation();alert('複製推薦連結')">複製連結</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Promo 6: 已結束 -->
-    <div class="promo-card" data-cat="limited" style="opacity:.6" onclick="showDetail('ended')">
-      <div class="promo-banner">
-        <div class="bg" style="background:linear-gradient(135deg,#333,#555)"></div>
-        <div class="content-inner"><h3 style="color:#999">五一黃金週 加碼</h3><p>活動已結束</p></div>
-      </div>
-      <div class="promo-body">
-        <div class="promo-title">五一黃金週儲值加碼</div>
-        <div class="promo-desc">5/1-5/3 期間儲值享額外 20% 加碼。活動已結束。</div>
-        <div class="promo-footer">
-          <div class="promo-period"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>2026/05/01 ~ 05/03</div>
-          <button class="promo-btn ended" disabled>已結束</button>
-        </div>
-      </div>
-    </div>
+    <div class="promo-list" id="promoList"></div>
   </div>
 
-  <!-- Bottom Tab Bar -->
   <div class="tab-bar">
-    <a class="tab-item" href="nova-frontend.html">
+    <button class="tab-item" onclick="alert('其他')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
       <span>其他</span>
-    </a>
-    <a class="tab-item active">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </button>
+    <button class="tab-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       <span>活動</span>
-    </a>
+    </button>
     <a class="tab-item" href="nova-frontend.html">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>大廳</span>
     </a>
     <a class="tab-item" href="nova-deposit.html">
@@ -237,63 +111,78 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 </div>
 
-<!-- Detail modal -->
-<div class="modal-overlay" id="detailModal" onclick="closeDetail(event)">
-  <div class="modal-sheet" onclick="event.stopPropagation()">
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeDetail()">
+  <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-sheet-header"><h3 id="detailTitle">活動詳情</h3></div>
-    <div class="modal-sheet-body" id="detailBody"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" onclick="closeDetail()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-action"><button class="submit-btn" onclick="alert('立即參與')">立即參與</button></div>
   </div>
 </div>
 
 <script>
-/* Filter */
-function filterPromo(el, cat){
+const promos=[
+  {id:1,cat:'deposit',tag:'limited',tagCls:'tag-limited',title:'首儲加碼 最高翻倍',sub:'首次儲值享額外 100% 加碼',bg:'linear-gradient(135deg,#8b0a1e,#c41230)',desc:'首次儲值即享 100% 加碼獎勵，最高贈送 50,000 遊戲幣。活動期間不限支付方式，儲值即送。',countdown:true,cdH:23,cdM:45,cdS:12,progress:null,rules:['首次儲值用戶限定','加碼上限 50,000','需完成 1 倍流水即可提領','不可與其他優惠併用']},
+  {id:2,cat:'daily',tag:'每日',tagCls:'tag-daily',title:'每日簽到 領取獎勵',sub:'連續簽到 7 天送 VIP 體驗券',bg:'linear-gradient(135deg,#1a3a6a,#2a5a9a)',desc:'每日登入即可簽到領取獎勵，連續 7 天額外贈送 VIP 體驗券一張。',countdown:false,progress:{pct:57,text:'4/7 天'},rules:['每日 00:00 重置','中斷需重新計算','獎勵自動發放至帳戶','VIP 體驗券有效期 3 天']},
+  {id:3,cat:'limited',tag:'限時',tagCls:'tag-limited',title:'紅包雨 隨機掉落',sub:'整點開搶，手慢就沒了',bg:'linear-gradient(135deg,#4a1060,#7a2090)',desc:'每日 12:00、18:00、21:00 三個時段開啟紅包雨，隨機掉落 100~10,000 遊戲幣。',countdown:true,cdH:2,cdM:15,cdS:33,progress:null,rules:['每人每時段限搶 1 次','金額隨機分配','即搶即到帳','需在活動頁面參與']},
+  {id:4,cat:'vip',tag:'VIP',tagCls:'tag-vip',title:'VIP 專屬返水',sub:'最高 1.2% 無上限返水',bg:'linear-gradient(135deg,#2a1a3a,#4a2a5a)',desc:'VIP 會員享專屬投注返水，等級越高返水比例越高。每週一自動結算發放。',countdown:false,progress:{pct:65,text:'本週投注 650,000/1,000,000'},rules:['VIP 1 以上適用','返水比例：VIP1 0.3% / VIP2 0.5% / VIP3 0.8% / VIP4 1.2%','每週一 08:00 自動發放','無流水限制']},
+  {id:5,cat:'newbie',tag:'NEW',tagCls:'tag-new',title:'新手任務 輕鬆拿獎',sub:'完成 5 個任務領 8,888',bg:'linear-gradient(135deg,#1a3a2a,#2a5a3a)',desc:'新註冊會員完成指定任務即可領取豐厚獎勵，總計最高 8,888 遊戲幣。',countdown:false,progress:{pct:40,text:'2/5 任務'},rules:['註冊 7 天內有效','任務：綁定手機/首次儲值/首次投注/邀請好友/完成身份驗證','獎勵逐步解鎖','不可重複領取']},
+  {id:6,cat:'deposit',tag:'每日',tagCls:'tag-daily',title:'儲值滿額送 加碼不停',sub:'單筆滿 3,000 送 300',bg:'linear-gradient(135deg,#3a2a0a,#5a4a1a)',desc:'每日單筆儲值滿 3,000 即贈送 300 遊戲幣，滿 10,000 送 1,500，滿 30,000 送 5,000。',countdown:false,progress:null,rules:['每日限領 1 次','以最高檔次計算','需 1 倍流水','每日 00:00 重置']}
+];
+let currentFilter='all';
+function filterPromo(el,cat){
   document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.promo-card').forEach(c=>{
-    if(cat==='all') c.style.display='';
-    else c.style.display = c.dataset.cat.includes(cat) ? '' : 'none';
-  });
+  currentFilter=cat;
+  renderPromos();
 }
-
-/* Detail modal */
-const details = {
-  first:{title:'首儲加碼 100%',body:`<p>新會員首次儲值即享 100% 加碼彩金，最高贈送 500,000。</p><div class="rule-item"><div class="rule-num">1</div><div class="rule-text">限新註冊 7 天內的會員參加</div></div><div class="rule-item"><div class="rule-num">2</div><div class="rule-text">首次儲值金額 x 100% = 贈送彩金</div></div><div class="rule-item"><div class="rule-num">3</div><div class="rule-text">彩金需完成 15 倍流水方可提領</div></div><div class="rule-item"><div class="rule-num">4</div><div class="rule-text">每位會員限領一次</div></div><button class="modal-close-btn" onclick="closeDetail()">立即儲值</button>`},
-  checkin:{title:'每日簽到送彩金',body:`<p>每天登入即可領取簽到獎勵，連續簽到可獲得額外獎勵。</p><div class="rule-item"><div class="rule-num">1</div><div class="rule-text">每日 00:00 重置，需手動點擊簽到</div></div><div class="rule-item"><div class="rule-num">2</div><div class="rule-text">連續 3 天：送 5,000 彩金</div></div><div class="rule-item"><div class="rule-num">3</div><div class="rule-text">連續 7 天：送 VIP 3 天體驗券 + 20,000 彩金</div></div><div class="rule-item"><div class="rule-num">4</div><div class="rule-text">中斷簽到將重新計算天數</div></div><button class="modal-close-btn" onclick="closeDetail()">知道了</button>`},
-  vip:{title:'VIP 每週返水',body:`<p>VIP 會員每週自動結算返水，等級越高比例越高。</p><div class="rule-item"><div class="rule-num">1</div><div class="rule-text">VIP1: 0.2% / VIP2: 0.4% / VIP3: 0.6%</div></div><div class="rule-item"><div class="rule-num">2</div><div class="rule-text">VIP4: 0.8% / VIP5: 1.2%</div></div><div class="rule-item"><div class="rule-num">3</div><div class="rule-text">每週一 08:00 自動發放至帳戶</div></div><div class="rule-item"><div class="rule-num">4</div><div class="rule-text">返水無上限，無流水要求</div></div><button class="modal-close-btn" onclick="closeDetail()">知道了</button>`},
-  redrain:{title:'紅包雨活動',body:`<p>每日 20:00-22:00 限時紅包雨，手速決定一切。</p><div class="rule-item"><div class="rule-num">1</div><div class="rule-text">活動期間畫面隨機掉落紅包</div></div><div class="rule-item"><div class="rule-num">2</div><div class="rule-text">點擊紅包即可獲得隨機彩金（100 ~ 88,888）</div></div><div class="rule-item"><div class="rule-num">3</div><div class="rule-text">每人每日最多搶 10 個紅包</div></div><div class="rule-item"><div class="rule-num">4</div><div class="rule-text">彩金 1 倍流水即可提領</div></div><button class="modal-close-btn" onclick="closeDetail()">知道了</button>`},
-  refer:{title:'好友推薦獎勵',body:`<p>分享專屬推薦連結，好友完成首儲後雙方各獲得獎勵。</p><div class="rule-item"><div class="rule-num">1</div><div class="rule-text">複製您的專屬推薦連結分享給好友</div></div><div class="rule-item"><div class="rule-num">2</div><div class="rule-text">好友透過連結註冊並完成首儲</div></div><div class="rule-item"><div class="rule-num">3</div><div class="rule-text">雙方各獲得 10,000 彩金</div></div><div class="rule-item"><div class="rule-num">4</div><div class="rule-text">推薦人數無上限</div></div><button class="modal-close-btn" onclick="closeDetail()">複製推薦連結</button>`},
-  ended:{title:'五一黃金週加碼',body:`<p>此活動已於 2026/05/03 結束。感謝您的參與。</p><p>請關注其他進行中的優惠活動。</p><button class="modal-close-btn" onclick="closeDetail()">返回活動列表</button>`}
-};
-
-function showDetail(key){
-  const d = details[key];
-  if(!d) return;
-  document.getElementById('detailTitle').textContent = d.title;
-  document.getElementById('detailBody').innerHTML = d.body;
+function renderPromos(){
+  const list=currentFilter==='all'?promos:promos.filter(p=>p.cat===currentFilter);
+  document.getElementById('promoList').innerHTML=list.map(p=>{
+    let cdHTML='';
+    if(p.countdown){
+      cdHTML=`<div class="countdown"><span class="cd-block">${String(p.cdH).padStart(2,'0')}</span><span class="cd-sep">:</span><span class="cd-block">${String(p.cdM).padStart(2,'0')}</span><span class="cd-sep">:</span><span class="cd-block">${String(p.cdS).padStart(2,'0')}</span></div>`;
+    }
+    let progHTML='';
+    if(p.progress){
+      const color=p.progress.pct>50?'#4dc9a0':'#f5c842';
+      progHTML=`<div class="promo-progress"><div class="promo-progress-bar"><div class="promo-progress-fill" style="width:${p.progress.pct}%;background:${color}"></div></div><div class="promo-progress-text">${p.progress.text}</div></div>`;
+    }
+    return `<div class="promo-card" onclick="showDetail(${p.id})">
+      <div class="promo-banner"><div class="bg" style="background:${p.bg}"></div><span class="promo-tag ${p.tagCls}">${p.tag}</span><div class="inner"><h3>${p.title}</h3><div class="subtitle">${p.sub}</div></div></div>
+      <div class="promo-body"><div class="promo-desc">${p.desc}</div>${progHTML}<div class="promo-footer">${p.countdown?cdHTML:'<div class="promo-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>長期活動</div>'}<button class="promo-btn" onclick="event.stopPropagation();alert(\'立即參與\')">立即參與</button></div></div>
+    </div>`;
+  }).join('');
+}
+function showDetail(id){
+  const p=promos.find(x=>x.id===id);
+  if(!p)return;
+  document.getElementById('modalTitle').textContent=p.title;
+  document.getElementById('modalBody').innerHTML=`
+    <p>${p.desc}</p>
+    <h4>活動規則</h4>
+    <ul>${p.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
+    <h4>注意事項</h4>
+    <p>本活動最終解釋權歸星運娛樂城所有。如有任何爭議，以官方公告為準。</p>`;
   document.getElementById('detailModal').classList.add('show');
 }
-function closeDetail(e){
-  if(e && e.target !== e.currentTarget) return;
-  document.getElementById('detailModal').classList.remove('show');
-}
-
-/* Countdown timer */
-function updateCountdowns(){
-  const els = [document.getElementById('cd1'),document.getElementById('cd2')];
-  els.forEach(el=>{
-    if(!el) return;
-    const parts = el.textContent.split(':').map(Number);
-    let total = parts[0]*3600 + parts[1]*60 + parts[2] - 1;
-    if(total < 0) total = 86399;
-    const h = String(Math.floor(total/3600)).padStart(2,'0');
-    const m = String(Math.floor((total%3600)/60)).padStart(2,'0');
-    const s = String(total%60).padStart(2,'0');
-    el.textContent = `${h}:${m}:${s}`;
+function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
+renderPromos();
+// Countdown timer
+setInterval(()=>{
+  promos.forEach(p=>{
+    if(!p.countdown)return;
+    p.cdS--;
+    if(p.cdS<0){p.cdS=59;p.cdM--;}
+    if(p.cdM<0){p.cdM=59;p.cdH--;}
+    if(p.cdH<0){p.cdH=23;p.cdM=59;p.cdS=59;}
   });
-}
-setInterval(updateCountdowns, 1000);
+  if(currentFilter==='all'||currentFilter==='limited'||currentFilter==='deposit')renderPromos();
+},1000);
 </script>
 </body>
 </html>

@@ -2,102 +2,92 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 系統 Demo — 星運娛樂城</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>星運娛樂城 - Nova Demo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#c41230;--gold:#f5c842;--dark:#1a1a2e;--darker:#0f0f1f;--text:#fff;--text-dim:#aaa;--green:#4dc9a0;--teal:#2bb5a0;--border:rgba(255,255,255,.08)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--darker);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px}
-h1{font-size:28px;font-weight:700;color:var(--gold);margin-bottom:6px;text-align:center}
-.subtitle{font-size:14px;color:var(--text-dim);margin-bottom:32px;text-align:center}
-.section{width:100%;max-width:600px;margin-bottom:28px}
-.section h2{font-size:14px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;padding-left:4px}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
-.card{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:14px;padding:20px 16px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:8px}
-.card:hover{border-color:var(--teal);background:rgba(43,181,160,.06);transform:translateY(-2px)}
-.card:active{transform:scale(.98)}
-.card .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
-.card .icon svg{width:22px;height:22px}
-.card .icon.red{background:rgba(196,18,48,.15)}
-.card .icon.red svg{stroke:var(--red);fill:none;stroke-width:2}
-.card .icon.teal{background:rgba(43,181,160,.15)}
-.card .icon.teal svg{stroke:var(--teal);fill:none;stroke-width:2}
-.card .icon.gold{background:rgba(245,200,66,.15)}
-.card .icon.gold svg{stroke:var(--gold);fill:none;stroke-width:2}
-.card .icon.blue{background:rgba(59,130,246,.15)}
-.card .icon.blue svg{stroke:#3b82f6;fill:none;stroke-width:2}
-.card .icon.purple{background:rgba(155,89,182,.15)}
-.card .icon.purple svg{stroke:#9b59b6;fill:none;stroke-width:2}
-.card .icon.green{background:rgba(77,201,160,.15)}
-.card .icon.green svg{stroke:var(--green);fill:none;stroke-width:2}
-.card .name{font-size:14px;font-weight:600}
-.card .desc{font-size:11px;color:var(--text-dim);line-height:1.4}
-.footer{margin-top:20px;text-align:center;font-size:11px;color:rgba(255,255,255,.3)}
-.footer a{color:var(--teal);text-decoration:none}
-.badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600;margin-left:6px;vertical-align:middle}
-.badge-front{background:var(--teal);color:#fff}
-.badge-admin{background:var(--red);color:#fff}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);display:flex;flex-direction:column}
+.hero{text-align:center;padding:40px 20px 24px}
+.logo{font-size:24px;font-weight:700;color:#f5c842;text-shadow:0 2px 12px rgba(245,200,66,.3)}
+.logo-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:6px;letter-spacing:2px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,.15),transparent);margin:0 30px}
+.section{padding:20px 16px 8px}
+.section-title{font-size:12px;color:rgba(255,255,255,.3);font-weight:500;margin-bottom:12px;padding-left:2px}
+.nav-grid{display:flex;flex-direction:column;gap:8px;padding:0 16px}
+.nav-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);cursor:pointer;transition:all .15s;text-decoration:none;color:#fff}
+.nav-card:active{transform:scale(.98);background:rgba(245,200,66,.06)}
+.nav-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-icon svg{width:20px;height:20px}
+.nav-text .nav-name{font-size:13px;font-weight:600}
+.nav-text .nav-desc{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
+.nav-arrow{margin-left:auto;color:rgba(255,255,255,.15)}
+.nav-arrow svg{width:14px;height:14px}
+.footer{text-align:center;padding:30px 20px;margin-top:auto}
+.footer-text{font-size:10px;color:rgba(255,255,255,.15)}
+.footer-link{color:rgba(245,200,66,.3);text-decoration:none;font-size:10px}
 </style>
 </head>
 <body>
-<h1>Nova 系統 Demo</h1>
-<div class="subtitle">星運娛樂城 — 前後台完整互動原型</div>
+<div class="app">
+  <div class="hero">
+    <div class="logo">星運娛樂城</div>
+    <div class="logo-sub">NOVA DEMO &middot; SA PORTFOLIO</div>
+  </div>
+  <div class="divider"></div>
 
-<div class="section">
-  <h2>前台（玩家端）<span class="badge badge-front">Frontend</span></h2>
-  <div class="card-grid">
-    <a class="card" href="nova-login.html">
-      <div class="icon teal"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg></div>
-      <div class="name">登入頁</div>
-      <div class="desc">年齡驗證、5 種登入方式（LINE / 簡訊 / 手機 / 帳號 / Telegram）</div>
+  <div class="section"><div class="section-title">前台 Frontend</div></div>
+  <div class="nav-grid">
+    <a class="nav-card" href="nova-login.html">
+      <div class="nav-icon" style="background:rgba(231,76,60,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
+      <div class="nav-text"><div class="nav-name">登入頁</div><div class="nav-desc">年齡驗證 / 5 種登入方式 / 帳號密碼 Modal</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-frontend.html">
-      <div class="icon red"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
-      <div class="name">遊戲大廳</div>
-      <div class="desc">Banner 輪播、遊戲分類、36 款遊戲、收藏、排行榜</div>
+    <a class="nav-card" href="nova-frontend.html">
+      <div class="nav-icon" style="background:rgba(245,200,66,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="nav-text"><div class="nav-name">遊戲大廳</div><div class="nav-desc">Banner 輪播 / 36 款遊戲 / 分類 Tab / 跑馬燈</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-profile.html">
-      <div class="icon blue"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div class="name">個人中心</div>
-      <div class="desc">會員資料、VIP 進度、交易紀錄、帳號管理、安全中心</div>
+    <a class="nav-card" href="nova-profile.html">
+      <div class="nav-icon" style="background:rgba(155,89,182,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#9b59b6" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="nav-text"><div class="nav-name">個人中心</div><div class="nav-desc">會員資料 / VIP 進度 / 交易紀錄 / 帳戶管理</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-deposit.html">
-      <div class="icon green"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-      <div class="name">儲值</div>
-      <div class="desc">銀行轉帳 / USDT / 超商 / LINE Pay、金額選擇、優惠加碼</div>
+    <a class="nav-card" href="nova-deposit.html">
+      <div class="nav-icon" style="background:rgba(43,181,160,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#2bb5a0" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <div class="nav-text"><div class="nav-name">儲值</div><div class="nav-desc">4 種支付 / 9 檔金額 / 加碼優惠 / 付款摘要</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-promo.html">
-      <div class="icon gold"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-      <div class="name">優惠活動</div>
-      <div class="desc">首儲加碼、每日簽到、VIP 返水、紅包雨、好友推薦</div>
+    <a class="nav-card" href="nova-promo.html">
+      <div class="nav-icon" style="background:rgba(241,196,15,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#f1c40f" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="nav-text"><div class="nav-name">優惠活動</div><div class="nav-desc">6 種活動 / 篩選 / 倒計時 / 進度條 / 詳情彈窗</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
   </div>
-</div>
 
-<div class="section">
-  <h2>後台（管理端）<span class="badge badge-admin">Admin</span></h2>
-  <div class="card-grid">
-    <a class="card" href="nova-admin-users.html">
-      <div class="icon purple"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
-      <div class="name">帳號設定</div>
-      <div class="desc">帳號列表、新增 / 編輯 / 停用、重設密碼、角色指派</div>
+  <div class="section"><div class="section-title">後台 Admin</div></div>
+  <div class="nav-grid">
+    <a class="nav-card" href="nova-admin-users.html">
+      <div class="nav-icon" style="background:rgba(52,152,219,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="nav-text"><div class="nav-name">帳號設定</div><div class="nav-desc">帳號列表 / 搜尋篩選 / 新增編輯 / 權限管理</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-admin-roles.html">
-      <div class="icon gold"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-      <div class="name">角色設定</div>
-      <div class="desc">角色 CRUD、權限矩陣、模組級細粒度控制</div>
+    <a class="nav-card" href="nova-admin-roles.html">
+      <div class="nav-icon" style="background:rgba(46,204,113,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="nav-text"><div class="nav-name">角色設定</div><div class="nav-desc">角色列表 / 權限矩陣 / 新增編輯角色</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
-    <a class="card" href="nova-game-management.html">
-      <div class="icon teal"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01M8 12H8M16 12h.01M6 12v.01"/></svg></div>
-      <div class="name">遊戲維護設定</div>
-      <div class="desc">遊戲上下架、維護排程、橫幅管理、進階篩選</div>
+    <a class="nav-card" href="nova-game-management.html">
+      <div class="nav-icon" style="background:rgba(230,126,34,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#e67e22" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="nav-text"><div class="nav-name">遊戲維護設定</div><div class="nav-desc">遊戲列表 / 狀態切換 / 維護排程</div></div>
+      <div class="nav-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     </a>
   </div>
-</div>
 
-<div class="footer">
-  Nova Account Demo — Built for SA Portfolio | 
-  <a href="https://github.com/zenyi0910/nova-account-demo" target="_blank">GitHub</a>
+  <div class="footer">
+    <div class="footer-text">Nova Account Demo &middot; SA Portfolio</div>
+    <a class="footer-link" href="https://github.com/zenyi0910/nova-account-demo">GitHub</a>
+  </div>
 </div>
 </body>
 </html>

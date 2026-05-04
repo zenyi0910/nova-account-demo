@@ -6,329 +6,256 @@
 <title>星運娛樂城 - 個人中心</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--red:#c41230;--gold:#f5c842;--gold-dark:#c9a020;--dark:#1a1a2e;--darker:#0f0f1f;--card-bg:#2a2a3e;--text:#fff;--text-dim:#aaa;--green:#4dc9a0;--teal:#2bb5a0;--vip-purple:#9b59b6;--border:rgba(255,255,255,.08)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a14;color:var(--text);display:flex;justify-content:center;min-height:100vh}
-.app{width:100%;max-width:430px;min-height:100vh;background:var(--darker);position:relative;display:flex;flex-direction:column}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);position:relative;display:flex;flex-direction:column}
 
 /* Header */
-.header{background:linear-gradient(135deg,var(--red),#8b0a1e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.header-back{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center}
-.header-back svg{width:22px;height:22px;stroke:#fff;stroke-width:2;fill:none}
-.header-title{font-size:16px;font-weight:600}
-.header-right{width:30px}
+.header{background:linear-gradient(135deg,#8b0a1e,#5a0612);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(245,200,66,.15)}
+.header-title{font-size:16px;font-weight:600;color:#f5c842}
+.header-action{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.5);padding:4px}
+.header-action svg{width:20px;height:20px}
 
 /* Profile card */
-.profile-card{background:linear-gradient(135deg,#2a1a4a,#1a2a4a);margin:16px;border-radius:16px;padding:20px;position:relative;overflow:hidden}
-.profile-card::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(245,200,66,.1),transparent);border-radius:50%}
-.profile-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-.profile-avatar{width:56px;height:56px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--red);flex-shrink:0;border:2px solid rgba(245,200,66,.4)}
+.profile-card{margin:14px;border-radius:14px;background:linear-gradient(135deg,rgba(139,10,30,.6),rgba(90,6,18,.4));border:1px solid rgba(245,200,66,.12);padding:20px 16px;position:relative;overflow:hidden}
+.profile-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(245,200,66,.08),transparent);border-radius:50%}
+.profile-top{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.avatar-lg{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#f5a623,#e8891a);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#452201;border:3px solid rgba(245,200,66,.4);flex-shrink:0}
 .profile-info{flex:1}
-.profile-name{font-size:16px;font-weight:600;margin-bottom:4px}
-.profile-id{font-size:12px;color:var(--text-dim)}
-.profile-badges{display:flex;gap:6px;margin-top:6px}
-.badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
-.badge-vip{background:var(--vip-purple);color:#fff}
-.badge-verified{background:var(--teal);color:#fff}
-.profile-edit{background:none;border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 14px;font-size:11px;color:var(--text-dim);cursor:pointer}
+.profile-name{font-size:16px;font-weight:600}
+.profile-id{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+.vip-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.vip-badge{background:linear-gradient(135deg,#9b59b6,#7a2090);color:#fff;font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;box-shadow:0 2px 6px rgba(155,89,182,.4)}
+.vip-exp{font-size:10px;color:rgba(255,255,255,.4)}
 
 /* Balance section */
-.balance-section{display:flex;gap:10px;margin-bottom:0}
-.balance-box{flex:1;background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center}
-.balance-label{font-size:11px;color:var(--text-dim);margin-bottom:4px}
-.balance-value{font-size:18px;font-weight:700;color:var(--gold)}
-.balance-value.green{color:var(--green)}
-
-/* Action buttons */
-.action-row{display:flex;gap:10px;margin:16px;flex-wrap:wrap}
-.action-btn{flex:1;min-width:calc(50% - 5px);background:rgba(255,255,255,.06);border-radius:12px;padding:14px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;border:none;color:var(--text);transition:background .15s}
-.action-btn:active{background:rgba(255,255,255,.1)}
-.action-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.action-icon svg{width:20px;height:20px}
-.action-icon.deposit{background:rgba(77,201,160,.15)}
-.action-icon.deposit svg{stroke:var(--green);fill:none;stroke-width:2}
-.action-icon.withdraw{background:rgba(245,200,66,.15)}
-.action-icon.withdraw svg{stroke:var(--gold);fill:none;stroke-width:2}
-.action-icon.transfer{background:rgba(59,130,246,.15)}
-.action-icon.transfer svg{stroke:#3b82f6;fill:none;stroke-width:2}
-.action-icon.record{background:rgba(155,89,182,.15)}
-.action-icon.record svg{stroke:var(--vip-purple);fill:none;stroke-width:2}
-.action-text .action-title{font-size:13px;font-weight:500}
-.action-text .action-desc{font-size:11px;color:var(--text-dim);margin-top:2px}
+.balance-section{margin:0 14px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(245,200,66,.08);padding:16px}
+.balance-label{font-size:11px;color:rgba(255,255,255,.4)}
+.balance-row{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.balance-amount{font-size:26px;font-weight:700;color:#f5c842;letter-spacing:1px}
+.balance-actions{display:flex;gap:8px}
+.bal-btn{border:none;cursor:pointer;border-radius:20px;padding:8px 18px;font-size:12px;font-weight:600;font-family:inherit}
+.bal-btn-primary{background:linear-gradient(135deg,#2bb5a0,#1a9a88);color:#fff;box-shadow:0 3px 8px rgba(43,181,160,.3)}
+.bal-btn-secondary{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1)}
 
 /* VIP Progress */
-.vip-section{margin:0 16px 16px;background:rgba(255,255,255,.04);border-radius:14px;padding:16px}
-.vip-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.vip-header h3{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
-.vip-header h3 svg{width:18px;height:18px;fill:var(--gold)}
-.vip-detail{font-size:11px;color:var(--teal);cursor:pointer;border:none;background:none}
-.vip-levels{display:flex;align-items:center;gap:0;margin-bottom:10px;position:relative}
-.vip-level{flex:1;text-align:center;font-size:11px;color:var(--text-dim);position:relative;z-index:1}
-.vip-level.current{color:var(--gold);font-weight:600}
-.vip-level.done{color:var(--teal)}
-.vip-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;margin-bottom:8px}
-.vip-bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;transition:width .5s}
-.vip-info{font-size:11px;color:var(--text-dim);text-align:center}
-.vip-info span{color:var(--gold);font-weight:600}
+.vip-progress{margin:14px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(245,200,66,.08);padding:16px}
+.vip-progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.vip-progress-title{font-size:13px;font-weight:600}
+.vip-progress-link{font-size:11px;color:#f5c842;cursor:pointer;background:none;border:none;font-family:inherit}
+.vip-levels{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.vip-level{font-size:11px;font-weight:600}
+.vip-level.current{color:#9b59b6}
+.vip-level.next{color:rgba(255,255,255,.3)}
+.progress-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#9b59b6,#c471ed);border-radius:3px;width:65%;transition:width .6s}
+.vip-exp-text{font-size:10px;color:rgba(255,255,255,.35);margin-top:6px;text-align:right}
 
-/* Menu list */
-.menu-section{margin:0 16px 16px}
-.menu-title{font-size:12px;color:var(--text-dim);padding:0 4px 8px;font-weight:500}
-.menu-list{background:rgba(255,255,255,.04);border-radius:14px;overflow:hidden}
-.menu-item{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
+/* Menu sections */
+.menu-section{margin:14px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(245,200,66,.08);overflow:hidden}
+.menu-section-title{font-size:12px;color:rgba(255,255,255,.3);padding:12px 16px 6px;font-weight:500}
+.menu-item{display:flex;align-items:center;padding:13px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.04)}
 .menu-item:last-child{border-bottom:none}
-.menu-item:active{background:rgba(255,255,255,.06)}
-.menu-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.menu-icon svg{width:18px;height:18px}
-.menu-icon.blue{background:rgba(59,130,246,.15)}
-.menu-icon.blue svg{stroke:#3b82f6;fill:none;stroke-width:2}
-.menu-icon.green{background:rgba(77,201,160,.15)}
-.menu-icon.green svg{stroke:var(--green);fill:none;stroke-width:2}
-.menu-icon.purple{background:rgba(155,89,182,.15)}
-.menu-icon.purple svg{stroke:var(--vip-purple);fill:none;stroke-width:2}
-.menu-icon.gold{background:rgba(245,200,66,.15)}
-.menu-icon.gold svg{stroke:var(--gold);fill:none;stroke-width:2}
-.menu-icon.red{background:rgba(239,68,68,.15)}
-.menu-icon.red svg{stroke:#ef4444;fill:none;stroke-width:2}
-.menu-label{flex:1;font-size:13px;font-weight:500}
-.menu-arrow{color:var(--text-dim);font-size:14px}
-.menu-arrow svg{width:16px;height:16px;stroke:var(--text-dim);stroke-width:2;fill:none}
-.menu-badge{background:var(--red);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:600;padding:0 5px}
+.menu-item:active{background:rgba(255,255,255,.04)}
+.menu-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:12px;flex-shrink:0}
+.menu-icon svg{width:16px;height:16px}
+.menu-text{flex:1}
+.menu-text .label{font-size:13px;font-weight:500}
+.menu-text .desc{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
+.menu-arrow{color:rgba(255,255,255,.2)}
+.menu-arrow svg{width:14px;height:14px}
+.menu-badge{background:#e74c3c;color:#fff;font-size:9px;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;margin-right:8px}
 
-/* Bottom tab bar */
-.tab-bar{display:flex;align-items:center;justify-content:space-around;background:var(--dark);border-top:1px solid var(--border);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 12px;color:var(--text-dim);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
-.tab-item.active{color:var(--gold)}
-.tab-item svg{width:22px;height:22px}
-.tab-item span{font-size:10px}
+/* Tab bar */
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:linear-gradient(0deg,#1a0a0e,#2a0a12);border-top:1px solid rgba(245,200,66,.1);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.35);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
+.tab-item.active{color:#f5c842}
+.tab-item svg{width:20px;height:20px}
+.tab-item span{font-size:9px}
+.content{flex:1;overflow-y:auto;padding-bottom:10px}
 
-/* Scrollable content */
-.content{flex:1;overflow-y:auto;padding-bottom:8px}
-
-/* Transaction list */
-.tx-list{margin:0 16px 16px}
-.tx-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.tx-item:last-child{border-bottom:none}
-.tx-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tx-icon svg{width:18px;height:18px;stroke-width:2;fill:none}
-.tx-icon.in{background:rgba(77,201,160,.15)}
-.tx-icon.in svg{stroke:var(--green)}
-.tx-icon.out{background:rgba(239,68,68,.15)}
-.tx-icon.out svg{stroke:#ef4444}
-.tx-info{flex:1}
-.tx-info .tx-title{font-size:13px;font-weight:500}
-.tx-info .tx-time{font-size:11px;color:var(--text-dim);margin-top:2px}
-.tx-amount{font-size:14px;font-weight:600;text-align:right}
-.tx-amount.plus{color:var(--green)}
-.tx-amount.minus{color:#ef4444}
+/* Transaction modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;justify-content:center;align-items:flex-end}
+.modal-overlay.show{display:flex}
+.modal-sheet{width:100%;max-width:430px;background:#2a0a12;border-radius:16px 16px 0 0;max-height:70vh;display:flex;flex-direction:column}
+.modal-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:10px auto}
+.modal-title{font-size:15px;font-weight:600;padding:4px 16px 12px;text-align:center}
+.tx-list{flex:1;overflow-y:auto;padding:0 16px 16px}
+.tx-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.tx-left .tx-type{font-size:13px;font-weight:500}
+.tx-left .tx-time{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+.tx-amount{font-size:14px;font-weight:600}
+.tx-amount.plus{color:#4dc9a0}
+.tx-amount.minus{color:#e74c3c}
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- Header -->
   <div class="header">
-    <button class="header-back" onclick="window.location.href='nova-frontend.html'" aria-label="返回">
-      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    </button>
     <div class="header-title">個人中心</div>
-    <div class="header-right"></div>
+    <button class="header-action" onclick="alert('設定')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
   </div>
 
   <div class="content">
-    <!-- Profile card -->
+    <!-- Profile Card -->
     <div class="profile-card">
       <div class="profile-top">
-        <div class="profile-avatar">Q</div>
+        <div class="avatar-lg">Q</div>
         <div class="profile-info">
           <div class="profile-name">QAtest6</div>
-          <div class="profile-id">ID: 8827461</div>
-          <div class="profile-badges">
-            <span class="badge badge-vip">VIP 3</span>
-            <span class="badge badge-verified">已驗證</span>
+          <div class="profile-id">ID: 8827491</div>
+          <div class="vip-row">
+            <span class="vip-badge">VIP 3</span>
+            <span class="vip-exp">經驗 6,500 / 10,000</span>
           </div>
-        </div>
-        <button class="profile-edit" onclick="openSection('editProfile')">編輯</button>
-      </div>
-      <div class="balance-section">
-        <div class="balance-box">
-          <div class="balance-label">可用餘額</div>
-          <div class="balance-value">148,927,558</div>
-        </div>
-        <div class="balance-box">
-          <div class="balance-label">今日盈虧</div>
-          <div class="balance-value green">+2,340,000</div>
         </div>
       </div>
     </div>
 
-    <!-- Action buttons -->
-    <div class="action-row">
-      <button class="action-btn" onclick="openSection('deposit')">
-        <div class="action-icon deposit"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="action-text"><div class="action-title">儲值</div><div class="action-desc">多種支付方式</div></div>
-      </button>
-      <button class="action-btn" onclick="openSection('withdraw')">
-        <div class="action-icon withdraw"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
-        <div class="action-text"><div class="action-title">提領</div><div class="action-desc">快速到帳</div></div>
-      </button>
-      <button class="action-btn" onclick="openSection('transfer')">
-        <div class="action-icon transfer"><svg viewBox="0 0 24 24"><path d="M7 16l-4-4 4-4M17 8l4 4-4 4M3 12h18"/></svg></div>
-        <div class="action-text"><div class="action-title">轉帳</div><div class="action-desc">錢包互轉</div></div>
-      </button>
-      <button class="action-btn" onclick="openSection('records')">
-        <div class="action-icon record"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-        <div class="action-text"><div class="action-title">紀錄</div><div class="action-desc">交易明細</div></div>
-      </button>
+    <!-- Balance -->
+    <div class="balance-section">
+      <div class="balance-label">帳戶餘額</div>
+      <div class="balance-row">
+        <div class="balance-amount">148,927,558</div>
+        <div class="balance-actions">
+          <button class="bal-btn bal-btn-primary" onclick="window.location.href='nova-deposit.html'">儲值</button>
+          <button class="bal-btn bal-btn-secondary" onclick="alert('提領功能')">提領</button>
+        </div>
+      </div>
     </div>
 
     <!-- VIP Progress -->
-    <div class="vip-section">
-      <div class="vip-header">
-        <h3><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>VIP 等級</h3>
-        <button class="vip-detail" onclick="openSection('vipDetail')">查看詳情</button>
+    <div class="vip-progress">
+      <div class="vip-progress-header">
+        <span class="vip-progress-title">VIP 等級進度</span>
+        <button class="vip-progress-link">查看權益 ›</button>
       </div>
       <div class="vip-levels">
-        <div class="vip-level done">VIP1</div>
-        <div class="vip-level done">VIP2</div>
-        <div class="vip-level current">VIP3</div>
-        <div class="vip-level">VIP4</div>
-        <div class="vip-level">VIP5</div>
+        <span class="vip-level current">VIP 3</span>
+        <span class="vip-level next">VIP 4</span>
       </div>
-      <div class="vip-bar"><div class="vip-bar-fill" style="width:62%"></div></div>
-      <div class="vip-info">距離 <span>VIP4</span> 還需投注 <span>380,000</span></div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <div class="vip-exp-text">6,500 / 10,000 EXP</div>
     </div>
 
-    <!-- Recent transactions -->
+    <!-- Account Menu -->
     <div class="menu-section">
-      <div class="menu-title">最近交易</div>
-    </div>
-    <div class="tx-list">
-      <div class="tx-item">
-        <div class="tx-icon in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">儲值 — 銀行轉帳</div><div class="tx-time">2026-05-04 14:23</div></div>
-        <div class="tx-amount plus">+500,000</div>
+      <div class="menu-section-title">帳戶管理</div>
+      <div class="menu-item" onclick="showTxModal()">
+        <div class="menu-icon" style="background:rgba(245,200,66,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="menu-text"><div class="label">交易紀錄</div><div class="desc">儲值、提領、投注明細</div></div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
       </div>
-      <div class="tx-item">
-        <div class="tx-icon out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">投注 — 百家樂 A廳</div><div class="tx-time">2026-05-04 13:45</div></div>
-        <div class="tx-amount minus">-120,000</div>
+      <div class="menu-item" onclick="alert('銀行卡管理')">
+        <div class="menu-icon" style="background:rgba(43,181,160,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2bb5a0" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <div class="menu-text"><div class="label">銀行卡管理</div><div class="desc">綁定/解綁銀行帳戶</div></div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
       </div>
-      <div class="tx-item">
-        <div class="tx-icon in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">派彩 — 百家樂 A廳</div><div class="tx-time">2026-05-04 13:46</div></div>
-        <div class="tx-amount plus">+240,000</div>
-      </div>
-      <div class="tx-item">
-        <div class="tx-icon out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">投注 — 埃及三秘寶</div><div class="tx-time">2026-05-04 12:30</div></div>
-        <div class="tx-amount minus">-50,000</div>
-      </div>
-      <div class="tx-item">
-        <div class="tx-icon in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">派彩 — 埃及三秘寶</div><div class="tx-time">2026-05-04 12:31</div></div>
-        <div class="tx-amount plus">+175,000</div>
-      </div>
-      <div class="tx-item">
-        <div class="tx-icon in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
-        <div class="tx-info"><div class="tx-title">每日簽到獎勵</div><div class="tx-time">2026-05-04 08:00</div></div>
-        <div class="tx-amount plus">+10,000</div>
-      </div>
-      <div class="tx-item">
-        <div class="tx-icon out"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
-        <div class="tx-info"><div class="tx-title">提領 — USDT TRC20</div><div class="tx-time">2026-05-03 22:15</div></div>
-        <div class="tx-amount minus">-1,000,000</div>
+      <div class="menu-item" onclick="alert('安全設定')">
+        <div class="menu-icon" style="background:rgba(155,89,182,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9b59b6" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div class="menu-text"><div class="label">安全設定</div><div class="desc">密碼、二步驗證</div></div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
       </div>
     </div>
 
-    <!-- Menu sections -->
+    <!-- Service Menu -->
     <div class="menu-section">
-      <div class="menu-title">帳號管理</div>
-      <div class="menu-list">
-        <div class="menu-item" onclick="openSection('security')">
-          <div class="menu-icon blue"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div class="menu-label">安全中心</div>
-          <div class="menu-badge">1</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+      <div class="menu-section-title">服務中心</div>
+      <div class="menu-item" onclick="alert('訊息中心')">
+        <div class="menu-icon" style="background:rgba(52,152,219,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </div>
-        <div class="menu-item" onclick="openSection('bankCards')">
-          <div class="menu-icon green"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
-          <div class="menu-label">銀行卡管理</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+        <div class="menu-text"><div class="label">訊息中心</div><div class="desc">系統通知、活動公告</div></div>
+        <div class="menu-badge">3</div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="menu-item" onclick="alert('聯絡客服')">
+        <div class="menu-icon" style="background:rgba(231,76,60,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
         </div>
-        <div class="menu-item" onclick="openSection('bindPhone')">
-          <div class="menu-icon purple"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></div>
-          <div class="menu-label">手機綁定</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+        <div class="menu-text"><div class="label">聯絡客服</div><div class="desc">24 小時線上客服</div></div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="menu-item" onclick="alert('常見問題')">
+        <div class="menu-icon" style="background:rgba(241,196,15,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f1c40f" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5"/></svg>
         </div>
-        <div class="menu-item" onclick="openSection('changePw')">
-          <div class="menu-icon gold"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
-          <div class="menu-label">修改密碼</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
+        <div class="menu-text"><div class="label">常見問題</div><div class="desc">FAQ、使用說明</div></div>
+        <div class="menu-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
       </div>
     </div>
 
-    <div class="menu-section">
-      <div class="menu-title">其他</div>
-      <div class="menu-list">
-        <div class="menu-item" onclick="openSection('messages')">
-          <div class="menu-icon blue"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-          <div class="menu-label">站內信</div>
-          <div class="menu-badge">3</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="menu-item" onclick="openSection('activity')">
-          <div class="menu-icon gold"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-          <div class="menu-label">優惠活動</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="menu-item" onclick="openSection('cs')">
-          <div class="menu-icon green"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>
-          <div class="menu-label">聯絡客服</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="menu-item" onclick="doLogout()">
-          <div class="menu-icon red"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></div>
-          <div class="menu-label">登出</div>
-          <div class="menu-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
+    <!-- Logout -->
+    <div class="menu-section" style="margin-bottom:20px">
+      <div class="menu-item" onclick="window.location.href='nova-login.html'" style="justify-content:center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" style="width:16px;height:16px;margin-right:8px"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span style="color:#e74c3c;font-size:13px;font-weight:500">登出</span>
       </div>
     </div>
-
-    <div style="height:16px"></div>
   </div>
 
-  <!-- Bottom Tab Bar -->
+  <!-- Tab bar -->
   <div class="tab-bar">
-    <a class="tab-item" href="nova-frontend.html">
+    <button class="tab-item" onclick="alert('其他')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
       <span>其他</span>
-    </a>
-    <a class="tab-item" href="nova-frontend.html">
+    </button>
+    <a class="tab-item" href="nova-promo.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span>排行榜</span>
+      <span>活動</span>
     </a>
     <a class="tab-item" href="nova-frontend.html">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       <span>大廳</span>
     </a>
-    <a class="tab-item" href="nova-frontend.html">
+    <a class="tab-item" href="nova-deposit.html">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
       <span>商城</span>
     </a>
-    <a class="tab-item active">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <button class="tab-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span>我的</span>
-    </a>
+    </button>
+  </div>
+</div>
+
+<!-- Transaction Modal -->
+<div class="modal-overlay" id="txModal" onclick="if(event.target===this)closeTxModal()">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">交易紀錄</div>
+    <div class="tx-list" id="txList"></div>
   </div>
 </div>
 
 <script>
-function openSection(name){
-  alert('開啟：' + name + '（Demo）');
+const txData=[
+  {type:'儲值',method:'LINE Pay',amount:'+50,000',time:'2026-05-04 14:30',plus:true},
+  {type:'投注',method:'百家樂 A廳',amount:'-10,000',time:'2026-05-04 13:15',plus:false},
+  {type:'派彩',method:'百家樂 A廳',amount:'+19,500',time:'2026-05-04 13:15',plus:true},
+  {type:'投注',method:'埃及三秘寶',amount:'-5,000',time:'2026-05-04 12:00',plus:false},
+  {type:'派彩',method:'埃及三秘寶',amount:'+12,800',time:'2026-05-04 12:00',plus:true},
+  {type:'儲值',method:'銀行轉帳',amount:'+100,000',time:'2026-05-03 09:20',plus:true},
+  {type:'提領',method:'銀行帳戶',amount:'-200,000',time:'2026-05-02 18:45',plus:false},
+  {type:'投注',method:'德州撲克',amount:'-25,000',time:'2026-05-02 16:30',plus:false},
+  {type:'派彩',method:'德州撲克',amount:'+68,000',time:'2026-05-02 16:30',plus:true},
+];
+function showTxModal(){
+  document.getElementById('txList').innerHTML=txData.map(t=>`
+    <div class="tx-item">
+      <div class="tx-left"><div class="tx-type">${t.type} · ${t.method}</div><div class="tx-time">${t.time}</div></div>
+      <div class="tx-amount ${t.plus?'plus':'minus'}">${t.amount}</div>
+    </div>`).join('');
+  document.getElementById('txModal').classList.add('show');
 }
-function doLogout(){
-  if(confirm('確定要登出嗎？')) window.location.href = 'nova-login.html';
-}
+function closeTxModal(){document.getElementById('txModal').classList.remove('show')}
 </script>
 </body>
 </html>
