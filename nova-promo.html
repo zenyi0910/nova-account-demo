@@ -6,183 +6,95 @@
 <title>星運娛樂城 - 優惠活動</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);position:relative;display:flex;flex-direction:column}
-.header{background:linear-gradient(135deg,#8b0a1e,#5a0612);padding:12px 14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(245,200,66,.15)}
-.header-title{font-size:16px;font-weight:600;color:#f5c842}
-.content{flex:1;overflow-y:auto;padding-bottom:10px}
-
-/* Filter tabs */
-.filter-tabs{display:flex;gap:0;padding:10px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.filter-tabs::-webkit-scrollbar{display:none}
-.filter-tab{padding:7px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;white-space:nowrap;border-radius:16px;transition:all .2s;font-family:inherit}
-.filter-tab.active{color:#452201;background:linear-gradient(135deg,#f5c842,#e8a820);font-weight:600;box-shadow:0 2px 8px rgba(245,200,66,.3)}
-
-/* Promo cards */
-.promo-list{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
-.promo-card{border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);overflow:hidden;cursor:pointer;transition:transform .15s}
+:root{--bg-red:#76090a;--brown:#452201;--gold:#f4b63f;--teal:#2bb5a0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif;background:var(--bg-red);color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:url('https://www.kcfgmtb.com/assets/login_bg-Bi1SMT6m.png') center top/auto 100% repeat-x;position:relative;display:flex;flex-direction:column}
+.header{background:rgba(0,0,0,.35);backdrop-filter:blur(8px);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+.header-back{background:none;border:none;cursor:pointer;color:#fff;padding:4px}
+.header-back svg{width:20px;height:20px}
+.header-title{font-size:16px;font-weight:600;color:var(--gold);flex:1;text-align:center}
+.header-right{width:28px}
+.content{flex:1;overflow-y:auto;padding:14px 14px 10px}
+.promo-tabs{display:flex;gap:0;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.promo-tabs::-webkit-scrollbar{display:none}
+.promo-tab{padding:6px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,.35);background:none;border:none;cursor:pointer;white-space:nowrap;border-radius:16px;transition:all .2s;font-family:inherit}
+.promo-tab.active{color:var(--brown);background:var(--gold);font-weight:600}
+.promo-card{border-radius:14px;padding:3px;background:rgba(250,250,250,.9);margin-bottom:12px;cursor:pointer;transition:transform .15s}
 .promo-card:active{transform:scale(.98)}
-.promo-banner{position:relative;aspect-ratio:16/7;overflow:hidden}
-.promo-banner .bg{position:absolute;inset:0}
-.promo-banner .inner{position:relative;z-index:1;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
-.promo-banner h3{font-size:16px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-.promo-banner .subtitle{font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
-.promo-tag{position:absolute;top:8px;left:8px;font-size:9px;padding:3px 8px;border-radius:4px;font-weight:600;z-index:2}
-.tag-limited{background:#e74c3c;color:#fff}
-.tag-daily{background:#2bb5a0;color:#fff}
-.tag-new{background:#f5c842;color:#452201}
-.tag-vip{background:#9b59b6;color:#fff}
-.promo-body{padding:12px 16px}
-.promo-desc{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
-.promo-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.promo-time{display:flex;align-items:center;gap:4px;font-size:10px;color:rgba(255,255,255,.3)}
+.promo-img{width:100%;aspect-ratio:16/7;border-radius:11px 11px 0 0;overflow:hidden;position:relative}
+.promo-img-bg{width:100%;height:100%;display:block}
+.promo-badge{position:absolute;top:8px;left:8px;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:600}
+.badge-hot{background:#e74c3c;color:#fff}
+.badge-new{background:var(--teal);color:#fff}
+.badge-limit{background:var(--gold);color:var(--brown)}
+.promo-body{padding:12px 14px}
+.promo-title{font-size:14px;font-weight:600;color:var(--brown)}
+.promo-desc{font-size:11px;color:rgba(69,34,1,.5);margin-top:4px;line-height:1.5}
+.promo-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.promo-time{font-size:10px;color:rgba(69,34,1,.3);display:flex;align-items:center;gap:4px}
 .promo-time svg{width:12px;height:12px}
-.promo-btn{border:none;cursor:pointer;border-radius:16px;padding:6px 16px;font-size:11px;font-weight:600;font-family:inherit;color:#fff;background:linear-gradient(135deg,#2bb5a0,#1a9a88);box-shadow:0 2px 6px rgba(43,181,160,.3)}
-.promo-progress{margin-top:8px}
-.promo-progress-bar{height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
-.promo-progress-fill{height:100%;border-radius:2px;transition:width .6s}
-.promo-progress-text{font-size:9px;color:rgba(255,255,255,.3);margin-top:3px;text-align:right}
-
-/* Countdown */
-.countdown{display:flex;gap:4px;align-items:center}
-.cd-block{background:rgba(231,76,60,.2);border:1px solid rgba(231,76,60,.3);border-radius:4px;padding:2px 5px;font-size:10px;font-weight:600;color:#e74c3c;min-width:22px;text-align:center}
-.cd-sep{color:rgba(231,76,60,.5);font-size:10px}
-
-/* Detail modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;justify-content:center;align-items:flex-end}
-.modal-overlay.show{display:flex}
-.modal-sheet{width:100%;max-width:430px;background:#2a0a12;border-radius:16px 16px 0 0;max-height:80vh;display:flex;flex-direction:column}
-.modal-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:10px auto}
-.modal-header{padding:4px 16px 12px;display:flex;justify-content:space-between;align-items:center}
-.modal-title{font-size:16px;font-weight:600;color:#f5c842}
-.modal-close{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.4);font-size:20px}
-.modal-body{flex:1;overflow-y:auto;padding:0 16px 20px}
-.modal-body h4{font-size:13px;font-weight:600;margin:12px 0 6px;color:rgba(255,255,255,.7)}
-.modal-body p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
-.modal-body ul{padding-left:16px;margin:6px 0}
-.modal-body li{font-size:12px;color:rgba(255,255,255,.45);line-height:1.8}
-.modal-action{padding:12px 16px 20px}
-.modal-action .submit-btn{width:100%;border:none;cursor:pointer;border-radius:12px;padding:14px;font-size:14px;font-weight:700;font-family:inherit;color:#fff;background:linear-gradient(135deg,#2bb5a0,#1a9a88);box-shadow:0 4px 12px rgba(43,181,160,.3)}
-
-/* Tab bar */
-.tab-bar{display:flex;align-items:center;justify-content:space-around;background:linear-gradient(0deg,#1a0a0e,#2a0a12);border-top:1px solid rgba(245,200,66,.1);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.35);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
-.tab-item.active{color:#f5c842}
+.promo-btn{padding:6px 16px;border-radius:9999px;border:none;background:var(--teal);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.promo-btn:active{opacity:.8}
+.empty-state{text-align:center;padding:40px 20px;color:rgba(255,255,255,.2)}
+.empty-state svg{width:48px;height:48px;margin-bottom:12px}
+.empty-state p{font-size:13px}
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.06);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.3);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
+.tab-item.active{color:var(--gold)}
 .tab-item svg{width:20px;height:20px}
 .tab-item span{font-size:9px}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="header"><div class="header-title">優惠活動</div></div>
+  <div class="header">
+    <button class="header-back" onclick="window.location.href='nova-frontend.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="header-title">優惠活動</div>
+    <div class="header-right"></div>
+  </div>
   <div class="content">
-    <div class="filter-tabs" id="filterTabs">
-      <button class="filter-tab active" onclick="filterPromo(this,'all')">全部</button>
-      <button class="filter-tab" onclick="filterPromo(this,'deposit')">儲值</button>
-      <button class="filter-tab" onclick="filterPromo(this,'daily')">每日</button>
-      <button class="filter-tab" onclick="filterPromo(this,'vip')">VIP</button>
-      <button class="filter-tab" onclick="filterPromo(this,'limited')">限時</button>
-      <button class="filter-tab" onclick="filterPromo(this,'newbie')">新手</button>
+    <div class="promo-tabs">
+      <button class="promo-tab active" onclick="filterPromo(this,'all')">全部</button>
+      <button class="promo-tab" onclick="filterPromo(this,'deposit')">儲值優惠</button>
+      <button class="promo-tab" onclick="filterPromo(this,'rebate')">返水</button>
+      <button class="promo-tab" onclick="filterPromo(this,'daily')">每日活動</button>
+      <button class="promo-tab" onclick="filterPromo(this,'vip')">VIP 專屬</button>
+      <button class="promo-tab" onclick="filterPromo(this,'special')">限時活動</button>
     </div>
-    <div class="promo-list" id="promoList"></div>
+    <div id="promoList"></div>
   </div>
-
   <div class="tab-bar">
-    <button class="tab-item" onclick="alert('其他')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-      <span>其他</span>
-    </button>
-    <button class="tab-item active">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span>活動</span>
-    </button>
-    <a class="tab-item" href="nova-frontend.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>大廳</span>
-    </a>
-    <a class="tab-item" href="nova-deposit.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      <span>商城</span>
-    </a>
-    <a class="tab-item" href="nova-profile.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>我的</span>
-    </a>
+    <button class="tab-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg><span>其他</span></button>
+    <button class="tab-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>活動</span></button>
+    <a class="tab-item" href="nova-frontend.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>大廳</span></a>
+    <a class="tab-item" href="nova-deposit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>商城</span></a>
+    <a class="tab-item" href="nova-profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>我的</span></a>
   </div>
 </div>
-
-<!-- Detail Modal -->
-<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeDetail()">
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle"></div>
-      <button class="modal-close" onclick="closeDetail()">&times;</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-    <div class="modal-action"><button class="submit-btn" onclick="alert('立即參與')">立即參與</button></div>
-  </div>
-</div>
-
 <script>
 const promos=[
-  {id:1,cat:'deposit',tag:'limited',tagCls:'tag-limited',title:'首儲加碼 最高翻倍',sub:'首次儲值享額外 100% 加碼',bg:'linear-gradient(135deg,#8b0a1e,#c41230)',desc:'首次儲值即享 100% 加碼獎勵，最高贈送 50,000 遊戲幣。活動期間不限支付方式，儲值即送。',countdown:true,cdH:23,cdM:45,cdS:12,progress:null,rules:['首次儲值用戶限定','加碼上限 50,000','需完成 1 倍流水即可提領','不可與其他優惠併用']},
-  {id:2,cat:'daily',tag:'每日',tagCls:'tag-daily',title:'每日簽到 領取獎勵',sub:'連續簽到 7 天送 VIP 體驗券',bg:'linear-gradient(135deg,#1a3a6a,#2a5a9a)',desc:'每日登入即可簽到領取獎勵，連續 7 天額外贈送 VIP 體驗券一張。',countdown:false,progress:{pct:57,text:'4/7 天'},rules:['每日 00:00 重置','中斷需重新計算','獎勵自動發放至帳戶','VIP 體驗券有效期 3 天']},
-  {id:3,cat:'limited',tag:'限時',tagCls:'tag-limited',title:'紅包雨 隨機掉落',sub:'整點開搶，手慢就沒了',bg:'linear-gradient(135deg,#4a1060,#7a2090)',desc:'每日 12:00、18:00、21:00 三個時段開啟紅包雨，隨機掉落 100~10,000 遊戲幣。',countdown:true,cdH:2,cdM:15,cdS:33,progress:null,rules:['每人每時段限搶 1 次','金額隨機分配','即搶即到帳','需在活動頁面參與']},
-  {id:4,cat:'vip',tag:'VIP',tagCls:'tag-vip',title:'VIP 專屬返水',sub:'最高 1.2% 無上限返水',bg:'linear-gradient(135deg,#2a1a3a,#4a2a5a)',desc:'VIP 會員享專屬投注返水，等級越高返水比例越高。每週一自動結算發放。',countdown:false,progress:{pct:65,text:'本週投注 650,000/1,000,000'},rules:['VIP 1 以上適用','返水比例：VIP1 0.3% / VIP2 0.5% / VIP3 0.8% / VIP4 1.2%','每週一 08:00 自動發放','無流水限制']},
-  {id:5,cat:'newbie',tag:'NEW',tagCls:'tag-new',title:'新手任務 輕鬆拿獎',sub:'完成 5 個任務領 8,888',bg:'linear-gradient(135deg,#1a3a2a,#2a5a3a)',desc:'新註冊會員完成指定任務即可領取豐厚獎勵，總計最高 8,888 遊戲幣。',countdown:false,progress:{pct:40,text:'2/5 任務'},rules:['註冊 7 天內有效','任務：綁定手機/首次儲值/首次投注/邀請好友/完成身份驗證','獎勵逐步解鎖','不可重複領取']},
-  {id:6,cat:'deposit',tag:'每日',tagCls:'tag-daily',title:'儲值滿額送 加碼不停',sub:'單筆滿 3,000 送 300',bg:'linear-gradient(135deg,#3a2a0a,#5a4a1a)',desc:'每日單筆儲值滿 3,000 即贈送 300 遊戲幣，滿 10,000 送 1,500，滿 30,000 送 5,000。',countdown:false,progress:null,rules:['每日限領 1 次','以最高檔次計算','需 1 倍流水','每日 00:00 重置']}
+{title:'首儲加碼 最高翻倍',desc:'首次儲值享額外 100% 加碼，最高贈送 50,000 點。新會員限定，把握機會！',cat:'deposit',badge:'hot',bg:'linear-gradient(135deg,#c41230,#8b0a1e)',time:'長期活動'},
+{title:'每日簽到 領取獎勵',desc:'連續簽到 7 天送 VIP 體驗券，每日登入即可領取簽到獎勵。',cat:'daily',badge:'',bg:'linear-gradient(135deg,#1a3a6a,#2a5a9a)',time:'長期活動'},
+{title:'電子遊戲 0.8% 返水',desc:'所有電子遊戲有效投注享 0.8% 無上限返水，每日自動結算。',cat:'rebate',badge:'',bg:'linear-gradient(135deg,#2a6a3a,#1a4a2a)',time:'長期活動'},
+{title:'真人百家樂 0.5% 返水',desc:'真人遊戲有效投注享 0.5% 返水，VIP 等級越高返水比例越高。',cat:'rebate',badge:'',bg:'linear-gradient(135deg,#4a1060,#7a2090)',time:'長期活動'},
+{title:'紅包雨 隨機掉落',desc:'每日 12:00、18:00、21:00 三個時段隨機掉落紅包，手快有手慢無！',cat:'special',badge:'limit',bg:'linear-gradient(135deg,#c44125,#8b2a10)',time:'2026/05/01 - 05/31'},
+{title:'VIP 生日禮金',desc:'VIP3 以上會員生日當月可領取專屬禮金，最高 88,888 點。',cat:'vip',badge:'new',bg:'linear-gradient(135deg,#6a4a1a,#4a3a0a)',time:'長期活動'},
+{title:'好友推薦 雙重獎勵',desc:'推薦好友註冊並首儲，雙方各得 500 點獎勵金。推薦越多賺越多！',cat:'deposit',badge:'',bg:'linear-gradient(135deg,#1a5a6a,#0a3a4a)',time:'長期活動'},
+{title:'週末加碼 儲值送 15%',desc:'每週六、日儲值滿 3,000 即享額外 15% 加碼，上限 10,000。',cat:'deposit',badge:'hot',bg:'linear-gradient(135deg,#8b6a0a,#6a4a00)',time:'每週六日'},
+{title:'VIP 專屬返水加碼',desc:'VIP5 以上會員所有遊戲返水額外 +0.3%，尊榮禮遇。',cat:'vip',badge:'',bg:'linear-gradient(135deg,#3a1a5a,#5a2a7a)',time:'長期活動'},
+{title:'體育週末加碼',desc:'週末體育投注有效流水達 10,000，額外贈送 888 獎勵金。',cat:'special',badge:'limit',bg:'linear-gradient(135deg,#0a4a2a,#1a6a3a)',time:'2026/05/01 - 05/31'}
 ];
-let currentFilter='all';
-function filterPromo(el,cat){
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  currentFilter=cat;
-  renderPromos();
-}
+let currentCat='all';
+function filterPromo(el,cat){document.querySelectorAll('.promo-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentCat=cat;renderPromos();}
 function renderPromos(){
-  const list=currentFilter==='all'?promos:promos.filter(p=>p.cat===currentFilter);
+  const list=currentCat==='all'?promos:promos.filter(p=>p.cat===currentCat);
+  if(!list.length){document.getElementById('promoList').innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 15h8M9 9h.01M15 9h.01"/></svg><p>目前沒有此分類的活動</p></div>';return;}
   document.getElementById('promoList').innerHTML=list.map(p=>{
-    let cdHTML='';
-    if(p.countdown){
-      cdHTML=`<div class="countdown"><span class="cd-block">${String(p.cdH).padStart(2,'0')}</span><span class="cd-sep">:</span><span class="cd-block">${String(p.cdM).padStart(2,'0')}</span><span class="cd-sep">:</span><span class="cd-block">${String(p.cdS).padStart(2,'0')}</span></div>`;
-    }
-    let progHTML='';
-    if(p.progress){
-      const color=p.progress.pct>50?'#4dc9a0':'#f5c842';
-      progHTML=`<div class="promo-progress"><div class="promo-progress-bar"><div class="promo-progress-fill" style="width:${p.progress.pct}%;background:${color}"></div></div><div class="promo-progress-text">${p.progress.text}</div></div>`;
-    }
-    return `<div class="promo-card" onclick="showDetail(${p.id})">
-      <div class="promo-banner"><div class="bg" style="background:${p.bg}"></div><span class="promo-tag ${p.tagCls}">${p.tag}</span><div class="inner"><h3>${p.title}</h3><div class="subtitle">${p.sub}</div></div></div>
-      <div class="promo-body"><div class="promo-desc">${p.desc}</div>${progHTML}<div class="promo-footer">${p.countdown?cdHTML:'<div class="promo-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>長期活動</div>'}<button class="promo-btn" onclick="event.stopPropagation();alert(\'立即參與\')">立即參與</button></div></div>
-    </div>`;
+    const badgeHTML=p.badge==='hot'?'<div class="promo-badge badge-hot">HOT</div>':p.badge==='new'?'<div class="promo-badge badge-new">NEW</div>':p.badge==='limit'?'<div class="promo-badge badge-limit">限時</div>':'';
+    return `<div class="promo-card" onclick="alert('活動詳情：${p.title}')"><div class="promo-img"><div class="promo-img-bg" style="background:${p.bg}"></div>${badgeHTML}</div><div class="promo-body"><div class="promo-title">${p.title}</div><div class="promo-desc">${p.desc}</div><div class="promo-footer"><div class="promo-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${p.time}</div><button class="promo-btn" onclick="event.stopPropagation();alert('參加活動')">立即參加</button></div></div></div>`;
   }).join('');
 }
-function showDetail(id){
-  const p=promos.find(x=>x.id===id);
-  if(!p)return;
-  document.getElementById('modalTitle').textContent=p.title;
-  document.getElementById('modalBody').innerHTML=`
-    <p>${p.desc}</p>
-    <h4>活動規則</h4>
-    <ul>${p.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
-    <h4>注意事項</h4>
-    <p>本活動最終解釋權歸星運娛樂城所有。如有任何爭議，以官方公告為準。</p>`;
-  document.getElementById('detailModal').classList.add('show');
-}
-function closeDetail(){document.getElementById('detailModal').classList.remove('show')}
 renderPromos();
-// Countdown timer
-setInterval(()=>{
-  promos.forEach(p=>{
-    if(!p.countdown)return;
-    p.cdS--;
-    if(p.cdS<0){p.cdS=59;p.cdM--;}
-    if(p.cdM<0){p.cdM=59;p.cdH--;}
-    if(p.cdH<0){p.cdH=23;p.cdM=59;p.cdS=59;}
-  });
-  if(currentFilter==='all'||currentFilter==='limited'||currentFilter==='deposit')renderPromos();
-},1000);
 </script>
 </body>
 </html>

@@ -6,104 +6,94 @@
 <title>星運娛樂城 - 遊戲大廳</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);position:relative;display:flex;flex-direction:column}
+:root{--bg-red:#76090a;--brown:#452201;--gold:#f4b63f;--teal:#2bb5a0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif;background:var(--bg-red);color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:url('https://www.kcfgmtb.com/assets/login_bg-Bi1SMT6m.png') center top/auto 100% repeat-x;position:relative;display:flex;flex-direction:column}
 
 /* Header */
-.header{background:linear-gradient(135deg,#8b0a1e,#5a0612);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(245,200,66,.15)}
+.header{background:rgba(0,0,0,.35);backdrop-filter:blur(8px);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;border-bottom:1px solid rgba(255,255,255,.08)}
 .header-left{display:flex;align-items:center;gap:8px}
-.header-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f5a623,#e8891a);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#452201;border:2px solid rgba(245,200,66,.4)}
-.header-info .username{font-size:13px;font-weight:600}
-.header-info .vip-row{display:flex;align-items:center;gap:6px;margin-top:2px}
-.vip-badge{background:linear-gradient(135deg,#9b59b6,#7a2090);color:#fff;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600;box-shadow:0 2px 6px rgba(155,89,182,.4)}
+.avatar{width:36px;height:36px;border-radius:50%;padding:2px;background:rgba(250,250,250,.9);display:flex;align-items:center;justify-content:center}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--brown)}
+.username{font-size:13px;font-weight:600}
+.vip-badge{display:inline-block;background:linear-gradient(135deg,#9b59b6,#7a2090);color:#fff;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600;margin-top:2px}
 .header-right{display:flex;align-items:center;gap:6px}
-.coin-display{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.4);border-radius:20px;padding:4px 10px 4px 4px;border:1px solid rgba(245,200,66,.2)}
-.coin-icon{width:20px;height:20px;background:linear-gradient(135deg,#f5c842,#e8a820);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#8b6914}
-.coin-amount{font-size:11px;font-weight:600;color:#f5c842}
-.btn-deposit{border-radius:9999px;border:none;cursor:pointer;padding:2px;background:transparent}
-.btn-deposit-inner{background:#2bb5a0;color:#fff;border-radius:9999px;padding:6px 14px;font-size:11px;font-weight:600;box-shadow:0 4px 8px rgba(43,181,160,.4),inset -1px -2px 2px rgba(30,150,130,.8),inset 0 1px 1px rgba(255,253,247,.3)}
+.coin-display{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.3);border-radius:20px;padding:4px 10px 4px 4px;border:1px solid rgba(255,255,255,.1)}
+.coin-icon{width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--brown)}
+.coin-amount{font-size:11px;font-weight:600;color:var(--gold)}
+.btn-deposit{border-radius:9999px;border:none;cursor:pointer;padding:3px;background:rgba(250,250,250,.9)}
+.btn-deposit-inner{background:var(--teal);color:#fff;border-radius:9999px;padding:6px 14px;font-size:11px;font-weight:600}
 
 /* Banner */
-.banner-wrap{position:relative;overflow:hidden}
+.banner-wrap{position:relative;overflow:hidden;margin:8px}
 .banner-track{display:flex;transition:transform .4s ease}
-.banner-slide{min-width:100%;aspect-ratio:16/7;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.banner-slide .bg{position:absolute;inset:0}
+.banner-slide{min-width:100%;aspect-ratio:16/7;border-radius:12px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.banner-slide .bg{position:absolute;inset:0;border-radius:12px}
 .banner-slide .inner{position:relative;z-index:1;text-align:center;padding:16px}
-.banner-slide h2{font-size:18px;font-weight:700;color:#f5c842;text-shadow:0 2px 8px rgba(0,0,0,.6)}
-.banner-slide p{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
-.banner-dots{display:flex;justify-content:center;gap:6px;padding:8px 0;background:rgba(0,0,0,.2)}
-.banner-dots .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:all .2s}
-.banner-dots .dot.active{background:#f5c842;width:16px;border-radius:3px}
+.banner-slide h2{font-size:17px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.banner-slide p{font-size:11px;color:rgba(255,255,255,.7);margin-top:4px}
+.banner-dots{display:flex;justify-content:center;gap:6px;padding:6px 0}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+.dot.active{background:var(--gold);width:16px;border-radius:3px}
 
 /* Marquee */
-.marquee-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(245,200,66,.06);border-bottom:1px solid rgba(245,200,66,.08);overflow:hidden}
-.marquee-icon svg{width:16px;height:16px;fill:#f5c842;flex-shrink:0}
-.marquee-text{white-space:nowrap;animation:marquee 25s linear infinite;font-size:11px;color:rgba(255,255,255,.5)}
+.marquee-bar{display:flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,0,0,.2);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);overflow:hidden}
+.marquee-icon svg{width:14px;height:14px;fill:var(--gold);flex-shrink:0}
+.marquee-text{white-space:nowrap;animation:marquee 25s linear infinite;font-size:11px;color:rgba(255,255,255,.45)}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* Game tabs */
-.game-tabs{display:flex;gap:0;padding:10px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.game-tabs{display:flex;gap:0;padding:8px 14px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .game-tabs::-webkit-scrollbar{display:none}
-.game-tab{padding:8px 16px;font-size:12px;font-weight:500;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
-.game-tab.active{color:#f5c842;border-bottom-color:#f5c842;font-weight:600}
+.game-tab{padding:6px 14px;font-size:11px;font-weight:500;color:rgba(255,255,255,.35);background:none;border:none;cursor:pointer;white-space:nowrap;border-radius:16px;transition:all .2s;font-family:inherit}
+.game-tab.active{color:var(--brown);background:var(--gold);font-weight:600}
 
 /* Game grid */
 .game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 14px;flex:1}
-.game-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s;aspect-ratio:3/4;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.game-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s;aspect-ratio:3/4;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06)}
 .game-card:active{transform:scale(.95)}
-.game-card .game-img{width:100%;height:68%;display:block;position:relative;overflow:hidden}
-.game-card .game-img-bg{width:100%;height:100%;object-fit:cover}
-.game-card .game-info{padding:6px 8px}
-.game-card .game-name{font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.game-card .game-players{font-size:9px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:3px;margin-top:2px}
-.game-card .game-players svg{width:8px;height:8px;fill:#4dc9a0}
+.game-img{width:100%;height:65%;position:relative;overflow:hidden}
+.game-img-bg{width:100%;height:100%;display:block}
+.game-info{padding:6px 8px}
+.game-name{font-size:10px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-players{font-size:9px;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:3px;margin-top:2px}
+.game-players svg{width:8px;height:8px;fill:#4dc9a0}
 .game-tag{position:absolute;top:4px;left:4px;font-size:8px;padding:2px 6px;border-radius:3px;font-weight:600;z-index:2}
 .tag-hot{background:#e74c3c;color:#fff}
 .tag-new{background:#4dc9a0;color:#fff}
-.tag-rec{background:#f5c842;color:#452201}
+.tag-rec{background:var(--gold);color:var(--brown)}
 .game-fav{position:absolute;top:4px;right:4px;width:18px;height:18px;cursor:pointer;z-index:2}
-.game-fav svg{width:14px;height:14px;fill:none;stroke:rgba(255,255,255,.3);stroke-width:2}
+.game-fav svg{width:14px;height:14px;fill:none;stroke:rgba(255,255,255,.25);stroke-width:2}
 .game-fav.liked svg{fill:#e74c3c;stroke:#e74c3c}
 
-/* Bottom tab bar */
-.tab-bar{display:flex;align-items:center;justify-content:space-around;background:linear-gradient(0deg,#1a0a0e,#2a0a12);border-top:1px solid rgba(245,200,66,.1);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.35);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
-.tab-item.active{color:#f5c842}
+/* Tab bar */
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.06);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.3);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
+.tab-item.active{color:var(--gold)}
 .tab-item svg{width:20px;height:20px}
 .tab-item span{font-size:9px}
 
 /* Chat bubble */
-.chat-bubble{position:fixed;bottom:70px;right:16px;width:44px;height:44px;background:#2bb5a0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(43,181,160,.4);z-index:40}
-.chat-bubble svg{width:22px;height:22px;fill:#fff}
+.chat-bubble{position:fixed;bottom:70px;right:16px;width:44px;height:44px;border-radius:50%;padding:3px;background:rgba(250,250,250,.9);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:40}
+.chat-inner{width:100%;height:100%;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.chat-inner svg{width:20px;height:20px;fill:#fff}
 .chat-badge{position:absolute;top:-2px;right:-2px;background:#e74c3c;color:#fff;font-size:8px;min-width:14px;height:14px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:600}
-
 .content{flex:1;overflow-y:auto}
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
-      <div class="header-avatar">Q</div>
-      <div class="header-info">
-        <div class="username">QAtest6</div>
-        <div class="vip-row"><span class="vip-badge">VIP3</span></div>
-      </div>
+      <div class="avatar"><div class="avatar-inner">Q</div></div>
+      <div><div class="username">QAtest6</div><div class="vip-badge">VIP3</div></div>
     </div>
     <div class="header-right">
-      <div class="coin-display">
-        <div class="coin-icon">$</div>
-        <span class="coin-amount">148,927,558</span>
-      </div>
-      <button class="btn-deposit" onclick="window.location.href='nova-deposit.html'">
-        <div class="btn-deposit-inner">儲值</div>
-      </button>
+      <div class="coin-display"><div class="coin-icon">$</div><span class="coin-amount">148,927,558</span></div>
+      <button class="btn-deposit" onclick="window.location.href='nova-deposit.html'"><div class="btn-deposit-inner">儲值</div></button>
     </div>
   </div>
-
   <div class="content">
-    <!-- Banner -->
     <div class="banner-wrap">
       <div class="banner-track" id="bannerTrack">
         <div class="banner-slide"><div class="bg" style="background:linear-gradient(135deg,#8b0a1e,#c41230)"></div><div class="inner"><h2>首儲加碼 最高翻倍</h2><p>限時活動開跑，錯過再等一年</p></div></div>
@@ -111,19 +101,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft Jheng
         <div class="banner-slide"><div class="bg" style="background:linear-gradient(135deg,#4a1060,#7a2090)"></div><div class="inner"><h2>紅包雨 隨機掉落</h2><p>手慢就沒了，立即參與</p></div></div>
       </div>
     </div>
-    <div class="banner-dots" id="bannerDots">
-      <div class="dot active" onclick="goSlide(0)"></div>
-      <div class="dot" onclick="goSlide(1)"></div>
-      <div class="dot" onclick="goSlide(2)"></div>
-    </div>
-
-    <!-- Marquee -->
+    <div class="banner-dots" id="bannerDots"><div class="dot active" onclick="goSlide(0)"></div><div class="dot" onclick="goSlide(1)"></div><div class="dot" onclick="goSlide(2)"></div></div>
     <div class="marquee-bar">
       <div class="marquee-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
       <div style="overflow:hidden;flex:1"><span class="marquee-text">恭喜會員 A***8 在百家樂贏得 1,280,000！恭喜會員 K***2 在埃及三秘寶中獎 888,000！首儲加碼活動火熱進行中！&nbsp;&nbsp;&nbsp;&nbsp;恭喜會員 A***8 在百家樂贏得 1,280,000！恭喜會員 K***2 在埃及三秘寶中獎 888,000！</span></div>
     </div>
-
-    <!-- Game Tabs -->
     <div class="game-tabs" id="gameTabs">
       <button class="game-tab active" onclick="switchTab(this,'all')">全部</button>
       <button class="game-tab" onclick="switchTab(this,'fav')">最愛</button>
@@ -134,41 +116,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft Jheng
       <button class="game-tab" onclick="switchTab(this,'lottery')">彩票</button>
       <button class="game-tab" onclick="switchTab(this,'fish')">捕魚</button>
     </div>
-
-    <!-- Game Grid -->
     <div class="game-grid" id="gameGrid"></div>
   </div>
-
-  <!-- Bottom Tab Bar -->
   <div class="tab-bar">
-    <button class="tab-item" onclick="openModal('otherModal')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-      <span>其他</span>
-    </button>
-    <a class="tab-item" href="nova-promo.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span>活動</span>
-    </a>
-    <button class="tab-item active">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      <span>大廳</span>
-    </button>
-    <a class="tab-item" href="nova-deposit.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-      <span>商城</span>
-    </a>
-    <a class="tab-item" href="nova-profile.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>我的</span>
-    </a>
+    <button class="tab-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg><span>其他</span></button>
+    <a class="tab-item" href="nova-promo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>活動</span></a>
+    <button class="tab-item active"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>大廳</span></button>
+    <a class="tab-item" href="nova-deposit.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span>商城</span></a>
+    <a class="tab-item" href="nova-profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>我的</span></a>
   </div>
 </div>
-
-<!-- Chat bubble -->
-<div class="chat-bubble" onclick="alert('客服聊天')">
-  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-  <div class="chat-badge">4</div>
-</div>
+<div class="chat-bubble" onclick="alert('客服聊天')"><div class="chat-inner"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><div class="chat-badge">4</div></div>
 
 <script>
 const gameData=[
@@ -211,44 +169,27 @@ const gameData=[
 ];
 let currentTab='all';
 function getFiltered(){
-  if(currentTab==='all') return gameData;
-  if(currentTab==='fav') return gameData.filter(g=>g.fav);
+  if(currentTab==='all')return gameData;
+  if(currentTab==='fav')return gameData.filter(g=>g.fav);
   return gameData.filter(g=>g.type===currentTab);
 }
 function renderGames(){
   const games=getFiltered();
   document.getElementById('gameGrid').innerHTML=games.map((g,i)=>{
-    const tagHTML=g.tag==='hot'?'<div class="game-tag tag-hot">HOT</div>':
-      g.tag==='new'?'<div class="game-tag tag-new">NEW</div>':
-      g.tag==='rec'?'<div class="game-tag tag-rec">推薦</div>':'';
+    const tagHTML=g.tag==='hot'?'<div class="game-tag tag-hot">HOT</div>':g.tag==='new'?'<div class="game-tag tag-new">NEW</div>':g.tag==='rec'?'<div class="game-tag tag-rec">推薦</div>':'';
     return `<div class="game-card" onclick="alert('啟動：${g.name}')">
       <div class="game-img"><div class="game-img-bg" style="width:100%;height:100%;background:linear-gradient(135deg,${g.bg},${g.bg}88)"></div></div>
       ${tagHTML}
-      <div class="game-fav ${g.fav?'liked':''}" onclick="event.stopPropagation();toggleFav(${i})">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-      </div>
-      <div class="game-info">
-        <div class="game-name">${g.name}</div>
-        <div class="game-players"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>${g.players.toLocaleString()}人</div>
-      </div>
+      <div class="game-fav ${g.fav?'liked':''}" onclick="event.stopPropagation();toggleFav(${i})"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="game-info"><div class="game-name">${g.name}</div><div class="game-players"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>${g.players.toLocaleString()}人</div></div>
     </div>`;
   }).join('');
 }
-function switchTab(el,tab){
-  document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  currentTab=tab;
-  renderGames();
-}
+function switchTab(el,tab){document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');currentTab=tab;renderGames();}
 function toggleFav(idx){gameData[idx].fav=!gameData[idx].fav;renderGames();}
 let slideIdx=0;
-function goSlide(i){
-  slideIdx=i;
-  document.getElementById('bannerTrack').style.transform=`translateX(-${i*100}%)`;
-  document.querySelectorAll('.banner-dots .dot').forEach((d,j)=>d.classList.toggle('active',j===i));
-}
+function goSlide(i){slideIdx=i;document.getElementById('bannerTrack').style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===i));}
 setInterval(()=>goSlide((slideIdx+1)%3),4000);
-function openModal(id){alert('功能 Demo')}
 renderGames();
 </script>
 </body>

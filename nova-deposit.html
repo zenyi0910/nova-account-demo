@@ -6,72 +6,62 @@
 <title>星運娛樂城 - 儲值</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#1a0a0e;color:#fff;min-height:100vh;display:flex;justify-content:center}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#2a0a12 0%,#1a0a0e 100%);position:relative;display:flex;flex-direction:column}
-.header{background:linear-gradient(135deg,#8b0a1e,#5a0612);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(245,200,66,.15)}
+:root{--bg-red:#76090a;--brown:#452201;--gold:#f4b63f;--teal:#2bb5a0}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',sans-serif;background:var(--bg-red);color:#fff;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;min-height:100vh;background:url('https://www.kcfgmtb.com/assets/login_bg-Bi1SMT6m.png') center top/auto 100% repeat-x;position:relative;display:flex;flex-direction:column}
+.header{background:rgba(0,0,0,.35);backdrop-filter:blur(8px);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
 .header-back{background:none;border:none;cursor:pointer;color:#fff;padding:4px}
 .header-back svg{width:20px;height:20px}
-.header-title{font-size:16px;font-weight:600;color:#f5c842;flex:1;text-align:center}
+.header-title{font-size:16px;font-weight:600;color:var(--gold);flex:1;text-align:center}
 .header-right{width:28px}
 .content{flex:1;overflow-y:auto;padding-bottom:10px}
-
-/* Balance */
-.balance-card{margin:14px;border-radius:12px;background:linear-gradient(135deg,rgba(139,10,30,.6),rgba(90,6,18,.4));border:1px solid rgba(245,200,66,.12);padding:16px;text-align:center}
-.bal-label{font-size:11px;color:rgba(255,255,255,.4)}
-.bal-value{font-size:28px;font-weight:700;color:#f5c842;margin-top:4px;letter-spacing:1px}
-
-/* Payment methods */
+.balance-card{margin:14px;border-radius:16px;padding:3px;background:rgba(250,250,250,.9)}
+.balance-inner{background:linear-gradient(135deg,#8b0a1e,#5a0612);border-radius:13px;padding:16px;text-align:center}
+.bal-label{font-size:11px;color:rgba(255,255,255,.5)}
+.bal-value{font-size:26px;font-weight:700;color:var(--gold);margin-top:4px;letter-spacing:1px}
 .section{margin:0 14px 14px}
-.section-title{font-size:13px;font-weight:600;margin-bottom:10px;color:rgba(255,255,255,.7)}
+.section-title{font-size:13px;font-weight:600;margin-bottom:10px;color:rgba(255,255,255,.6)}
 .pay-methods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.pay-method{border-radius:10px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);padding:12px 4px;text-align:center;cursor:pointer;transition:all .15s}
-.pay-method.active{border-color:#f5c842;background:rgba(245,200,66,.08);box-shadow:0 0 12px rgba(245,200,66,.15)}
+.pay-method{border-radius:12px;padding:3px;background:rgba(250,250,250,.15);text-align:center;cursor:pointer;transition:all .15s}
+.pay-method.active{background:rgba(250,250,250,.9)}
 .pay-method:active{transform:scale(.95)}
-.pay-icon{width:36px;height:36px;border-radius:8px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center}
-.pay-icon svg{width:20px;height:20px}
-.pay-name{font-size:10px;color:rgba(255,255,255,.6)}
-.pay-method.active .pay-name{color:#f5c842}
-
-/* Amount grid */
+.pay-inner{border-radius:9px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.pay-method.active .pay-inner{background:transparent}
+.pay-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.pay-icon svg{width:18px;height:18px}
+.pay-name{font-size:10px;color:rgba(255,255,255,.5)}
+.pay-method.active .pay-name{color:var(--brown);font-weight:600}
 .amount-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.amount-btn{border-radius:10px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);padding:14px 4px;text-align:center;cursor:pointer;transition:all .15s;font-family:inherit}
+.amount-btn{border-radius:12px;padding:3px;background:rgba(250,250,250,.15);text-align:center;cursor:pointer;transition:all .15s;border:none;font-family:inherit}
 .amount-btn:active{transform:scale(.95)}
-.amount-btn.active{border-color:#f5c842;background:rgba(245,200,66,.08);box-shadow:0 0 12px rgba(245,200,66,.15)}
+.amount-btn.active{background:rgba(250,250,250,.9)}
+.amount-inner{border-radius:9px;padding:12px 4px}
 .amount-val{font-size:16px;font-weight:700;color:#fff}
-.amount-btn.active .amount-val{color:#f5c842}
+.amount-btn.active .amount-val{color:var(--brown)}
 .amount-bonus{font-size:9px;color:#4dc9a0;margin-top:3px}
-
-/* Custom input */
-.custom-input-wrap{margin-top:8px;position:relative}
-.custom-input{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 16px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
-.custom-input:focus{border-color:#f5c842}
+.amount-btn.active .amount-bonus{color:#16a34a}
+.custom-input{width:100%;margin-top:8px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;color:#fff;font-size:14px;font-family:inherit;outline:none}
+.custom-input:focus{border-color:var(--gold)}
 .custom-input::placeholder{color:rgba(255,255,255,.2)}
-
-/* Promo banner */
-.promo-banner{margin:0 14px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(245,200,66,.1),rgba(245,200,66,.03));border:1px solid rgba(245,200,66,.15);padding:14px 16px;display:flex;align-items:center;gap:12px}
-.promo-icon{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#e8a820);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.promo-icon svg{width:18px;height:18px;fill:#452201}
-.promo-text .promo-title{font-size:12px;font-weight:600;color:#f5c842}
-.promo-text .promo-desc{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
-
-/* Summary */
-.summary{margin:0 14px 14px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(245,200,66,.08);padding:16px}
-.summary-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
+.promo-banner{margin:0 14px 14px;border-radius:12px;padding:3px;background:rgba(250,250,250,.9)}
+.promo-inner{border-radius:9px;background:linear-gradient(135deg,rgba(244,182,63,.15),rgba(244,182,63,.05));padding:14px 16px;display:flex;align-items:center;gap:12px}
+.promo-icon{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.promo-icon svg{width:18px;height:18px;fill:var(--brown)}
+.promo-title{font-size:12px;font-weight:600;color:var(--brown)}
+.promo-desc{font-size:10px;color:rgba(69,34,1,.5);margin-top:2px}
+.summary{margin:0 14px 14px;border-radius:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.06);padding:16px}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
 .summary-row .lbl{font-size:12px;color:rgba(255,255,255,.4)}
 .summary-row .val{font-size:12px;font-weight:500}
-.summary-row.total{border-top:1px solid rgba(255,255,255,.08);margin-top:6px;padding-top:12px}
+.summary-row.total{border-top:1px solid rgba(255,255,255,.08);margin-top:6px;padding-top:10px}
 .summary-row.total .lbl{font-size:13px;color:#fff;font-weight:600}
-.summary-row.total .val{font-size:18px;color:#f5c842;font-weight:700}
-
-/* Submit */
+.summary-row.total .val{font-size:18px;color:var(--gold);font-weight:700}
 .submit-wrap{padding:0 14px 20px}
-.submit-btn{width:100%;border:none;cursor:pointer;border-radius:12px;padding:16px;font-size:15px;font-weight:700;font-family:inherit;color:#fff;background:linear-gradient(135deg,#2bb5a0,#1a9a88);box-shadow:0 4px 16px rgba(43,181,160,.3),inset -1px -2px 3px rgba(30,150,130,.6),inset 0 1px 2px rgba(255,253,247,.2);transition:transform .1s}
-.submit-btn:active{transform:scale(.97)}
-
-/* Tab bar */
-.tab-bar{display:flex;align-items:center;justify-content:space-around;background:linear-gradient(0deg,#1a0a0e,#2a0a12);border-top:1px solid rgba(245,200,66,.1);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
-.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.35);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
-.tab-item.active{color:#f5c842}
+.submit-btn{width:100%;border:none;cursor:pointer;border-radius:9999px;padding:4px;background:rgba(250,250,250,.9);font-family:inherit}
+.submit-inner{width:100%;padding:14px;border-radius:9999px;background:var(--teal);color:#fff;font-size:15px;font-weight:700;text-align:center}
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,.06);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;color:rgba(255,255,255,.3);transition:color .15s;background:none;border:none;font-family:inherit;text-decoration:none}
+.tab-item.active{color:var(--gold)}
 .tab-item svg{width:20px;height:20px}
 .tab-item span{font-size:9px}
 </style>
@@ -79,153 +69,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft Jheng
 <body>
 <div class="app">
   <div class="header">
-    <button class="header-back" onclick="window.location.href='nova-frontend.html'">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
+    <button class="header-back" onclick="window.location.href='nova-frontend.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
     <div class="header-title">儲值</div>
     <div class="header-right"></div>
   </div>
-
   <div class="content">
-    <div class="balance-card">
-      <div class="bal-label">目前餘額</div>
-      <div class="bal-value">148,927,558</div>
-    </div>
-
-    <!-- Payment Methods -->
+    <div class="balance-card"><div class="balance-inner"><div class="bal-label">目前餘額</div><div class="bal-value">148,927,558</div></div></div>
     <div class="section">
       <div class="section-title">選擇支付方式</div>
       <div class="pay-methods" id="payMethods">
-        <div class="pay-method active" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:rgba(6,199,85,.15)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#06c755" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-          </div>
-          <div class="pay-name">LINE Pay</div>
-        </div>
-        <div class="pay-method" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:rgba(52,152,219,.15)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-          </div>
-          <div class="pay-name">信用卡</div>
-        </div>
-        <div class="pay-method" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:rgba(155,89,182,.15)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#9b59b6" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          </div>
-          <div class="pay-name">銀行轉帳</div>
-        </div>
-        <div class="pay-method" onclick="selectPay(this)">
-          <div class="pay-icon" style="background:rgba(245,200,66,.15)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </div>
-          <div class="pay-name">超商代碼</div>
-        </div>
+        <div class="pay-method active" onclick="selectPay(this,0)"><div class="pay-inner"><div class="pay-icon" style="background:rgba(6,199,85,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#06c755" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div><div class="pay-name">LINE Pay</div></div></div>
+        <div class="pay-method" onclick="selectPay(this,1)"><div class="pay-inner"><div class="pay-icon" style="background:rgba(52,152,219,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay-name">信用卡</div></div></div>
+        <div class="pay-method" onclick="selectPay(this,2)"><div class="pay-inner"><div class="pay-icon" style="background:rgba(155,89,182,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#9b59b6" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="pay-name">銀行轉帳</div></div></div>
+        <div class="pay-method" onclick="selectPay(this,3)"><div class="pay-inner"><div class="pay-icon" style="background:rgba(245,200,66,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#f5c842" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div><div class="pay-name">超商代碼</div></div></div>
       </div>
     </div>
-
-    <!-- Amount Selection -->
     <div class="section">
       <div class="section-title">選擇金額</div>
       <div class="amount-grid" id="amountGrid">
-        <button class="amount-btn" onclick="selectAmount(this,100)"><div class="amount-val">100</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,300)"><div class="amount-val">300</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,500)"><div class="amount-val">500</div><div class="amount-bonus">+5% 加碼</div></button>
-        <button class="amount-btn active" onclick="selectAmount(this,1000)"><div class="amount-val">1,000</div><div class="amount-bonus">+8% 加碼</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,3000)"><div class="amount-val">3,000</div><div class="amount-bonus">+10% 加碼</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,5000)"><div class="amount-val">5,000</div><div class="amount-bonus">+12% 加碼</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,10000)"><div class="amount-val">10,000</div><div class="amount-bonus">+15% 加碼</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,30000)"><div class="amount-val">30,000</div><div class="amount-bonus">+18% 加碼</div></button>
-        <button class="amount-btn" onclick="selectAmount(this,50000)"><div class="amount-val">50,000</div><div class="amount-bonus">+20% 加碼</div></button>
+        <button class="amount-btn" onclick="selectAmount(this,100)"><div class="amount-inner"><div class="amount-val">100</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,300)"><div class="amount-inner"><div class="amount-val">300</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,500)"><div class="amount-inner"><div class="amount-val">500</div><div class="amount-bonus">+5%</div></div></button>
+        <button class="amount-btn active" onclick="selectAmount(this,1000)"><div class="amount-inner"><div class="amount-val">1,000</div><div class="amount-bonus">+8%</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,3000)"><div class="amount-inner"><div class="amount-val">3,000</div><div class="amount-bonus">+10%</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,5000)"><div class="amount-inner"><div class="amount-val">5,000</div><div class="amount-bonus">+12%</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,10000)"><div class="amount-inner"><div class="amount-val">10,000</div><div class="amount-bonus">+15%</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,30000)"><div class="amount-inner"><div class="amount-val">30,000</div><div class="amount-bonus">+18%</div></div></button>
+        <button class="amount-btn" onclick="selectAmount(this,50000)"><div class="amount-inner"><div class="amount-val">50,000</div><div class="amount-bonus">+20%</div></div></button>
       </div>
-      <div class="custom-input-wrap">
-        <input class="custom-input" type="number" placeholder="自訂金額（最低 100）" id="customAmount" oninput="onCustomInput()">
-      </div>
+      <input class="custom-input" type="number" placeholder="自訂金額（最低 100）" id="customAmount" oninput="onCustomInput()">
     </div>
-
-    <!-- Promo Banner -->
-    <div class="promo-banner">
-      <div class="promo-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-      <div class="promo-text">
-        <div class="promo-title">首儲加碼 最高翻倍</div>
-        <div class="promo-desc">首次儲值享額外 100% 加碼，最高贈送 50,000</div>
-      </div>
-    </div>
-
-    <!-- Summary -->
+    <div class="promo-banner"><div class="promo-inner"><div class="promo-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div><div class="promo-title">首儲加碼 最高翻倍</div><div class="promo-desc">首次儲值享額外 100% 加碼，最高贈送 50,000</div></div></div></div>
     <div class="summary">
       <div class="summary-row"><span class="lbl">儲值金額</span><span class="val" id="sumBase">1,000</span></div>
       <div class="summary-row"><span class="lbl">加碼優惠 (8%)</span><span class="val" id="sumBonus" style="color:#4dc9a0">+80</span></div>
       <div class="summary-row"><span class="lbl">支付方式</span><span class="val" id="sumPay">LINE Pay</span></div>
       <div class="summary-row total"><span class="lbl">實際到帳</span><span class="val" id="sumTotal">1,080</span></div>
     </div>
-
-    <div class="submit-wrap">
-      <button class="submit-btn" onclick="alert('前往付款...')">確認儲值</button>
-    </div>
+    <div class="submit-wrap"><button class="submit-btn" onclick="alert('前往付款...')"><div class="submit-inner">確認儲值</div></button></div>
   </div>
-
-  <!-- Tab bar -->
   <div class="tab-bar">
-    <button class="tab-item" onclick="alert('其他')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-      <span>其他</span>
-    </button>
-    <a class="tab-item" href="nova-promo.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span>活動</span>
-    </a>
-    <a class="tab-item" href="nova-frontend.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span>大廳</span>
-    </a>
-    <button class="tab-item active">
-      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20" fill="none" stroke="#1a0a0e" stroke-width="2"/></svg>
-      <span>商城</span>
-    </button>
-    <a class="tab-item" href="nova-profile.html">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>我的</span>
-    </a>
+    <button class="tab-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg><span>其他</span></button>
+    <a class="tab-item" href="nova-promo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>活動</span></a>
+    <a class="tab-item" href="nova-frontend.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>大廳</span></a>
+    <button class="tab-item active"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20" fill="none" stroke="var(--bg-red)" stroke-width="2"/></svg><span>商城</span></button>
+    <a class="tab-item" href="nova-profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>我的</span></a>
   </div>
 </div>
-
 <script>
 let selectedAmount=1000;
 const bonusMap={100:0,300:0,500:5,1000:8,3000:10,5000:12,10000:15,30000:18,50000:20};
 const payNames=['LINE Pay','信用卡','銀行轉帳','超商代碼'];
 let selectedPayIdx=0;
-
-function selectPay(el){
-  document.querySelectorAll('.pay-method').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  selectedPayIdx=Array.from(el.parentElement.children).indexOf(el);
-  updateSummary();
-}
-function selectAmount(el,amt){
-  document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  selectedAmount=amt;
-  document.getElementById('customAmount').value='';
-  updateSummary();
-}
-function onCustomInput(){
-  const v=parseInt(document.getElementById('customAmount').value)||0;
-  if(v>=100){
-    document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));
-    selectedAmount=v;
-    updateSummary();
-  }
-}
-function updateSummary(){
-  let pct=0;
-  const keys=Object.keys(bonusMap).map(Number).sort((a,b)=>b-a);
-  for(const k of keys){if(selectedAmount>=k){pct=bonusMap[k];break;}}
-  const bonus=Math.floor(selectedAmount*pct/100);
-  document.getElementById('sumBase').textContent=selectedAmount.toLocaleString();
-  document.getElementById('sumBonus').textContent=pct>0?`+${bonus.toLocaleString()}`:'—';
-  document.getElementById('sumPay').textContent=payNames[selectedPayIdx];
-  document.getElementById('sumTotal').textContent=(selectedAmount+bonus).toLocaleString();
-}
+function selectPay(el,idx){document.querySelectorAll('.pay-method').forEach(p=>p.classList.remove('active'));el.classList.add('active');selectedPayIdx=idx;updateSummary();}
+function selectAmount(el,amt){document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');selectedAmount=amt;document.getElementById('customAmount').value='';updateSummary();}
+function onCustomInput(){const v=parseInt(document.getElementById('customAmount').value)||0;if(v>=100){document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));selectedAmount=v;updateSummary();}}
+function updateSummary(){let pct=0;const keys=Object.keys(bonusMap).map(Number).sort((a,b)=>b-a);for(const k of keys){if(selectedAmount>=k){pct=bonusMap[k];break;}}const bonus=Math.floor(selectedAmount*pct/100);document.getElementById('sumBase').textContent=selectedAmount.toLocaleString();document.getElementById('sumBonus').textContent=pct>0?`+${bonus.toLocaleString()}`:'—';document.getElementById('sumPay').textContent=payNames[selectedPayIdx];document.getElementById('sumTotal').textContent=(selectedAmount+bonus).toLocaleString();}
 </script>
 </body>
 </html>
