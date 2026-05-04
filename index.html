@@ -7,7 +7,7 @@
 <style>
 /* === Reset & Base === */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#EEF2FF 0%,#E0F2FE 30%,#ECFDF5 70%,#F0FDF4 100%);color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
 a{color:#3B82F6;text-decoration:none}
 
 /* === Layout === */
@@ -56,18 +56,19 @@ a{color:#3B82F6;text-decoration:none}
 .content{padding:28px;flex:1}
 
 /* === Card === */
-.card{background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border:1px solid rgba(148,163,184,.12);border-radius:12px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px 0;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);margin-bottom:24px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:0 24px}
 .card-title{font-size:17px;font-weight:700;color:#0F172A}
+.card-body{padding:0 24px}
 
 /* === Buttons === */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
-.btn-primary{background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;border:none;box-shadow:0 2px 8px rgba(59,130,246,.25)}
-.btn-primary:hover{box-shadow:0 4px 14px rgba(59,130,246,.35);transform:translateY(-1px)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:14px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
+.btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700;box-shadow:0 1px 2px rgba(37,99,235,.2)}
+.btn-primary:hover{background:#1d4ed8}
 .btn-danger{background:linear-gradient(135deg,#EF4444,#F97316);color:#fff;border:none;box-shadow:0 2px 8px rgba(239,68,68,.2)}
 .btn-danger:hover{box-shadow:0 4px 14px rgba(239,68,68,.3);transform:translateY(-1px)}
-.btn-outline{background:rgba(255,255,255,.8);color:#475569;border:1px solid rgba(148,163,184,.25);backdrop-filter:blur(4px)}
-.btn-outline:hover{background:#fff;color:#1E293B;border-color:rgba(59,130,246,.3)}
+.btn-outline{background:#F9FAFB;color:#64748B;border:1px solid #E5E7EB}
+.btn-outline:hover{background:#F3F4F6}
 .btn-ghost{background:transparent;color:#3B82F6;border:none;padding:4px 8px}
 .btn-ghost:hover{background:rgba(59,130,246,.06)}
 .btn-sm{padding:5px 10px;font-size:12px}
@@ -504,6 +505,35 @@ tr:hover td{background:rgba(59,130,246,.02)}
 </div>
 
 <div class="content">
+<!-- 篩選卡片 -->
+<div class="card">
+<div class="card-body">
+<div class="filter-bar" style="margin-bottom:0">
+<input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號名稱 / 暱稱..." oninput="filterTable()">
+<select class="filter-select" id="roleFilter" onchange="filterTable()">
+<option value="">全部角色</option>
+<option value="超級管理員">超級管理員</option>
+<option value="營運主管">營運主管</option>
+<option value="營運專員">營運專員</option>
+<option value="客服主管">客服主管</option>
+<option value="客服專員">客服專員</option>
+<option value="財務">財務</option>
+<option value="技術">技術</option>
+<option value="數據分析師">數據分析師</option>
+<option value="唯讀">唯讀</option>
+</select>
+<select class="filter-select" id="statusFilter" onchange="filterTable()">
+<option value="">全部狀態</option>
+<option value="active">啟用</option>
+<option value="disabled">禁用</option>
+</select>
+<button class="btn btn-primary" onclick="filterTable()">查詢</button>
+<button class="btn btn-outline" onclick="resetFilter()" style="padding:8px 24px">重置</button>
+</div>
+</div>
+</div>
+
+<!-- 表格卡片 -->
 <div class="card">
 <div class="card-header">
 <div>
@@ -527,6 +557,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 </div>
 
 <!-- Batch Bar -->
+<div class="card-body">
 <div class="batch-bar" id="batchBar">
 <div class="batch-info">已選取 <span id="batchCount">0</span> 個帳號</div>
 <div class="batch-actions">
@@ -539,31 +570,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <button class="btn btn-sm btn-ghost" onclick="clearSelection()">取消選取</button>
 </div>
 </div>
-
-<!-- Filter -->
-<div class="filter-bar">
-<input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號名稱 / 暱稱..." oninput="filterTable()">
-<select class="filter-select" id="roleFilter" onchange="filterTable()">
-<option value="">全部角色</option>
-<option value="超級管理員">超級管理員</option>
-<option value="營運主管">營運主管</option>
-<option value="營運專員">營運專員</option>
-<option value="客服主管">客服主管</option>
-<option value="客服專員">客服專員</option>
-<option value="財務">財務</option>
-<option value="技術">技術</option>
-<option value="數據分析師">數據分析師</option>
-<option value="唯讀">唯讀</option>
-</select>
-<select class="filter-select" id="statusFilter" onchange="filterTable()">
-<option value="">全部狀態</option>
-<option value="active">啟用</option>
-<option value="disabled">禁用</option>
-</select>
-<button class="btn btn-outline btn-sm" onclick="resetFilter()">重置</button>
 </div>
 
 <!-- Table -->
+<div style="padding:0 24px">
 <div class="table-wrap">
 <table id="accountTable">
 <thead>
@@ -581,8 +591,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <tbody id="tableBody"></tbody>
 </table>
 </div>
+</div>
 
 <!-- Pagination -->
+<div style="padding:0 24px">
 <div class="pagination">
 <div class="pagination-info">
 <span>每頁顯示</span>
@@ -597,6 +609,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="pagination-pages" id="paginationPages"></div>
 </div>
 </div>
+</div><!-- end table card -->
 </div>
 </main>
 </div>
