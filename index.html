@@ -97,6 +97,13 @@ a{color:#3B82F6;text-decoration:none}
 .table-wrap{overflow-x:auto;border-radius:12px}
 table{width:100%;border-collapse:collapse}
 th{background:rgba(241,245,249,.6);padding:11px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid rgba(148,163,184,.12);white-space:nowrap}
+th.sortable{cursor:pointer;user-select:none;transition:color .2s}
+th.sortable:hover{color:#3B82F6}
+th.sortable .sort-icon{width:14px;height:14px;vertical-align:middle;margin-left:2px;stroke:#94A3B8;fill:none;stroke-width:2;transition:stroke .2s}
+th.sortable.asc .sort-icon{stroke:#3B82F6}
+th.sortable.desc .sort-icon{stroke:#3B82F6}
+th.sortable.asc .sort-icon path:last-child{opacity:.3}
+th.sortable.desc .sort-icon path:first-child{opacity:.3}
 td{padding:11px 14px;border-bottom:1px solid rgba(148,163,184,.08);font-size:13px;color:#334155}
 tr:hover td{background:rgba(59,130,246,.02)}
 .table-checkbox{width:36px}
@@ -527,6 +534,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="card-body">
 <div class="filter-bar" style="margin-bottom:0">
 <input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號名稱 / 暱稱..." oninput="filterTable()">
+<input type="text" class="filter-input" id="ipSearchInput" placeholder="搜尋最後登入 IP..." oninput="filterTable()" style="min-width:160px">
 <select class="filter-select" id="roleFilter" onchange="filterTable()">
 <option value="">全部角色</option>
 <option value="超級管理員">超級管理員</option>
@@ -598,8 +606,8 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <th class="table-checkbox"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
 <th>帳號名稱</th>
 <th>暱稱</th>
-<th>角色類型</th>
-<th>最後登入時間</th>
+<th class="sortable" onclick="sortTable('role')">角色類型 <svg class="sort-icon" viewBox="0 0 24 24"><path d="M7 10l5-5 5 5"/><path d="M7 14l5 5 5 5"/></svg></th>
+<th class="sortable" onclick="sortTable('lastLogin')">最後登入時間 <svg class="sort-icon" viewBox="0 0 24 24"><path d="M7 10l5-5 5 5"/><path d="M7 14l5 5 5 5"/></svg></th>
 <th>最後登入 IP</th>
 <th>狀態</th>
 <th>操作</th>
@@ -1056,21 +1064,58 @@ function changePageSize(){pageSize=+document.getElementById('pageSize').value;cu
 // === Filter ===
 function filterTable(){
   const q=document.getElementById('searchInput').value.toLowerCase();
+  const ip=document.getElementById('ipSearchInput').value.toLowerCase();
   const role=document.getElementById('roleFilter').value;
   const status=document.getElementById('statusFilter').value;
   filtered=accounts.filter(a=>{
     if(q&&!a.account.toLowerCase().includes(q)&&!a.nickname.toLowerCase().includes(q))return false;
+    if(ip&&!a.lastIP.toLowerCase().includes(ip))return false;
     if(role&&a.role!==role)return false;
     if(status&&a.status!==status)return false;
     return true;
   });
+  applySortToFiltered();
   currentPage=1;renderTable();
 }
 function resetFilter(){
   document.getElementById('searchInput').value='';
+  document.getElementById('ipSearchInput').value='';
   document.getElementById('roleFilter').value='';
   document.getElementById('statusFilter').value='';
+  currentSortField=null;currentSortDir=null;
+  document.querySelectorAll('th.sortable').forEach(th=>{th.classList.remove('asc','desc');});
   filtered=[...accounts];currentPage=1;renderTable();
+}
+
+// === Sort ===
+let currentSortField=null;
+let currentSortDir=null;
+const roleOrder=['超級管理員','營運主管','營運專員','客服主管','客服專員','財務','技術','數據分析師','唯讀'];
+function sortTable(field){
+  if(currentSortField===field){
+    if(currentSortDir==='asc')currentSortDir='desc';
+    else if(currentSortDir==='desc'){currentSortDir=null;currentSortField=null;}
+    else currentSortDir='asc';
+  }else{currentSortField=field;currentSortDir='asc';}
+  document.querySelectorAll('th.sortable').forEach(th=>{th.classList.remove('asc','desc');});
+  if(currentSortDir){
+    const th=document.querySelector(`th[onclick="sortTable('${field}')"]`);
+    if(th)th.classList.add(currentSortDir);
+  }
+  applySortToFiltered();
+  currentPage=1;renderTable();
+}
+function applySortToFiltered(){
+  if(!currentSortField||!currentSortDir)return;
+  const dir=currentSortDir==='asc'?1:-1;
+  filtered.sort((a,b)=>{
+    if(currentSortField==='role'){
+      return dir*(roleOrder.indexOf(a.role)-roleOrder.indexOf(b.role));
+    }else if(currentSortField==='lastLogin'){
+      return dir*(new Date(a.lastLogin.replace(/\//g,'-'))-new Date(b.lastLogin.replace(/\//g,'-')));
+    }
+    return 0;
+  });
 }
 
 // === Selection ===
