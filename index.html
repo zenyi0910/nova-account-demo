@@ -182,21 +182,21 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .perm-action span{user-select:none}
 
 /* === Permission Cell (Role Table) === */
-.perm-cell{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
-.perm-row{display:flex;align-items:center;gap:8px;padding:3px 0}
-.perm-mod-label{font-size:12px;font-weight:600;color:#334155;min-width:80px;flex-shrink:0}
+.perm-cell{display:flex;flex-direction:column;gap:0}
+.perm-row{display:flex;align-items:baseline;gap:8px;padding:3px 0}
+.perm-mod-label{font-size:12px;font-weight:600;color:#334155;min-width:90px;flex-shrink:0}
 .perm-tag-group{display:flex;gap:4px;flex-wrap:wrap}
 .perm-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
 .perm-tag-view,.perm-tag-edit,.perm-tag-export{background:rgba(100,116,139,.08);color:#475569}
-.perm-desc{font-size:12px;font-weight:500}
+.perm-desc{font-size:12px;font-weight:500;white-space:nowrap}
 .perm-desc-full{color:#0891B2}
 .perm-desc-view{color:#334155}
 .perm-desc-none{color:#94A3B8;font-style:italic}
-.perm-group-section{margin-bottom:12px;grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
-.perm-group-header{font-size:11px;font-weight:700;color:#64748B;margin-bottom:4px;padding-left:2px;text-transform:uppercase;letter-spacing:.5px;grid-column:1/-1}
+.perm-group-section{margin-bottom:8px}
+.perm-group-header{font-size:10px;font-weight:700;color:#94A3B8;margin-bottom:2px;padding:4px 0 2px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(148,163,184,.1)}
 .perm-group-inline{margin-bottom:8px}
 .perm-group-label{font-size:11px;font-weight:700;color:#0F172A;margin-bottom:2px;padding-left:2px}
-.perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s;grid-column:1/-1}
+.perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s}
 .perm-expand:hover{color:#1D4ED8}
 .perm-expand svg{transition:transform .2s}
 .perm-item{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid rgba(148,163,184,.15);border-radius:10px;cursor:pointer;transition:all .2s;font-size:13px}
@@ -1352,9 +1352,9 @@ function togglePermExpand(el,roleIdx){
   const cell=el.parentElement;
   const rows=cell.querySelectorAll('.perm-row[data-role="'+roleIdx+'"]');
   const isExpanded=el.dataset.expanded==='true';
-  rows.forEach((r,i)=>{if(i>=2) r.style.display=isExpanded?'none':'flex';});
+  rows.forEach((r,i)=>{if(i>=4) r.style.display=isExpanded?'none':'flex';});
   el.dataset.expanded=isExpanded?'false':'true';
-  const total=rows.length-2;
+  const total=rows.length-4;
   el.querySelector('span').textContent=isExpanded?`展開其餘 ${total} 個模組`:'收合';
   el.querySelector('svg').style.transform=isExpanded?'':'rotate(180deg)';
 }
