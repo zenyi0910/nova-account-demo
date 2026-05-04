@@ -1754,6 +1754,16 @@ function updateGroupCheckbox(containerId,groupIdx){
   const c=document.getElementById(containerId);
   const groups=c.querySelectorAll('.perm-group');
   if(!groups[groupIdx]) return;
+  // 權限連動：匯出→編輯+檢視，編輯→檢視
+  groups[groupIdx].querySelectorAll('.perm-module').forEach(mod=>{
+    const cbs=[...mod.querySelectorAll('.perm-actions input[type="checkbox"]')];
+    const map={};
+    cbs.forEach(cb=>{const a=cb.value.split('-').pop();map[a]=cb;});
+    if(map['匯出']&&map['匯出'].checked){if(map['編輯'])map['編輯'].checked=true;if(map['檢視'])map['檢視'].checked=true;}
+    else if(map['編輯']&&map['編輯'].checked){if(map['檢視'])map['檢視'].checked=true;}
+    if(map['檢視']&&!map['檢視'].checked){if(map['編輯'])map['編輯'].checked=false;if(map['匯出'])map['匯出'].checked=false;}
+    if(map['編輯']&&!map['編輯'].checked){if(map['匯出'])map['匯出'].checked=false;}
+  });
   const cbs=[...groups[groupIdx].querySelectorAll('.perm-actions input[type="checkbox"]')];
   const allChecked=cbs.every(cb=>cb.checked);
   const someChecked=cbs.some(cb=>cb.checked);
