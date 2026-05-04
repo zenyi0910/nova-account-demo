@@ -83,9 +83,9 @@ a{color:#3B82F6;text-decoration:none}
 
 /* === Filter Bar === */
 .filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.filter-input{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:13px;outline:none;transition:all .2s;min-width:200px;background:rgba(255,255,255,.8)}
+.filter-input{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:14px;outline:none;transition:all .2s;min-width:200px;background:rgba(255,255,255,.8)}
 .filter-input:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-.filter-select{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:13px;outline:none;background:rgba(255,255,255,.8);cursor:pointer;min-width:130px;transition:all .2s}
+.filter-select{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:14px;outline:none;background:rgba(255,255,255,.8);cursor:pointer;min-width:130px;transition:all .2s}
 .filter-select:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
 
 /* === Table === */
@@ -531,7 +531,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <option value="active">啟用</option>
 <option value="disabled">禁用</option>
 </select>
-<button class="btn btn-primary" onclick="filterTable()">查詢</button>
+<button class="btn btn-primary" onclick="filterTable()" style="padding:8px 48px">查詢</button>
 <button class="btn btn-outline" onclick="resetFilter()" style="padding:8px 24px">重置</button>
 </div>
 </div>
