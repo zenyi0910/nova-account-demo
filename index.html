@@ -30,7 +30,7 @@ a{color:#3B82F6;text-decoration:none}
 
 .main{margin-left:240px;flex:1;display:flex;flex-direction:column}
 .topbar{height:56px;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.12);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
-.topbar-logo{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(59,130,246,.04);border-radius:10px}
+.topbar-logo{display:none}
 .topbar-divider{width:1px;height:24px;background:rgba(148,163,184,.2);margin:0 16px}
 .topbar-icon-btn{width:36px;height:36px;border:1px solid rgba(148,163,184,.15);border-radius:10px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748B;transition:all .2s}
 .topbar-icon-btn:hover{background:#fff;color:#334155;border-color:rgba(59,130,246,.3)}
@@ -177,6 +177,8 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .perm-desc-full{color:#0891B2}
 .perm-desc-view{color:#334155}
 .perm-desc-none{color:#94A3B8;font-style:italic}
+.perm-group-section{margin-bottom:12px}
+.perm-group-header{font-size:11px;font-weight:700;color:#64748B;margin-bottom:4px;padding-left:2px;text-transform:uppercase;letter-spacing:.5px}
 .perm-group-inline{margin-bottom:8px}
 .perm-group-label{font-size:11px;font-weight:700;color:#0F172A;margin-bottom:2px;padding-left:2px}
 .perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s}
@@ -1093,24 +1095,32 @@ function renderRoleTable(){
       if(!permByModule[mod]) permByModule[mod]=[];
       permByModule[mod].push(act);
     });
-    // 扁平列出所有有權限的模組
-    const allMods=modules.filter(m=>permByModule[m]);
+    // 按 moduleGroups 分組顯示，帶小標題
+    const groupEntries=Object.entries(moduleGroups);
+    let visibleCount=0;
     const showCount=4;
-    const permHTML=allMods.map((mod,mi)=>{
-      const acts=permByModule[mod];
-      const hidden=mi>=showCount?'style="display:none"':'';
-      const hasView=acts.includes('檢視'),hasEdit=acts.includes('編輯'),hasExport=acts.includes('匯出');
-      let permText='',permCls='perm-desc-none';
-      if(hasView&&hasEdit&&hasExport){permText='檢視、編輯與匯出';permCls='perm-desc-full';}
-      else if(hasView&&hasExport){permText='檢視與匯出';permCls='perm-desc-full';}
-      else if(hasView&&hasEdit){permText='檢視與編輯';permCls='perm-desc-full';}
-      else if(hasView){permText='○ 僅限檢視';permCls='perm-desc-view';}
-      else if(hasEdit){permText='僅限編輯';permCls='perm-desc-full';}
-      else if(hasExport){permText='僅限匯出';permCls='perm-desc-full';}
-      else{permText='— 無權限 —';permCls='perm-desc-none';}
-      return `<div class="perm-row" data-role="${i}" ${hidden}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
-    }).join('');
-    const expandBtn=allMods.length>showCount?`<div class="perm-expand" onclick="togglePermExpand(this,${i})"><span>展開其餘 ${allMods.length-showCount} 個模組</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>`:'';
+    const permHTML=groupEntries.map(([group,mods])=>{
+      const groupMods=mods.filter(m=>permByModule[m]);
+      if(!groupMods.length) return '';
+      const modsHTML=groupMods.map(mod=>{
+        visibleCount++;
+        const acts=permByModule[mod];
+        const hidden=visibleCount>showCount?'style="display:none"':'';
+        const hasView=acts.includes('檢視'),hasEdit=acts.includes('編輯'),hasExport=acts.includes('匯出');
+        let permText='',permCls='perm-desc-none';
+        if(hasView&&hasEdit&&hasExport){permText='檢視、編輯與匯出';permCls='perm-desc-full';}
+        else if(hasView&&hasExport){permText='檢視與匯出';permCls='perm-desc-full';}
+        else if(hasView&&hasEdit){permText='檢視與編輯';permCls='perm-desc-full';}
+        else if(hasView){permText='○ 僅限檢視';permCls='perm-desc-view';}
+        else if(hasEdit){permText='僅限編輯';permCls='perm-desc-full';}
+        else if(hasExport){permText='僅限匯出';permCls='perm-desc-full';}
+        else{permText='— 無權限 —';permCls='perm-desc-none';}
+        return `<div class="perm-row" data-role="${i}" ${hidden}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
+      }).join('');
+      return `<div class="perm-group-section" data-role="${i}"><div class="perm-group-header">${group}</div>${modsHTML}</div>`;
+    }).filter(Boolean).join('');
+    const totalMods=modules.filter(m=>permByModule[m]).length;
+    const expandBtn=totalMods>showCount?`<div class="perm-expand" onclick="togglePermExpand(this,${i})"><span>展開其餘 ${totalMods-showCount} 個模組</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>`:'';
     let ops='';
     if(r.isSystem){ops='<span style="font-size:11px;color:#94A3B8">系統預設</span>';}
     else{ops=`<button class="btn btn-icon btn-sm" onclick="openEditRoleModal(${i})" title="編輯角色">
