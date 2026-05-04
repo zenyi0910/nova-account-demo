@@ -173,7 +173,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .perm-action span{user-select:none}
 
 /* === Permission Cell (Role Table) === */
-.perm-cell{display:flex;flex-direction:column;gap:4px}
+.perm-cell{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
 .perm-row{display:flex;align-items:center;gap:8px;padding:3px 0}
 .perm-mod-label{font-size:12px;font-weight:600;color:#334155;min-width:80px;flex-shrink:0}
 .perm-tag-group{display:flex;gap:4px;flex-wrap:wrap}
@@ -183,11 +183,11 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .perm-desc-full{color:#0891B2}
 .perm-desc-view{color:#334155}
 .perm-desc-none{color:#94A3B8;font-style:italic}
-.perm-group-section{margin-bottom:12px}
-.perm-group-header{font-size:11px;font-weight:700;color:#64748B;margin-bottom:4px;padding-left:2px;text-transform:uppercase;letter-spacing:.5px}
+.perm-group-section{margin-bottom:12px;grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:2px 16px}
+.perm-group-header{font-size:11px;font-weight:700;color:#64748B;margin-bottom:4px;padding-left:2px;text-transform:uppercase;letter-spacing:.5px;grid-column:1/-1}
 .perm-group-inline{margin-bottom:8px}
 .perm-group-label{font-size:11px;font-weight:700;color:#0F172A;margin-bottom:2px;padding-left:2px}
-.perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s}
+.perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s;grid-column:1/-1}
 .perm-expand:hover{color:#1D4ED8}
 .perm-expand svg{transition:transform .2s}
 .perm-item{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid rgba(148,163,184,.15);border-radius:10px;cursor:pointer;transition:all .2s;font-size:13px}
@@ -773,7 +773,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 </div>
 <div class="table-wrap">
 <table style="width:100%">
-<thead><tr><th style="width:140px">角色類型</th><th style="width:70px">帳號數</th><th>權限範圍</th><th style="width:100px">操作</th></tr></thead>
+<thead><tr><th style="width:120px">角色類型</th><th style="width:60px">帳號數</th><th style="min-width:400px">權限範圍</th><th style="width:80px">操作</th></tr></thead>
 <tbody id="roleTableBody"></tbody>
 </table>
 </div>
