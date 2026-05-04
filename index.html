@@ -275,10 +275,11 @@ tr:hover td{background:rgba(59,130,246,.02)}
   .main.sidebar-expanded{margin-left:240px;max-width:calc(100vw - 240px)}
   
   /* Sidebar collapsed state (icon-only) */
-  .sidebar:not(.show) .sidebar-logo{padding:16px 0;justify-content:center}
+  .sidebar:not(.show) .sidebar-logo{padding:16px 0;justify-content:center;font-size:0;overflow:visible}
   .sidebar:not(.show) .sidebar-logo span,.sidebar:not(.show) .sidebar-logo-text{display:none}
-  .sidebar:not(.show) .sidebar-collapse-btn{position:static;transform:none;margin:0 auto}
-  .sidebar:not(.show) .menu-item{justify-content:center;padding:12px 0}
+  .sidebar:not(.show) .sidebar-collapse-btn{font-size:initial;position:static;transform:none;margin:0 auto}
+  .sidebar:not(.show) .menu-item{justify-content:center;padding:12px 0;font-size:0;overflow:hidden}
+  .sidebar:not(.show) .menu-item svg{font-size:initial;width:20px;height:20px;flex-shrink:0}
   .sidebar:not(.show) .menu-item span{display:none}
   .sidebar:not(.show) .menu-group-title{display:none}
   .sidebar:not(.show) .sidebar-user-info{display:none}
