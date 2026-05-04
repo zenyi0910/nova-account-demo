@@ -7,184 +7,221 @@
 <style>
 /* === Reset & Base === */
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F5F7FA;color:#222;font-size:14px;line-height:1.5}
-a{color:#1A73E8;text-decoration:none}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#EEF2FF 0%,#E0F2FE 30%,#ECFDF5 70%,#F0FDF4 100%);color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
+a{color:#3B82F6;text-decoration:none}
 
 /* === Layout === */
 .layout{display:flex;min-height:100vh}
-.sidebar{width:220px;background:#fff;border-right:1px solid #E8ECF0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
-.sidebar-logo{padding:20px 16px;font-size:15px;font-weight:600;color:#222;border-bottom:1px solid #E8ECF0}
-.sidebar-logo span{color:#1A73E8}
-.sidebar-menu{flex:1;padding:8px 0}
+.sidebar{width:240px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-right:1px solid rgba(148,163,184,.15);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sidebar-logo{padding:20px 20px;font-size:15px;font-weight:700;color:#0F172A;border-bottom:1px solid rgba(148,163,184,.15);display:flex;align-items:center;gap:10px}
+.sidebar-logo span{background:linear-gradient(135deg,#3B82F6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar-menu{flex:1;padding:12px 8px}
 .menu-group{padding:4px 0}
-.menu-group-title{padding:8px 16px;font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px}
-.menu-item{display:flex;align-items:center;padding:9px 16px;color:#666;cursor:pointer;transition:all .15s;font-size:13px;gap:8px}
-.menu-item:hover{background:#F5F7FA;color:#222}
-.menu-item.active{background:#EBF5FF;color:#1A73E8;font-weight:500}
+.menu-group-title{padding:8px 12px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.menu-item{display:flex;align-items:center;padding:9px 12px;color:#64748B;cursor:pointer;transition:all .2s;font-size:13px;gap:8px;border-radius:8px;margin:1px 0;border-left:3px solid transparent}
+.menu-item:hover{background:rgba(59,130,246,.08);color:#334155;border-left-color:rgba(59,130,246,.3)}
+.menu-item.active{background:rgba(59,130,246,.1);color:#3B82F6;font-weight:500;border-left-color:#3B82F6}
 .menu-item svg{width:16px;height:16px;flex-shrink:0}
-.sidebar-footer{padding:12px 16px;border-top:1px solid #E8ECF0;font-size:11px;color:#999}
+.sidebar-footer{padding:0;border-top:1px solid rgba(148,163,184,.15)}
+.sidebar-user{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s}
+.sidebar-user:hover{background:rgba(59,130,246,.06)}
+.sidebar-user-info{flex:1;min-width:0}
+.sidebar-dropdown{position:absolute;bottom:100%;left:8px;right:8px;margin-bottom:6px;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.1);overflow:hidden;z-index:20}
 
-.main{margin-left:220px;flex:1;display:flex;flex-direction:column}
-.topbar{height:48px;background:#fff;border-bottom:1px solid #E8ECF0;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:5}
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#999}
-.breadcrumb span.current{color:#222}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{height:56px;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.12);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:5}
+.topbar-logo{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(59,130,246,.04);border-radius:10px}
+.topbar-divider{width:1px;height:24px;background:rgba(148,163,184,.2);margin:0 16px}
+.topbar-icon-btn{width:36px;height:36px;border:1px solid rgba(148,163,184,.15);border-radius:10px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748B;transition:all .2s}
+.topbar-icon-btn:hover{background:#fff;color:#334155;border-color:rgba(59,130,246,.3)}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#94A3B8}
+.breadcrumb span.current{color:#1E293B;font-weight:500}
 .topbar-right{display:flex;align-items:center;gap:12px}
-.topbar-user{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 8px;border-radius:6px}
-.topbar-user:hover{background:#F5F7FA}
-.avatar{width:28px;height:28px;border-radius:50%;background:#1A73E8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
-.content{padding:24px;flex:1}
+.topbar-user{display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 10px;border-radius:10px;transition:all .2s}
+.topbar-user:hover{background:rgba(59,130,246,.06)}
+.user-dropdown{position:absolute;top:100%;right:0;margin-top:6px;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border:1px solid rgba(148,163,184,.15);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.08);min-width:240px;z-index:100;overflow:hidden}
+.dropdown-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;cursor:pointer;transition:all .15s}
+.dropdown-item:hover{background:rgba(59,130,246,.06)}
+.avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.content{padding:28px;flex:1}
 
 /* === Card === */
-.card{background:#fff;border:1px solid #E8ECF0;border-radius:8px;padding:20px}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.card-title{font-size:16px;font-weight:600;color:#222}
+.card{background:rgba(255,255,255,.75);backdrop-filter:blur(12px);border:1px solid rgba(148,163,184,.12);border-radius:16px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.card-title{font-size:17px;font-weight:700;color:#0F172A}
 
 /* === Buttons === */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .15s;font-weight:500}
-.btn-primary{background:#1A73E8;color:#fff;border-color:#1A73E8}
-.btn-primary:hover{background:#1557B0}
-.btn-danger{background:#DC3545;color:#fff;border-color:#DC3545}
-.btn-danger:hover{background:#B02A37}
-.btn-outline{background:#fff;color:#666;border-color:#D0D5DD}
-.btn-outline:hover{background:#F5F7FA;color:#222}
-.btn-ghost{background:transparent;color:#1A73E8;border:none;padding:4px 8px}
-.btn-ghost:hover{background:#EBF5FF}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
+.btn-primary{background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;border:none;box-shadow:0 2px 8px rgba(59,130,246,.25)}
+.btn-primary:hover{box-shadow:0 4px 14px rgba(59,130,246,.35);transform:translateY(-1px)}
+.btn-danger{background:linear-gradient(135deg,#EF4444,#F97316);color:#fff;border:none;box-shadow:0 2px 8px rgba(239,68,68,.2)}
+.btn-danger:hover{box-shadow:0 4px 14px rgba(239,68,68,.3);transform:translateY(-1px)}
+.btn-outline{background:rgba(255,255,255,.8);color:#475569;border:1px solid rgba(148,163,184,.25);backdrop-filter:blur(4px)}
+.btn-outline:hover{background:#fff;color:#1E293B;border-color:rgba(59,130,246,.3)}
+.btn-ghost{background:transparent;color:#3B82F6;border:none;padding:4px 8px}
+.btn-ghost:hover{background:rgba(59,130,246,.06)}
 .btn-sm{padding:5px 10px;font-size:12px}
-.btn-success{background:#28A745;color:#fff;border-color:#28A745}
-.btn-success:hover{background:#218838}
-.btn-warning{background:#FFC107;color:#222;border-color:#FFC107}
+.btn-icon{background:transparent;border:none;padding:6px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;transition:all .2s}
+.btn-icon:hover{background:rgba(59,130,246,.06)}
+.btn-success{background:linear-gradient(135deg,#10B981,#06B6D4);color:#fff;border:none}
+.btn-success:hover{box-shadow:0 4px 14px rgba(16,185,129,.3)}
+.btn-warning{background:linear-gradient(135deg,#F59E0B,#F97316);color:#fff;border:none}
 .btn-disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
 
 /* === Filter Bar === */
 .filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.filter-input{padding:7px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:13px;outline:none;transition:border .15s;min-width:200px}
-.filter-input:focus{border-color:#1A73E8}
-.filter-select{padding:7px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:13px;outline:none;background:#fff;cursor:pointer;min-width:130px}
-.filter-select:focus{border-color:#1A73E8}
+.filter-input{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:10px;font-size:13px;outline:none;transition:all .2s;min-width:200px;background:rgba(255,255,255,.8)}
+.filter-input:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.filter-select{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:10px;font-size:13px;outline:none;background:rgba(255,255,255,.8);cursor:pointer;min-width:130px;transition:all .2s}
+.filter-select:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
 
 /* === Table === */
-.table-wrap{overflow-x:auto}
+.table-wrap{overflow-x:auto;border-radius:12px}
 table{width:100%;border-collapse:collapse}
-th{background:#F8F9FB;padding:10px 12px;text-align:left;font-size:12px;color:#666;font-weight:500;border-bottom:1px solid #E8ECF0;white-space:nowrap}
-td{padding:10px 12px;border-bottom:1px solid #F0F2F5;font-size:13px;color:#222}
-tr:hover td{background:#FAFBFC}
+th{background:rgba(241,245,249,.6);padding:11px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid rgba(148,163,184,.12);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid rgba(148,163,184,.08);font-size:13px;color:#334155}
+tr:hover td{background:rgba(59,130,246,.02)}
 .table-checkbox{width:36px}
-.table-checkbox input{width:15px;height:15px;cursor:pointer;accent-color:#1A73E8}
+.table-checkbox input{width:15px;height:15px;cursor:pointer;accent-color:#3B82F6}
 
 /* === Badge === */
-.badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:500}
-.badge-green{background:#E6F9ED;color:#1B8A3E}
-.badge-red{background:#FDE8E8;color:#C53030}
-.badge-blue{background:#EBF5FF;color:#1A73E8}
-.badge-orange{background:#FFF3E0;color:#E65100}
-.badge-gray{background:#F0F2F5;color:#666}
-.badge-purple{background:#F3E8FF;color:#7C3AED}
-.badge-teal{background:#E0F7FA;color:#00796B}
-.badge-pink{background:#FCE4EC;color:#C2185B}
+.badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:600}
+.badge-green,.badge-red,.badge-blue,.badge-orange,.badge-gray,.badge-purple,.badge-teal,.badge-pink{background:rgba(100,116,139,.08);color:#475569}
 
 /* === Status Dot === */
 .status{display:inline-flex;align-items:center;gap:6px}
 .status-dot{width:7px;height:7px;border-radius:50%}
-.status-dot.active{background:#28A745}
-.status-dot.disabled{background:#DC3545}
+.status-dot.active{background:#10B981;box-shadow:0 0 6px rgba(16,185,129,.4)}
+.status-dot.disabled{background:#EF4444;box-shadow:0 0 6px rgba(239,68,68,.3)}
 
 /* === Pagination === */
-.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#666}
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#64748B}
 .pagination-info{display:flex;align-items:center;gap:8px}
 .pagination-pages{display:flex;align-items:center;gap:4px}
-.page-btn{padding:5px 10px;border:1px solid #D0D5DD;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;color:#666}
-.page-btn:hover{background:#F5F7FA}
-.page-btn.active{background:#1A73E8;color:#fff;border-color:#1A73E8}
-.page-size-select{padding:4px 8px;border:1px solid #D0D5DD;border-radius:4px;font-size:12px}
+.page-btn{padding:6px 11px;border:1px solid rgba(148,163,184,.2);border-radius:8px;background:rgba(255,255,255,.8);cursor:pointer;font-size:12px;color:#64748B;transition:all .2s}
+.page-btn:hover{background:#fff;border-color:rgba(59,130,246,.3)}
+.page-btn.active{background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;border-color:transparent}
+.page-size-select{padding:5px 8px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:12px;background:rgba(255,255,255,.8)}
 
 /* === Modal === */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.5);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:10px;width:520px;max-height:85vh;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.modal{background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-radius:16px;width:520px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);border:1px solid rgba(148,163,184,.15)}
 .modal-lg{width:680px}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E8ECF0}
-.modal-header-left{display:flex;align-items:center;gap:10px}
-.modal-header-icon{width:32px;height:32px;border-radius:8px;background:#F0F2F5;display:flex;align-items:center;justify-content:center}
-.modal-header-icon svg{width:16px;height:16px;color:#666}
-.modal-title{font-size:15px;font-weight:600;color:#222}
-.modal-close{width:28px;height:28px;border:none;background:transparent;cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999}
-.modal-close:hover{background:#F0F2F5;color:#222}
-.modal-body{padding:20px}
-.modal-footer{padding:14px 20px;border-top:1px solid #E8ECF0;display:flex;justify-content:flex-end;gap:8px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid rgba(148,163,184,.12)}
+.modal-header-left{display:flex;align-items:center;gap:12px}
+.modal-header-icon{width:36px;height:36px;border-radius:10px;background:rgba(59,130,246,.08);display:flex;align-items:center;justify-content:center}
+.modal-header-icon svg{width:18px;height:18px;color:#3B82F6}
+.modal-title{font-size:16px;font-weight:700;color:#0F172A}
+.modal-close{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94A3B8;transition:all .2s}
+.modal-close:hover{background:rgba(100,116,139,.1);color:#475569}
+.modal-body{padding:24px}
+.modal-footer{padding:16px 24px;border-top:1px solid rgba(148,163,184,.12);display:flex;justify-content:flex-end;gap:10px}
 
 /* === Form === */
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:12px;font-weight:500;color:#666;margin-bottom:5px}
-.form-label .required{color:#DC3545;margin-left:2px}
-.form-input{width:100%;padding:8px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:13px;outline:none;transition:border .15s}
-.form-input:focus{border-color:#1A73E8}
-.form-input[readonly]{background:#F8F9FB;color:#999;cursor:not-allowed}
-.form-select{width:100%;padding:8px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:13px;outline:none;background:#fff}
-.form-hint{font-size:11px;color:#999;margin-top:4px}
-.form-error{font-size:11px;color:#DC3545;margin-top:4px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-textarea{width:100%;padding:8px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:13px;outline:none;resize:vertical;min-height:60px}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:13px;font-weight:600;color:#475569;margin-bottom:6px}
+.form-label .required{color:#EF4444;margin-left:2px}
+.form-input{width:100%;padding:9px 14px;border:1px solid rgba(148,163,184,.2);border-radius:10px;font-size:13px;outline:none;transition:all .2s;background:rgba(255,255,255,.8)}
+.form-input:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.form-input[readonly]{background:rgba(241,245,249,.6);color:#94A3B8;cursor:not-allowed}
+.form-select{width:100%;padding:9px 14px;border:1px solid rgba(148,163,184,.2);border-radius:10px;font-size:13px;outline:none;background:rgba(255,255,255,.8);transition:all .2s}
+.form-hint{font-size:12px;color:#94A3B8;margin-top:5px}
+.form-error{font-size:12px;color:#EF4444;margin-top:5px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-textarea{width:100%;padding:9px 14px;border:1px solid rgba(148,163,184,.2);border-radius:10px;font-size:13px;outline:none;resize:vertical;min-height:70px;background:rgba(255,255,255,.8);transition:all .2s}
+.form-textarea:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
 
 /* === Info Block === */
-.info-block{background:#F8F9FB;border:1px solid #E8ECF0;border-radius:6px;padding:12px 16px;margin-bottom:16px}
-.info-block-title{font-size:12px;font-weight:500;color:#666;margin-bottom:8px}
-.info-row{display:flex;justify-content:space-between;padding:3px 0;font-size:12px}
-.info-row .label{color:#999}
-.info-row .value{color:#222}
+.info-block{background:rgba(241,245,249,.5);border:1px solid rgba(148,163,184,.12);border-radius:10px;padding:14px 18px;margin-bottom:18px}
+.info-block-title{font-size:12px;font-weight:600;color:#64748B;margin-bottom:10px}
+.info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px}
+.info-row .label{color:#94A3B8}
+.info-row .value{color:#1E293B;font-weight:500}
 
 /* === Warning Banner === */
-.warning-banner{background:#FFF8E1;border:1px solid #FFE082;border-radius:6px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#8D6E00}
-.warning-banner svg{flex-shrink:0;margin-top:1px}
-.danger-banner{background:#FDE8E8;border:1px solid #F5C6C6;border-radius:6px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;font-size:12px;color:#C53030}
+.warning-banner{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#92400E}
+.warning-banner svg{flex-shrink:0;margin-top:1px;color:#F59E0B}
+.danger-banner{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#991B1B}
+.danger-banner svg{flex-shrink:0;margin-top:1px;color:#EF4444}
 
 /* === Tabs === */
-.tabs{display:flex;border-bottom:1px solid #E8ECF0;margin-bottom:16px}
-.tab{padding:10px 16px;font-size:13px;color:#666;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab:hover{color:#222}
-.tab.active{color:#1A73E8;border-bottom-color:#1A73E8;font-weight:500}
+.tabs{display:flex;border-bottom:1px solid rgba(148,163,184,.15);margin-bottom:18px}
+.tab{padding:11px 18px;font-size:13px;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-weight:500}
+.tab:hover{color:#334155}
+.tab.active{color:#3B82F6;border-bottom-color:#3B82F6;font-weight:600}
 
 /* === Checkbox Grid === */
-.perm-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.perm-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #E8ECF0;border-radius:6px;cursor:pointer;transition:all .15s;font-size:13px}
-.perm-item:hover{border-color:#1A73E8;background:#FAFBFF}
-.perm-item.checked{border-color:#1A73E8;background:#EBF5FF}
-.perm-item input{accent-color:#1A73E8}
+.perm-grid{display:flex;flex-direction:column;gap:6px}
+.perm-group{margin-bottom:16px}
+.perm-group-title{font-size:12px;font-weight:700;color:#0F172A;padding:8px 14px;margin-bottom:6px;border-bottom:1px solid rgba(148,163,184,.15);text-transform:uppercase;letter-spacing:.3px}
+.perm-module{display:flex;align-items:center;padding:10px 14px;border:1px solid rgba(148,163,184,.15);border-radius:10px;transition:all .2s;font-size:13px;background:rgba(255,255,255,.6);margin-bottom:4px}
+.perm-module:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.02)}
+.perm-module.checked{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.06)}
+.perm-module.partial{border-color:rgba(147,197,253,.5);background:rgba(59,130,246,.04)}
+.perm-module-name{width:110px;font-weight:600;flex-shrink:0;color:#334155}
+.perm-actions{display:flex;gap:14px;margin-left:auto}
+.perm-action{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:#64748B;transition:color .2s}
+.perm-action:hover{color:#334155}
+.perm-action input{accent-color:#3B82F6;cursor:pointer}
+.perm-action span{user-select:none}
+
+/* === Permission Cell (Role Table) === */
+.perm-cell{display:flex;flex-direction:column;gap:4px}
+.perm-row{display:flex;align-items:center;gap:8px;padding:3px 0}
+.perm-mod-label{font-size:12px;font-weight:600;color:#334155;min-width:80px;flex-shrink:0}
+.perm-tag-group{display:flex;gap:4px;flex-wrap:wrap}
+.perm-tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
+.perm-tag-view,.perm-tag-edit,.perm-tag-export{background:rgba(100,116,139,.08);color:#475569}
+.perm-desc{font-size:12px;font-weight:500}
+.perm-desc-full{color:#0891B2}
+.perm-desc-view{color:#334155}
+.perm-desc-none{color:#94A3B8;font-style:italic}
+.perm-group-inline{margin-bottom:8px}
+.perm-group-label{font-size:11px;font-weight:700;color:#0F172A;margin-bottom:2px;padding-left:2px}
+.perm-expand{display:flex;align-items:center;gap:4px;font-size:11px;color:#3B82F6;cursor:pointer;padding:4px 0;transition:color .2s}
+.perm-expand:hover{color:#1D4ED8}
+.perm-expand svg{transition:transform .2s}
+.perm-item{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid rgba(148,163,184,.15);border-radius:10px;cursor:pointer;transition:all .2s;font-size:13px}
+.perm-item:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.02)}
+.perm-item.checked{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.06)}
+.perm-item input{accent-color:#3B82F6}
 
 /* === Toast === */
-.toast{position:fixed;top:60px;right:24px;padding:12px 20px;border-radius:8px;font-size:13px;color:#fff;z-index:200;transform:translateX(120%);transition:transform .3s ease;display:flex;align-items:center;gap:8px}
+.toast{position:fixed;top:72px;right:28px;padding:14px 20px;border-radius:12px;font-size:13px;color:#fff;z-index:200;transform:translateX(120%);transition:transform .3s ease;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
 .toast.show{transform:translateX(0)}
-.toast-success{background:#28A745}
-.toast-error{background:#DC3545}
+.toast-success{background:linear-gradient(135deg,#10B981,#06B6D4)}
+.toast-error{background:linear-gradient(135deg,#EF4444,#F97316)}
 
 /* === Batch Bar === */
-.batch-bar{background:#EBF5FF;border:1px solid #B3D4FC;border-radius:6px;padding:10px 16px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between}
+.batch-bar{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:12px 18px;margin-bottom:14px;display:none;align-items:center;justify-content:space-between}
 .batch-bar.show{display:flex}
-.batch-info{font-size:13px;color:#1A73E8;font-weight:500}
-.batch-actions{display:flex;gap:8px}
+.batch-info{font-size:13px;color:#1E40AF;font-weight:600}
+.batch-actions{display:flex;gap:10px}
 
 /* === Password Toggle === */
 .password-wrap{position:relative}
-.password-wrap .form-input{padding-right:36px}
-.pw-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#999;padding:4px}
-.pw-toggle:hover{color:#222}
+.password-wrap .form-input{padding-right:40px}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94A3B8;padding:6px;border-radius:6px;transition:all .2s}
+.pw-toggle:hover{color:#475569;background:rgba(100,116,139,.06)}
 
 /* === Radio Group === */
-.radio-group{display:flex;gap:16px;margin-bottom:12px}
-.radio-label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
-.radio-label input{accent-color:#1A73E8}
+.radio-group{display:flex;gap:18px;margin-bottom:14px}
+.radio-label{display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer;color:#475569}
+.radio-label input{accent-color:#3B82F6}
 
 /* === Copy Button === */
-.copy-wrap{display:flex;gap:8px;align-items:center}
+.copy-wrap{display:flex;gap:10px;align-items:center}
 .copy-wrap .form-input{flex:1}
 .btn-copy{white-space:nowrap}
 
 /* === Confirm Dialog === */
-.confirm-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.confirm-icon.danger{background:#FDE8E8}
-.confirm-icon.danger svg{color:#DC3545}
-.confirm-text{text-align:center;margin-bottom:16px}
-.confirm-title{font-size:16px;font-weight:600;margin-bottom:8px}
-.confirm-desc{font-size:13px;color:#666}
+.confirm-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.confirm-icon.danger{background:rgba(239,68,68,.1)}
+.confirm-icon.danger svg{color:#EF4444}
+.confirm-text{text-align:center;margin-bottom:18px}
+.confirm-title{font-size:17px;font-weight:700;margin-bottom:10px;color:#0F172A}
+.confirm-desc{font-size:13px;color:#64748B;line-height:1.6}
 
 /* === Scrollbar === */
 ::-webkit-scrollbar{width:6px}
@@ -203,66 +240,138 @@ tr:hover td{background:#FAFBFC}
 <div class="sidebar-logo"><span>Nova</span> Analytics</div>
 <nav class="sidebar-menu">
 <div class="menu-group">
-<div class="menu-group-title">總覽</div>
+<div class="menu-group-title">管理總覽</div>
 <div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-數據總覽
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><polyline points="7 10 12 5 17 10 22 5"/></svg>
+即時 KPI 牆
+</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+登入數據
 </div>
 </div>
 <div class="menu-group">
-<div class="menu-group-title">營運管理</div>
+<div class="menu-group-title">運營數據分析</div>
 <div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 17H5a2 2 0 00-2 2 2 2 0 002 2h2a2 2 0 002-2zm12-2h-4a2 2 0 00-2 2 2 2 0 002 2h2a2 2 0 002-2z"/><circle cx="9" cy="7" r="4"/><circle cx="17" cy="9" r="3"/></svg>
-會員管理
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+營收報表
 </div>
 <div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-財務管理
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+留存率
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-group-title">金幣數據分析</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0M9 9h.01M15 9h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+產出與消耗
 </div>
 <div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-遊戲管理
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+金幣總量趨勢
 </div>
 <div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-行銷活動
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+餘額分佈
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-group-title">儲值報表</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+儲值總表
+</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+儲值品項明細
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-group-title">遊戲數據</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0012 0V2z"/></svg>
+玩家排行榜
+</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+遊戲排行榜
+</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+遊戲明細
+</div>
+</div>
+<div class="menu-group">
+<div class="menu-group-title">風控管理</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+交易明細
+</div>
+<div class="menu-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+高風險明細
 </div>
 </div>
 <div class="menu-group">
 <div class="menu-group-title">系統管理</div>
 <div class="menu-item active">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-帳號權限管理
-</div>
-<div class="menu-item">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-操作日誌
-</div>
-<div class="menu-item">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-系統設定
+帳號權限管理
 </div>
 </div>
 </nav>
-<div class="sidebar-footer">Nova Analytics Platform v3.0</div>
+<div class="sidebar-footer">
+<div style="position:relative">
+<div class="sidebar-user" onclick="toggleSidebarMenu()">
+<div class="avatar">Y</div>
+<div class="sidebar-user-info">
+<div style="font-weight:600;font-size:13px;color:#1E293B">Yi</div>
+<div style="font-size:11px;color:#94A3B8">yi@nova-analytics.com</div>
+</div>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</div>
+<div class="sidebar-dropdown" id="sidebarDropdown" style="display:none">
+<div class="dropdown-item" onclick="openRoleModal()">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+角色權限管理
+</div>
+<div class="dropdown-item">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+通知設定
+</div>
+<div class="dropdown-item" style="color:#EF4444">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+登出
+</div>
+</div>
+</div>
+</div>
 </aside>
 
 <!-- Main Content -->
 <main class="main">
 <div class="topbar">
+<div style="display:flex;align-items:center;gap:0">
+<div class="topbar-logo">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+<div><div style="font-weight:700;font-size:13px;color:#3B82F6;letter-spacing:.5px">NOVA</div><div style="font-size:9px;color:#94A3B8;letter-spacing:1px">ANALYTICS</div></div>
+</div>
+<div class="topbar-divider"></div>
 <div class="breadcrumb">
-<span>首頁</span>
-<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="margin-right:4px"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
 <span>系統管理</span>
-<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
 <span class="current">帳號權限管理</span>
 </div>
-<div class="topbar-right">
-<div class="topbar-user" onclick="toggleUserMenu()">
-<div class="avatar">Y</div>
-<span style="font-size:13px;color:#222">Yi</span>
-<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
 </div>
+<div class="topbar-right">
+<button class="topbar-icon-btn" title="深色模式">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+<button class="topbar-icon-btn" title="通知">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+</button>
 </div>
 </div>
 
@@ -325,7 +434,7 @@ tr:hover td{background:#FAFBFC}
 <th>UID</th>
 <th>帳號名稱</th>
 <th>暱稱</th>
-<th>所屬角色</th>
+<th>角色類型</th>
 <th>最後登入時間</th>
 <th>最後登入 IP</th>
 <th>狀態</th>
@@ -392,7 +501,7 @@ tr:hover td{background:#FAFBFC}
 </div>
 </div>
 <div class="form-group">
-<label class="form-label">所屬角色 <span class="required">*</span></label>
+<label class="form-label">角色類型 <span class="required">*</span></label>
 <select class="form-select" id="addRole">
 <option value="">請選擇角色</option>
 <option>營運主管</option><option>營運專員</option><option>客服主管</option><option>客服專員</option><option>財務</option><option>技術</option><option>數據分析師</option><option>唯讀</option>
@@ -430,7 +539,7 @@ tr:hover td{background:#FAFBFC}
 <input type="text" class="form-input" id="editNickname" maxlength="20">
 </div>
 <div class="form-group">
-<label class="form-label">所屬角色 <span class="required">*</span></label>
+<label class="form-label">角色類型 <span class="required">*</span></label>
 <select class="form-select" id="editRole">
 <option>超級管理員</option><option>營運主管</option><option>營運專員</option><option>客服主管</option><option>客服專員</option><option>財務</option><option>技術</option><option>數據分析師</option><option>唯讀</option>
 </select>
@@ -507,10 +616,6 @@ tr:hover td{background:#FAFBFC}
 <div class="confirm-title">確認禁用帳號</div>
 <div class="confirm-desc">您即將禁用帳號 <strong id="disableAccount"></strong>（<span id="disableNickname"></span>）。禁用後該帳號將無法登入系統。</div>
 </div>
-<div class="danger-banner" id="disableTaskWarning" style="display:none">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-<div>此帳號有 <strong id="disableTaskCount">2</strong> 個進行中的任務，禁用後任務不會自動結案。</div>
-</div>
 </div>
 <div class="modal-footer">
 <button class="btn btn-outline" onclick="closeModal('disableModal')">取消</button>
@@ -521,28 +626,36 @@ tr:hover td{background:#FAFBFC}
 
 <!-- Role Management Modal -->
 <div class="modal-overlay" id="roleModal">
-<div class="modal modal-lg">
+<div class="modal" style="width:90vw;max-width:1100px;max-height:90vh">
 <div class="modal-header">
 <div class="modal-header-left">
-<div class="modal-header-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+<div class="modal-header-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
 <div class="modal-title">角色權限管理</div>
 </div>
 <button class="modal-close" onclick="closeModal('roleModal')">✕</button>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="padding:20px 24px">
 <div class="tabs">
 <div class="tab active" onclick="switchRoleTab('list',this)">角色列表</div>
 <div class="tab" onclick="switchRoleTab('add',this)">新增角色</div>
 </div>
 <div id="roleListTab">
+<div class="filter-bar" style="margin-bottom:14px">
+<input type="text" class="filter-input" id="roleFilterInput" placeholder="搜尋角色類型..." oninput="filterRoles()" style="min-width:180px">
+<select class="filter-select" id="roleFilterPerm" onchange="filterRoles()" style="min-width:150px">
+<option value="">全部模組</option>
+</select>
+</div>
+<div class="table-wrap">
 <table style="width:100%">
-<thead><tr><th>角色名稱</th><th>帳號數</th><th>權限範圍</th><th>操作</th></tr></thead>
+<thead><tr><th style="width:140px">角色類型</th><th style="width:70px">帳號數</th><th>權限範圍</th><th style="width:100px">操作</th></tr></thead>
 <tbody id="roleTableBody"></tbody>
 </table>
 </div>
+</div>
 <div id="roleAddTab" style="display:none">
 <div class="form-group">
-<label class="form-label">角色名稱 <span class="required">*</span></label>
+<label class="form-label">角色類型 <span class="required">*</span></label>
 <input type="text" class="form-input" id="newRoleName" placeholder="不可與現有角色重複">
 </div>
 <div class="form-group">
@@ -573,7 +686,7 @@ tr:hover td{background:#FAFBFC}
 </div>
 <div class="modal-body">
 <div class="info-block">
-<div class="info-row"><span class="label">角色名稱</span><span class="value" id="editRoleName">—</span></div>
+<div class="info-row"><span class="label">角色類型</span><span class="value" id="editRoleName">—</span></div>
 <div class="info-row"><span class="label">目前帳號數</span><span class="value" id="editRoleCount">—</span></div>
 </div>
 <div class="warning-banner">
@@ -628,28 +741,38 @@ const roleBadgeMap = {
 '客服主管':'badge-orange','客服專員':'badge-pink','財務':'badge-purple',
 '技術':'badge-gray','數據分析師':'badge-green','唯讀':'badge-gray'
 };
-const modules = ['數據總覽','報表管理','會員管理','財務管理','遊戲管理','行銷活動','客服工單','帳號權限','操作日誌','系統設定'];
+const modules = ['即時 KPI 牆','登入數據','營收報表','留存率','產出與消耗','金幣總量趨勢','玩家餘額分佈','儲值總表','儲值品項明細','玩家排行榜','遊戲排行榜','遊戲明細','交易明細','高風險明細','帳號權限管理'];
+const moduleGroups = {
+'管理總覽':['即時 KPI 牆','登入數據'],
+'運營數據分析':['營收報表','留存率'],
+'金幣數據分析':['產出與消耗','金幣總量趨勢','玩家餘額分佈'],
+'儲值報表':['儲值總表','儲值品項明細'],
+'遊戲數據':['玩家排行榜','遊戲排行榜','遊戲明細'],
+'風控管理':['交易明細','高風險明細'],
+'系統管理':['帳號權限管理']
+};
+const permActions = ['檢視','編輯','匯出'];
 const rolePermsMap = {
-'超級管理員': modules.slice(),
-'營運主管': ['數據總覽','報表管理','會員管理','遊戲管理','行銷活動'],
-'營運專員': ['數據總覽'],
-'客服主管': ['會員管理','客服工單'],
-'客服專員': ['客服工單'],
-'財務': ['財務管理'],
-'技術': ['帳號權限','操作日誌','系統設定'],
-'數據分析師': ['數據總覽','報表管理'],
-'唯讀': modules.slice()
+'超級管理員': modules.flatMap(m => permActions.map(a => `${m}-${a}`)),
+'營運主管': ['即時 KPI 牆','登入數據','營收報表','留存率','儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'營運專員': ['即時 KPI 牆','營收報表'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'客服主管': ['交易明細','高風險明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'客服專員': ['交易明細'].flatMap(m => ['檢視','編輯'].map(a => `交易明細-${a}`)),
+'財務': ['儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'技術': ['帳號權限管理'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'數據分析師': ['即時 KPI 牆','登入數據','營收報表','留存率','產出與消耗','金幣總量趨勢','玩家餘額分佈','玩家排行榜','遊戲排行榜','遊戲明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
+'唯讀': modules.flatMap(m => [`${m}-檢視`])
 };
 let roles = [
-{name:'超級管理員',isSystem:true,perms:modules.slice()},
-{name:'營運主管',isSystem:false,perms:['數據總覽','報表管理','會員管理','遊戲管理','行銷活動']},
-{name:'營運專員',isSystem:false,perms:['數據總覽']},
-{name:'客服主管',isSystem:false,perms:['會員管理','客服工單']},
-{name:'客服專員',isSystem:false,perms:['客服工單']},
-{name:'財務',isSystem:false,perms:['財務管理']},
-{name:'技術',isSystem:false,perms:['帳號權限','操作日誌','系統設定']},
-{name:'數據分析師',isSystem:false,perms:['數據總覽','報表管理']},
-{name:'唯讀',isSystem:false,perms:modules.slice()}
+{name:'超級管理員',isSystem:true,perms:modules.flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'營運主管',isSystem:false,perms:['即時 KPI 牆','登入數據','營收報表','留存率','儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'營運專員',isSystem:false,perms:['即時 KPI 牆','營收報表'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'客服主管',isSystem:false,perms:['交易明細','高風險明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'客服專員',isSystem:false,perms:['交易明細'].flatMap(m => ['檢視','編輯'].map(a => `交易明細-${a}`))},
+{name:'財務',isSystem:false,perms:['儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'技術',isSystem:false,perms:['帳號權限管理'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'數據分析師',isSystem:false,perms:['即時 KPI 牆','登入數據','營收報表','留存率','產出與消耗','金幣總量趨勢','玩家餘額分佈','玩家排行榜','遊戲排行榜','遊戲明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
+{name:'唯讀',isSystem:false,perms:modules.flatMap(m => [`${m}-檢視`])}
 ];
 
 function rndIP(){return [192,168,Math.floor(Math.random()*255),Math.floor(Math.random()*255)].join('.')}
@@ -691,11 +814,29 @@ function renderTable(){
     const statusText=a.status==='active'?'啟用':'禁用';
     const badge=roleBadgeMap[a.role]||'badge-gray';
     const checked=selected.has(a.account)?'checked':'';
-    let actions=`<button class="btn btn-ghost btn-sm" onclick="openEditModal(${gi})">編輯</button>`;
-    actions+=`<button class="btn btn-ghost btn-sm" onclick="openResetPwModal(${gi})">重設</button>`;
+    let actions=`<button class="btn btn-icon btn-sm" onclick="openEditModal(${gi})" title="編輯帳號">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="2">
+        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    </button>`;
+    actions+=`<button class="btn btn-icon btn-sm" onclick="openResetPwModal(${gi})" title="重設密碼">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </button>`;
     if(!a.isSuper){
-      if(a.status==='active') actions+=`<button class="btn btn-ghost btn-sm" style="color:#DC3545" onclick="openDisableModal(${gi})">停用</button>`;
-      else actions+=`<button class="btn btn-ghost btn-sm" style="color:#28A745" onclick="enableAccount(${gi})">啟用</button>`;
+      if(a.status==='active') actions+=`<button class="btn btn-icon btn-sm" onclick="openDisableModal(${gi})" title="禁用帳號">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC3545" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+        </svg>
+      </button>`;
+      else actions+=`<button class="btn btn-icon btn-sm" onclick="enableAccount(${gi})" title="啟用帳號">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#28A745" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>`;
     }
     return `<tr>
       <td class="table-checkbox"><input type="checkbox" ${checked} onchange="toggleSelect('${a.account}')"></td>
@@ -876,9 +1017,6 @@ function openDisableModal(idx){
   const a=filtered[idx];
   document.getElementById('disableAccount').textContent=a.account;
   document.getElementById('disableNickname').textContent=a.nickname;
-  const warn=document.getElementById('disableTaskWarning');
-  if(a.tasks>0){warn.style.display='flex';document.getElementById('disableTaskCount').textContent=a.tasks;}
-  else{warn.style.display='none';}
   openModal('disableModal');
 }
 function submitDisable(){
@@ -910,23 +1048,101 @@ function switchRoleTab(tab,el){
   document.getElementById('roleAddTab').style.display=tab==='add'?'':'none';
 }
 function renderRoleTable(){
+  // 填充模組篩選下拉
+  const filterSel=document.getElementById('roleFilterPerm');
+  if(filterSel.options.length<=1){
+    modules.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;filterSel.appendChild(o);});
+  }
+  const keyword=(document.getElementById('roleFilterInput')?.value||'').toLowerCase();
+  const filterMod=document.getElementById('roleFilterPerm')?.value||'';
   const tbody=document.getElementById('roleTableBody');
-  tbody.innerHTML=roles.map((r,i)=>{
+  tbody.innerHTML=roles.filter(r=>{
+    if(keyword && !r.name.toLowerCase().includes(keyword)) return false;
+    if(filterMod && !r.perms.some(p=>p.startsWith(filterMod+'-'))) return false;
+    return true;
+  }).map((r,fi)=>{
+    const i=roles.indexOf(r);
     const count=accounts.filter(a=>a.role===r.name).length;
     const badge=roleBadgeMap[r.name]||'badge-gray';
-    const permTags=r.perms.map(p=>`<span class="badge badge-gray" style="margin:1px">${p}</span>`).join('');
+    // 按模組分組權限
+    const permByModule={};
+    r.perms.forEach(p=>{
+      const parts=p.split('-');
+      const mod=parts[0];
+      const act=parts[1];
+      if(!permByModule[mod]) permByModule[mod]=[];
+      permByModule[mod].push(act);
+    });
+    // 扁平列出所有有權限的模組
+    const allMods=modules.filter(m=>permByModule[m]);
+    const showCount=4;
+    const permHTML=allMods.map((mod,mi)=>{
+      const acts=permByModule[mod];
+      const hidden=mi>=showCount?'style="display:none"':'';
+      const hasView=acts.includes('檢視'),hasEdit=acts.includes('編輯'),hasExport=acts.includes('匯出');
+      let permText='',permCls='perm-desc-none';
+      if(hasView&&hasEdit&&hasExport){permText='檢視、編輯與匯出';permCls='perm-desc-full';}
+      else if(hasView&&hasExport){permText='檢視與匯出';permCls='perm-desc-full';}
+      else if(hasView&&hasEdit){permText='檢視與編輯';permCls='perm-desc-full';}
+      else if(hasView){permText='○ 僅限檢視';permCls='perm-desc-view';}
+      else if(hasEdit){permText='僅限編輯';permCls='perm-desc-full';}
+      else if(hasExport){permText='僅限匯出';permCls='perm-desc-full';}
+      else{permText='— 無權限 —';permCls='perm-desc-none';}
+      return `<div class="perm-row" data-role="${i}" ${hidden}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
+    }).join('');
+    const expandBtn=allMods.length>showCount?`<div class="perm-expand" onclick="togglePermExpand(this,${i})"><span>展開其餘 ${allMods.length-showCount} 個模組</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>`:'';
     let ops='';
-    if(r.isSystem){ops='<span style="font-size:11px;color:#999">系統預設</span>';}
-    else{ops=`<button class="btn btn-ghost btn-sm" onclick="openEditRoleModal(${i})">編輯</button><button class="btn btn-ghost btn-sm" style="color:#DC3545" onclick="openDeleteRoleModal(${i})">刪除</button>`;}
-    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td>${count}</td><td style="max-width:300px">${permTags}</td><td style="white-space:nowrap">${ops}</td></tr>`;
+    if(r.isSystem){ops='<span style="font-size:11px;color:#94A3B8">系統預設</span>';}
+    else{ops=`<button class="btn btn-icon btn-sm" onclick="openEditRoleModal(${i})" title="編輯角色">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </button><button class="btn btn-icon btn-sm" onclick="openDeleteRoleModal(${i})" title="刪除角色">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+    </button>`;}
+    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td style="text-align:center">${count}</td><td><div class="perm-cell">${permHTML}${expandBtn}</div></td><td style="white-space:nowrap">${ops}</td></tr>`;
   }).join('');
 }
+function togglePermExpand(el,roleIdx){
+  const cell=el.parentElement;
+  const rows=cell.querySelectorAll('.perm-row[data-role="'+roleIdx+'"]');
+  const isExpanded=el.dataset.expanded==='true';
+  rows.forEach((r,i)=>{if(i>=2) r.style.display=isExpanded?'none':'flex';});
+  el.dataset.expanded=isExpanded?'false':'true';
+  const total=rows.length-2;
+  el.querySelector('span').textContent=isExpanded?`展開其餘 ${total} 個模組`:'收合';
+  el.querySelector('svg').style.transform=isExpanded?'':'rotate(180deg)';
+}
+function togglePermGroupExpand(el,roleIdx,showCount){
+  const cell=el.parentElement;
+  const groups=cell.querySelectorAll('.perm-group-inline[data-role="'+roleIdx+'"]');
+  const isExpanded=el.dataset.expanded==='true';
+  groups.forEach((g,i)=>{
+    if(i>=showCount){
+      g.style.display=isExpanded?'none':'block';
+      g.querySelectorAll('.perm-row').forEach(r=>r.style.display=isExpanded?'none':'flex');
+    }
+  });
+  el.dataset.expanded=isExpanded?'false':'true';
+  const total=groups.length-showCount;
+  el.querySelector('span').textContent=isExpanded?`展開其餘 ${total} 個分組`:'收合';
+  el.querySelector('svg').style.transform=isExpanded?'':'rotate(180deg)';
+}
+function filterRoles(){renderRoleTable();}
 function renderPermGrid(containerId,checked){
   const c=document.getElementById(containerId);
-  c.innerHTML=modules.map(m=>{
-    const ck=checked.includes(m)?'checked':'';
-    const cls=ck?'perm-item checked':'perm-item';
-    return `<label class="${cls}"><input type="checkbox" value="${m}" ${ck} onchange="this.parentElement.classList.toggle('checked',this.checked)">${m}</label>`;
+  c.innerHTML=Object.entries(moduleGroups).map(([group,mods])=>{
+    const groupHTML=mods.map(m=>{
+      const modulePerms = permActions.map(a => `${m}-${a}`);
+      const allChecked = modulePerms.every(p => checked.includes(p));
+      const someChecked = modulePerms.some(p => checked.includes(p));
+      const moduleClass = allChecked ? 'perm-module checked' : someChecked ? 'perm-module partial' : 'perm-module';
+      const actionHTML = permActions.map(a => {
+        const perm = `${m}-${a}`;
+        const ck = checked.includes(perm) ? 'checked' : '';
+        return `<label class="perm-action"><input type="checkbox" value="${perm}" ${ck}><span>${a}</span></label>`;
+      }).join('');
+      return `<div class="${moduleClass}"><div class="perm-module-name">${m}</div><div class="perm-actions">${actionHTML}</div></div>`;
+    }).join('');
+    return `<div class="perm-group"><div class="perm-group-title">${group}</div>${groupHTML}</div>`;
   }).join('');
 }
 function getCheckedPerms(containerId){
@@ -934,8 +1150,8 @@ function getCheckedPerms(containerId){
 }
 function submitNewRole(){
   const name=document.getElementById('newRoleName').value.trim();
-  if(!name){showToast('請輸入角色名稱','error');return;}
-  if(roles.find(r=>r.name===name)){showToast('角色名稱已存在','error');return;}
+  if(!name){showToast('請輸入角色類型','error');return;}
+  if(roles.find(r=>r.name===name)){showToast('角色類型已存在','error');return;}
   const perms=getCheckedPerms('newRolePerms');
   if(!perms.length){showToast('至少需勾選一項權限','error');return;}
   roles.push({name,isSystem:false,perms});
@@ -989,7 +1205,17 @@ function submitDeleteRole(){
   showToast(`角色「${name}」已刪除`);
 }
 
-function toggleUserMenu(){}
+function toggleSidebarMenu(){
+  const dropdown = document.getElementById('sidebarDropdown');
+  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('sidebarDropdown');
+  const userBtn = document.querySelector('.sidebar-user');
+  if (dropdown && userBtn && !userBtn.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});
 
 // === Init ===
 renderTable();
