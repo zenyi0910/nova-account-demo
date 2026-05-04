@@ -116,8 +116,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .modal-header-icon svg{width:18px;height:18px;color:#3B82F6}
 .modal-title{font-size:16px;font-weight:700;color:#0F172A}
 .modal-close,.modal-resize{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94A3B8;transition:all .2s}
-.modal-close:hover,.modal-resize:hover{background:rgba(100,116,139,.1);color:#475569}
-.modal-header-actions{display:flex;align-items:center;gap:4px}
+.modal-close:hover{background:rgba(100,116,139,.1);color:#475569}
+.modal-resize{width:28px;height:28px;border-radius:50%;background:rgba(240,173,78,.12);color:#F0AD4E}
+.modal-resize:hover{background:rgba(240,173,78,.22);color:#E09B3D}
+.modal-header-actions{display:flex;align-items:center;gap:8px}
 .modal.modal-fullscreen{width:90vw;max-width:1100px;max-height:90vh}
 .modal-body{padding:24px}
 .modal-footer{padding:16px 24px;border-top:1px solid rgba(148,163,184,.12);display:flex;justify-content:flex-end;gap:10px}
@@ -484,7 +486,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="modal-title">新增帳號</div>
 </div>
 <div class="modal-header-actions">
-<button class="modal-resize" onclick="toggleModalSize('addModal')" title="切換視窗大小"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>
+<button class="modal-resize" onclick="toggleModalSize('addModal')" title="切換視窗大小"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
 <button class="modal-close" onclick="closeModal('addModal')">✕</button>
 </div>
 </div>
@@ -542,7 +544,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="modal-title">編輯帳號</div>
 </div>
 <div class="modal-header-actions">
-<button class="modal-resize" onclick="toggleModalSize('editModal')" title="切換視窗大小"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>
+<button class="modal-resize" onclick="toggleModalSize('editModal')" title="切換視窗大小"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
 <button class="modal-close" onclick="closeModal('editModal')">✕</button>
 </div>
 </div>
@@ -939,15 +941,15 @@ function openModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');
 /* 關閉時還原視窗大小 */
 const m=document.querySelector('#'+id+' .modal');if(m)m.classList.remove('modal-fullscreen');
-const btn=document.querySelector('#'+id+' .modal-resize');if(btn)btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>';
+const btn=document.querySelector('#'+id+' .modal-resize');if(btn)btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 }
 function toggleModalSize(id){
 const m=document.querySelector('#'+id+' .modal');if(!m)return;
 const isFs=m.classList.toggle('modal-fullscreen');
 const btn=document.querySelector('#'+id+' .modal-resize');
 if(btn)btn.innerHTML=isFs
-?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14h6v6m10-10h-6V4"/></svg>'
-:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>';
+?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 14h6v6m10-10h-6V4"/></svg>'
+:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 }
 function exportCSV(){
   const headers=['UID','帳號名稱','暱稱','角色類型','最後登入時間','最後登入 IP','狀態'];
