@@ -1028,8 +1028,11 @@ function renderTable(){
         </svg>
       </button>`;
     }
+    // 當前登入帳號（yi_sa）的 checkbox 禁用
+    const isCurrentUser = a.account === 'yi_sa';
+    const checkboxDisabled = isCurrentUser ? 'disabled' : '';
     return `<tr>
-      <td class="table-checkbox"><input type="checkbox" ${checked} onchange="toggleSelect('${a.account}')"></td>
+      <td class="table-checkbox"><input type="checkbox" ${checked} ${checkboxDisabled} onchange="toggleSelect('${a.account}')"></td>
       <td><strong>${a.account}</strong></td>
       <td>${a.nickname}</td>
       <td><span class="badge ${badge}">${a.role}</span></td>
@@ -1127,7 +1130,11 @@ function toggleSelectAll(){
   const start=(currentPage-1)*pageSize,end=Math.min(start+pageSize,filtered.length);
   const page=filtered.slice(start,end);
   const allSel=page.every(a=>selected.has(a.account));
-  page.forEach(a=>{if(allSel)selected.delete(a.account);else selected.add(a.account);});
+  page.forEach(a=>{
+    // 排除當前登入帳號（yi_sa）
+    if(a.account==='yi_sa')return;
+    if(allSel)selected.delete(a.account);else selected.add(a.account);
+  });
   updateBatchBar();renderTable();
 }
 function clearSelection(){selected.clear();document.getElementById('selectAll').checked=false;updateBatchBar();renderTable();}
