@@ -1053,12 +1053,19 @@ document.addEventListener('click',function(){document.getElementById('batchRoleM
 function openModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');
 /* 關閉時還原視窗大小 */
-const m=document.querySelector('#'+id+' .modal');if(m)m.classList.remove('modal-fullscreen');
+const m=document.querySelector('#'+id+' .modal');if(m){m.classList.remove('modal-fullscreen');m.style.width='';m.style.maxWidth='';m.style.maxHeight='';m.style.height='';m.style.borderRadius='';m.style.margin='';}
 const btn=document.querySelector('#'+id+' .modal-resize');if(btn)btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 }
 function toggleModalSize(id){
 const m=document.querySelector('#'+id+' .modal');if(!m)return;
-const isFs=m.classList.toggle('modal-fullscreen');
+const isFs=!m.classList.contains('modal-fullscreen');
+if(isFs){
+  m.classList.add('modal-fullscreen');
+  m.style.width='100vw';m.style.maxWidth='100vw';m.style.maxHeight='100vh';m.style.height='100vh';m.style.borderRadius='0';m.style.margin='0';
+}else{
+  m.classList.remove('modal-fullscreen');
+  m.style.width='';m.style.maxWidth='';m.style.maxHeight='';m.style.height='';m.style.borderRadius='';m.style.margin='';
+}
 const btn=document.querySelector('#'+id+' .modal-resize');
 if(btn)btn.innerHTML=isFs
 ?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 14h6v6m10-10h-6V4"/></svg>'
