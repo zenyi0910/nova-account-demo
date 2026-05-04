@@ -205,8 +205,8 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .perm-item input{accent-color:#3B82F6}
 
 /* === Toast === */
-.toast{position:fixed;top:72px;right:28px;padding:14px 20px;border-radius:12px;font-size:13px;color:#fff;z-index:200;transform:translateX(120%);transition:transform .3s ease;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
-.toast.show{transform:translateX(0)}
+.toast{position:fixed;top:72px;right:28px;padding:14px 20px;border-radius:12px;font-size:13px;color:#fff;z-index:200;transform:translateX(120%);transition:transform .3s ease;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);visibility:hidden}
+.toast.show{transform:translateX(0);visibility:visible}
 .toast-success{background:linear-gradient(135deg,#10B981,#06B6D4)}
 .toast-error{background:linear-gradient(135deg,#EF4444,#F97316)}
 
@@ -1280,6 +1280,17 @@ function openRoleModal(){
   switchRoleTab('list',document.querySelector('.tabs .tab'));
   openModal('roleModal');
 }
+function openRoleModalWithFilter(roleName){
+  renderRoleTable();
+  renderPermGrid('newRolePerms',[]);
+  document.getElementById('newRoleName').value='';
+  document.getElementById('newRoleNote').value='';
+  switchRoleTab('list',document.querySelector('.tabs .tab'));
+  // 帶入角色篩選
+  document.getElementById('roleFilterInput').value=roleName;
+  renderRoleTable();
+  openModal('roleModal');
+}
 function switchRoleTab(tab,el){
   document.querySelectorAll('#roleModal .tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -1322,7 +1333,8 @@ function renderRoleTable(){
       const modsHTML=groupMods.map(mod=>{
         visibleCount++;
         const acts=permByModule[mod];
-        const hidden=visibleCount>showCount?'style="display:none"':'';
+        const hidden=visibleCount>showCount;
+        const hiddenAttr=hidden?'style="display:none"':'';
         const hasView=acts.includes('檢視'),hasEdit=acts.includes('編輯'),hasExport=acts.includes('匯出');
         let permText='',permCls='perm-desc-none';
         if(hasView&&hasEdit&&hasExport){permText='檢視、編輯與匯出';permCls='perm-desc-full';}
@@ -1332,9 +1344,12 @@ function renderRoleTable(){
         else if(hasEdit){permText='僅限編輯';permCls='perm-desc-full';}
         else if(hasExport){permText='僅限匯出';permCls='perm-desc-full';}
         else{permText='— 無權限 —';permCls='perm-desc-none';}
-        return `<div class="perm-row" data-role="${i}" ${hidden}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
+        return `<div class="perm-row" data-role="${i}" ${hiddenAttr}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
       }).join('');
-      return `<div class="perm-group-section" data-role="${i}"><div class="perm-group-header">${group}</div>${modsHTML}</div>`;
+      // 如果該分組所有模組都被隱藏，整個 section 也隱藏
+      const sectionStart=visibleCount-groupMods.length;
+      const sectionAllHidden=groupMods.every((_,mi)=>(sectionStart+mi+1)>showCount);
+      return `<div class="perm-group-section" data-role="${i}" ${sectionAllHidden?'style="display:none"':''}><div class="perm-group-header">${group}</div>${modsHTML}</div>`;
     }).filter(Boolean).join('');
     const totalMods=modules.filter(m=>permByModule[m]).length;
     const expandBtn=totalMods>showCount?`<div class="perm-expand" onclick="togglePermExpand(this,${i})"><span>展開其餘 ${totalMods-showCount} 個模組</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>`:'';
@@ -1345,7 +1360,7 @@ function renderRoleTable(){
     </button><button class="btn btn-icon btn-sm" onclick="openDeleteRoleModal(${i})" title="刪除角色">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
     </button>`;}
-    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td style="text-align:center">${count}</td><td><div class="perm-cell">${permHTML}${expandBtn}</div></td><td style="white-space:nowrap">${ops}</td></tr>`;
+    return `<tr><td><span class="badge ${badge}">${r.name}</span></td><td style="text-align:center"><a href="javascript:void(0)" onclick="openRoleModalWithFilter('${r.name}')" style="color:#2563EB;text-decoration:underline;cursor:pointer">${count}</a></td><td><div class="perm-cell">${permHTML}${expandBtn}</div></td><td style="white-space:nowrap">${ops}</td></tr>`;
   }).join('');
 }
 function togglePermExpand(el,roleIdx){
@@ -1357,6 +1372,12 @@ function togglePermExpand(el,roleIdx){
   const total=rows.length-4;
   el.querySelector('span').textContent=isExpanded?`展開其餘 ${total} 個模組`:'收合';
   el.querySelector('svg').style.transform=isExpanded?'':'rotate(180deg)';
+  // 收合時隱藏底下沒有可見 perm-row 的分組標題
+  cell.querySelectorAll('.perm-group-section[data-role="'+roleIdx+'"]').forEach(sec=>{
+    const visibleRows=sec.querySelectorAll('.perm-row[data-role="'+roleIdx+'"]');
+    const anyVisible=[...visibleRows].some(r=>r.style.display!=='none');
+    sec.style.display=anyVisible?'':'none';
+  });
 }
 function togglePermGroupExpand(el,roleIdx,showCount){
   const cell=el.parentElement;
