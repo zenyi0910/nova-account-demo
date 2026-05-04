@@ -206,6 +206,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 .batch-bar.show{display:flex}
 .batch-info{font-size:13px;color:#1E40AF;font-weight:600}
 .batch-actions{display:flex;gap:10px}
+.batch-role-menu{display:none;position:absolute;top:100%;left:0;margin-top:6px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:160px;z-index:50;overflow:hidden}
+.batch-role-menu.show{display:block}
+.batch-role-item{padding:10px 16px;font-size:13px;color:#334155;cursor:pointer;transition:all .15s}
+.batch-role-item:hover{background:rgba(59,130,246,.06);color:#3B82F6}
 
 /* === Password Toggle === */
 .password-wrap{position:relative}
@@ -492,7 +496,10 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="batch-actions">
 <button class="btn btn-sm btn-outline" onclick="batchAction('disable')">批量停用</button>
 <button class="btn btn-sm btn-outline" onclick="batchAction('enable')">批量啟用</button>
-<button class="btn btn-sm btn-outline" onclick="batchAction('role')">批量改角色</button>
+<div style="position:relative;display:inline-block">
+<button class="btn btn-sm btn-outline" onclick="toggleBatchRoleMenu(event)">批量改角色 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:4px"><polyline points="6 9 12 15 18 9"/></svg></button>
+<div class="batch-role-menu" id="batchRoleMenu"></div>
+</div>
 <button class="btn btn-sm btn-ghost" onclick="clearSelection()">取消選取</button>
 </div>
 </div>
@@ -1017,9 +1024,21 @@ function updateBatchBar(){
 function batchAction(type){
   if(type==='disable')showToast(`已批量停用 ${selected.size} 個帳號`);
   else if(type==='enable')showToast(`已批量啟用 ${selected.size} 個帳號`);
-  else showToast(`已批量變更 ${selected.size} 個帳號角色`);
   clearSelection();
 }
+function toggleBatchRoleMenu(e){
+  e.stopPropagation();
+  const menu=document.getElementById('batchRoleMenu');
+  if(menu.classList.contains('show')){menu.classList.remove('show');return;}
+  menu.innerHTML=roles.map(r=>`<div class="batch-role-item" onclick="applyBatchRole('${r.name}')">${r.name}</div>`).join('');
+  menu.classList.add('show');
+}
+function applyBatchRole(roleName){
+  document.getElementById('batchRoleMenu').classList.remove('show');
+  showToast(`已將 ${selected.size} 個帳號角色變更為「${roleName}」`);
+  clearSelection();
+}
+document.addEventListener('click',function(){document.getElementById('batchRoleMenu')?.classList.remove('show');});
 
 // === Modal Helpers ===
 function openModal(id){document.getElementById(id).classList.add('show');}
