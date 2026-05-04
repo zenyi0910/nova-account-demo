@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>星運娛樂城 - Nova 前台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#c41230;--gold:#f5c842;--dark:#1a1a2e;--darker:#0f0f1f;--card-bg:#2a2a3e;--text:#fff;--text-dim:#aaa;--green:#4dc9a0;--vip-purple:#9b59b6}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a14;color:var(--text);display:flex;justify-content:center;min-height:100vh}
+.app{width:100%;max-width:430px;min-height:100vh;background:var(--darker);position:relative;overflow-x:hidden;display:flex;flex-direction:column}
+
+/* Header */
+.header{background:linear-gradient(135deg,var(--red),#8b0a1e);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--red)}
+.header-info .username{font-size:13px;font-weight:600}
+.header-info .vip-row{display:flex;align-items:center;gap:6px;margin-top:2px}
+.vip-badge{background:var(--vip-purple);color:#fff;font-size:10px;padding:1px 8px;border-radius:10px;font-weight:600}
+.header-right{display:flex;align-items:center;gap:6px}
+.coin-display{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.3);border-radius:20px;padding:4px 12px 4px 6px}
+.coin-icon{width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#8b6914}
+.coin-amount{font-size:12px;font-weight:600}
+.btn-deposit{background:var(--green);color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer}
+
+/* Banner carousel */
+.banner-wrap{position:relative;overflow:hidden;margin:0}
+.banner-track{display:flex;transition:transform .4s ease}
+.banner-slide{min-width:100%;aspect-ratio:16/7;background:linear-gradient(135deg,#2a1040,#4a1060);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.banner-slide .banner-bg{position:absolute;inset:0;opacity:.3}
+.banner-slide .banner-content{text-align:center;z-index:1;padding:20px}
+.banner-slide h2{font-size:18px;font-weight:700;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.banner-slide p{font-size:12px;color:#ddd;margin-top:4px}
+.banner-dots{display:flex;justify-content:center;gap:6px;padding:8px 0;background:var(--darker)}
+.banner-dots .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer}
+.banner-dots .dot.active{background:var(--gold);width:16px;border-radius:3px}
+
+/* Marquee */
+.marquee-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(255,255,255,.05);overflow:hidden}
+.marquee-icon{flex-shrink:0}
+.marquee-icon svg{width:16px;height:16px;fill:var(--gold)}
+.marquee-text{white-space:nowrap;animation:marquee 20s linear infinite;font-size:12px;color:var(--text-dim)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* Game tabs */
+.game-tabs{display:flex;gap:0;padding:12px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.game-tabs::-webkit-scrollbar{display:none}
+.game-tab{padding:8px 20px;font-size:13px;font-weight:500;color:var(--text-dim);background:none;border:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.game-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* Game grid */
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 16px;flex:1}
+.game-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s;aspect-ratio:3/4;background:var(--card-bg)}
+.game-card:hover{transform:scale(1.03)}
+.game-card:active{transform:scale(.97)}
+.game-card .game-img{width:100%;height:70%;object-fit:cover;display:block;background:linear-gradient(135deg,#1a2a4a,#2a3a5a)}
+.game-card .game-info{padding:6px 8px}
+.game-card .game-name{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-card .game-players{font-size:10px;color:var(--text-dim);display:flex;align-items:center;gap:3px;margin-top:2px}
+.game-card .game-players svg{width:10px;height:10px;fill:var(--green)}
+.game-tag{position:absolute;top:6px;left:6px;font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}
+.tag-hot{background:#ff4757;color:#fff}
+.tag-new{background:var(--green);color:#fff}
+.tag-recommend{background:var(--gold);color:#333}
+.game-fav{position:absolute;top:6px;right:6px;width:20px;height:20px;cursor:pointer}
+.game-fav svg{width:16px;height:16px;fill:none;stroke:rgba(255,255,255,.5);stroke-width:2}
+.game-fav.liked svg{fill:#ff4757;stroke:#ff4757}
+
+/* Bottom tab bar */
+.tab-bar{display:flex;align-items:center;justify-content:space-around;background:var(--dark);border-top:1px solid rgba(255,255,255,.08);padding:6px 0 env(safe-area-inset-bottom,8px);position:sticky;bottom:0;z-index:50}
+.tab-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 12px;color:var(--text-dim);transition:color .15s;background:none;border:none;font-family:inherit}
+.tab-item.active{color:var(--gold)}
+.tab-item svg{width:22px;height:22px}
+.tab-item span{font-size:10px}
+
+/* Chat bubble */
+.chat-bubble{position:fixed;bottom:80px;right:16px;width:48px;height:48px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:60}
+.chat-bubble svg{width:24px;height:24px;fill:#fff}
+.chat-badge{position:absolute;top:-2px;right:-2px;background:#ff4757;color:#fff;font-size:9px;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--dark);border-radius:16px;width:90%;max-width:380px;max-height:80vh;overflow-y:auto;border:1px solid rgba(255,255,255,.1)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.modal-header h3{font-size:15px;font-weight:600;color:var(--gold)}
+.modal-close{background:none;border:none;cursor:pointer;color:var(--text-dim);font-size:20px}
+.modal-body{padding:20px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-avatar">Q</div>
+      <div class="header-info">
+        <div class="username">QAtest6</div>
+        <div class="vip-row">
+          <span class="vip-badge">VIP3</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="coin-display">
+        <div class="coin-icon">$</div>
+        <span class="coin-amount">148,927,558</span>
+      </div>
+      <button class="btn-deposit" onclick="openModal('depositModal')">儲值</button>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner-wrap">
+    <div class="banner-track" id="bannerTrack">
+      <div class="banner-slide" style="background:linear-gradient(135deg,#8b0a1e,#c41230)">
+        <div class="banner-content"><h2>首儲加碼 最高翻倍</h2><p>限時活動開跑，錯過再等一年</p></div>
+      </div>
+      <div class="banner-slide" style="background:linear-gradient(135deg,#1a3a6a,#2a5a9a)">
+        <div class="banner-content"><h2>每日簽到 領取獎勵</h2><p>連續簽到 7 天送 VIP 體驗券</p></div>
+      </div>
+      <div class="banner-slide" style="background:linear-gradient(135deg,#4a1060,#7a2090)">
+        <div class="banner-content"><h2>紅包雨 隨機掉落</h2><p>手慢就沒了，立即參與</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-dots" id="bannerDots">
+    <div class="dot active" onclick="goSlide(0)"></div>
+    <div class="dot" onclick="goSlide(1)"></div>
+    <div class="dot" onclick="goSlide(2)"></div>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee-bar">
+    <div class="marquee-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+    <div style="overflow:hidden;flex:1"><span class="marquee-text">限時活動開跑！首儲加碼只到今晚！錯過再等一年！ 🔥 充值送彩金最高翻倍，立即加入搶紅利！ 💸 紅包雨隨機掉落，手慢就沒了！ ⚡ 立即登入，下一位幸運贏家就是你！&nbsp;&nbsp;&nbsp;&nbsp;限時活動開跑！首儲加碼只到今晚！錯過再等一年！ 🔥 充值送彩金最高翻倍，立即加入搶紅利！</span></div>
+  </div>
+
+  <!-- Game Tabs -->
+  <div class="game-tabs" id="gameTabs">
+    <button class="game-tab active" onclick="switchGameTab(this,'all')">全部</button>
+    <button class="game-tab" onclick="switchGameTab(this,'fav')">最愛</button>
+    <button class="game-tab" onclick="switchGameTab(this,'slot')">電動</button>
+    <button class="game-tab" onclick="switchGameTab(this,'live')">真人</button>
+    <button class="game-tab" onclick="switchGameTab(this,'sport')">體育</button>
+    <button class="game-tab" onclick="switchGameTab(this,'chess')">棋牌</button>
+    <button class="game-tab" onclick="switchGameTab(this,'lottery')">彩票</button>
+    <button class="game-tab" onclick="switchGameTab(this,'fish')">捕魚</button>
+  </div>
+
+  <!-- Game Grid -->
+  <div class="game-grid" id="gameGrid"></div>
+
+  <!-- Bottom Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-item" onclick="openModal('otherModal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      <span>其他</span>
+    </button>
+    <button class="tab-item" onclick="openModal('rankModal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span>排行榜</span>
+    </button>
+    <button class="tab-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>大廳</span>
+    </button>
+    <button class="tab-item" onclick="openModal('depositModal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      <span>商城</span>
+    </button>
+    <button class="tab-item" onclick="openModal('guildModal')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      <span>公會</span>
+    </button>
+  </div>
+</div>
+
+<!-- Chat bubble -->
+<div class="chat-bubble" onclick="openModal('chatModal')">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  <div class="chat-badge">4</div>
+</div>
+
+<!-- Deposit Modal -->
+<div class="modal-overlay" id="depositModal">
+  <div class="modal">
+    <div class="modal-header"><h3>儲值優惠活動</h3><button class="modal-close" onclick="closeModal('depositModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:13px;font-weight:600">Money 15,000</div><div style="font-size:11px;color:var(--text-dim)">贈 1%</div></div>
+          <button style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer">$ 150</button>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:13px;font-weight:600">Money 50,000</div><div style="font-size:11px;color:var(--text-dim)">贈 5%</div></div>
+          <button style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer">$ 500</button>
+        </div>
+        <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:13px;font-weight:600">Money 100,000</div><div style="font-size:11px;color:var(--text-dim)">贈 4%</div></div>
+          <button style="background:var(--green);color:#fff;border:none;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer">$ 1,000</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rank Modal -->
+<div class="modal-overlay" id="rankModal">
+  <div class="modal">
+    <div class="modal-header"><h3>排行榜</h3><button class="modal-close" onclick="closeModal('rankModal')">✕</button></div>
+    <div class="modal-body" id="rankBody"></div>
+  </div>
+</div>
+
+<!-- Other modals -->
+<div class="modal-overlay" id="otherModal">
+  <div class="modal">
+    <div class="modal-header"><h3>其他功能</h3><button class="modal-close" onclick="closeModal('otherModal')">✕</button></div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center">
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div><div style="font-size:11px">安全中心</div></div>
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/></svg>
+        </div><div style="font-size:11px">設定</div></div>
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div><div style="font-size:11px">客服</div></div>
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div><div style="font-size:11px">交易紀錄</div></div>
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div><div style="font-size:11px">個人資料</div></div>
+        <div style="padding:12px;background:rgba(255,255,255,.05);border-radius:10px;cursor:pointer"><div style="font-size:20px;margin-bottom:4px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div><div style="font-size:11px">活動</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="guildModal">
+  <div class="modal">
+    <div class="modal-header"><h3>公會</h3><button class="modal-close" onclick="closeModal('guildModal')">✕</button></div>
+    <div class="modal-body"><p style="text-align:center;color:var(--text-dim);font-size:13px">加入公會獲取更多金幣獎勵</p></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="chatModal">
+  <div class="modal">
+    <div class="modal-header"><h3>聊天室</h3><button class="modal-close" onclick="closeModal('chatModal')">✕</button></div>
+    <div class="modal-body"><p style="text-align:center;color:var(--text-dim);font-size:13px">聊天功能 Demo</p></div>
+  </div>
+</div>
+
+<script>
+const gameData = [
+  {name:'埃及三秘寶',type:'slot',players:891,tag:'hot',fav:false},
+  {name:'財神倍倍發 X4096',type:'slot',players:1334,tag:'',fav:true},
+  {name:'印加祖瑪 豪華版',type:'slot',players:1000,tag:'recommend',fav:false},
+  {name:'財富金幣',type:'slot',players:680,tag:'',fav:false},
+  {name:'阿茲特克神話',type:'slot',players:523,tag:'new',fav:false},
+  {name:'百家樂 A廳',type:'live',players:2100,tag:'hot',fav:true},
+  {name:'龍虎鬥',type:'live',players:890,tag:'',fav:false},
+  {name:'足球盤口',type:'sport',players:456,tag:'',fav:false},
+  {name:'寶石之王 Deluxe',type:'slot',players:320,tag:'new',fav:false},
+  {name:'德州撲克',type:'chess',players:780,tag:'hot',fav:true},
+  {name:'水果派對',type:'slot',players:650,tag:'',fav:false},
+  {name:'金龍獻瑞',type:'slot',players:430,tag:'recommend',fav:false},
+  {name:'百家樂 B廳',type:'live',players:1560,tag:'',fav:false},
+  {name:'時時彩',type:'lottery',players:290,tag:'',fav:false},
+  {name:'麻將胡了',type:'chess',players:1200,tag:'hot',fav:true},
+  {name:'甜蜜蜜糖果屋',type:'slot',players:870,tag:'',fav:false},
+  {name:'籃球盤口',type:'sport',players:340,tag:'',fav:false},
+  {name:'海盜寶藏',type:'slot',players:560,tag:'new',fav:false},
+  {name:'二十一點',type:'chess',players:410,tag:'',fav:false},
+  {name:'星際探險',type:'slot',players:280,tag:'new',fav:false},
+  {name:'捕魚達人',type:'fish',players:920,tag:'hot',fav:false},
+  {name:'深海獵手',type:'fish',players:670,tag:'',fav:false},
+  {name:'輪盤',type:'live',players:380,tag:'',fav:false},
+  {name:'骰寶',type:'live',players:290,tag:'',fav:false},
+  {name:'幸運777',type:'slot',players:1100,tag:'recommend',fav:false},
+  {name:'瘋狂水果機',type:'slot',players:750,tag:'',fav:false},
+  {name:'三公',type:'chess',players:320,tag:'',fav:false},
+  {name:'北京賽車',type:'lottery',players:180,tag:'',fav:false},
+  {name:'炸金花',type:'chess',players:560,tag:'',fav:true},
+  {name:'鬥地主',type:'chess',players:890,tag:'hot',fav:false},
+  {name:'歐冠盤口',type:'sport',players:420,tag:'',fav:false},
+  {name:'棒球盤口',type:'sport',players:210,tag:'',fav:false},
+  {name:'黃金礦工',type:'fish',players:340,tag:'new',fav:false},
+  {name:'龍王捕魚',type:'fish',players:510,tag:'',fav:false},
+  {name:'六合彩',type:'lottery',players:150,tag:'',fav:false},
+  {name:'快三',type:'lottery',players:230,tag:'',fav:false}
+];
+
+const colors = ['#2a1a4a','#1a2a4a','#3a1a3a','#1a3a3a','#2a2a1a','#1a1a3a','#3a2a1a','#2a3a1a'];
+let currentTab = 'all';
+
+function getFiltered(){
+  if(currentTab==='all') return gameData;
+  if(currentTab==='fav') return gameData.filter(g=>g.fav);
+  return gameData.filter(g=>g.type===currentTab);
+}
+
+function renderGames(){
+  const games = getFiltered();
+  document.getElementById('gameGrid').innerHTML = games.map((g,i) => {
+    const bg = colors[i % colors.length];
+    const tagHTML = g.tag==='hot' ? '<div class="game-tag tag-hot">HOT</div>' :
+      g.tag==='new' ? '<div class="game-tag tag-new">NEW</div>' :
+      g.tag==='recommend' ? '<div class="game-tag tag-recommend">推薦</div>' : '';
+    return `<div class="game-card" onclick="playGame('${g.name}')">
+      <div class="game-img" style="background:linear-gradient(135deg,${bg},${bg}88)"></div>
+      ${tagHTML}
+      <div class="game-fav ${g.fav?'liked':''}" onclick="event.stopPropagation();toggleFav(${i})">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      </div>
+      <div class="game-info">
+        <div class="game-name">${g.name}</div>
+        <div class="game-players"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>${g.players.toLocaleString()}人</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function switchGameTab(el, tab){
+  document.querySelectorAll('.game-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  currentTab = tab;
+  renderGames();
+}
+
+function toggleFav(idx){
+  gameData[idx].fav = !gameData[idx].fav;
+  renderGames();
+}
+
+function playGame(name){
+  alert('啟動遊戲：' + name);
+}
+
+// Banner carousel
+let slideIdx = 0;
+function goSlide(i){
+  slideIdx = i;
+  document.getElementById('bannerTrack').style.transform = `translateX(-${i*100}%)`;
+  document.querySelectorAll('.banner-dots .dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+setInterval(()=>{ goSlide((slideIdx+1)%3); }, 4000);
+
+// Rank modal
+function renderRank(){
+  const sorted = [...gameData].sort((a,b)=>b.players-a.players).slice(0,10);
+  document.getElementById('rankBody').innerHTML = sorted.map((g,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <div style="width:24px;text-align:center;font-size:14px;font-weight:700;color:${i<3?'var(--gold)':'var(--text-dim)'}">${i+1}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500">${g.name}</div><div style="font-size:11px;color:var(--text-dim)">${g.players.toLocaleString()} 在線</div></div>
+    </div>`).join('');
+}
+renderRank();
+
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+
+renderGames();
+</script>
+</body>
+</html>
