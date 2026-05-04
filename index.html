@@ -249,71 +249,80 @@ tr:hover td{background:rgba(59,130,246,.02)}
 @media (max-width: 768px) {
   .sidebar-overlay{display:block}
   /* Layout */
+  html,body{overflow-x:hidden;max-width:100vw}
   .sidebar{transform:translateX(-240px);z-index:1000}
   .sidebar.show{transform:translateX(0);box-shadow:4px 0 12px rgba(0,0,0,.15)}
-  .main{margin-left:0}
+  .main{margin-left:0;max-width:100vw;overflow-x:hidden}
   .sidebar-trigger{display:block!important;position:fixed;top:12px;left:12px;z-index:999;width:40px;height:40px;background:#fff;border-radius:8px;border:1px solid rgba(148,163,184,.2);box-shadow:0 2px 8px rgba(0,0,0,.08)}
   
   /* Topbar */
-  .topbar{padding:0 16px;height:60px}
-  .breadcrumb{font-size:14px;margin-left:48px}
-  .topbar-right{gap:8px}
+  .topbar{padding:0 12px;height:56px}
+  .breadcrumb{font-size:13px;margin-left:44px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100vw - 180px)}
+  .topbar-right{gap:6px}
   .topbar-icon-btn{width:32px;height:32px}
   
   /* Content */
-  .content{padding:16px}
+  .content{padding:12px}
   
   /* Card */
-  .card{padding:20px;border-radius:12px}
-  .card-header{flex-direction:column;align-items:flex-start;gap:12px}
-  .card-title{font-size:16px}
+  .card{padding:16px;border-radius:12px;overflow:hidden}
+  .card-header{flex-direction:column;align-items:stretch;gap:10px}
+  .card-title{font-size:15px}
+  .card-header-title{display:flex;align-items:center;justify-content:space-between}
   
   /* Filter Bar */
-  .filter-bar{flex-direction:column;gap:12px}
-  .filter-input,.filter-select{width:100%;min-width:auto}
+  .filter-bar{flex-direction:column;gap:10px}
+  .filter-input,.filter-select{width:100%;min-width:auto;box-sizing:border-box}
   
   /* Buttons */
-  .btn{width:100%;justify-content:center}
-  .btn-group{display:flex;gap:12px}
+  .card-header .btn{width:100%;justify-content:center;box-sizing:border-box}
+  .btn-group{display:flex;gap:8px;width:100%}
   .btn-group .btn{flex:1}
-  .card-header .btn{width:auto}
+  
+  /* Batch Bar */
+  .batch-bar{flex-direction:column;gap:10px;align-items:stretch}
+  .batch-actions{flex-wrap:wrap;gap:8px}
+  .batch-actions .btn{flex:1;min-width:0}
   
   /* Table */
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table{min-width:800px}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+  table{min-width:700px}
   
   /* Modal */
-  .modal{width:calc(100vw - 32px);max-width:none;max-height:90vh;margin:0 16px}
-  .modal.modal-fullscreen{width:calc(100vw - 32px);max-width:none}
-  .modal-header{padding:16px 20px}
-  .modal-body{padding:20px}
-  .modal-footer{padding:12px 20px;flex-direction:column-reverse;gap:8px}
-  .modal-footer .btn{width:100%;margin:0}
+  .modal{width:calc(100vw - 24px)!important;max-width:none!important;max-height:90vh!important;margin:0 12px}
+  .modal.modal-fullscreen{width:100vw!important;margin:0;height:100vh;max-height:100vh!important;border-radius:0}
+  .modal-header{padding:14px 16px}
+  .modal-body{padding:16px}
+  .modal-footer{padding:12px 16px}
+  .modal-footer .btn{width:100%;margin:0;box-sizing:border-box}
   
   /* Form */
   .form-row{grid-template-columns:1fr;gap:0}
-  .form-input,.form-select,.form-textarea{font-size:16px;padding:12px 14px}
+  .form-input,.form-select,.form-textarea{font-size:16px;padding:12px 14px;box-sizing:border-box}
   .form-label{font-size:14px}
   
   /* Tabs */
   .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
-  .tab{white-space:nowrap;padding:10px 16px;font-size:14px}
+  .tab{white-space:nowrap;padding:10px 14px;font-size:14px}
   
   /* Permission Grid */
   .perm-module{flex-direction:column;align-items:flex-start;padding:12px}
   .perm-module-name{width:100%;margin-bottom:8px}
-  .perm-actions{width:100%;margin-left:0;justify-content:flex-start}
+  .perm-actions{width:100%;margin-left:0;justify-content:flex-start;flex-wrap:wrap}
   
   /* Pagination */
-  .pagination{flex-direction:column;gap:12px;align-items:stretch}
-  .pagination-pages{justify-content:center}
+  .pagination{flex-direction:column;gap:10px;align-items:stretch}
+  .pagination-pages{justify-content:center;flex-wrap:wrap}
   
   /* Hide desktop elements */
-  .sidebar-logo span{display:none}
   .topbar-divider{display:none}
   
   /* Touch optimization */
   .menu-item,.dropdown-item,.btn,.page-btn{min-height:44px}
+  
+  /* Title section */
+  .page-title-section{flex-direction:column;align-items:flex-start;gap:8px}
+  .page-title-section .btn{width:100%}
 }
 
 @media (max-width: 480px) {
