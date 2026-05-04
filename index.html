@@ -995,13 +995,13 @@ const moduleGroups = {
 '風控管理':['交易明細','高風險明細'],
 '系統管理':['帳號權限管理']
 };
-const permActions = ['檢視','編輯','匯出'];
+const permActions = ['檢視','匯出'];
 const rolePermsMap = {
 '超級管理員': modules.flatMap(m => permActions.map(a => `${m}-${a}`)),
 '營運主管': ['即時 KPI 牆','登入數據','營收報表','留存率','儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
 '營運專員': ['即時 KPI 牆','營收報表'].flatMap(m => permActions.map(a => `${m}-${a}`)),
 '客服主管': ['交易明細','高風險明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
-'客服專員': ['交易明細'].flatMap(m => ['檢視','編輯'].map(a => `交易明細-${a}`)),
+'客服專員': ['交易明細'].flatMap(m => ['檢視'].map(a => `交易明細-${a}`)),
 '財務': ['儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
 '技術': ['帳號權限管理'].flatMap(m => permActions.map(a => `${m}-${a}`)),
 '數據分析師': ['即時 KPI 牆','登入數據','營收報表','留存率','產出與消耗','金幣總量趨勢','玩家餘額分佈','玩家排行榜','遊戲排行榜','遊戲明細'].flatMap(m => permActions.map(a => `${m}-${a}`)),
@@ -1012,7 +1012,7 @@ let roles = [
 {name:'營運主管',isSystem:false,perms:['即時 KPI 牆','登入數據','營收報表','留存率','儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
 {name:'營運專員',isSystem:false,perms:['即時 KPI 牆','營收報表'].flatMap(m => permActions.map(a => `${m}-${a}`))},
 {name:'客服主管',isSystem:false,perms:['交易明細','高風險明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
-{name:'客服專員',isSystem:false,perms:['交易明細'].flatMap(m => ['檢視','編輯'].map(a => `交易明細-${a}`))},
+{name:'客服專員',isSystem:false,perms:['交易明細'].flatMap(m => ['檢視'].map(a => `交易明細-${a}`))},
 {name:'財務',isSystem:false,perms:['儲值總表','儲值品項明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
 {name:'技術',isSystem:false,perms:['帳號權限管理'].flatMap(m => permActions.map(a => `${m}-${a}`))},
 {name:'數據分析師',isSystem:false,perms:['即時 KPI 牆','登入數據','營收報表','留存率','產出與消耗','金幣總量趨勢','玩家餘額分佈','玩家排行榜','遊戲排行榜','遊戲明細'].flatMap(m => permActions.map(a => `${m}-${a}`))},
@@ -1401,7 +1401,7 @@ const auditLogs = [
   {time:'2026/04/29 17:45:00',operator:'wang_ops',type:'登入',target:'wang_ops',ip:'192.168.1.55',detail:'登入成功'},
   {time:'2026/04/29 17:50:15',operator:'wang_ops',type:'編輯帳號',target:'chen_ops',ip:'192.168.1.55',detail:'備註：新增工作說明'},
   {time:'2026/04/29 14:20:00',operator:'yi_sa',type:'啟用帳號',target:'liu_tech',ip:'192.168.50.5',detail:'狀態：禁用 → 啟用'},
-  {time:'2026/04/29 10:00:00',operator:'superadmin',type:'編輯角色',target:'營運主管',ip:'192.168.1.100',detail:'新增模組權限：風控管理（檢視/編輯）'},
+  {time:'2026/04/29 10:00:00',operator:'superadmin',type:'編輯角色',target:'營運主管',ip:'192.168.1.100',detail:'新增模組權限：風控管理（檢視/匯出）'},
   {time:'2026/04/28 16:30:00',operator:'yi_sa',type:'密碼重設',target:'lin_cs',ip:'192.168.50.5',detail:'密碼已重設'},
   {time:'2026/04/28 09:00:00',operator:'superadmin',type:'登入',target:'superadmin',ip:'192.168.1.100',detail:'登入成功'},
   {time:'2026/04/27 11:00:00',operator:'lin_cs',type:'登入',target:'lin_cs',ip:'192.168.2.10',detail:'登入成功'},
@@ -1409,7 +1409,7 @@ const auditLogs = [
   {time:'2026/04/26 09:15:00',operator:'yi_sa',type:'新增帳號',target:'huang_cs',ip:'192.168.50.5',detail:'角色：客服專員'},
   {time:'2026/04/26 09:00:00',operator:'superadmin',type:'刪除角色',target:'測試角色',ip:'192.168.1.100',detail:'角色已刪除（無關聯帳號）'},
   {time:'2026/04/25 14:00:00',operator:'superadmin',type:'編輯帳號',target:'wang_ops',ip:'192.168.1.100',detail:'暱稱：王主管 → 王經理'},
-  {time:'2026/04/25 11:00:00',operator:'yi_sa',type:'新增角色',target:'客服主管',ip:'192.168.50.5',detail:'權限：客服管理（檢視/編輯）、會員管理（檢視）'},
+  {time:'2026/04/25 11:00:00',operator:'yi_sa',type:'新增角色',target:'客服主管',ip:'192.168.50.5',detail:'權限：客服管理（檢視/匯出）、會員管理（檢視）'},
 ];
 let filteredAudit = [...auditLogs];
 let auditPage = 1;
@@ -1656,13 +1656,10 @@ function renderRoleTable(){
         const acts=permByModule[mod];
         const hidden=visibleCount>showCount;
         const hiddenAttr=hidden?'style="display:none"':'';
-        const hasView=acts.includes('檢視'),hasEdit=acts.includes('編輯'),hasExport=acts.includes('匯出');
+        const hasView=acts.includes('檢視'),hasExport=acts.includes('匯出');
         let permText='',permCls='perm-desc-none';
-        if(hasView&&hasEdit&&hasExport){permText='檢視、編輯與匯出';permCls='perm-desc-full';}
-        else if(hasView&&hasExport){permText='檢視與匯出';permCls='perm-desc-full';}
-        else if(hasView&&hasEdit){permText='檢視與編輯';permCls='perm-desc-full';}
+        if(hasView&&hasExport){permText='檢視與匯出';permCls='perm-desc-full';}
         else if(hasView){permText='○ 僅限檢視';permCls='perm-desc-view';}
-        else if(hasEdit){permText='僅限編輯';permCls='perm-desc-full';}
         else if(hasExport){permText='僅限匯出';permCls='perm-desc-full';}
         else{permText='— 無權限 —';permCls='perm-desc-none';}
         return `<div class="perm-row" data-role="${i}" ${hiddenAttr}><span class="perm-mod-label">${mod}</span><span class="perm-desc ${permCls}">${permText}</span></div>`;
@@ -1754,15 +1751,13 @@ function updateGroupCheckbox(containerId,groupIdx){
   const c=document.getElementById(containerId);
   const groups=c.querySelectorAll('.perm-group');
   if(!groups[groupIdx]) return;
-  // 權限連動：匯出→編輯+檢視，編輯→檢視
+  // 權限連動：匯出→檢視
   groups[groupIdx].querySelectorAll('.perm-module').forEach(mod=>{
     const cbs=[...mod.querySelectorAll('.perm-actions input[type="checkbox"]')];
     const map={};
     cbs.forEach(cb=>{const a=cb.value.split('-').pop();map[a]=cb;});
-    if(map['匯出']&&map['匯出'].checked){if(map['編輯'])map['編輯'].checked=true;if(map['檢視'])map['檢視'].checked=true;}
-    else if(map['編輯']&&map['編輯'].checked){if(map['檢視'])map['檢視'].checked=true;}
-    if(map['檢視']&&!map['檢視'].checked){if(map['編輯'])map['編輯'].checked=false;if(map['匯出'])map['匯出'].checked=false;}
-    if(map['編輯']&&!map['編輯'].checked){if(map['匯出'])map['匯出'].checked=false;}
+    if(map['匯出']&&map['匯出'].checked){if(map['檢視'])map['檢視'].checked=true;}
+    if(map['檢視']&&!map['檢視'].checked){if(map['匯出'])map['匯出'].checked=false;}
   });
   const cbs=[...groups[groupIdx].querySelectorAll('.perm-actions input[type="checkbox"]')];
   const allChecked=cbs.every(cb=>cb.checked);
