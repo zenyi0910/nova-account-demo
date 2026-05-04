@@ -27,11 +27,11 @@ a{color:#3B82F6;text-decoration:none}
 .sidebar.collapsed .sidebar-dropdown{left:60px;bottom:0;right:auto;min-width:200px}
 .main.sidebar-collapsed{margin-left:60px}
 .sidebar-logo{padding:16px 20px;border-bottom:1px solid rgba(148,163,184,.15);display:flex;align-items:center;gap:12px;position:relative}
-.sidebar-logo-icon{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#06B6D4);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(59,130,246,.3);flex-shrink:0}
-.sidebar-logo-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.sidebar-logo-icon{width:40px;height:40px;flex-shrink:0}
+.sidebar-logo-icon img{width:40px;height:40px;display:block}
 .sidebar-logo-text{display:flex;flex-direction:column;line-height:1.2}
-.sidebar-logo-text .logo-nova{font-size:20px;font-weight:700;color:#0F172A}
-.sidebar-logo-text .logo-analytics{font-size:10px;font-weight:400;color:#94A3B8;letter-spacing:2px;text-transform:uppercase}
+.sidebar-logo-text .logo-nova{font-size:20px;font-weight:700;background:linear-gradient(to right,#3B82F6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sidebar-logo-text .logo-analytics{font-size:10px;font-weight:400;color:#94A3B8;letter-spacing:0.2em;text-transform:uppercase}
 .sidebar-menu{flex:1;padding:12px 8px}
 .menu-group{padding:4px 0}
 .menu-group-title{padding:8px 12px;font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
@@ -379,7 +379,7 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <aside class="sidebar">
 <div class="sidebar-logo">
 <div class="sidebar-logo-icon">
-<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-width="0" fill="rgba(255,255,255,.2)"/><path d="M8 12a4 4 0 018 0"/><circle cx="12" cy="12" r="2"/><path d="M12 8V2M12 22v-6"/></svg>
+<img src="nova-logo.svg" alt="Nova Logo">
 </div>
 <div class="sidebar-logo-text">
 <span class="logo-nova">NOVA</span>
