@@ -588,10 +588,150 @@ body {
   .data-table th, .data-table td { display: table-cell; }
   .breadcrumb { font-size: 12px; }
 }
+
+/* === Dialog / Modal === */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+.modal-title { font-weight: 600; font-size: 16px; color: var(--primary); }
+.modal-header-btns { display: flex; gap: 4px; }
+.modal-icon-btn {
+  width: 32px; height: 32px;
+  border: none; background: none;
+  cursor: pointer; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-500);
+  transition: background 0.15s;
+}
+.modal-icon-btn:hover { background: var(--gray-100); }
+.modal-icon-btn svg { width: 16px; height: 16px; }
+.modal-body { flex: 1; overflow-y: auto; padding: 20px; }
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+}
+.btn-sm {
+  height: 32px; padding: 0 12px;
+  border: none; border-radius: 6px;
+  font-size: 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-sm:active { transform: scale(0.95); }
+.btn-gray { background: var(--gray-400); color: #fff; }
+.btn-gray:hover { opacity: 0.8; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { opacity: 0.8; }
+.btn-teal { background: var(--teal); color: #fff; }
+.btn-teal:hover { opacity: 0.8; }
+.btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--border); }
+.btn-outline:hover { background: var(--gray-100); }
+.btn-danger { background: var(--red-500); color: #fff; }
+.btn-danger:hover { opacity: 0.8; }
+
+/* Detail fields */
+.detail-card { background: var(--gray-100); border-radius: 8px; padding: 20px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.detail-field label { display: block; font-size: 13px; font-weight: 500; color: var(--gray-500); margin-bottom: 4px; }
+.detail-field .val { font-size: 14px; color: var(--primary); }
+.detail-full { margin-bottom: 16px; }
+.detail-full label { display: block; font-size: 13px; font-weight: 500; color: var(--gray-500); margin-bottom: 4px; }
+.detail-full .val { font-size: 14px; color: var(--primary); }
+
+/* Role badge */
+.role-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500;
+}
+.role-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue-600); }
+
+/* Permission list */
+.perm-section { margin-bottom: 12px; }
+.perm-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500; color: var(--gray-500);
+  padding-bottom: 4px; margin-bottom: 4px;
+}
+.perm-check {
+  width: 16px; height: 16px; border-radius: 3px;
+  background: var(--teal); display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+}
+.perm-check svg { width: 12px; height: 12px; stroke: #fff; fill: none; }
+.perm-check.off { background: var(--gray-200); }
+.perm-check.off svg { stroke: var(--gray-400); }
+.perm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding-left: 8px; }
+.perm-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; font-size: 13px; color: var(--primary); }
+.perm-box {
+  max-height: 300px; overflow-y: auto;
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 12px; background: var(--gray-100);
+}
+
+/* Form fields */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--gray-500); margin-bottom: 6px; }
+.form-input {
+  width: 100%; height: 36px; border: 1px solid var(--border);
+  border-radius: 6px; padding: 0 12px; font-size: 14px;
+  outline: none; transition: box-shadow 0.15s;
+}
+.form-input:focus { box-shadow: 0 0 0 3px rgba(57,57,57,0.1); border-color: var(--primary); }
+.form-textarea {
+  width: 100%; min-height: 60px; border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 12px; font-size: 14px;
+  outline: none; resize: vertical; font-family: inherit;
+}
+.form-textarea:focus { box-shadow: 0 0 0 3px rgba(57,57,57,0.1); border-color: var(--primary); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) {
+  .detail-grid, .form-grid, .perm-grid { grid-template-columns: 1fr; }
+  .modal-box { width: 95%; max-height: 90vh; }
+}
 </style>
 </head>
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox"></div>
+</div>
 
 <!-- Sidebar -->
 <aside class="sidebar">
@@ -667,7 +807,7 @@ body {
         <svg class="chevron open" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       </div>
       <div class="nav-sub">
-        <a class="nav-sub-item" href="#">角色設定</a>
+        <a class="nav-sub-item" href="nova-admin-roles.html">角色設定</a>
         <a class="nav-sub-item active" href="#">帳號設定</a>
       </div>
     </div>
@@ -844,9 +984,9 @@ const deleteIcon = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke
 
 function renderTable() {
   const tbody = document.getElementById('table-body');
-  tbody.innerHTML = accounts.map(a => `
+  tbody.innerHTML = accounts.map((a, i) => `
     <tr>
-      <td><button class="account-link">${a.name}</button></td>
+      <td><div class="account-name" style="cursor:pointer;color:var(--blue-600);font-weight:500" onclick="showDetail(${i})">${a.name}</div></td>
       <td><div style="font-size:12px">${a.role}</div></td>
       <td>
         <div class="switch-wrap">
@@ -860,8 +1000,8 @@ function renderTable() {
       <td><span class="note-text">${a.note}</span></td>
       <td>
         <div class="action-btns">
-          <button class="action-btn edit">${editIcon}</button>
-          <button class="action-btn delete">${deleteIcon}</button>
+          <button class="action-btn edit" onclick="showEdit(${i})">${editIcon}</button>
+          <button class="action-btn delete" onclick="showDeleteConfirm(${i})">${deleteIcon}</button>
         </div>
       </td>
     </tr>
@@ -869,6 +1009,280 @@ function renderTable() {
 }
 
 renderTable();
+
+// === 權限資料 ===
+const permCategories = [
+  { name: '遊戲管理', items: ['遊戲列表','遊戲分類','遊戲標籤','遊戲廠商'] },
+  { name: '商城管理', items: ['商品列表','商品分類','訂單管理'] },
+  { name: '公會管理', items: ['公會列表','公會審核','公會等級'] },
+  { name: '內容發布', items: ['公告管理','Banner管理','推播通知'] },
+  { name: '活動管理', items: ['活動列表','活動審核'] },
+  { name: '任務管理', items: ['每日任務','成就任務'] },
+  { name: '三方支付設定', items: ['支付渠道','支付方式'] },
+  { name: '用戶管理', items: ['用戶列表','用戶等級','黑名單'] },
+  { name: '基本設定', items: ['網站設定','SEO設定','維護模式'] },
+  { name: '各式報表', items: ['營收報表','用戶報表','遊戲報表'] },
+  { name: '禁用語管理', items: ['禁用語列表'] },
+  { name: '紅包申請', items: ['紅包列表','紅包審核'] },
+  { name: '權限設定', items: ['角色設定','帳號設定'] },
+];
+
+// 每個帳號隨機分配權限（demo 用）
+accounts.forEach(a => {
+  if (!a.perms) {
+    a.perms = {};
+    permCategories.forEach(c => {
+      a.perms[c.name] = a.role === 'Admin' ? c.items.slice() : c.items.filter(() => Math.random() > 0.3);
+    });
+  }
+  if (!a.email) a.email = a.name.toLowerCase() + '@nova.com';
+});
+
+const roles = ['Admin','RD_Test','allenNoGame','角色名稱必填且不能超過20個字'];
+const checkSvg = `<svg viewBox="0 0 24 24" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>`;
+const closeSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+
+function openModal(html) {
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// === 帳號詳情 ===
+function showDetail(idx) {
+  const a = accounts[idx];
+  const permHtml = permCategories.map(c => {
+    const items = c.items.map(it => {
+      const has = a.perms[c.name]?.includes(it);
+      return `<div class="perm-item"><span class="perm-check ${has?'':'off'}">${checkSvg}</span>${it}</div>`;
+    }).join('');
+    const allOn = c.items.every(it => a.perms[c.name]?.includes(it));
+    return `<div class="perm-section">
+      <div class="perm-title"><span class="perm-check ${allOn?'':'off'}">${checkSvg}</span>${c.name}</div>
+      <div class="perm-grid">${items}</div>
+    </div>`;
+  }).join('');
+
+  openModal(`
+    <div class="modal-header">
+      <span class="modal-title">帳號詳細資訊</span>
+      <div class="modal-header-btns">
+        <button class="modal-icon-btn" onclick="closeModal()">${closeSvg}</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="detail-card">
+        <div class="detail-grid">
+          <div class="detail-field"><label>帳號名稱</label><div class="val">${a.name}</div></div>
+          <div class="detail-field"><label>電子信箱</label><div class="val">${a.email}</div></div>
+        </div>
+        <div class="detail-full"><label>備註</label><div class="val">${a.note || '—'}</div></div>
+        <div class="detail-full">
+          <label>角色設定</label>
+          <div class="role-badge"><span class="role-dot"></span>${a.role}</div>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:var(--primary)">權限設定</div>
+        <div class="perm-box">${permHtml}</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-teal" onclick="showResetPwd(${idx})">重設密碼</button>
+      <button class="btn-sm btn-gray" onclick="closeModal()">關閉</button>
+      <button class="btn-sm btn-primary" onclick="closeModal();showEdit(${idx})">編輯</button>
+    </div>
+  `);
+}
+
+// === 重設密碼 ===
+function showResetPwd(idx) {
+  const a = accounts[idx];
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
+  let pwd = '';
+  for (let i = 0; i < 12; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
+  openModal(`
+    <div class="modal-header">
+      <span class="modal-title">重設密碼 — ${a.name}</span>
+      <div class="modal-header-btns">
+        <button class="modal-icon-btn" onclick="closeModal()">${closeSvg}</button>
+      </div>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:40px 20px">
+      <div style="font-size:14px;color:var(--gray-500);margin-bottom:16px">新密碼已產生，請複製後提供給使用者</div>
+      <div id="pwdPill" style="display:inline-flex;align-items:center;gap:8px;background:var(--gray-100);border:1px solid var(--border);border-radius:8px;padding:12px 20px;font-family:monospace;font-size:18px;letter-spacing:1px;cursor:pointer" onclick="navigator.clipboard.writeText('${pwd}');this.querySelector('.copy-hint').textContent='已複製'">
+        ${pwd}
+        <span class="copy-hint" style="font-size:11px;color:var(--gray-400);font-family:sans-serif">點擊複製</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-gray" onclick="closeModal()">關閉</button>
+    </div>
+  `);
+}
+
+// === 編輯帳號 ===
+function showEdit(idx) {
+  const a = accounts[idx];
+  const roleOpts = roles.map(r => `<option value="${r}" ${r===a.role?'selected':''}>${r}</option>`).join('');
+  const permHtml = permCategories.map((c, ci) => {
+    const items = c.items.map((it, ii) => {
+      const has = a.perms[c.name]?.includes(it);
+      return `<div class="perm-item">
+        <input type="checkbox" id="ep_${ci}_${ii}" ${has?'checked':''} style="accent-color:var(--teal)">
+        <label for="ep_${ci}_${ii}" style="cursor:pointer">${it}</label>
+      </div>`;
+    }).join('');
+    const allOn = c.items.every(it => a.perms[c.name]?.includes(it));
+    return `<div class="perm-section">
+      <div class="perm-title">
+        <input type="checkbox" id="epc_${ci}" ${allOn?'checked':''} style="accent-color:var(--teal)"
+          onchange="document.querySelectorAll('[id^=ep_${ci}_]').forEach(cb=>cb.checked=this.checked)">
+        <label for="epc_${ci}" style="cursor:pointer;font-weight:500">${c.name}</label>
+      </div>
+      <div class="perm-grid">${items}</div>
+    </div>`;
+  }).join('');
+
+  openModal(`
+    <div class="modal-header">
+      <span class="modal-title">編輯帳號 — ${a.name}</span>
+      <div class="modal-header-btns">
+        <button class="modal-icon-btn" onclick="closeModal()">${closeSvg}</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>帳號名稱</label><input class="form-input" id="editName" value="${a.name}" readonly style="background:var(--gray-100)"></div>
+        <div class="form-group"><label>電子信箱</label><input class="form-input" id="editEmail" value="${a.email}"></div>
+      </div>
+      <div class="form-group"><label>備註</label><textarea class="form-textarea" id="editNote">${a.note||''}</textarea></div>
+      <div class="form-group">
+        <label>角色</label>
+        <select class="form-input" id="editRole">${roleOpts}</select>
+      </div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:var(--primary)">權限設定</div>
+      <div class="perm-box">${permHtml}</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-outline" onclick="closeModal()">取消</button>
+      <button class="btn-sm btn-primary" onclick="saveEdit(${idx})">儲存</button>
+    </div>
+  `);
+}
+
+function saveEdit(idx) {
+  const a = accounts[idx];
+  a.email = document.getElementById('editEmail').value;
+  a.note = document.getElementById('editNote').value;
+  a.role = document.getElementById('editRole').value;
+  permCategories.forEach((c, ci) => {
+    a.perms[c.name] = c.items.filter((_, ii) => document.getElementById(`ep_${ci}_${ii}`)?.checked);
+  });
+  renderTable();
+  closeModal();
+}
+
+// === 新增帳號 ===
+function showAddAccount() {
+  const roleOpts = roles.map(r => `<option value="${r}">${r}</option>`).join('');
+  const permHtml = permCategories.map((c, ci) => {
+    const items = c.items.map((it, ii) => `<div class="perm-item">
+      <input type="checkbox" id="np_${ci}_${ii}" style="accent-color:var(--teal)">
+      <label for="np_${ci}_${ii}" style="cursor:pointer">${it}</label>
+    </div>`).join('');
+    return `<div class="perm-section">
+      <div class="perm-title">
+        <input type="checkbox" id="npc_${ci}" style="accent-color:var(--teal)"
+          onchange="document.querySelectorAll('[id^=np_${ci}_]').forEach(cb=>cb.checked=this.checked)">
+        <label for="npc_${ci}" style="cursor:pointer;font-weight:500">${c.name}</label>
+      </div>
+      <div class="perm-grid">${items}</div>
+    </div>`;
+  }).join('');
+
+  openModal(`
+    <div class="modal-header">
+      <span class="modal-title">新增帳號</span>
+      <div class="modal-header-btns">
+        <button class="modal-icon-btn" onclick="closeModal()">${closeSvg}</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>帳號名稱 *</label><input class="form-input" id="newName" placeholder="請輸入帳號名稱"></div>
+        <div class="form-group"><label>密碼 *</label><input class="form-input" id="newPwd" type="password" placeholder="請輸入密碼"></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>電子信箱</label><input class="form-input" id="newEmail" placeholder="請輸入電子信箱"></div>
+        <div class="form-group"><label>角色 *</label><select class="form-input" id="newRole">${roleOpts}</select></div>
+      </div>
+      <div class="form-group"><label>備註</label><textarea class="form-textarea" id="newNote" placeholder="選填"></textarea></div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:12px;color:var(--primary)">權限設定</div>
+      <div class="perm-box">${permHtml}</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-outline" onclick="closeModal()">取消</button>
+      <button class="btn-sm btn-primary" onclick="saveNewAccount()">新增</button>
+    </div>
+  `);
+}
+
+function saveNewAccount() {
+  const name = document.getElementById('newName').value.trim();
+  if (!name) { alert('請輸入帳號名稱'); return; }
+  const perms = {};
+  permCategories.forEach((c, ci) => {
+    perms[c.name] = c.items.filter((_, ii) => document.getElementById(`np_${ci}_${ii}`)?.checked);
+  });
+  accounts.unshift({
+    name, role: document.getElementById('newRole').value,
+    active: true, lastLogin: '—',
+    note: document.getElementById('newNote').value,
+    email: document.getElementById('newEmail').value || name+'@nova.com',
+    perms
+  });
+  renderTable();
+  document.querySelector('.pagination-info').textContent = `第 1 頁，共 ${accounts.length} 筆資料`;
+  closeModal();
+}
+
+// === 刪除確認 ===
+function showDeleteConfirm(idx) {
+  const a = accounts[idx];
+  openModal(`
+    <div class="modal-header">
+      <span class="modal-title">刪除帳號</span>
+      <div class="modal-header-btns">
+        <button class="modal-icon-btn" onclick="closeModal()">${closeSvg}</button>
+      </div>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:32px 20px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--red-500)" stroke-width="2" style="width:48px;height:48px;margin-bottom:16px">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div style="font-size:15px;font-weight:500;margin-bottom:8px">確定要刪除帳號「${a.name}」嗎？</div>
+      <div style="font-size:13px;color:var(--gray-500)">此操作無法復原</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-outline" onclick="closeModal()">取消</button>
+      <button class="btn-sm btn-danger" onclick="doDelete(${idx})">確認刪除</button>
+    </div>
+  `);
+}
+function doDelete(idx) {
+  accounts.splice(idx, 1);
+  renderTable();
+  document.querySelector('.pagination-info').textContent = `第 1 頁，共 ${accounts.length} 筆資料`;
+  closeModal();
+}
+
+// 綁定新增帳號按鈕
+document.querySelector('.btn-add')?.addEventListener('click', showAddAccount);
 </script>
 </body>
 </html>
