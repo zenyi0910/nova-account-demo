@@ -21,7 +21,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
 .sidebar-chevron.open{transform:rotate(90deg)}
 
-.sidebar-sub{padding-left:20px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
+.sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
 .sidebar-sub.open{max-height:400px;opacity:1;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
 .sidebar-sub .sidebar-item{transform:translateY(-4px);opacity:0;transition:transform .3s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
 .sidebar-sub.open .sidebar-item{transform:translateY(0);opacity:1}
@@ -93,7 +93,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 .sidebar-user{position:relative;cursor:pointer}
 .user-chevron{width:14px;height:14px;color:#9CA3AF;margin-left:auto;flex-shrink:0;transition:transform .2s}
-.sidebar-user.open .user-chevron{transform:rotate(180deg)}
+.sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
 .user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
 .sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
 .user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
@@ -210,7 +210,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="sidebar-user" onclick="toggleUserMenu()">
     <div class="user-avatar">C</div>
     <div class="user-info"><div class="user-name">Casper Admin</div><div class="user-role">casper</div></div>
-    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
     <div class="user-popover" id="userPopover">
       <div class="user-popover-header">
         <div class="user-avatar">C</div>
@@ -226,7 +226,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="sidebar-user" onclick="toggleUserMenu()">
     <div class="user-avatar">C</div>
     <div class="user-info"><div class="user-name">Casper Admin</div><div class="user-role">casper</div></div>
-    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
     <div class="user-popover" id="userPopover">
       <div class="user-popover-header">
         <div class="user-avatar">C</div>
