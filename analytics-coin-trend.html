@@ -55,11 +55,17 @@ td a{color:#2563EB;font-weight:500}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:3px}
 @media(max-width:768px){.sidebar{width:60px}.sidebar .sidebar-logo-text,.sidebar .menu-item span,.sidebar .menu-group-title,.sidebar .sidebar-user-info{display:none}.main{margin-left:60px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}}
 .trend-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.trend-item{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.6);border-radius:12px;padding:20px;text-align:center}.trend-item h4{font-size:12px;color:#64748B;margin-bottom:8px}.trend-item .val{font-size:24px;font-weight:700;color:#0F172A}.chart-placeholder{height:300px;background:linear-gradient(180deg,rgba(59,130,246,.05),rgba(59,130,246,.02));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#94A3B8;font-size:13px}@media(max-width:768px){.trend-summary{grid-template-columns:1fr}}
-.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:200px;z-index:100;overflow:hidden}
+.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
-.popover-item{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;color:#334155;cursor:pointer;transition:all .15s}
-.popover-item:hover{background:rgba(59,130,246,.06)}
+.popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
+.popover-item:hover{background:#F3F4F6}
+.popover-logout{color:#3B82F6}
 .popover-divider{height:1px;background:#E5E7EB;margin:4px 0}
+.popover-user{display:flex;align-items:center;gap:10px;padding:10px 16px}
+.popover-avatar{width:32px;height:32px;border-radius:50%;background:#EAB308;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0}
+.popover-user-info{display:flex;flex-direction:column}
+.popover-user-name{font-size:13px;font-weight:600;color:#111827}
+.popover-user-email{font-size:11px;color:#6B7280}
 </style>
 </head>
 <body>

@@ -90,11 +90,17 @@ td a{color:#2563EB;font-weight:500}
 .kpi-change.down{color:#EF4444}
 .kpi-chart{height:80px;margin-top:16px;background:linear-gradient(180deg,rgba(59,130,246,.05),rgba(59,130,246,.02));border-radius:8px}
 @media(max-width:768px){.kpi-grid{grid-template-columns:1fr}}
-.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:200px;z-index:100;overflow:hidden}
+.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
-.popover-item{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;color:#334155;cursor:pointer;transition:all .15s}
-.popover-item:hover{background:rgba(59,130,246,.06)}
+.popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
+.popover-item:hover{background:#F3F4F6}
+.popover-logout{color:#3B82F6}
 .popover-divider{height:1px;background:#E5E7EB;margin:4px 0}
+.popover-user{display:flex;align-items:center;gap:10px;padding:10px 16px}
+.popover-avatar{width:32px;height:32px;border-radius:50%;background:#EAB308;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0}
+.popover-user-info{display:flex;flex-direction:column}
+.popover-user-name{font-size:13px;font-weight:600;color:#111827}
+.popover-user-email{font-size:11px;color:#6B7280}
 </style>
 </head>
 <body>
@@ -200,7 +206,7 @@ td a{color:#2563EB;font-weight:500}
 </div>
 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>
 </div>
-<div class="user-popover" id="userPopover"><div class="popover-item" onclick="window.location='index.html'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>角色權限管理</div><div class="popover-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>通知設定</div><div class="popover-divider"></div><div class="popover-item" style="color:#EF4444"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>登出</div></div>
+<div class="user-popover" id="userPopover"><div class="popover-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>通知設定</div><div class="popover-divider"></div><div class="popover-item popover-logout"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>登出</div><div class="popover-divider"></div><div class="popover-user"><div class="popover-avatar">Y</div><div class="popover-user-info"><div class="popover-user-name">Yi</div><div class="popover-user-email">yi@nova-analytics.com</div></div></div></div>
 </div>
 </aside>
 <div class="main">
