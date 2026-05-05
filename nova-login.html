@@ -95,6 +95,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',s
 .modal-submit{width:100%;padding:12px;border-radius:9999px;border:none;cursor:pointer;background:#2bb5a0;color:#fff;font-size:14px;font-weight:600;font-family:inherit}
 .modal-close{display:flex;justify-content:center;margin-top:12px}
 .modal-close-btn{width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:none;cursor:pointer;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}
+
+/* 錯誤提示 Modal */
+.alert-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:center;justify-content:center}
+.alert-overlay.hidden{display:none}
+.alert-dialog{position:relative;width:100%;max-width:340px;padding:0 16px}
+.alert-ribbon{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:50;width:100%;height:72px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.alert-ribbon-text{font-size:16px;font-weight:600;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.alert-card{background:#fafafa;border:8px solid var(--gold-border);border-radius:24px;padding:36px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.alert-msg{font-size:13px;color:#333;text-align:center;line-height:1.6}
+.alert-btn{width:100%;padding:12px;border-radius:9999px;border:none;cursor:pointer;background:#2bb5a0;color:#fff;font-size:14px;font-weight:600;font-family:inherit}
 </style>
 </head>
 <body>
@@ -214,9 +224,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Noto Sans TC',s
         <button class="toggle-pw" onclick="togglePw()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 01-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button>
       </div>
       <div class="modal-note">注意：本功能僅供已完成帳號綁定者使用</div>
-      <button class="modal-submit" onclick="alert('登入中...')">登入</button>
+      <button class="modal-submit" onclick="doLogin()">登入</button>
     </div>
     <div class="modal-close"><button class="modal-close-btn" onclick="closeAccountModal()">&times;</button></div>
+  </div>
+</div>
+
+<!-- 錯誤提示 Modal -->
+<div class="alert-overlay hidden" id="alertModal" onclick="if(event.target===this)closeAlert()">
+  <div class="alert-dialog">
+    <div class="alert-ribbon">
+      <svg width="340" height="72" viewBox="0 0 340 72" style="position:absolute;width:100%;height:100%">
+        <defs><linearGradient id="rg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4b63f"/><stop offset="50%" stop-color="#d4942a"/><stop offset="100%" stop-color="#f4b63f"/></linearGradient></defs>
+        <path d="M25,36 L45,12 L295,12 L315,36 L295,60 L45,60 Z" fill="url(#rg3)" stroke="#c8891e" stroke-width="1.5"/>
+        <path d="M8,36 L25,22 L25,50 Z" fill="url(#rg3)" stroke="#c8891e" stroke-width="1"/>
+        <path d="M332,36 L315,22 L315,50 Z" fill="url(#rg3)" stroke="#c8891e" stroke-width="1"/>
+      </svg>
+      <span class="alert-ribbon-text">溫馨提醒</span>
+    </div>
+    <div class="alert-card">
+      <div class="alert-msg" id="alertMsg">帳號密碼錯誤，請洽客服，或使用其他登入方式(1101)</div>
+      <button class="alert-btn" onclick="closeAlert()">重新登入</button>
+    </div>
   </div>
 </div>
 
@@ -225,6 +254,12 @@ function closeAge(){document.getElementById('ageOverlay').classList.add('hidden'
 function openAccountModal(){document.getElementById('accountModal').classList.remove('hidden')}
 function closeAccountModal(){document.getElementById('accountModal').classList.add('hidden')}
 function togglePw(){const i=document.getElementById('pwInput');i.type=i.type==='password'?'text':'password'}
+function doLogin(){
+  closeAccountModal();
+  document.getElementById('alertMsg').textContent='帳號密碼錯誤，請洽客服，或使用其他登入方式(1101)';
+  document.getElementById('alertModal').classList.remove('hidden');
+}
+function closeAlert(){document.getElementById('alertModal').classList.add('hidden')}
 </script>
 </body>
 </html>
