@@ -107,19 +107,130 @@
 </div>
 </footer>
 
-<div class="chat-bubble">
+<div class="chat-bubble" onclick="showSubpage('chat')">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
 <span>聊天</span>
 <div class="chat-badge">3</div>
 </div>
 </div>
 
+<!-- Drawer overlay -->
+<div id="drawer-overlay" class="subpage-overlay" style="display:none" onclick="closeDrawer(event)">
+<div class="subpage-dialog" onclick="event.stopPropagation()">
+<div id="drawer-content"></div>
+<div class="subpage-bottom-close"><button onclick="closeDrawer()">關閉</button></div>
+</div>
+</div>
+
 <script>
-function showSubpage(page) {
-  const pages = {profile:'nova-profile.html',ranking:'nova-leaderboard.html',store:'nova-shop.html',gift:'nova-gift.html',guild:'nova-guild.html'};
-  if (pages[page]) window.location.href = pages[page];
+function closeDrawer(e){if(e&&e.target&&!e.target.classList.contains('subpage-overlay'))return;document.getElementById('drawer-overlay').style.display='none';}
+function showSubpage(page){
+  const el=document.getElementById('drawer-overlay');
+  const content=document.getElementById('drawer-content');
+  content.innerHTML=drawerPages[page]||'';
+  el.style.display='flex';
 }
-function showProfile() { window.location.href = 'nova-profile.html'; }
+function showProfile(){showSubpage('profile');}
+
+const drawerPages={
+  chat:`<div class="subpage-header"><h2>聊天室</h2></div>
+<div class="subpage-tabs"><button class="active" onclick="switchChatTab(this,'public')">公頻</button><button onclick="switchChatTab(this,'private')">私聊</button><button onclick="switchChatTab(this,'announce')">公告</button></div>
+<div id="chat-panel" style="padding:12px 16px;min-height:300px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:8px;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;flex-shrink:0"></div><div><div style="font-size:11px;color:#999">User182382</div><div style="background:#f3f4f6;border-radius:12px;padding:6px 10px;font-size:13px;color:#333">大家好～今天手氣不錯</div></div></div>
+<div style="display:flex;gap:8px;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;flex-shrink:0"></div><div><div style="font-size:11px;color:#999">User253376</div><div style="background:#f3f4f6;border-radius:12px;padding:6px 10px;font-size:13px;color:#333">有人要組隊嗎？</div></div></div>
+<div style="display:flex;gap:8px;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;flex-shrink:0"></div><div><div style="font-size:11px;color:#999">Wayne</div><div style="background:#f3f4f6;border-radius:12px;padding:6px 10px;font-size:13px;color:#333">剛贏了一把 埃及三秘寶！</div></div></div>
+<div style="display:flex;gap:8px;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;flex-shrink:0"></div><div><div style="font-size:11px;color:#999">Cloud001</div><div style="background:#f3f4f6;border-radius:12px;padding:6px 10px;font-size:13px;color:#333">恭喜恭喜🎉</div></div></div>
+<div style="display:flex;gap:8px;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:#e5e7eb;flex-shrink:0"></div><div><div style="font-size:11px;color:#999">QAtest6改改</div><div style="background:#f3f4f6;border-radius:12px;padding:6px 10px;font-size:13px;color:#333">今天活動有加碼嗎</div></div></div>
+</div>
+</div>
+<div style="padding:8px 16px;display:flex;gap:8px;border-top:1px solid #eee"><input type="text" placeholder="輸入訊息..." style="flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 14px;font-size:13px;outline:none"><button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer">發送</button></div>`,
+
+  ranking:`<div class="subpage-header"><h2>排行榜</h2></div>
+<div class="subpage-tabs"><button class="active">富豪榜</button><button>贏分榜</button><button>倍率榜</button><button>公會榜</button><button>活動榜</button></div>
+<p style="text-align:center;color:#999;font-size:12px;padding:8px">金幣餘額排名，每 15 分鐘更新</p>
+<div class="rank-list">
+<div class="rank-item"><div class="rank-num">1</div><div class="rank-avatar"></div><div class="rank-name">User837133</div><div class="rank-coins">1,333,576,101</div></div>
+<div class="rank-item"><div class="rank-num">2</div><div class="rank-avatar"></div><div class="rank-name">User763693</div><div class="rank-coins">448,197,600</div></div>
+<div class="rank-item"><div class="rank-num">3</div><div class="rank-avatar"></div><div class="rank-name">Wayne</div><div class="rank-coins">349,747,991</div></div>
+<div class="rank-item"><div class="rank-num">4</div><div class="rank-avatar"></div><div class="rank-name">Huang Vera123</div><div class="rank-coins">167,725,942</div></div>
+<div class="rank-item"><div class="rank-num">5</div><div class="rank-avatar"></div><div class="rank-name">Cloud001</div><div class="rank-coins">148,994,130</div></div>
+<div class="rank-item"><div class="rank-num">6</div><div class="rank-avatar"></div><div class="rank-name">QAtest6改改</div><div class="rank-coins">148,927,558</div></div>
+<div class="rank-item"><div class="rank-num">7</div><div class="rank-avatar"></div><div class="rank-name">verahuang0001</div><div class="rank-coins">148,601,721</div></div>
+<div class="rank-item"><div class="rank-num">8</div><div class="rank-avatar"></div><div class="rank-name">yu5864</div><div class="rank-coins">39,280,919</div></div>
+<div class="rank-item"><div class="rank-num">9</div><div class="rank-avatar"></div><div class="rank-name">cas1</div><div class="rank-coins">27,145,299</div></div>
+<div class="rank-item"><div class="rank-num">10</div><div class="rank-avatar"></div><div class="rank-name">verahuang</div><div class="rank-coins">22,548,603</div></div>
+<div class="rank-item" style="background:rgba(245,158,11,.1);border-radius:8px"><div class="rank-num" style="color:#dc2626">50+</div><div class="rank-avatar"></div><div class="rank-name" style="font-weight:700">QAtest5</div><div class="rank-coins">7,459</div></div>
+</div>`,
+
+  store:`<div class="subpage-header"><h2>商城</h2></div>
+<div style="text-align:center;padding:4px;color:#d97706;font-size:12px;font-weight:600">優惠倒數 00日 23時 56分 11秒</div>
+<div class="subpage-tabs"><button class="active">儲值優惠券</button><button>選擇優惠 ></button><button>推薦</button></div>
+<div style="padding:12px 16px;text-align:center"><div style="background:#f3f4f6;border-radius:12px;padding:20px;margin-bottom:12px"><p style="font-size:14px;font-weight:600;color:#333">星海卡 Super Star Card</p><p style="color:#999;font-size:12px;margin-top:4px">敬請期待 ></p></div></div>
+<div class="store-section"><div class="store-quick">
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">51,500</span><button class="price-btn">$ 500</button><span class="bonus">贈 3%</span></div>
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">104,000</span><button class="price-btn">$ 1,000</button><span class="bonus">贈 4%</span></div>
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">515</span><button class="price-btn">$ 5</button><span class="bonus">贈 15</span></div>
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">5,150</span><button class="price-btn">$ 50</button><span class="bonus">贈 150</span></div>
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">52,000</span><button class="price-btn">$ 500</button><span class="bonus">贈 4%</span></div>
+<div class="store-card-item"><img src="assets/icon_coin_gold.png" style="width:20px;height:20px"><span class="amount">51,500</span><button class="price-btn">$ 500</button><span class="bonus">贈 3%</span></div>
+</div>
+<h3 class="store-category" style="margin:12px 0 8px;padding-left:0">一般儲值</h3>
+<div class="store-method"><button>線上轉點</button><button>電信帳單</button><button>Gash錢包扣點</button><button>Gash點數卡</button><button>7-11即時儲</button><button>行動支付</button></div>
+</div>
+<div style="padding:16px;text-align:center;border-top:1px solid #eee;margin-top:12px"><span style="color:#333;font-size:13px">當前金幣 </span><span style="color:#d97706;font-weight:700">7,459</span><span style="color:#333;font-size:13px">點</span><button style="margin-left:12px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:16px;padding:6px 14px;font-size:12px;font-weight:600">招財金</button></div>`,
+
+  gift:`<div class="subpage-header"><h2>贈禮</h2></div>
+<div class="subpage-tabs"><button class="active">贈禮</button><button>贈禮中心</button><button>贈禮紀錄</button></div>
+<div style="padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #eee"><span style="font-size:14px;font-weight:600;color:#333">QAtest5</span><span style="color:#d97706;font-size:12px">7,459點</span><button style="margin-left:auto;background:none;border:1px solid #ddd;border-radius:12px;padding:4px 8px;font-size:11px;color:#666">贈禮說明</button></div>
+<div style="padding:12px 16px">
+<table style="width:100%;font-size:12px;border-collapse:collapse"><tr style="border-bottom:1px solid #eee"><td style="padding:8px 0;color:#666">可贈送數量</td><td style="text-align:right;font-weight:600">0</td></tr><tr style="border-bottom:1px solid #eee"><td style="padding:8px 0;color:#666">今日可贈送額度</td><td style="text-align:right;font-weight:600">80,000/80,000</td></tr><tr style="border-bottom:1px solid #eee"><td style="padding:8px 0;color:#666">今日可贈送次數</td><td style="text-align:right;font-weight:600">10</td></tr><tr><td style="padding:8px 0;color:#666">凍結總額（明細）</td><td style="text-align:right;font-weight:600">0</td></tr></table>
+</div>
+<div style="padding:0 16px">
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">收禮玩家</label>
+<div style="display:flex;gap:8px"><input type="text" placeholder="請輸入會員暱稱" style="flex:1;border:1px solid #ddd;border-radius:8px;padding:8px 12px;font-size:13px"><button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600">搜尋</button></div>
+<label style="font-size:12px;color:#666;display:block;margin:12px 0 4px">贈送金幣</label>
+<input type="number" value="0" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:8px 12px;font-size:13px">
+<p style="color:#dc2626;font-size:11px;margin-top:4px">最低至少 20,000 金幣</p>
+<p style="color:#666;font-size:11px;margin-top:4px">手續費：0</p>
+<button style="width:100%;margin-top:16px;background:linear-gradient(135deg,#fb923c,#f97316);color:#fff;border:none;border-radius:20px;padding:12px;font-size:14px;font-weight:600">確定</button>
+</div>`,
+
+  guild:`<div class="subpage-header"><h2>公會</h2></div>
+<div class="subpage-tabs"><button class="active">我的公會</button><button>所有公會</button><button>公會說明</button></div>
+<div style="padding:8px 16px;display:flex;gap:8px"><input type="text" placeholder="請輸入公會名稱" style="flex:1;border:1px solid #ddd;border-radius:8px;padding:8px 12px;font-size:13px"><button style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600">建立公會</button></div>
+<div class="guild-list">
+<div class="guild-item"><div class="guild-avatar">蛋</div><div class="guild-info"><div class="guild-name">蛋捲公會 <span style="font-size:11px;color:#999">Lv.10</span></div><div class="guild-members">💰 159,219,980</div></div><button class="guild-join">加入</button></div>
+<div class="guild-item"><div class="guild-avatar">T</div><div class="guild-info"><div class="guild-name">test <span style="font-size:11px;color:#999">Lv.5</span></div><div class="guild-members">💰 10,346</div></div><button class="guild-join">加入</button></div>
+<div class="guild-item"><div class="guild-avatar">A</div><div class="guild-info"><div class="guild-name">Aaron測試 <span style="font-size:11px;color:#999">Lv.3</span></div><div class="guild-members">💰 1,967,044</div></div><button class="guild-join">加入</button></div>
+</div>
+<div id="guild-reminder" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center">
+<div style="background:#fff;border-radius:16px;padding:0;width:280px;overflow:hidden;text-align:center">
+<div style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:16px;color:#fff;font-size:16px;font-weight:700">溫馨提醒</div>
+<p style="padding:24px 16px;color:#333;font-size:14px">您目前尚未有所屬公會</p>
+<button onclick="document.getElementById('guild-reminder').style.display='none'" style="margin:0 auto 16px;display:block;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:20px;padding:10px 32px;font-size:14px;font-weight:600;cursor:pointer">確認</button>
+</div></div>`,
+
+  profile:`<div class="subpage-header"><h2>我的</h2></div>
+<div class="subpage-tabs"><button class="active">我的</button><button>存摺</button><button>信箱</button><button>好友</button></div>
+<div class="profile-panel">
+<div class="profile-card"><div class="profile-avatar"><img src="assets/user_avatar.png" alt="avatar"></div><div class="profile-name">QAtest5</div><div class="profile-vip">VIP3</div></div>
+<ul class="profile-menu">
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>改暱稱</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4A.7.7 0 0 0 11 19.3z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.7"/></svg>大聲公</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>VIP說明</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>綁定門號</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>個人簡介</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>成就系統</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>星鑽卡</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>登出</li>
+</ul></div>`
+};
+
+function switchChatTab(btn,tab){
+  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
 </script>
 </body>
 </html>
