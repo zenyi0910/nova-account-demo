@@ -20,8 +20,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
 .sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
 .sidebar-chevron.open{transform:rotate(90deg)}
-.sidebar-sub{padding-left:20px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.4,0,.2,1)}
-.sidebar-sub.open{max-height:320px}
+
+.sidebar-sub{padding-left:20px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
+.sidebar-sub.open{max-height:400px;opacity:1;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
+.sidebar-sub .sidebar-item{transform:translateY(-4px);opacity:0;transition:transform .3s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
+.sidebar-sub.open .sidebar-item{transform:translateY(0);opacity:1}
+.sidebar-sub.open .sidebar-item:nth-child(1){transition-delay:0.03s}
+.sidebar-sub.open .sidebar-item:nth-child(2){transition-delay:0.06s}
+.sidebar-sub.open .sidebar-item:nth-child(3){transition-delay:0.09s}
+.sidebar-sub.open .sidebar-item:nth-child(4){transition-delay:0.12s}
+.sidebar-sub.open .sidebar-item:nth-child(5){transition-delay:0.15s}
+.sidebar-sub.open .sidebar-item:nth-child(6){transition-delay:0.18s}
+.sidebar-sub.open .sidebar-item:nth-child(7){transition-delay:0.21s}
 .sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
 .sidebar-sub .sidebar-item:hover{color:#111827}
 .sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
