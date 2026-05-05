@@ -59,12 +59,13 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .game-multiplier{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.6);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 5px;border-radius:6px;z-index:2}
 .game-players{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;font-weight:700;color:#fff;padding:2px 0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7));border-radius:0 0 20px 20px;z-index:2}
 .game-badge{position:absolute;top:0;right:-2px;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -3px 2px rgba(0,0,0,.2),inset 1px 2px 1px rgba(255,253,247,1);z-index:3}
-.footer-nav{position:fixed;bottom:0;left:0;right:0;height:70px;z-index:40;display:flex;align-items:flex-end;justify-content:space-around;padding:0 8px 10px;background:linear-gradient(to top,#fefce8 60%,transparent)}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10px;color:#78350f;font-weight:500;padding:4px 6px;min-width:48px}
-.nav-btn img,.nav-btn svg{width:20px;height:20px}
-.nav-btn.active{color:#991b1b}
-.nav-btn.store{position:relative;top:-12px}
-.nav-btn.store svg{width:40px;height:40px}
+.footer-fixed{position:fixed;bottom:0;left:0;right:0;height:70px;z-index:40;background:transparent}
+.footer-inner{width:100%;height:100%;display:flex;align-items:flex-end;padding:0 16px 12px;background-position:center bottom;background-size:contain;background-repeat:repeat-x}
+.footer-btn{flex:1 1 0%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;height:36px;background:none;border:none;cursor:pointer;position:relative}
+.footer-btn span{font-size:14px;font-weight:500;color:#fff}
+.footer-icon{width:16px;height:16px;object-fit:contain}
+.footer-btn-store{overflow:visible}
+.footer-icon-store{width:104px;height:71px;object-fit:contain;position:absolute;bottom:8px}
 .chat-bubble{position:fixed;right:8px;bottom:84px;width:52px;height:52px;border-radius:50%;background:#fafafa;box-shadow:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#452201;font-size:9px;z-index:45;cursor:pointer}
 .chat-bubble svg{width:20px;height:20px}
 .chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#f87171;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
