@@ -7,87 +7,108 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-body{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+body{background:radial-gradient(ellipse at center,#c0392b 0%,#8b0000 40%,#4a0000 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+body::before{content:'';position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.02) 0deg 10deg,transparent 10deg 20deg);pointer-events:none}
+body::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top,rgba(218,165,32,.4),transparent);pointer-events:none}
+img{display:block;max-width:100%}
+button{border:none;cursor:pointer;font:inherit}
 
-.login-container{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center;gap:32px}
+.sparkles{position:absolute;top:0;left:0;right:0;height:60%;pointer-events:none}
+.sparkle{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 2s infinite}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:1}}
+
+.login-container{position:relative;z-index:1;width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:24px}
 
 /* Logo */
-.logo-section{text-align:center}
-.logo-text{font-size:28px;font-weight:800;color:#fbbf24;text-shadow:0 2px 8px rgba(251,191,36,.4);letter-spacing:2px}
-.logo-sub{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;letter-spacing:4px}
+.logo{text-align:center;margin-bottom:8px}
+.logo-main{font-size:32px;font-weight:900;color:#ffd700;text-shadow:0 2px 4px rgba(0,0,0,.4),0 0 20px rgba(255,215,0,.3);letter-spacing:3px}
+.logo-sub{display:inline-block;background:#333;border-radius:4px;padding:4px 12px;margin-top:8px}
+.logo-sub span{display:inline-block;background:#fff;color:#c0392b;font-weight:900;font-size:14px;padding:2px 4px;margin:0 1px;border-radius:2px}
 
-/* Form */
-.login-form{width:100%;display:flex;flex-direction:column;gap:16px}
-.input-group{position:relative}
-.input-group input{width:100%;height:48px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:0 16px 0 44px;font-size:14px;color:#fff;outline:none;transition:border-color .2s}
-.input-group input::placeholder{color:rgba(255,255,255,.4)}
-.input-group input:focus{border-color:#fbbf24}
-.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);width:20px;height:20px}
-.input-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);width:20px;height:20px;cursor:pointer}
+/* Login Buttons */
+.login-buttons{width:100%;display:flex;flex-direction:column;gap:12px}
+.btn-line{width:100%;height:48px;background:#00B900;border-radius:24px;display:flex;align-items:center;padding:0 20px;gap:12px;color:#fff;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.btn-line .icon{width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.btn-line .icon svg{width:18px;height:18px;fill:#00B900}
+.btn-sms{width:100%;height:48px;background:linear-gradient(135deg,#e74c3c,#f39c12);border-radius:24px;display:flex;align-items:center;padding:0 20px;gap:12px;color:#fff;font-size:14px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.btn-sms .icon{width:28px;height:28px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.btn-sms .icon svg{width:16px;height:16px;fill:#fff}
 
-.login-options{display:flex;justify-content:space-between;align-items:center}
-.remember-me{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.6)}
-.remember-me input[type="checkbox"]{width:14px;height:14px;accent-color:#fbbf24}
-.forgot-pwd{font-size:12px;color:#fbbf24;text-decoration:none}
-
-.login-btn{width:100%;height:48px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(245,158,11,.3);transition:transform .15s,box-shadow .15s}
-.login-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(245,158,11,.2)}
-
-/* Divider */
-.divider{display:flex;align-items:center;gap:12px;width:100%;color:rgba(255,255,255,.3);font-size:12px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.15)}
-
-/* Social */
-.social-login{display:flex;gap:16px;justify-content:center}
-.social-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
-.social-btn:hover{background:rgba(255,255,255,.15)}
-.social-btn svg{width:22px;height:22px;color:#fff}
-
-/* Register */
-.register-link{font-size:13px;color:rgba(255,255,255,.6)}
-.register-link a{color:#fbbf24;text-decoration:none;font-weight:600}
+/* Circle buttons */
+.circle-buttons{display:flex;gap:24px;justify-content:center;margin-top:8px}
+.circle-btn{display:flex;flex-direction:column;align-items:center;gap:6px}
+.circle-btn .icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.circle-btn .icon svg{width:24px;height:24px;fill:#fff}
+.circle-btn span{font-size:11px;color:#fff;font-weight:500}
+.circle-btn .sub{font-size:9px;color:#ffd700}
+.btn-phone .icon{background:linear-gradient(135deg,#8b5cf6,#6366f1)}
+.btn-account .icon{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.btn-telegram .icon{background:linear-gradient(135deg,#0088cc,#229ED9)}
 
 /* Footer */
-.login-footer{position:fixed;bottom:16px;text-align:center;font-size:11px;color:rgba(255,255,255,.3)}
+.login-footer{position:absolute;bottom:20px;display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.6);font-size:12px}
+.login-footer svg{width:14px;height:14px}
+
+/* Account Dialog */
+.dialog-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);z-index:100;align-items:center;justify-content:center}
+.dialog-overlay.active{display:flex}
+.dialog{background:#fffbf0;border-radius:20px;width:90%;max-width:320px;padding:24px;position:relative;border:3px solid #f4b63f}
+.dialog-title{position:absolute;top:-18px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:6px 24px;border-radius:16px;font-size:14px;font-weight:700;white-space:nowrap}
+.dialog-form{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.dialog-form label{font-size:12px;color:#333;font-weight:600}
+.dialog-form input{width:100%;height:40px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:0 12px;font-size:13px;outline:none}
+.dialog-form input:focus{border-color:#f59e0b}
+.dialog-note{font-size:10px;color:#94a3b8;margin-top:4px}
+.dialog-submit{width:100%;height:40px;background:linear-gradient(135deg,#14b8a6,#0d9488);color:#fff;border-radius:20px;font-size:14px;font-weight:700;margin-top:8px;border:none;cursor:pointer}
+.dialog-close{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;cursor:pointer}
 </style>
 </head>
 <body>
 
+<div class="sparkles">
+<div class="sparkle" style="top:10%;left:20%;animation-delay:0s"></div>
+<div class="sparkle" style="top:15%;left:60%;animation-delay:.5s"></div>
+<div class="sparkle" style="top:25%;left:80%;animation-delay:1s"></div>
+<div class="sparkle" style="top:8%;left:40%;animation-delay:1.5s"></div>
+<div class="sparkle" style="top:30%;left:15%;animation-delay:.8s"></div>
+<div class="sparkle" style="top:20%;left:90%;animation-delay:1.2s"></div>
+</div>
+
 <div class="login-container">
-<div class="logo-section">
-<div class="logo-text">星運娛樂城</div>
-<div class="logo-sub">NOVA ENTERTAINMENT</div>
+<div class="logo">
+<div class="logo-main">星運娛樂城</div>
+<div class="logo-sub"><span>S</span><span>L</span><span>O</span><span>T</span><span>S</span></div>
 </div>
 
-<form class="login-form" onsubmit="return false">
-<div class="input-group">
-<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+<div class="login-buttons">
+<button class="btn-line"><div class="icon"><svg viewBox="0 0 24 24"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></div>LINE</button>
+<button class="btn-sms"><div class="icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>簡訊</button>
+</div>
+
+<div class="circle-buttons">
+<button class="circle-btn btn-phone"><div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="1" width="14" height="22" rx="3" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="18" r="1" fill="#fff"/></svg></div><span>手機</span><span class="sub">星城會員專屬</span></button>
+<button class="circle-btn btn-account" onclick="document.querySelector('.dialog-overlay').classList.add('active')"><div class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="7" r="4" fill="none" stroke="#fff" stroke-width="2"/></svg></div><span>帳號</span></button>
+<button class="circle-btn btn-telegram"><div class="icon"><svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg></div><span>Telegram</span></button>
+</div>
+</div>
+
+<div class="login-footer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>聯絡客服</div>
+
+<!-- Account Login Dialog -->
+<div class="dialog-overlay">
+<div class="dialog">
+<div class="dialog-title">帳號</div>
+<form class="dialog-form" onsubmit="window.location.href='nova-lobby.html';return false">
+<label>帳號</label>
 <input type="text" placeholder="請輸入帳號" value="QAtest5">
-</div>
-<div class="input-group">
-<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-<input type="password" placeholder="請輸入密碼" value="••••••••">
-<svg class="input-toggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-</div>
-<div class="login-options">
-<label class="remember-me"><input type="checkbox" checked>記住帳號</label>
-<a href="#" class="forgot-pwd">忘記密碼？</a>
-</div>
-<button class="login-btn" onclick="window.location.href='nova-lobby.html'">登入</button>
+<label>密碼</label>
+<input type="password" placeholder="請輸入密碼" value="a1234567">
+<p class="dialog-note">注意：本功能僅供已完成帳號綁定者使用</p>
+<button type="submit" class="dialog-submit">登入</button>
 </form>
-
-<div class="divider">或使用其他方式登入</div>
-
-<div class="social-login">
-<button class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg></button>
-<button class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/></svg></button>
-<button class="social-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button>
+<div class="dialog-close" onclick="this.closest('.dialog-overlay').classList.remove('active')">X</div>
 </div>
-
-<p class="register-link">還沒有帳號？<a href="#">立即註冊</a></p>
 </div>
-
-<div class="login-footer">Copyright 2024 Nova Entertainment. All rights reserved.</div>
 
 </body>
 </html>

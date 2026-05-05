@@ -4,126 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>星運娛樂城</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow-x:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#FFFDE7}
-img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
-button{border:none;background:none;cursor:pointer;font:inherit}
-
-/* Header */
-.header{position:fixed;top:0;left:0;right:0;height:56px;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
-.header-left{display:flex;align-items:center;gap:8px}
-.avatar{width:40px;height:40px;border-radius:50%;border:2px solid #f4b63f;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.3)}
-.avatar img{width:100%;height:100%;object-fit:cover;background:#e2e8f0}
-.user-info{display:flex;flex-direction:column;gap:2px}
-.username{font-weight:800;color:#fff;font-size:13px;text-shadow:0 1px 2px rgba(0,0,0,.5)}
-.user-badges{display:flex;gap:4px;align-items:center}
-.badge-my{background:#fff;border-radius:4px;padding:2px 6px;font-size:10px;color:#333;box-shadow:0 0 3px rgba(0,0,0,.3),inset -1px -1px 2px #aaa;display:flex;align-items:center;gap:3px}
-.badge-vip{background:linear-gradient(to bottom,#fde047,#f59e0b,#eab308);border-radius:4px;padding:2px 8px;font-size:10px;font-weight:700;color:#78350f;box-shadow:0 1px 2px rgba(0,0,0,.2)}
-.header-right{display:flex;align-items:center;gap:8px}
-.coin-display{display:flex;align-items:center;gap:4px}
-.coin-icon{width:24px;height:24px}
-.coin-amount{display:flex;align-items:center;gap:6px;background:#991b1b;border:1px solid #ef4444;border-radius:20px;padding:4px 12px;min-width:75px;justify-content:center}
-.coin-amount span{color:#fff;font-size:13px;font-weight:700}
-.coin-refresh{color:rgba(255,255,255,.8);cursor:pointer}
-.settings-btn{width:24px;height:24px;color:#fff}
-
-/* Banner Carousel */
-.banner-section{position:relative;width:100%;height:200px;overflow:hidden;margin-top:0}
-.banner-track{display:flex;width:200%;height:100%;animation:bannerSlide 8s infinite}
-@keyframes bannerSlide{0%,40%{transform:translateX(0)}50%,90%{transform:translateX(-50%)}100%{transform:translateX(0)}}
-.banner-slide{width:50%;height:100%;flex-shrink:0;position:relative}
-.banner-slide img{width:100%;height:100%;object-fit:cover}
-.banner-overlay-l{position:absolute;inset:0;width:80px;background:linear-gradient(to right,rgba(0,0,0,.2),transparent)}
-.banner-overlay-r{position:absolute;top:0;bottom:0;right:0;width:80px;background:linear-gradient(to left,rgba(0,0,0,.2),transparent)}
-.banner-nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
-.banner-nav.prev{left:8px}
-.banner-nav.next{right:8px}
-
-/* Marquee */
-.marquee-bar{position:relative;height:40px;display:flex;align-items:center;padding:0 12px;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.1),#fefce8 80%)}
-.marquee-icon{color:#fefce8;margin-right:8px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
-.marquee-track{flex:1;overflow:hidden;height:20px;position:relative}
-.marquee-content{display:flex;white-space:nowrap;animation:marqueeScroll 30s linear infinite;position:absolute}
-@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.marquee-content span{margin:0 24px;font-size:12px;color:#fefce8;text-shadow:0 1px 1px rgba(0,0,0,.25);font-family:monospace}
-
-/* Tabs */
-.tabs-section{display:flex;justify-content:center;padding:12px 0 8px;position:relative;z-index:2}
-.tabs-list{display:flex;align-items:center;background:#fff;border-radius:24px;padding:3px;box-shadow:1px 1px 6px #c1b295,inset -1px -1px 7px #eee1c7}
-.tab-btn{min-width:48px;padding:6px 12px;border-radius:24px;font-size:13px;font-weight:500;color:#333;transition:all .2s}
-.tab-btn.active{background:#991b1b;color:#fff;box-shadow:inset 2px 2px 4px #ff0000,inset -3px -3px 6px #500000}
-.tab-btn svg{width:16px;height:16px}
-
-/* Recommend Section */
-.recommend-section{padding:16px 12px;overflow:hidden}
-.recommend-card{position:relative;border:4px solid #fde68a;border-radius:48px;padding:40px 16px 16px;background:url("https://d1c05r0acxw2a.cloudfront.net/uploads/attachments/88f01e841c1df13423eb8729dac576e287a8d4cd261f0e7b37465aa01ef6c189.jpg") center/cover;background-color:#1a1a2e}
-.recommend-header{position:absolute;top:-24px;left:50%;transform:translateX(-50%);width:180px;height:56px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:28px;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-.recommend-header p{color:#fff;font-size:16px;font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.recommend-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.recommend-grid .game-card:first-child{grid-row:span 2}
-
-/* Game Grid */
-.game-section{padding:0 12px 100px}
-.game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.game-card{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:1;box-shadow:2px 4px 8px rgba(69,34,1,.32),inset 0 -3px 0 #7f3f02;cursor:pointer;transition:transform .15s}
-.game-card:active{transform:scale(.95)}
-.game-card img{width:100%;height:100%;object-fit:cover}
-.game-card::after{content:'';position:absolute;inset:0;border-radius:24px;box-shadow:inset -4px -6px 6px rgba(0,0,0,.3),inset 1px 2px 6px rgba(255,253,247,1);pointer-events:none}
-.game-badge{position:absolute;top:0;right:-2px;width:20px;height:20px;border-radius:50%;box-shadow:inset -2px -3px 2px rgba(0,0,0,.2),inset 1px 2px 1px rgba(255,253,247,1);z-index:3}
-.game-players{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:10px;font-weight:700;color:#fff;padding:2px 8px;border-radius:0 0 24px 24px;background:linear-gradient(to bottom,rgba(116,223,255,.8),rgba(24,144,177,.9))}
-
-/* Footer Nav */
-.footer-nav{position:fixed;bottom:0;left:0;right:0;height:70px;z-index:40;display:flex;align-items:flex-end;justify-content:space-around;padding:0 16px 12px;background:linear-gradient(to top,#fefce8 60%,transparent)}
-.nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:#78350f;font-weight:500;padding:4px 8px}
-.nav-btn img{width:20px;height:20px;object-fit:contain}
-.nav-btn.store{position:relative;top:-16px}
-.nav-btn.store img{width:48px;height:48px}
-
-/* Chat Bubble */
-.chat-bubble{position:fixed;right:12px;bottom:90px;width:56px;height:56px;border-radius:50%;background:#fafafa;box-shadow:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#452201;font-size:10px;z-index:45;cursor:pointer}
-.chat-bubble svg{width:22px;height:22px}
-.chat-badge{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:#f87171;border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(0,0,0,.2)}
-</style>
+<link rel="stylesheet" href="css/frontend.css">
 </head>
 <body>
-
-<!-- Header -->
 <header class="header">
 <div class="header-left">
 <div class="avatar"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='16' r='8' fill='%2394a3b8'/%3E%3Cellipse cx='20' cy='36' rx='12' ry='10' fill='%2394a3b8'/%3E%3C/svg%3E" alt="avatar"></div>
 <div class="user-info">
 <span class="username">QAtest5</span>
 <div class="user-badges">
-<span class="badge-my"><svg width="10" height="10" viewBox="0 0 42 42"><path d="M21,8A21,21,0,1,0,42,29,21,21,0,0,0,21,8Zm0,8.129a7.452,7.452,0,1,1-7.452,7.452A7.452,7.452,0,0,1,21,16.129Zm0,29.129A16.227,16.227,0,0,1,8.595,39.483a9.441,9.441,0,0,1,8.341-5.064,2.072,2.072,0,0,1,.6.093A11.211,11.211,0,0,0,21,35.1a11.169,11.169,0,0,0,3.463-.584,2.072,2.072,0,0,1,.6-.093,9.441,9.441,0,0,1,8.341,5.064A16.227,16.227,0,0,1,21,45.258Z" transform="translate(0 -8)" fill="#333"/></svg>我的</span>
+<span class="badge-my"><svg width="10" height="10" viewBox="0 0 42 42"><path d="M21,8A21,21,0,1,0,42,29,21,21,0,0,0,21,8Zm0,8a7.5,7.5,0,1,1-7.5,7.5A7.5,7.5,0,0,1,21,16Zm0,29A16,16,0,0,1,8.6,39.5a9.4,9.4,0,0,1,8.3-5,2,2,0,0,1,.6.1A11,11,0,0,0,21,35a11,11,0,0,0,3.5-.6,2,2,0,0,1,.6-.1,9.4,9.4,0,0,1,8.3,5A16,16,0,0,1,21,45Z" transform="translate(0 -8)" fill="#333"/></svg>我的</span>
 <span class="badge-vip">VIP3</span>
-</div>
-</div>
-</div>
+</div></div></div>
 <div class="header-right">
 <div class="coin-display">
-<div class="coin-amount">
-<span>7,459</span>
-<svg class="coin-refresh" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+<div class="coin-icon"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg></div>
+<div class="coin-amount"><span>7,459</span><span class="coin-refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span></div>
 </div>
-</div>
-<button class="settings-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
-</div>
-</header>
-
-<!-- Banner -->
-<section class="banner-section" style="margin-top:56px">
+<button class="settings-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+</div></header>
+<section class="banner-section" style="margin-top:50px">
 <div class="banner-track">
 <div class="banner-slide"><img src="https://d1c05r0acxw2a.cloudfront.net/uploads/attachments/88f01e841c1df13423eb8729dac576e287a8d4cd261f0e7b37465aa01ef6c189.jpg" alt="banner"><div class="banner-overlay-l"></div><div class="banner-overlay-r"></div></div>
 <div class="banner-slide"><img src="https://d1c05r0acxw2a.cloudfront.net/uploads/attachments/0f42382904d06e3c55fda75f528f17d72d81c87001a90f1786cd88ca8eb6118a.jpg" alt="banner"><div class="banner-overlay-l"></div><div class="banner-overlay-r"></div></div>
 </div>
-<button class="banner-nav prev">&#10094;</button>
-<button class="banner-nav next">&#10095;</button>
+<button class="banner-nav prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+<button class="banner-nav next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
 </section>
-
-<!-- Marquee -->
 <div class="marquee-bar">
-<svg class="marquee-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>
+<div class="marquee-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4A.7.7 0 0 0 11 19.3z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.7"/></svg></div>
 <div class="marquee-track"><div class="marquee-content">
 <span>限時活動開跑！首儲加碼只到今晚！錯過再等一年！</span>
 <span>充值送彩金最高翻倍，立即加入搶紅利！</span>
@@ -131,74 +40,63 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 <span>立即登入，下一位幸運贏家就是你！</span>
 <span>限時活動開跑！首儲加碼只到今晚！錯過再等一年！</span>
 <span>充值送彩金最高翻倍，立即加入搶紅利！</span>
-<span>紅包雨隨機掉落，手慢就沒了！</span>
-<span>立即登入，下一位幸運贏家就是你！</span>
 </div></div>
 </div>
-
-<!-- Tabs -->
 <div class="tabs-section">
 <div class="tabs-list">
 <button class="tab-btn active">全部</button>
 <button class="tab-btn">最愛</button>
 <button class="tab-btn">電動</button>
-<button class="tab-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+<button class="tab-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
 </div>
 </div>
-
-<!-- Recommend -->
 <section class="recommend-section">
 <div class="recommend-card">
 <div class="recommend-header"><p>最受歡迎</p></div>
 <div class="recommend-grid">
-<div class="game-card"><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="Lucky Fortune"><div class="game-badge"></div><div class="game-players">891人</div></div>
-<div class="game-card"><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="Dragon Gold"><div class="game-badge"></div><div class="game-players">654人</div></div>
-<div class="game-card"><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="Sweet Bonanza"><div class="game-badge"></div><div class="game-players">423人</div></div>
-<div class="game-card"><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"><div class="game-badge"></div><div class="game-players">312人</div></div>
-<div class="game-card"><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="Starlight Princess"><div class="game-badge"></div><div class="game-players">567人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"><div class="game-badge"></div><div class="game-players">1384人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="財富金幣"><div class="game-badge"></div><div class="game-players">891人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="甜蜜聖誕"><div class="game-badge"></div><div class="game-players">654人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"><div class="game-badge"></div><div class="game-players">423人</div></div>
+<div class="game-card"><div class="game-multiplier">3000x</div><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="自摸無雙2"><div class="game-badge"></div><div class="game-players">312人</div></div>
 </div>
 </div>
 </section>
-
-<!-- Game Grid -->
 <section class="game-section">
+<div class="section-label"><span class="section-badge">全部遊戲</span></div>
 <div class="game-grid">
-<div class="game-card"><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="Lucky Fortune"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="Dragon Gold"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="Sweet Bonanza"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="Starlight Princess"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/57b7c6a41eb37660dc1d2a5e7cb06dd4d5371775079cf1f5d35761b2f7893d9b.webp" alt="Sugar Rush"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/6137d8f0ed12834c249d136bb60abfe7a8cc230d0f5754b2444626057e78d902.webp" alt="Wild West Gold"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/80c20d6cb0c3df316e878b1bea9d580a48564587d6e137882c18df371e69a1ea.webp" alt="Big Bass"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/8b200f4916581229a627da67932e96942f3ecf8ce46b0de750021fe82be032b4.webp" alt="Dog House"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/8b98bbdd3cba438318bc2fc6a3219ad71e2544f5e06deb1cc45e301b97f65816.webp" alt="Fruit Party"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/91f787e50af0ca789c99c757b8c2b9303e622e13d1e35a7758c4fa7da5e12fad.webp" alt="Buffalo King"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/994bb2c17c48df1bd4b99211749226fcbdbf8e2858078c1ac4f3dc96ebfd5b93.webp" alt="Book of Dead"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/9a13b288374ccace4804774686086fde51529a412bc6d7fdaff02be5ae66373d.webp" alt="Aztec Gems"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/a32f5867b8a23a38ae63ba9d1490e29e8209866a62b41cf644d29dbb8c26f9c9.webp" alt="Fire Strike"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/c2b9c84c8ca4808285b36cc1b047bd7013997667a2b13be188c24208afaa3ce2.webp" alt="Gems Bonanza"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="Power of Thor"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/d022e118fe0f5b5bbf6bfb339caf4c59b36599d5f9fe8692f616e3e080c471ce.webp" alt="Rise of Giza"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/e60ed69bfcc1604ce637388a173ff79daf06fe93a2133e8489370d333584b292.webp" alt="Crystal Cavern"><div class="game-badge"></div></div>
-<div class="game-card"><img src="images/f3f7d2a82414c4b6df37c643d3868b4f557462f06b25d120bcdfd47897155fd2.webp" alt="Hot Fiesta"><div class="game-badge"></div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"><div class="game-badge"></div><div class="game-players">1384人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="財富金幣"><div class="game-badge"></div><div class="game-players">891人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="甜蜜聖誕"><div class="game-badge"></div><div class="game-players">654人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"><div class="game-badge"></div><div class="game-players">423人</div></div>
+<div class="game-card"><div class="game-multiplier">3000x</div><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="自摸無雙2"><div class="game-badge"></div><div class="game-players">312人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/57b7c6a41eb37660dc1d2a5e7cb06dd4d5371775079cf1f5d35761b2f7893d9b.webp" alt="Sugar Rush"><div class="game-badge"></div><div class="game-players">567人</div></div>
+<div class="game-card"><div class="game-multiplier">1000x</div><img src="images/6137d8f0ed12834c249d136bb60abfe7a8cc230d0f5754b2444626057e78d902.webp" alt="金龍888"><div class="game-badge"></div><div class="game-players">445人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/80c20d6cb0c3df316e878b1bea9d580a48564587d6e137882c18df371e69a1ea.webp" alt="法老祕寶"><div class="game-badge"></div><div class="game-players">789人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/8b200f4916581229a627da67932e96942f3ecf8ce46b0de750021fe82be032b4.webp" alt="阿茲特克神話"><div class="game-badge"></div><div class="game-players">234人</div></div>
+<div class="game-card"><div class="game-multiplier">25000x</div><img src="images/8b98bbdd3cba438318bc2fc6a3219ad71e2544f5e06deb1cc45e301b97f65816.webp" alt="印加女神"><div class="game-badge"></div><div class="game-players">156人</div></div>
+<div class="game-card"><div class="game-multiplier">1000x</div><img src="images/91f787e50af0ca789c99c757b8c2b9303e622e13d1e35a7758c4fa7da5e12fad.webp" alt="祖瑪探險"><div class="game-badge"></div><div class="game-players">678人</div></div>
+<div class="game-card"><div class="game-multiplier">2250x</div><img src="images/994bb2c17c48df1bd4b99211749226fcbdbf8e2858078c1ac4f3dc96ebfd5b93.webp" alt="龍族傳說3"><div class="game-badge"></div><div class="game-players">345人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/9a13b288374ccace4804774686086fde51529a412bc6d7fdaff02be5ae66373d.webp" alt="自摸財神"><div class="game-badge"></div><div class="game-players">901人</div></div>
+<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/a32f5867b8a23a38ae63ba9d1490e29e8209866a62b41cf644d29dbb8c26f9c9.webp" alt="聚寶花樣春"><div class="game-badge"></div><div class="game-players">432人</div></div>
+<div class="game-card"><div class="game-multiplier">3000x</div><img src="images/c2b9c84c8ca4808285b36cc1b047bd7013997667a2b13be188c24208afaa3ce2.webp" alt="福來臨"><div class="game-badge"></div><div class="game-players">567人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="棒能麒麟"><div class="game-badge"></div><div class="game-players">234人</div></div>
+<div class="game-card"><div class="game-multiplier">4096x</div><img src="images/d022e118fe0f5b5bbf6bfb339caf4c59b36599d5f9fe8692f616e3e080c471ce.webp" alt="財神倍倍發"><div class="game-badge"></div><div class="game-players">876人</div></div>
+<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/e60ed69bfcc1604ce637388a173ff79daf06fe93a2133e8489370d333584b292.webp" alt="日摸財神"><div class="game-badge"></div><div class="game-players">543人</div></div>
+<div class="game-card"><div class="game-multiplier">15000x</div><img src="images/f3f7d2a82414c4b6df37c643d3868b4f557462f06b25d120bcdfd47897155fd2.webp" alt="自摸無雙3"><div class="game-badge"></div><div class="game-players">321人</div></div>
 </div>
 </section>
-
-<!-- Footer Nav -->
 <nav class="footer-nav">
-<button class="nav-btn" onclick="window.location.href='nova-leaderboard.html'"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="2"><path d="M8 21h8m-4-4v4m-4-8l4-8 4 8m2 0H6"/></svg>排行榜</button>
-<button class="nav-btn store"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="1.5"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9l1.5-5h15L21 9"/><circle cx="12" cy="14" r="2"/></svg>商城</button>
-<button class="nav-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="2"><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6"/><polyline points="12,3 12,15"/><polyline points="8,7 12,3 16,7"/></svg>贈禮</button>
-<button class="nav-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>公會</button>
+<button class="nav-btn" onclick="window.location.href='nova-lobby.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg><span>其他</span></button>
+<button class="nav-btn" onclick="window.location.href='nova-leaderboard.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8m-4-4v4M6 4h12l-1 7H7L6 4z"/><path d="M5 11l-2 4h18l-2-4"/></svg><span>排行榜</span></button>
+<button class="nav-btn store" onclick="window.location.href='nova-shop.html'"><svg viewBox="0 0 24 24" fill="none" stroke="#78350f" stroke-width="1.5"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9l1.5-5h15L21 9"/><circle cx="12" cy="14" r="2"/></svg><span>商城</span></button>
+<button class="nav-btn" onclick="window.location.href='nova-gift.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg><span>贈禮</span></button>
+<button class="nav-btn" onclick="window.location.href='nova-guild.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>公會</span></button>
 </nav>
-
-<!-- Chat Bubble -->
 <div class="chat-bubble">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
-<span style="font-size:9px;margin-top:1px">聊天</span>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+<span>聊天</span>
 <div class="chat-badge">3</div>
 </div>
-
 </body>
 </html>
