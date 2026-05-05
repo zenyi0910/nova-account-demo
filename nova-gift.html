@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>星運娛樂城 - 贈禮</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#333;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#FFF8E1 0%,#FFECB3 100%);display:flex;flex-direction:column;position:relative;padding-bottom:80px}
+
+/* Header Tabs */
+.header-tabs{background:linear-gradient(135deg,#FFB300,#FFA000);padding:16px 16px 3px;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(255,179,0,.3)}
+.tabs-row{display:flex;gap:0;background:rgba(255,255,255,.2);border-radius:20px;padding:3px}
+.tab{flex:1;padding:10px 8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8);text-align:center;cursor:pointer;border-radius:18px;transition:all .2s}
+.tab.active{background:#fff;color:#F57C00;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+
+/* User Info */
+.user-section{padding:20px 16px 16px;display:flex;align-items:center;gap:14px}
+.user-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#E91E63,#F06292);display:flex;align-items:center;justify-content:center;font-size:24px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.user-info{flex:1}
+.user-name{font-size:15px;font-weight:700;color:#333}
+.user-coins{display:flex;align-items:center;gap:5px;margin-top:4px}
+.user-coin-icon{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#5D4037}
+.user-coin-amount{font-size:13px;color:#666;font-weight:600}
+.gift-info-btn{background:#F5F5F5;padding:6px 12px;border-radius:8px;font-size:11px;color:#666;font-weight:500;cursor:pointer;border:1px solid #E0E0E0}
+
+/* Stats Panel */
+.stats-panel{margin:0 16px 16px;background:#F5F5F5;border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat-item{display:flex;flex-direction:column;gap:2px}
+.stat-label{font-size:11px;color:#888;font-weight:500}
+.stat-value{font-size:16px;font-weight:700;color:#333}
+.stat-link{font-size:11px;color:#1976D2;cursor:pointer;font-weight:500}
+
+/* Gift Form */
+.form-section{padding:0 16px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;font-weight:600;color:#555;margin-bottom:6px;display:block}
+.form-input-wrap{display:flex;align-items:center;background:#fff;border:1px solid #E0E0E0;border-radius:12px;padding:0 12px;height:46px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.form-input{flex:1;border:none;outline:none;font-size:14px;font-family:inherit;color:#333;background:transparent}
+.form-input::placeholder{color:#BDBDBD}
+.form-input-clear{width:24px;height:24px;border-radius:50%;background:#E0E0E0;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:8px}
+.form-input-clear svg{width:12px;height:12px;color:#666}
+.form-input-search{width:32px;height:32px;border-radius:50%;background:#1976D2;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:8px}
+.form-input-search svg{width:16px;height:16px;color:#fff}
+.form-hint{font-size:11px;color:#F44336;margin-top:6px;font-weight:500}
+.form-fee{font-size:12px;color:#666;margin-top:8px}
+
+/* Submit Button */
+.submit-btn{margin:20px 16px;background:linear-gradient(135deg,#FF8A80,#FF5252);padding:14px;border-radius:14px;text-align:center;font-size:16px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(255,82,82,.3);transition:transform .15s}
+.submit-btn:active{transform:scale(.97)}
+
+/* Bottom Decoration */
+.bottom-deco{position:fixed;bottom:0;left:0;right:0;height:70px;background:linear-gradient(135deg,#C62828,#D32F2F);display:flex;align-items:center;justify-content:center;padding-top:10px}
+.bottom-coins{display:flex;gap:6px;align-items:flex-end}
+.bottom-coins span{font-size:22px}
+.close-x{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.close-x svg{width:14px;height:14px;color:#666}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Header Tabs -->
+  <div class="header-tabs">
+    <div class="tabs-row">
+      <div class="tab active">贈禮</div>
+      <div class="tab">贈禮中心</div>
+      <div class="tab">贈禮紀錄</div>
+    </div>
+  </div>
+
+  <!-- User Info -->
+  <div class="user-section">
+    <div class="user-avatar">🐷</div>
+    <div class="user-info">
+      <div class="user-name">QAtest5</div>
+      <div class="user-coins">
+        <div class="user-coin-icon">$</div>
+        <span class="user-coin-amount">7,459點</span>
+      </div>
+    </div>
+    <div class="gift-info-btn">贈禮說明</div>
+  </div>
+
+  <!-- Stats Panel -->
+  <div class="stats-panel">
+    <div class="stat-item">
+      <span class="stat-label">可贈送數量</span>
+      <span class="stat-value">0</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">今日可贈送額度</span>
+      <span class="stat-value">80,000/80,000</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">今日可贈送次數</span>
+      <span class="stat-value">10</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">凍結總額 <span class="stat-link">明細</span></span>
+      <span class="stat-value">0</span>
+    </div>
+  </div>
+
+  <!-- Gift Form -->
+  <div class="form-section">
+    <div class="form-group">
+      <label class="form-label">收禮玩家</label>
+      <div class="form-input-wrap">
+        <input class="form-input" type="text" placeholder="請輸入會員暱稱">
+        <div class="form-input-clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        <div class="form-input-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">贈送金幣</label>
+      <div class="form-input-wrap">
+        <input class="form-input" type="text" placeholder="0" value="0">
+        <div class="form-input-clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+      </div>
+      <div class="form-hint">最低至少20,000金幣</div>
+      <div class="form-fee">手續費：0</div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-btn">確定</div>
+
+  <!-- Bottom Decoration -->
+  <div class="bottom-deco">
+    <div class="close-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    <div class="bottom-coins">
+      <span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

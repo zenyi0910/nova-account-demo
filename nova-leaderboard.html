@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>星運娛樂城 - 排行榜</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#333;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#FFF8E1 0%,#FFECB3 100%);display:flex;flex-direction:column;position:relative}
+
+/* Header */
+.header{padding:30px 20px 20px;text-align:center;position:relative}
+.trophy{width:100px;height:100px;margin:0 auto 15px;position:relative}
+.trophy-icon{font-size:80px;filter:drop-shadow(0 4px 12px rgba(255,193,7,.5))}
+.trophy-sparkle{position:absolute;font-size:20px;animation:sparkle 1.5s ease-in-out infinite}
+.trophy-sparkle:nth-child(1){top:-5px;left:10px;animation-delay:0s}
+.trophy-sparkle:nth-child(2){top:-5px;right:10px;animation-delay:.3s}
+.trophy-sparkle:nth-child(3){bottom:10px;left:15px;animation-delay:.6s}
+.trophy-sparkle:nth-child(4){bottom:10px;right:15px;animation-delay:.9s}
+@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* Tabs */
+.tabs-wrap{background:linear-gradient(135deg,#FFB300,#FFA000);padding:3px;border-radius:25px;margin:0 20px 8px;box-shadow:0 4px 12px rgba(255,179,0,.4)}
+.tabs{display:flex;background:#fff;border-radius:23px;overflow:hidden}
+.tab{flex:1;padding:10px 8px;font-size:12px;font-weight:600;color:#666;text-align:center;cursor:pointer;transition:all .2s;border-radius:20px;margin:2px}
+.tab.active{background:linear-gradient(135deg,#FFB300,#FFA000);color:#fff;box-shadow:0 2px 6px rgba(255,179,0,.3)}
+
+/* Subtitle */
+.subtitle{text-align:center;font-size:11px;color:#8D6E63;margin-bottom:15px;font-weight:500}
+
+/* List */
+.list{padding:0 16px 80px}
+.rank-item{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:8px;border-radius:14px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.08);transition:transform .15s}
+.rank-item:active{transform:scale(.98)}
+.rank-medal{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.rank-number{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8D6E63;background:#F5F5F5;border-radius:50%;flex-shrink:0}
+.rank-avatar{width:40px;height:40px;border-radius:50%;background:#E0E0E0;flex-shrink:0;overflow:hidden}
+.rank-avatar img{width:100%;height:100%;object-fit:cover}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:13px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-score{display:flex;align-items:center;gap:4px;margin-top:3px}
+.rank-coin{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#5D4037}
+.rank-amount{font-size:12px;color:#666;font-weight:500}
+
+/* Current User */
+.current-user{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:12px 16px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(76,175,80,.4)}
+.current-rank{font-size:16px;font-weight:800;color:#fff;min-width:40px}
+.current-avatar{width:36px;height:36px;border-radius:50%;background:#fff;flex-shrink:0}
+.current-info{flex:1;min-width:0}
+.current-name{font-size:13px;font-weight:700;color:#fff}
+.current-score{display:flex;align-items:center;gap:4px;margin-top:2px}
+.current-coin{width:14px;height:14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#4CAF50}
+.current-amount{font-size:12px;color:rgba(255,255,255,.9);font-weight:600}
+
+/* Activity Button */
+.activity-btn{position:fixed;bottom:70px;right:16px;background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:10px 18px;border-radius:20px;font-size:12px;font-weight:700;color:#fff;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(76,175,80,.4);z-index:10}
+
+/* Close Button */
+.close-btn{position:fixed;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20}
+.close-btn svg{width:18px;height:18px;color:#8D6E63}
+
+/* Bottom Decoration */
+.bottom-deco{position:fixed;bottom:0;left:0;right:0;height:60px;background:linear-gradient(180deg,transparent,rgba(255,193,7,.2));pointer-events:none}
+.coins-deco{position:fixed;bottom:0;left:0;right:0;height:50px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:10px;pointer-events:none}
+.coin-deco{font-size:24px;animation:float 2s ease-in-out infinite}
+.coin-deco:nth-child(1){animation-delay:0s}
+.coin-deco:nth-child(2){animation-delay:.3s}
+.coin-deco:nth-child(3){animation-delay:.6s}
+.coin-deco:nth-child(4){animation-delay:.9s}
+.coin-deco:nth-child(5){animation-delay:1.2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Close Button -->
+  <div class="close-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="trophy">
+      <div class="trophy-sparkle">✨</div>
+      <div class="trophy-sparkle">✨</div>
+      <div class="trophy-sparkle">✨</div>
+      <div class="trophy-sparkle">✨</div>
+      <div class="trophy-icon">🏆</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <div class="tab active">富豪榜</div>
+      <div class="tab">贏分榜</div>
+      <div class="tab">倍率榜</div>
+      <div class="tab">公會榜</div>
+    </div>
+  </div>
+
+  <!-- Subtitle -->
+  <div class="subtitle">金幣餘額排名，每 15 分鐘更新</div>
+
+  <!-- List -->
+  <div class="list">
+    <div class="rank-item">
+      <div class="rank-medal">🥇</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">User837133</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">1,333,576,101</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-medal">🥈</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">User763693</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">448,197,600</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-medal">🥉</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">Wayne</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">349,747,991</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">4</div>
+      <div class="rank-avatar">👤</div>
+      <div class="rank-info">
+        <div class="rank-name">Huang Vera123</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">167,725,942</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">5</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">Cloud001</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,994,130</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">6</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">QAtest6改改</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,927,558</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">7</div>
+      <div class="rank-avatar">👤</div>
+      <div class="rank-info">
+        <div class="rank-name">verahuang0001</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,601,721</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">8</div>
+      <div class="rank-avatar">👤</div>
+      <div class="rank-info">
+        <div class="rank-name">cas1</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">27,145,299</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">9</div>
+      <div class="rank-avatar">🐷</div>
+      <div class="rank-info">
+        <div class="rank-name">verahuang</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">22,548,603</span></div>
+      </div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-number">10</div>
+      <div class="rank-avatar">👤</div>
+      <div class="rank-info">
+        <div class="rank-name">0912345666-4</div>
+        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">13,000,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current User -->
+  <div class="current-user">
+    <div class="current-rank">50+</div>
+    <div class="current-avatar">🐷</div>
+    <div class="current-info">
+      <div class="current-name">QAtest5</div>
+      <div class="current-score"><div class="current-coin">$</div><span class="current-amount">7,459</span></div>
+    </div>
+  </div>
+
+  <!-- Activity Button -->
+  <button class="activity-btn">活動榜</button>
+
+  <!-- Bottom Decoration -->
+  <div class="bottom-deco"></div>
+  <div class="coins-deco">
+    <div class="coin-deco">🪙</div>
+    <div class="coin-deco">🪙</div>
+    <div class="coin-deco">🪙</div>
+    <div class="coin-deco">🪙</div>
+    <div class="coin-deco">🪙</div>
+  </div>
+</div>
+</body>
+</html>
