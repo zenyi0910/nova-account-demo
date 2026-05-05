@@ -57,7 +57,7 @@ td a{color:#2563EB;font-weight:500}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
 .sidebar-overlay.show{display:block}
 @media(max-width:768px){html,body{overflow-x:hidden;max-width:100vw}.sidebar{width:240px;transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:calc(100vw - 32px)}table{min-width:600px}.filter-section{overflow:hidden}}
-.trend-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.trend-item{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.6);border-radius:12px;padding:20px;text-align:center}.trend-item h4{font-size:12px;color:#64748B;margin-bottom:8px}.trend-item .val{font-size:24px;font-weight:700;color:#0F172A}.chart-placeholder{height:300px;background:linear-gradient(180deg,rgba(59,130,246,.05),rgba(59,130,246,.02));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#94A3B8;font-size:13px}@media(max-width:768px){.trend-summary{grid-template-columns:1fr}}
+.trend-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.trend-item{background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.6);border-radius:12px;padding:20px;text-align:center}.trend-item h4{font-size:12px;color:#64748B;margin-bottom:8px}.trend-item .val{font-size:24px;font-weight:700;color:#0F172A}.chart-placeholder{height:300px;background:linear-gradient(180deg,rgba(59,130,246,.05),rgba(59,130,246,.02));border-radius:12px;overflow:hidden}@media(max-width:768px){.trend-summary{grid-template-columns:1fr}}
 .user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
 .popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
@@ -86,7 +86,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="trend-item"><h4>7日變化</h4><div class="val" style="color:#10B981">+127,465</div></div>
 <div class="trend-item"><h4>日均流通</h4><div class="val">18,209</div></div></div>
 <div class="card"><div class="card-title">金幣總量趨勢</div><div class="card-desc">追蹤系統內金幣總量的變化趨勢。</div>
-<div class="chart-placeholder">趨勢圖表區域（Chart.js）</div></div></div>
+<div class="chart-placeholder"><svg viewBox="0 0 400 120" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 100 L50 85 L100 90 L150 70 L200 60 L250 55 L300 40 L350 35 L400 20" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M0 100 L50 85 L100 90 L150 70 L200 60 L250 55 L300 40 L350 35 L400 20 L400 120 L0 120Z" fill="url(#areaBlue)" opacity=".2"/><defs><linearGradient id="areaBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div></div></div>
 </div>
 </div>
 </body>
