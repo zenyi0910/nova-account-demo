@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>星運娛樂城 - 遊戲大廳</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#fff;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
+.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#1a0a1e 0%,#0d0515 100%);display:flex;flex-direction:column;position:relative}
+
+/* Header */
+.header{display:flex;align-items:center;padding:10px 14px;gap:8px;background:rgba(0,0,0,.2)}
+.header-user{display:flex;align-items:center;gap:6px}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4CAF50,#2E7D32);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;border:2px solid #66BB6A;flex-shrink:0}
+.username{font-size:13px;font-weight:600;color:#fff}
+.vip-badge{background:linear-gradient(135deg,#FF8F00,#F57C00);padding:3px 9px;border-radius:11px;font-size:10px;font-weight:700;color:#fff;box-shadow:0 2px 4px rgba(255,143,0,.3)}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.coin-display{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);padding:5px 11px;border-radius:15px;border:1px solid rgba(255,215,0,.2)}
+.coin-icon{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#5D4037;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.coin-amount{font-size:13px;font-weight:700;color:#FFD700;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.header-icon{width:22px;height:22px;color:rgba(255,255,255,.5);cursor:pointer;transition:color .2s}
+.header-icon:active{color:rgba(255,255,255,.8)}
+
+/* Banner */
+.banner-wrap{padding:12px 14px 10px;position:relative}
+.banner{width:100%;border-radius:14px;overflow:hidden;position:relative;height:150px;background:linear-gradient(135deg,#b71c1c 0%,#d32f2f 50%,#e53935 100%);box-shadow:0 4px 12px rgba(183,28,28,.4)}
+.banner-content{display:flex;align-items:center;padding:18px;width:100%;height:100%;position:relative;z-index:2}
+.banner-text{flex:1;padding-right:10px}
+.banner-title{font-size:17px;font-weight:800;color:#FFD700;text-shadow:0 2px 6px rgba(0,0,0,.4);line-height:1.3;margin-bottom:6px}
+.banner-desc{font-size:12px;color:rgba(255,255,255,.9);line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.3)}
+.banner-icon{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#2E7D32,#4CAF50);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900;color:#FFD700;text-shadow:0 3px 10px rgba(0,0,0,.4);border:4px solid #81C784;box-shadow:0 6px 20px rgba(76,175,80,.5);flex-shrink:0}
+.banner-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s}
+.banner-dot.active{background:#fff;width:20px;border-radius:4px}
+
+/* Marquee */
+.marquee-wrap{padding:0 14px 12px}
+.marquee{background:rgba(255,255,255,.06);border-radius:20px;padding:7px 13px;display:flex;align-items:center;gap:8px;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
+.marquee-icon{font-size:15px;flex-shrink:0}
+.marquee-content{flex:1;overflow:hidden;position:relative;height:18px}
+.marquee-text{font-size:11px;color:rgba(255,255,255,.75);white-space:nowrap;display:inline-block;animation:scroll 20s linear infinite}
+@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+/* Tabs */
+.tabs{display:flex;align-items:center;padding:0 14px 12px;gap:0}
+.tab{padding:8px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:20px;transition:all .2s;position:relative}
+.tab.active{background:linear-gradient(135deg,#2E7D32,#4CAF50);color:#fff;box-shadow:0 2px 8px rgba(46,125,50,.4)}
+.tab-search{margin-left:auto;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.tab-search:active{background:rgba(255,255,255,.15)}
+.tab-search svg{width:17px;height:17px;color:rgba(255,255,255,.6)}
+
+/* Section */
+.section{padding:0 14px 16px}
+.section-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.section-title::before{content:"";width:4px;height:16px;background:linear-gradient(180deg,#4CAF50,#2E7D32);border-radius:2px;box-shadow:0 2px 4px rgba(76,175,80,.3)}
+
+/* Game Grid */
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.game-card{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.game-card:active{transform:scale(.97)}
+.game-thumb{width:100%;aspect-ratio:1;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center}
+.game-thumb-wealth{background:linear-gradient(135deg,#FF6F00,#FF8F00,#FFA726)}
+.game-thumb-dragon{background:linear-gradient(135deg,#B71C1C,#D32F2F,#E57373)}
+.game-thumb-god{background:linear-gradient(135deg,#1B5E20,#388E3C,#66BB6A)}
+.game-thumb-xmas{background:linear-gradient(135deg,#C2185B,#E91E63,#F06292)}
+.game-thumb-legend{background:linear-gradient(135deg,#1A237E,#3F51B5,#7986CB)}
+.game-thumb-egypt{background:linear-gradient(135deg,#4A148C,#7B1FA2,#BA68C8)}
+.game-icon{font-size:38px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
+.game-fav{position:absolute;top:7px;right:7px;font-size:16px;opacity:.8;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+.game-info{padding:7px 9px;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+.game-name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-players{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px}
+.game-coin{position:absolute;bottom:48px;right:7px;background:linear-gradient(135deg,#FFD700,#FFA000);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#5D4037;box-shadow:0 2px 6px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.3)}
+.game-badge{position:absolute;top:7px;left:7px;background:linear-gradient(135deg,#2E7D32,#4CAF50);padding:3px 7px;border-radius:5px;font-size:9px;font-weight:700;color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+
+/* All Games */
+.all-games-header{display:flex;align-items:center;gap:8px;padding:0 14px 12px}
+.all-games-btn{background:linear-gradient(135deg,#E65100,#F57C00);padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700;color:#fff;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(230,81,0,.4);transition:transform .15s}
+.all-games-btn:active{transform:scale(.96)}
+.game-featured{margin:0 14px 12px;border-radius:14px;overflow:hidden;position:relative;height:130px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.game-featured-bg{width:100%;height:100%;background:linear-gradient(135deg,#4A148C,#7B1FA2,#9C27B0);display:flex;align-items:center;justify-content:center;position:relative}
+.game-featured-title{position:absolute;bottom:12px;left:14px;font-size:15px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+.game-featured-players{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.6);padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff;backdrop-filter:blur(4px)}
+.game-featured-icon{font-size:56px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+
+.game-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 12px}
+
+/* Chat Bubble */
+.chat-bubble{position:fixed;right:16px;bottom:90px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1976D2,#42A5F5);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(25,118,210,.5);z-index:50;transition:transform .2s}
+.chat-bubble:active{transform:scale(.95)}
+.chat-bubble svg{width:24px;height:24px;color:#fff;margin-bottom:2px}
+.chat-badge{position:absolute;top:-3px;right:-3px;background:#F44336;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;border:2px solid #0a0514;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.chat-label{font-size:9px;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+
+/* Bottom Nav */
+.bottom-nav{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(10,5,20,.98),rgba(10,5,20,1));border-top:1px solid rgba(255,255,255,.08);display:flex;padding:10px 0 14px;z-index:40;box-shadow:0 -2px 10px rgba(0,0,0,.3)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;position:relative;transition:transform .15s}
+.nav-item:active{transform:scale(.95)}
+.nav-item svg{width:24px;height:24px;color:rgba(255,255,255,.45);transition:color .2s}
+.nav-item.active svg{color:#4CAF50}
+.nav-item-label{font-size:10px;color:rgba(255,255,255,.45);font-weight:500;transition:color .2s}
+.nav-item.active .nav-item-label{color:#4CAF50;font-weight:600}
+.nav-item-center{position:relative;top:-10px}
+.nav-item-center-icon{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#FF8F00,#F57C00);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,143,0,.5);border:3px solid #0a0514}
+.nav-item-center-icon svg{width:26px;height:26px;color:#fff}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-user">
+      <div class="avatar">我的</div>
+      <span class="username">QAtest5</span>
+      <span class="vip-badge">VIP3</span>
+    </div>
+    <div class="header-right">
+      <div class="coin-display">
+        <div class="coin-icon">$</div>
+        <span class="coin-amount">7,459</span>
+      </div>
+      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner-wrap">
+    <div class="banner">
+      <div class="banner-content">
+        <div class="banner-text">
+          <div class="banner-title">金色圖標消除累加種</div>
+          <div class="banner-desc">使用 加押 WILD隨機<br>獎勵加倍！限時活動</div>
+        </div>
+        <div class="banner-icon">發</div>
+      </div>
+      <div class="banner-dots">
+        <div class="banner-dot active"></div>
+        <div class="banner-dot"></div>
+        <div class="banner-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span class="marquee-icon">📢</span>
+      <div class="marquee-content">
+        <span class="marquee-text">馬只到今晚！錯過再等一年！🔥 充值送彩金最高翻倍，立即參與 ⏰ 紅包雨隨機掉落，手慢就沒了！</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active">全部</div>
+    <div class="tab">最愛</div>
+    <div class="tab">電動</div>
+    <div class="tab-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+  </div>
+
+  <!-- Most Popular -->
+  <div class="section">
+    <div class="section-title">最受歡迎</div>
+    <div class="game-grid">
+      <div class="game-card">
+        <div class="game-thumb game-thumb-wealth"><div class="game-icon">💰</div><div class="game-fav">🤍</div><div class="game-coin">10K</div></div>
+        <div class="game-info"><div class="game-name">財富</div><div class="game-players">1,334人在玩</div></div>
+      </div>
+      <div class="game-card">
+        <div class="game-thumb game-thumb-dragon"><div class="game-icon">🐉</div><div class="game-fav">🤍</div><div class="game-coin">1K</div></div>
+        <div class="game-info"><div class="game-name">金龍</div><div class="game-players">1,000人在玩</div></div>
+      </div>
+      <div class="game-card">
+        <div class="game-thumb game-thumb-god"><div class="game-icon">🧧</div><div class="game-fav">🤍</div><div class="game-coin">1K</div><div class="game-badge">加碼禮 1,000</div></div>
+        <div class="game-info"><div class="game-name">國模財神</div><div class="game-players">891人在玩</div></div>
+      </div>
+      <div class="game-card">
+        <div class="game-thumb game-thumb-xmas"><div class="game-icon">🐑</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
+        <div class="game-info"><div class="game-name">甜蜜聖誕</div><div class="game-players">680人在玩</div></div>
+      </div>
+      <div class="game-card">
+        <div class="game-thumb game-thumb-legend"><div class="game-icon">🐯</div><div class="game-fav">🤍</div><div class="game-coin">2.2K</div></div>
+        <div class="game-info"><div class="game-name">龍族傳說2</div><div class="game-players">3人在玩</div></div>
+      </div>
+      <div class="game-card">
+        <div class="game-thumb game-thumb-egypt"><div class="game-icon">🏺</div><div class="game-fav">🤍</div><div class="game-coin">8K</div></div>
+        <div class="game-info"><div class="game-name">法老寶藏</div><div class="game-players">456人在玩</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All Games -->
+  <div class="all-games-header">
+    <button class="all-games-btn">全部遊戲</button>
+  </div>
+  <div class="game-featured">
+    <div class="game-featured-bg">
+      <div class="game-featured-icon">🏺</div>
+      <div class="game-featured-title">埃及三秘寶</div>
+      <div class="game-featured-players">10000人</div>
+    </div>
+  </div>
+  <div class="game-row">
+    <div class="game-card">
+      <div class="game-thumb game-thumb-dragon"><div class="game-icon">🐉</div><div class="game-fav">🤍</div><div class="game-coin">10K</div></div>
+      <div class="game-info"><div class="game-name">財神倍倍數 X4096</div><div class="game-players">2,100人在玩</div></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb game-thumb-wealth"><div class="game-icon">💰</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
+      <div class="game-info"><div class="game-name">財富金幣</div><div class="game-players">890人在玩</div></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb game-thumb-egypt"><div class="game-icon">🧞</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
+      <div class="game-info"><div class="game-name">阿拉丁吉</div><div class="game-players">567人在玩</div></div>
+    </div>
+  </div>
+  <div class="game-row">
+    <div class="game-card">
+      <div class="game-thumb game-thumb-god"><div class="game-icon">🀄</div><div class="game-fav">🤍</div><div class="game-coin">3K</div></div>
+      <div class="game-info"><div class="game-name">發</div><div class="game-players">1,234人在玩</div></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb game-thumb-dragon"><div class="game-icon">🎯</div><div class="game-fav">🤍</div><div class="game-coin">15K</div></div>
+      <div class="game-info"><div class="game-name">中獎</div><div class="game-players">3,456人在玩</div></div>
+    </div>
+    <div class="game-card">
+      <div class="game-thumb game-thumb-legend"><div class="game-icon">🎰</div><div class="game-fav">🤍</div><div class="game-coin">8K</div></div>
+      <div class="game-info"><div class="game-name">幸運777</div><div class="game-players">2,890人在玩</div></div>
+    </div>
+  </div>
+
+  <!-- Chat Bubble -->
+  <div class="chat-bubble">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <span class="chat-label">聊天</span>
+    <div class="chat-badge">3</div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span class="nav-item-label">其他</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span class="nav-item-label">排行榜</span>
+    </div>
+    <div class="nav-item nav-item-center">
+      <div class="nav-item-center-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      </div>
+      <span class="nav-item-label">商城</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v8H4v-8"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+      <span class="nav-item-label">贈禮</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="nav-item-label">公會</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
