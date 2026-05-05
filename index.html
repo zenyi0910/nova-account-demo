@@ -737,6 +737,8 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="info-block-title">帳號資訊</div>
 <div class="info-row"><span class="label">建立時間</span><span class="value" id="editCreatedAt">—</span></div>
 <div class="info-row"><span class="label">建立者</span><span class="value" id="editCreatedBy">—</span></div>
+<div class="info-row"><span class="label">最後修改時間</span><span class="value" id="editModifiedAt">—</span></div>
+<div class="info-row"><span class="label">修改者</span><span class="value" id="editModifiedBy">—</span></div>
 <div class="info-row"><span class="label">最後登入</span><span class="value" id="editLastLogin">—</span></div>
 <div class="info-row"><span class="label">最後登入 IP</span><span class="value" id="editLastIP">—</span></div>
 </div>
@@ -1025,10 +1027,10 @@ function rndDate(base){
   return d.getFullYear()+'/'+(''+(d.getMonth()+1)).padStart(2,'0')+'/'+(''+ d.getDate()).padStart(2,'0')+' '+(''+ d.getHours()).padStart(2,'0')+':'+(''+ d.getMinutes()).padStart(2,'0');
 }
 let accounts = [
-  {uid:'#001',account:'superadmin',nickname:'系統管理員',role:'超級管理員',lastLogin:'2026/04/30 09:15',lastIP:'192.168.1.100',status:'active',isSuper:true,createdAt:'2025/01/01 00:00',createdBy:'system',note:'系統預設帳號',tasks:0},
-  {uid:'#002',account:'yi_sa',nickname:'Yi',role:'超級管理員',lastLogin:'2026/04/30 08:30',lastIP:'192.168.50.5',status:'active',isSuper:true,createdAt:'2025/06/15 10:00',createdBy:'superadmin',note:'SA 主管',tasks:0},
-  {uid:'#003',account:'wang_ops',nickname:'王經理',role:'營運主管',lastLogin:'2026/04/29 17:45',lastIP:'192.168.1.55',status:'active',isSuper:false,createdAt:'2025/03/10 14:30',createdBy:'superadmin',note:'營運部主管',tasks:3},
-  {uid:'#004',account:'chen_ops',nickname:'陳小明',role:'營運專員',lastLogin:'2026/04/29 16:20',lastIP:'192.168.1.60',status:'active',isSuper:false,createdAt:'2025/07/01 09:00',createdBy:'wang_ops',note:'',tasks:1},
+  {uid:'#001',account:'superadmin',nickname:'系統管理員',role:'超級管理員',lastLogin:'2026/04/30 09:15',lastIP:'192.168.1.100',status:'active',isSuper:true,createdAt:'2025/01/01 00:00',createdBy:'system',modifiedAt:'2026/03/15 14:20',modifiedBy:'superadmin',note:'系統預設帳號',tasks:0},
+  {uid:'#002',account:'yi_sa',nickname:'Yi',role:'超級管理員',lastLogin:'2026/04/30 08:30',lastIP:'192.168.50.5',status:'active',isSuper:true,createdAt:'2025/06/15 10:00',createdBy:'superadmin',modifiedAt:'2026/04/28 16:45',modifiedBy:'yi_sa',note:'SA 主管',tasks:0},
+  {uid:'#003',account:'wang_ops',nickname:'王經理',role:'營運主管',lastLogin:'2026/04/29 17:45',lastIP:'192.168.1.55',status:'active',isSuper:false,createdAt:'2025/03/10 14:30',createdBy:'superadmin',modifiedAt:'2026/04/25 14:00',modifiedBy:'superadmin',note:'營運部主管',tasks:3},
+  {uid:'#004',account:'chen_ops',nickname:'陳小明',role:'營運專員',lastLogin:'2026/04/29 16:20',lastIP:'192.168.1.60',status:'active',isSuper:false,createdAt:'2025/07/01 09:00',createdBy:'wang_ops',modifiedAt:'2026/04/30 09:18',modifiedBy:'yi_sa',note:'',tasks:1},
   {uid:'#005',account:'lin_cs',nickname:'林主管',role:'客服主管',lastLogin:'2026/04/30 08:00',lastIP:'192.168.2.10',status:'active',isSuper:false,createdAt:'2025/04/20 11:00',createdBy:'superadmin',note:'客服部主管',tasks:0},
   {uid:'#006',account:'huang_cs',nickname:'黃小華',role:'客服專員',lastLogin:'2026/04/28 14:30',lastIP:'192.168.2.15',status:'active',isSuper:false,createdAt:'2025/08/15 09:00',createdBy:'lin_cs',note:'',tasks:2},
   {uid:'#007',account:'zhang_fin',nickname:'張會計',role:'財務',lastLogin:'2026/04/30 07:50',lastIP:'192.168.3.5',status:'active',isSuper:false,createdAt:'2025/02/28 10:00',createdBy:'superadmin',note:'財務部',tasks:0},
@@ -1297,6 +1299,8 @@ function openEditModal(idx){
   document.getElementById('editNote').value=a.note||'';
   document.getElementById('editCreatedAt').textContent=a.createdAt;
   document.getElementById('editCreatedBy').textContent=a.createdBy;
+  document.getElementById('editModifiedAt').textContent=a.modifiedAt||'—';
+  document.getElementById('editModifiedBy').textContent=a.modifiedBy||'—';
   document.getElementById('editLastLogin').textContent=a.lastLogin;
   document.getElementById('editLastIP').textContent=a.lastIP;
   /* 禁用/啟用按鈕狀態 */
@@ -1318,6 +1322,8 @@ function submitEdit(){
   a.nickname=document.getElementById('editNickname').value.trim();
   a.role=document.getElementById('editRole').value;
   a.note=document.getElementById('editNote').value.trim();
+  a.modifiedAt=new Date().toISOString().slice(0,16).replace('T',' ');
+  a.modifiedBy='yi_sa';
   closeModal('editModal');
   showToast(`帳號 ${a.account} 已更新`);
   renderTable();
