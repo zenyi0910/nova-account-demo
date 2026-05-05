@@ -12,7 +12,11 @@
 <div class="subpage-dialog">
 <div class="subpage-header">
 <h2>商城</h2>
-<div class="subpage-close" onclick="window.location.href='nova-lobby.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+</div>
+<div class="subpage-tabs">
+<button class="active" onclick="switchTab(this)">儲值優惠</button>
+<button onclick="switchTab(this)">儲值紀錄</button>
+<button onclick="switchTab(this)">文件夾</button>
 </div>
 <div class="store-section">
 <div class="store-quick">
@@ -53,8 +57,12 @@
 <button>行動支付</button>
 </div>
 </div>
+<div class="subpage-bottom-close"><button onclick="window.location.href='nova-lobby.html'">關閉</button></div>
 </div>
 </div>
 </div>
+<script>
+function switchTab(el){document.querySelectorAll('.subpage-tabs button').forEach(b=>b.classList.remove('active'));el.classList.add('active')}
+</script>
 </body>
 </html>

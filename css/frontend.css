@@ -72,7 +72,9 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#f87171;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .main-wrap{padding-top:50px;padding-bottom:70px;overflow-x:hidden}
 .subpage-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:flex;align-items:flex-end;justify-content:center}
-.subpage-dialog{width:100%;max-width:430px;max-height:88vh;background:linear-gradient(180deg,#1a0a2e 0%,#2d1b4e 30%,#1a1a2e 100%);border-radius:24px 24px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease}
+.subpage-dialog{width:100%;max-width:430px;max-height:88vh;background:linear-gradient(180deg,#1a0a2e 0%,#2d1b4e 30%,#1a1a2e 100%);border-radius:24px 24px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:60px}
+.subpage-bottom-close{position:sticky;bottom:0;left:0;right:0;padding:12px;background:linear-gradient(transparent,#1a0a2e 30%);text-align:center;z-index:10}
+.subpage-bottom-close button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:10px 40px;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .subpage-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#2d1040,#1a0a2e)}
 .subpage-header h2{color:#fff;font-size:18px;font-weight:700}
