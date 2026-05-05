@@ -1,6 +1,6 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow-x:hidden;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji";background:#76090A;max-width:100vw;font-size:16px}
-.mobile-frame{width:100%;max-width:393px;margin:0 auto;position:relative;min-height:100vh;background:#76090A;overflow-x:hidden}
+.mobile-frame{width:100%;max-width:393px;margin:0 auto;position:relative;min-height:100dvh;background:#FEFCE8;overflow-x:hidden;display:flex;flex-direction:column}
 img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
 button{border:none;background:none;cursor:pointer;font:inherit}
 .header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:393px;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
@@ -20,24 +20,22 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .coin-refresh svg{width:12px;height:12px;color:rgba(255,255,255,.8)}
 .settings-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
 .settings-btn svg{color:#fff;width:18px;height:18px}
-.banner-section{position:relative;width:100%;height:200px;overflow:hidden}
+.banner-section{position:relative;width:394px;max-width:100%;height:200px;overflow:hidden;border-radius:0}
 .banner-track{display:flex;width:200%;height:100%;animation:bannerSlide 8s infinite}
 @keyframes bannerSlide{0%,40%{transform:translateX(0)}50%,90%{transform:translateX(-50%)}100%{transform:translateX(0)}}
 .banner-slide{width:50%;height:100%;flex-shrink:0;position:relative}
-.banner-slide img{width:100%;height:100%;object-fit:cover}
-.banner-overlay-l,.banner-overlay-r{position:absolute;top:0;bottom:0;width:60px}
-.banner-overlay-l{left:0;background:linear-gradient(to right,rgba(0,0,0,.2),transparent)}
-.banner-overlay-r{right:0;background:linear-gradient(to left,rgba(0,0,0,.2),transparent)}
+.banner-slide img{width:100%;height:100%;object-fit:cover;object-position:center}
+.banner-overlay-l,.banner-overlay-r{display:none}
 .banner-nav{position:absolute;top:50%;transform:translateY(-60%);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(0,0,0,.2)}
 .banner-nav.prev{left:4px}
 .banner-nav.next{right:4px}
-.marquee-bar{height:40px;display:flex;align-items:center;padding:0 12px;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.05) 30%,#fefce8 80%)}
+.marquee-bar{height:24px;display:flex;align-items:center;padding:0 12px;background:transparent}
 .marquee-icon{flex-shrink:0;margin-right:8px}
 .marquee-icon svg{width:16px;height:16px;color:#fefce8;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
-.marquee-track{flex:1;overflow:hidden;height:16px;position:relative}
+.marquee-track{flex:1;overflow:hidden;height:24px;position:relative;display:flex;align-items:center}
 .marquee-content{display:flex;white-space:nowrap;animation:marqueeScroll 25s linear infinite;position:absolute}
 @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.marquee-content span{margin:0 20px;font-size:11px;color:#fefce8;text-shadow:0 1px 1px rgba(0,0,0,.3);font-family:monospace}
+.marquee-content span{margin:0 20px;font-size:16px;color:#fefce8;text-shadow:0 1px 1px rgba(0,0,0,.3)}
 .tabs-section{display:flex;justify-content:center;padding:8px 0;position:relative;z-index:2}
 .tabs-list{display:inline-flex;align-items:center;background:#fff;border-radius:24px;padding:3px;box-shadow:1px 1px 6px #c1b295,inset -1px -1px 7px #eee1c7}
 .tab-btn{min-width:44px;padding:5px 10px;border-radius:24px;font-size:12px;font-weight:500;color:#333;transition:all .2s;display:flex;align-items:center;justify-content:center}
@@ -51,13 +49,13 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .game-section{padding:8px 12px 100px}
 .section-label{display:flex;justify-content:center;margin-bottom:12px}
 .section-badge{background:#991b1b;color:#fff;font-size:12px;font-weight:600;padding:4px 14px;border-radius:12px}
-.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.game-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1;box-shadow:2px 4px 8px rgba(69,34,1,.32),inset 0 -3px 0 #7f3f02;cursor:pointer;transition:transform .15s}
+.game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.game-card{position:relative;border-radius:0;overflow:hidden;width:93px;height:93px;cursor:pointer;transition:transform .15s}
 .game-card:active{transform:scale(.95)}
-.game-card img{width:100%;height:100%;object-fit:cover}
-.game-card::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:inset -4px -6px 6px rgba(0,0,0,.3),inset 1px 2px 6px rgba(255,253,247,.8);pointer-events:none}
+.game-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;transform:translateZ(0)}
+.game-card::after{content:'';position:absolute;inset:0;border-radius:0;pointer-events:none}
 .game-multiplier{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.6);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 5px;border-radius:6px;z-index:2}
-.game-players{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;font-weight:700;color:#fff;padding:2px 0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7));border-radius:0 0 12px 12px;z-index:2}
+.game-players{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;font-weight:700;color:#fff;padding:2px 0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7));border-radius:0;z-index:2}
 .game-badge{position:absolute;top:0;right:-2px;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -3px 2px rgba(0,0,0,.2),inset 1px 2px 1px rgba(255,253,247,1);z-index:3}
 .footer-fixed{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:393px;height:70px;z-index:40;background:transparent}
 .footer-inner{width:100%;height:100%;display:flex;align-items:flex-end;padding:0 16px 12px;background-position:center bottom;background-size:contain;background-repeat:repeat-x}
