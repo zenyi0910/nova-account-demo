@@ -132,7 +132,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="sidebar-item" onclick="toggleSub('userSub')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>用戶管理<svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     <div class="sidebar-sub" id="userSub">
       <a class="sidebar-item" href="nova-user-query.html">用戶查詢</a>
-      <a class="sidebar-item" href="nova-account-log.html">帳號操作紀錄查詢</a>
     </div>
     <div class="sidebar-item" onclick="toggleSub('financeSub')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>帳務管理<svg class="sidebar-chevron open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     <div class="sidebar-sub open" id="financeSub">
@@ -201,10 +200,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <a class="sidebar-item" href="nova-item-list.html">道具清單</a>
       <a class="sidebar-item" href="nova-maintenance.html">系統維護</a>
     </div>
-    <div class="sidebar-item" onclick="toggleSub('permSub')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>權限設定<svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+    <div class="sidebar-item" onclick="toggleSub('permSub')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>帳號管理<svg class="sidebar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
     <div class="sidebar-sub" id="permSub">
       <a class="sidebar-item" href="nova-admin-roles.html">角色設定</a>
       <a class="sidebar-item" href="nova-admin-users.html">帳號設定</a>
+      <a class="sidebar-item" href="nova-account-log.html">操作日誌</a>
     </div>
   </div>
   <div class="sidebar-user" onclick="toggleUserMenu()">
