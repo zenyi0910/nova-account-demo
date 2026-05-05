@@ -93,7 +93,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sidebar-user{position:relative;cursor:pointer}
 .user-chevron{width:14px;height:14px;color:#9CA3AF;margin-left:auto;flex-shrink:0;transition:transform .2s}
 .sidebar-user.open .user-chevron{transform:rotate(180deg)}
-.user-popover{display:none;position:absolute;bottom:8px;left:calc(100% + 8px);width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:50;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
+.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
 .sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
 .user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
 .user-popover .user-avatar{width:36px;height:36px;font-size:14px}
@@ -104,6 +104,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
 .user-popover-item:hover{background:#F3F4F6}
 .user-popover-item svg{width:16px;height:16px;color:#6B7280}
+.sidebar-collapsed .sidebar{transform:translateX(-250px)}
+.sidebar-collapsed .main{margin-left:0}
+.sidebar{transition:transform .3s cubic-bezier(.25,.1,.25,1)}
+.main{transition:margin-left .3s cubic-bezier(.25,.1,.25,1)}
 @media(max-width:768px){
 .sidebar{transform:translateX(-100%);position:fixed;z-index:100;transition:transform .3s}
 .sidebar.show{transform:translateX(0)}
@@ -319,10 +323,15 @@ function saveRole(){alert(editRoleIdx>=0?'角色已更新':'角色已新增');cl
 function delRole(i){if(confirm(`確定刪除角色「${roles[i].name}」？`)){roles.splice(i,1);renderRoles(roles);}}
 
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
-  document.querySelector('.sidebar').classList.toggle('show');
-  let ov=document.querySelector('.sidebar-overlay');
-  if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
-  ov.classList.toggle('show');
+  const isMobile=window.innerWidth<=768;
+  if(isMobile){
+    document.querySelector('.sidebar').classList.toggle('show');
+    let ov=document.querySelector('.sidebar-overlay');
+    if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
+    ov.classList.toggle('show');
+  }else{
+    document.body.classList.toggle('sidebar-collapsed');
+  }
 });
 
 function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
