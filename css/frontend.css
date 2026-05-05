@@ -1,6 +1,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow-x:hidden;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji";background:#76090A;max-width:100vw;font-size:16px}
-.mobile-frame{width:100%;max-width:393px;margin:0 auto;position:relative;min-height:100dvh;background:#FEFCE8;overflow-x:hidden;display:flex;flex-direction:column}
+html,body{height:100%;overflow-x:hidden;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";background:#FFFDE7;max-width:100vw}
+.mobile-frame{width:100%;max-width:430px;margin:0 auto;position:relative;min-height:100vh;background:#FFFDE7;overflow-x:hidden}
+@media(max-width:430px){html,body{background:#FFFDE7}.mobile-frame{max-width:none}}
 img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
 button{border:none;background:none;cursor:pointer;font:inherit}
 .header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:393px;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
