@@ -5,24 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>星運娛樂城</title>
 <link rel="stylesheet" href="css/frontend.css">
-<style>
-body{background:#fefce8}
-.main-wrap{padding-top:50px;padding-bottom:70px;overflow-x:hidden}
-</style>
 </head>
 <body>
+<div class="mobile-frame">
 <header class="header">
 <div class="header-left">
 <div class="avatar"><img src="assets/user_avatar.png" alt="avatar"></div>
 <div class="user-info">
 <span class="username">QAtest5</span>
 <div class="user-badges">
-<span class="badge-my"><svg width="10" height="10" viewBox="0 0 42 42"><path d="M21,8A21,21,0,1,0,42,29,21,21,0,0,0,21,8Zm0,8a7.5,7.5,0,1,1-7.5,7.5A7.5,7.5,0,0,1,21,16Zm0,29A16,16,0,0,1,8.6,39.5a9.4,9.4,0,0,1,8.3-5,2,2,0,0,1,.6.1A11,11,0,0,0,21,35a11,11,0,0,0,3.5-.6,2,2,0,0,1,.6-.1,9.4,9.4,0,0,1,8.3,5A16,16,0,0,1,21,45Z" transform="translate(0 -8)" fill="#333"/></svg>我的</span>
+<span class="badge-my" onclick="showProfile()"><svg width="10" height="10" viewBox="0 0 42 42"><path d="M21,8A21,21,0,1,0,42,29,21,21,0,0,0,21,8Zm0,8a7.5,7.5,0,1,1-7.5,7.5A7.5,7.5,0,0,1,21,16Zm0,29A16,16,0,0,1,8.6,39.5a9.4,9.4,0,0,1,8.3-5,2,2,0,0,1,.6.1A11,11,0,0,0,21,35a11,11,0,0,0,3.5-.6,2,2,0,0,1,.6-.1,9.4,9.4,0,0,1,8.3,5A16,16,0,0,1,21,45Z" transform="translate(0 -8)" fill="#333"/></svg>我的</span>
 <span class="badge-vip">VIP3</span>
 </div></div></div>
 <div class="header-right">
 <div class="coin-display">
-<div class="coin-icon"><img src="assets/icon_coin_gold.png" alt="coin" style="width:24px;height:24px"></div>
+<div class="coin-icon"><img src="assets/icon_coin_gold.png" alt="coin"></div>
 <div class="coin-amount"><span>7,459</span><span class="coin-refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span></div>
 </div>
 <button class="settings-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
@@ -30,7 +27,6 @@ body{background:#fefce8}
 </header>
 
 <div class="main-wrap">
-<!-- Banner -->
 <section class="banner-section">
 <div class="banner-track">
 <div class="banner-slide"><img src="https://d1c05r0acxw2a.cloudfront.net/uploads/attachments/88f01e841c1df13423eb8729dac576e287a8d4cd261f0e7b37465aa01ef6c189.jpg" alt="banner"><div class="banner-overlay-l"></div><div class="banner-overlay-r"></div></div>
@@ -40,7 +36,6 @@ body{background:#fefce8}
 <button class="banner-nav next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
 </section>
 
-<!-- Marquee -->
 <div class="marquee-bar">
 <div class="marquee-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4A.7.7 0 0 0 11 19.3z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.7"/></svg></div>
 <div class="marquee-track"><div class="marquee-content">
@@ -53,7 +48,6 @@ body{background:#fefce8}
 </div></div>
 </div>
 
-<!-- Tabs -->
 <div class="tabs-section">
 <div class="tabs-list">
 <button class="tab-btn active">全部</button>
@@ -63,7 +57,6 @@ body{background:#fefce8}
 </div>
 </div>
 
-<!-- Recommend -->
 <section class="recommend-section">
 <div class="recommend-card" style="background:url('assets/recommend_bg.png') center/cover">
 <div class="recommend-header" style="background:url('assets/recommend_header.png') center/contain no-repeat;width:200px;height:60px"><p style="margin-top:16px">最受歡迎</p></div>
@@ -77,7 +70,6 @@ body{background:#fefce8}
 </div>
 </section>
 
-<!-- Game Grid -->
 <section class="game-section">
 <div class="section-label"><span class="section-badge">全部遊戲</span></div>
 <div class="game-grid">
@@ -104,23 +96,29 @@ body{background:#fefce8}
 </section>
 </div>
 
-<!-- Footer -->
 <footer class="footer-fixed">
 <div class="footer-inner" style="background-image:url('assets/footer_bg.png')">
-<button class="footer-btn" onclick="window.location.href='nova-lobby.html'"><img src="assets/icon_other.png" alt="其他" class="footer-icon"><span>其他</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-leaderboard.html'"><img src="assets/icon_ranking.png" alt="排行榜" class="footer-icon"><span>排行榜</span></button>
-<button class="footer-btn footer-btn-store" onclick="window.location.href='nova-shop.html'"><img src="assets/icon_store_2.png" alt="商城" class="footer-icon-store"><span>商城</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-gift.html'"><img src="assets/icon_gift.png" alt="贈禮" class="footer-icon"><span>贈禮</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-guild.html'"><img src="assets/icon_guild.png" alt="公會" class="footer-icon"><span>公會</span></button>
+<button class="footer-btn" onclick="showSubpage('profile')"><img src="assets/icon_other.png" alt="其他" class="footer-icon"><span>其他</span></button>
+<button class="footer-btn" onclick="showSubpage('ranking')"><img src="assets/icon_ranking.png" alt="排行榜" class="footer-icon"><span>排行榜</span></button>
+<button class="footer-btn footer-btn-store" onclick="showSubpage('store')"><img src="assets/icon_store_2.png" alt="商城" class="footer-icon-store"><span>商城</span></button>
+<button class="footer-btn" onclick="showSubpage('gift')"><img src="assets/icon_gift.png" alt="贈禮" class="footer-icon"><span>贈禮</span></button>
+<button class="footer-btn" onclick="showSubpage('guild')"><img src="assets/icon_guild.png" alt="公會" class="footer-icon"><span>公會</span></button>
 </div>
 </footer>
 
-<!-- Chat Bubble -->
 <div class="chat-bubble">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
 <span>聊天</span>
 <div class="chat-badge">3</div>
 </div>
+</div>
 
+<script>
+function showSubpage(page) {
+  const pages = {profile:'nova-profile.html',ranking:'nova-leaderboard.html',store:'nova-shop.html',gift:'nova-gift.html',guild:'nova-guild.html'};
+  if (pages[page]) window.location.href = pages[page];
+}
+function showProfile() { window.location.href = 'nova-profile.html'; }
+</script>
 </body>
 </html>
