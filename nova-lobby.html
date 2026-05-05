@@ -2741,25 +2741,39 @@ html, body { overscroll-behavior: none; }
 </style>
 <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var footer = document.querySelector('footer');
-  if (!footer) return;
-  var btns = footer.querySelectorAll('button');
-  btns.forEach(function(btn) {
-    var text = btn.textContent.trim();
-    if (text.indexOf('排行榜') !== -1 || text.indexOf('Ranking') !== -1) {
-      btn.onclick = function() { window.location.href = 'nova-leaderboard.html'; };
-    } else if (text.indexOf('商城') !== -1 || text.indexOf('Store') !== -1) {
-      btn.onclick = function() { window.location.href = 'nova-shop.html'; };
-    } else if (text.indexOf('贈禮') !== -1 || text.indexOf('Gift') !== -1) {
-      btn.onclick = function() { window.location.href = 'nova-gift.html'; };
-    } else if (text.indexOf('公會') !== -1 || text.indexOf('Guild') !== -1) {
-      btn.onclick = function() { window.location.href = 'nova-guild.html'; };
-    } else if (text.indexOf('其他') !== -1 || text.indexOf('Other') !== -1) {
-      btn.onclick = function() { window.location.href = 'nova-lobby.html'; };
+(function() {
+  var nav = {
+    '排行榜': 'nova-leaderboard.html',
+    'Ranking': 'nova-leaderboard.html',
+    '商城': 'nova-shop.html',
+    'Store': 'nova-shop.html',
+    '贈禮': 'nova-gift.html',
+    'Gift': 'nova-gift.html',
+    '公會': 'nova-guild.html',
+    'Guild': 'nova-guild.html',
+    '其他': 'nova-lobby.html',
+    'Other': 'nova-lobby.html'
+  };
+  document.addEventListener('click', function(e) {
+    var el = e.target;
+    // 往上找到 footer 內的按鈕
+    for (var i = 0; i < 10; i++) {
+      if (!el || el.tagName === 'FOOTER') break;
+      if (el.tagName === 'BUTTON' && el.closest('footer')) {
+        var text = el.textContent.trim();
+        for (var key in nav) {
+          if (text.indexOf(key) !== -1) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = nav[key];
+            return;
+          }
+        }
+      }
+      el = el.parentElement;
     }
-  });
-});
+  }, true);
+})();
 </script>
 </body>
 </html>
