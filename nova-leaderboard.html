@@ -5,210 +5,150 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>星運娛樂城 - 排行榜</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#333;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#FFF8E1 0%,#FFECB3 100%);display:flex;flex-direction:column;position:relative}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #76090A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; min-height: 100dvh; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
+.page-wrapper { position: fixed; inset: 0; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; z-index: 50; background: rgba(0,0,0,0.6); }
+.panel-container { position: relative; padding: 0 16px; max-width: 500px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 
-/* Header */
-.header{padding:30px 20px 20px;text-align:center;position:relative}
-.trophy{width:100px;height:100px;margin:0 auto 15px;position:relative}
-.trophy-icon{font-size:80px;filter:drop-shadow(0 4px 12px rgba(255,193,7,.5))}
-.trophy-sparkle{position:absolute;font-size:20px;animation:sparkle 1.5s ease-in-out infinite}
-.trophy-sparkle:nth-child(1){top:-5px;left:10px;animation-delay:0s}
-.trophy-sparkle:nth-child(2){top:-5px;right:10px;animation-delay:.3s}
-.trophy-sparkle:nth-child(3){bottom:10px;left:15px;animation-delay:.6s}
-.trophy-sparkle:nth-child(4){bottom:10px;right:15px;animation-delay:.9s}
-@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+/* Header decoration */
+.panel-header { width: 100%; max-width: 400px; display: flex; justify-content: center; position: relative; margin-bottom: -32px; z-index: 10; }
+.panel-header img { width: 100%; height: 72px; object-fit: contain; }
+.panel-title { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); z-index: 20; }
+.panel-title-tabs { display: flex; gap: 8px; align-items: center; }
+.panel-title-tab { padding: 4px 12px; border-radius: 20px; font-size: 14px; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5); font-weight: 600; cursor: pointer; white-space: nowrap; letter-spacing: 1px; }
+.panel-title-tab.active { background: rgba(87,83,78,0.2); box-shadow: inset 1px 1px 1px rgba(17,17,17,0.21), inset -1px -1px 1px white; }
 
-/* Tabs */
-.tabs-wrap{background:linear-gradient(135deg,#FFB300,#FFA000);padding:3px;border-radius:25px;margin:0 20px 8px;box-shadow:0 4px 12px rgba(255,179,0,.4)}
-.tabs{display:flex;background:#fff;border-radius:23px;overflow:hidden}
-.tab{flex:1;padding:10px 8px;font-size:12px;font-weight:600;color:#666;text-align:center;cursor:pointer;transition:all .2s;border-radius:20px;margin:2px}
-.tab.active{background:linear-gradient(135deg,#FFB300,#FFA000);color:#fff;box-shadow:0 2px 6px rgba(255,179,0,.3)}
+/* Panel body */
+.panel-body { position: relative; z-index: 5; width: 100%; max-width: 400px; height: 70vh; max-height: 600px; overflow-y: auto; padding: 24px 8px 150px; border-radius: 24px; background: #fafafa; border: 6px solid #f4b63f; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
+.panel-body::-webkit-scrollbar { width: 4px; }
+.panel-body::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
 
-/* Subtitle */
-.subtitle{text-align:center;font-size:11px;color:#8D6E63;margin-bottom:15px;font-weight:500}
+.update-note { width: 100%; text-align: right; font-size: 12px; color: #452201; font-weight: 600; margin-bottom: 8px; padding-right: 8px; }
 
-/* List */
-.list{padding:0 16px 80px}
-.rank-item{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:8px;border-radius:14px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.08);transition:transform .15s}
-.rank-item:active{transform:scale(.98)}
-.rank-medal{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.rank-number{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8D6E63;background:#F5F5F5;border-radius:50%;flex-shrink:0}
-.rank-avatar{width:40px;height:40px;border-radius:50%;background:#E0E0E0;flex-shrink:0;overflow:hidden}
-.rank-avatar img{width:100%;height:100%;object-fit:cover}
-.rank-info{flex:1;min-width:0}
-.rank-name{font-size:13px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rank-score{display:flex;align-items:center;gap:4px;margin-top:3px}
-.rank-coin{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#5D4037}
-.rank-amount{font-size:12px;color:#666;font-weight:500}
+/* Rank items */
+.rank-item { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 4px; padding: 8px; margin: 8px 0; border: 4px solid #f4b63f; border-radius: 16px; background: #fff8e4; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; }
+.rank-item.top3 { border-color: white; background: linear-gradient(to top, #fde397, #fbc323); }
+.rank-num { width: 40px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 16px; color: #452201; }
+.rank-num img { width: 36px; height: auto; }
+.rank-user { display: flex; align-items: center; gap: 8px; }
+.rank-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #f4b63f; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.rank-avatar img { width: 100%; height: 100%; object-fit: cover; background: #e2e8f0; }
+.rank-name { font-size: 13px; font-weight: 600; color: #333; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-score { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #452201; }
+.rank-score img { width: 16px; height: 16px; }
 
-/* Current User */
-.current-user{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:398px;background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:12px 16px;border-radius:16px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 16px rgba(76,175,80,.4)}
-.current-rank{font-size:16px;font-weight:800;color:#fff;min-width:40px}
-.current-avatar{width:36px;height:36px;border-radius:50%;background:#fff;flex-shrink:0}
-.current-info{flex:1;min-width:0}
-.current-name{font-size:13px;font-weight:700;color:#fff}
-.current-score{display:flex;align-items:center;gap:4px;margin-top:2px}
-.current-coin{width:14px;height:14px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#4CAF50}
-.current-amount{font-size:12px;color:rgba(255,255,255,.9);font-weight:600}
+/* My rank (sticky bottom) */
+.my-rank { position: sticky; bottom: 0; background: #fafafa; padding: 8px 0; border-top: 1px solid #eee; margin-top: 12px; }
+.my-rank .rank-item { border-color: #22c55e; background: linear-gradient(to top, #dcfce7, #bbf7d0); }
 
-/* Activity Button */
-.activity-btn{position:fixed;bottom:70px;right:16px;background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:10px 18px;border-radius:20px;font-size:12px;font-weight:700;color:#fff;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(76,175,80,.4);z-index:10}
+/* Close button */
+.close-btn { position: absolute; bottom: 20px; right: 20px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; z-index: 20; }
 
-/* Close Button */
-.close-btn{position:fixed;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20}
-.close-btn svg{width:18px;height:18px;color:#8D6E63}
-
-/* Bottom Decoration */
-.bottom-deco{position:fixed;bottom:0;left:0;right:0;height:60px;background:linear-gradient(180deg,transparent,rgba(255,193,7,.2));pointer-events:none}
-.coins-deco{position:fixed;bottom:0;left:0;right:0;height:50px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:10px;pointer-events:none}
-.coin-deco{font-size:24px;animation:float 2s ease-in-out infinite}
-.coin-deco:nth-child(1){animation-delay:0s}
-.coin-deco:nth-child(2){animation-delay:.3s}
-.coin-deco:nth-child(3){animation-delay:.6s}
-.coin-deco:nth-child(4){animation-delay:.9s}
-.coin-deco:nth-child(5){animation-delay:1.2s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* Footer */
+.footer-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; z-index: 60; max-width: 500px; margin: 0 auto; background: url("https://www.kcfgmtb.com/assets/footer_bg-Dw1njDW1.png") center bottom / contain repeat; }
+.footer-inner { display: flex; align-items: flex-end; justify-content: space-around; height: 100%; padding: 0 16px 12px; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #452201; font-weight: 600; padding: 4px 8px; }
+.nav-btn svg { width: 22px; height: 22px; fill: #452201; }
+.nav-btn.active { color: #dc2626; }
+.nav-btn.active svg { fill: #dc2626; }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Close Button -->
-  <div class="close-btn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </div>
 
+<div class="page-wrapper">
+<div class="panel-container">
   <!-- Header -->
-  <div class="header">
-    <div class="trophy">
-      <div class="trophy-sparkle">✨</div>
-      <div class="trophy-sparkle">✨</div>
-      <div class="trophy-sparkle">✨</div>
-      <div class="trophy-sparkle">✨</div>
-      <div class="trophy-icon">🏆</div>
-    </div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <div class="tab active">富豪榜</div>
-      <div class="tab">贏分榜</div>
-      <div class="tab">倍率榜</div>
-      <div class="tab">公會榜</div>
-    </div>
-  </div>
-
-  <!-- Subtitle -->
-  <div class="subtitle">金幣餘額排名，每 15 分鐘更新</div>
-
-  <!-- List -->
-  <div class="list">
-    <div class="rank-item">
-      <div class="rank-medal">🥇</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">User837133</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">1,333,576,101</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-medal">🥈</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">User763693</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">448,197,600</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-medal">🥉</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">Wayne</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">349,747,991</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">4</div>
-      <div class="rank-avatar">👤</div>
-      <div class="rank-info">
-        <div class="rank-name">Huang Vera123</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">167,725,942</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">5</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">Cloud001</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,994,130</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">6</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">QAtest6改改</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,927,558</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">7</div>
-      <div class="rank-avatar">👤</div>
-      <div class="rank-info">
-        <div class="rank-name">verahuang0001</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">148,601,721</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">8</div>
-      <div class="rank-avatar">👤</div>
-      <div class="rank-info">
-        <div class="rank-name">cas1</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">27,145,299</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">9</div>
-      <div class="rank-avatar">🐷</div>
-      <div class="rank-info">
-        <div class="rank-name">verahuang</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">22,548,603</span></div>
-      </div>
-    </div>
-    <div class="rank-item">
-      <div class="rank-number">10</div>
-      <div class="rank-avatar">👤</div>
-      <div class="rank-info">
-        <div class="rank-name">0912345666-4</div>
-        <div class="rank-score"><div class="rank-coin">$</div><span class="rank-amount">13,000,000</span></div>
+  <div class="panel-header">
+    <img src="https://www.kcfgmtb.com/assets/ranking_title_bg-CcFR8aTk.png" alt="">
+    <div class="panel-title">
+      <div class="panel-title-tabs">
+        <span class="panel-title-tab active">富豪榜</span>
+        <span class="panel-title-tab">贏分榜</span>
+        <span class="panel-title-tab">倍率榜</span>
+        <span class="panel-title-tab">公會榜</span>
       </div>
     </div>
   </div>
 
-  <!-- Current User -->
-  <div class="current-user">
-    <div class="current-rank">50+</div>
-    <div class="current-avatar">🐷</div>
-    <div class="current-info">
-      <div class="current-name">QAtest5</div>
-      <div class="current-score"><div class="current-coin">$</div><span class="current-amount">7,459</span></div>
+  <!-- Body -->
+  <div class="panel-body">
+    <p class="update-note">金幣餘額排名，每 15 分鐘更新</p>
+
+    <div class="rank-item top3">
+      <div class="rank-num"><img src="https://www.kcfgmtb.com/assets/rank1-D6eYdnXL.png" alt="1"></div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">User837133</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">1,333,576,101</div>
+    </div>
+    <div class="rank-item top3">
+      <div class="rank-num"><img src="https://www.kcfgmtb.com/assets/rank1-D6eYdnXL.png" alt="2"></div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">User763693</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">448,197,600</div>
+    </div>
+    <div class="rank-item top3">
+      <div class="rank-num"><img src="https://www.kcfgmtb.com/assets/rank1-D6eYdnXL.png" alt="3"></div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">Wayne</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">349,747,991</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">4</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">Huang Vera123</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">167,725,942</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">5</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">Cloud001</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">148,994,130</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">6</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">QAtest6改改</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">148,927,558</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">7</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">verahuang0001</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">148,601,721</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">8</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">cas1</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">27,145,299</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">9</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">verahuang</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">22,548,603</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-num">10</div>
+      <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">0912345666-4</span></div>
+      <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">13,000,000</div>
+    </div>
+
+    <!-- My rank -->
+    <div class="my-rank">
+      <div class="rank-item" style="border-color:#22c55e; background:linear-gradient(to top,#dcfce7,#bbf7d0);">
+        <div class="rank-num" style="color:#16a34a;">50+</div>
+        <div class="rank-user"><div class="rank-avatar"><img src="https://www.kcfgmtb.com/user_avatar.png"></div><span class="rank-name">QAtest5</span></div>
+        <div class="rank-score"><img src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png">7,459</div>
+      </div>
     </div>
   </div>
 
-  <!-- Activity Button -->
-  <button class="activity-btn">活動榜</button>
-
-  <!-- Bottom Decoration -->
-  <div class="bottom-deco"></div>
-  <div class="coins-deco">
-    <div class="coin-deco">🪙</div>
-    <div class="coin-deco">🪙</div>
-    <div class="coin-deco">🪙</div>
-    <div class="coin-deco">🪙</div>
-    <div class="coin-deco">🪙</div>
-  </div>
+  <div class="close-btn">✕</div>
 </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-nav">
+<div class="footer-inner">
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>其他</span></div>
+  <div class="nav-btn active"><svg viewBox="0 0 24 24"><path d="M7.5 21H2V9l10-7 10 7v12h-5.5v-7h-9v7z"/></svg><span>排行榜</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2z"/></svg><span>商城</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg><span>贈禮</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>公會</span></div>
+</div>
+</footer>
+
 </body>
 </html>

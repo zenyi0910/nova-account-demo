@@ -5,186 +5,190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>星運娛樂城 - 商城</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#333;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#FFF8E1 0%,#FFF3E0 100%);display:flex;flex-direction:column;position:relative;padding-bottom:60px}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #76090A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; min-height: 100dvh; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
+.page-wrapper { position: fixed; inset: 0; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; z-index: 50; background: rgba(0,0,0,0.6); }
+.panel-container { position: relative; padding: 0 16px; max-width: 500px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 
-/* Countdown Banner */
-.countdown-banner{background:linear-gradient(135deg,#C62828,#D32F2F);padding:14px 16px;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
-.countdown-banner::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,215,0,.1)' stroke-width='2'/%3E%3C/svg%3E") repeat;opacity:.3}
-.countdown-label{font-size:14px;font-weight:700;color:#FFD700;text-shadow:0 1px 3px rgba(0,0,0,.3);z-index:1}
-.countdown-timer{display:flex;gap:4px;z-index:1}
-.countdown-unit{background:rgba(0,0,0,.3);padding:4px 8px;border-radius:6px;font-size:13px;font-weight:700;color:#fff;min-width:32px;text-align:center}
-.countdown-sep{color:#FFD700;font-weight:700;font-size:14px;line-height:28px}
-.coin-deco-left,.coin-deco-right{position:absolute;font-size:24px;top:50%;transform:translateY(-50%)}
-.coin-deco-left{left:10px}
-.coin-deco-right{right:10px}
+/* Countdown banner */
+.countdown-banner { position: relative; width: 100%; max-width: 300px; margin-bottom: -20px; z-index: 70; }
+.countdown-banner img { width: 100%; height: auto; }
+.countdown-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 16px; gap: 2px; }
+.countdown-label { position: absolute; top: 4px; left: 20px; font-size: 16px; font-weight: 600; background: linear-gradient(to right, #818cf8, #0ea5e9, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.countdown-num { color: #eab308; font-size: 18px; font-weight: 600; }
+.countdown-unit { color: white; font-size: 11px; font-weight: 600; }
 
-/* Shop Title */
-.shop-title{text-align:center;padding:16px;position:relative}
-.shop-title-btn{background:linear-gradient(135deg,#FF8F00,#F57C00);padding:12px 40px;border-radius:25px;font-size:18px;font-weight:800;color:#fff;border:none;display:inline-block;box-shadow:0 4px 12px rgba(255,143,0,.4);text-shadow:0 1px 3px rgba(0,0,0,.2)}
+/* Panel header */
+.panel-header { width: 100%; max-width: 400px; display: flex; justify-content: center; position: relative; margin-bottom: -32px; z-index: 10; }
+.panel-header img { width: 100%; height: 72px; object-fit: contain; }
+.panel-header-title { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 18px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5); letter-spacing: 2px; z-index: 20; }
+.vip-badge { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 5; }
+.vip-badge img { width: 72px; height: 72px; object-fit: contain; }
 
-/* Action Buttons */
-.action-row{display:flex;gap:8px;padding:0 16px 14px}
-.action-btn{flex:1;padding:10px 12px;border-radius:12px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;border:none;transition:transform .15s}
-.action-btn:active{transform:scale(.96)}
-.action-btn-blue{background:#E3F2FD;color:#1565C0}
-.action-btn-white{background:#fff;color:#333;border:1px solid #E0E0E0}
-.action-btn-orange{background:linear-gradient(135deg,#FF8F00,#FFA000);color:#fff}
+/* Panel body */
+.panel-body { position: relative; z-index: 5; width: 100%; max-width: 400px; height: 65vh; max-height: 550px; overflow-y: auto; padding: 24px 8px 150px; border-radius: 24px; background: #fafafa; border: 6px solid #f4b63f; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
+.panel-body::-webkit-scrollbar { width: 4px; }
+.panel-body::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
 
-/* VIP Card */
-.vip-card{margin:0 16px 14px;background:#1a1a2e;border-radius:16px;padding:18px;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.2)}
-.vip-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.05),transparent);pointer-events:none}
-.vip-card-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
-.vip-card-sub{font-size:11px;color:rgba(255,255,255,.5)}
-.vip-card-btn{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,#FF8F00,#F57C00);padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;color:#fff;border:none;cursor:pointer}
-.sparkle-effect{position:absolute;top:8px;right:60px;font-size:16px;animation:sparkle 2s ease-in-out infinite}
+/* Coupon bar */
+.coupon-bar { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 8px 0 16px; }
+.coupon-pill { display: flex; align-items: center; justify-content: space-between; background: rgba(35,163,251,0.24); border-radius: 24px; padding-left: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.coupon-pill span { font-size: 14px; color: #3359f2; font-weight: 600; padding: 0 8px; }
+.coupon-btn { background: #fafafa; border: none; border-radius: 24px; padding: 8px 16px; font-size: 13px; color: #452201; font-weight: 600; cursor: pointer; box-shadow: 0 4px 8px rgba(174,108,108,0.48), inset -2px -4px 2px rgba(210,184,184,1), inset 0 2px 1px rgba(255,253,247,0.48); display: flex; align-items: center; gap: 4px; }
+.recommend-badge { background: #f4b63f; border: none; border-radius: 24px; padding: 8px 16px; font-size: 13px; color: #452201; font-weight: 700; cursor: pointer; box-shadow: 0 8px 16px rgba(230,60,0,0.48), inset -2px -4px 2px rgba(200,120,0,0.3), inset 0 2px 1px rgba(255,253,247,0.48); }
 
-/* Quick Deposit */
-.quick-deposit-btn{margin:0 16px 14px;background:linear-gradient(135deg,#FF8F00,#F57C00);padding:14px;border-radius:14px;text-align:center;font-size:15px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(255,143,0,.3);transition:transform .15s}
-.quick-deposit-btn:active{transform:scale(.97)}
+/* Top-up card */
+.topup-card { width: 100%; max-width: 304px; height: 64px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e3a5f, #0f172a); border-radius: 24px; padding: 8px 16px; margin: 12px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
+.topup-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1), transparent); }
+.topup-card-text { color: white; font-size: 14px; font-weight: 600; z-index: 1; }
+.topup-card-btn { background: #dc2626; color: white; border: none; border-radius: 16px; padding: 6px 16px; font-size: 12px; font-weight: 600; cursor: pointer; z-index: 1; box-shadow: 2px 2px 4px rgba(240,0,0,0.4), inset -2px -4px 2px rgba(180,0,0,0.3); }
 
-/* Payment Grid */
-.payment-section{padding:0 16px 14px}
-.payment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.payment-card{background:#fff;border-radius:14px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;cursor:pointer;transition:transform .15s;border:1px solid #F5F5F5}
-.payment-card:active{transform:scale(.97)}
-.payment-card-header{font-size:11px;font-weight:600;color:#333;margin-bottom:8px;padding:4px 8px;background:#F5F5F5;border-radius:6px;display:inline-block}
-.payment-card-header.pink{background:#FCE4EC;color:#C2185B}
-.payment-card-amount{font-size:16px;font-weight:800;color:#333;margin-bottom:2px}
-.payment-card-price{font-size:12px;color:#666}
-.payment-card-badge{position:absolute;top:-4px;right:-4px;background:#1976D2;padding:3px 7px;border-radius:8px;font-size:9px;font-weight:700;color:#fff}
+/* Payment items */
+.payment-list { display: flex; flex-direction: column; gap: 10px; padding: 0 8px; }
+.payment-item { display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 16px; padding: 12px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #f0e6d6; }
+.payment-info { display: flex; flex-direction: column; gap: 2px; }
+.payment-method { font-size: 11px; color: #888; }
+.payment-amount { display: flex; align-items: center; gap: 4px; }
+.payment-amount .coin { width: 18px; height: 18px; }
+.payment-amount .value { font-size: 16px; font-weight: bold; color: #452201; }
+.payment-bonus { font-size: 11px; color: #16a34a; font-weight: 600; }
+.payment-price { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; border: none; border-radius: 20px; padding: 8px 16px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 6px rgba(220,38,38,0.4); }
 
-/* General Deposit */
-.general-section{padding:0 16px 14px}
-.general-title{background:linear-gradient(135deg,#FFB300,#FFA000);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;color:#fff;display:inline-block;margin-bottom:12px;box-shadow:0 2px 8px rgba(255,179,0,.3)}
-.general-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.general-card{background:#fff;border-radius:12px;padding:14px 8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05);cursor:pointer;transition:transform .15s;border:1px solid #F5F5F5}
-.general-card:active{transform:scale(.97)}
-.general-card-icon{font-size:24px;margin-bottom:6px}
-.general-card-name{font-size:11px;font-weight:600;color:#333;line-height:1.3}
+/* Payment methods */
+.method-section { margin-top: 20px; padding: 0 8px; }
+.method-title { font-size: 13px; color: #666; font-weight: 600; margin-bottom: 10px; }
+.method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.method-btn { background: white; border: 2px solid #f0e6d6; border-radius: 12px; padding: 12px 8px; text-align: center; font-size: 12px; font-weight: 600; color: #452201; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.method-btn:hover { border-color: #f4b63f; }
 
-/* Bottom Bar */
-.bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:linear-gradient(135deg,#C62828,#D32F2F);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;z-index:40}
-.bottom-bar-left{display:flex;align-items:center;gap:6px}
-.bottom-bar-label{font-size:11px;color:rgba(255,255,255,.8)}
-.bottom-bar-amount{font-size:15px;font-weight:700;color:#FFD700}
-.bottom-bar-btn{background:linear-gradient(135deg,#C62828,#B71C1C);padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;color:#FFD700;border:2px solid #FFD700;cursor:pointer}
-.close-x{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.close-x svg{width:14px;height:14px;color:#666}
+/* Fortune money */
+.fortune-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border: none; border-radius: 20px; padding: 12px 24px; margin: 20px auto 0; font-size: 14px; font-weight: bold; color: #78350f; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.4); }
+
+/* Close button */
+.close-btn { position: absolute; bottom: 20px; right: 20px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; z-index: 20; }
+
+/* Footer */
+.footer-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; z-index: 60; max-width: 500px; margin: 0 auto; background: url("https://www.kcfgmtb.com/assets/footer_bg-Dw1njDW1.png") center bottom / contain repeat; }
+.footer-inner { display: flex; align-items: flex-end; justify-content: space-around; height: 100%; padding: 0 16px 12px; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #452201; font-weight: 600; padding: 4px 8px; }
+.nav-btn svg { width: 22px; height: 22px; fill: #452201; }
+.nav-btn.active { color: #dc2626; }
+.nav-btn.active svg { fill: #dc2626; }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Countdown Banner -->
+
+<div class="page-wrapper">
+<div class="panel-container">
+  <!-- Countdown -->
   <div class="countdown-banner">
-    <span class="coin-deco-left">🪙</span>
-    <span class="countdown-label">優惠倒數</span>
-    <div class="countdown-timer">
-      <span class="countdown-unit">01日</span>
-      <span class="countdown-unit">13時</span>
-      <span class="countdown-unit">04分</span>
-      <span class="countdown-unit">13秒</span>
-    </div>
-    <span class="coin-deco-right">🪙</span>
-  </div>
-
-  <!-- Shop Title -->
-  <div class="shop-title">
-    <div class="shop-title-btn">商城</div>
-  </div>
-
-  <!-- Action Buttons -->
-  <div class="action-row">
-    <div class="action-btn action-btn-blue">儲值優惠券</div>
-    <div class="action-btn action-btn-white">選擇優惠 →</div>
-    <div class="action-btn action-btn-orange">推薦</div>
-  </div>
-
-  <!-- VIP Card -->
-  <div class="vip-card">
-    <div class="vip-card-title">星鑽卡</div>
-    <div class="vip-card-sub">VIP 專屬優惠</div>
-    <div class="vip-card-btn">敬請期待 →</div>
-    <div class="sparkle-effect">✨</div>
-  </div>
-
-  <!-- Quick Deposit -->
-  <div class="quick-deposit-btn">快速儲值</div>
-
-  <!-- Payment Grid -->
-  <div class="payment-section">
-    <div class="payment-grid">
-      <div class="payment-card">
-        <div class="payment-card-header">myCard 線上</div>
-        <div class="payment-card-amount">51,600</div>
-        <div class="payment-card-price">$500</div>
-      </div>
-      <div class="payment-card">
-        <div class="payment-card-header">行動支付</div>
-        <div class="payment-card-amount">52,000</div>
-        <div class="payment-card-price">$500</div>
-      </div>
-      <div class="payment-card">
-        <div class="payment-card-header">myCard 銀行</div>
-        <div class="payment-card-amount">104,000</div>
-        <div class="payment-card-price">$1,000</div>
-      </div>
-      <div class="payment-card">
-        <div class="payment-card-header">電信帳單</div>
-        <div class="payment-card-amount">51,500</div>
-        <div class="payment-card-price">$500</div>
-      </div>
-      <div class="payment-card">
-        <div class="payment-card-header pink">GASH</div>
-        <div class="payment-card-amount">515</div>
-        <div class="payment-card-price">$5</div>
-        <div class="payment-card-badge">贈15</div>
-      </div>
-      <div class="payment-card">
-        <div class="payment-card-header pink">GASH</div>
-        <div class="payment-card-amount">5,150</div>
-        <div class="payment-card-price">$50</div>
-        <div class="payment-card-badge">贈150</div>
-      </div>
+    <img src="https://www.kcfgmtb.com/assets/countdown_bg-DW7VIPJC.png" alt="">
+    <div class="countdown-overlay">
+      <span class="countdown-label">優惠倒數</span>
+      <span class="countdown-num">01</span><span class="countdown-unit">日</span>
+      <span class="countdown-num">12</span><span class="countdown-unit">時</span>
+      <span class="countdown-num">06</span><span class="countdown-unit">分</span>
+      <span class="countdown-num">12</span><span class="countdown-unit">秒</span>
     </div>
   </div>
 
-  <!-- General Deposit -->
-  <div class="general-section">
-    <div class="general-title">一般儲值</div>
-    <div class="general-grid">
-      <div class="general-card">
-        <div class="general-card-icon">💳</div>
-        <div class="general-card-name">myCard<br>線上轉點</div>
-      </div>
-      <div class="general-card">
-        <div class="general-card-icon">📱</div>
-        <div class="general-card-name">電信帳單</div>
-      </div>
-      <div class="general-card">
-        <div class="general-card-icon">👛</div>
-        <div class="general-card-name">Gash錢包<br>加點</div>
-      </div>
-      <div class="general-card">
-        <div class="general-card-icon">🎫</div>
-        <div class="general-card-name">Gash<br>點數卡</div>
-      </div>
-      <div class="general-card">
-        <div class="general-card-icon">🏪</div>
-        <div class="general-card-name">7-11<br>即時儲</div>
-      </div>
-    </div>
+  <!-- Header -->
+  <div class="panel-header">
+    <img src="https://www.kcfgmtb.com/assets/dialog_header-WtX8VCKN.png" alt="">
+    <span class="panel-header-title">商城</span>
+    <div class="vip-badge"><img src="https://www.kcfgmtb.com/assets/vip3-kUp5ZXA3.png" alt="VIP3"></div>
   </div>
 
-  <!-- Bottom Bar -->
-  <div class="bottom-bar">
-    <div class="bottom-bar-left">
-      <span class="bottom-bar-label">當前金幣</span>
-      <span class="bottom-bar-amount">🪙 7,459點</span>
+  <!-- Body -->
+  <div class="panel-body">
+    <!-- Coupon -->
+    <div class="coupon-bar">
+      <div class="coupon-pill">
+        <span>儲值優惠券</span>
+        <button class="coupon-btn">選擇優惠 ›</button>
+      </div>
+      <button class="recommend-badge">推薦</button>
     </div>
-    <button class="bottom-bar-btn">招財爺</button>
+
+    <!-- Top-up card -->
+    <div class="topup-card">
+      <span class="topup-card-text">超值儲值卡</span>
+      <button class="topup-card-btn">敬請期待</button>
+    </div>
+
+    <!-- Payment items -->
+    <div class="payment-list">
+      <div class="payment-item">
+        <div class="payment-info">
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">51,500</span></div>
+        </div>
+        <button class="payment-price">$ 500</button>
+      </div>
+      <div class="payment-item">
+        <div class="payment-info">
+          <span class="payment-method">行動支付</span>
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">52,000</span></div>
+        </div>
+        <button class="payment-price">$ 500</button>
+      </div>
+      <div class="payment-item">
+        <div class="payment-info">
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">104,000</span></div>
+        </div>
+        <button class="payment-price">$ 1,000</button>
+      </div>
+      <div class="payment-item">
+        <div class="payment-info">
+          <span class="payment-method">電信帳單</span>
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">51,500</span></div>
+        </div>
+        <button class="payment-price">$ 500</button>
+      </div>
+      <div class="payment-item">
+        <div class="payment-info">
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">515</span></div>
+          <span class="payment-bonus">贈 15</span>
+        </div>
+        <button class="payment-price">$ 5</button>
+      </div>
+      <div class="payment-item">
+        <div class="payment-info">
+          <div class="payment-amount"><img class="coin" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png"><span class="value">5,150</span></div>
+          <span class="payment-bonus">贈 150</span>
+        </div>
+        <button class="payment-price">$ 50</button>
+      </div>
+    </div>
+
+    <!-- Payment methods -->
+    <div class="method-section">
+      <div class="method-grid">
+        <div class="method-btn">線上轉點</div>
+        <div class="method-btn">電信帳單</div>
+        <div class="method-btn">Gash錢包扣點</div>
+        <div class="method-btn">Gash點數卡</div>
+        <div class="method-btn">7-11即時儲</div>
+      </div>
+    </div>
+
+    <!-- Fortune money -->
+    <button class="fortune-btn">💰 招財金</button>
   </div>
+
+  <div class="close-btn">✕</div>
 </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-nav">
+<div class="footer-inner">
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>其他</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M7.5 21H2V9l10-7 10 7v12h-5.5v-7h-9v7z"/></svg><span>排行榜</span></div>
+  <div class="nav-btn active"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2z"/></svg><span>商城</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg><span>贈禮</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>公會</span></div>
+</div>
+</footer>
+
 </body>
 </html>

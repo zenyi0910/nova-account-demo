@@ -5,265 +5,192 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>星運娛樂城 - 遊戲大廳</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#fff;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#1a0a1e 0%,#0d0515 100%);display:flex;flex-direction:column;position:relative}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #76090A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; min-height: 100dvh; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
 
 /* Header */
-.header{display:flex;align-items:center;padding:10px 14px;gap:8px;background:rgba(0,0,0,.2)}
-.header-user{display:flex;align-items:center;gap:6px}
-.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#4CAF50,#2E7D32);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;border:2px solid #66BB6A;flex-shrink:0}
-.username{font-size:13px;font-weight:600;color:#fff}
-.vip-badge{background:linear-gradient(135deg,#FF8F00,#F57C00);padding:3px 9px;border-radius:11px;font-size:10px;font-weight:700;color:#fff;box-shadow:0 2px 4px rgba(255,143,0,.3)}
-.header-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.coin-display{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);padding:5px 11px;border-radius:15px;border:1px solid rgba(255,215,0,.2)}
-.coin-icon{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#5D4037;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.coin-amount{font-size:13px;font-weight:700;color:#FFD700;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-.header-icon{width:22px;height:22px;color:rgba(255,255,255,.5);cursor:pointer;transition:color .2s}
-.header-icon:active{color:rgba(255,255,255,.8)}
+.header { position: fixed; top: 0; left: 0; right: 0; height: 50px; max-height: 75px; background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent); z-index: 10; max-width: 500px; margin: 0 auto; }
+.header-inner { display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 12px; }
+.user-info { display: flex; align-items: center; gap: 6px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #f4b63f; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; background: #e2e8f0; }
+.user-meta { display: flex; flex-direction: column; gap: 2px; }
+.username { font-weight: 800; color: white; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.user-badges { display: flex; gap: 4px; }
+.badge-my { display: flex; align-items: center; gap: 2px; background: white; border-radius: 6px; padding: 1px 6px; font-size: 10px; box-shadow: 0 0 3px #000, inset -1px -1px 2px #aaa; }
+.badge-vip { background: linear-gradient(to bottom, #fde047, #f59e0b, #eab308); border-radius: 6px; padding: 1px 8px; font-size: 10px; font-weight: bold; color: #78350f; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.coin-display { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 10px; backdrop-filter: blur(4px); }
+.coin-icon { width: 20px; height: 20px; }
+.coin-amount { color: white; font-weight: bold; font-size: 13px; }
 
-/* Banner */
-.banner-wrap{padding:12px 14px 10px;position:relative}
-.banner{width:100%;border-radius:14px;overflow:hidden;position:relative;height:150px;background:linear-gradient(135deg,#b71c1c 0%,#d32f2f 50%,#e53935 100%);box-shadow:0 4px 12px rgba(183,28,28,.4)}
-.banner-content{display:flex;align-items:center;padding:18px;width:100%;height:100%;position:relative;z-index:2}
-.banner-text{flex:1;padding-right:10px}
-.banner-title{font-size:17px;font-weight:800;color:#FFD700;text-shadow:0 2px 6px rgba(0,0,0,.4);line-height:1.3;margin-bottom:6px}
-.banner-desc{font-size:12px;color:rgba(255,255,255,.9);line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.3)}
-.banner-icon{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#2E7D32,#4CAF50);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900;color:#FFD700;text-shadow:0 3px 10px rgba(0,0,0,.4);border:4px solid #81C784;box-shadow:0 6px 20px rgba(76,175,80,.5);flex-shrink:0}
-.banner-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
-.banner-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .3s}
-.banner-dot.active{background:#fff;width:20px;border-radius:4px}
+/* Banner Carousel */
+.banner-section { margin-top: 50px; width: 100%; height: 200px; overflow: hidden; position: relative; }
+.banner-section img { width: 100%; height: 100%; object-fit: cover; }
+.banner-overlay-l { position: absolute; inset: 0; left: 0; width: 80px; background: linear-gradient(to right, rgba(0,0,0,0.2), transparent); }
+.banner-overlay-r { position: absolute; inset: 0; right: 0; left: auto; width: 80px; background: linear-gradient(to left, rgba(0,0,0,0.2), transparent); }
+.banner-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+.banner-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); }
+.banner-dots span.active { background: white; }
 
 /* Marquee */
-.marquee-wrap{padding:0 14px 12px}
-.marquee{background:rgba(255,255,255,.06);border-radius:20px;padding:7px 13px;display:flex;align-items:center;gap:8px;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
-.marquee-icon{font-size:15px;flex-shrink:0}
-.marquee-content{flex:1;overflow:hidden;position:relative;height:18px}
-.marquee-text{font-size:11px;color:rgba(255,255,255,.75);white-space:nowrap;display:inline-block;animation:scroll 20s linear infinite}
-@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.marquee-bar { background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)); padding: 6px 12px; overflow: hidden; white-space: nowrap; }
+.marquee-text { display: inline-block; color: #fef9c3; font-size: 12px; text-shadow: 0 1px 1px rgba(0,0,0,0.5); animation: marquee 20s linear infinite; font-family: monospace; }
+@keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
 /* Tabs */
-.tabs{display:flex;align-items:center;padding:0 14px 12px;gap:0}
-.tab{padding:8px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-radius:20px;transition:all .2s;position:relative}
-.tab.active{background:linear-gradient(135deg,#2E7D32,#4CAF50);color:#fff;box-shadow:0 2px 8px rgba(46,125,50,.4)}
-.tab-search{margin-left:auto;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
-.tab-search:active{background:rgba(255,255,255,.15)}
-.tab-search svg{width:17px;height:17px;color:rgba(255,255,255,.6)}
+.tabs { display: flex; align-items: center; justify-content: center; padding: 8px 16px; }
+.tab-list { display: flex; align-items: center; padding: 3px; border-radius: 24px; background: white; box-shadow: 1px 1px 6px #c1b295, inset -1px -1px 7px #eee1c7; }
+.tab-item { padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s; }
+.tab-item.active { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; box-shadow: 0 2px 4px rgba(185,28,28,0.3); }
+.tab-search { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; margin-left: 8px; cursor: pointer; }
+.tab-search svg { width: 18px; height: 18px; fill: #666; }
 
-/* Section */
-.section{padding:0 14px 16px}
-.section-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:7px}
-.section-title::before{content:"";width:4px;height:16px;background:linear-gradient(180deg,#4CAF50,#2E7D32);border-radius:2px;box-shadow:0 2px 4px rgba(76,175,80,.3)}
+/* Recommended Section */
+.recommend-section { padding: 8px 20px 16px; }
+.recommend-label { text-align: center; margin-bottom: 10px; }
+.recommend-label span { background: linear-gradient(135deg, #dc2626, #991b1b); color: white; padding: 4px 16px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.recommend-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+.recommend-grid .featured { grid-row: span 2; border-radius: 32px; overflow: hidden; background: linear-gradient(to bottom, transparent 50%, rgba(69,34,1,0.6)); box-shadow: 2px 4px 8px rgba(69,34,1,0.32), inset 0 -2px 4px rgba(69,34,1,0.2); position: relative; }
+.recommend-grid .featured img { width: 100%; height: 100%; object-fit: cover; }
+.recommend-grid .featured .player-count { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); color: white; font-size: 11px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+.game-thumb { position: relative; aspect-ratio: 1; border-radius: 16px; overflow: hidden; cursor: pointer; box-shadow: 2px 2px 6px rgba(0,0,0,0.15); }
+.game-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.game-thumb .player-count { position: absolute; bottom: 4px; right: 6px; color: white; font-size: 10px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
 
-/* Game Grid */
-.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.game-card{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:transform .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.game-card:active{transform:scale(.97)}
-.game-thumb{width:100%;aspect-ratio:1;background-size:cover;background-position:center;position:relative;display:flex;align-items:center;justify-content:center}
-.game-thumb-wealth{background:linear-gradient(135deg,#FF6F00,#FF8F00,#FFA726)}
-.game-thumb-dragon{background:linear-gradient(135deg,#B71C1C,#D32F2F,#E57373)}
-.game-thumb-god{background:linear-gradient(135deg,#1B5E20,#388E3C,#66BB6A)}
-.game-thumb-xmas{background:linear-gradient(135deg,#C2185B,#E91E63,#F06292)}
-.game-thumb-legend{background:linear-gradient(135deg,#1A237E,#3F51B5,#7986CB)}
-.game-thumb-egypt{background:linear-gradient(135deg,#4A148C,#7B1FA2,#BA68C8)}
-.game-icon{font-size:38px;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4))}
-.game-fav{position:absolute;top:7px;right:7px;font-size:16px;opacity:.8;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
-.game-info{padding:7px 9px;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
-.game-name{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.game-players{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px}
-.game-coin{position:absolute;bottom:48px;right:7px;background:linear-gradient(135deg,#FFD700,#FFA000);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#5D4037;box-shadow:0 2px 6px rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.3)}
-.game-badge{position:absolute;top:7px;left:7px;background:linear-gradient(135deg,#2E7D32,#4CAF50);padding:3px 7px;border-radius:5px;font-size:9px;font-weight:700;color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+/* All Games Section */
+.all-games-header { text-align: center; padding: 16px 0 12px; position: relative; }
+.all-games-header span { color: #dc2626; font-size: 16px; font-weight: bold; position: relative; }
+.all-games-header span::before, .all-games-header span::after { content: ''; position: absolute; top: 50%; width: 40px; height: 2px; background: linear-gradient(to right, transparent, #dc2626); }
+.all-games-header span::before { right: 110%; }
+.all-games-header span::after { left: 110%; background: linear-gradient(to left, transparent, #dc2626); }
 
-/* All Games */
-.all-games-header{display:flex;align-items:center;gap:8px;padding:0 14px 12px}
-.all-games-btn{background:linear-gradient(135deg,#E65100,#F57C00);padding:7px 16px;border-radius:18px;font-size:13px;font-weight:700;color:#fff;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(230,81,0,.4);transition:transform .15s}
-.all-games-btn:active{transform:scale(.96)}
-.game-featured{margin:0 14px 12px;border-radius:14px;overflow:hidden;position:relative;height:130px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4)}
-.game-featured-bg{width:100%;height:100%;background:linear-gradient(135deg,#4A148C,#7B1FA2,#9C27B0);display:flex;align-items:center;justify-content:center;position:relative}
-.game-featured-title{position:absolute;bottom:12px;left:14px;font-size:15px;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-.game-featured-players{position:absolute;top:10px;right:12px;background:rgba(0,0,0,.6);padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff;backdrop-filter:blur(4px)}
-.game-featured-icon{font-size:56px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+.game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 0 8px 100px; }
+.game-grid .game-card { position: relative; aspect-ratio: 1; border-radius: 16px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.game-grid .game-card.large { grid-column: span 2; grid-row: span 2; }
+.game-grid .game-card img { width: 100%; height: 100%; object-fit: cover; }
+.game-card .multiplier { position: absolute; top: 6px; right: 6px; background: #16a34a; color: white; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 8px; }
+.game-card .heart { position: absolute; top: 6px; left: 6px; font-size: 14px; opacity: 0.8; }
 
-.game-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 12px}
+/* Footer Nav */
+.footer-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; z-index: 3; max-width: 500px; margin: 0 auto; background: url("https://www.kcfgmtb.com/assets/footer_bg-Dw1njDW1.png") center bottom / contain repeat; }
+.footer-inner { display: flex; align-items: flex-end; justify-content: space-around; height: 100%; padding-bottom: 12px; padding: 0 16px 12px; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #452201; font-weight: 600; padding: 4px 8px; }
+.nav-btn svg { width: 22px; height: 22px; fill: #452201; }
+.nav-btn.active { color: #dc2626; }
+.nav-btn.active svg { fill: #dc2626; }
 
-/* Chat Bubble */
-.chat-bubble{position:fixed;right:16px;bottom:90px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1976D2,#42A5F5);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(25,118,210,.5);z-index:50;transition:transform .2s}
-.chat-bubble:active{transform:scale(.95)}
-.chat-bubble svg{width:24px;height:24px;color:#fff;margin-bottom:2px}
-.chat-badge{position:absolute;top:-3px;right:-3px;background:#F44336;width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;border:2px solid #0a0514;box-shadow:0 2px 4px rgba(0,0,0,.3)}
-.chat-label{font-size:9px;color:#fff;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.3)}
-
-/* Bottom Nav */
-.bottom-nav{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(10,5,20,.98),rgba(10,5,20,1));border-top:1px solid rgba(255,255,255,.08);display:flex;padding:10px 0 14px;z-index:40;box-shadow:0 -2px 10px rgba(0,0,0,.3)}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;position:relative;transition:transform .15s}
-.nav-item:active{transform:scale(.95)}
-.nav-item svg{width:24px;height:24px;color:rgba(255,255,255,.45);transition:color .2s}
-.nav-item.active svg{color:#4CAF50}
-.nav-item-label{font-size:10px;color:rgba(255,255,255,.45);font-weight:500;transition:color .2s}
-.nav-item.active .nav-item-label{color:#4CAF50;font-weight:600}
-.nav-item-center{position:relative;top:-10px}
-.nav-item-center-icon{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#FF8F00,#F57C00);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,143,0,.5);border:3px solid #0a0514}
-.nav-item-center-icon svg{width:26px;height:26px;color:#fff}
+/* Chat bubble */
+.chat-bubble { position: fixed; bottom: 80px; right: 12px; background: #dc2626; color: white; border-radius: 20px; padding: 6px 12px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 5; cursor: pointer; }
+.chat-bubble::after { content: '3'; background: #fbbf24; color: #78350f; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; margin-left: 4px; }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Header -->
-  <div class="header">
-    <div class="header-user">
-      <div class="avatar">我的</div>
+
+<!-- Header -->
+<header class="header">
+<div class="header-inner">
+  <div class="user-info">
+    <div class="avatar"><img src="https://www.kcfgmtb.com/user_avatar.png" alt=""></div>
+    <div class="user-meta">
       <span class="username">QAtest5</span>
-      <span class="vip-badge">VIP3</span>
-    </div>
-    <div class="header-right">
-      <div class="coin-display">
-        <div class="coin-icon">$</div>
-        <span class="coin-amount">7,459</span>
-      </div>
-      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-      <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-    </div>
-  </div>
-
-  <!-- Banner -->
-  <div class="banner-wrap">
-    <div class="banner">
-      <div class="banner-content">
-        <div class="banner-text">
-          <div class="banner-title">金色圖標消除累加種</div>
-          <div class="banner-desc">使用 加押 WILD隨機<br>獎勵加倍！限時活動</div>
-        </div>
-        <div class="banner-icon">發</div>
-      </div>
-      <div class="banner-dots">
-        <div class="banner-dot active"></div>
-        <div class="banner-dot"></div>
-        <div class="banner-dot"></div>
+      <div class="user-badges">
+        <span class="badge-my">👤 我的</span>
+        <span class="badge-vip">VIP3</span>
       </div>
     </div>
   </div>
-
-  <!-- Marquee -->
-  <div class="marquee-wrap">
-    <div class="marquee">
-      <span class="marquee-icon">📢</span>
-      <div class="marquee-content">
-        <span class="marquee-text">馬只到今晚！錯過再等一年！🔥 充值送彩金最高翻倍，立即參與 ⏰ 紅包雨隨機掉落，手慢就沒了！</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active">全部</div>
-    <div class="tab">最愛</div>
-    <div class="tab">電動</div>
-    <div class="tab-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-  </div>
-
-  <!-- Most Popular -->
-  <div class="section">
-    <div class="section-title">最受歡迎</div>
-    <div class="game-grid">
-      <div class="game-card">
-        <div class="game-thumb game-thumb-wealth"><div class="game-icon">💰</div><div class="game-fav">🤍</div><div class="game-coin">10K</div></div>
-        <div class="game-info"><div class="game-name">財富</div><div class="game-players">1,334人在玩</div></div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb game-thumb-dragon"><div class="game-icon">🐉</div><div class="game-fav">🤍</div><div class="game-coin">1K</div></div>
-        <div class="game-info"><div class="game-name">金龍</div><div class="game-players">1,000人在玩</div></div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb game-thumb-god"><div class="game-icon">🧧</div><div class="game-fav">🤍</div><div class="game-coin">1K</div><div class="game-badge">加碼禮 1,000</div></div>
-        <div class="game-info"><div class="game-name">國模財神</div><div class="game-players">891人在玩</div></div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb game-thumb-xmas"><div class="game-icon">🐑</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
-        <div class="game-info"><div class="game-name">甜蜜聖誕</div><div class="game-players">680人在玩</div></div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb game-thumb-legend"><div class="game-icon">🐯</div><div class="game-fav">🤍</div><div class="game-coin">2.2K</div></div>
-        <div class="game-info"><div class="game-name">龍族傳說2</div><div class="game-players">3人在玩</div></div>
-      </div>
-      <div class="game-card">
-        <div class="game-thumb game-thumb-egypt"><div class="game-icon">🏺</div><div class="game-fav">🤍</div><div class="game-coin">8K</div></div>
-        <div class="game-info"><div class="game-name">法老寶藏</div><div class="game-players">456人在玩</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- All Games -->
-  <div class="all-games-header">
-    <button class="all-games-btn">全部遊戲</button>
-  </div>
-  <div class="game-featured">
-    <div class="game-featured-bg">
-      <div class="game-featured-icon">🏺</div>
-      <div class="game-featured-title">埃及三秘寶</div>
-      <div class="game-featured-players">10000人</div>
-    </div>
-  </div>
-  <div class="game-row">
-    <div class="game-card">
-      <div class="game-thumb game-thumb-dragon"><div class="game-icon">🐉</div><div class="game-fav">🤍</div><div class="game-coin">10K</div></div>
-      <div class="game-info"><div class="game-name">財神倍倍數 X4096</div><div class="game-players">2,100人在玩</div></div>
-    </div>
-    <div class="game-card">
-      <div class="game-thumb game-thumb-wealth"><div class="game-icon">💰</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
-      <div class="game-info"><div class="game-name">財富金幣</div><div class="game-players">890人在玩</div></div>
-    </div>
-    <div class="game-card">
-      <div class="game-thumb game-thumb-egypt"><div class="game-icon">🧞</div><div class="game-fav">🤍</div><div class="game-coin">5K</div></div>
-      <div class="game-info"><div class="game-name">阿拉丁吉</div><div class="game-players">567人在玩</div></div>
-    </div>
-  </div>
-  <div class="game-row">
-    <div class="game-card">
-      <div class="game-thumb game-thumb-god"><div class="game-icon">🀄</div><div class="game-fav">🤍</div><div class="game-coin">3K</div></div>
-      <div class="game-info"><div class="game-name">發</div><div class="game-players">1,234人在玩</div></div>
-    </div>
-    <div class="game-card">
-      <div class="game-thumb game-thumb-dragon"><div class="game-icon">🎯</div><div class="game-fav">🤍</div><div class="game-coin">15K</div></div>
-      <div class="game-info"><div class="game-name">中獎</div><div class="game-players">3,456人在玩</div></div>
-    </div>
-    <div class="game-card">
-      <div class="game-thumb game-thumb-legend"><div class="game-icon">🎰</div><div class="game-fav">🤍</div><div class="game-coin">8K</div></div>
-      <div class="game-info"><div class="game-name">幸運777</div><div class="game-players">2,890人在玩</div></div>
-    </div>
-  </div>
-
-  <!-- Chat Bubble -->
-  <div class="chat-bubble">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-    <span class="chat-label">聊天</span>
-    <div class="chat-badge">3</div>
-  </div>
-
-  <!-- Bottom Nav -->
-  <div class="bottom-nav">
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      <span class="nav-item-label">其他</span>
-    </div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <span class="nav-item-label">排行榜</span>
-    </div>
-    <div class="nav-item nav-item-center">
-      <div class="nav-item-center-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      </div>
-      <span class="nav-item-label">商城</span>
-    </div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v8H4v-8"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-      <span class="nav-item-label">贈禮</span>
-    </div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span class="nav-item-label">公會</span>
-    </div>
+  <div class="coin-display">
+    <img class="coin-icon" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png" alt="金幣">
+    <span class="coin-amount">7,459</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
   </div>
 </div>
+</header>
+
+<!-- Banner -->
+<div class="banner-section">
+<img src="https://d1c05r0acxw2a.cloudfront.net/uploads/attachments/88f01e841c1df13423eb8729dac576e287a8d4cd261f0e7b37465aa01ef6c189.jpg" alt="Banner">
+<div class="banner-overlay-l"></div>
+<div class="banner-overlay-r"></div>
+<div class="banner-dots"><span class="active"></span><span></span></div>
+</div>
+
+<!-- Marquee -->
+<div class="marquee-bar">
+<span class="marquee-text">⏰ 限時活動開跑！首儲加碼只到今晚！錯過再等一年！ 🔥 充值送彩金最高翻倍，立即加入搶紅利！ 💸 紅包雨隨機掉落，手慢就沒了！ ⚡ 立即登入，下一位幸運贏家就是你！</span>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+<div class="tab-list">
+  <div class="tab-item active">全部</div>
+  <div class="tab-item">最愛</div>
+  <div class="tab-item">電動</div>
+  <div class="tab-search"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></div>
+</div>
+</div>
+
+<!-- Recommended: 最受歡迎 -->
+<div class="recommend-section">
+<div class="recommend-label"><span>🔥 最受歡迎</span></div>
+<div class="recommend-grid">
+  <div class="featured"><img src="https://d1c05r0acxw2a.cloudfront.net/game-recommend/admin-upload/655dbb8c5058ca70bae320db87dccb2c80f97b4eff5340d90696cd6121fdbed8.png" alt="Game"><div class="player-count">891人</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/c8210777d2422019db88e7be43c7811653c636a5c7368bf8164f57c6261b9bc6.webp" alt="Game"><div class="player-count">1,334人</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/1d2d3a4016c2ff934dfe22a95b477d25aae7156816f751eef5ec577306ef7c57.webp" alt="Game"><div class="player-count">1,000人</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/3486c0c531ecb43d081d08b4f39bee28bf7f1e2e0d2dee121294c8155bbdc8ff.webp" alt="Game"><div class="player-count">680人</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/0c981aae8f71118b35a5531661e99a241a4925a6622b7e771a433bee2e262bd7.webp" alt="Game"><div class="player-count">3人</div></div>
+</div>
+</div>
+
+<!-- Recommended: 最高倍率 -->
+<div class="recommend-section">
+<div class="recommend-label"><span>💰 最高倍率</span></div>
+<div class="recommend-grid">
+  <div class="featured"><img src="https://d1c05r0acxw2a.cloudfront.net/game-recommend/admin-upload/655dbb8c5058ca70bae320db87dccb2c80f97b4eff5340d90696cd6121fdbed8.png" alt="Game"><div class="player-count">55,000倍</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/e732a8ca6fcc0761416280c8c91f21b91dc24436120de4b043153d6919c1da77.webp" alt="Game"><div class="player-count">89倍</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/5a851421fbb0b304ec0890b466662088773a5944eeb41065d586505298dae16c.webp" alt="Game"><div class="player-count">17倍</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/e02fa8470e1c81e48c02652fedc6712cba79047d34d25359b60c4389e4f36596.webp" alt="Game"><div class="player-count">4,000倍</div></div>
+  <div class="game-thumb"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/3486c0c531ecb43d081d08b4f39bee28bf7f1e2e0d2dee121294c8155bbdc8ff.webp" alt="Game"><div class="player-count">2,250倍</div></div>
+</div>
+</div>
+
+<!-- All Games -->
+<div class="all-games-header"><span>全部遊戲</span></div>
+<div class="game-grid">
+  <div class="game-card large"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/e02fa8470e1c81e48c02652fedc6712cba79047d34d25359b60c4389e4f36596.webp" alt="Game"><div class="multiplier">10000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/e732a8ca6fcc0761416280c8c91f21b91dc24436120de4b043153d6919c1da77.webp" alt="Game"><div class="multiplier">5000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/c8210777d2422019db88e7be43c7811653c636a5c7368bf8164f57c6261b9bc6.webp" alt="Game"><div class="multiplier">10000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/dd09f6c26193d05347d04e287d52e3f7ef5156eb98a60929bc41ab4551f190fe.webp" alt="Game"><div class="multiplier">3000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/aca49f78fbafc0455dd44e034c288ad75b1f13dce30d6150db34af5d852d9c8d.webp" alt="Game"><div class="multiplier">15000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/b35d738ebf627449ad6e1c28f0e3ddde474d40829b5e6a778a8b75d234b5eb15.webp" alt="Game"><div class="multiplier">10000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/5a851421fbb0b304ec0890b466662088773a5944eeb41065d586505298dae16c.webp" alt="Game"><div class="multiplier">25000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/va_xin/1b8d48809ba1a098c34bbe00d37087aa13fa266de091816d8100df8b5c3e78fb.webp" alt="Game"><div class="multiplier">1000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/3ff7a41ad8c04c7b0159baa2dd4254381ff2755826d70b5cb0e651b940d9b1f9.webp" alt="Game"><div class="multiplier">5000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/994bb2c17c48df1bd4b99211749226fcbdbf8e2858078c1ac4f3dc96ebfd5b93.webp" alt="Game"><div class="multiplier">1000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="Game"><div class="multiplier">2250x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/3486c0c531ecb43d081d08b4f39bee28bf7f1e2e0d2dee121294c8155bbdc8ff.webp" alt="Game"><div class="multiplier">1000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/8b200f4916581229a627da67932e96942f3ecf8ce46b0de75.webp" alt="Game"><div class="multiplier">5000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/d022e118fe0f5b5bbf6bfb339caf4c59b36599d5f9fe8692f.webp" alt="Game"><div class="multiplier">3000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/1d2d3a4016c2ff934dfe22a95b477d25aae7156816f751eef5ec577306ef7c57.webp" alt="Game"><div class="multiplier">1000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09.webp" alt="Game"><div class="multiplier">2000x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968f.webp" alt="Game"><div class="multiplier">1500x</div></div>
+  <div class="game-card"><img src="https://d1c05r0acxw2a.cloudfront.net/games/ygr_xin/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea.webp" alt="Game"><div class="multiplier">800x</div></div>
+</div>
+
+<!-- Chat Bubble -->
+<div class="chat-bubble">聊天</div>
+
+<!-- Footer Nav -->
+<footer class="footer-nav">
+<div class="footer-inner">
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>其他</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M7.5 21H2V9l10-7 10 7v12h-5.5v-7h-9v7z"/></svg><span>排行榜</span></div>
+  <div class="nav-btn active"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>大廳</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4V6h16v12z"/></svg><span>商城</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg><span>贈禮</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>公會</span></div>
+</div>
+</footer>
+
 </body>
 </html>

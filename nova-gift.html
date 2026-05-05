@@ -5,134 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>星運娛樂城 - 贈禮</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang TC','Microsoft JhengHei',sans-serif;background:#0a0514;color:#333;min-height:100vh;display:flex;justify-content:center;overflow-x:hidden}
-.app{width:100%;max-width:430px;min-height:100vh;background:linear-gradient(180deg,#FFF8E1 0%,#FFECB3 100%);display:flex;flex-direction:column;position:relative;padding-bottom:80px}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #76090A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #333; min-height: 100dvh; max-width: 500px; margin: 0 auto; overflow-x: hidden; }
+.page-wrapper { position: fixed; inset: 0; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; z-index: 50; background: rgba(0,0,0,0.6); }
+.panel-container { position: relative; padding: 0 16px; max-width: 500px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
 
-/* Header Tabs */
-.header-tabs{background:linear-gradient(135deg,#FFB300,#FFA000);padding:16px 16px 3px;border-radius:0 0 20px 20px;box-shadow:0 4px 12px rgba(255,179,0,.3)}
-.tabs-row{display:flex;gap:0;background:rgba(255,255,255,.2);border-radius:20px;padding:3px}
-.tab{flex:1;padding:10px 8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8);text-align:center;cursor:pointer;border-radius:18px;transition:all .2s}
-.tab.active{background:#fff;color:#F57C00;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+/* Panel header */
+.panel-header { width: 100%; max-width: 400px; display: flex; justify-content: center; position: relative; margin-bottom: -32px; z-index: 10; }
+.panel-header img { width: 100%; height: 72px; object-fit: contain; }
+.panel-title { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); z-index: 20; }
+.panel-title-tabs { display: flex; gap: 8px; align-items: center; }
+.panel-title-tab { padding: 4px 12px; border-radius: 20px; font-size: 14px; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.5); font-weight: 600; cursor: pointer; white-space: nowrap; letter-spacing: 1px; }
+.panel-title-tab.active { background: rgba(87,83,78,0.2); box-shadow: inset 1px 1px 1px rgba(17,17,17,0.21), inset -1px -1px 1px white; }
 
-/* User Info */
-.user-section{padding:20px 16px 16px;display:flex;align-items:center;gap:14px}
-.user-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#E91E63,#F06292);display:flex;align-items:center;justify-content:center;font-size:24px;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.user-info{flex:1}
-.user-name{font-size:15px;font-weight:700;color:#333}
-.user-coins{display:flex;align-items:center;gap:5px;margin-top:4px}
-.user-coin-icon{width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#FFA000);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#5D4037}
-.user-coin-amount{font-size:13px;color:#666;font-weight:600}
-.gift-info-btn{background:#F5F5F5;padding:6px 12px;border-radius:8px;font-size:11px;color:#666;font-weight:500;cursor:pointer;border:1px solid #E0E0E0}
+/* Panel body */
+.panel-body { position: relative; z-index: 5; width: 100%; max-width: 400px; height: 65vh; max-height: 550px; overflow-y: auto; padding: 24px 16px 150px; border-radius: 24px; background: #fafafa; border: 6px solid #f4b63f; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
 
-/* Stats Panel */
-.stats-panel{margin:0 16px 16px;background:#F5F5F5;border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.stat-item{display:flex;flex-direction:column;gap:2px}
-.stat-label{font-size:11px;color:#888;font-weight:500}
-.stat-value{font-size:16px;font-weight:700;color:#333}
-.stat-link{font-size:11px;color:#1976D2;cursor:pointer;font-weight:500}
+/* Action buttons */
+.action-row { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 16px; }
+.action-btn { background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 6px 12px; font-size: 12px; color: #452201; font-weight: 600; cursor: pointer; }
+.action-btn:hover { border-color: #f4b63f; }
 
-/* Gift Form */
-.form-section{padding:0 16px}
-.form-group{margin-bottom:16px}
-.form-label{font-size:12px;font-weight:600;color:#555;margin-bottom:6px;display:block}
-.form-input-wrap{display:flex;align-items:center;background:#fff;border:1px solid #E0E0E0;border-radius:12px;padding:0 12px;height:46px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.form-input{flex:1;border:none;outline:none;font-size:14px;font-family:inherit;color:#333;background:transparent}
-.form-input::placeholder{color:#BDBDBD}
-.form-input-clear{width:24px;height:24px;border-radius:50%;background:#E0E0E0;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:8px}
-.form-input-clear svg{width:12px;height:12px;color:#666}
-.form-input-search{width:32px;height:32px;border-radius:50%;background:#1976D2;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:8px}
-.form-input-search svg{width:16px;height:16px;color:#fff}
-.form-hint{font-size:11px;color:#F44336;margin-top:6px;font-weight:500}
-.form-fee{font-size:12px;color:#666;margin-top:8px}
+/* Input fields */
+.input-group { margin-bottom: 16px; }
+.input-label { font-size: 13px; color: #666; margin-bottom: 6px; font-weight: 500; }
+.input-field { width: 100%; display: flex; align-items: center; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; gap: 8px; }
+.input-field input { flex: 1; border: none; outline: none; font-size: 14px; color: #333; background: transparent; }
+.input-field input::placeholder { color: #aaa; }
+.input-field .search-icon { width: 20px; height: 20px; cursor: pointer; opacity: 0.5; }
+.input-field .clear-btn { width: 20px; height: 20px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #666; cursor: pointer; }
 
-/* Submit Button */
-.submit-btn{margin:20px 16px;background:linear-gradient(135deg,#FF8A80,#FF5252);padding:14px;border-radius:14px;text-align:center;font-size:16px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(255,82,82,.3);transition:transform .15s}
-.submit-btn:active{transform:scale(.97)}
+/* Amount input */
+.amount-section { margin-bottom: 20px; }
+.amount-input { width: 100%; display: flex; align-items: center; background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; gap: 8px; }
+.amount-input input { flex: 1; border: none; outline: none; font-size: 16px; font-weight: bold; color: #333; background: transparent; }
+.amount-input .coin-icon { width: 22px; height: 22px; }
 
-/* Bottom Decoration */
-.bottom-deco{position:fixed;bottom:0;left:0;right:0;height:70px;background:linear-gradient(135deg,#C62828,#D32F2F);display:flex;align-items:center;justify-content:center;padding-top:10px}
-.bottom-coins{display:flex;gap:6px;align-items:flex-end}
-.bottom-coins span{font-size:22px}
-.close-x{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.close-x svg{width:14px;height:14px;color:#666}
+/* Submit button */
+.submit-btn { width: 100%; background: linear-gradient(135deg, #dc2626, #991b1b); color: white; border: none; border-radius: 16px; padding: 14px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(220,38,38,0.4); margin-top: 12px; }
+.submit-btn:active { transform: scale(0.98); }
+
+/* Close button */
+.close-btn { position: absolute; bottom: 20px; right: 20px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; z-index: 20; }
+
+/* Footer */
+.footer-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; z-index: 60; max-width: 500px; margin: 0 auto; background: url("https://www.kcfgmtb.com/assets/footer_bg-Dw1njDW1.png") center bottom / contain repeat; }
+.footer-inner { display: flex; align-items: flex-end; justify-content: space-around; height: 100%; padding: 0 16px 12px; }
+.nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; font-size: 10px; color: #452201; font-weight: 600; padding: 4px 8px; }
+.nav-btn svg { width: 22px; height: 22px; fill: #452201; }
+.nav-btn.active { color: #dc2626; }
+.nav-btn.active svg { fill: #dc2626; }
 </style>
 </head>
 <body>
-<div class="app">
-  <!-- Header Tabs -->
-  <div class="header-tabs">
-    <div class="tabs-row">
-      <div class="tab active">贈禮</div>
-      <div class="tab">贈禮中心</div>
-      <div class="tab">贈禮紀錄</div>
-    </div>
-  </div>
 
-  <!-- User Info -->
-  <div class="user-section">
-    <div class="user-avatar">🐷</div>
-    <div class="user-info">
-      <div class="user-name">QAtest5</div>
-      <div class="user-coins">
-        <div class="user-coin-icon">$</div>
-        <span class="user-coin-amount">7,459點</span>
+<div class="page-wrapper">
+<div class="panel-container">
+  <!-- Header -->
+  <div class="panel-header">
+    <img src="https://www.kcfgmtb.com/assets/dialog_header-WtX8VCKN.png" alt="">
+    <div class="panel-title">
+      <div class="panel-title-tabs">
+        <span class="panel-title-tab active">贈禮</span>
+        <span class="panel-title-tab">贈禮中心</span>
+        <span class="panel-title-tab">贈禮紀錄</span>
       </div>
     </div>
-    <div class="gift-info-btn">贈禮說明</div>
   </div>
 
-  <!-- Stats Panel -->
-  <div class="stats-panel">
-    <div class="stat-item">
-      <span class="stat-label">可贈送數量</span>
-      <span class="stat-value">0</span>
+  <!-- Body -->
+  <div class="panel-body">
+    <!-- Action buttons -->
+    <div class="action-row">
+      <button class="action-btn">贈禮說明</button>
+      <button class="action-btn">明細</button>
     </div>
-    <div class="stat-item">
-      <span class="stat-label">今日可贈送額度</span>
-      <span class="stat-value">80,000/80,000</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-label">今日可贈送次數</span>
-      <span class="stat-value">10</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-label">凍結總額 <span class="stat-link">明細</span></span>
-      <span class="stat-value">0</span>
-    </div>
-  </div>
 
-  <!-- Gift Form -->
-  <div class="form-section">
-    <div class="form-group">
-      <label class="form-label">收禮玩家</label>
-      <div class="form-input-wrap">
-        <input class="form-input" type="text" placeholder="請輸入會員暱稱">
-        <div class="form-input-clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-        <div class="form-input-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <!-- Nickname input -->
+    <div class="input-group">
+      <div class="input-field">
+        <input type="text" placeholder="請輸入會員暱稱">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="#999"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
       </div>
     </div>
-    <div class="form-group">
-      <label class="form-label">贈送金幣</label>
-      <div class="form-input-wrap">
-        <input class="form-input" type="text" placeholder="0" value="0">
-        <div class="form-input-clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+
+    <!-- Amount input -->
+    <div class="amount-section">
+      <div class="amount-input">
+        <input type="number" placeholder="請輸入金幣" value="0">
+        <img class="coin-icon" src="https://www.kcfgmtb.com/assets/icon_coin_gold-BBCMXgH-.png" alt="金幣">
       </div>
-      <div class="form-hint">最低至少20,000金幣</div>
-      <div class="form-fee">手續費：0</div>
     </div>
+
+    <!-- Submit -->
+    <button class="submit-btn">確定</button>
   </div>
 
-  <!-- Submit -->
-  <div class="submit-btn">確定</div>
-
-  <!-- Bottom Decoration -->
-  <div class="bottom-deco">
-    <div class="close-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-    <div class="bottom-coins">
-      <span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span>
-    </div>
-  </div>
+  <div class="close-btn">✕</div>
 </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-nav">
+<div class="footer-inner">
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg><span>其他</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M7.5 21H2V9l10-7 10 7v12h-5.5v-7h-9v7z"/></svg><span>排行榜</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2z"/></svg><span>商城</span></div>
+  <div class="nav-btn active"><svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/></svg><span>贈禮</span></div>
+  <div class="nav-btn"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>公會</span></div>
+</div>
+</footer>
+
 </body>
 </html>
