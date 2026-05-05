@@ -123,3 +123,67 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .profile-menu{list-style:none}
 .profile-menu li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.06);color:#333;font-size:14px;cursor:pointer}
 .profile-menu li svg{width:18px;height:18px;color:rgba(0,0,0,.4)}
+
+/* === Dark theme for drawer subpages (matching Nova frontend) === */
+.subpage-dialog{background:#1a1a2e;border-top:3px solid #f59e0b}
+.subpage-header{background:linear-gradient(180deg,#1a1a2e,#1a1a2e)}
+.subpage-header h2{color:#fbbf24;font-size:18px;font-weight:700}
+.subpage-tabs{background:rgba(255,255,255,.08);border-radius:12px;margin:12px 16px}
+.subpage-tabs button{color:rgba(255,255,255,.5)}
+.subpage-tabs button.active{color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706)}
+.subpage-bottom-close button{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
+
+/* Rank list dark */
+.rank-list{padding:0 16px}
+.rank-item{border-bottom:1px solid rgba(255,255,255,.08)}
+.rank-name{color:#e5e7eb}
+.rank-coins{color:#fbbf24}
+.rank-num{color:#f59e0b}
+
+/* Store dark */
+.store-card-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.store-card-item .amount{color:#e5e7eb}
+.store-card-item .bonus{color:#34d399}
+.store-method button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#e5e7eb}
+
+/* Guild dark */
+.guild-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.guild-name{color:#e5e7eb}
+.guild-members{color:rgba(255,255,255,.5)}
+
+/* Profile dark */
+.profile-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.profile-card .profile-name{color:#e5e7eb}
+.profile-card .profile-vip{color:#fbbf24}
+.profile-menu li{color:#e5e7eb;border-bottom:1px solid rgba(255,255,255,.06)}
+.profile-menu li svg{color:rgba(255,255,255,.4)}
+
+/* Other menu */
+.other-menu{padding:8px 16px}
+.other-menu-item{display:flex;align-items:center;gap:14px;padding:16px 12px;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;border-radius:8px;transition:background .15s}
+.other-menu-item:active{background:rgba(255,255,255,.08)}
+.other-menu-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.other-menu-icon svg{width:18px;height:18px;color:#fff}
+.other-menu-item span{flex:1;color:#e5e7eb;font-size:15px;font-weight:500}
+.other-arrow{width:16px;height:16px;color:rgba(255,255,255,.3);flex-shrink:0}
+
+/* Settings panel */
+.settings-panel{padding:8px 16px}
+.settings-group{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.settings-item{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.settings-item:last-child{border-bottom:none}
+.settings-item span{color:#e5e7eb;font-size:14px}
+.settings-value{color:rgba(255,255,255,.4);font-size:13px}
+.toggle-switch{width:44px;height:24px;border-radius:12px;background:#4b5563;position:relative;cursor:pointer;transition:background .2s}
+.toggle-switch.active{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.toggle-knob{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.toggle-switch.active .toggle-knob{transform:translateX(20px)}
+
+/* Fix inline styles in drawer content for dark theme */
+.subpage-dialog table td{color:rgba(255,255,255,.6) !important}
+.subpage-dialog table td:last-child{color:#e5e7eb !important}
+.subpage-dialog table tr{border-bottom:1px solid rgba(255,255,255,.08) !important}
+.subpage-dialog label{color:rgba(255,255,255,.5) !important}
+.subpage-dialog input[type="text"],.subpage-dialog input[type="number"]{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e5e7eb}
+.subpage-dialog input::placeholder{color:rgba(255,255,255,.3)}
+.subpage-dialog p{color:rgba(255,255,255,.6)}
