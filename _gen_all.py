@@ -193,3 +193,122 @@ for fn, (title, bc, topbar, css, content) in PAGES.items():
     print(f"Generated: {fn}")
 
 print(f"\nBatch 1 done: {len(PAGES)} pages")
+
+# Batch 2: Remaining 7 pages
+PAGES2 = {
+"analytics-topup-summary.html": ("儲值總表", ["儲值報表","儲值總表"], "", "", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
+<div class="filter-group"><label class="filter-label">儲值方式</label><select class="filter-select"><option>全部方式</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-title">儲值總表</div><div class="card-desc">追蹤整體儲值表現與用戶付費行為。</div>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>總儲值金額</th><th>儲值人數</th><th>儲值次數</th><th>ARPU</th><th>ARPPU</th><th>首儲人數</th><th>首儲金額</th></tr></thead>
+<tbody><tr><td>2026/05/05</td><td>5,755</td><td>5</td><td>7</td><td>5.26</td><td>1,151.00</td><td>2</td><td>650</td></tr>
+<tr><td>2026/05/04</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>2026/05/03</td><td>2,100</td><td>3</td><td>4</td><td>420.00</td><td>700.00</td><td>1</td><td>150</td></tr>
+<tr><td>2026/05/02</td><td>3,200</td><td>4</td><td>5</td><td>800.00</td><td>800.00</td><td>1</td><td>500</td></tr></tbody></table></div>
+<div class="pagination"><div>共 4 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-topup-item-detail.html": ("儲值品項明細", ["儲值報表","儲值品項明細"], "", "", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
+<div class="filter-group"><label class="filter-label">儲值方式</label><select class="filter-select"><option>全部方式</option></select></div>
+<div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-title">儲值品項明細</div><div class="card-desc">追蹤各別商品品項的銷售表現與首儲轉換率。</div>
+<button class="btn btn-outline" style="margin-bottom:16px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>匯出 CSV</button>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>品項名稱</th><th>總儲值金額</th><th>購買人數</th><th>購買次數</th><th>平均購買次數</th><th>總轉換點數</th><th>首儲佔比(%)</th></tr></thead>
+<tbody><tr><td>2026/04/28 - 2026/05/05</td><td>錢包扣點 $1</td><td><a href="#">5</a></td><td>2</td><td>5</td><td>2.5</td><td>515</td><td>0%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>OpenXin $100</td><td><a href="#">100</a></td><td>1</td><td>1</td><td>1</td><td>10,000</td><td>0%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>線上轉點 $150</td><td><a href="#">150</a></td><td>1</td><td>1</td><td>1</td><td>15,150</td><td>100%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>遠傳電信-測試 $500</td><td><a href="#">500</a></td><td>1</td><td>1</td><td>1</td><td>51,500</td><td>100%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>手機小額付款-測試 $500</td><td><a href="#">1,000</a></td><td>1</td><td>2</td><td>2</td><td>103,000</td><td>0%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>遠傳電信-測試 $1000</td><td><a href="#">2,000</a></td><td>2</td><td>2</td><td>1</td><td>208,000</td><td>50%</td></tr>
+<tr><td>2026/04/28 - 2026/05/05</td><td>遠傳電信-測試 $2000</td><td><a href="#">2,000</a></td><td>1</td><td>1</td><td>1</td><td>212,000</td><td>100%</td></tr></tbody></table></div>
+<p style="font-size:13px;color:#64748B;margin-top:12px">* 平均購買次數 = 購買次數 / 購買人數。首儲佔比指該品項作為用戶第一次儲值的比例。</p>
+<div class="pagination"><div>共 7 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-player-ranking.html": ("玩家排行榜", ["遊戲數據","玩家排行榜"], "", ".rank-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid #E5E7EB}.rank-tab{padding:12px 20px;font-size:14px;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}.rank-tab:hover{color:#334155}.rank-tab.active{color:#3B82F6;border-bottom-color:#3B82F6;font-weight:600}.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;font-weight:700;font-size:12px}.rank-badge.gold{background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff}.rank-badge.silver{background:linear-gradient(135deg,#C0C0C0,#A8A8A8);color:#fff}.rank-badge.bronze{background:linear-gradient(135deg,#CD7F32,#B8860B);color:#fff}.rank-badge.normal{background:#F1F5F9;color:#64748B}", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">時間範圍</label><select class="filter-select"><option>今日</option><option>本週</option><option>本月</option></select></div>
+<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="rank-tabs">
+<div class="rank-tab active">贏分榜</div>
+<div class="rank-tab">投注榜</div>
+<div class="rank-tab">連勝榜</div></div>
+<div class="card"><div class="card-title">玩家排行榜</div><div class="card-desc">追蹤玩家的遊戲表現與活躍度。</div>
+<div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>玩家 ID</th><th>暱稱</th><th>VIP 等級</th><th>贏分</th><th>投注額</th><th>遊戲局數</th></tr></thead>
+<tbody><tr><td><div class="rank-badge gold">1</div></td><td>P00523</td><td>幸運星</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+125,800</td><td>580,000</td><td>1,245</td></tr>
+<tr><td><div class="rank-badge silver">2</div></td><td>P00891</td><td>贏家</td><td>VIP 4</td><td style="color:#10B981;font-weight:600">+98,500</td><td>420,000</td><td>980</td></tr>
+<tr><td><div class="rank-badge bronze">3</div></td><td>P01234</td><td>大富翁</td><td>VIP 6</td><td style="color:#10B981;font-weight:600">+87,200</td><td>650,000</td><td>1,580</td></tr>
+<tr><td><div class="rank-badge normal">4</div></td><td>P00456</td><td>好運來</td><td>VIP 3</td><td style="color:#10B981;font-weight:600">+65,400</td><td>280,000</td><td>720</td></tr>
+<tr><td><div class="rank-badge normal">5</div></td><td>P00789</td><td>發財哥</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+52,100</td><td>380,000</td><td>890</td></tr></tbody></table></div>
+<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-game-ranking.html": ("遊戲排行榜", ["遊戲數據","遊戲排行榜"], "", ".game-tabs{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid #E5E7EB}.game-tab{padding:12px 20px;font-size:14px;color:#64748B;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}.game-tab:hover{color:#334155}.game-tab.active{color:#3B82F6;border-bottom-color:#3B82F6;font-weight:600}", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">時間範圍</label><select class="filter-select"><option>今日</option><option>本週</option><option>本月</option></select></div>
+<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option><option>老虎機</option><option>捕魚</option><option>棋牌</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="game-tabs">
+<div class="game-tab active">熱門度</div>
+<div class="game-tab">營收</div>
+<div class="game-tab">活躍玩家</div></div>
+<div class="card"><div class="card-title">遊戲排行榜</div><div class="card-desc">追蹤各遊戲的表現與玩家偏好。</div>
+<div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>遊戲名稱</th><th>遊戲類型</th><th>遊戲人數</th><th>遊戲局數</th><th>投注額</th><th>營收</th></tr></thead>
+<tbody><tr><td style="font-weight:700;color:#3B82F6">1</td><td>金龍傳說</td><td>老虎機</td><td>523</td><td>12,450</td><td>2,580,000</td><td>258,000</td></tr>
+<tr><td style="font-weight:700;color:#3B82F6">2</td><td>捕魚達人</td><td>捕魚</td><td>412</td><td>8,920</td><td>1,850,000</td><td>185,000</td></tr>
+<tr><td style="font-weight:700;color:#3B82F6">3</td><td>百家樂</td><td>棋牌</td><td>385</td><td>6,780</td><td>3,200,000</td><td>320,000</td></tr>
+<tr><td>4</td><td>水果派對</td><td>老虎機</td><td>298</td><td>7,650</td><td>1,420,000</td><td>142,000</td></tr>
+<tr><td>5</td><td>德州撲克</td><td>棋牌</td><td>256</td><td>4,890</td><td>2,100,000</td><td>210,000</td></tr></tbody></table></div>
+<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-game-detail.html": ("遊戲明細", ["遊戲數據","遊戲明細"], "", "", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">遊戲名稱</label><select class="filter-select"><option>全部遊戲</option><option>金龍傳說</option><option>捕魚達人</option></select></div>
+<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部類型</option><option>老虎機</option><option>捕魚</option><option>棋牌</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-title">遊戲明細</div><div class="card-desc">追蹤各遊戲的詳細數據與表現指標。</div>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>遊戲名稱</th><th>遊戲類型</th><th>遊戲人數</th><th>遊戲局數</th><th>投注額</th><th>派彩</th><th>營收</th><th>RTP(%)</th></tr></thead>
+<tbody><tr><td>2026/05/05</td><td>金龍傳說</td><td>老虎機</td><td>125</td><td>2,850</td><td>580,000</td><td>550,000</td><td>30,000</td><td>94.8</td></tr>
+<tr><td>2026/05/05</td><td>捕魚達人</td><td>捕魚</td><td>98</td><td>1,920</td><td>420,000</td><td>400,000</td><td>20,000</td><td>95.2</td></tr>
+<tr><td>2026/05/05</td><td>百家樂</td><td>棋牌</td><td>85</td><td>1,450</td><td>650,000</td><td>620,000</td><td>30,000</td><td>95.4</td></tr>
+<tr><td>2026/05/04</td><td>金龍傳說</td><td>老虎機</td><td>110</td><td>2,450</td><td>520,000</td><td>495,000</td><td>25,000</td><td>95.2</td></tr></tbody></table></div>
+<div class="pagination"><div>共 4 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-transaction-detail.html": ("交易明細", ["風控管理","交易明細"], "", ".tx-type{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}.tx-type.deposit{background:rgba(16,185,129,.1);color:#10B981}.tx-type.withdraw{background:rgba(239,68,68,.1);color:#EF4444}.tx-type.bet{background:rgba(59,130,246,.1);color:#3B82F6}.tx-type.win{background:rgba(16,185,129,.1);color:#10B981}", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">交易類型</label><select class="filter-select"><option>全部類型</option><option>儲值</option><option>提領</option><option>投注</option><option>派彩</option></select></div>
+<div class="filter-group"><label class="filter-label">玩家 ID</label><input type="text" class="filter-input" placeholder="輸入玩家 ID"></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-title">交易明細</div><div class="card-desc">追蹤所有金流交易記錄與異常行為。</div>
+<div class="table-wrap"><table><thead><tr><th>交易時間</th><th>交易 ID</th><th>玩家 ID</th><th>交易類型</th><th>金額</th><th>餘額</th><th>IP 位址</th></tr></thead>
+<tbody><tr><td>2026/05/05 14:25:30</td><td>TX20260505142530001</td><td>P00523</td><td><span class="tx-type deposit">儲值</span></td><td style="color:#10B981;font-weight:600">+2,000</td><td>125,800</td><td>192.168.1.100</td></tr>
+<tr><td>2026/05/05 14:20:15</td><td>TX20260505142015002</td><td>P00523</td><td><span class="tx-type bet">投注</span></td><td style="color:#EF4444;font-weight:600">-500</td><td>123,800</td><td>192.168.1.100</td></tr>
+<tr><td>2026/05/05 14:18:45</td><td>TX20260505141845003</td><td>P00523</td><td><span class="tx-type win">派彩</span></td><td style="color:#10B981;font-weight:600">+1,200</td><td>124,300</td><td>192.168.1.100</td></tr>
+<tr><td>2026/05/05 13:55:20</td><td>TX20260505135520004</td><td>P00891</td><td><span class="tx-type deposit">儲值</span></td><td style="color:#10B981;font-weight:600">+1,000</td><td>98,500</td><td>192.168.2.50</td></tr>
+<tr><td>2026/05/05 13:50:10</td><td>TX20260505135010005</td><td>P01234</td><td><span class="tx-type bet">投注</span></td><td style="color:#EF4444;font-weight:600">-800</td><td>87,200</td><td>192.168.3.20</td></tr></tbody></table></div>
+<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+
+"analytics-high-risk.html": ("高風險明細", ["風控管理","高風險明細"], "", ".risk-level{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}.risk-level.high{background:rgba(239,68,68,.1);color:#EF4444}.risk-level.medium{background:rgba(245,158,11,.1);color:#F59E0B}.risk-level.low{background:rgba(59,130,246,.1);color:#3B82F6}", '''<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">風險等級</label><select class="filter-select"><option>全部等級</option><option>高風險</option><option>中風險</option><option>低風險</option></select></div>
+<div class="filter-group"><label class="filter-label">風險類型</label><select class="filter-select"><option>全部類型</option><option>異常登入</option><option>異常投注</option><option>多帳號</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-title">高風險明細</div><div class="card-desc">追蹤異常行為與潛在風險帳號。</div>
+<div class="table-wrap"><table><thead><tr><th>偵測時間</th><th>玩家 ID</th><th>風險等級</th><th>風險類型</th><th>風險描述</th><th>IP 位址</th><th>狀態</th></tr></thead>
+<tbody><tr><td>2026/05/05 15:30:20</td><td>P01567</td><td><span class="risk-level high">高風險</span></td><td>異常登入</td><td>短時間內多地登入（台北→高雄，15分鐘內）</td><td>192.168.5.100</td><td>待處理</td></tr>
+<tr><td>2026/05/05 14:45:10</td><td>P02345</td><td><span class="risk-level high">高風險</span></td><td>異常投注</td><td>單日投注額超過平均值 500%</td><td>192.168.6.50</td><td>待處理</td></tr>
+<tr><td>2026/05/05 13:20:30</td><td>P03456</td><td><span class="risk-level medium">中風險</span></td><td>多帳號</td><td>與 P03457 共用相同裝置 ID</td><td>192.168.7.20</td><td>已處理</td></tr>
+<tr><td>2026/05/04 18:15:45</td><td>P04567</td><td><span class="risk-level medium">中風險</span></td><td>異常投注</td><td>連續 20 局相同投注模式</td><td>192.168.8.30</td><td>已處理</td></tr>
+<tr><td>2026/05/04 16:50:20</td><td>P05678</td><td><span class="risk-level low">低風險</span></td><td>異常登入</td><td>首次從新 IP 登入</td><td>192.168.9.40</td><td>已處理</td></tr></tbody></table></div>
+<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>'''),
+}
+
+for fn, (title, bc, topbar, css, content) in PAGES2.items():
+    html = pg(title, bc, title, content, css, topbar)
+    with open(fn, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f"Generated: {fn}")
+
+print(f"\nBatch 2 done: {len(PAGES2)} pages")
+print(f"Total generated: {len(PAGES) + len(PAGES2)} pages")
