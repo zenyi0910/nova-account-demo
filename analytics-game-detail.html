@@ -55,6 +55,11 @@ td a{color:#2563EB;font-weight:500}
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:3px}
 @media(max-width:768px){.sidebar{width:60px}.sidebar .sidebar-logo-text,.sidebar .menu-item span,.sidebar .menu-group-title,.sidebar .sidebar-user-info{display:none}.main{margin-left:60px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}}
 
+.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:200px;z-index:100;overflow:hidden}
+.user-popover.show{display:block}
+.popover-item{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;color:#334155;cursor:pointer;transition:all .15s}
+.popover-item:hover{background:rgba(59,130,246,.06)}
+.popover-divider{height:1px;background:#E5E7EB;margin:4px 0}
 </style>
 </head>
 <body>
@@ -95,7 +100,7 @@ td a{color:#2563EB;font-weight:500}
 <a href="index.html" class="menu-item" style="text-decoration:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>帳號權限管理</span></a>
 </div>
 </nav>
-<div class="sidebar-footer"><div class="sidebar-user"><div class="avatar">SU</div><div class="sidebar-user-info"><div style="font-weight:600;font-size:13px;color:#1E293B">superadmin</div><div style="font-size:11px;color:#94A3B8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">superadmin@nova-analytics.com</div></div><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="sidebar-footer"><div class="sidebar-user" onclick="document.getElementById('userPopover').classList.toggle('show')"><div class="avatar">SU</div><div class="sidebar-user-info"><div style="font-weight:600;font-size:13px;color:#1E293B">superadmin</div><div style="font-size:11px;color:#94A3B8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">superadmin@nova-analytics.com</div></div><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 </aside>
 <div class="main">
 <div class="topbar"><div class="breadcrumb"><span>遊戲數據</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">遊戲明細</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
