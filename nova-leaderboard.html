@@ -3,155 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>星運娛樂城 - 排行榜</title>
+<title>排行榜 — 星運娛樂城</title>
 <link rel="stylesheet" href="css/frontend.css">
-<style>
-.rank-tabs{display:flex;gap:0;background:#fff;border-radius:12px;margin-bottom:16px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.rank-tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:#64748b;border:none;background:none;cursor:pointer;transition:all .2s}
-.rank-tab.active{background:#991b1b;color:#fff}
-.podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:20px;padding:16px 0}
-.podium-item{display:flex;flex-direction:column;align-items:center;gap:4px}
-.podium-item.first{order:2}
-.podium-item.second{order:1}
-.podium-item.third{order:3}
-.podium-avatar{width:48px;height:48px;border-radius:50%;background:#e2e8f0;border:3px solid #fbbf24;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.podium-item.first .podium-avatar{width:60px;height:60px;border-color:#fbbf24}
-.podium-item.second .podium-avatar{border-color:#94a3b8}
-.podium-item.third .podium-avatar{border-color:#d97706}
-.podium-avatar svg{width:60%;height:60%;color:#94a3b8}
-.podium-name{font-size:11px;font-weight:600;color:#1e293b;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.podium-score{font-size:10px;color:#f59e0b;font-weight:700}
-.podium-rank{font-size:18px;font-weight:900;color:#fbbf24}
-.podium-item.second .podium-rank{color:#94a3b8}
-.podium-item.third .podium-rank{color:#d97706}
-.rank-list{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.rank-row{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #f8fafc}
-.rank-row:last-child{border-bottom:none}
-.rank-num{width:24px;font-size:14px;font-weight:700;color:#64748b;text-align:center}
-.rank-avatar-sm{width:32px;height:32px;border-radius:50%;background:#e2e8f0;margin:0 10px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.rank-avatar-sm svg{width:60%;height:60%;color:#94a3b8}
-.rank-name{flex:1;font-size:13px;font-weight:500;color:#1e293b}
-.rank-score{font-size:13px;font-weight:700;color:#f59e0b}
-</style>
 </head>
 <body>
-<header class="header">
-<div class="header-left">
-<button style="display:flex" onclick="window.location.href='nova-lobby.html'"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
-<span style="color:#fff;font-size:16px;font-weight:700;margin-left:8px">排行榜</span>
+<div class="mobile-frame">
+<div class="subpage-overlay" onclick="if(event.target===this)window.location.href='nova-lobby.html'">
+<div class="subpage-dialog">
+<div class="subpage-header">
+<h2>排行榜</h2>
+<div class="subpage-close" onclick="window.location.href='nova-lobby.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
 </div>
-<div class="header-right">
-<div class="coin-display">
-<div class="coin-icon"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg></div>
-<div class="coin-amount"><span>7,459</span></div>
+<div class="subpage-tabs">
+<button class="active" onclick="switchTab(this)">富豪榜</button>
+<button onclick="switchTab(this)">贏分榜</button>
+<button onclick="switchTab(this)">倍率榜</button>
+<button onclick="switchTab(this)">公會榜</button>
 </div>
-</div>
-</header>
-
-<div class="page-container">
-<div class="page-content">
-
-<div class="rank-tabs">
-<button class="rank-tab active">日排行</button>
-<button class="rank-tab">週排行</button>
-<button class="rank-tab">月排行</button>
-</div>
-
-<div class="podium">
-<div class="podium-item second">
-<div class="podium-rank">2</div>
-<div class="podium-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<div class="podium-name">Lucky777</div>
-<div class="podium-score">892,450</div>
-</div>
-<div class="podium-item first">
-<div class="podium-rank">1</div>
-<div class="podium-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<div class="podium-name">GoldKing</div>
-<div class="podium-score">1,245,800</div>
-</div>
-<div class="podium-item third">
-<div class="podium-rank">3</div>
-<div class="podium-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<div class="podium-name">DragonFire</div>
-<div class="podium-score">756,320</div>
-</div>
-</div>
-
+<p style="color:rgba(255,255,255,.5);font-size:11px;text-align:center;margin:4px 0 8px">金幣餘額排名，每 15 分鐘更新</p>
 <div class="rank-list">
-<div class="rank-row">
-<span class="rank-num">4</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">StarPlayer</span>
-<span class="rank-score">654,210</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">5</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">MahjongPro</span>
-<span class="rank-score">543,890</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">6</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">SlotMaster</span>
-<span class="rank-score">498,760</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">7</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">CoinHunter</span>
-<span class="rank-score">432,100</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">8</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">BigWinner</span>
-<span class="rank-score">398,450</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">9</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">FortuneX</span>
-<span class="rank-score">345,670</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">10</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">GoldRush88</span>
-<span class="rank-score">312,890</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">11</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">LuckyDragon</span>
-<span class="rank-score">287,650</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">12</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">PhoenixRise</span>
-<span class="rank-score">265,430</span>
-</div>
-<div class="rank-row">
-<span class="rank-num">13</span>
-<div class="rank-avatar-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-<span class="rank-name">JadeEmperor</span>
-<span class="rank-score">243,210</span>
+<div class="rank-item"><div class="rank-num">1</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">User837133</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">1,333,576,101</div></div>
+<div class="rank-item"><div class="rank-num">2</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">User763693</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">448,197,600</div></div>
+<div class="rank-item"><div class="rank-num">3</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">Wayne</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">349,747,991</div></div>
+<div class="rank-item"><div class="rank-num">4</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">Huang Vera123</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">167,725,942</div></div>
+<div class="rank-item"><div class="rank-num">5</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">Cloud001</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">148,994,130</div></div>
+<div class="rank-item"><div class="rank-num">6</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">QAtest6改改</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">148,927,558</div></div>
+<div class="rank-item"><div class="rank-num">7</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">verahuang0001</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">148,601,721</div></div>
+<div class="rank-item"><div class="rank-num">8</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">yu5864</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">39,280,919</div></div>
+<div class="rank-item"><div class="rank-num">9</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">cas1</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">27,145,299</div></div>
+<div class="rank-item"><div class="rank-num">10</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">verahuang</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">22,548,603</div></div>
+<div class="rank-item"><div class="rank-num">11</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">0912345666-4</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">13,000,000</div></div>
+<div class="rank-item"><div class="rank-num">12</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">User659247</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">9,363,500</div></div>
+<div class="rank-item"><div class="rank-num">13</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">QAyunfu</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">6,645,234</div></div>
+<div class="rank-item"><div class="rank-num">14</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">User395432</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">4,732,792</div></div>
+<div class="rank-item"><div class="rank-num">15</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">Vera88888</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">3,175,772</div></div>
+<div class="rank-item"><div class="rank-num">16</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">測起來001</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">2,947,266</div></div>
+<div class="rank-item"><div class="rank-num">17</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">paul11</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">2,340,837</div></div>
+<div class="rank-item"><div class="rank-num">18</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">金爺爺的爸爸叫金曾祖</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">2,285,091</div></div>
+<div class="rank-item"><div class="rank-num">19</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">Quinn</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">1,612,916</div></div>
+<div class="rank-item"><div class="rank-num">20</div><div class="rank-avatar"><img src="assets/user_avatar.png" alt=""></div><div class="rank-name">qatest25</div><div class="rank-coins"><img src="assets/icon_coin_gold.png" alt="">1,407,480</div></div>
 </div>
 </div>
 </div>
 </div>
-
-<!-- Footer -->
-<footer class="footer-fixed">
-<div class="footer-inner" style="background-image:url('assets/footer_bg.png')">
-<button class="footer-btn" onclick="window.location.href='nova-lobby.html'"><img src="assets/icon_other.png" alt="其他" class="footer-icon"><span>其他</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-leaderboard.html'"><img src="assets/icon_ranking.png" alt="排行榜" class="footer-icon"><span>排行榜</span></button>
-<button class="footer-btn footer-btn-store" onclick="window.location.href='nova-shop.html'"><img src="assets/icon_store_2.png" alt="商城" class="footer-icon-store"><span>商城</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-gift.html'"><img src="assets/icon_gift.png" alt="贈禮" class="footer-icon"><span>贈禮</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-guild.html'"><img src="assets/icon_guild.png" alt="公會" class="footer-icon"><span>公會</span></button>
-</div>
-</footer>
+<script>
+function switchTab(el){document.querySelectorAll('.subpage-tabs button').forEach(b=>b.classList.remove('active'));el.classList.add('active')}
+</script>
 </body>
 </html>

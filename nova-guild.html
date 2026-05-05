@@ -3,101 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>星運娛樂城 - 公會</title>
+<title>公會 — 星運娛樂城</title>
 <link rel="stylesheet" href="css/frontend.css">
-<style>
-.guild-banner{background:linear-gradient(135deg,#1e293b,#334155);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center;position:relative;overflow:hidden}
-.guild-banner::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(251,191,36,.1);border-radius:50%}
-.guild-banner h2{color:#fbbf24;font-size:18px;font-weight:700;margin-bottom:4px}
-.guild-banner p{color:rgba(255,255,255,.6);font-size:12px}
-.guild-card{background:#fff;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.guild-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.guild-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.guild-avatar svg{width:24px;height:24px;color:#78350f}
-.guild-meta{flex:1}
-.guild-meta h4{font-size:14px;font-weight:700;color:#1e293b}
-.guild-meta p{font-size:11px;color:#64748b}
-.guild-join-btn{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border-radius:16px;padding:8px 14px;font-size:11px;font-weight:600}
-.guild-stats{display:flex;gap:16px}
-.guild-stat{text-align:center}
-.guild-stat .val{font-size:14px;font-weight:700;color:#1e293b}
-.guild-stat .label{font-size:10px;color:#64748b}
-.my-guild{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid #f59e0b}
-.my-guild .guild-meta h4::after{content:'我的公會';margin-left:6px;font-size:9px;background:#f59e0b;color:#fff;padding:1px 5px;border-radius:4px;font-weight:600}
-</style>
 </head>
 <body>
-<header class="header">
-<div class="header-left">
-<button style="display:flex" onclick="window.location.href='nova-lobby.html'"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
-<span style="color:#fff;font-size:16px;font-weight:700;margin-left:8px">公會</span>
+<div class="mobile-frame">
+<div class="subpage-overlay" onclick="if(event.target===this)window.location.href='nova-lobby.html'">
+<div class="subpage-dialog">
+<div class="subpage-header">
+<h2>公會</h2>
+<div class="subpage-close" onclick="window.location.href='nova-lobby.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
 </div>
-<div class="header-right">
-<div class="coin-display">
-<div class="coin-icon"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg></div>
-<div class="coin-amount"><span>7,459</span></div>
+<div class="guild-list">
+<div class="guild-item">
+<div class="guild-avatar">A</div>
+<div class="guild-info"><div class="guild-name">星運聯盟</div><div class="guild-members">成員：128 人</div></div>
+<button class="guild-join">加入</button>
 </div>
+<div class="guild-item">
+<div class="guild-avatar">B</div>
+<div class="guild-info"><div class="guild-name">幸運之星</div><div class="guild-members">成員：95 人</div></div>
+<button class="guild-join">加入</button>
 </div>
-</header>
-
-<div class="page-container">
-<div class="page-content">
-
-<div class="guild-banner">
-<h2>加入公會獲取金幣</h2>
-<p>每日公會任務可獲得額外獎勵</p>
+<div class="guild-item">
+<div class="guild-avatar">C</div>
+<div class="guild-info"><div class="guild-name">贏家俱樂部</div><div class="guild-members">成員：76 人</div></div>
+<button class="guild-join">加入</button>
 </div>
-
-<div class="guild-card my-guild">
-<div class="guild-card-header">
-<div class="guild-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-<div class="guild-meta"><h4>星運戰隊</h4><p>會長：GoldKing</p></div>
+<div class="guild-item">
+<div class="guild-avatar">D</div>
+<div class="guild-info"><div class="guild-name">金幣獵人</div><div class="guild-members">成員：54 人</div></div>
+<button class="guild-join">加入</button>
 </div>
-<div class="guild-stats">
-<div class="guild-stat"><div class="val">48</div><div class="label">成員</div></div>
-<div class="guild-stat"><div class="val">Lv.12</div><div class="label">等級</div></div>
-<div class="guild-stat"><div class="val">892,450</div><div class="label">總貢獻</div></div>
-</div>
-</div>
-
-<div class="guild-card">
-<div class="guild-card-header">
-<div class="guild-avatar" style="background:linear-gradient(135deg,#ef4444,#dc2626)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-<div class="guild-meta"><h4>龍族聯盟</h4><p>會長：DragonFire</p></div>
-<button class="guild-join-btn">加入</button>
-</div>
-<div class="guild-stats">
-<div class="guild-stat"><div class="val">35</div><div class="label">成員</div></div>
-<div class="guild-stat"><div class="val">Lv.8</div><div class="label">等級</div></div>
-<div class="guild-stat"><div class="val">543,210</div><div class="label">總貢獻</div></div>
+<div class="guild-item">
+<div class="guild-avatar">E</div>
+<div class="guild-info"><div class="guild-name">財富密碼</div><div class="guild-members">成員：42 人</div></div>
+<button class="guild-join">加入</button>
 </div>
 </div>
-
-<div class="guild-card">
-<div class="guild-card-header">
-<div class="guild-avatar" style="background:linear-gradient(135deg,#8b5cf6,#6366f1)"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-<div class="guild-meta"><h4>幸運之星</h4><p>會長：LuckyStar</p></div>
-<button class="guild-join-btn">加入</button>
-</div>
-<div class="guild-stats">
-<div class="guild-stat"><div class="val">29</div><div class="label">成員</div></div>
-<div class="guild-stat"><div class="val">Lv.6</div><div class="label">等級</div></div>
-<div class="guild-stat"><div class="val">321,890</div><div class="label">總貢獻</div></div>
 </div>
 </div>
-
 </div>
-</div>
-
-<!-- Footer -->
-<footer class="footer-fixed">
-<div class="footer-inner" style="background-image:url('assets/footer_bg.png')">
-<button class="footer-btn" onclick="window.location.href='nova-lobby.html'"><img src="assets/icon_other.png" alt="其他" class="footer-icon"><span>其他</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-leaderboard.html'"><img src="assets/icon_ranking.png" alt="排行榜" class="footer-icon"><span>排行榜</span></button>
-<button class="footer-btn footer-btn-store" onclick="window.location.href='nova-shop.html'"><img src="assets/icon_store_2.png" alt="商城" class="footer-icon-store"><span>商城</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-gift.html'"><img src="assets/icon_gift.png" alt="贈禮" class="footer-icon"><span>贈禮</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-guild.html'"><img src="assets/icon_guild.png" alt="公會" class="footer-icon"><span>公會</span></button>
-</div>
-</footer>
 </body>
 </html>

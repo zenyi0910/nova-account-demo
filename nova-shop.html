@@ -3,124 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>星運娛樂城 - 商城</title>
+<title>商城 — 星運娛樂城</title>
 <link rel="stylesheet" href="css/frontend.css">
-<style>
-.store-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);padding:16px;border-radius:16px;margin-bottom:16px;position:relative;overflow:hidden}
-.store-banner::after{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,.05);border-radius:50%}
-.store-banner h2{color:#fbbf24;font-size:18px;font-weight:700;margin-bottom:4px}
-.store-banner .countdown{display:flex;gap:4px;align-items:center}
-.store-banner .countdown span{background:rgba(0,0,0,.3);color:#fff;padding:2px 6px;border-radius:4px;font-size:12px;font-weight:700;min-width:24px;text-align:center}
-.store-banner .countdown .sep{background:none;padding:0;min-width:auto;color:#fbbf24}
-.store-balance{background:#fff;border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.store-balance .coin{width:24px;height:24px}
-.store-balance .label{font-size:12px;color:#64748b}
-.store-balance .amount{font-size:18px;font-weight:700;color:#1e293b;margin-left:auto}
-.store-balance .unit{font-size:12px;color:#64748b;margin-left:2px}
-.section-title{font-size:14px;font-weight:700;color:#1e293b;margin-bottom:12px;padding-left:4px;border-left:3px solid #991b1b}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.quick-card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
-.quick-card .tag{position:absolute;top:8px;left:8px;background:#f59e0b;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px}
-.quick-card .method{font-size:10px;color:#64748b}
-.quick-card .amount-row{display:flex;align-items:center;gap:4px}
-.quick-card .amount-row .coin-sm{width:16px;height:16px}
-.quick-card .amount-row span{font-size:16px;font-weight:700;color:#1e293b}
-.quick-card .price-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:16px;padding:6px 16px;font-size:12px;font-weight:600;width:100%;text-align:center;margin-top:4px}
-.quick-card .bonus{font-size:10px;color:#f59e0b;font-weight:600;margin-top:2px}
-.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-.method-btn{background:#fff;border-radius:10px;padding:10px 8px;text-align:center;font-size:11px;color:#1e293b;font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f1f5f9}
-.method-btn:active{background:#f8fafc;border-color:#e2e8f0}
-</style>
 </head>
 <body>
-<header class="header">
-<div class="header-left">
-<button class="back-btn" onclick="window.location.href='nova-lobby.html'" style="display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
-<span style="color:#fff;font-size:16px;font-weight:700">商城</span>
+<div class="mobile-frame">
+<div class="subpage-overlay" onclick="if(event.target===this)window.location.href='nova-lobby.html'">
+<div class="subpage-dialog">
+<div class="subpage-header">
+<h2>商城</h2>
+<div class="subpage-close" onclick="window.location.href='nova-lobby.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
 </div>
-<div class="header-right">
-<div class="coin-display">
-<div class="coin-icon"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg></div>
-<div class="coin-amount"><span>7,459</span></div>
-</div>
-</div>
-</header>
-
-<div class="page-container">
-<div class="page-content">
-
-<div class="store-banner">
-<h2>儲值優惠活動</h2>
-<div class="countdown">
-<span>01</span><span class="sep">日</span>
-<span>03</span><span class="sep">時</span>
-<span>27</span><span class="sep">分</span>
-<span>18</span><span class="sep">秒</span>
-</div>
-</div>
-
-<div class="store-balance">
-<svg class="coin" viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg>
-<span class="label">當前金幣</span>
-<span class="amount">7,459</span><span class="unit">點</span>
-</div>
-
-<h3 class="section-title">快速儲值</h3>
-<div class="quick-grid">
-<div class="quick-card">
-<span class="tag">推薦</span>
-<span class="method">線上轉點</span>
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>51,500</span></div>
+<div class="store-section">
+<div class="store-quick">
+<div class="store-card-item">
+<img src="assets/icon_coin_gold.png" style="width:28px;height:28px;margin-bottom:4px">
+<div class="amount">51,500</div>
 <button class="price-btn">$ 500</button>
+<div class="bonus">贈 3%</div>
 </div>
-<div class="quick-card">
-<span class="method">行動支付</span>
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>52,000</span></div>
-<button class="price-btn">$ 500</button>
-</div>
-<div class="quick-card">
-<span class="method">線上轉點</span>
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>104,000</span></div>
+<div class="store-card-item">
+<img src="assets/icon_coin_gold.png" style="width:28px;height:28px;margin-bottom:4px">
+<div class="amount">104,000</div>
 <button class="price-btn">$ 1,000</button>
+<div class="bonus">贈 4%</div>
 </div>
-<div class="quick-card">
-<span class="method">電信帳單</span>
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>51,500</span></div>
-<button class="price-btn">$ 500</button>
-</div>
-<div class="quick-card">
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>515</span></div>
+<div class="store-card-item">
+<img src="assets/icon_coin_gold.png" style="width:28px;height:28px;margin-bottom:4px">
+<div class="amount">515</div>
 <button class="price-btn">$ 5</button>
-<span class="bonus">贈 15</span>
+<div class="bonus">贈 15</div>
 </div>
-<div class="quick-card">
-<div class="amount-row"><svg class="coin-sm" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f59e0b"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#78350f">$</text></svg><span>5,150</span></div>
+<div class="store-card-item">
+<img src="assets/icon_coin_gold.png" style="width:28px;height:28px;margin-bottom:4px">
+<div class="amount">5,150</div>
 <button class="price-btn">$ 50</button>
-<span class="bonus">贈 150</span>
+<div class="bonus">贈 150</div>
 </div>
 </div>
-
-<h3 class="section-title">一般儲值</h3>
-<div class="method-grid">
-<button class="method-btn">線上轉點</button>
-<button class="method-btn">電信帳單</button>
-<button class="method-btn">Gash錢包扣點</button>
-<button class="method-btn">Gash點數卡</button>
-<button class="method-btn">7-11即時儲</button>
 </div>
-
+<div class="store-category">
+<h3>一般儲值</h3>
+<div class="store-method">
+<button>線上轉點</button>
+<button>電信帳單</button>
+<button>Gash錢包扣點</button>
+<button>Gash點數卡</button>
+<button>7-11即時儲</button>
+<button>行動支付</button>
 </div>
 </div>
-
-<!-- Footer -->
-<footer class="footer-fixed">
-<div class="footer-inner" style="background-image:url('assets/footer_bg.png')">
-<button class="footer-btn" onclick="window.location.href='nova-lobby.html'"><img src="assets/icon_other.png" alt="其他" class="footer-icon"><span>其他</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-leaderboard.html'"><img src="assets/icon_ranking.png" alt="排行榜" class="footer-icon"><span>排行榜</span></button>
-<button class="footer-btn footer-btn-store" onclick="window.location.href='nova-shop.html'"><img src="assets/icon_store_2.png" alt="商城" class="footer-icon-store"><span>商城</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-gift.html'"><img src="assets/icon_gift.png" alt="贈禮" class="footer-icon"><span>贈禮</span></button>
-<button class="footer-btn" onclick="window.location.href='nova-guild.html'"><img src="assets/icon_guild.png" alt="公會" class="footer-icon"><span>公會</span></button>
 </div>
-</footer>
+</div>
+</div>
 </body>
 </html>
