@@ -90,6 +90,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
 
+
+.sidebar-user{position:relative;cursor:pointer}
+.user-chevron{transition:transform .2s}
+.sidebar-user.open .user-chevron{transform:rotate(180deg)}
+.user-popover{display:none;position:absolute;bottom:calc(100% + 8px);left:12px;right:12px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:50;opacity:0;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease}
+.sidebar-user.open .user-popover{display:block;opacity:1;transform:translateY(0)}
+.user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
+.user-popover-info{display:flex;flex-direction:column}
+.user-popover-name{font-size:13px;font-weight:600;color:#111827}
+.user-popover-sub{font-size:11px;color:#6B7280}
+.user-popover-divider{height:1px;background:#E5E7EB;margin:4px 0 8px}
+.user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
+.user-popover-item:hover{background:#F3F4F6}
+.user-popover-item svg{width:16px;height:16px;color:#6B7280}
 @media(max-width:768px){
 .sidebar{transform:translateX(-100%);position:fixed;z-index:100;transition:transform .3s}
 .sidebar.show{transform:translateX(0)}
@@ -188,9 +202,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <a class="sidebar-item" href="nova-admin-users.html">帳號設定</a>
     </div>
   </div>
-  <div class="sidebar-user"><div class="user-avatar">一</div><div class="user-info"><div class="user-role">一般管理員</div><div class="user-name">admin</div></div></div>
+  <div class="sidebar-user" onclick="toggleUserMenu()">
+    <div class="user-avatar">C</div>
+    <div class="user-info"><div class="user-name">Casper Admin</div><div class="user-role">casper</div></div>
+    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#9CA3AF;margin-left:auto"><path d="M7 10l5-5 5 5M7 14l5 5 5 5"/></svg>
+    <div class="user-popover" id="userPopover">
+      <div class="user-popover-header">
+        <div class="user-avatar">C</div>
+        <div class="user-popover-info"><div class="user-popover-name">Casper Admin</div><div class="user-popover-sub">casper</div><div class="user-popover-sub">Admin</div></div>
+      </div>
+      <div class="user-popover-divider"></div>
+      <a class="user-popover-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>登出
+      </a>
+    </div>
+  </div>
 </nav>
-  <div class="sidebar-user"><div class="user-avatar">一</div><div class="user-info"><div class="user-role">一般管理員</div><div class="user-name">admin</div></div></div>
+  <div class="sidebar-user" onclick="toggleUserMenu()">
+    <div class="user-avatar">C</div>
+    <div class="user-info"><div class="user-name">Casper Admin</div><div class="user-role">casper</div></div>
+    <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#9CA3AF;margin-left:auto"><path d="M7 10l5-5 5 5M7 14l5 5 5 5"/></svg>
+    <div class="user-popover" id="userPopover">
+      <div class="user-popover-header">
+        <div class="user-avatar">C</div>
+        <div class="user-popover-info"><div class="user-popover-name">Casper Admin</div><div class="user-popover-sub">casper</div><div class="user-popover-sub">Admin</div></div>
+      </div>
+      <div class="user-popover-divider"></div>
+      <a class="user-popover-item" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>登出
+      </a>
+    </div>
+  </div>
 </nav>
 
 <div class="main">
@@ -227,6 +269,9 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
   ov.classList.toggle('show');
 });
+
+function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
+document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 </script>
 </body>
