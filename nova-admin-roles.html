@@ -76,6 +76,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .perm-read{background:#DBEAFE;color:#1E40AF}
 .perm-none{background:#F3F4F6;color:#9CA3AF}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%);position:fixed;z-index:100;transition:transform .3s}
+.sidebar.show{transform:translateX(0)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
+.sidebar-overlay.show{display:block}
+.main{margin-left:0}
+.topbar{padding:0 12px}
+.content{padding:12px}
+.filter-card{flex-direction:column;align-items:stretch}
+.filter-group{width:100%}
+.filter-input{width:100%}
+.data-table{display:block;overflow-x:auto;white-space:nowrap}
+}
 </style>
 </head>
 <body>
@@ -205,6 +219,13 @@ function showRoleModal(mode,idx){
 function closeRoleModal(){document.getElementById('roleModalOverlay').style.display='none';}
 function saveRole(){alert(editRoleIdx>=0?'角色已更新':'角色已新增');closeRoleModal();}
 function delRole(i){if(confirm(`確定刪除角色「${roles[i].name}」？`)){roles.splice(i,1);renderRoles(roles);}}
+
+document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
+  document.querySelector('.sidebar').classList.toggle('show');
+  let ov=document.querySelector('.sidebar-overlay');
+  if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
+  ov.classList.toggle('show');
+});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 renderRoles(roles);
 </script>
