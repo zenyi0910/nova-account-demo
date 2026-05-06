@@ -174,15 +174,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 /* Filter Collapse on Mobile */
 @media(max-width:768px){
-.filter-card .filter-group:nth-child(n+5):not(.filter-actions-wrap){display:none}
-.filter-card.filter-expanded .filter-group:nth-child(n+5):not(.filter-actions-wrap){display:flex}
-.filter-toggle{display:flex;align-items:center;justify-content:center;width:100%;padding:8px;color:#4338CA;font-size:13px;cursor:pointer;border:1px dashed #C7D2FE;border-radius:6px;background:#EEF2FF;gap:4px;order:998}
-.filter-toggle svg{width:14px;height:14px;transition:transform .2s}
-.filter-card.filter-expanded .filter-toggle svg{transform:rotate(180deg)}
+
+
+
+
 }
-@media(min-width:769px){
-.filter-toggle{display:none}
-}
+
 
 /* Active Filter Tags */
 .filter-tags{display:none;flex-wrap:wrap;gap:6px;margin-bottom:12px}
@@ -235,7 +232,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           </div>
         </div>
       </div>
-      <div class="filter-toggle"><span class="toggle-text">更多篩選</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
+      
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
       <button class="btn-reset">重置</button></div>
 
@@ -438,18 +435,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 
 </script>
 
-<!-- Filter Collapse Toggle -->
-<script>
-document.querySelectorAll('.filter-toggle').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const card=btn.closest('.filter-card');
-    card.classList.toggle('filter-expanded');
-    const txt=btn.querySelector('.toggle-text');
-    if(card.classList.contains('filter-expanded')){txt.textContent='收合篩選'}
-    else{txt.textContent='更多篩選'}
-  });
-});
-</script>
+
 
 <!-- Active Filter Tags -->
 <script>

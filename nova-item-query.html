@@ -137,13 +137,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Filter Collapse on Mobile */
 @media(max-width:768px){
 
-.filter-toggle{display:flex;align-items:center;justify-content:center;width:100%;padding:8px;color:#4338CA;font-size:13px;cursor:pointer;border:1px dashed #C7D2FE;border-radius:6px;background:#EEF2FF;gap:4px;order:998}
-.filter-toggle svg{width:14px;height:14px;transition:transform .2s}
-.filter-card.filter-expanded .filter-toggle svg{transform:rotate(180deg)}
+
+
+
 }
-@media(min-width:769px){
-.filter-toggle{display:none}
-}
+
 
 /* Active Filter Tags */
 .filter-tags{display:none;flex-wrap:wrap;gap:6px;margin-bottom:12px}
@@ -263,18 +261,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 });
 </script>
 
-<!-- Filter Collapse Toggle -->
-<script>
-document.querySelectorAll('.filter-toggle').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const card=btn.closest('.filter-card');
-    card.classList.toggle('filter-expanded');
-    const txt=btn.querySelector('.toggle-text');
-    if(card.classList.contains('filter-expanded')){txt.textContent='收合篩選'}
-    else{txt.textContent='更多篩選'}
-  });
-});
-</script>
+
 
 <!-- Active Filter Tags -->
 <script>
