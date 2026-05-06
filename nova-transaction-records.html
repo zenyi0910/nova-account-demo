@@ -93,7 +93,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
 
-
 .sidebar-user{position:relative;cursor:pointer}
 .user-chevron{width:14px;height:14px;color:#9CA3AF;margin-left:auto;flex-shrink:0;transition:transform .2s}
 .sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
@@ -172,15 +171,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .date-cal{width:100%}
 }
 
-/* Filter Collapse on Mobile */
-@media(max-width:768px){
-
-
-
-
-}
-
-
 /* Active Filter Tags */
 .filter-tags{display:none;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .filter-tags.has-tags{display:flex}
@@ -194,7 +184,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <body>
 <nav class="sidebar" id="sidebar"></nav>
 <script src="components/sidebar.js"></script>
-
 
 <div class="main">
   <div class="topbar">
@@ -429,8 +418,6 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 })();
 
 </script>
-
-
 
 <!-- Active Filter Tags -->
 <script>
