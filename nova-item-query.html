@@ -123,8 +123,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-card{flex-direction:column;}
 .filter-group{max-width:100%}
 .filter-actions{margin-left:0;width:100%;display:flex;flex-direction:row;gap:12px;padding-top:4px}
-.filter-actions .btn-search{flex:2;justify-content:center;height:40px;font-size:14px}
-.filter-actions .btn-reset{flex:1;justify-content:center;height:40px;font-size:14px}
+.filter-actions .btn-search{flex:2;display:flex;justify-content:center;align-items:center;height:40px;font-size:14px;width:auto!important;padding:0 12px!important}
+.filter-actions .btn-reset{flex:1;display:flex;justify-content:center;align-items:center;height:40px;font-size:14px;width:auto!important;padding:0 12px!important}
 .filter-input,.filter-select{height:40px!important;font-size:16px!important}
 .filter-group{width:100%}
 .filter-input{width:100%}
@@ -136,8 +136,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 /* Filter Collapse on Mobile */
 @media(max-width:768px){
-.filter-card .filter-group:nth-child(n+4):not(.filter-actions-wrap){display:none}
-.filter-card.filter-expanded .filter-group:nth-child(n+4):not(.filter-actions-wrap){display:flex}
+
 .filter-toggle{display:flex;align-items:center;justify-content:center;width:100%;padding:8px;color:#4338CA;font-size:13px;cursor:pointer;border:1px dashed #C7D2FE;border-radius:6px;background:#EEF2FF;gap:4px;order:998}
 .filter-toggle svg{width:14px;height:14px;transition:transform .2s}
 .filter-card.filter-expanded .filter-toggle svg{transform:rotate(180deg)}
@@ -175,7 +174,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group" data-rule="keyword"><label>道具名稱</label><div class="filter-input"><input type="text" placeholder="搜尋道具名稱"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>道具類型</label><div class="filter-input"><select><option value="">全部</option><option value="消耗品">消耗品</option><option value="裝飾">裝飾</option><option value="功能">功能</option><option value="禮包">禮包</option></select></div></div>
       <div class="filter-group"><label>異動類型</label><div class="filter-input"><select><option value="">全部</option><option value="獲得">獲得</option><option value="使用">使用</option><option value="過期">過期</option><option value="回收">回收</option></select></div></div>
-      <div class="filter-toggle"><span class="toggle-text">更多篩選</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
       <button class="btn-reset">重置</button></div>
     </div>
