@@ -168,7 +168,7 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .float-dot.hot{background:#dc2626}
 .float-dot.new{background:#2563eb}
 /* 維護中遮罩 */
-.game-card.maintenance{pointer-events:none;position:relative}
+.game-card.maintenance{pointer-events:auto;position:relative;cursor:not-allowed}
 .game-card.maintenance img{filter:grayscale(1) brightness(.6)}
 .game-card.maintenance .game-fav,.game-card.maintenance .game-type,.game-card.maintenance .game-multiplier{opacity:.3}
 .game-maintenance{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);color:#fff;font-size:12px;font-weight:700;z-index:5;border-radius:0;letter-spacing:2px}
