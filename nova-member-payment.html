@@ -150,8 +150,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group" data-rule="nickname"><label>暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋暱稱"></div><div class="filter-error"></div></div>
       <div class="filter-group" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="搜尋會員帳號"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">全部</option><option value="VIP1">VIP1</option><option value="VIP2">VIP2</option><option value="VIP3">VIP3</option><option value="VIP4">VIP4</option><option value="VIP5">VIP5</option></select></div></div>
-      <div class="filter-group" data-rule="date"><label>申請時間(起)</label><div class="filter-input"><input type="text" placeholder="選擇日期"></div><div class="filter-error"></div></div>
-      <div class="filter-group" data-rule="date"><label>申請時間(訖)</label><div class="filter-input"><input type="text" placeholder="選擇日期"></div><div class="filter-error"></div></div>
+      <div class="filter-group filter-wide" data-rule="date"><label>申請時間</label><div class="filter-input"><input type="text" placeholder="開始日期 ~ 結束日期"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>支付類型</label><div class="filter-input"><select><option value="">全部</option><option value="儲值">儲值</option><option value="提領">提領</option></select></div></div>
       <div class="filter-group"><label>付款方式</label><div class="filter-input"><select><option value="">全部</option><option value="信用卡">信用卡</option><option value="超商">超商</option><option value="轉帳">轉帳</option><option value="LINE Pay">LINE Pay</option></select></div></div>
       <div class="filter-group"><label>訂單狀態</label><div class="filter-input"><select><option value="">全部</option><option value="成功">成功</option><option value="失敗">失敗</option><option value="處理中">處理中</option><option value="取消">取消</option></select></div></div>
@@ -188,51 +187,61 @@ document.addEventListener('click',function(e){const u=document.querySelector('.s
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 
 // Field validation
-function validateSearch() {
+document.querySelector('.btn-search')?.addEventListener('click', function(e) {
   let valid = true;
-  document.querySelectorAll('.filter-group.has-error').forEach(el => el.classList.remove('has-error'));
-  
+  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
   document.querySelectorAll('.filter-group[data-rule]').forEach(group => {
     const rule = group.dataset.rule;
     const input = group.querySelector('input');
     if (!input) return;
     const val = input.value.trim();
-    if (!val) return; // empty is ok (optional)
-    
+    if (!val) return;
     let errorMsg = '';
     switch(rule) {
       case 'account':
-        if (!/^[a-zA-Z0-9_]{3,20}$/.test(val)) errorMsg = '3~20字元，僅限英數字及底線';
+        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
+        for (const acc of accounts) {
+          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
+        }
         break;
       case 'nickname':
-        if (val.length < 2 || val.length > 16) errorMsg = '2~16字元';
+        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
         break;
       case 'order':
-        if (!/^[a-zA-Z0-9]{6,20}$/.test(val)) errorMsg = '6~20字元，僅限英數字';
+        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
+        break;
+      case 'phone':
+        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
         break;
       case 'date':
-        const m = val.match(/^(\d{4}-\d{2}-\d{2})\s*~\s*(\d{4}-\d{2}-\d{2})$/);
-        if (!m) { errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD'; }
-        else if (m[1] > m[2]) { errorMsg = '起始日不可大於結束日'; }
+        if (val.includes('~')) {
+          const parts = val.split('~').map(s => s.trim());
+          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
+          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
+          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
+        } else {
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
+        }
         break;
       case 'keyword':
-        if (val.length < 2) errorMsg = '至少輸入2個字元';
+        if (val.length < 1) errorMsg = '請輸入搜尋內容';
+        break;
+      case 'amount':
+        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
         break;
     }
     if (errorMsg) {
       valid = false;
-      group.classList.add('has-error');
       const errEl = group.querySelector('.filter-error');
       if (errEl) errEl.textContent = errorMsg;
     }
   });
-  return valid;
-}
-
-document.querySelector('.btn-search')?.addEventListener('click', function(e) {
-  if (!validateSearch()) e.preventDefault();
 });
-
+document.querySelector('.btn-reset')?.addEventListener('click', function() {
+  document.querySelectorAll('.filter-group input').forEach(i => i.value = '');
+  document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
+  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
+});
 </script>
 </body>
 </html>
