@@ -92,6 +92,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-maint{background:#FEF3C7;color:#92400E}
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+/* UX Enhancements */
+.page-header .btn-export{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff;margin-left:auto;position:relative}
+.page-header .btn-export:hover{background:#F3F4F6}
+.page-header .btn-export:disabled{opacity:.5;cursor:not-allowed}
+.page-header .btn-export .tooltip{display:none;position:absolute;top:calc(100% + 6px);right:0;background:#1F2937;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100}
+.page-header .btn-export:disabled:hover .tooltip{display:block}
+.filter-tags{display:none;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filter-tags.has-tags{display:flex}
+.filter-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:14px;font-size:12px;color:#4338CA;cursor:default}
+.filter-tag .tag-close{cursor:pointer;color:#6366F1;font-size:14px;line-height:1}
+.filter-tag .tag-close:hover{color:#4338CA}
+.filter-tags-clear{font-size:12px;color:#6B7280;cursor:pointer;padding:4px 8px;border-radius:4px}
+.filter-tags-clear:hover{background:#F3F4F6;color:#374151}
+.data-table th{cursor:pointer;user-select:none;position:relative}
+.data-table th:hover{background:#EEEEEE}
+.data-table th .sort-icon{display:inline-block;margin-left:4px;font-size:10px;color:#9CA3AF}
+.data-table th.sort-asc .sort-icon{color:#4338CA}
+.data-table th.sort-desc .sort-icon{color:#4338CA}
+.data-table td.td-id{cursor:pointer;position:relative}
+.data-table td.td-id:hover{color:#4338CA}
+.data-table td.td-id .copy-tip{display:none;position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap}
+.data-table td.td-id.copied .copy-tip{display:block}
+.data-table tr.row-expanded{background:#F9FAFB}
+.row-detail{display:none;background:#F9FAFB}
+.row-detail.show{display:table-row}
+.row-detail td{padding:12px 14px;font-size:12px;color:#6B7280;border-bottom:1px solid #E5E7EB}
+.row-detail-inner{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 24px}
+.row-detail-item{display:flex;flex-direction:column;gap:2px}
+.row-detail-item .label{font-size:11px;color:#9CA3AF}
+.row-detail-item .value{font-size:13px;color:#374151}
+.skeleton{background:linear-gradient(90deg,#F3F4F6 25%,#E5E7EB 50%,#F3F4F6 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px;height:14px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.page-size-select{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}
+.page-size-select select{border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px;background:#fff}
 
 
 .sidebar-user{position:relative;cursor:pointer}
@@ -171,7 +205,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg><h1>交易紀錄查詢</h1></div>
+    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg><h1>交易紀錄查詢</h1><button class="btn-export" disabled><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表<span class="tooltip">請先搜尋資料後再匯出</span></button></div>
     <div class="filter-card">
       <div class="filter-group" data-rule="keyword"><label>帳號或暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋帳號或暱稱"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>交易類型</label><div class="filter-input"><select><option value="">全部</option><option value="儲值">儲值</option><option value="提領">提領</option><option value="轉帳">轉帳</option><option value="紅包">紅包</option><option value="獎勵">獎勵</option></select></div></div>
@@ -200,12 +234,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <button class="btn-reset">重置</button></div>
 
     </div>
-    <div class="pagination-bar"><span>共 3,218 筆交易</span></div>
-    <table class="data-table"><thead><tr><th>交易編號</th><th>帳號</th><th>類型</th><th>金額</th><th>餘額</th><th>狀態</th><th>時間</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">TXN20260505001</td><td>User586499</td><td>儲值</td><td style="color:#16a34a">+$1,000</td><td>$1,246,800</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 10:22</td></tr>
-      <tr><td style="font-weight:500">TXN20260505002</td><td>User738201</td><td>提領</td><td style="color:#dc2626">-$50,000</td><td>$8,870,100</td><td><span class="status-badge status-maint">審核中</span></td><td style="color:#6B7280">2026-05-05 09:30</td></tr>
-      <tr><td style="font-weight:500">TXN20260505003</td><td>User901234</td><td>轉帳</td><td style="color:#dc2626">-$5,000</td><td>$315,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 08:45</td></tr>
-      <tr><td style="font-weight:500">TXN20260504004</td><td>User667788</td><td>贈送</td><td style="color:#16a34a">+$500</td><td>$5,100,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-04 22:10</td></tr>
+    <div class="filter-tags" id="filterTags"></div>
+    <div class="pagination-bar"><span>共 3,218 筆交易</span><div class="page-size-select">每頁顯示 <select id="pageSize"><option>20</option><option>50</option><option>100</option></select> 筆</div></div>
+    <table class="data-table"><thead><tr><th data-col="id">交易編號<span class="sort-icon">⇅</span></th><th data-col="account">帳號<span class="sort-icon">⇅</span></th><th data-col="type">類型<span class="sort-icon">⇅</span></th><th data-col="amount">金額<span class="sort-icon">⇅</span></th><th data-col="balance">餘額<span class="sort-icon">⇅</span></th><th data-col="status">狀態<span class="sort-icon">⇅</span></th><th data-col="time">時間<span class="sort-icon">⇅</span></th></tr></thead><tbody>
+      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505001<span class="copy-tip">已複製</span></td><td>User586499</td><td>儲值</td><td style="color:#16a34a">+$1,000</td><td>$1,246,800</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 10:22</td></tr>
+      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505001</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP3</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">三方支付-LinePay</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">203.69.xx.xx</span></div></div></td></tr>
+      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505002<span class="copy-tip">已複製</span></td><td>User738201</td><td>提領</td><td style="color:#dc2626">-$50,000</td><td>$8,870,100</td><td><span class="status-badge status-maint">審核中</span></td><td style="color:#6B7280">2026-05-05 09:30</td></tr>
+      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505002</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP5</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">銀行轉帳-中國信託</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">待審核</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">114.32.xx.xx</span></div></div></td></tr>
+      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505003<span class="copy-tip">已複製</span></td><td>User901234</td><td>轉帳</td><td style="color:#dc2626">-$5,000</td><td>$315,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 08:45</td></tr>
+      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505003</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP2</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">星幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">轉帳至 User445566</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">61.220.xx.xx</span></div></div></td></tr>
+      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260504004<span class="copy-tip">已複製</span></td><td>User667788</td><td>贈送</td><td style="color:#16a34a">+$500</td><td>$5,100,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-04 22:10</td></tr>
+      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260504004</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP1</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">紅包領取</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">220.135.xx.xx</span></div></div></td></tr>
     </tbody></table>
   </div>
 </div>
@@ -395,6 +434,84 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     document.querySelectorAll('.date-picker-panel.show').forEach(p=>p.classList.remove('show'));
   });
 })();
+
+// Enter key triggers search
+document.querySelectorAll('.filter-card input[type="text"]').forEach(input=>{
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('.btn-search')?.click();}});
+});
+
+// Click row to expand detail
+document.querySelectorAll('.data-row').forEach(row=>{
+  row.style.cursor='pointer';
+  row.addEventListener('click',e=>{
+    if(e.target.closest('.td-id'))return;
+    const detail=row.nextElementSibling;
+    if(detail&&detail.classList.contains('row-detail')){
+      detail.classList.toggle('show');
+      row.classList.toggle('row-expanded');
+    }
+  });
+});
+
+// Click ID to copy
+document.querySelectorAll('.td-id').forEach(td=>{
+  td.addEventListener('click',e=>{
+    e.stopPropagation();
+    const text=td.childNodes[0].textContent.trim();
+    navigator.clipboard.writeText(text).then(()=>{
+      td.classList.add('copied');
+      setTimeout(()=>td.classList.remove('copied'),1500);
+    });
+  });
+});
+
+// Sort columns
+document.querySelectorAll('.data-table th[data-col]').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const wasAsc=th.classList.contains('sort-asc');
+    document.querySelectorAll('.data-table th').forEach(h=>{h.classList.remove('sort-asc','sort-desc');h.querySelector('.sort-icon').textContent='⇅';});
+    if(wasAsc){th.classList.add('sort-desc');th.querySelector('.sort-icon').textContent='↓';}
+    else{th.classList.add('sort-asc');th.querySelector('.sort-icon').textContent='↑';}
+  });
+});
+
+// Filter tags
+document.querySelector('.btn-search')?.addEventListener('click',function(){
+  const tagsDiv=document.getElementById('filterTags');
+  tagsDiv.innerHTML='';
+  let hasTags=false;
+  document.querySelectorAll('.filter-card .filter-group').forEach(g=>{
+    const label=g.querySelector('label');
+    const input=g.querySelector('input[type="text"]');
+    const select=g.querySelector('select');
+    const dateDisplay=g.querySelector('.date-display');
+    let val='',fieldName=label?label.textContent:'';
+    if(input&&input.value.trim())val=input.value.trim();
+    else if(select&&select.selectedIndex>0)val=select.options[select.selectedIndex].text;
+    else if(dateDisplay&&dateDisplay.textContent!=='選擇日期範圍')val=dateDisplay.textContent;
+    if(!val)return;
+    hasTags=true;
+    const tag=document.createElement('span');
+    tag.className='filter-tag';
+    tag.innerHTML=fieldName+': '+val+' <span class="tag-close">✕</span>';
+    tag.querySelector('.tag-close').addEventListener('click',()=>{
+      if(input)input.value='';
+      if(select)select.selectedIndex=0;
+      if(dateDisplay)dateDisplay.textContent='選擇日期範圍';
+      tag.remove();
+      if(!tagsDiv.querySelector('.filter-tag'))tagsDiv.classList.remove('has-tags');
+    });
+    tagsDiv.appendChild(tag);
+  });
+  if(hasTags){
+    tagsDiv.classList.add('has-tags');
+    const clear=document.createElement('span');
+    clear.className='filter-tags-clear';
+    clear.textContent='清除全部';
+    clear.addEventListener('click',()=>{document.querySelector('.btn-reset')?.click();tagsDiv.innerHTML='';tagsDiv.classList.remove('has-tags');});
+    tagsDiv.appendChild(clear);
+  }else{tagsDiv.classList.remove('has-tags');}
+});
 
 </script>
 </body>
