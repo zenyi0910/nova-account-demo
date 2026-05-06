@@ -55,8 +55,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
-.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
-.filter-group{display:flex;flex-direction:column;gap:4px}
+.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.filter-actions{margin-left:auto;display:flex;gap:8px;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px;max-width:220px}
 .filter-group label{font-size:11px;font-weight:500;color:#6B7280}
 .filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:160px}
 .filter-input svg{width:14px;height:14px;color:#9CA3AF;flex-shrink:0}
@@ -118,7 +119,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .main{margin-left:0}
 .topbar{padding:0 12px}
 .content{padding:12px}
-.filter-card{flex-direction:column;align-items:stretch}
+.filter-card{flex-direction:column;}
+.filter-group{max-width:100%}
+.filter-actions{margin-left:0;width:100%;justify-content:flex-start}
 .filter-group{width:100%}
 .filter-input{width:100%}
 .data-table{display:block;overflow-x:auto;white-space:nowrap}
@@ -142,8 +145,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group"><label>帳號</label><div class="filter-input"><input type="text" placeholder="輸入帳號"></div></div>
       <div class="filter-group"><label>遊戲</label><div class="filter-input"><select><option value="">全部</option><option>百家樂</option><option>老虎機</option><option>德州撲克</option><option>骰寶</option></select></div></div>
       <div class="filter-group"><label>日期</label><div class="filter-input"><input type="text" placeholder="2026-05-01 ~ 2026-05-05"></div></div>
-      <button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-      <button class="btn-reset">重置</button>
+      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
+      <button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span>共 5,432 筆投注</span></div>
     <table class="data-table"><thead><tr><th>注單編號</th><th>帳號</th><th>遊戲</th><th>投注金額</th><th>派彩金額</th><th>結果</th><th>時間</th></tr></thead><tbody>
