@@ -70,11 +70,14 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#f87171;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .main-wrap{padding-top:50px;padding-bottom:70px;overflow-x:hidden}
 .subpage-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:flex;align-items:center;justify-content:center}
+.subpage-overlay.from-left{align-items:stretch;justify-content:flex-start}
+.subpage-overlay.from-left .subpage-dialog{max-width:85vw;width:340px;height:100dvh;border-radius:0 24px 24px 0;border:none;border-right:6px solid #f4b63f;animation:slideRight .3s ease}
 .subpage-dialog{width:100%;max-width:393px;height:100dvh;max-height:100dvh;background:#fafafa;border-radius:24px;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:80px;border:6px solid #f4b63f;box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
 .subpage-bottom-close{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:110;text-align:center}
 .subpage-bottom-close button{width:60px;height:60px;border-radius:50%;background:#fafafa;border:none;color:#452201;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48);display:flex;align-items:center;justify-content:center}
 .subpage-bottom-close button::after{content:'✕';font-size:18px}
 @keyframes slideUp{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideRight{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 .subpage-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa}
 .subpage-header h2{color:#452201;font-size:18px;font-weight:700}
 .subpage-close{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;cursor:pointer}

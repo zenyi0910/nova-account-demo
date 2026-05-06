@@ -123,14 +123,33 @@
 </div>
 
 <script>
-function closeDrawer(e){document.getElementById('drawer-overlay').style.display='none';}
+function closeDrawer(e){const el=document.getElementById('drawer-overlay');el.style.display='none';el.classList.remove('from-left');}
 function showSubpage(page){
   const el=document.getElementById('drawer-overlay');
   const content=document.getElementById('drawer-content');
+  el.classList.remove('from-left');
+  if(page==='profile'){el.classList.add('from-left');}
   content.innerHTML=drawerPages[page]||'';
   el.style.display='flex';
+  if(page==='profile'){bindProfileTabs();}
 }
 function showProfile(){showSubpage('profile');}
+function bindProfileTabs(){
+  const tabs=document.querySelectorAll('#drawer-content .subpage-tabs button');
+  tabs.forEach(btn=>{btn.addEventListener('click',function(){
+    tabs.forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    const tabName=this.textContent.trim();
+    const panel=document.getElementById('profile-tab-panel');
+    if(panel) panel.innerHTML=profileTabContent[tabName]||profileTabContent['我的'];
+  });});
+}
+const profileTabContent={
+  '我的':'<div class="profile-panel"><div class="profile-card"><div class="profile-avatar"><img src="assets/user_avatar.png" alt="avatar"></div><div class="profile-name">QAtest5</div><div class="profile-vip">VIP3</div></div><ul class="profile-menu"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>改暱稱</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4A.7.7 0 0 0 11 19.3z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.7"/></svg>大聲公</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>VIP說明</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>綁定門號</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>個人簡介</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>成就系統</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>星鑽卡</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>登出</li></ul></div>',
+  '存摺':'<div style="padding:16px"><h3 style="font-size:14px;color:#452201;margin-bottom:12px">交易紀錄</h3><div style="border-bottom:1px solid #eee;padding:10px 0;display:flex;justify-content:space-between"><span style="color:#99724a;font-size:13px">2026/05/05 儲值</span><span style="color:#10b981;font-weight:600">+50,000</span></div><div style="border-bottom:1px solid #eee;padding:10px 0;display:flex;justify-content:space-between"><span style="color:#99724a;font-size:13px">2026/05/04 遊戲</span><span style="color:#dc2626;font-weight:600">-12,300</span></div><div style="border-bottom:1px solid #eee;padding:10px 0;display:flex;justify-content:space-between"><span style="color:#99724a;font-size:13px">2026/05/03 贈禮收入</span><span style="color:#10b981;font-weight:600">+5,000</span></div><div style="padding:10px 0;display:flex;justify-content:space-between"><span style="color:#99724a;font-size:13px">2026/05/02 遊戲</span><span style="color:#dc2626;font-weight:600">-35,241</span></div></div>',
+  '信箱':'<div style="padding:16px"><h3 style="font-size:14px;color:#452201;margin-bottom:12px">系統通知</h3><div style="background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px;margin-bottom:8px"><div style="font-size:13px;font-weight:600;color:#452201">🎉 VIP 升級通知</div><div style="font-size:12px;color:#99724a;margin-top:4px">恭喜您升級為 VIP3！享有更多專屬福利。</div><div style="font-size:11px;color:#ccc;margin-top:4px">2026/05/05 10:30</div></div><div style="background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px;margin-bottom:8px"><div style="font-size:13px;font-weight:600;color:#452201">📢 系統維護公告</div><div style="font-size:12px;color:#99724a;margin-top:4px">5/7 凌晨 02:00-04:00 進行例行維護。</div><div style="font-size:11px;color:#ccc;margin-top:4px">2026/05/04 18:00</div></div><div style="background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:12px"><div style="font-size:13px;font-weight:600;color:#452201">🎁 紅包已到帳</div><div style="font-size:12px;color:#99724a;margin-top:4px">您領取了公會紅包 1,000 金幣。</div><div style="font-size:11px;color:#ccc;margin-top:4px">2026/05/03 14:22</div></div></div>',
+  '好友':'<div style="padding:16px"><h3 style="font-size:14px;color:#452201;margin-bottom:12px">好友列表</h3><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><div style="width:36px;height:36px;border-radius:50%;background:#e5e7eb"></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#452201">Wayne</div><div style="font-size:11px;color:#99724a">在線</div></div><button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:12px;padding:4px 10px;font-size:11px">私聊</button></div><div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><div style="width:36px;height:36px;border-radius:50%;background:#e5e7eb"></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#452201">Cloud001</div><div style="font-size:11px;color:#99724a">離線 2小時前</div></div><button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:12px;padding:4px 10px;font-size:11px">私聊</button></div><div style="display:flex;align-items:center;gap:10px;padding:10px 0"><div style="width:36px;height:36px;border-radius:50%;background:#e5e7eb"></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#452201">QAtest6改改</div><div style="font-size:11px;color:#99724a">在線</div></div><button style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:12px;padding:4px 10px;font-size:11px">私聊</button></div></div>'
+};
 
 const drawerPages={
   chat:`<div class="subpage-header"><h2>聊天室</h2></div>
@@ -213,7 +232,7 @@ const drawerPages={
 
   profile:`<div class="subpage-header"><h2>我的</h2></div>
 <div class="subpage-tabs"><button class="active">我的</button><button>存摺</button><button>信箱</button><button>好友</button></div>
-<div class="profile-panel">
+<div id="profile-tab-panel"><div class="profile-panel">
 <div class="profile-card"><div class="profile-avatar"><img src="assets/user_avatar.png" alt="avatar"></div><div class="profile-name">QAtest5</div><div class="profile-vip">VIP3</div></div>
 <ul class="profile-menu">
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>改暱稱</li>
@@ -224,7 +243,7 @@ const drawerPages={
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>成就系統</li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>星鑽卡</li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>登出</li>
-</ul></div>`
+</ul></div></div>`
 };
 
 function switchChatTab(btn,tab){
