@@ -50,9 +50,9 @@
 
 <div class="tabs-section">
 <div class="tabs-list">
-<button class="tab-btn active">全部</button>
-<button class="tab-btn">最愛</button>
-<button class="tab-btn">電動</button>
+<button class="tab-btn active" onclick="switchGameTab(this,'all')">全部</button>
+<button class="tab-btn" onclick="switchGameTab(this,'fav')">最愛</button>
+<button class="tab-btn" onclick="switchGameTab(this,'slot')">電動</button>
 <button class="tab-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
 </div>
 </div>
@@ -139,7 +139,7 @@ function bindProfileTabs(){
   tabs.forEach(btn=>{btn.addEventListener('click',function(){
     tabs.forEach(b=>b.classList.remove('active'));
     this.classList.add('active');
-    const tabName=this.textContent.trim();
+    const tabName=this.childNodes[0].textContent.trim();
     const panel=document.getElementById('profile-tab-panel');
     if(panel) panel.innerHTML=profileTabContent[tabName]||profileTabContent['我的'];
   });});
@@ -244,6 +244,19 @@ const drawerPages={
 </div></div>`
 };
 
+function switchGameTab(btn,tab){
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const games=document.querySelectorAll('.game-section .game-card, .recommend-section');
+  if(tab==='all'){games.forEach(g=>g.style.display='');}
+  else if(tab==='fav'){
+    document.querySelector('.recommend-section').style.display='none';
+    document.querySelectorAll('.game-section .game-card').forEach((g,i)=>g.style.display=i<4?'':'none');
+  } else if(tab==='slot'){
+    document.querySelector('.recommend-section').style.display='';
+    document.querySelectorAll('.game-section .game-card').forEach(g=>g.style.display='');
+  }
+}
 function switchChatTab(btn,tab){
   btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');

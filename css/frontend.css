@@ -1,10 +1,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow-x:hidden;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";background:#FFFDE7;max-width:100vw}
 .mobile-frame{width:100%;max-width:430px;margin:0 auto;position:relative;min-height:100vh;background:#FFFDE7;overflow-x:hidden}
-@media(max-width:430px){html,body{background:#FFFDE7}.mobile-frame{max-width:none}}
+@media(max-width:430px){html,body{background:#FFFDE7}.mobile-frame{max-width:none}.header,.footer-fixed,.chat-bubble{left:0;transform:none;max-width:none;width:100%}.chat-bubble{left:auto;right:12px;width:52px}}
 img{display:block;max-width:100%;user-select:none;-webkit-user-drag:none}
 button{border:none;background:none;cursor:pointer;font:inherit}
-.header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:393px;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:50px;background:linear-gradient(to bottom,rgba(0,0,0,.6),transparent);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
 .header-left{display:flex;align-items:center;gap:6px}
 .avatar{width:36px;height:36px;border-radius:50%;border:2px solid #f4b63f;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.3);flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover;background:#94a3b8}
@@ -21,7 +21,7 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .coin-refresh svg{width:12px;height:12px;color:rgba(255,255,255,.8)}
 .settings-btn{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
 .settings-btn svg{color:#fff;width:18px;height:18px}
-.banner-section{position:relative;width:394px;max-width:100%;height:200px;overflow:hidden;border-radius:0}
+.banner-section{position:relative;width:100%;height:200px;overflow:hidden;border-radius:0}
 .banner-track{display:flex;width:200%;height:100%;animation:bannerSlide 8s infinite}
 @keyframes bannerSlide{0%,40%{transform:translateX(0)}50%,90%{transform:translateX(-50%)}100%{transform:translateX(0)}}
 .banner-slide{width:50%;height:100%;flex-shrink:0;position:relative}
@@ -51,21 +51,22 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .section-label{display:flex;justify-content:center;margin-bottom:12px}
 .section-badge{background:#991b1b;color:#fff;font-size:12px;font-weight:600;padding:4px 14px;border-radius:12px}
 .game-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.game-card{position:relative;border-radius:0;overflow:hidden;width:93px;height:93px;cursor:pointer;transition:transform .15s}
+.game-card{position:relative;border-radius:0;overflow:hidden;width:100%;height:0;padding-bottom:100%;cursor:pointer;transition:transform .15s}
+.game-card img{position:absolute;inset:0}
 .game-card:active{transform:scale(.95)}
 .game-card img{width:100%;height:100%;object-fit:cover;pointer-events:none;transform:translateZ(0)}
 .game-card::after{content:'';position:absolute;inset:0;border-radius:0;pointer-events:none}
 .game-multiplier{position:absolute;top:4px;left:4px;background:rgba(0,0,0,.6);color:#fbbf24;font-size:9px;font-weight:700;padding:2px 5px;border-radius:6px;z-index:2}
 .game-players{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;font-weight:700;color:#fff;padding:2px 0;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.7));border-radius:0;z-index:2}
 .game-badge{position:absolute;top:0;right:-2px;width:18px;height:18px;border-radius:50%;box-shadow:inset -2px -3px 2px rgba(0,0,0,.2),inset 1px 2px 1px rgba(255,253,247,1);z-index:3}
-.footer-fixed{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:393px;height:70px;z-index:40;background:transparent}
+.footer-fixed{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:70px;z-index:40;background:transparent}
 .footer-inner{width:100%;height:100%;display:flex;align-items:flex-end;padding:0 16px 12px;background-position:center bottom;background-size:contain;background-repeat:repeat-x}
 .footer-btn{flex:1 1 0%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;height:36px;background:none;border:none;cursor:pointer;position:relative}
 .footer-btn span{font-size:14px;font-weight:500;color:#fff}
 .footer-icon{width:16px;height:16px;object-fit:contain}
 .footer-btn-store{overflow:visible}
 .footer-icon-store{width:104px;height:71px;object-fit:contain;position:absolute;bottom:8px}
-.chat-bubble{position:fixed;right:calc(50% - 207px);bottom:84px;width:52px;height:52px;border-radius:50%;background:#fafafa;box-shadow:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#452201;font-size:9px;z-index:45;cursor:pointer}
+.chat-bubble{position:fixed;right:12px;bottom:84px;width:52px;height:52px;border-radius:50%;background:#fafafa;box-shadow:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#452201;font-size:9px;z-index:45;cursor:pointer}
 .chat-bubble svg{width:20px;height:20px}
 .chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#f87171;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .main-wrap{padding-top:50px;padding-bottom:70px;overflow-x:hidden}
@@ -129,8 +130,8 @@ button{border:none;background:none;cursor:pointer;font:inherit}
 .profile-menu li{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.06);color:#452201;font-size:14px;cursor:pointer}
 .profile-menu li svg{width:18px;height:18px;color:rgba(69,34,1,.4)}
 /* 其他 popup menu */
-.other-popup-menu{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:128px;background:#fff8e4;border:4px solid #8b2500;border-radius:14px 14px 0 0;padding:4px;z-index:150;box-shadow:0 4px 20px rgba(0,0,0,.15);animation:popUp .2s ease}
-@keyframes popUp{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.other-popup-menu{position:fixed;bottom:70px;left:16px;width:128px;background:#fff8e4;border:4px solid #8b2500;border-radius:14px 14px 0 0;padding:4px;z-index:150;box-shadow:0 4px 20px rgba(0,0,0,.15);animation:popUp .2s ease}
+@keyframes popUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .other-popup-menu button{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;border:none;background:none;color:#452201;font-size:14px;font-weight:500;border-radius:8px;cursor:pointer;transition:background .15s}
 .other-popup-menu button:hover{background:rgba(255,255,255,.1)}
 .other-popup-menu button svg{color:#d97706;flex-shrink:0}
