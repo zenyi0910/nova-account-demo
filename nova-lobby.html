@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>星運娛樂城</title>
-<link rel="stylesheet" href="css/frontend.css?v=b7d2e44">
+<link rel="stylesheet" href="css/frontend.css?v=c9e1f55">
 </head>
 <body>
 <div class="mobile-frame">
 <header class="header">
-<div class="header-left">
+<div class="header-left" onclick="showProfile()" style="cursor:pointer">
 <div class="avatar"><img src="assets/user_avatar.png" alt="avatar"></div>
 <div class="user-info">
 <span class="username">QAtest5</span>
@@ -18,7 +18,7 @@
 <span class="badge-vip">VIP3</span>
 </div></div></div>
 <div class="header-right">
-<div class="coin-display">
+<div class="coin-display" onclick="showSubpage('store')" style="cursor:pointer">
 <div class="coin-icon"><img src="assets/icon_coin_gold.png" alt="coin"></div>
 <div class="coin-amount"><span>7,459</span><span class="coin-refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></span></div>
 </div>
@@ -50,15 +50,28 @@
 
 <div class="tabs-section">
 <div class="tabs-list">
-<button class="tab-btn active">全部</button>
-<button class="tab-btn">最愛</button>
-<button class="tab-btn">電動</button>
-<button class="tab-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+<button class="tab-btn active" onclick="switchGameTab(this,'all')">全部</button>
+<button class="tab-btn" onclick="switchGameTab(this,'fav')">最愛</button>
+<button class="tab-btn" onclick="switchGameTab(this,'slot')">電動</button>
+<button class="tab-btn" onclick="switchGameTab(this,'arcade')">街機</button>
+<button class="tab-btn" onclick="switchGameTab(this,'chess')">棋牌</button>
+<button class="tab-btn" onclick="switchGameTab(this,'jackpot')">獎池</button>
+<button class="tab-btn" onclick="toggleSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
 </div>
 </div>
 
+<!-- 搜尋框 -->
+<div id="search-bar" class="search-bar" style="display:none">
+<input type="text" id="game-search-input" placeholder="搜尋遊戲名稱..." oninput="filterGames(this.value)">
+<button onclick="toggleSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</div>
+
 <section class="recommend-section">
-<div class="recommend-card" style="background:url('assets/recommend_bg.png') center/cover">
+<div class="recommend-toggle">
+<button class="recommend-tab active" onclick="switchRecommend(this,'popular')">最受歡迎</button>
+<button class="recommend-tab" onclick="switchRecommend(this,'jackpot')">近期爆獎</button>
+</div>
+<div id="recommend-popular" class="recommend-card" style="background:url('assets/recommend_bg.png') center/cover">
 <div class="recommend-header" style="background:url('assets/recommend_header.png') center/contain no-repeat;width:200px;height:60px"><p style="margin-top:16px">最受歡迎</p></div>
 <div class="recommend-grid">
 <div class="game-card"><div class="game-multiplier">10000x</div><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"><div class="game-players">1384人</div></div>
@@ -69,30 +82,41 @@
 <div class="game-card"><div class="game-multiplier">5000x</div><img src="images/57b7c6a41eb37660dc1d2a5e7cb06dd4d5371775079cf1f5d35761b2f7893d9b.webp" alt="Sugar Rush"><div class="game-players">256人</div></div>
 </div>
 </div>
+<div id="recommend-jackpot" class="recommend-card" style="background:url('assets/recommend_bg.png') center/cover;display:none">
+<div class="recommend-header" style="background:url('assets/recommend_header.png') center/contain no-repeat;width:200px;height:60px"><p style="margin-top:16px">近期爆獎</p></div>
+<div class="recommend-grid">
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">25000x</div><img src="images/8b98bbdd3cba438318bc2fc6a3219ad71e2544f5e06deb1cc45e301b97f65816.webp" alt="印加女神"><div class="game-players">爆獎</div></div>
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">10000x</div><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"><div class="game-players">爆獎</div></div>
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">15000x</div><img src="images/f3f7d2a82414c4b6df37c643d3868b4f557462f06b25d120bcdfd47897155fd2.webp" alt="自摸無雙3"><div class="game-players">爆獎</div></div>
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">10000x</div><img src="images/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="棒能麒麟"><div class="game-players">爆獎</div></div>
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">10000x</div><img src="images/9a13b288374ccace4804774686086fde51529a412bc6d7fdaff02be5ae66373d.webp" alt="自摸財神"><div class="game-players">爆獎</div></div>
+<div class="game-card"><div class="game-multiplier" style="background:rgba(220,38,38,.8)">5000x</div><img src="images/a32f5867b8a23a38ae63ba9d1490e29e8209866a62b41cf644d29dbb8c26f9c9.webp" alt="聚寶花樣春"><div class="game-players">爆獎</div></div>
+</div>
+</div>
 </section>
 
 <section class="game-section">
 <div class="section-label"><span class="section-badge">全部遊戲</span></div>
-<div class="game-grid">
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"></div>
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="財富金幣"></div>
-<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="甜蜜聖誕"></div>
-<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"></div>
-<div class="game-card"><div class="game-multiplier">3000x</div><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="自摸無雙2"></div>
-<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/57b7c6a41eb37660dc1d2a5e7cb06dd4d5371775079cf1f5d35761b2f7893d9b.webp" alt="Sugar Rush"></div>
-<div class="game-card"><div class="game-multiplier">1000x</div><img src="images/6137d8f0ed12834c249d136bb60abfe7a8cc230d0f5754b2444626057e78d902.webp" alt="金龍888"></div>
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/80c20d6cb0c3df316e878b1bea9d580a48564587d6e137882c18df371e69a1ea.webp" alt="法老祕寶"></div>
-<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/8b200f4916581229a627da67932e96942f3ecf8ce46b0de750021fe82be032b4.webp" alt="阿茲特克神話"></div>
-<div class="game-card"><div class="game-multiplier">25000x</div><img src="images/8b98bbdd3cba438318bc2fc6a3219ad71e2544f5e06deb1cc45e301b97f65816.webp" alt="印加女神"></div>
-<div class="game-card"><div class="game-multiplier">1000x</div><img src="images/91f787e50af0ca789c99c757b8c2b9303e622e13d1e35a7758c4fa7da5e12fad.webp" alt="祖瑪探險"></div>
-<div class="game-card"><div class="game-multiplier">2250x</div><img src="images/994bb2c17c48df1bd4b99211749226fcbdbf8e2858078c1ac4f3dc96ebfd5b93.webp" alt="龍族傳說3"></div>
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/9a13b288374ccace4804774686086fde51529a412bc6d7fdaff02be5ae66373d.webp" alt="自摸財神"></div>
-<div class="game-card"><div class="game-multiplier">5000x</div><img src="images/a32f5867b8a23a38ae63ba9d1490e29e8209866a62b41cf644d29dbb8c26f9c9.webp" alt="聚寶花樣春"></div>
-<div class="game-card"><div class="game-multiplier">3000x</div><img src="images/c2b9c84c8ca4808285b36cc1b047bd7013997667a2b13be188c24208afaa3ce2.webp" alt="福來臨"></div>
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="棒能麒麟"></div>
-<div class="game-card"><div class="game-multiplier">4096x</div><img src="images/d022e118fe0f5b5bbf6bfb339caf4c59b36599d5f9fe8692f616e3e080c471ce.webp" alt="財神倍倍發"></div>
-<div class="game-card"><div class="game-multiplier">10000x</div><img src="images/e60ed69bfcc1604ce637388a173ff79daf06fe93a2133e8489370d333584b292.webp" alt="日摸財神"></div>
-<div class="game-card"><div class="game-multiplier">15000x</div><img src="images/f3f7d2a82414c4b6df37c643d3868b4f557462f06b25d120bcdfd47897155fd2.webp" alt="自摸無雙3"></div>
+<div class="game-grid" id="game-grid">
+<div class="game-card" data-cat="slot" data-name="埃及三秘寶"><div class="game-multiplier">10000x</div><span class="game-type hot">熱門</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/0db2dbcc7a0a34b5e57d8db0cd84e6818460f3b5413d4968fc53da9f5a732c41.webp" alt="埃及三秘寶"></div>
+<div class="game-card" data-cat="slot" data-name="財富金幣"><div class="game-multiplier">10000x</div><span class="game-type new">最新</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/20220dcd5eb84e52534a8ab62deeb4458b616226e85b3f7ea452577c95c7e2b0.webp" alt="財富金幣"></div>
+<div class="game-card" data-cat="slot" data-name="甜蜜聖誕"><div class="game-multiplier">5000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/25d3e316ee13c83ba1a097ba05362fb5bbdb06921b5703d09d7cafe5178a765b.webp" alt="甜蜜聖誕"></div>
+<div class="game-card" data-cat="slot" data-name="Gates of Olympus"><div class="game-multiplier">5000x</div><span class="game-type rec">推薦</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/2884e576aa67459abf22e4a1cc13cc26b2427766526ac29577d14f2cd3398c2d.webp" alt="Gates of Olympus"><div class="game-vip">VIP2</div></div>
+<div class="game-card" data-cat="chess" data-name="自摸無雙2"><div class="game-multiplier">3000x</div><span class="game-type hot">熱門</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/38355d78ec63646cf60c284ee10f92c1837f99843813bb18e636bb6ac6a616df.webp" alt="自摸無雙2"></div>
+<div class="game-card" data-cat="slot" data-name="Sugar Rush"><div class="game-multiplier">5000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/57b7c6a41eb37660dc1d2a5e7cb06dd4d5371775079cf1f5d35761b2f7893d9b.webp" alt="Sugar Rush"></div>
+<div class="game-card" data-cat="arcade" data-name="金龍888"><div class="game-multiplier">1000x</div><span class="game-type guild">公會</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/6137d8f0ed12834c249d136bb60abfe7a8cc230d0f5754b2444626057e78d902.webp" alt="金龍888"></div>
+<div class="game-card" data-cat="slot" data-name="法老祕寶"><div class="game-multiplier">10000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/80c20d6cb0c3df316e878b1bea9d580a48564587d6e137882c18df371e69a1ea.webp" alt="法老祕寶"><div class="game-vip">VIP5</div></div>
+<div class="game-card" data-cat="slot" data-name="阿茲特克神話"><div class="game-multiplier">5000x</div><span class="game-type new">最新</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/8b200f4916581229a627da67932e96942f3ecf8ce46b0de750021fe82be032b4.webp" alt="阿茲特克神話"></div>
+<div class="game-card" data-cat="jackpot" data-name="印加女神"><div class="game-multiplier">25000x</div><span class="game-type hot">熱門</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/8b98bbdd3cba438318bc2fc6a3219ad71e2544f5e06deb1cc45e301b97f65816.webp" alt="印加女神"></div>
+<div class="game-card" data-cat="arcade" data-name="祖瑪探險"><div class="game-multiplier">1000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/91f787e50af0ca789c99c757b8c2b9303e622e13d1e35a7758c4fa7da5e12fad.webp" alt="祖瑪探險"></div>
+<div class="game-card" data-cat="slot" data-name="龍族傳說3"><div class="game-multiplier">2250x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/994bb2c17c48df1bd4b99211749226fcbdbf8e2858078c1ac4f3dc96ebfd5b93.webp" alt="龍族傳說3"></div>
+<div class="game-card" data-cat="chess" data-name="自摸財神"><div class="game-multiplier">10000x</div><span class="game-type rec">推薦</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/9a13b288374ccace4804774686086fde51529a412bc6d7fdaff02be5ae66373d.webp" alt="自摸財神"></div>
+<div class="game-card" data-cat="slot" data-name="聚寶花樣春"><div class="game-multiplier">5000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/a32f5867b8a23a38ae63ba9d1490e29e8209866a62b41cf644d29dbb8c26f9c9.webp" alt="聚寶花樣春"></div>
+<div class="game-card" data-cat="slot" data-name="福來臨"><div class="game-multiplier">3000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/c2b9c84c8ca4808285b36cc1b047bd7013997667a2b13be188c24208afaa3ce2.webp" alt="福來臨"></div>
+<div class="game-card" data-cat="jackpot" data-name="棒能麒麟"><div class="game-multiplier">10000x</div><span class="game-type new">最新</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/c9fa578c92fe72f20302ce585a8561510b751b940fa0dc679440f36c9897101f.webp" alt="棒能麒麟"><div class="game-vip">VIP3</div></div>
+<div class="game-card" data-cat="slot" data-name="財神倍倍發"><div class="game-multiplier">4096x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/d022e118fe0f5b5bbf6bfb339caf4c59b36599d5f9fe8692f616e3e080c471ce.webp" alt="財神倍倍發"></div>
+<div class="game-card" data-cat="chess" data-name="日摸財神"><div class="game-multiplier">10000x</div><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/e60ed69bfcc1604ce637388a173ff79daf06fe93a2133e8489370d333584b292.webp" alt="日摸財神"></div>
+<div class="game-card" data-cat="jackpot" data-name="自摸無雙3"><div class="game-multiplier">15000x</div><span class="game-type hot">熱門</span><button class="game-fav" onclick="event.stopPropagation();toggleFav(this)">♡</button><img src="images/f3f7d2a82414c4b6df37c643d3868b4f557462f06b25d120bcdfd47897155fd2.webp" alt="自摸無雙3"></div>
 </div>
 </section>
 </div>
@@ -306,6 +330,52 @@ drawerPages.cs=`<div class="subpage-header"><h2>客服中心</h2></div>
 
 drawerPages.about=`<div class="subpage-header"><h2>關於我們</h2></div>
 <div style="padding:20px 16px;text-align:center"><img src="nova-logo.svg" alt="Nova" style="width:80px;margin:0 auto 16px"><p style="color:#452201;font-size:16px;font-weight:700;margin-bottom:8px">星運娛樂城</p><p style="color:#99724a;font-size:12px;line-height:1.8">版本 v2.1.0<br>© 2025 Nova Entertainment. All rights reserved.</p></div>`;
+
+/* 遊戲搜尋 */
+function toggleSearch(){
+  const bar=document.getElementById('search-bar');
+  bar.style.display=bar.style.display==='none'?'flex':'none';
+  if(bar.style.display==='flex') document.getElementById('game-search-input').focus();
+}
+function filterGames(keyword){
+  const cards=document.querySelectorAll('#game-grid .game-card');
+  const kw=keyword.toLowerCase();
+  cards.forEach(c=>{
+    const name=c.dataset.name.toLowerCase();
+    c.style.display=name.includes(kw)?'':'none';
+  });
+}
+
+/* 遊戲分類切換 */
+function switchGameTab(btn,cat){
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards=document.querySelectorAll('#game-grid .game-card');
+  cards.forEach(c=>{
+    if(cat==='all') c.style.display='';
+    else if(cat==='fav') c.style.display=c.querySelector('.game-fav.active')?'':'none';
+    else c.style.display=c.dataset.cat===cat?'':'none';
+  });
+}
+
+/* 愛心收藏 */
+function toggleFav(btn){
+  btn.classList.toggle('active');
+  btn.textContent=btn.classList.contains('active')?'♥':'♡';
+}
+
+/* 近期爆獎/最受歡迎切換 */
+function switchRecommend(btn,type){
+  btn.parentElement.querySelectorAll('.recommend-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('recommend-popular').style.display=type==='popular'?'':'none';
+  document.getElementById('recommend-jackpot').style.display=type==='jackpot'?'':'none';
+}
+
+/* 道具頁面 */
+drawerPages.props=`<div class="subpage-header"><h2>道具</h2></div>
+<div class="subpage-tabs"><button class="active">我的道具</button><button>道具商城</button></div>
+<div style="padding:16px;text-align:center;color:#99724a;font-size:13px">目前沒有道具</div>`;
 </script>
 </body>
 </html>
