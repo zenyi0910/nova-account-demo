@@ -313,7 +313,13 @@ function toggleOtherMenu(btn){
       <button onclick="showSubpage('props')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>道具</button>
       <button onclick="showSubpage('cs')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M18 18.72a9.1 9.1 0 0 0 3.74-5.46A9 9 0 1 0 12 21a9 9 0 0 0 3.38-.65"/><path d="M12 12h.01"/><path d="M8 12h.01"/><path d="M16 12h.01"/></svg>客服</button>
     `;
-    document.body.appendChild(menu);
+    const footer=btn.closest('.footer-fixed');
+    const btnRect=btn.getBoundingClientRect();
+    const footerRect=footer.getBoundingClientRect();
+    menu.style.left=(btnRect.left-footerRect.left)+'px';
+    menu.style.bottom='100%';
+    footer.style.position='relative';
+    footer.appendChild(menu);
     setTimeout(()=>{document.addEventListener('click',closeOtherMenu,{once:true})},10);
   } else {
     menu.remove();
