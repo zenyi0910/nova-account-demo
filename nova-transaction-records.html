@@ -130,6 +130,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-error{font-size:11px;color:#DC2626;margin-top:3px;display:none}
 .filter-group.has-error .filter-error{display:block}
 .filter-group.has-error .filter-input{border-color:#DC2626}
+
+/* Date Range Picker */
+.date-picker-wrap{position:relative}
+.date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:220px;white-space:nowrap}
+.date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
+.date-picker-trigger:hover{border-color:#3B82F6}
+.date-picker-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:16px;min-width:580px}
+.date-picker-panel.show{display:flex;gap:16px}
+.date-picker-shortcuts{display:flex;flex-direction:column;gap:6px;min-width:120px;border-right:1px solid #E5E7EB;padding-right:12px}
+.date-picker-shortcuts button{text-align:left;background:none;border:1px solid #E5E7EB;border-radius:6px;padding:6px 10px;font-size:12px;color:#374151;cursor:pointer;white-space:nowrap}
+.date-picker-shortcuts button:hover{background:#EFF6FF;border-color:#3B82F6;color:#2563EB}
+.date-picker-shortcuts button .shortcut-range{display:block;font-size:10px;color:#9CA3AF;margin-top:2px}
+.date-picker-calendars{display:flex;gap:12px}
+.date-cal{width:210px}
+.date-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.date-cal-header span{font-size:13px;font-weight:600;color:#1F2937}
+.date-cal-header button{background:none;border:none;cursor:pointer;color:#6B7280;font-size:16px;padding:2px 6px;border-radius:4px}
+.date-cal-header button:hover{background:#F3F4F6}
+.date-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.date-cal-grid .day-header{font-size:11px;color:#9CA3AF;padding:4px 0;font-weight:500}
+.date-cal-grid .day{font-size:12px;padding:5px 0;border-radius:4px;cursor:pointer;color:#374151}
+.date-cal-grid .day:hover{background:#EFF6FF}
+.date-cal-grid .day.other-month{color:#D1D5DB}
+.date-cal-grid .day.in-range{background:#DBEAFE;color:#1E40AF}
+.date-cal-grid .day.range-start,.date-cal-grid .day.range-end{background:#2563EB;color:#fff;border-radius:50%}
+.date-cal-grid .day.today{font-weight:700;box-shadow:inset 0 0 0 1px #3B82F6}
 </style>
 </head>
 <body>
@@ -149,7 +175,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group filter-wide" data-rule="keyword"><label>帳號或暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋帳號或暱稱"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>交易類型</label><div class="filter-input"><select><option value="">全部</option><option value="儲值">儲值</option><option value="提領">提領</option><option value="轉帳">轉帳</option><option value="紅包">紅包</option><option value="獎勵">獎勵</option></select></div></div>
       <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">全部</option><option value="VIP1">VIP1</option><option value="VIP2">VIP2</option><option value="VIP3">VIP3</option><option value="VIP4">VIP4</option><option value="VIP5">VIP5</option></select></div></div>
-      <div class="filter-group filter-wide" data-rule="date"><label>交易時間</label><div class="filter-input"><input type="text" placeholder="開始日期 ~ 結束日期"></div><div class="filter-error"></div></div>
+      <div class="filter-group filter-wide"><label>交易時間</label>
+        <div class="date-picker-wrap">
+          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
+          <input type="hidden" data-rule="date">
+          <div class="date-picker-panel">
+            <div class="date-picker-shortcuts">
+              <button class="shortcut-btn">昨日<span class="shortcut-range"></span></button>
+              <button class="shortcut-btn">本週<span class="shortcut-range"></span></button>
+              <button class="shortcut-btn">上週<span class="shortcut-range"></span></button>
+              <button class="shortcut-btn">本月<span class="shortcut-range"></span></button>
+              <button class="shortcut-btn">上月<span class="shortcut-range"></span></button>
+            </div>
+            <div class="date-picker-calendars">
+              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
+              <div class="date-cal cal-2"><div class="date-cal-header"><button class="prev-2">&lt;</button><span class="cal-title"></span><button class="next-2">&gt;</button></div><div class="date-cal-grid"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">全部</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
       <button class="btn-reset">重置</button></div>
@@ -238,6 +282,117 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
   document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
 });
+
+// Date Range Picker
+(function(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const fmt = d => d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
+  
+  function getShortcuts(){
+    const t = new Date(); t.setHours(0,0,0,0);
+    const yesterday = new Date(t); yesterday.setDate(t.getDate()-1);
+    const weekStart = new Date(t); weekStart.setDate(t.getDate()-t.getDay());
+    const lastWeekStart = new Date(weekStart); lastWeekStart.setDate(lastWeekStart.getDate()-7);
+    const lastWeekEnd = new Date(weekStart); lastWeekEnd.setDate(lastWeekEnd.getDate()-1);
+    const monthStart = new Date(t.getFullYear(), t.getMonth(), 1);
+    const lastMonthStart = new Date(t.getFullYear(), t.getMonth()-1, 1);
+    const lastMonthEnd = new Date(t.getFullYear(), t.getMonth(), 0);
+    return [
+      {label:'昨日', start:yesterday, end:yesterday},
+      {label:'本週', start:weekStart, end:t},
+      {label:'上週', start:lastWeekStart, end:lastWeekEnd},
+      {label:'本月', start:monthStart, end:t},
+      {label:'上月', start:lastMonthStart, end:lastMonthEnd},
+    ];
+  }
+  
+  function renderCal(container, year, month, rs, re){
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const prevDays = new Date(year, month, 0).getDate();
+    let html = ['日','一','二','三','四','五','六'].map(d=>'<div class="day-header">'+d+'</div>').join('');
+    for(let i=0;i<firstDay;i++) html += '<div class="day other-month">'+(prevDays-firstDay+1+i)+'</div>';
+    for(let d=1;d<=daysInMonth;d++){
+      const date = new Date(year, month, d);
+      let cls = 'day';
+      if(rs && re && date>=rs && date<=re) cls += ' in-range';
+      if(rs && date.toDateString()===rs.toDateString()) cls += ' range-start';
+      if(re && date.toDateString()===re.toDateString()) cls += ' range-end';
+      if(date.toDateString()===today.toDateString()) cls += ' today';
+      html += '<div class="'+cls+'" data-y="'+year+'" data-m="'+month+'" data-d="'+d+'">'+d+'</div>';
+    }
+    const total = firstDay + daysInMonth;
+    for(let i=1;i<=(7-total%7)%7;i++) html += '<div class="day other-month">'+i+'</div>';
+    container.innerHTML = html;
+  }
+  
+  const shortcuts = getShortcuts();
+  
+  document.querySelectorAll('.date-picker-wrap').forEach(wrap => {
+    const trigger = wrap.querySelector('.date-picker-trigger');
+    const panel = wrap.querySelector('.date-picker-panel');
+    const hiddenInput = wrap.querySelector('input[type="hidden"]');
+    const display = wrap.querySelector('.date-display');
+    let rs = null, re = null, selecting = false;
+    let lY = today.getFullYear(), lM = today.getMonth()-1;
+    if(lM<0){lM=11;lY--;}
+    let rY = today.getFullYear(), rM = today.getMonth();
+    
+    function render(){
+      const c1 = panel.querySelector('.cal-1 .date-cal-grid');
+      const c2 = panel.querySelector('.cal-2 .date-cal-grid');
+      panel.querySelector('.cal-1 .cal-title').textContent = lY+'年'+(lM+1)+'月';
+      panel.querySelector('.cal-2 .cal-title').textContent = rY+'年'+(rM+1)+'月';
+      renderCal(c1, lY, lM, rs, re);
+      renderCal(c2, rY, rM, rs, re);
+    }
+    
+    function setRange(s, e){
+      rs=s; re=e; selecting=false;
+      display.textContent = fmt(s)+' \u2013 '+fmt(e);
+      if(hiddenInput) hiddenInput.value = fmt(s)+' ~ '+fmt(e);
+      render();
+      setTimeout(()=>panel.classList.remove('show'),150);
+    }
+    
+    panel.querySelectorAll('.shortcut-btn').forEach((btn,i) => {
+      if(i>=shortcuts.length) return;
+      const s = shortcuts[i];
+      btn.querySelector('.shortcut-range').textContent = fmt(s.start)+' \u2013 '+fmt(s.end);
+      btn.onclick = (ev) => { ev.stopPropagation(); setRange(s.start, s.end); };
+    });
+    
+    panel.querySelector('.prev-1').onclick = (ev)=>{ev.stopPropagation();lM--;if(lM<0){lM=11;lY--;}render();};
+    panel.querySelector('.next-1').onclick = (ev)=>{ev.stopPropagation();lM++;if(lM>11){lM=0;lY++;}render();};
+    panel.querySelector('.prev-2').onclick = (ev)=>{ev.stopPropagation();rM--;if(rM<0){rM=11;rY--;}render();};
+    panel.querySelector('.next-2').onclick = (ev)=>{ev.stopPropagation();rM++;if(rM>11){rM=0;rY++;}render();};
+    
+    panel.addEventListener('click', ev=>{
+      const day = ev.target.closest('.day:not(.other-month)');
+      if(!day) return;
+      ev.stopPropagation();
+      const clicked = new Date(+day.dataset.y, +day.dataset.m, +day.dataset.d);
+      if(!selecting||!rs){rs=clicked;re=null;selecting=true;render();}
+      else{
+        if(clicked<rs){re=rs;rs=clicked;} else{re=clicked;}
+        setRange(rs, re);
+      }
+    });
+    
+    trigger.addEventListener('click', ev=>{
+      ev.stopPropagation();
+      const isOpen = panel.classList.contains('show');
+      document.querySelectorAll('.date-picker-panel.show').forEach(p=>{if(p!==panel)p.classList.remove('show');});
+      if(!isOpen){panel.classList.add('show');render();}
+      else{panel.classList.remove('show');}
+    });
+  });
+  
+  document.addEventListener('click', ()=>{
+    document.querySelectorAll('.date-picker-panel.show').forEach(p=>p.classList.remove('show'));
+  });
+})();
+
 </script>
 </body>
 </html>
