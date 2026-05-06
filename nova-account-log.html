@@ -153,6 +153,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .date-cal-grid .day-header{font-size:11px;color:#9CA3AF;padding:4px 0;font-weight:500}
 .date-cal-grid .day{font-size:12px;padding:5px 0;border-radius:4px;cursor:pointer;color:#374151}
 .date-cal-grid .day:hover{background:#EFF6FF}
+.date-cal-grid .day.disabled{color:#D1D5DB;cursor:not-allowed;pointer-events:none}
 .date-cal-grid .day.other-month{color:#D1D5DB}
 .date-cal-grid .day.in-range{background:#DBEAFE;color:#1E40AF}
 .date-cal-grid .day.range-start,.date-cal-grid .day.range-end{background:#2563EB;color:#fff;border-radius:50%}
@@ -320,6 +321,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
       if(rs && date.toDateString()===rs.toDateString()) cls += ' range-start';
       if(re && date.toDateString()===re.toDateString()) cls += ' range-end';
       if(date.toDateString()===today.toDateString()) cls += ' today';
+      if(date>today) cls += ' disabled';
       html += '<div class="'+cls+'" data-y="'+year+'" data-m="'+month+'" data-d="'+d+'">'+d+'</div>';
     }
     const total = firstDay + daysInMonth;
@@ -369,7 +371,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     panel.querySelector('.next-2').onclick = (ev)=>{ev.stopPropagation();rM++;if(rM>11){rM=0;rY++;}render();};
     
     panel.addEventListener('click', ev=>{
-      const day = ev.target.closest('.day:not(.other-month)');
+      const day = ev.target.closest('.day:not(.other-month):not(.disabled)');
       if(!day) return;
       ev.stopPropagation();
       const clicked = new Date(+day.dataset.y, +day.dataset.m, +day.dataset.d);
