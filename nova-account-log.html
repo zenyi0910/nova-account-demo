@@ -56,10 +56,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
 .filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-.filter-actions{margin-left:auto;display:flex;gap:8px;align-items:flex-end}
+.filter-actions{order:999;margin-left:auto;display:flex;gap:8px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:200px}
 .filter-group.filter-wide{min-width:280px;max-width:360px}
-.filter-break{flex-basis:100%;height:0}
 .filter-group label{font-size:11px;font-weight:500;color:#6B7280}
 .filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:130px}
 .filter-input svg{width:14px;height:14px;color:#9CA3AF;flex-shrink:0}
@@ -177,9 +176,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="搜尋帳號"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>分類</label><div class="filter-input"><select><option value="">全部</option><option value="登入">登入</option><option value="設定">設定</option><option value="權限">權限</option><option value="用戶操作">用戶操作</option></select></div></div>
       <div class="filter-group" data-rule="keyword"><label>內容</label><div class="filter-input"><input type="text" placeholder="搜尋內容"></div><div class="filter-error"></div></div>
-      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-      <button class="btn-reset">重置</button></div>
-      <div class="filter-break"></div>
       <div class="filter-group filter-wide"><label>操作時間</label>
         <div class="date-picker-wrap">
           <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
@@ -199,6 +195,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           </div>
         </div>
       </div>
+      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
+      <button class="btn-reset">重置</button></div>
+
     </div>
     <div class="pagination-bar"><span>共 156 筆紀錄</span></div>
     <table class="data-table"><thead><tr><th>帳號</th><th>操作類型</th><th>IP</th><th>裝置</th><th>時間</th><th>備註</th></tr></thead><tbody>
