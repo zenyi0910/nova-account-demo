@@ -58,6 +58,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .filter-actions{margin-left:auto;display:flex;gap:8px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px;max-width:220px}
+.filter-group.filter-wide{min-width:280px;max-width:360px}
 .filter-group label{font-size:11px;font-weight:500;color:#6B7280}
 .filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:160px}
 .filter-input svg{width:14px;height:14px;color:#9CA3AF;flex-shrink:0}
@@ -145,8 +146,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><h1>貢獻查詢</h1></div>
     <div class="filter-card">
-      <div class="filter-group"><label>公會</label><div class="filter-input"><select><option value="">全部</option><option>龍之谷</option><option>星辰戰隊</option><option>皇家俱樂部</option></select></div></div>
-      <div class="filter-group"><label>期間</label><div class="filter-input"><select><option>本週</option><option>本月</option><option>上月</option></select></div></div>
+      <div class="filter-group"><label>公會名稱</label><div class="filter-input"><select><option value="">請選擇公會</option><option value="龍之谷">龍之谷</option><option value="星辰戰隊">星辰戰隊</option><option value="皇家俱樂部">皇家俱樂部</option><option value="蛋捲公會">蛋捲公會</option></select></div></div>
+      <div class="filter-group"><label>貢獻來源</label><div class="filter-input"><select><option value="">全部來源</option><option value="遊戲">遊戲</option><option value="任務">任務</option><option value="活動">活動</option><option value="紅包">紅包</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span>龍之谷 — 本週貢獻排行</span></div>

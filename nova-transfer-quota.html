@@ -58,6 +58,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .filter-actions{margin-left:auto;display:flex;gap:8px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:160px;max-width:220px}
+.filter-group.filter-wide{min-width:280px;max-width:360px}
 .filter-group label{font-size:11px;font-weight:500;color:#6B7280}
 .filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:160px}
 .filter-input svg{width:14px;height:14px;color:#9CA3AF;flex-shrink:0}
@@ -145,8 +146,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg><h1>轉帳額度確認</h1></div>
     <div class="filter-card">
-      <div class="filter-group" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="輸入帳號"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>遊戲</label><div class="filter-input"><select><option value="">全部遊戲</option><option>百家樂</option><option>老虎機</option><option>德州撲克</option></select></div></div>
+      <div class="filter-group" data-rule="order"><label>清單編號</label><div class="filter-input"><input type="text" placeholder="請輸入清單編號"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="請輸入帳號"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>娛樂城</label><div class="filter-input"><select><option value="">全部</option><option value="AG">AG</option><option value="BBIN">BBIN</option><option value="DG">DG</option><option value="SA">SA</option><option value="OB">OB</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
       <button class="btn-reset">重置</button></div>
     </div>
