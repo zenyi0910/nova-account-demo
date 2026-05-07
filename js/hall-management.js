@@ -54,8 +54,18 @@ let pendingToggle = null;
 let currentHall = 'VA';
 let currentDetailId = null;
 
-// === Hall Selector (now in filter bar) ===
+// === Hall Selector (now horizontal tabs) ===
 function initHallSelector() {
+  const container = document.getElementById('hallCards');
+  container.innerHTML = '<div class="hall-tabs">' +
+    Object.entries(halls).map(([id, h]) => {
+      const dotColor = h.status === 'on' ? '#22C55E' : '#EF4444';
+      const gc = games.filter(g => g.hall === id).length;
+      return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
+        '<div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
+        '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
+    }).join('') + '</div>';
+  // Also update the filter dropdown
   const sel = document.getElementById('hallSelect');
   sel.innerHTML = '<option value="">所有娛樂廳</option>' +
     Object.entries(halls).map(([id, h]) => {
@@ -65,8 +75,17 @@ function initHallSelector() {
   sel.value = currentHall;
 }
 
+function selectHall(id) {
+  currentHall = id;
+  document.getElementById('hallSelect').value = id;
+  initHallSelector();
+  renderHallDetail();
+  renderTable();
+}
+
 function switchHall() {
   currentHall = document.getElementById('hallSelect').value;
+  initHallSelector();
   renderHallDetail();
   renderTable();
 }
@@ -125,7 +144,6 @@ function renderHallDetail() {
     '</div></div></div>';
 
   document.getElementById('hallDetail').innerHTML = html;
-  document.getElementById('hallCards').innerHTML = '';
 }
 // === Render Game Table ===
 function renderTable() {
@@ -397,6 +415,12 @@ function addTag() {
 
 // === Utilities ===
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function toggleExpand(btn) {
+  const modal = btn.closest('.modal');
+  modal.classList.toggle('expanded');
+  btn.textContent = modal.classList.contains('expanded') ? '⤡' : '⤢';
+}
 
 function fmtDT(dt) {
   if (!dt) return '';
