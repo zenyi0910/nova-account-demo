@@ -136,6 +136,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .currency-badge.star{background:#DBEAFE;color:#1E40AF}
 .points.positive{color:#16a34a;font-weight:500}
 .points.negative{color:#DC2626;font-weight:500}
+.txtype-dropdown{position:relative;width:100%}
+.txtype-trigger{display:flex;align-items:center;justify-content:space-between;width:100%;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;cursor:pointer;font-family:inherit}
+.txtype-trigger:hover{border-color:#3B82F6}
+.txtype-trigger svg{color:#9CA3AF;flex-shrink:0;transition:transform .2s}
+.txtype-trigger.open svg{transform:rotate(180deg)}
+.txtype-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:8px;min-width:280px;max-height:400px;overflow-y:auto}
+.txtype-panel.show{display:block}
+.txtype-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;position:relative}
+.txtype-item:hover{background:#F3F4F6}
+.txtype-item input[type="checkbox"]{width:16px;height:16px;cursor:pointer;flex-shrink:0}
+.txtype-item label{flex:1;font-size:13px;color:#374151;cursor:pointer;display:flex;align-items:center;gap:4px}
+.txtype-item label .count{color:#9CA3AF;font-size:12px}
+.txtype-item.expandable{padding-right:28px}
+.txtype-item .chevron{position:absolute;right:8px;color:#9CA3AF;cursor:pointer;transition:transform .2s;flex-shrink:0}
+.txtype-item.expanded .chevron{transform:rotate(90deg)}
 
 
 .sidebar-user{position:relative;cursor:pointer}
@@ -218,7 +233,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg><h1>交易紀錄查詢</h1><button class="btn-export" disabled><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表<span class="tooltip">請先搜尋資料後再匯出</span></button></div>
     <div class="filter-card">
       <div class="filter-group" data-rule="keyword"><label>暱稱或帳號</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋暱稱或帳號..."></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>交易類型</label><div class="filter-input"><select><option value="">交易類型</option><option value="派彩 - YGR_GIN">派彩 - YGR_GIN</option><option value="派彩 - VA_XIN">派彩 - VA_XIN</option><option value="派彩 - YGR_XIN">派彩 - YGR_XIN</option><option value="派彩 - VA_GIN">派彩 - VA_GIN</option><option value="儲值 - 線上轉點">儲值 - 線上轉點</option><option value="保險箱 - 從保險箱取出">保險箱 - 從保險箱取出</option><option value="儲值 - 手機小額付款">儲值 - 手機小額付款</option></select></div></div>
+      <div class="filter-group filter-wide"><label>交易類型</label>
+        <div class="txtype-dropdown">
+          <button class="txtype-trigger" type="button"><span class="txtype-label">交易類型</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="txtype-panel">
+            <div class="txtype-item"><input type="checkbox" id="tx-all"><label for="tx-all">全選</label></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-deposit"><label for="tx-deposit">儲值 <span class="count">(0/51)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-transfer"><label for="tx-transfer">轉帳 <span class="count">(0/1)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-purchase"><label for="tx-purchase">購買 <span class="count">(0/5)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-bonus"><label for="tx-bonus">紅利 <span class="count">(0/5)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-safe"><label for="tx-safe">保險箱 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-other"><label for="tx-other">其他 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-payout"><label for="tx-payout">派彩 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-gift"><label for="tx-gift">贈禮 <span class="count">(0/3)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-event"><label for="tx-event">活動儲值 <span class="count">(0/1)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-guild"><label for="tx-guild">公會 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-card"><label for="tx-card">愛星卡 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-coupon"><label for="tx-coupon">優惠券 <span class="count">(0/1)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-task"><label for="tx-task">任務 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-lottery"><label for="tx-lottery">節慶活動抽獎 <span class="count">(0/2)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-checkin"><label for="tx-checkin">簽到卡補簽 <span class="count">(0/1)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-promo"><label for="tx-promo">優惠 <span class="count">(0/3)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            <div class="txtype-item expandable"><input type="checkbox" id="tx-manual"><label for="tx-manual">人工存提 <span class="count">(0/3)</span></label><svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
       <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">VIP等級</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
       <div class="filter-group"><label>交易時間(起)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易起始時間" readonly></div></div>
       <div class="filter-group"><label>交易時間(訖)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易結束時間" readonly></div></div>
@@ -326,6 +365,35 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   const inputs = document.querySelectorAll('.date-input');
   if(inputs[0]) inputs[0].value = y+'-'+m+'-01 00:00:00';
   if(inputs[1]) inputs[1].value = y+'-'+m+'-'+String(lastDay).padStart(2,'0')+' 23:59:59';
+})();
+
+// Transaction type dropdown
+(function(){
+  const trigger = document.querySelector('.txtype-trigger');
+  const panel = document.querySelector('.txtype-panel');
+  if(!trigger || !panel) return;
+  
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    trigger.classList.toggle('open');
+    panel.classList.toggle('show');
+  });
+  
+  document.addEventListener('click', () => {
+    trigger.classList.remove('open');
+    panel.classList.remove('show');
+  });
+  
+  panel.addEventListener('click', e => e.stopPropagation());
+  
+  // Expand/collapse categories
+  document.querySelectorAll('.txtype-item.expandable .chevron').forEach(chevron => {
+    chevron.addEventListener('click', e => {
+      e.stopPropagation();
+      const item = chevron.closest('.txtype-item');
+      item.classList.toggle('expanded');
+    });
+  });
 })();
 
 // Enter key triggers search
