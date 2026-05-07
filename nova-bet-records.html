@@ -205,66 +205,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><h1>投注紀錄查詢</h1><button class="btn-export" disabled><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表<span class="tooltip">請先搜尋資料後再匯出</span></button></div>
     <div class="filter-card">
-      <div class="filter-group" data-rule="account"><label>會員帳號</label><div class="filter-input"><input type="text" placeholder="搜尋帳號"></div><div class="filter-error"></div></div>
       <div class="filter-group" data-rule="nickname"><label>暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋暱稱"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>遊戲種類</label><div class="filter-input"><select><option value="">全部</option><option value="電子">電子</option><option value="棋牌">棋牌</option><option value="捕魚">捕魚</option><option value="真人">真人</option><option value="體育">體育</option></select></div></div>
+      <div class="filter-group" data-rule="account"><label>會員帳號</label><div class="filter-input"><input type="text" placeholder="搜尋會員帳號"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>遊戲種類</label><div class="filter-input"><select><option value="">遊戲種類</option><option value="電子">電子</option><option value="電動">電動</option><option value="棋牌">棋牌</option><option value="捕魚">捕魚</option><option value="真人">真人</option><option value="體育">體育</option></select></div></div>
       <div class="filter-group" data-rule="keyword"><label>遊戲名稱</label><div class="filter-input"><input type="text" placeholder="搜尋遊戲名稱"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">全部</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
       <div class="filter-group" data-rule="order"><label>注單號碼</label><div class="filter-input"><input type="text" placeholder="搜尋注單號碼"></div><div class="filter-error"></div></div>
-      <div class="filter-group filter-wide"><label>投注時間</label>
-        <div class="date-picker-wrap">
-          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
-          <input type="hidden" data-rule="date">
-          <div class="date-picker-panel">
-            <div class="date-picker-shortcuts">
-              <button class="shortcut-btn">昨日<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本月<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上月<span class="shortcut-range"></span></button>
-            </div>
-            <div class="date-picker-calendars">
-              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-              <div class="date-cal cal-2"><div class="date-cal-header"><button class="prev-2">&lt;</button><span class="cal-title"></span><button class="next-2">&gt;</button></div><div class="date-cal-grid"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="filter-group filter-wide"><label>派彩時間</label>
-        <div class="date-picker-wrap">
-          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
-          <input type="hidden" data-rule="date">
-          <div class="date-picker-panel">
-            <div class="date-picker-shortcuts">
-              <button class="shortcut-btn">昨日<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本月<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上月<span class="shortcut-range"></span></button>
-            </div>
-            <div class="date-picker-calendars">
-              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-              <div class="date-cal cal-2"><div class="date-cal-header"><button class="prev-2">&lt;</button><span class="cal-title"></span><button class="next-2">&gt;</button></div><div class="date-cal-grid"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
-
+      <div class="filter-group date-picker-wrap"><label>投注時間(起)</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div></div>
+      <div class="filter-group date-picker-wrap"><label>投注時間(迄)</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div></div>
+      <div class="filter-group date-picker-wrap"><label>派彩時間(起)</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div></div>
+      <div class="filter-group date-picker-wrap"><label>派彩時間(迄)</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div></div>
+      <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">選擇幣別</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
+      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">清除</button></div>
     </div>
     <div class="filter-tags" id="filterTags"></div>
-    <div class="pagination-bar"><span>共 5,432 筆投注</span><div class="page-size-select">每頁顯示 <select id="pageSize"><option>20</option><option>50</option><option>100</option></select> 筆</div></div>
-    <table class="data-table"><thead><tr><th data-col="id">注單編號<span class="sort-icon">⇅</span></th><th data-col="account">帳號<span class="sort-icon">⇅</span></th><th data-col="game">遊戲<span class="sort-icon">⇅</span></th><th data-col="bet">投注金額<span class="sort-icon">⇅</span></th><th data-col="payout">派彩金額<span class="sort-icon">⇅</span></th><th data-col="result">結果<span class="sort-icon">⇅</span></th><th data-col="time">時間<span class="sort-icon">⇅</span></th></tr></thead><tbody>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">BET20260505001<span class="copy-tip">已複製</span></td><td>User586499</td><td>百家樂</td><td>$5,000</td><td style="color:#16a34a">$9,500</td><td><span class="status-badge status-online">贏</span></td><td style="color:#6B7280">2026-05-05 10:15</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">遊戲廠商</span><span class="value">AG真人</span></div><div class="row-detail-item"><span class="label">桌號</span><span class="value">A-032</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">有效投注</span><span class="value">$5,000</span></div><div class="row-detail-item"><span class="label">輸贏</span><span class="value" style="color:#16a34a">+$4,500</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">203.69.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">BET20260505002<span class="copy-tip">已複製</span></td><td>User738201</td><td>老虎機</td><td>$1,000</td><td>$0</td><td><span class="status-badge status-offline">輸</span></td><td style="color:#6B7280">2026-05-05 10:12</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">遊戲廠商</span><span class="value">PG電子</span></div><div class="row-detail-item"><span class="label">桌號</span><span class="value">—</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">有效投注</span><span class="value">$1,000</span></div><div class="row-detail-item"><span class="label">輸贏</span><span class="value" style="color:#dc2626">-$1,000</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">114.32.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">BET20260505003<span class="copy-tip">已複製</span></td><td>User901234</td><td>德州撲克</td><td>$2,000</td><td style="color:#16a34a">$4,200</td><td><span class="status-badge status-online">贏</span></td><td style="color:#6B7280">2026-05-05 09:58</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">遊戲廠商</span><span class="value">KX棋牌</span></div><div class="row-detail-item"><span class="label">桌號</span><span class="value">T-108</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">星幣</span></div><div class="row-detail-item"><span class="label">有效投注</span><span class="value">$2,000</span></div><div class="row-detail-item"><span class="label">輸贏</span><span class="value" style="color:#16a34a">+$2,200</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">61.220.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">BET20260505004<span class="copy-tip">已複製</span></td><td>User667788</td><td>骰寶</td><td>$10,000</td><td>$0</td><td><span class="status-badge status-offline">輸</span></td><td style="color:#6B7280">2026-05-05 09:45</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">遊戲廠商</span><span class="value">AG真人</span></div><div class="row-detail-item"><span class="label">桌號</span><span class="value">B-015</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">有效投注</span><span class="value">$10,000</span></div><div class="row-detail-item"><span class="label">輸贏</span><span class="value" style="color:#dc2626">-$10,000</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">220.135.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">BET20260505005<span class="copy-tip">已複製</span></td><td>User412055</td><td>百家樂</td><td>$3,000</td><td>$3,000</td><td><span class="status-badge status-maint">和</span></td><td style="color:#6B7280">2026-05-05 09:30</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">遊戲廠商</span><span class="value">AG真人</span></div><div class="row-detail-item"><span class="label">桌號</span><span class="value">A-032</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">有效投注</span><span class="value">$3,000</span></div><div class="row-detail-item"><span class="label">輸贏</span><span class="value">$0</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">180.217.xx.xx</span></div></div></td></tr>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px"><div style="font-size:11px;color:#6B7280;margin-bottom:4px">總投注額</div><div style="font-size:18px;font-weight:700;color:#1F2937">232,344,305</div></div>
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px"><div style="font-size:11px;color:#6B7280;margin-bottom:4px">總有效投注</div><div style="font-size:18px;font-weight:700;color:#1F2937">232,344,305</div></div>
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px"><div style="font-size:11px;color:#6B7280;margin-bottom:4px">總派彩</div><div style="font-size:18px;font-weight:700;color:#1F2937">214,731,711.3</div></div>
+      <div style="background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:14px 16px"><div style="font-size:11px;color:#6B7280;margin-bottom:4px">總虧損金額</div><div style="font-size:18px;font-weight:700;color:#DC2626">-17,612,593.7</div></div>
+    </div>
+    <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><div class="page-size-select">每頁顯示 <select id="pageSize"><option>20</option><option>50</option><option>100</option></select> 筆</div></div>
+    <table class="data-table"><thead><tr><th>序號</th><th>會員暱稱</th><th>會員帳號</th><th>遊戲種類</th><th>遊戲名稱</th><th>投注時間</th><th>派彩時間</th><th>幣別</th><th>投注額</th><th>有效投注</th></tr></thead><tbody>
+      <tr class="data-row"><td>1</td><td>保羅四號</td><td class="td-id" style="font-weight:500">ox_5h96bJSdpswV0aOZ8ndkJi<span class="copy-tip">已複製</span></td><td>電動</td><td>甜蜜聖誕</td><td style="color:#6B7280">2026-05-07 10:05:39</td><td style="color:#6B7280">2026-05-07 10:05:39</td><td><span class="status-badge" style="background:#FEF3C7;color:#92400E">金幣</span></td><td>10</td><td>10</td></tr>
+      <tr class="data-row"><td>2</td><td>保羅四號</td><td class="td-id" style="font-weight:500">ox_5h96bJSdpswV0aOZ8ndkJi<span class="copy-tip">已複製</span></td><td>電動</td><td>甜蜜聖誕</td><td style="color:#6B7280">2026-05-07 10:05:28</td><td style="color:#6B7280">2026-05-07 10:05:28</td><td><span class="status-badge" style="background:#FEF3C7;color:#92400E">金幣</span></td><td>10</td><td>10</td></tr>
+      <tr class="data-row"><td>3</td><td>保羅四號</td><td class="td-id" style="font-weight:500">ox_5h96bJSdpswV0aOZ8ndkJi<span class="copy-tip">已複製</span></td><td>電動</td><td>甜蜜聖誕</td><td style="color:#6B7280">2026-05-07 10:05:16</td><td style="color:#6B7280">2026-05-07 10:05:16</td><td><span class="status-badge" style="background:#FEF3C7;color:#92400E">金幣</span></td><td>10</td><td>10</td></tr>
+      <tr class="data-row"><td>4</td><td>丁丁丁</td><td class="td-id" style="font-weight:500">MhU5238<span class="copy-tip">已複製</span></td><td>電動</td><td>甜蜜聖誕</td><td style="color:#6B7280">2026-05-06 16:35:58</td><td style="color:#6B7280">2026-05-06 16:35:58</td><td><span class="status-badge" style="background:#FEF3C7;color:#92400E">金幣</span></td><td>30</td><td>30</td></tr>
+      <tr class="data-row"><td>5</td><td>Yannnng</td><td class="td-id" style="font-weight:500">Lzd9879<span class="copy-tip">已複製</span></td><td>電動</td><td>招財進寶</td><td style="color:#6B7280">2026-05-06 14:58:12</td><td style="color:#6B7280">2026-05-06 14:58:12</td><td><span class="status-badge" style="background:#DBEAFE;color:#1E40AF">星幣</span></td><td>200</td><td>200</td></tr>
     </tbody></table>
   </div>
 </div>
