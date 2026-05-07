@@ -92,6 +92,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-maint{background:#FEF3C7;color:#92400E}
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+.pagination-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:8px 0;font-size:12px;color:#6B7280}
+.pagination-pages{display:flex;align-items:center;gap:4px}
+.pagination-pages button{min-width:28px;height:28px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#374151;display:flex;align-items:center;justify-content:center}
+.pagination-pages button:hover{background:#F3F4F6;border-color:#D1D5DB}
+.pagination-pages button.active{background:#1F2937;color:#fff;border-color:#1F2937}
+.pagination-pages button:disabled{opacity:.4;cursor:not-allowed}
+.source-badge{display:inline-block;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:500}
+.source-phone{background:#DCFCE7;color:#166534}
+.source-line{background:#DCFCE7;color:#166534}
+.source-telegram{background:#DBEAFE;color:#1E40AF}
+.source-openxin{background:#E0E7FF;color:#3730A3}
 
 
 .sidebar-user{position:relative;cursor:pointer}
@@ -226,29 +237,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
 
     </div>
-    <div class="pagination-bar"><span>共 2,847 位用戶</span></div>
-    <table class="data-table"><thead><tr><th>帳號</th><th>暱稱</th><th>VIP</th><th>金幣</th><th>星幣</th><th>狀態</th><th>註冊時間</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">User586499</td><td>小明</td><td>VIP3</td><td>1,245,800</td><td>32,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-01-15</td></tr>
-      <tr><td style="font-weight:500">User738201</td><td>阿華</td><td>VIP5</td><td>8,920,100</td><td>156,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-11-03</td></tr>
-      <tr><td style="font-weight:500">User412055</td><td>大雄</td><td>VIP1</td><td>45,200</td><td>1,000</td><td><span class="status-badge status-maint">停用</span></td><td style="color:#6B7280">2026-03-22</td></tr>
-      <tr><td style="font-weight:500">User901234</td><td>靜香</td><td>VIP2</td><td>320,500</td><td>8,500</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-02-10</td></tr>
-      <tr><td style="font-weight:500">User667788</td><td>胖虎</td><td>VIP4</td><td>5,100,000</td><td>89,000</td><td><span class="status-badge status-offline">凍結</span></td><td style="color:#6B7280">2025-09-18</td></tr>
-      <tr><td style="font-weight:500">User334455</td><td>小夫</td><td>VIP3</td><td>2,340,000</td><td>45,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-12-05</td></tr>
-      <tr><td style="font-weight:500">User112233</td><td>出木杉</td><td>VIP5</td><td>12,500,000</td><td>280,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-08-20</td></tr>
-      <tr><td style="font-weight:500">User998877</td><td>多啦A夢</td><td>VIP2</td><td>890,000</td><td>15,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-04-01</td></tr>
-      <tr><td style="font-weight:500">User556677</td><td>源靜香</td><td>VIP3</td><td>1,780,000</td><td>38,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-01-28</td></tr>
-      <tr><td style="font-weight:500">User443322</td><td>野比</td><td>VIP1</td><td>25,000</td><td>500</td><td><span class="status-badge status-maint">停用</span></td><td style="color:#6B7280">2026-04-15</td></tr>
-      <tr><td style="font-weight:500">User778899</td><td>骨川</td><td>VIP4</td><td>6,200,000</td><td>102,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-10-12</td></tr>
-      <tr><td style="font-weight:500">User665544</td><td>剛田</td><td>VIP2</td><td>450,000</td><td>9,800</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-03-08</td></tr>
-      <tr><td style="font-weight:500">User223344</td><td>世修</td><td>VIP3</td><td>3,100,000</td><td>55,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-11-22</td></tr>
-      <tr><td style="font-weight:500">User887766</td><td>小珠</td><td>VIP1</td><td>78,000</td><td>2,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-04-20</td></tr>
-      <tr><td style="font-weight:500">User445566</td><td>安雄</td><td>VIP2</td><td>560,000</td><td>12,500</td><td><span class="status-badge status-maint">停用</span></td><td style="color:#6B7280">2026-02-14</td></tr>
-      <tr><td style="font-weight:500">User990011</td><td>技子</td><td>VIP4</td><td>4,800,000</td><td>76,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-09-30</td></tr>
-      <tr><td style="font-weight:500">User112200</td><td>美夜子</td><td>VIP3</td><td>2,100,000</td><td>41,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-01-05</td></tr>
-      <tr><td style="font-weight:500">User334400</td><td>露露</td><td>VIP5</td><td>9,800,000</td><td>195,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2025-07-18</td></tr>
-      <tr><td style="font-weight:500">User556600</td><td>哆啦美</td><td>VIP2</td><td>680,000</td><td>14,000</td><td><span class="status-badge status-online">正常</span></td><td style="color:#6B7280">2026-03-25</td></tr>
-      <tr><td style="font-weight:500">User778800</td><td>迷你哆啦</td><td>VIP1</td><td>35,000</td><td>800</td><td><span class="status-badge status-offline">凍結</span></td><td style="color:#6B7280">2026-05-01</td></tr>
-    </tbody></table>
+    <div class="pagination-bar"><span id="paginationInfo">共 2,847 位用戶</span><div style="display:flex;align-items:center;gap:8px"><label style="font-size:12px;color:#6B7280">每頁顯示</label><select id="pageSizeSelect" style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px;background:#fff;cursor:pointer"><option value="20" selected>20 筆</option><option value="50">50 筆</option><option value="100">100 筆</option></select></div></div>
+    <table class="data-table"><thead><tr><th>暱稱</th><th>所屬公會</th><th>帳號</th><th>註冊來源</th><th>綁定手機</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th></tr></thead><tbody id="userTableBody"></tbody></table>
+    <div class="pagination-footer" id="paginationFooter"></div>
   </div>
 </div>
 
@@ -436,6 +427,88 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   document.addEventListener('click', ()=>{
     document.querySelectorAll('.date-picker-panel.show').forEach(p=>p.classList.remove('show'));
   });
+})();
+
+// === User Data Generation & Pagination ===
+(function(){
+  const TOTAL = 847;
+  const nicknames = ['Elina','Joe','Toby','Yang','Flare','Rico','Leader_A','Leader_B','Leader_C','Leader_D','小明','阿華','大雄','靜香','胖虎','小夫','出木杉','世修','小珠','安雄','技子','美夜子','露露','哆啦美','骨川','剛田','野比','源靜香','多啦A夢','迷你哆啦','遊俠','苦節紙','stagingElina','Yannnng','User'];
+  const guilds = ['','','','','','','Elina公會','公會_A','公會_B','公會_C','公會_D','龍之谷','星辰戰隊','皇家俱樂部','蛋捲公會'];
+  const sources = [{name:'手機',cls:'source-phone'},{name:'LINE',cls:'source-line'},{name:'Telegram',cls:'source-telegram'},{name:'OpenXin',cls:'source-openxin'}];
+  const statuses = [{name:'啟用',cls:'status-online'},{name:'停用',cls:'status-maint'},{name:'凍結',cls:'status-offline'}];
+
+  // 產生固定隨機資料
+  function seededRand(seed){ return function(){ seed=(seed*16807)%2147483647; return(seed-1)/2147483646; }; }
+  const rand = seededRand(42);
+  const allUsers = [];
+  for(let i=0;i<TOTAL;i++){
+    const r = rand;
+    const nick = nicknames[Math.floor(r()*nicknames.length)] + (Math.floor(r()*900000)+100000);
+    const guildIdx = Math.floor(r()*guilds.length);
+    const acct = String.fromCharCode(65+Math.floor(r()*26)) + String.fromCharCode(97+Math.floor(r()*26)) + String.fromCharCode(97+Math.floor(r()*26)) + Math.floor(r()*9000+1000);
+    const src = sources[Math.floor(r()*sources.length)];
+    const hasPhone = r()>0.4;
+    const phone = hasPhone ? '09'+String(Math.floor(r()*90000000+10000000)) : '-';
+    const vip = Math.floor(r()*6)+1;
+    const baseDate = new Date(2025,6,1);
+    const regDate = new Date(baseDate.getTime() + Math.floor(r()*300)*86400000);
+    const lastLogin = new Date(regDate.getTime() + Math.floor(r()*60)*86400000);
+    const statusIdx = r()<0.82?0:(r()<0.6?1:2);
+    allUsers.push({nick,guild:guilds[guildIdx],acct,src,phone,vip,regDate,lastLogin,status:statuses[statusIdx]});
+  }
+  // 按註冊時間降序
+  allUsers.sort((a,b)=>b.regDate-a.regDate);
+
+  let currentPage = 1;
+  let pageSize = 20;
+  const tbody = document.getElementById('userTableBody');
+  const info = document.getElementById('paginationInfo');
+  const footer = document.getElementById('paginationFooter');
+  const pageSizeSelect = document.getElementById('pageSizeSelect');
+
+  function fmtDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+
+  function render(){
+    const totalPages = Math.ceil(TOTAL/pageSize);
+    if(currentPage>totalPages) currentPage=totalPages;
+    const start = (currentPage-1)*pageSize;
+    const end = Math.min(start+pageSize, TOTAL);
+    const slice = allUsers.slice(start, end);
+
+    tbody.innerHTML = slice.map(u => `<tr>
+      <td style="font-weight:500">${u.nick}</td>
+      <td>${u.guild||'<span style="color:#D1D5DB">-</span>'}</td>
+      <td style="font-family:monospace;font-size:12px">${u.acct}</td>
+      <td><span class="source-badge ${u.src.cls}">${u.src.name}</span></td>
+      <td style="color:${u.phone==='-'?'#D1D5DB':'#374151'}">${u.phone}</td>
+      <td>VIP ${u.vip}</td>
+      <td style="color:#6B7280;font-size:12px">${fmtDate(u.regDate)}</td>
+      <td style="color:#6B7280;font-size:12px">${fmtDate(u.lastLogin)}</td>
+      <td><span class="status-badge ${u.status.cls}">${u.status.name}</span></td>
+    </tr>`).join('');
+
+    info.textContent = `第 ${currentPage} 頁，共 ${TOTAL.toLocaleString()} 筆資料`;
+
+    // Pagination buttons
+    let pages = '';
+    pages += `<button ${currentPage<=1?'disabled':''} data-p="${currentPage-1}">&lt;</button>`;
+    const maxBtns = 7;
+    let pStart = Math.max(1, currentPage - 3);
+    let pEnd = Math.min(totalPages, pStart + maxBtns - 1);
+    if(pEnd - pStart < maxBtns-1) pStart = Math.max(1, pEnd - maxBtns + 1);
+    if(pStart>1){ pages+=`<button data-p="1">1</button>`; if(pStart>2) pages+=`<span style="padding:0 4px">...</span>`; }
+    for(let p=pStart;p<=pEnd;p++) pages+=`<button data-p="${p}" class="${p===currentPage?'active':''}">${p}</button>`;
+    if(pEnd<totalPages){ if(pEnd<totalPages-1) pages+=`<span style="padding:0 4px">...</span>`; pages+=`<button data-p="${totalPages}">${totalPages}</button>`; }
+    pages += `<button ${currentPage>=totalPages?'disabled':''} data-p="${currentPage+1}">&gt;</button>`;
+
+    footer.innerHTML = `<span>顯示 ${start+1}-${end} 筆，共 ${TOTAL.toLocaleString()} 筆</span><div class="pagination-pages">${pages}</div>`;
+    footer.querySelectorAll('button[data-p]').forEach(btn=>{
+      btn.addEventListener('click',function(){ currentPage=+this.dataset.p; render(); window.scrollTo({top:0,behavior:'smooth'}); });
+    });
+  }
+
+  pageSizeSelect.addEventListener('change',function(){ pageSize=+this.value; currentPage=1; render(); });
+  render();
 })();
 
 // === Sticky Filter Collapse ===
