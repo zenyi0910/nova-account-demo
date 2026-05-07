@@ -66,8 +66,11 @@ function initHallSelector() {
   }).join('');
   container.innerHTML = '<div class="hall-tabs-wrapper">' +
     '<button class="hall-tabs-arrow" onclick="scrollTabs(-1)">&#8249;</button>' +
-    '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div>' +
+    '<div class="hall-tabs-scroll-area at-start" id="hallTabsArea">' +
+    '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div></div>' +
     '<button class="hall-tabs-arrow" onclick="scrollTabs(1)">&#8250;</button></div>';
+  // Update gradient state after render
+  setTimeout(updateScrollGradients, 50);
   // Also update the filter dropdown
   const sel = document.getElementById('hallSelect');
   sel.innerHTML = '<option value="">所有娛樂廳</option>' +
@@ -79,8 +82,18 @@ function initHallSelector() {
 }
 
 function scrollTabs(dir) {
-  const el = document.getElementById('hallTabsScroll');
+  const el = document.getElementById('hallTabsArea');
   el.scrollBy({ left: dir * 200, behavior: 'smooth' });
+  setTimeout(updateScrollGradients, 350);
+}
+
+function updateScrollGradients() {
+  const area = document.getElementById('hallTabsArea');
+  if (!area) return;
+  const atStart = area.scrollLeft <= 5;
+  const atEnd = area.scrollLeft + area.clientWidth >= area.scrollWidth - 5;
+  area.classList.toggle('at-start', atStart);
+  area.classList.toggle('at-end', atEnd);
 }
 
 function selectHall(id) {

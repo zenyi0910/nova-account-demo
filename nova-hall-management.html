@@ -168,15 +168,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .maint-row .maint-name{flex:1;font-weight:500}
 .maint-row .maint-status{font-size:11px;padding:2px 6px;border-radius:3px}
 .maint-row select{padding:4px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:11px;font-family:inherit}
-.hall-tabs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;position:relative;scroll-behavior:smooth}
+.hall-tabs{display:flex;gap:10px;padding-bottom:4px;width:max-content}
 .hall-tabs::-webkit-scrollbar{display:none}
-.hall-tabs-wrapper{position:relative;display:flex;align-items:center;gap:6px;margin-bottom:16px}
-.hall-tabs-arrow{width:28px;height:28px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s}
+.hall-tabs-wrapper{position:relative;display:flex;align-items:stretch;gap:0;margin-bottom:16px}
+.hall-tabs-arrow{width:20px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s;z-index:2}
 .hall-tabs-arrow:hover{background:#F3F4F6;border-color:#393939}
 .hall-tabs-arrow:disabled{opacity:.3;cursor:not-allowed}
-.hall-tab{padding:10px 16px;border:1px solid oklch(0.922 0 0);border-radius:8px;cursor:pointer;background:#fff;min-width:140px;transition:all .15s;flex-shrink:0}
+.hall-tabs-scroll-area{position:relative;overflow-x:auto;overflow-y:hidden;flex:1;scroll-behavior:smooth}
+.hall-tabs-scroll-area::-webkit-scrollbar{display:none}
+.hall-tabs-scroll-area::before,.hall-tabs-scroll-area::after{content:'';position:absolute;top:0;bottom:0;width:32px;z-index:1;pointer-events:none;transition:opacity .3s}
+.hall-tabs-scroll-area::before{left:0;background:linear-gradient(to right,#fff 0%,transparent 100%);opacity:0}
+.hall-tabs-scroll-area::after{right:0;background:linear-gradient(to left,#fff 0%,transparent 100%);opacity:1}
+.hall-tabs-scroll-area.at-start::before{opacity:0}
+.hall-tabs-scroll-area.at-end::after{opacity:0}
+.hall-tabs-scroll-area:not(.at-start)::before{opacity:1}
+.hall-tab{padding:10px 16px;border:1px solid oklch(0.922 0 0);border-radius:8px;cursor:pointer;background:#fff;min-width:140px;transition:all .2s ease;flex-shrink:0;transform:scale(1)}
 .hall-tab:hover{border-color:#393939}
-.hall-tab.active{border-color:#393939;background:rgba(57,57,57,0.04);box-shadow:0 0 0 1px #393939}
+.hall-tab.active{border-color:#393939;background:rgba(57,57,57,0.04);box-shadow:0 0 0 1px #393939;transform:scale(1.02)}
 .hall-tab .ht-name{font-size:13px;font-weight:600;color:#111827;display:flex;align-items:center;gap:5px}
 .hall-tab .ht-name .dot{width:7px;height:7px;border-radius:50%}
 .hall-tab .ht-meta{font-size:11px;color:#6B7280;margin-top:2px}
