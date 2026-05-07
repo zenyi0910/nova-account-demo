@@ -126,6 +126,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .page-size-select{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}
 .page-size-select select{border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px;background:#fff}
+.summary-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:14px 20px;margin-bottom:12px;display:inline-flex;align-items:center;gap:12px}
+.summary-card h3{font-size:13px;font-weight:500;color:#6B7280;margin:0}
+.summary-value{font-size:18px;font-weight:700}
+.summary-value.negative{color:#DC2626}
+.summary-value.positive{color:#16a34a}
+.currency-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:500}
+.currency-badge.gold{background:#FEF3C7;color:#92400E}
+.currency-badge.star{background:#DBEAFE;color:#1E40AF}
+.points.positive{color:#16a34a;font-weight:500}
+.points.negative{color:#DC2626;font-weight:500}
 
 
 .sidebar-user{position:relative;cursor:pointer}
@@ -201,50 +211,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <div class="main">
   <div class="topbar">
     <button class="topbar-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
-    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">報表與查詢</a><span class="sep">&gt;</span><span class="current">交易紀錄查詢</span></div>
+    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">各式報表</a><span class="sep">&gt;</span><span class="current">交易紀錄查詢</span></div>
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg><h1>交易紀錄查詢</h1><button class="btn-export" disabled><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表<span class="tooltip">請先搜尋資料後再匯出</span></button></div>
     <div class="filter-card">
-      <div class="filter-group" data-rule="keyword"><label>暱稱或帳號</label><div class="filter-input"><input type="text" placeholder="搜尋帳號或暱稱"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">全部</option><option value="VIP1">VIP1</option><option value="VIP2">VIP2</option><option value="VIP3">VIP3</option><option value="VIP4">VIP4</option><option value="VIP5">VIP5</option></select></div></div>
-      <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">全部</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
-      <div class="filter-group"><label>交易類型</label><div class="filter-input"><select><option value="">全部</option><option value="儲值">儲值</option><option value="提領">提領</option><option value="轉帳">轉帳</option><option value="紅包">紅包</option><option value="獎勵">獎勵</option></select></div></div>
-      <div class="filter-group filter-wide"><label>交易時間</label>
-        <div class="date-picker-wrap">
-          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
-          <input type="hidden" data-rule="date">
-          <div class="date-picker-panel">
-            <div class="date-picker-shortcuts">
-              <button class="shortcut-btn">昨日<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上週<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">本月<span class="shortcut-range"></span></button>
-              <button class="shortcut-btn">上月<span class="shortcut-range"></span></button>
-            </div>
-            <div class="date-picker-calendars">
-              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-              <div class="date-cal cal-2"><div class="date-cal-header"><button class="prev-2">&lt;</button><span class="cal-title"></span><button class="next-2">&gt;</button></div><div class="date-cal-grid"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="filter-group" data-rule="keyword"><label>暱稱或帳號</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋暱稱或帳號..."></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>交易類型</label><div class="filter-input"><select><option value="">交易類型</option><option value="派彩 - YGR_GIN">派彩 - YGR_GIN</option><option value="派彩 - VA_XIN">派彩 - VA_XIN</option><option value="派彩 - YGR_XIN">派彩 - YGR_XIN</option><option value="派彩 - VA_GIN">派彩 - VA_GIN</option><option value="儲值 - 線上轉點">儲值 - 線上轉點</option><option value="保險箱 - 從保險箱取出">保險箱 - 從保險箱取出</option><option value="儲值 - 手機小額付款">儲值 - 手機小額付款</option></select></div></div>
+      <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">VIP等級</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
+      <div class="filter-group"><label>交易時間(起)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易起始時間" readonly></div></div>
+      <div class="filter-group"><label>交易時間(訖)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易結束時間" readonly></div></div>
+      <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">選擇幣別</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-      <button class="btn-reset">重置</button></div>
-
+      <button class="btn-reset">清除</button></div>
     </div>
     <div class="filter-tags" id="filterTags"></div>
-    <div class="pagination-bar"><span>共 3,218 筆交易</span><div class="page-size-select">每頁顯示 <select id="pageSize"><option>20</option><option>50</option><option>100</option></select> 筆</div></div>
-    <table class="data-table"><thead><tr><th data-col="id">交易編號<span class="sort-icon">⇅</span></th><th data-col="account">帳號<span class="sort-icon">⇅</span></th><th data-col="type">類型<span class="sort-icon">⇅</span></th><th data-col="amount">金額<span class="sort-icon">⇅</span></th><th data-col="balance">餘額<span class="sort-icon">⇅</span></th><th data-col="status">狀態<span class="sort-icon">⇅</span></th><th data-col="time">時間<span class="sort-icon">⇅</span></th></tr></thead><tbody>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505001<span class="copy-tip">已複製</span></td><td>User586499</td><td>儲值</td><td style="color:#16a34a">+$1,000</td><td>$1,246,800</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 10:22</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505001</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP3</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">三方支付-LinePay</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">203.69.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505002<span class="copy-tip">已複製</span></td><td>User738201</td><td>提領</td><td style="color:#dc2626">-$50,000</td><td>$8,870,100</td><td><span class="status-badge status-maint">審核中</span></td><td style="color:#6B7280">2026-05-05 09:30</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505002</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP5</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">銀行轉帳-中國信託</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">待審核</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">114.32.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260505003<span class="copy-tip">已複製</span></td><td>User901234</td><td>轉帳</td><td style="color:#dc2626">-$5,000</td><td>$315,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-05 08:45</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260505003</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP2</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">星幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">轉帳至 User445566</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">61.220.xx.xx</span></div></div></td></tr>
-      <tr class="data-row"><td class="td-id" style="font-weight:500">TXN20260504004<span class="copy-tip">已複製</span></td><td>User667788</td><td>贈送</td><td style="color:#16a34a">+$500</td><td>$5,100,500</td><td><span class="status-badge status-online">完成</span></td><td style="color:#6B7280">2026-05-04 22:10</td></tr>
-      <tr class="row-detail"><td colspan="7"><div class="row-detail-inner"><div class="row-detail-item"><span class="label">訂單號</span><span class="value">TXN20260504004</span></div><div class="row-detail-item"><span class="label">VIP等級</span><span class="value">VIP1</span></div><div class="row-detail-item"><span class="label">幣別</span><span class="value">金幣</span></div><div class="row-detail-item"><span class="label">備註</span><span class="value">紅包領取</span></div><div class="row-detail-item"><span class="label">操作人</span><span class="value">系統自動</span></div><div class="row-detail-item"><span class="label">IP位址</span><span class="value">220.135.xx.xx</span></div></div></td></tr>
+    <div class="summary-card"><h3>總點數</h3><span class="summary-value negative">-13,236,733.7</span></div>
+    <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><div class="page-size-select">每頁顯示 <select id="pageSize"><option>20</option><option>50</option><option>100</option></select> 筆</div></div>
+    <table class="data-table"><thead><tr><th>序號</th><th data-col="order">訂單號</th><th data-col="nickname">會員暱稱</th><th data-col="account">會員帳號</th><th data-col="vip">VIP 等級</th><th data-col="type">交易類型</th><th data-col="time">交易時間</th><th data-col="currency">幣別</th><th data-col="points">點數</th><th data-col="subtotal">小計</th><th>備註</th></tr></thead><tbody>
+      <tr class="data-row"><td>1</td><td class="td-id" style="font-weight:500">019e002e-f9ec-7039-8305-0e6265e985dc<span class="copy-tip">已複製</span></td><td>保羅四號</td><td>ox_5h96bJSdpswV0aOZ8ndkJi</td><td>VIP 3</td><td>派彩 - YGR_GIN</td><td style="color:#6B7280">2026-05-07 10:05:39</td><td><span class="currency-badge gold">金幣</span></td><td class="points positive">27</td><td>34,939</td><td>派彩-YGR_GIN</td></tr>
+      <tr class="data-row"><td>2</td><td class="td-id" style="font-weight:500">019e0029-a8bc-70b6-bffa-76e78f34ff85<span class="copy-tip">已複製</span></td><td>保羅四號</td><td>ox_5h96bJSdpswV0aOZ8ndkJi</td><td>VIP 3</td><td>派彩 - VA_XIN</td><td style="color:#6B7280">2026-05-07 09:59:50</td><td><span class="currency-badge star">星幣</span></td><td class="points negative">-300</td><td>40,200</td><td>派彩-VA_XIN</td></tr>
+      <tr class="data-row"><td>3</td><td class="td-id" style="font-weight:500">019dfc6d-f88b-785b-ae0f-7cad72ad8a4e<span class="copy-tip">已複製</span></td><td>丁丁丁</td><td>MhU5238</td><td>VIP 6</td><td>派彩 - YGR_GIN</td><td style="color:#6B7280">2026-05-06 16:35:58</td><td><span class="currency-badge gold">金幣</span></td><td class="points negative">-30</td><td>94,710</td><td>派彩-YGR_GIN</td></tr>
+      <tr class="data-row"><td>4</td><td class="td-id" style="font-weight:500">019dfc40-e8fa-7176-813d-85b82a8cbae6<span class="copy-tip">已複製</span></td><td>保羅四號</td><td>ox_5h96bJSdpswV0aOZ8ndkJi</td><td>VIP 3</td><td>派彩 - YGR_XIN</td><td style="color:#6B7280">2026-05-06 15:46:45</td><td><span class="currency-badge star">星幣</span></td><td class="points negative">-200</td><td>40,500</td><td>派彩-YGR_XIN</td></tr>
+      <tr class="data-row"><td>5</td><td class="td-id" style="font-weight:500">019dfc16-26fe-781e-b7f4-2204151a50d9<span class="copy-tip">已複製</span></td><td>Yannnng</td><td>Lzd9879</td><td>VIP 4</td><td>儲值 - 線上轉點</td><td style="color:#6B7280">2026-05-06 14:58:12</td><td><span class="currency-badge gold">金幣</span></td><td class="points positive">10,000</td><td>52,300</td><td>儲值-線上轉點</td></tr>
+      <tr class="data-row"><td>6</td><td class="td-id" style="font-weight:500">019dfb8a-4c21-7a3e-9f12-3b8c91d45e67<span class="copy-tip">已複製</span></td><td>小明測試</td><td>test_user_001</td><td>VIP 1</td><td>保險箱 - 從保險箱取出</td><td style="color:#6B7280">2026-05-06 12:30:22</td><td><span class="currency-badge gold">金幣</span></td><td class="points positive">5,000</td><td>18,500</td><td>保險箱-從保險箱取出</td></tr>
+      <tr class="data-row"><td>7</td><td class="td-id" style="font-weight:500">019dfb55-1234-7b2c-8e44-5a9d72c38f01<span class="copy-tip">已複製</span></td><td>保羅四號</td><td>ox_5h96bJSdpswV0aOZ8ndkJi</td><td>VIP 3</td><td>派彩 - VA_GIN</td><td style="color:#6B7280">2026-05-06 11:15:08</td><td><span class="currency-badge gold">金幣</span></td><td class="points positive">150</td><td>34,912</td><td>派彩-VA_GIN</td></tr>
+      <tr class="data-row"><td>8</td><td class="td-id" style="font-weight:500">019dfa92-abcd-7c4d-bf56-7e2f83a19b23<span class="copy-tip">已複製</span></td><td>丁丁丁</td><td>MhU5238</td><td>VIP 6</td><td>派彩 - VA_XIN</td><td style="color:#6B7280">2026-05-06 09:42:31</td><td><span class="currency-badge star">星幣</span></td><td class="points negative">-500</td><td>94,740</td><td>派彩-VA_XIN</td></tr>
     </tbody></table>
   </div>
 </div>
@@ -324,133 +317,20 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
 });
 
-// Date Range Picker
+// Set default date values (current month start/end)
 (function(){
-  const today = new Date(); today.setHours(0,0,0,0);
-  const fmt = d => d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
-  
-  function getShortcuts(){
-    const t = new Date(); t.setHours(0,0,0,0);
-    const yesterday = new Date(t); yesterday.setDate(t.getDate()-1);
-    const weekStart = new Date(t); weekStart.setDate(t.getDate()-t.getDay());
-    const lastWeekStart = new Date(weekStart); lastWeekStart.setDate(lastWeekStart.getDate()-7);
-    const lastWeekEnd = new Date(weekStart); lastWeekEnd.setDate(lastWeekEnd.getDate()-1);
-    const monthStart = new Date(t.getFullYear(), t.getMonth(), 1);
-    const lastMonthStart = new Date(t.getFullYear(), t.getMonth()-1, 1);
-    const lastMonthEnd = new Date(t.getFullYear(), t.getMonth(), 0);
-    return [
-      {label:'昨日', start:yesterday, end:yesterday},
-      {label:'本週', start:weekStart, end:t},
-      {label:'上週', start:lastWeekStart, end:lastWeekEnd},
-      {label:'本月', start:monthStart, end:t},
-      {label:'上月', start:lastMonthStart, end:lastMonthEnd},
-    ];
-  }
-  
-  function renderCal(container, year, month, rs, re){
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month+1, 0).getDate();
-    const prevDays = new Date(year, month, 0).getDate();
-    let html = ['日','一','二','三','四','五','六'].map(d=>'<div class="day-header">'+d+'</div>').join('');
-    for(let i=0;i<firstDay;i++) html += '<div class="day other-month">'+(prevDays-firstDay+1+i)+'</div>';
-    for(let d=1;d<=daysInMonth;d++){
-      const date = new Date(year, month, d);
-      let cls = 'day';
-      if(rs && re && date>=rs && date<=re) cls += ' in-range';
-      if(rs && date.toDateString()===rs.toDateString()) cls += ' range-start';
-      if(re && date.toDateString()===re.toDateString()) cls += ' range-end';
-      if(date.toDateString()===today.toDateString()) cls += ' today';
-      if(date>today) cls += ' disabled';
-      html += '<div class="'+cls+'" data-y="'+year+'" data-m="'+month+'" data-d="'+d+'">'+d+'</div>';
-    }
-    const total = firstDay + daysInMonth;
-    for(let i=1;i<=(7-total%7)%7;i++) html += '<div class="day other-month">'+i+'</div>';
-    container.innerHTML = html;
-  }
-  
-  const shortcuts = getShortcuts();
-  
-  document.querySelectorAll('.date-picker-wrap').forEach(wrap => {
-    const trigger = wrap.querySelector('.date-picker-trigger');
-    const panel = wrap.querySelector('.date-picker-panel');
-    const hiddenInput = wrap.querySelector('input[type="hidden"]');
-    const display = wrap.querySelector('.date-display');
-    let rs = null, re = null, selecting = false;
-    let lY = today.getFullYear(), lM = today.getMonth()-1;
-    if(lM<0){lM=11;lY--;}
-    let rY = today.getFullYear(), rM = today.getMonth();
-    
-    function render(){
-      const c1 = panel.querySelector('.cal-1 .date-cal-grid');
-      const c2 = panel.querySelector('.cal-2 .date-cal-grid');
-      panel.querySelector('.cal-1 .cal-title').textContent = lY+'年'+(lM+1)+'月';
-      panel.querySelector('.cal-2 .cal-title').textContent = rY+'年'+(rM+1)+'月';
-      renderCal(c1, lY, lM, rs, re);
-      renderCal(c2, rY, rM, rs, re);
-    }
-    
-    function setRange(s, e){
-      rs=s; re=e; selecting=false;
-      display.textContent = fmt(s)+' \u2013 '+fmt(e);
-      if(hiddenInput) hiddenInput.value = fmt(s)+' ~ '+fmt(e);
-      render();
-      setTimeout(()=>panel.classList.remove('show'),150);
-    }
-    
-    panel.querySelectorAll('.shortcut-btn').forEach((btn,i) => {
-      if(i>=shortcuts.length) return;
-      const s = shortcuts[i];
-      btn.querySelector('.shortcut-range').textContent = fmt(s.start)+' \u2013 '+fmt(s.end);
-      btn.onclick = (ev) => { ev.stopPropagation(); setRange(s.start, s.end); };
-    });
-    
-    panel.querySelector('.prev-1').onclick = (ev)=>{ev.stopPropagation();lM--;if(lM<0){lM=11;lY--;}render();};
-    panel.querySelector('.next-1').onclick = (ev)=>{ev.stopPropagation();lM++;if(lM>11){lM=0;lY++;}render();};
-    panel.querySelector('.prev-2').onclick = (ev)=>{ev.stopPropagation();rM--;if(rM<0){rM=11;rY--;}render();};
-    panel.querySelector('.next-2').onclick = (ev)=>{ev.stopPropagation();rM++;if(rM>11){rM=0;rY++;}render();};
-    
-    panel.addEventListener('click', ev=>{
-      const day = ev.target.closest('.day:not(.other-month):not(.disabled)');
-      if(!day) return;
-      ev.stopPropagation();
-      const clicked = new Date(+day.dataset.y, +day.dataset.m, +day.dataset.d);
-      if(!selecting||!rs){rs=clicked;re=null;selecting=true;render();}
-      else{
-        if(clicked<rs){re=rs;rs=clicked;} else{re=clicked;}
-        setRange(rs, re);
-      }
-    });
-    
-    trigger.addEventListener('click', ev=>{
-      ev.stopPropagation();
-      const isOpen = panel.classList.contains('show');
-      document.querySelectorAll('.date-picker-panel.show').forEach(p=>{if(p!==panel)p.classList.remove('show');});
-      if(!isOpen){panel.classList.add('show');render();}
-      else{panel.classList.remove('show');}
-    });
-  });
-  
-  document.addEventListener('click', ()=>{
-    document.querySelectorAll('.date-picker-panel.show').forEach(p=>p.classList.remove('show'));
-  });
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const lastDay = new Date(y, now.getMonth()+1, 0).getDate();
+  const inputs = document.querySelectorAll('.date-input');
+  if(inputs[0]) inputs[0].value = y+'-'+m+'-01 00:00:00';
+  if(inputs[1]) inputs[1].value = y+'-'+m+'-'+String(lastDay).padStart(2,'0')+' 23:59:59';
 })();
 
 // Enter key triggers search
 document.querySelectorAll('.filter-card input[type="text"]').forEach(input=>{
   input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.querySelector('.btn-search')?.click();}});
-});
-
-// Click row to expand detail
-document.querySelectorAll('.data-row').forEach(row=>{
-  row.style.cursor='pointer';
-  row.addEventListener('click',e=>{
-    if(e.target.closest('.td-id'))return;
-    const detail=row.nextElementSibling;
-    if(detail&&detail.classList.contains('row-detail')){
-      detail.classList.toggle('show');
-      row.classList.toggle('row-expanded');
-    }
-  });
 });
 
 // Click ID to copy
@@ -465,16 +345,6 @@ document.querySelectorAll('.td-id').forEach(td=>{
   });
 });
 
-// Sort columns
-document.querySelectorAll('.data-table th[data-col]').forEach(th=>{
-  th.addEventListener('click',()=>{
-    const wasAsc=th.classList.contains('sort-asc');
-    document.querySelectorAll('.data-table th').forEach(h=>{h.classList.remove('sort-asc','sort-desc');h.querySelector('.sort-icon').textContent='⇅';});
-    if(wasAsc){th.classList.add('sort-desc');th.querySelector('.sort-icon').textContent='↓';}
-    else{th.classList.add('sort-asc');th.querySelector('.sort-icon').textContent='↑';}
-  });
-});
-
 // Filter tags
 document.querySelector('.btn-search')?.addEventListener('click',function(){
   const tagsDiv=document.getElementById('filterTags');
@@ -484,20 +354,19 @@ document.querySelector('.btn-search')?.addEventListener('click',function(){
     const label=g.querySelector('label');
     const input=g.querySelector('input[type="text"]');
     const select=g.querySelector('select');
-    const dateDisplay=g.querySelector('.date-display');
+    const dateInput=g.querySelector('.date-input');
     let val='',fieldName=label?label.textContent:'';
-    if(input&&input.value.trim())val=input.value.trim();
+    if(input&&!input.classList.contains('date-input')&&input.value.trim())val=input.value.trim();
     else if(select&&select.selectedIndex>0)val=select.options[select.selectedIndex].text;
-    else if(dateDisplay&&dateDisplay.textContent!=='選擇日期範圍')val=dateDisplay.textContent;
+    else if(dateInput&&dateInput.value)val=dateInput.value;
     if(!val)return;
     hasTags=true;
     const tag=document.createElement('span');
     tag.className='filter-tag';
-    tag.innerHTML=fieldName+': '+val+' <span class="tag-close">✕</span>';
+    tag.innerHTML=fieldName+': '+val+' <span class="tag-close">\u2715</span>';
     tag.querySelector('.tag-close').addEventListener('click',()=>{
-      if(input)input.value='';
+      if(input&&!input.classList.contains('date-input'))input.value='';
       if(select)select.selectedIndex=0;
-      if(dateDisplay)dateDisplay.textContent='選擇日期範圍';
       tag.remove();
       if(!tagsDiv.querySelector('.filter-tag'))tagsDiv.classList.remove('has-tags');
     });
