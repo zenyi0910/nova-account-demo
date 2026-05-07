@@ -150,7 +150,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><h1>禁用語設定</h1><div class="spacer"></div><button class="btn-export" style="background:#0D9488"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增禁用語</button></div>
+    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><h1>禁用語設定</h1><div class="spacer"></div><button class="btn-batch" id="batchBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>批次操作</button><button class="btn-export" style="background:#0D9488"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增禁用語</button></div>
     <div class="filter-card">
       <div class="filter-group" data-rule="keyword"><label>禁用語</label><div class="filter-input"><input type="text" placeholder="請輸入禁用語"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>狀態</label><div class="filter-input"><select><option value="">全部</option><option value="啟用">啟用</option><option value="停用">停用</option></select></div></div>
@@ -241,6 +241,46 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
   document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
 });
+
+// === Batch Operation Mode ===
+(function(){
+  const btn = document.getElementById('batchBtn');
+  if(!btn) return;
+  const pageHeader = document.querySelector('.page-header');
+  const addBtn = pageHeader.querySelector('.btn-export');
+  const batchActions = document.createElement('span');
+  batchActions.id = 'batchActions';
+  batchActions.style.cssText = 'display:none;align-items:center;gap:6px';
+  batchActions.innerHTML = `
+    <button id="batchClose" class="btn-batch" style="background:#6B7280;color:#fff;border-color:#6B7280"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>關閉批次操作</button>
+    <button id="batchEnable" class="btn-batch" style="background:#16A34A;color:#fff;border-color:#16A34A"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>批次啟用(<span id="batchCount1">0</span>)</button>
+    <button id="batchDisable" class="btn-batch" style="background:#DC2626;color:#fff;border-color:#DC2626"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>批次停用(<span id="batchCount2">0</span>)</button>
+    <button id="batchDelete" class="btn-batch" style="background:#DC2626;color:#fff;border-color:#DC2626"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>批次刪除(<span id="batchCount3">0</span>)</button>`;
+  pageHeader.insertBefore(batchActions, addBtn);
+  function getCount(){ return document.querySelectorAll('.batch-checkbox:checked').length; }
+  function updateCounts(){ const c=getCount(); document.getElementById('batchCount1').textContent=c; document.getElementById('batchCount2').textContent=c; document.getElementById('batchCount3').textContent=c; }
+  function enterBatch(){
+    btn.style.display='none'; batchActions.style.display='flex';
+    const table=document.querySelector('.data-table'); const hr=table.querySelector('thead tr');
+    const th=document.createElement('th'); th.style.cssText='width:40px;text-align:center';
+    th.innerHTML='<input type="checkbox" id="batchSelectAll" style="width:16px;height:16px;cursor:pointer;accent-color:#6366F1">';
+    hr.insertBefore(th,hr.firstChild);
+    table.querySelectorAll('tbody tr').forEach(tr=>{const td=document.createElement('td');td.style.cssText='text-align:center';td.innerHTML='<input type="checkbox" class="batch-checkbox" style="width:16px;height:16px;cursor:pointer;accent-color:#6366F1">';tr.insertBefore(td,tr.firstChild);});
+    document.getElementById('batchSelectAll').addEventListener('change',function(){document.querySelectorAll('.batch-checkbox').forEach(cb=>{cb.checked=this.checked;});updateCounts();});
+    table.addEventListener('change',function(e){if(e.target.classList.contains('batch-checkbox')){updateCounts();const all=document.querySelectorAll('.batch-checkbox');const chk=document.querySelectorAll('.batch-checkbox:checked');document.getElementById('batchSelectAll').checked=all.length===chk.length;}});
+  }
+  function exitBatch(){
+    btn.style.display='flex'; batchActions.style.display='none';
+    const table=document.querySelector('.data-table'); const hr=table.querySelector('thead tr');
+    if(hr.firstChild&&hr.firstChild.querySelector('#batchSelectAll'))hr.removeChild(hr.firstChild);
+    table.querySelectorAll('tbody tr').forEach(tr=>{const f=tr.firstChild;if(f&&f.querySelector('.batch-checkbox'))tr.removeChild(f);});
+  }
+  btn.addEventListener('click',enterBatch);
+  document.getElementById('batchClose').addEventListener('click',exitBatch);
+  document.getElementById('batchEnable').addEventListener('click',function(){const c=getCount();if(!c){alert('請先勾選項目');return;}alert('已批次啟用 '+c+' 個禁用語');exitBatch();});
+  document.getElementById('batchDisable').addEventListener('click',function(){const c=getCount();if(!c){alert('請先勾選項目');return;}alert('已批次停用 '+c+' 個禁用語');exitBatch();});
+  document.getElementById('batchDelete').addEventListener('click',function(){const c=getCount();if(!c){alert('請先勾選項目');return;}if(confirm('確定要刪除 '+c+' 個禁用語？'))alert('已刪除');exitBatch();});
+})();
 </script>
 </body>
 </html>
