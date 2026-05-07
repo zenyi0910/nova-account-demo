@@ -133,12 +133,12 @@ function renderHallDetail() {
       '<div class="sec-card gold"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
         '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
-        '<span class="spacer"></span><button class="edit-inline-btn" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')">修改</button></div>' +
+        '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_gold_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
         '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
       '<div class="sec-card star"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
         '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
-        '<span class="spacer"></span><button class="edit-inline-btn" onclick="toggleCurrEdit(\'' + id + '\',\'star\')">修改</button></div>' +
+        '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_star_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'star\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
         '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
       '<div class="sec-card sched"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
@@ -160,10 +160,7 @@ function renderCurrFields(curr, hallId, type, editing) {
   if (editing) {
     return '<div class="curr-field"><label>最低投注</label><input class="curr-input" id="edit_' + type + '_min_' + hallId + '" value="' + curr.min + '"></div>' +
       '<div class="curr-field"><label>最高投注</label><input class="curr-input" id="edit_' + type + '_max_' + hallId + '" value="' + curr.max + '"></div>' +
-      '<div class="curr-field"><label>兌換比率</label><input class="curr-input" id="edit_' + type + '_rate_' + hallId + '" value="' + curr.rate + '"></div>' +
-      '<div class="curr-actions">' +
-        '<button class="curr-save" onclick="saveCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="儲存">&#10003;</button>' +
-        '<button class="curr-cancel" onclick="cancelCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="取消">&#10005;</button></div>';
+      '<div class="curr-field"><label>兌換比率</label><input class="curr-input" id="edit_' + type + '_rate_' + hallId + '" value="' + curr.rate + '"></div>';
   }
   return '<div class="curr-field"><label>最低投注</label><span class="val">$' + curr.min.toLocaleString() + '</span></div>' +
     '<div class="curr-field"><label>最高投注</label><span class="val">$' + curr.max.toLocaleString() + '</span></div>' +
@@ -174,7 +171,11 @@ function toggleCurrEdit(hallId, type) {
   const h = halls[hallId];
   const curr = type === 'gold' ? h.gold : h.star;
   const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  const btn = document.getElementById('editBtn_' + type + '_' + hallId);
   container.innerHTML = renderCurrFields(curr, hallId, type, true);
+  btn.onclick = null;
+  btn.innerHTML = '<button class="curr-save" onclick="saveCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="儲存">&#10003;</button>' +
+    '<button class="curr-cancel" onclick="cancelCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="取消">&#10005;</button>';
 }
 
 function saveCurrEdit(hallId, type) {
@@ -187,7 +188,11 @@ function saveCurrEdit(hallId, type) {
   curr.max = maxVal;
   curr.rate = rateVal;
   const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  const btn = document.getElementById('editBtn_' + type + '_' + hallId);
   container.innerHTML = renderCurrFields(curr, hallId, type, false);
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+  btn.onclick = function() { toggleCurrEdit(hallId, type); };
+  btn.title = '修改';
   renderTable();
 }
 
@@ -195,7 +200,11 @@ function cancelCurrEdit(hallId, type) {
   const h = halls[hallId];
   const curr = type === 'gold' ? h.gold : h.star;
   const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  const btn = document.getElementById('editBtn_' + type + '_' + hallId);
   container.innerHTML = renderCurrFields(curr, hallId, type, false);
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+  btn.onclick = function() { toggleCurrEdit(hallId, type); };
+  btn.title = '修改';
 }
 
 // === Render Game Table ===
