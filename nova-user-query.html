@@ -55,7 +55,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
-.btn-batch,.btn-export{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-batch,.btn-export,.btn-secondary{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-secondary{background:#6B7280;color:#fff;border:none}
+.btn-secondary:hover{background:#4B5563}
+.btn-secondary svg{width:16px;height:16px}
 .btn-batch{background:#3B82F6;color:#fff;border:none}
 .btn-batch:hover{background:#2563EB}
 .btn-batch svg{width:16px;height:16px}
@@ -154,19 +157,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-fab.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
 .filter-fab:hover{background:#F9FAFB;border-color:#D1D5DB;box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .filter-fab svg{width:14px;height:14px;color:#6B7280}
-.filter-fab .fab-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:#EF4444;color:#fff;font-size:9px;font-weight:700;padding:0 4px;display:none}
-.filter-fab .fab-badge.show{display:inline-flex}
 
 .filter-card.sticky-open{position:fixed;top:52px;left:250px;right:0;z-index:45;margin:0;border-radius:0 0 10px 10px;border-top:none;box-shadow:0 8px 24px rgba(0,0,0,.08);animation:filterSlideDown .3s cubic-bezier(.25,.1,.25,1);padding:12px 20px}
 @keyframes filterSlideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
 .sidebar-collapsed .filter-card.sticky-open{left:0}
+
+/* Batch dropdown */
+.batch-dropdown{position:relative;display:inline-block}
+.batch-dropdown-menu{display:none;position:absolute;top:calc(100% + 4px);right:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-width:160px;z-index:100;padding:4px 0}
+.batch-dropdown-menu.show{display:block}
+.batch-dropdown-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:13px;color:#374151;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .15s}
+.batch-dropdown-item:hover{background:#F3F4F6}
+.batch-dropdown-item svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
 
 /* Date Range Picker */
 .date-picker-wrap{position:relative}
 .date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:220px;white-space:nowrap}
 .date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
 .date-picker-trigger:hover{border-color:#3B82F6}
-.date-picker-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:16px;min-width:480px}
+.date-picker-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:16px;min-width:320px}
 .date-picker-panel.show{display:flex;flex-direction:column;gap:12px}
 .date-picker-calendars{display:flex;gap:12px}
 .date-cal{width:210px}
@@ -205,10 +214,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 
 <!-- Filter FAB (appears on scroll) -->
-<button class="filter-fab" id="filterFab" title="展開篩選條件">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
-  <span>篩選條件</span>
-  <span class="fab-badge" id="fabBadge">0</span>
+<button class="filter-fab" id="filterFab" title="回到頂部搜尋">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
 </button>
 
 <div class="main">
@@ -219,10 +226,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
   <div class="content">
     <div class="page-header">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
       <h1>用戶查詢</h1>
       <div class="spacer"></div>
-      <button class="btn-batch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>批次操作</button>
+      <button class="btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>權限群組操作</button>
+      <button class="btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>人員權限設定</button>
+      <button class="btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M12 14l-2 2 2 2 2-2-2-2z"/></svg>VIP等級設定</button>
+      <div class="batch-dropdown">
+        <button class="btn-batch" id="batchBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>批次操作</button>
+        <div class="batch-dropdown-menu" id="batchMenu">
+          <button class="batch-dropdown-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>批次啟用</button>
+          <button class="batch-dropdown-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>批次停用</button>
+          <button class="batch-dropdown-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>批次凍結</button>
+          <button class="batch-dropdown-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>批次刪除</button>
+        </div>
+      </div>
       <button class="btn-export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表</button>
     </div>
     <div class="filter-card">
@@ -241,7 +258,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <div class="date-picker-panel">
             <div class="date-picker-calendars">
               <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-              <div class="date-cal cal-2"><div class="date-cal-header"><button class="prev-2">&lt;</button><span class="cal-title"></span><button class="next-2">&gt;</button></div><div class="date-cal-grid"></div></div>
             </div>
             <div class="date-time-row">
               <div class="date-time-group"><label>起始</label>
@@ -267,7 +283,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     </div>
     <div class="pagination-bar"><span id="paginationInfo">共 2,847 位用戶</span><div style="display:flex;align-items:center;gap:8px"><label style="font-size:12px;color:#6B7280">每頁顯示</label><select id="pageSizeSelect" style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px;background:#fff;cursor:pointer"><option value="20" selected>20 筆</option><option value="50">50 筆</option><option value="100">100 筆</option></select></div></div>
-    <table class="data-table"><thead><tr><th>暱稱</th><th>所屬公會</th><th>帳號</th><th>註冊來源</th><th>綁定手機</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th></tr></thead><tbody id="userTableBody"></tbody></table>
+    <table class="data-table"><thead><tr><th style="width:36px"><input type="checkbox" id="checkAll"></th><th>帳號</th><th>所屬公會</th><th>暱稱</th><th>註冊來源</th><th>綁定手機</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th><th style="width:50px">操作</th></tr></thead><tbody id="userTableBody"></tbody></table>
     <div class="pagination-footer" id="paginationFooter"></div>
   </div>
 </div>
@@ -439,9 +455,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     const startWrap = panel.querySelector('.time-scroll-wrap[data-role="start"]');
     const endWrap = panel.querySelector('.time-scroll-wrap[data-role="end"]');
     let rs = null, re = null, selecting = false;
-    let lY = today.getFullYear(), lM = today.getMonth()-1;
-    if(lM<0){lM=11;lY--;}
-    let rY = today.getFullYear(), rM = today.getMonth();
+    let cY = today.getFullYear(), cM = today.getMonth();
 
     initTimeScroll(startWrap);
     initTimeScroll(endWrap);
@@ -461,17 +475,12 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     
     function render(){
       const c1 = panel.querySelector('.cal-1 .date-cal-grid');
-      const c2 = panel.querySelector('.cal-2 .date-cal-grid');
-      panel.querySelector('.cal-1 .cal-title').textContent = lY+'年'+(lM+1)+'月';
-      panel.querySelector('.cal-2 .cal-title').textContent = rY+'年'+(rM+1)+'月';
-      renderCal(c1, lY, lM, rs, re);
-      renderCal(c2, rY, rM, rs, re);
+      panel.querySelector('.cal-1 .cal-title').textContent = cY+'年'+(cM+1)+'月';
+      renderCal(c1, cY, cM, rs, re);
     }
     
-    panel.querySelector('.prev-1').onclick = (ev)=>{ev.stopPropagation();lM--;if(lM<0){lM=11;lY--;}render();};
-    panel.querySelector('.next-1').onclick = (ev)=>{ev.stopPropagation();lM++;if(lM>11){lM=0;lY++;}render();};
-    panel.querySelector('.prev-2').onclick = (ev)=>{ev.stopPropagation();rM--;if(rM<0){rM=11;rY--;}render();};
-    panel.querySelector('.next-2').onclick = (ev)=>{ev.stopPropagation();rM++;if(rM>11){rM=0;rY++;}render();};
+    panel.querySelector('.prev-1').onclick = (ev)=>{ev.stopPropagation();cM--;if(cM<0){cM=11;cY--;}render();};
+    panel.querySelector('.next-1').onclick = (ev)=>{ev.stopPropagation();cM++;if(cM>11){cM=0;cY++;}render();};
     
     panel.addEventListener('click', ev=>{
       const day = ev.target.closest('.day:not(.other-month):not(.disabled)');
@@ -574,15 +583,17 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     const slice = allUsers.slice(start, end);
 
     tbody.innerHTML = slice.map(u => `<tr>
-      <td style="font-weight:500">${u.nick}</td>
+      <td><input type="checkbox" class="row-check"></td>
+      <td style="font-family:monospace;font-size:12px"><a href="#" style="color:#2563EB;text-decoration:none">${u.acct}</a></td>
       <td>${u.guild||'<span style="color:#D1D5DB">-</span>'}</td>
-      <td style="font-family:monospace;font-size:12px">${u.acct}</td>
+      <td style="font-weight:500">${u.nick}</td>
       <td><span class="source-badge ${u.src.cls}">${u.src.name}</span></td>
       <td style="color:${u.phone==='-'?'#D1D5DB':'#374151'}">${u.phone}</td>
       <td>VIP ${u.vip}</td>
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.regDate)}</td>
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.lastLogin)}</td>
       <td><span class="status-badge ${u.status.cls}">${u.status.name}</span></td>
+      <td><button style="background:none;border:none;cursor:pointer;padding:4px;color:#6B7280"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></td>
     </tr>`).join('');
 
     info.textContent = `第 ${currentPage} 頁，共 ${TOTAL.toLocaleString()} 筆資料`;
@@ -609,92 +620,54 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   render();
 })();
 
-// === Sticky Filter Collapse ===
+// === Scroll-to-top FAB ===
 (function(){
   const filterCard = document.querySelector('.content .filter-card');
   const fab = document.getElementById('filterFab');
-  const badge = document.getElementById('fabBadge');
   if(!filterCard || !fab) return;
 
-  let stickyOpen = false;
-
-  // 建立 placeholder 追蹤原始位置
   const placeholder = document.createElement('div');
   placeholder.style.cssText = 'height:0;margin:0;padding:0;border:none;visibility:hidden';
   filterCard.parentNode.insertBefore(placeholder, filterCard);
 
-  // 計算已填寫的篩選條件數量
-  function countActiveFilters(){
-    let count = 0;
-    filterCard.querySelectorAll('input[type="text"]').forEach(i => { if(i.value.trim()) count++; });
-    filterCard.querySelectorAll('select').forEach(s => { if(s.selectedIndex > 0) count++; });
-    filterCard.querySelectorAll('input[type="hidden"]').forEach(h => { if(h.value.trim()) count++; });
-    return count;
-  }
-
-  function updateBadge(){
-    const n = countActiveFilters();
-    badge.textContent = n;
-    badge.classList.toggle('show', n > 0);
-  }
-
-  // 用 scroll 事件判斷原始位置是否在視窗內
   function checkScroll(){
     const rect = placeholder.getBoundingClientRect();
-    const topbarH = 56;
     const pageHeader = document.querySelector('.page-header');
-    const headerBottom = pageHeader ? pageHeader.getBoundingClientRect().bottom : topbarH;
-    const isAbove = rect.top < headerBottom; // placeholder 已滾出頁面標題下方
-
-    if(!stickyOpen){
-      fab.classList.toggle('show', isAbove);
-    } else {
-      // sticky 開啟中，如果滾回頂部讓 placeholder 可見（在標題下方），自動關閉
-      if(!isAbove) closeSticky();
-    }
+    const headerBottom = pageHeader ? pageHeader.getBoundingClientRect().bottom : 56;
+    const isAbove = rect.top < headerBottom;
+    fab.classList.toggle('show', isAbove);
   }
 
   window.addEventListener('scroll', checkScroll, {passive:true});
   checkScroll();
 
-  // 點擊 FAB → 展開 filter-card 固定在頂部
   fab.addEventListener('click', function(e){
     e.stopPropagation();
-    stickyOpen = true;
-    // 記錄原始高度作為 placeholder
-    placeholder.style.height = filterCard.offsetHeight + 'px';
-    filterCard.classList.add('sticky-open');
-    fab.classList.remove('show');
+    window.scrollTo({top:0, behavior:'smooth'});
   });
+})();
 
-  function closeSticky(){
-    stickyOpen = false;
-    filterCard.classList.remove('sticky-open');
-    placeholder.style.height = '0';
-    updateBadge();
-    // 重新判斷 FAB
-    checkScroll();
+// === Batch Dropdown ===
+(function(){
+  const btn = document.getElementById('batchBtn');
+  const menu = document.getElementById('batchMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    menu.classList.toggle('show');
+  });
+  document.addEventListener('click', function(){
+    menu.classList.remove('show');
+  });
+  menu.addEventListener('click', function(e){ e.stopPropagation(); });
+
+  // Check all
+  const checkAll = document.getElementById('checkAll');
+  if(checkAll){
+    checkAll.addEventListener('change', function(){
+      document.querySelectorAll('.row-check').forEach(cb => cb.checked = checkAll.checked);
+    });
   }
-
-  // 點擊搜尋後關閉 sticky
-  filterCard.querySelector('.btn-search')?.addEventListener('click', function(){
-    if(stickyOpen) setTimeout(closeSticky, 100);
-  });
-
-  // 點擊頁面其他區域關閉 sticky
-  document.addEventListener('click', function(e){
-    if(stickyOpen && !filterCard.contains(e.target) && e.target !== fab) closeSticky();
-  });
-
-  // ESC 關閉
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && stickyOpen) closeSticky();
-  });
-
-  // 監聽篩選變化更新 badge
-  filterCard.addEventListener('input', updateBadge);
-  filterCard.addEventListener('change', updateBadge);
-  updateBadge();
 })();
 
 </script>
