@@ -151,6 +151,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .toast.warning{background:#D97706}
 .sidebar-collapsed .sidebar{transform:translateX(-250px)}
 .sidebar-collapsed .main{margin-left:0}
+.common-tab.active{background:#393939!important;color:#fff!important;border-color:#393939!important}
+.detail-section{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid oklch(0.922 0 0)}
+.detail-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.detail-section h6{font-size:13px;font-weight:600;color:#111827;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.detail-section h6 .dot{width:6px;height:6px;border-radius:50%}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px}
+.tag-item{display:flex;align-items:center;gap:6px;padding:6px 10px;background:#F8FAFC;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:12px}
+.tag-item .tag-order{font-size:10px;color:#9CA3AF;font-weight:600}
+.tag-item .tag-del{width:16px;height:16px;border:none;background:none;cursor:pointer;color:#9CA3AF;font-size:14px;display:flex;align-items:center;justify-content:center;border-radius:3px}
+.tag-item .tag-del:hover{background:#FEE2E2;color:#DC2626}
+.recommend-table{width:100%;border-collapse:collapse;font-size:12px}
+.recommend-table th{text-align:left;padding:6px 8px;background:rgba(57,57,57,0.04);font-size:11px;font-weight:600;color:#393939;border-bottom:1px solid oklch(0.922 0 0)}
+.recommend-table td{padding:6px 8px;border-bottom:1px solid oklch(0.95 0 0)}
+.maint-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#F8FAFC;border-radius:6px;margin-bottom:6px;font-size:12px}
+.maint-row .maint-name{flex:1;font-weight:500}
+.maint-row .maint-status{font-size:11px;padding:2px 6px;border-radius:3px}
+.maint-row select{padding:4px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:11px;font-family:inherit}
 @media(max-width:900px){.hall-sections{grid-template-columns:1fr}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:100}.sidebar.show{transform:translateX(0)}.main{margin-left:0}.content{padding:12px}}
 </style>
@@ -169,13 +186,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <h4>娛樂廳管理</h4>
       <span class="desc">廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定</span>
       <span style="flex:1"></span>
-      <button class="btn btn-primary" onclick="showToast('共用設定（Demo）','success')">共用設定</button>
+      <button class="btn btn-primary" onclick="openCommonModal()">共用設定</button>
     </div>
     <div id="hallCards"></div>
-    <div class="hall-selector">
-      <label>選擇娛樂廳</label>
-      <select id="hallSelect" onchange="switchHall()"></select>
-    </div>
     <div id="hallDetail"></div>
     <div class="game-section">
       <div class="game-section-header">
@@ -183,8 +196,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="count" id="gameCount">28 筆</span>
       </div>
       <div class="filter-bar">
+        <select id="hallSelect" onchange="switchHall()" style="min-width:160px"></select>
         <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
-        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂廳</option></select>
         <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
         <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option></select>
       </div>
@@ -240,6 +253,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="modal-header"><h3>確認操作</h3><button class="modal-close" onclick="closeModal('toggleConfirm')">&times;</button></div>
     <div class="modal-body"><p id="toggleMsg" style="font-size:13px;color:#374151;line-height:1.6"></p></div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('toggleConfirm')">取消</button><button class="btn btn-danger" id="toggleConfirmBtn" onclick="confirmToggle()">確認</button></div>
+  </div>
+</div>
+<!-- Modal: 共用設定 -->
+<div class="modal-overlay" id="commonModal">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-header"><h3>遊戲共用設定</h3><button class="modal-close" onclick="closeModal('commonModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="info-box">整合遊戲維護、推薦、標籤設定。此處設定影響所有娛樂廳。</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="btn btn-outline btn-sm common-tab active" data-tab="maint" onclick="switchCommonTab('maint')">維護設定</button>
+        <button class="btn btn-outline btn-sm common-tab" data-tab="recommend" onclick="switchCommonTab('recommend')">推薦設定</button>
+        <button class="btn btn-outline btn-sm common-tab" data-tab="tags" onclick="switchCommonTab('tags')">標籤管理</button>
+      </div>
+      <div id="commonTabContent"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('commonModal')">關閉</button></div>
+  </div>
+</div>
+<!-- Modal: 遊戲詳情 -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header"><h3 id="detailTitle">遊戲詳情</h3><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button><button class="btn btn-primary" onclick="saveDetail()">儲存</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
