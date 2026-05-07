@@ -6,8 +6,8 @@
 <title>Nova 後台 - 娛樂廳管理</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#fff;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
-.sidebar{width:250px;background:#fff;border-right:1px solid oklch(0.922 0 0);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#fff;border-right:1px solid oklch(0.922 0 0);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden;transition:transform .3s}
 .sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden}
 .sidebar-group{padding:4px 8px}
 .sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:#374151;font-size:14px;transition:background .15s;text-decoration:none;min-height:38px}
@@ -32,19 +32,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-role{font-size:11px;color:#6B7280}
 .user-chevron{width:14px;height:14px;color:#9CA3AF;transform:rotate(180deg);transition:transform .2s}
 .sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
-.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
-.sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
-.user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
-.user-popover .user-avatar{width:36px;height:36px;font-size:14px}
-.user-popover-info{display:flex;flex-direction:column}
-.user-popover-name{font-size:13px;font-weight:600;color:#111827}
-.user-popover-sub{font-size:11px;color:#6B7280}
-.user-popover-divider{height:1px;background:#E5E7EB;margin:4px 0 8px}
-.user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
-.user-popover-item:hover{background:#F3F4F6}
-.user-popover-item svg{width:16px;height:16px;color:#6B7280}
+.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200}
+.sidebar-user.open .user-popover{display:block}
 .sidebar-group-label{font-size:11px;font-weight:600;color:#9CA3AF;padding:12px 12px 4px;text-transform:uppercase;letter-spacing:.5px}
-.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh;transition:margin-left .3s}
 .topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
 .topbar-toggle{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
 .topbar-toggle svg{width:20px;height:20px}
@@ -52,119 +43,88 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .breadcrumb a{color:#6B7280;text-decoration:none}
 .breadcrumb .sep{color:#D1D5DB}
 .breadcrumb .current{color:#374151;font-weight:500}
-.topbar-warning{margin-left:auto;display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #F59E0B;border-radius:6px;background:#FFFBEB;font-size:12px;color:#92400E}
-.topbar-warning svg{width:14px;height:14px;color:#F59E0B}
-.content{padding:24px;flex:1}
+.content{padding:24px;flex:1;max-width:1200px}
 .page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h4{font-size:18px;font-weight:600;color:#111827}
-
-/* Alert Banner */
-.alert-banner{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;margin-bottom:16px}
-.alert-banner.danger{background:#FEF2F2;border:1px solid #FECACA}
-.alert-banner .alert-icon{font-size:16px;flex-shrink:0}
-.alert-banner .alert-label{font-size:13px;font-weight:600;color:#991B1B}
-.alert-banner .alert-desc{font-size:12px;color:#6B7280;margin-left:4px}
-.alert-banner .spacer{flex:1}
-.alert-banner .btn-alert{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;background:#DC2626;color:#fff;display:inline-flex;align-items:center;gap:5px}
-.alert-banner .btn-alert:hover{background:#B91C1C}
-
-/* Tabs */
-.tab-bar{display:flex;gap:2px;margin-bottom:16px;background:#F3F4F6;border-radius:8px;padding:3px}
-.tab-item{padding:7px 16px;font-size:13px;font-weight:500;color:#6B7280;cursor:pointer;border-radius:6px;transition:all .15s}
-.tab-item:hover{color:#374151}
-.tab-item.active{background:#fff;color:#111827;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-
-/* Filter */
-.filter-section{margin-bottom:16px}
-.filter-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
-.filter-group{display:flex;flex-direction:column;gap:4px}
-.filter-group label{font-size:12px;font-weight:500;color:#374151}
-.filter-group input,.filter-group select{padding:7px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit;min-width:160px;background:#fff}
-.filter-group input:focus,.filter-group select:focus{outline:none;border-color:#393939;box-shadow:0 0 0 2px rgba(57,57,57,.08)}
-.filter-group .input-icon{position:relative}
-.filter-group .input-icon input{padding-left:32px}
-.filter-group .input-icon svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:#9CA3AF}
-.btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
-.btn svg{width:14px;height:14px}
-.btn-primary{background:#2563EB;color:#fff}
-.btn-primary:hover{background:#1D4ED8}
-.btn-reset{border:1px solid oklch(0.922 0 0);background:#fff;color:#374151}
-.btn-reset:hover{background:#F9FAFB}
-.btn-dark{background:#393939;color:#fff}
-.btn-dark:hover{background:#1a1a1a}
-
-/* Advanced filter (shown inline, no toggle button) */
-.filter-advanced{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px dashed oklch(0.922 0 0)}
-
-/* Pagination */
-.pagination-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;color:#6B7280}
-.pagination-bar .spacer{flex:1}
-.pagination-bar select{padding:4px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit}
-
-/* Table */
-.data-table{width:100%;border-collapse:collapse}
-.data-table th{background:rgba(57,57,57,0.05);padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#393939;border-bottom:1px solid oklch(0.922 0 0);white-space:nowrap}
-.data-table td{padding:10px 12px;border-bottom:1px solid oklch(0.922 0 0);font-size:12px;vertical-align:middle}
-.data-table tr:last-child td{border-bottom:none}
-.data-table tr:hover td{background:rgba(243,244,246,0.4)}
-.game-link{color:#2563EB;font-weight:500;cursor:pointer;background:none;border:none;font-size:12px;font-family:inherit;padding:0}
-.game-link:hover{text-decoration:underline}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
-.badge-online{background:#DCFCE7;color:#166534}
-.badge-offline{background:#FEE2E2;color:#991B1B}
-.badge-maint{background:#FEF3C7;color:#92400E}
-.badge-upcoming{background:#DBEAFE;color:#1E40AF}
-.badge-tag{background:#F3F4F6;color:#374151}
-.op-btn{width:28px;height:28px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#6B7280;transition:all .15s}
-.op-btn:hover{background:#F3F4F6;color:#111827}
-.op-btn svg{width:14px;height:14px}
-.op-more{position:relative;display:inline-flex}
-
-/* Override indicator */
-.ov-val{color:#D97706;font-weight:500}
-.orig-val{color:#9CA3AF;font-size:11px;text-decoration:line-through;margin-left:4px}
-
-/* Schedule section */
-.sched-card{background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
-.sched-card svg{width:14px;height:14px;color:#D97706;flex-shrink:0}
-.sched-info{flex:1;font-size:12px;color:#92400E}
-.sched-time{font-weight:600}
-.sched-badge{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
-.sched-badge.off{background:#FEE2E2;color:#991B1B}
-.sched-badge.on{background:#DCFCE7;color:#166534}
-
-/* Currency inline */
-.curr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.curr-card{padding:14px 16px;border-radius:8px;border:1px solid oklch(0.922 0 0)}
-.curr-card.gold{border-color:rgba(217,119,6,0.2);background:rgba(217,119,6,0.02)}
-.curr-card.star{border-color:rgba(124,58,237,0.2);background:rgba(124,58,237,0.02)}
-.curr-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.curr-header .dot{width:8px;height:8px;border-radius:50%}
-.curr-header .dot.gold{background:#D97706}
-.curr-header .dot.star{background:#7C3AED}
-.curr-header h5{font-size:13px;font-weight:600;color:#111827}
-.curr-header .curr-status{font-size:10px;font-weight:500;padding:2px 6px;border-radius:4px;margin-left:auto}
-.curr-status.on{background:#DCFCE7;color:#166534}
-.curr-status.off{background:#FEE2E2;color:#991B1B}
-.curr-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.curr-field{display:flex;flex-direction:column;gap:2px}
-.curr-field label{font-size:10px;color:#6B7280}
-.curr-field span{font-size:12px;color:#374151;font-weight:500}
-
-/* Toggle */
-.toggle-wrap{display:flex;align-items:center;gap:8px}
+.page-header .desc{font-size:12px;color:#6B7280;margin-left:8px}
+.hall-card{background:#fff;border:1px solid oklch(0.922 0 0);border-radius:12px;margin-bottom:20px;overflow:hidden;transition:box-shadow .2s}
+.hall-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.hall-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0);background:rgba(57,57,57,0.015)}
+.hall-header .hall-name{font-size:15px;font-weight:600;color:#111827}
+.hall-header .hall-meta{font-size:11px;color:#6B7280;margin-left:4px}
+.hall-header .spacer{flex:1}
+.hall-status{display:flex;align-items:center;gap:6px}
+.hall-status .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hall-status .dot.on{background:#22C55E}
+.hall-status .dot.off{background:#EF4444}
+.hall-status .label{font-size:12px;font-weight:500}
+.hall-status .label.on{color:#166534}
+.hall-status .label.off{color:#991B1B}
 .toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
 .toggle.on{background:oklch(0.777 0.152 181.912)}
 .toggle.off{background:#D1D5DB}
 .toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .toggle.on::after{left:18px}
 .toggle.off::after{left:2px}
-.toggle-label{font-size:12px;font-weight:500}
-.toggle-label.on{color:oklch(0.704 0.14 182.503)}
-.toggle-label.off{color:#9CA3AF}
-
-/* Modal */
+.hall-body{padding:20px}
+.hall-sections{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sec-card{border:1px solid oklch(0.922 0 0);border-radius:8px;padding:14px 16px}
+.sec-card.gold{border-left:3px solid #D97706}
+.sec-card.star{border-left:3px solid #7C3AED}
+.sec-card.sched{border-left:3px solid #2563EB;grid-column:1/-1}
+.sec-title{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:13px;font-weight:600;color:#111827}
+.sec-title .icon{width:16px;height:16px;color:#6B7280}
+.sec-title .sec-badge{margin-left:auto;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px}
+.sec-badge.on{background:#DCFCE7;color:#166534}
+.sec-badge.off{background:#FEE2E2;color:#991B1B}
+.curr-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.curr-field{display:flex;flex-direction:column;gap:2px}
+.curr-field label{font-size:10px;color:#6B7280;font-weight:500}
+.curr-field .val{font-size:13px;color:#374151;font-weight:500}
+.sched-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#F8FAFC;border-radius:6px;margin-bottom:6px}
+.sched-item:last-child{margin-bottom:0}
+.sched-item .sched-icon{width:14px;height:14px;color:#2563EB;flex-shrink:0}
+.sched-item .sched-text{flex:1;font-size:12px;color:#374151}
+.sched-item .sched-time{font-weight:600;color:#1E40AF}
+.sched-action{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500;display:inline-block}
+.sched-action.off{background:#FEE2E2;color:#991B1B}
+.sched-action.on{background:#DCFCE7;color:#166534}
+.sched-item .del-btn{width:20px;height:20px;border-radius:4px;border:none;background:none;cursor:pointer;color:#9CA3AF;display:flex;align-items:center;justify-content:center}
+.sched-item .del-btn:hover{background:#FEE2E2;color:#DC2626}
+.sched-empty{font-size:12px;color:#9CA3AF;padding:8px 0}
+.add-sched-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#2563EB;cursor:pointer;padding:4px 8px;border-radius:4px;border:1px dashed #93C5FD;background:none;margin-top:8px;font-family:inherit}
+.add-sched-btn:hover{background:#EFF6FF}
+.game-section{margin-top:24px}
+.game-section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.game-section-header h5{font-size:14px;font-weight:600;color:#111827}
+.game-section-header .count{font-size:11px;color:#6B7280;background:#F3F4F6;padding:2px 8px;border-radius:10px}
+.filter-bar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.filter-bar input,.filter-bar select{padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:12px;font-family:inherit;min-width:140px}
+.filter-bar input:focus,.filter-bar select:focus{outline:none;border-color:#393939}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px;overflow:hidden}
+.data-table th{background:rgba(57,57,57,0.04);padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#393939;border-bottom:1px solid oklch(0.922 0 0);white-space:nowrap}
+.data-table td{padding:10px 12px;border-bottom:1px solid oklch(0.95 0 0);font-size:12px;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(243,244,246,0.5)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.badge-on{background:#DCFCE7;color:#166534}
+.badge-off{background:#FEE2E2;color:#991B1B}
+.badge-maint{background:#FEF3C7;color:#92400E}
+.badge-soon{background:#DBEAFE;color:#1E40AF}
+.override-indicator{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:#D97706;font-weight:500;padding:1px 6px;border-radius:3px;background:rgba(217,119,6,0.08)}
+.inherit-indicator{font-size:10px;color:#9CA3AF}
+.val.override{color:#D97706;font-weight:600}
+.orig{font-size:10px;color:#9CA3AF;text-decoration:line-through}
+.btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn svg{width:14px;height:14px}
+.btn-primary{background:#393939;color:#fff}
+.btn-primary:hover{background:#1a1a1a}
+.btn-outline{border:1px solid oklch(0.922 0 0);background:#fff;color:#374151}
+.btn-outline:hover{background:#F9FAFB}
+.btn-danger{background:#DC2626;color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-sm{padding:5px 10px;font-size:11px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:12px;width:90%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)}
@@ -179,374 +139,99 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .form-group input,.form-group select{width:100%;padding:8px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-hint{font-size:11px;color:#6B7280;margin-top:4px}
-
-/* Toast */
+.info-box{padding:10px 12px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.15);border-radius:6px;font-size:12px;color:#1E40AF;margin-bottom:14px}
 .toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;color:#fff;z-index:9999;transform:translateX(120%);opacity:0;transition:all .3s;visibility:hidden}
 .toast.show{transform:translateX(0);opacity:1;visibility:visible}
 .toast.success{background:#393939}
 .toast.error{background:#DC2626}
 .toast.warning{background:#D97706}
-
-/* Section divider */
-.section-block{margin-bottom:20px;padding:16px 20px;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:10px}
-.section-title{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13px;font-weight:600;color:#111827}
-.section-title svg{width:16px;height:16px;color:#6B7280}
-
-/* Responsive */
 .sidebar-collapsed .sidebar{transform:translateX(-250px)}
 .sidebar-collapsed .main{margin-left:0}
-.sidebar{transition:transform .3s cubic-bezier(.25,.1,.25,1)}
-.main{transition:margin-left .3s cubic-bezier(.25,.1,.25,1)}
-@media(max-width:768px){
-.sidebar{transform:translateX(-100%);position:fixed;z-index:100}
-.sidebar.show{transform:translateX(0)}
-.main{margin-left:0}
-.topbar{padding:0 12px}
-.content{padding:12px}
-.curr-grid{grid-template-columns:1fr}
-.filter-row{flex-direction:column}
-}
+@media(max-width:900px){.hall-sections{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:100}.sidebar.show{transform:translateX(0)}.main{margin-left:0}.content{padding:12px}}
 </style>
 </head>
 <body>
 <nav class="sidebar" id="sidebar"></nav>
 <script src="components/sidebar.js"></script>
-
 <div class="main">
   <div class="topbar">
     <button class="topbar-toggle" onclick="toggleSidebarMobile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
     <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">遊戲管理</a><span class="sep">&gt;</span><span class="current">娛樂廳管理</span></div>
-    <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
     <div class="page-header">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <h4>娛樂廳管理</h4>
+      <span class="desc">廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定</span>
     </div>
-
-    <!-- Alert: 全廳開關控制 -->
-    <div class="alert-banner danger">
-      <span class="alert-icon">🛑</span>
-      <span class="alert-label">全廳開關控制</span>
-      <span class="alert-desc">此操作將批次變更所選娛樂城內所有遊戲的狀態，無需先設定維護中</span>
-      <span class="spacer"></span>
-      <button class="btn-alert" onclick="openMaintModal()">設定娛樂城開關</button>
-    </div>
-
-    <!-- Tab: 金幣 / 星幣 -->
-    <div class="tab-bar">
-      <div class="tab-item active" onclick="switchCoinTab('gold')">金幣</div>
-      <div class="tab-item" onclick="switchCoinTab('star')">星幣</div>
-    </div>
-
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <div class="filter-row">
-        <div class="filter-group"><label>遊戲名稱</label><div class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..."></div></div>
-        <div class="filter-group"><label>狀態</label><select><option value="">選擇狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
-        <div class="filter-group"><label>種類</label><select><option value="">選擇種類</option><option>電動</option><option>街機</option><option>捕魚</option><option>棋牌</option><option>體育</option><option>真人</option><option>彩票</option><option>未分類</option></select></div>
-        <button class="btn btn-primary" onclick="showToast('搜尋完成','success')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-        <button class="btn btn-reset">重置</button>
+    <div id="hallCards"></div>
+    <div class="game-section">
+      <div class="game-section-header">
+        <h5>遊戲列表</h5>
+        <span class="count" id="gameCount">28 筆</span>
       </div>
-      <!-- Advanced filters (always visible, no toggle button per requirement) -->
-      <div class="filter-advanced">
-        <div class="filter-group"><label>娛樂城</label><select><option value="">選擇娛樂城</option><option>VA</option><option>YGR</option></select></div>
-        <div class="filter-group"><label>標籤</label><select><option value="">選擇標籤</option><option>推薦</option><option>熱門</option><option>最新</option><option>星幣</option><option>刮刮樂</option><option>連消</option><option>限制</option></select></div>
-        <div class="filter-group"><label>VIP等級以上</label><select><option value="">所有等級</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option><option>VIP 4</option><option>VIP 5</option><option>VIP 6</option></select></div>
+      <div class="filter-bar">
+        <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
+        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂城</option><option>VA</option><option>YGR</option></select>
+        <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
+        <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option><option>電動</option><option>街機</option><option>捕魚</option><option>棋牌</option><option>體育</option><option>真人</option><option>彩票</option><option>未分類</option></select>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>序號</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP</th><th>金幣投注</th><th>星幣投注</th><th>覆蓋狀態</th><th>操作</th></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
       </div>
     </div>
-
-    <!-- Pagination -->
-    <div class="pagination-bar">
-      <span>第 1 頁，共 28 筆資料</span>
-      <span class="spacer"></span>
-      <span>每頁顯示</span>
-      <select><option>20</option><option>50</option><option>100</option></select>
-      <span>筆</span>
-    </div>
-
-    <!-- Data Table -->
-    <div style="overflow-x:auto">
-      <table class="data-table" id="gameTable">
-        <thead><tr>
-          <th>序號</th><th>標籤</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP 等級以上</th><th>操作</th><th>備註</th>
-        </tr></thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-
-    <!-- Section: 排程開關 + 幣種設定 (per hall) -->
-    <div id="hallSettings"></div>
   </div>
 </div>
-
-<!-- Modal: 設定娛樂城開關 -->
-<div class="modal-overlay" id="maintModal">
+<!-- Modal: 排程設定 -->
+<div class="modal-overlay" id="schedModal">
   <div class="modal">
-    <div class="modal-header"><h3>設定娛樂城開關</h3><button class="modal-close" onclick="closeModal('maintModal')">&times;</button></div>
+    <div class="modal-header"><h3>新增排程</h3><button class="modal-close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>目標娛樂城</label><select id="mHall"><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="ALL">全部娛樂城</option></select></div>
-      <div class="form-group"><label>動作</label><select id="mAction"><option value="off">立即關閉</option><option value="on">立即開啟</option><option value="schedule">排程開關</option></select></div>
-      <div id="schedFields" style="display:none">
-        <div class="form-row">
-          <div class="form-group"><label>開始時間</label><input type="datetime-local" id="mStart"></div>
-          <div class="form-group"><label>結束時間（選填）</label><input type="datetime-local" id="mEnd"><div class="form-hint">留空表示手動恢復</div></div>
-        </div>
-      </div>
-      <div class="form-group"><label>備註</label><input type="text" id="mNote" placeholder="例：例行維護、版本更新"></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-reset" onclick="closeModal('maintModal')">取消</button><button class="btn btn-dark" onclick="execMaint()">確認執行</button></div>
-  </div>
-</div>
-
-<!-- Modal: 編輯遊戲 -->
-<div class="modal-overlay" id="editModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="editTitle">編輯遊戲</h3><button class="modal-close" onclick="closeModal('editModal')">&times;</button></div>
-    <div class="modal-body">
+      <div class="info-box">排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉</div>
+      <div class="form-group"><label>目標娛樂城</label><select id="sHall"><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option></select></div>
+      <div class="form-group"><label>動作</label><select id="sAction"><option value="off">關閉</option><option value="on">開啟</option></select></div>
       <div class="form-row">
-        <div class="form-group"><label>狀態</label><select id="eStatus"><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
-        <div class="form-group"><label>VIP 等級以上</label><select id="eVip"><option>不限制</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option><option>VIP 4</option><option>VIP 5</option><option>VIP 6</option></select></div>
+        <div class="form-group"><label>開始時間</label><input type="datetime-local" id="sStart"></div>
+        <div class="form-group"><label>結束時間（選填）</label><input type="datetime-local" id="sEnd"><div class="form-hint">留空表示手動恢復</div></div>
       </div>
-      <div class="form-group"><label>備註</label><input type="text" id="eNote" placeholder="輸入備註..."></div>
+      <div class="form-group"><label>備註</label><input type="text" id="sNote" placeholder="例：例行維護、版本更新"></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-reset" onclick="closeModal('editModal')">取消</button><button class="btn btn-dark" onclick="saveEdit()">儲存</button></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('schedModal')">取消</button><button class="btn btn-primary" onclick="addSchedule()">新增排程</button></div>
   </div>
 </div>
-
-<!-- Modal: 幣種設定 -->
+<!-- Modal: 幣種覆蓋設定 -->
 <div class="modal-overlay" id="currModal">
   <div class="modal" style="max-width:560px">
-    <div class="modal-header"><h3>幣種設定（廳級覆蓋）</h3><button class="modal-close" onclick="closeModal('currModal')">&times;</button></div>
+    <div class="modal-header"><h3 id="currModalTitle">幣種設定</h3><button class="modal-close" onclick="closeModal('currModal')">&times;</button></div>
     <div class="modal-body">
-      <div style="padding:10px 12px;background:rgba(57,57,57,0.03);border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:12px;color:#475569;margin-bottom:14px">廳級設定優先覆蓋遊戲原始值。取消覆蓋後遊戲自動恢復原始設定。</div>
-      <div class="form-group"><label>目標娛樂城</label><select id="cHall"><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option></select></div>
-      <div style="margin-top:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div class="dot gold" style="width:8px;height:8px;border-radius:50%;background:#D97706"></div><span style="font-size:13px;font-weight:600">金幣設定</span></div>
+      <div class="info-box">廳級幣種設定會覆蓋該廳所有遊戲的投注範圍。取消覆蓋後，遊戲自動恢復各自原始設定。</div>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div style="width:8px;height:8px;border-radius:50%;background:#D97706"></div><span style="font-size:13px;font-weight:600">金幣設定</span></div>
         <div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="cGoldMin" placeholder="10"></div><div class="form-group"><label>最高投注</label><input type="number" id="cGoldMax" placeholder="100000"></div></div>
         <div class="form-row"><div class="form-group"><label>兌換比率</label><input type="text" id="cGoldRate" placeholder="1:1"><div class="form-hint">金幣:遊戲幣</div></div><div class="form-group"><label>狀態</label><select id="cGoldStatus"><option value="on">啟用</option><option value="off">停用</option></select></div></div>
       </div>
-      <div style="margin-top:18px;padding-top:14px;border-top:1px solid oklch(0.922 0 0)"><div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div class="dot star" style="width:8px;height:8px;border-radius:50%;background:#7C3AED"></div><span style="font-size:13px;font-weight:600">星幣設定</span></div>
+      <div style="padding-top:14px;border-top:1px solid oklch(0.922 0 0)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div style="width:8px;height:8px;border-radius:50%;background:#7C3AED"></div><span style="font-size:13px;font-weight:600">星幣設定</span></div>
         <div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="cStarMin" placeholder="100"></div><div class="form-group"><label>最高投注</label><input type="number" id="cStarMax" placeholder="50000"></div></div>
         <div class="form-row"><div class="form-group"><label>兌換比率</label><input type="text" id="cStarRate" placeholder="10:1"><div class="form-hint">星幣:遊戲幣</div></div><div class="form-group"><label>狀態</label><select id="cStarStatus"><option value="on">啟用</option><option value="off">停用</option></select></div></div>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-reset" onclick="closeModal('currModal')">取消</button><button class="btn btn-dark" onclick="saveCurr()">儲存設定</button></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('currModal')">取消</button><button class="btn btn-primary" onclick="saveCurr()">儲存設定</button></div>
   </div>
 </div>
-
+<!-- Modal: 快速開關確認 -->
+<div class="modal-overlay" id="toggleConfirm">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header"><h3>確認操作</h3><button class="modal-close" onclick="closeModal('toggleConfirm')">&times;</button></div>
+    <div class="modal-body"><p id="toggleMsg" style="font-size:13px;color:#374151;line-height:1.6"></p></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('toggleConfirm')">取消</button><button class="btn btn-danger" id="toggleConfirmBtn" onclick="confirmToggle()">確認</button></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
-
-<script>
-// === Data ===
-const halls = {
-  VA: {name:'VA 娛樂城',status:'on',gold:{enabled:true,min:10,max:100000,rate:'1:1'},star:{enabled:true,min:100,max:50000,rate:'10:1'},schedules:[{action:'off',start:'2026-05-10T03:00',end:'2026-05-10T05:00',note:'例行維護'}]},
-  YGR: {name:'YGR 娛樂城',status:'on',gold:{enabled:true,min:10,max:80000,rate:'1:1'},star:{enabled:true,min:100,max:30000,rate:'10:1'},schedules:[]}
-};
-
-const games = [
-  {id:1,tag:'-',hall:'VA',cat:'電動',name:'埃及三秘寶',status:'即將上線',vip:'不限制',note:'批次維護測試中'},
-  {id:2,tag:'-',hall:'VA',cat:'電動',name:'財神倍倍發 X4096',status:'即將上線',vip:'不限制',note:'批次維護測試中'},
-  {id:3,tag:'推薦',hall:'VA',cat:'電動',name:'印加祖瑪 豪華版',status:'停用中',vip:'不限制',note:''},
-  {id:4,tag:'-',hall:'VA',cat:'電動',name:'財富金幣',status:'使用中',vip:'不限制',note:''},
-  {id:5,tag:'-',hall:'VA',cat:'電動',name:'阿茲特克神話',status:'使用中',vip:'不限制',note:''},
-  {id:6,tag:'-',hall:'VA',cat:'電動',name:'自摸無雙 2',status:'使用中',vip:'不限制',note:''},
-  {id:7,tag:'-',hall:'VA',cat:'電動',name:'自摸無雙3',status:'使用中',vip:'不限制',note:''},
-  {id:8,tag:'-',hall:'VA',cat:'電動',name:'法老祕寶',status:'使用中',vip:'不限制',note:''},
-  {id:9,tag:'-',hall:'VA',cat:'電動',name:'印加女神',status:'使用中',vip:'不限制',note:''},
-  {id:10,tag:'-',hall:'VA',cat:'電動',name:'星運雷神',status:'使用中',vip:'VIP 1',note:''},
-  {id:11,tag:'-',hall:'VA',cat:'未分類',name:'爆礦傳奇',status:'使用中',vip:'不限制',note:''},
-  {id:12,tag:'-',hall:'VA',cat:'未分類',name:'星運賽特',status:'使用中',vip:'不限制',note:''},
-  {id:13,tag:'-',hall:'VA',cat:'未分類',name:'自摸無雙',status:'使用中',vip:'不限制',note:''},
-  {id:14,tag:'-',hall:'VA',cat:'未分類',name:'自摸無雙 5',status:'使用中',vip:'不限制',note:''},
-  {id:15,tag:'-',hall:'YGR',cat:'街機',name:'祖瑪探險',status:'即將上線',vip:'不限制',note:''},
-  {id:16,tag:'-',hall:'YGR',cat:'電動',name:'自摸財神',status:'停用中',vip:'不限制',note:''},
-  {id:17,tag:'-',hall:'YGR',cat:'電動',name:'聚寶福祿壽',status:'使用中',vip:'不限制',note:''},
-  {id:18,tag:'-',hall:'YGR',cat:'電動',name:'甜蜜聖誕',status:'使用中',vip:'不限制',note:''},
-  {id:19,tag:'-',hall:'YGR',cat:'電動',name:'福來臨',status:'使用中',vip:'不限制',note:''},
-  {id:20,tag:'-',hall:'YGR',cat:'電動',name:'祥龍獻瑞',status:'使用中',vip:'不限制',note:''},
-  {id:21,tag:'熱門',hall:'YGR',cat:'未分類',name:'龍族傳說6',status:'使用中',vip:'不限制',note:''},
-  {id:22,tag:'-',hall:'YGR',cat:'未分類',name:'龍族傳說7',status:'使用中',vip:'不限制',note:''},
-  {id:23,tag:'-',hall:'YGR',cat:'未分類',name:'賽特神話',status:'使用中',vip:'不限制',note:''},
-  {id:24,tag:'-',hall:'YGR',cat:'未分類',name:'王國秘寶',status:'使用中',vip:'不限制',note:''},
-  {id:25,tag:'-',hall:'YGR',cat:'未分類',name:'彩虹軟糖',status:'使用中',vip:'不限制',note:''},
-  {id:26,tag:'-',hall:'YGR',cat:'未分類',name:'鐵道富翁',status:'使用中',vip:'不限制',note:''},
-  {id:27,tag:'-',hall:'YGR',cat:'未分類',name:'豬滿滿',status:'使用中',vip:'不限制',note:''},
-  {id:28,tag:'-',hall:'YGR',cat:'未分類',name:'天上聖母',status:'使用中',vip:'不限制',note:''}
-];
-
-let currentTab = 'gold';
-let editIdx = -1;
-
-function renderTable() {
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = games.map((g,i) => {
-    const bc = g.status==='使用中'?'badge-online':g.status==='停用中'?'badge-offline':g.status==='維護中'?'badge-maint':'badge-upcoming';
-    return `<tr>
-      <td>${g.id}</td>
-      <td>${g.tag!=='-'?'<span class="badge badge-tag">'+g.tag+'</span>':'-'}</td>
-      <td>${g.hall}</td>
-      <td>${g.cat}</td>
-      <td><button class="game-link" onclick="openGameDetail(${i})">${g.name}</button></td>
-      <td><span class="badge ${bc}">${g.status}</span></td>
-      <td>${g.vip}</td>
-      <td><button class="op-btn" onclick="openEdit(${i})" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="op-btn" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>
-      <td style="color:#6B7280;font-size:11px">${g.note||''}</td>
-    </tr>`;
-  }).join('');
-}
-
-function renderHallSettings() {
-  const el = document.getElementById('hallSettings');
-  let html = '';
-  for (const [id, h] of Object.entries(halls)) {
-    // Schedule section
-    let schedHtml = '<div style="color:#9CA3AF;font-size:12px">尚無排程</div>';
-    if (h.schedules.length > 0) {
-      schedHtml = h.schedules.map((s,i) => `<div class="sched-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><div class="sched-info"><span class="sched-time">${fmtDT(s.start)}</span>${s.end?' ~ <span class="sched-time">'+fmtDT(s.end)+'</span>':' (手動恢復)'} <span class="sched-badge ${s.action}">${s.action==='off'?'關閉':'開啟'}</span>${s.note?' <span style="color:#6B7280;font-style:italic">'+s.note+'</span>':''}</div><button class="op-btn" onclick="delSched('${id}',${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`).join('');
-    }
-
-    html += `<div class="section-block">
-      <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>${h.name}
-        <span style="margin-left:auto;display:flex;align-items:center;gap:8px">
-          <span class="toggle-wrap"><button class="toggle ${h.status}" onclick="toggleHall('${id}')"></button><span class="toggle-label ${h.status}">${h.status==='on'?'運行中':'已關閉'}</span></span>
-          <button class="btn btn-reset" style="font-size:11px;padding:4px 10px" onclick="openCurrModal('${id}')">幣種設定</button>
-        </span>
-      </div>
-      <!-- Currency overview -->
-      <div class="curr-grid">
-        <div class="curr-card gold"><div class="curr-header"><div class="dot gold"></div><h5>金幣</h5><span class="curr-status ${h.gold.enabled?'on':'off'}">${h.gold.enabled?'啟用':'停用'}</span></div><div class="curr-fields"><div class="curr-field"><label>投注範圍</label><span>${h.gold.enabled?'$'+h.gold.min.toLocaleString()+' ~ $'+h.gold.max.toLocaleString():'-'}</span></div><div class="curr-field"><label>兌換比率</label><span>${h.gold.rate}</span></div></div></div>
-        <div class="curr-card star"><div class="curr-header"><div class="dot star"></div><h5>星幣</h5><span class="curr-status ${h.star.enabled?'on':'off'}">${h.star.enabled?'啟用':'停用'}</span></div><div class="curr-fields"><div class="curr-field"><label>投注範圍</label><span>${h.star.enabled?'$'+h.star.min.toLocaleString()+' ~ $'+h.star.max.toLocaleString():'-'}</span></div><div class="curr-field"><label>兌換比率</label><span>${h.star.rate}</span></div></div></div>
-      </div>
-      <!-- Schedules -->
-      <div style="margin-top:14px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;font-weight:600;color:#374151"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#6B7280"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>排程列表</div>${schedHtml}</div>
-    </div>`;
-  }
-  el.innerHTML = html;
-}
-
-// === Interactions ===
-function switchCoinTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.textContent === (tab==='gold'?'金幣':'星幣')));
-}
-
-function toggleHall(id) {
-  halls[id].status = halls[id].status==='on'?'off':'on';
-  renderHallSettings();
-  showToast(halls[id].name + (halls[id].status==='on'?' 已開啟':' 已關閉'), halls[id].status==='on'?'success':'warning');
-}
-
-function openMaintModal() { document.getElementById('maintModal').classList.add('show'); }
-function openCurrModal(id) {
-  const h = halls[id];
-  document.getElementById('cHall').value = id;
-  document.getElementById('cGoldMin').value = h.gold.min;
-  document.getElementById('cGoldMax').value = h.gold.max;
-  document.getElementById('cGoldRate').value = h.gold.rate;
-  document.getElementById('cGoldStatus').value = h.gold.enabled?'on':'off';
-  document.getElementById('cStarMin').value = h.star.min;
-  document.getElementById('cStarMax').value = h.star.max;
-  document.getElementById('cStarRate').value = h.star.rate;
-  document.getElementById('cStarStatus').value = h.star.enabled?'on':'off';
-  document.getElementById('currModal').classList.add('show');
-}
-function openEdit(idx) {
-  editIdx = idx;
-  const g = games[idx];
-  document.getElementById('editTitle').textContent = '編輯 - ' + g.name;
-  document.getElementById('eStatus').value = g.status;
-  document.getElementById('eVip').value = g.vip;
-  document.getElementById('eNote').value = g.note||'';
-  document.getElementById('editModal').classList.add('show');
-}
-function openGameDetail(idx) { openEdit(idx); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
-function execMaint() {
-  const hallId = document.getElementById('mHall').value;
-  const action = document.getElementById('mAction').value;
-  const note = document.getElementById('mNote').value;
-  if (action === 'schedule') {
-    const start = document.getElementById('mStart').value;
-    if (!start) { showToast('請選擇開始時間','error'); return; }
-    const end = document.getElementById('mEnd').value;
-    const targets = hallId==='ALL'?Object.keys(halls):[hallId];
-    targets.forEach(id => halls[id].schedules.push({action:'off',start,end,note}));
-    showToast('排程已新增','success');
-  } else {
-    const targets = hallId==='ALL'?Object.keys(halls):[hallId];
-    targets.forEach(id => { halls[id].status = action; });
-    showToast((hallId==='ALL'?'全部娛樂城':halls[hallId].name) + (action==='on'?' 已開啟':' 已關閉'), action==='on'?'success':'warning');
-  }
-  closeModal('maintModal');
-  renderHallSettings();
-}
-
-function saveCurr() {
-  const id = document.getElementById('cHall').value;
-  halls[id].gold.min = parseInt(document.getElementById('cGoldMin').value)||0;
-  halls[id].gold.max = parseInt(document.getElementById('cGoldMax').value)||0;
-  halls[id].gold.rate = document.getElementById('cGoldRate').value;
-  halls[id].gold.enabled = document.getElementById('cGoldStatus').value==='on';
-  halls[id].star.min = parseInt(document.getElementById('cStarMin').value)||0;
-  halls[id].star.max = parseInt(document.getElementById('cStarMax').value)||0;
-  halls[id].star.rate = document.getElementById('cStarRate').value;
-  halls[id].star.enabled = document.getElementById('cStarStatus').value==='on';
-  closeModal('currModal');
-  renderHallSettings();
-  showToast('幣種設定已儲存：'+halls[id].name,'success');
-}
-
-function saveEdit() {
-  if (editIdx < 0) return;
-  games[editIdx].status = document.getElementById('eStatus').value;
-  games[editIdx].vip = document.getElementById('eVip').value;
-  games[editIdx].note = document.getElementById('eNote').value;
-  closeModal('editModal');
-  renderTable();
-  showToast('已更新：'+games[editIdx].name,'success');
-}
-
-function delSched(id, idx) {
-  halls[id].schedules.splice(idx, 1);
-  renderHallSettings();
-  showToast('排程已刪除','warning');
-}
-
-// Show/hide schedule fields
-document.getElementById('mAction').addEventListener('change', function() {
-  document.getElementById('schedFields').style.display = this.value==='schedule'?'block':'none';
-});
-
-function fmtDT(dt) {
-  if (!dt) return '';
-  const d = new Date(dt);
-  return d.toLocaleDateString('zh-TW')+' '+d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
-}
-
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => { t.className = 'toast'; }, 2500);
-}
-
-// Sidebar
-function toggleSidebarMobile() {
-  if (window.innerWidth <= 768) {
-    document.querySelector('.sidebar').classList.toggle('show');
-  } else {
-    document.body.classList.toggle('sidebar-collapsed');
-  }
-}
-function toggleUserMenu(){document.querySelector('.sidebar-user').classList.toggle('open');event.stopPropagation();}
-document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
-function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
-
-// Init
-renderTable();
-renderHallSettings();
-</script>
+<script src="js/hall-management.js"></script>
 </body>
 </html>
