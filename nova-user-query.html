@@ -143,18 +143,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-group.has-error .filter-input{border-color:#DC2626}
 
 /* Sticky Filter Collapse */
-.filter-fab{position:fixed;top:64px;right:32px;z-index:50;width:40px;height:40px;border-radius:10px;background:#1F2937;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .25s,transform .25s}
-.filter-fab.show{opacity:1;pointer-events:auto;transform:translateY(0)}
-.filter-fab:hover{background:#111827;box-shadow:0 6px 16px rgba(0,0,0,.2)}
-.filter-fab svg{width:18px;height:18px}
-.filter-fab .fab-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:#EF4444;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;display:none}
-.filter-fab .fab-badge.show{display:flex}
+.filter-fab{position:fixed;top:64px;left:50%;transform:translateX(-50%) translateY(-8px);z-index:50;height:32px;padding:0 16px;border-radius:16px;background:#fff;color:#374151;border:1px solid #E5E7EB;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.08);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;font-size:12px;font-weight:500;font-family:inherit}
+.filter-fab.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.filter-fab:hover{background:#F9FAFB;border-color:#D1D5DB;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.filter-fab svg{width:14px;height:14px;color:#6B7280}
+.filter-fab .fab-badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;border-radius:8px;background:#EF4444;color:#fff;font-size:9px;font-weight:700;padding:0 4px;display:none}
+.filter-fab .fab-badge.show{display:inline-flex}
 
-.filter-overlay{position:fixed;top:56px;left:250px;right:0;z-index:45;background:rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .2s;padding:16px 24px;display:flex;align-items:flex-start;justify-content:center}
-.filter-overlay.show{opacity:1;pointer-events:auto}
-.filter-overlay .filter-card{width:100%;max-width:1200px;margin:0;box-shadow:0 8px 32px rgba(0,0,0,.12);animation:filterSlideDown .25s ease}
-@keyframes filterSlideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
-.sidebar-collapsed .filter-overlay{left:0}
+.filter-card.sticky-open{position:fixed;top:52px;left:250px;right:0;z-index:45;margin:0;border-radius:0 0 10px 10px;border-top:none;box-shadow:0 8px 24px rgba(0,0,0,.08);animation:filterSlideDown .3s cubic-bezier(.25,.1,.25,1)}
+@keyframes filterSlideDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
+.sidebar-collapsed .filter-card.sticky-open{left:0}
 
 /* Date Range Picker */
 .date-picker-wrap{position:relative}
@@ -192,11 +190,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <!-- Filter FAB (appears on scroll) -->
 <button class="filter-fab" id="filterFab" title="展開篩選條件">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/></svg>
+  <span>篩選條件</span>
   <span class="fab-badge" id="fabBadge">0</span>
 </button>
-
-<!-- Filter Overlay (shown when FAB clicked) -->
-<div class="filter-overlay" id="filterOverlay"></div>
 
 <div class="main">
   <div class="topbar">
@@ -515,11 +511,10 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 (function(){
   const filterCard = document.querySelector('.content .filter-card');
   const fab = document.getElementById('filterFab');
-  const overlay = document.getElementById('filterOverlay');
   const badge = document.getElementById('fabBadge');
-  if(!filterCard || !fab || !overlay) return;
+  if(!filterCard || !fab) return;
 
-  let overlayOpen = false;
+  let stickyOpen = false;
 
   // 計算已填寫的篩選條件數量
   function countActiveFilters(){
@@ -540,78 +535,41 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const hidden = !entry.isIntersecting;
-      fab.classList.toggle('show', hidden && !overlayOpen);
+      if(!stickyOpen) fab.classList.toggle('show', hidden);
     });
-  }, { threshold: 0, rootMargin: '-56px 0px 0px 0px' }); // 56px = topbar height
+  }, { threshold: 0, rootMargin: '-56px 0px 0px 0px' });
   observer.observe(filterCard);
 
-  // 點擊 FAB → 開啟 overlay
+  // 點擊 FAB → 展開 filter-card 固定在頂部
   fab.addEventListener('click', function(e){
     e.stopPropagation();
-    overlayOpen = true;
-    // 複製 filter-card 到 overlay
-    const clone = filterCard.cloneNode(true);
-    overlay.innerHTML = '';
-    overlay.appendChild(clone);
-    overlay.classList.add('show');
+    stickyOpen = true;
+    filterCard.classList.add('sticky-open');
     fab.classList.remove('show');
-
-    // 同步原始值到 clone
-    const origInputs = filterCard.querySelectorAll('input, select');
-    const cloneInputs = clone.querySelectorAll('input, select');
-    origInputs.forEach((el, i) => {
-      if(cloneInputs[i]) {
-        if(el.tagName === 'SELECT') cloneInputs[i].selectedIndex = el.selectedIndex;
-        else cloneInputs[i].value = el.value;
-      }
-    });
-
-    // clone 內的搜尋按鈕 → 同步回原始 + 關閉 overlay
-    clone.querySelector('.btn-search')?.addEventListener('click', function(){
-      syncBack(clone);
-      closeOverlay();
-      // 觸發原始搜尋
-      filterCard.querySelector('.btn-search')?.click();
-    });
-    clone.querySelector('.btn-reset')?.addEventListener('click', function(){
-      clone.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
-      clone.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
-      clone.querySelectorAll('input[type="hidden"]').forEach(h => h.value = '');
-      const dd = clone.querySelector('.date-display');
-      if(dd) dd.textContent = '選擇日期範圍';
-    });
   });
 
-  function syncBack(clone){
-    const origInputs = filterCard.querySelectorAll('input, select');
-    const cloneInputs = clone.querySelectorAll('input, select');
-    cloneInputs.forEach((el, i) => {
-      if(origInputs[i]) {
-        if(el.tagName === 'SELECT') origInputs[i].selectedIndex = el.selectedIndex;
-        else origInputs[i].value = el.value;
-      }
-    });
-    updateBadge();
-  }
-
-  function closeOverlay(){
-    overlayOpen = false;
-    overlay.classList.remove('show');
+  function closeSticky(){
+    stickyOpen = false;
+    filterCard.classList.remove('sticky-open');
     // 重新判斷 FAB 是否該顯示
     const rect = filterCard.getBoundingClientRect();
-    const topbarH = 56;
-    if(rect.bottom < topbarH) fab.classList.add('show');
+    if(rect.bottom < 56) fab.classList.add('show');
     updateBadge();
   }
 
-  // 點擊 overlay 背景關閉
-  overlay.addEventListener('click', function(e){
-    if(e.target === overlay) closeOverlay();
+  // 點擊搜尋或重置後關閉 sticky
+  filterCard.querySelector('.btn-search')?.addEventListener('click', function(){
+    if(stickyOpen) setTimeout(closeSticky, 100);
+  });
+
+  // 點擊頁面其他區域關閉 sticky
+  document.addEventListener('click', function(e){
+    if(stickyOpen && !filterCard.contains(e.target) && e.target !== fab) closeSticky();
   });
 
   // ESC 關閉
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && overlayOpen) closeOverlay();
+    if(e.key === 'Escape' && stickyOpen) closeSticky();
   });
 
   // 監聽篩選變化更新 badge
