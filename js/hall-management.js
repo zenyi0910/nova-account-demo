@@ -1,12 +1,12 @@
 const halls = {
-  VA: {name:'VA 娛樂城',status:'on',gold:{enabled:true,min:10,max:100000,rate:'1:1'},star:{enabled:true,min:100,max:50000,rate:'10:1'},schedules:[{action:'off',start:'2026-05-10T03:00',end:'2026-05-10T05:00',note:'例行維護'}]},
-  YGR: {name:'YGR 娛樂城',status:'on',gold:{enabled:true,min:10,max:80000,rate:'1:1'},star:{enabled:true,min:100,max:30000,rate:'10:1'},schedules:[]},
-  JDB: {name:'JDB 娛樂城',status:'on',gold:{enabled:true,min:5,max:50000,rate:'1:1'},star:{enabled:true,min:50,max:20000,rate:'10:1'},schedules:[]},
-  PG: {name:'PG 娛樂城',status:'on',gold:{enabled:true,min:10,max:120000,rate:'1:1'},star:{enabled:false,min:0,max:0,rate:'0'},schedules:[]},
-  PP: {name:'PP 娛樂城',status:'off',gold:{enabled:true,min:10,max:90000,rate:'1:1'},star:{enabled:true,min:100,max:40000,rate:'10:1'},schedules:[{action:'on',start:'2026-05-12T10:00',end:'',note:'新廳上線'}]},
-  CQ9: {name:'CQ9 娛樂城',status:'on',gold:{enabled:true,min:10,max:60000,rate:'1:1'},star:{enabled:true,min:100,max:25000,rate:'10:1'},schedules:[]},
-  RSG: {name:'RSG 娛樂城',status:'on',gold:{enabled:true,min:20,max:100000,rate:'1:1'},star:{enabled:true,min:200,max:50000,rate:'10:1'},schedules:[]},
-  FC: {name:'FC 娛樂城',status:'on',gold:{enabled:true,min:10,max:70000,rate:'1:1'},star:{enabled:true,min:100,max:35000,rate:'10:1'},schedules:[]}
+  VA: {name:'VA 娛樂廳',status:'on',gold:{enabled:true,min:10,max:100000,rate:'1:1'},star:{enabled:true,min:100,max:50000,rate:'10:1'},schedules:[{action:'off',start:'2026-05-10T03:00',end:'2026-05-10T05:00',note:'例行維護'}]},
+  YGR: {name:'YGR 娛樂廳',status:'on',gold:{enabled:true,min:10,max:80000,rate:'1:1'},star:{enabled:true,min:100,max:30000,rate:'10:1'},schedules:[]},
+  JDB: {name:'JDB 娛樂廳',status:'on',gold:{enabled:true,min:5,max:50000,rate:'1:1'},star:{enabled:true,min:50,max:20000,rate:'10:1'},schedules:[]},
+  PG: {name:'PG 娛樂廳',status:'on',gold:{enabled:true,min:10,max:120000,rate:'1:1'},star:{enabled:false,min:0,max:0,rate:'0'},schedules:[]},
+  PP: {name:'PP 娛樂廳',status:'off',gold:{enabled:true,min:10,max:90000,rate:'1:1'},star:{enabled:true,min:100,max:40000,rate:'10:1'},schedules:[{action:'on',start:'2026-05-12T10:00',end:'',note:'新廳上線'}]},
+  CQ9: {name:'CQ9 娛樂廳',status:'on',gold:{enabled:true,min:10,max:60000,rate:'1:1'},star:{enabled:true,min:100,max:25000,rate:'10:1'},schedules:[]},
+  RSG: {name:'RSG 娛樂廳',status:'on',gold:{enabled:true,min:20,max:100000,rate:'1:1'},star:{enabled:true,min:200,max:50000,rate:'10:1'},schedules:[]},
+  FC: {name:'FC 娛樂廳',status:'on',gold:{enabled:true,min:10,max:70000,rate:'1:1'},star:{enabled:true,min:100,max:35000,rate:'10:1'},schedules:[]}
 };
 
 const games = [
@@ -55,7 +55,7 @@ let currentHall = 'VA';
 function initHallSelector() {
   const sel = document.getElementById('hallSelect');
   sel.innerHTML = Object.entries(halls).map(([id, h]) => {
-    const statusDot = h.status === 'on' ? '🟢' : '🔴';
+    const statusDot = h.status === 'on' ? '●' : '○';
     return '<option value="' + id + '">' + statusDot + ' ' + h.name + '</option>';
   }).join('');
   sel.value = currentHall;
@@ -159,7 +159,7 @@ function filterGames() { renderTable(); }
 function initFilters() {
   // Hall filter
   const hallSel = document.getElementById('filterHall');
-  hallSel.innerHTML = '<option value="">所有娛樂城</option>' +
+  hallSel.innerHTML = '<option value="">所有娛樂廳</option>' +
     Object.entries(halls).map(([id, h]) => '<option value="' + id + '">' + id + '</option>').join('');
   // Cat filter - collect unique categories
   const cats = [...new Set(games.map(g => g.cat))].sort();

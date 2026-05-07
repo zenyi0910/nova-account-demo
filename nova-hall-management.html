@@ -173,7 +173,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     </div>
     <div id="hallCards"></div>
     <div class="hall-selector">
-      <label>選擇娛樂城</label>
+      <label>選擇娛樂廳</label>
       <select id="hallSelect" onchange="switchHall()"></select>
     </div>
     <div id="hallDetail"></div>
@@ -184,13 +184,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="filter-bar">
         <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
-        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂城</option></select>
+        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂廳</option></select>
         <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
         <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option></select>
       </div>
       <div style="overflow-x:auto">
         <table class="data-table">
-          <thead><tr><th>序號</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP</th><th>金幣投注</th><th>星幣投注</th><th>覆蓋狀態</th><th>操作</th></tr></thead>
+          <thead><tr><th>序號</th><th>娛樂廳</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP</th><th>金幣投注</th><th>星幣投注</th><th>覆蓋狀態</th><th>操作</th></tr></thead>
           <tbody id="tableBody"></tbody>
         </table>
       </div>
@@ -203,7 +203,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="modal-header"><h3>新增排程</h3><button class="modal-close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body">
       <div class="info-box">排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉</div>
-      <div class="form-group"><label>目標娛樂城</label><select id="sHall"><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option></select></div>
+      <div class="form-group"><label>目標娛樂廳</label><select id="sHall"><option value="VA">VA 娛樂廳</option><option value="YGR">YGR 娛樂廳</option></select></div>
       <div class="form-group"><label>動作</label><select id="sAction"><option value="off">關閉</option><option value="on">開啟</option></select></div>
       <div class="form-row">
         <div class="form-group"><label>開始時間</label><input type="datetime-local" id="sStart"></div>
