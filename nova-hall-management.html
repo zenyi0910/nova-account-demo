@@ -50,6 +50,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header .desc{font-size:12px;color:#6B7280;margin-left:8px}
 .hall-card{background:#fff;border:1px solid oklch(0.922 0 0);border-radius:12px;margin-bottom:20px;overflow:hidden;transition:box-shadow .2s}
 .hall-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.hall-selector{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px 16px;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px}
+.hall-selector label{font-size:13px;font-weight:600;color:#374151}
+.hall-selector select{padding:7px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit;min-width:200px}
+.hall-selector select:focus{outline:none;border-color:#393939}
 .hall-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0);background:rgba(57,57,57,0.015)}
 .hall-header .hall-name{font-size:15px;font-weight:600;color:#111827}
 .hall-header .hall-meta{font-size:11px;color:#6B7280;margin-left:4px}
@@ -168,6 +172,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <button class="btn btn-primary" onclick="showToast('共用設定（Demo）','success')">共用設定</button>
     </div>
     <div id="hallCards"></div>
+    <div class="hall-selector">
+      <label>選擇娛樂城</label>
+      <select id="hallSelect" onchange="switchHall()"></select>
+    </div>
+    <div id="hallDetail"></div>
     <div class="game-section">
       <div class="game-section-header">
         <h5>遊戲列表</h5>
@@ -175,9 +184,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="filter-bar">
         <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
-        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂城</option><option>VA</option><option>YGR</option></select>
+        <select id="filterHall" onchange="filterGames()"><option value="">所有娛樂城</option></select>
         <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
-        <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option><option>電動</option><option>街機</option><option>捕魚</option><option>棋牌</option><option>體育</option><option>真人</option><option>彩票</option><option>未分類</option></select>
+        <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option></select>
       </div>
       <div style="overflow-x:auto">
         <table class="data-table">
