@@ -55,6 +55,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
+.btn-batch,.btn-export{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-batch{background:#3B82F6;color:#fff;border:none}
+.btn-batch:hover{background:#2563EB}
+.btn-batch svg{width:16px;height:16px}
+.btn-export{background:#EF4444;color:#fff;border:none}
+.btn-export:hover{background:#DC2626}
+.btn-export svg{width:16px;height:16px}
 .filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .filter-actions{order:999;margin-left:auto;display:flex;gap:8px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:200px}
@@ -207,7 +214,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><h1>用戶查詢</h1></div>
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <h1>用戶查詢</h1>
+      <div class="spacer"></div>
+      <button class="btn-batch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>批次操作</button>
+      <button class="btn-export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表</button>
+    </div>
     <div class="filter-card">
       <div class="filter-group filter-wide" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="請輸入帳號（可輸入多個，以半形逗號隔開）"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>狀態</label><div class="filter-input"><select><option value="">全部狀態</option><option>正常</option><option>停用</option><option>凍結</option></select></div></div>
@@ -545,6 +558,11 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 
   let stickyOpen = false;
 
+  // 建立 placeholder 追蹤原始位置
+  const placeholder = document.createElement('div');
+  placeholder.style.cssText = 'height:0;margin:0;padding:0;border:none;visibility:hidden';
+  filterCard.parentNode.insertBefore(placeholder, filterCard);
+
   // 計算已填寫的篩選條件數量
   function countActiveFilters(){
     let count = 0;
@@ -560,19 +578,29 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     badge.classList.toggle('show', n > 0);
   }
 
-  // IntersectionObserver: 當 filter-card 離開視窗時顯示 FAB
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const hidden = !entry.isIntersecting;
-      if(!stickyOpen) fab.classList.toggle('show', hidden);
-    });
-  }, { threshold: 0, rootMargin: '-56px 0px 0px 0px' });
-  observer.observe(filterCard);
+  // 用 scroll 事件判斷原始位置是否在視窗內
+  function checkScroll(){
+    const rect = placeholder.getBoundingClientRect();
+    const topbarH = 56;
+    const isAbove = rect.top < topbarH; // placeholder 已滾出視窗上方
+
+    if(!stickyOpen){
+      fab.classList.toggle('show', isAbove);
+    } else {
+      // sticky 開啟中，如果滾回頂部讓 placeholder 可見，自動關閉
+      if(!isAbove) closeSticky();
+    }
+  }
+
+  window.addEventListener('scroll', checkScroll, {passive:true});
+  checkScroll();
 
   // 點擊 FAB → 展開 filter-card 固定在頂部
   fab.addEventListener('click', function(e){
     e.stopPropagation();
     stickyOpen = true;
+    // 記錄原始高度作為 placeholder
+    placeholder.style.height = filterCard.offsetHeight + 'px';
     filterCard.classList.add('sticky-open');
     fab.classList.remove('show');
   });
@@ -580,13 +608,13 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   function closeSticky(){
     stickyOpen = false;
     filterCard.classList.remove('sticky-open');
-    // 重新判斷 FAB 是否該顯示
-    const rect = filterCard.getBoundingClientRect();
-    if(rect.bottom < 56) fab.classList.add('show');
+    placeholder.style.height = '0';
     updateBadge();
+    // 重新判斷 FAB
+    checkScroll();
   }
 
-  // 點擊搜尋或重置後關閉 sticky
+  // 點擊搜尋後關閉 sticky
   filterCard.querySelector('.btn-search')?.addEventListener('click', function(){
     if(stickyOpen) setTimeout(closeSticky, 100);
   });
