@@ -56,7 +56,6 @@ function renderHalls() {
 
     html += '<div class="hall-card">' +
       '<div class="hall-header">' +
-        '<div class="hall-status"><div class="dot ' + h.status + '"></div><span class="label ' + h.status + '">' + (isOn ? '運行中' : '已關閉') + '</span></div>' +
         '<span class="hall-name">' + h.name + '</span>' +
         '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
         '<span class="spacer"></span>' +
