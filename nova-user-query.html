@@ -238,45 +238,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group filter-wide" data-rule="account"><label>帳號</label><div class="filter-input"><input type="text" placeholder="搜尋帳號（可以輸入多個，請以半形逗號隔開）"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>狀態</label><div class="filter-input"><select><option value="">全部狀態</option><option>啟用</option><option>停用</option><option>凍結</option></select></div></div>
       <div class="filter-group"><label>所屬公會</label><div class="filter-input"><select><option value="">請選擇所屬公會</option><option>Elina公會</option><option>龍之谷</option><option>星辰戰隊</option><option>皇家俱樂部</option><option>蛋捲公會</option></select></div></div>
-      <div class="filter-actions">
-        <button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-        <button class="btn-reset">重置</button>
-        <button class="btn-advanced" id="advancedToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>進階篩選</button>
-      </div>
-      <div class="advanced-filters" id="advancedFilters" style="display:none;width:100%;flex-wrap:wrap;gap:12px">
-        <div class="filter-group" data-rule="nickname"><label>暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋暱稱"></div><div class="filter-error"></div></div>
-        <div class="filter-group" data-rule="phone"><label>手機號碼</label><div class="filter-input"><input type="text" placeholder="搜尋手機號碼"></div><div class="filter-error"></div></div>
-        <div class="filter-group"><label>註冊來源</label><div class="filter-input"><select><option value="">請選擇註冊來源</option><option>手機</option><option>LINE</option><option>Telegram</option><option>OpenXin</option></select></div></div>
-        <div class="filter-group filter-wide"><label>註冊時間(起)</label>
-          <div class="date-picker-wrap">
-            <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div>
-            <input type="hidden" data-rule="date">
-            <div class="date-picker-panel">
-              <div class="date-picker-calendars">
-                <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-              </div>
-              <div class="date-time-row">
-                <div class="date-time-group"><label>起始</label>
-                  <div class="time-scroll-wrap" data-role="start">
-                    <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
-                    <span class="time-scroll-separator">:</span>
-                    <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
-                  </div>
+      <div class="filter-group" data-rule="nickname"><label>暱稱</label><div class="filter-input"><input type="text" placeholder="搜尋暱稱"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="phone"><label>手機號碼</label><div class="filter-input"><input type="text" placeholder="搜尋手機號碼"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>註冊來源</label><div class="filter-input"><select><option value="">請選擇註冊來源</option><option>手機</option><option>LINE</option><option>Telegram</option><option>OpenXin</option></select></div></div>
+      <div class="filter-group"><label>是否禁言</label><div class="filter-input"><select><option value="">全部</option><option>是</option><option>否</option></select></div></div>
+      <div class="filter-group"><label>VIP 等級</label><div class="filter-input"><select><option value="">全部</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option><option>VIP 4</option><option>VIP 5</option><option>VIP 6</option></select></div></div>
+      <div class="filter-group filter-wide"><label>註冊時間</label>
+        <div class="date-picker-wrap">
+          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
+          <input type="hidden" data-rule="date">
+          <div class="date-picker-panel">
+            <div class="date-picker-calendars">
+              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
+            </div>
+            <div class="date-time-row">
+              <div class="date-time-group"><label>起始</label>
+                <div class="time-scroll-wrap" data-role="start">
+                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
+                  <span class="time-scroll-separator">:</span>
+                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
                 </div>
-                <span class="date-time-separator">—</span>
-                <div class="date-time-group"><label>結束</label>
-                  <div class="time-scroll-wrap" data-role="end">
-                    <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
-                    <span class="time-scroll-separator">:</span>
-                    <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
-                  </div>
+              </div>
+              <span class="date-time-separator">—</span>
+              <div class="date-time-group"><label>結束</label>
+                <div class="time-scroll-wrap" data-role="end">
+                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
+                  <span class="time-scroll-separator">:</span>
+                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="filter-group"><label>是否鎖倉</label><div class="filter-input"><select><option value="">全部</option><option>是</option><option>否</option></select></div></div>
       </div>
+      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span id="paginationInfo">共 2,847 位用戶</span><div style="display:flex;align-items:center;gap:8px"><label style="font-size:12px;color:#6B7280">每頁顯示</label><select id="pageSizeSelect" style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px;background:#fff;cursor:pointer"><option value="20" selected>20 筆</option><option value="50">50 筆</option><option value="100">100 筆</option></select></div></div>
     <table class="data-table"><thead><tr><th>暱稱</th><th>所屬公會</th><th>帳號</th><th>註冊來源</th><th>綁定手機</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th><th style="width:50px">操作</th></tr></thead><tbody id="userTableBody"></tbody></table>
@@ -646,19 +641,6 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 (function(){
   const btn = document.getElementById('batchBtn');
   if(!btn) return;
-  // 批次操作按鈕點擊暫無動作（實際系統也是如此）
-})();
-
-// === Advanced Filter Toggle ===
-(function(){
-  const toggle = document.getElementById('advancedToggle');
-  const panel = document.getElementById('advancedFilters');
-  if(!toggle || !panel) return;
-  toggle.addEventListener('click', function(){
-    const open = panel.style.display === 'flex';
-    panel.style.display = open ? 'none' : 'flex';
-    toggle.classList.toggle('open', !open);
-  });
 })();
 
 </script>
