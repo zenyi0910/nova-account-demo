@@ -20,7 +20,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sidebar-sub.open{max-height:400px;opacity:1}
 .sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
 .sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
-.sidebar-user{padding:12px 16px;border-top:1px solid oklch(0.922 0 0);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.sidebar-user{padding:12px 16px;border-top:1px solid oklch(0.922 0 0);display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;cursor:pointer}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.logo-text{display:flex;flex-direction:column}
+.logo-name{font-size:15px;font-weight:700;color:#111827}
+.logo-sub{font-size:10px;color:#9CA3AF;font-weight:500}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:#E0E7FF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#4338CA;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:12px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role{font-size:11px;color:#6B7280}
+.user-chevron{width:14px;height:14px;color:#9CA3AF;transform:rotate(180deg);transition:transform .2s}
+.sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
+.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
+.sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
+.user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
+.user-popover .user-avatar{width:36px;height:36px;font-size:14px}
+.user-popover-info{display:flex;flex-direction:column}
+.user-popover-name{font-size:13px;font-weight:600;color:#111827}
+.user-popover-sub{font-size:11px;color:#6B7280}
+.user-popover-divider{height:1px;background:#E5E7EB;margin:4px 0 8px}
+.user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
+.user-popover-item:hover{background:#F3F4F6}
+.user-popover-item svg{width:16px;height:16px;color:#6B7280}
+.sidebar-group-label{font-size:11px;font-weight:600;color:#9CA3AF;padding:12px 12px 4px;text-transform:uppercase;letter-spacing:.5px}
 .main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
 .topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
 .topbar-toggle{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
@@ -138,13 +161,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:12px;width:90vw;max-width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0)}
+.modal{background:#fff;border-radius:12px;width:90%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0);flex-shrink:0}
 .modal-header h3{font-size:15px;font-weight:600}
 .modal-close{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:18px}
 .modal-close:hover{background:#F3F4F6}
-.modal-body{padding:20px}
-.modal-footer{padding:14px 20px;border-top:1px solid oklch(0.922 0 0);display:flex;justify-content:flex-end;gap:8px}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.modal-footer{padding:14px 20px;border-top:1px solid oklch(0.922 0 0);display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
 
 /* Form */
 .form-group{margin-bottom:14px}
@@ -197,13 +220,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       <h1>娛樂廳管理</h1>
       <div class="spacer"></div>
+      <button class="btn btn-outline" onclick="openGlobalSettingsModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>遊戲共用設定</button>
       <button class="btn btn-primary" onclick="openScheduleModal('')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>新增排程</button>
     </div>
 
     <!-- Info Banner -->
     <div class="info-banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <div>娛樂廳的開關與幣種設定會<strong>優先覆蓋</strong>廳內所有遊戲，但不會修改遊戲本身的原始設定值。取消廳級覆蓋後，遊戲自動恢復原始設定。</div>
+      <div>設定優先順序：<strong>娛樂廳設定</strong>（最高）&gt; <strong>遊戲共用設定</strong>（基底）&gt; 遊戲原始值。廳級覆蓋不會修改遊戲本身的原始設定值，取消覆蓋後自動恢復。</div>
     </div>
 
     <!-- Hall Tabs -->
@@ -268,10 +292,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
+<!-- Global Game Settings Modal -->
+<div class="modal-overlay" id="globalSettingsModal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header"><h3>遊戲共用設定</h3><button class="modal-close" onclick="closeModal('globalSettingsModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>此為所有娛樂廳的基底設定。娛樂廳可個別覆蓋這些值，覆蓋後以廳級設定為準。</span></div>
+      <div style="margin-top:14px">
+        <div class="currency-card-header"><div class="coin-dot gold"></div><h4>金幣預設</h4></div>
+        <div class="form-row">
+          <div class="form-group"><label>預設最低投注</label><input type="number" id="gGoldMin" placeholder="10"></div>
+          <div class="form-group"><label>預設最高投注</label><input type="number" id="gGoldMax" placeholder="100000"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>預設兌換比率</label><input type="text" id="gGoldRate" placeholder="1:1"><div class="form-hint">金幣:遊戲幣</div></div>
+          <div class="form-group"><label>預設狀態</label><select id="gGoldStatus"><option value="on">啟用</option><option value="off">停用</option></select></div>
+        </div>
+      </div>
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid oklch(0.922 0 0)">
+        <div class="currency-card-header"><div class="coin-dot star"></div><h4>星幣預設</h4></div>
+        <div class="form-row">
+          <div class="form-group"><label>預設最低投注</label><input type="number" id="gStarMin" placeholder="100"></div>
+          <div class="form-group"><label>預設最高投注</label><input type="number" id="gStarMax" placeholder="50000"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>預設兌換比率</label><input type="text" id="gStarRate" placeholder="10:1"><div class="form-hint">星幣:遊戲幣</div></div>
+          <div class="form-group"><label>預設狀態</label><select id="gStarStatus"><option value="on">啟用</option><option value="off">停用</option></select></div>
+        </div>
+      </div>
+      <div style="margin-top:18px;padding-top:14px;border-top:1px solid oklch(0.922 0 0)">
+        <div class="currency-card-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#6B7280"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><h4>其他共用設定</h4></div>
+        <div class="form-row">
+          <div class="form-group"><label>預設 VIP 限制</label><select id="gVipLimit"><option value="不限制">不限制</option><option value="VIP1">VIP1</option><option value="VIP2">VIP2</option><option value="VIP3">VIP3</option></select></div>
+          <div class="form-group"><label>預設遊戲狀態</label><select id="gGameStatus"><option value="使用中">使用中</option><option value="停用中">停用中</option><option value="即將上線">即將上線</option></select></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('globalSettingsModal')">取消</button><button class="btn btn-primary" onclick="saveGlobalSettings()">儲存共用設定</button></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// === Data Model (based on actual Nova system: halls=VA/YGR, cats=電動/街機/未分類) ===
+// === Data Model ===
+// Global shared settings (base defaults for all halls)
+const globalSettings = {
+  gold: {enabled:true, min:10, max:100000, rate:'1:1'},
+  star: {enabled:true, min:100, max:50000, rate:'10:1'},
+  vipLimit: '不限制',
+  gameStatus: '使用中'
+};
+
+// Hall-level overrides (priority over global)
 const halls = [
   {
     id: 'VA', name: 'VA 娛樂城', status: 'on',
@@ -496,6 +569,36 @@ function openCurrencyModal(hallId) {
   document.getElementById('starRate').value = hall.star.rate || '';
   document.getElementById('starStatus').value = hall.star.enabled ? 'on' : 'off';
   document.getElementById('currencyModal').classList.add('show');
+}
+
+function openGlobalSettingsModal() {
+  document.getElementById('gGoldMin').value = globalSettings.gold.min;
+  document.getElementById('gGoldMax').value = globalSettings.gold.max;
+  document.getElementById('gGoldRate').value = globalSettings.gold.rate;
+  document.getElementById('gGoldStatus').value = globalSettings.gold.enabled ? 'on' : 'off';
+  document.getElementById('gStarMin').value = globalSettings.star.min;
+  document.getElementById('gStarMax').value = globalSettings.star.max;
+  document.getElementById('gStarRate').value = globalSettings.star.rate;
+  document.getElementById('gStarStatus').value = globalSettings.star.enabled ? 'on' : 'off';
+  document.getElementById('gVipLimit').value = globalSettings.vipLimit;
+  document.getElementById('gGameStatus').value = globalSettings.gameStatus;
+  document.getElementById('globalSettingsModal').classList.add('show');
+}
+
+function saveGlobalSettings() {
+  globalSettings.gold.min = parseInt(document.getElementById('gGoldMin').value) || 0;
+  globalSettings.gold.max = parseInt(document.getElementById('gGoldMax').value) || 0;
+  globalSettings.gold.rate = document.getElementById('gGoldRate').value;
+  globalSettings.gold.enabled = document.getElementById('gGoldStatus').value === 'on';
+  globalSettings.star.min = parseInt(document.getElementById('gStarMin').value) || 0;
+  globalSettings.star.max = parseInt(document.getElementById('gStarMax').value) || 0;
+  globalSettings.star.rate = document.getElementById('gStarRate').value;
+  globalSettings.star.enabled = document.getElementById('gStarStatus').value === 'on';
+  globalSettings.vipLimit = document.getElementById('gVipLimit').value;
+  globalSettings.gameStatus = document.getElementById('gGameStatus').value;
+  closeModal('globalSettingsModal');
+  renderAll();
+  showToast('遊戲共用設定已更新', 'success');
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }

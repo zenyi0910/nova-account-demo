@@ -259,8 +259,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
       </div>
       <div class="filter-group"><label>VIP等級</label><div class="filter-input"><select><option value="">VIP等級</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
-      <div class="filter-group"><label>交易時間(起)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易起始時間" readonly></div></div>
-      <div class="filter-group"><label>交易時間(訖)</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" class="date-input" placeholder="交易結束時間" readonly></div></div>
+      <div class="filter-group"><label>交易時間</label><div class="date-picker-wrap"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div><input type="hidden" data-rule="date"></div></div>
       <div class="filter-group"><label>幣別</label><div class="filter-input"><select><option value="">選擇幣別</option><option value="金幣">金幣</option><option value="星幣">星幣</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
       <button class="btn-reset">清除</button></div>
@@ -451,5 +450,6 @@ document.querySelector('.btn-search')?.addEventListener('click',function(){
 });
 
 </script>
+<script src="components/date-picker.js"></script>
 </body>
 </html>

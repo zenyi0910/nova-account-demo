@@ -175,13 +175,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 /* Date Range Picker */
 .date-picker-wrap{position:relative}
-.date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:220px;white-space:nowrap}
+.date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:180px;white-space:nowrap}
 .date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
 .date-picker-trigger:hover{border-color:#3B82F6}
-.date-picker-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:16px;min-width:420px}
-.date-picker-panel.show{display:flex;gap:14px}
-.date-picker-calendars{display:flex;gap:12px}
-.date-cal{width:210px}
+.date-picker-panel{display:none;position:absolute;top:calc(100% + 4px);left:0;z-index:1000;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.12);padding:16px}
+.date-picker-panel.show{display:flex;gap:12px}
+.date-picker-left{display:flex;flex-direction:column;width:224px}
 .date-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .date-cal-header span{font-size:13px;font-weight:600;color:#1F2937}
 .date-cal-header button{background:none;border:none;cursor:pointer;color:#6B7280;font-size:16px;padding:2px 6px;border-radius:4px}
@@ -195,25 +194,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .date-cal-grid .day.in-range{background:#DBEAFE;color:#1E40AF}
 .date-cal-grid .day.range-start,.date-cal-grid .day.range-end{background:#2563EB;color:#fff;border-radius:50%}
 .date-cal-grid .day.today{font-weight:700;box-shadow:inset 0 0 0 1px #3B82F6}
-.date-time-row{display:flex;align-items:center;gap:10px;padding-top:12px;border-top:1px solid #E5E7EB}
-.date-time-group{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}
-.date-time-group label{font-weight:500;white-space:nowrap}
-.time-scroll-wrap{display:flex;align-items:center;gap:2px}
-.time-scroll-col{position:relative;width:32px;height:100px;overflow:hidden;border:1px solid #E5E7EB;border-radius:6px;background:#F9FAFB}
-.time-scroll-col::before,.time-scroll-col::after{content:'';position:absolute;left:0;right:0;height:33px;z-index:2;pointer-events:none}
-.time-scroll-col::before{top:0;background:linear-gradient(to bottom,rgba(249,250,251,.9),transparent)}
-.time-scroll-col::after{bottom:0;background:linear-gradient(to top,rgba(249,250,251,.9),transparent)}
-.time-scroll-list{height:100%;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:y mandatory;padding:33px 0}
-.time-scroll-list::-webkit-scrollbar{display:none}
-.time-scroll-item{height:34px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#9CA3AF;scroll-snap-align:center;cursor:pointer;transition:color .15s,font-weight .15s}
-.time-scroll-item.active{color:#1F2937;font-weight:600}
-.time-scroll-separator{font-size:16px;font-weight:600;color:#374151;padding:0 2px}
-.date-time-separator{color:#D1D5DB;font-size:14px;font-weight:500}
-.date-picker-left{display:flex;flex-direction:column;gap:12px}
-.date-quick-select{width:110px;display:flex;flex-direction:column;gap:6px;border-left:1px solid #E5E7EB;padding-left:14px}
-.date-quick-title{font-size:11px;font-weight:600;color:#9CA3AF;margin-bottom:2px}
-.date-quick-btn{padding:6px 10px;border:1px solid #E5E7EB;border-radius:5px;background:#fff;font-size:12px;color:#374151;cursor:pointer;transition:all .15s;text-align:left;font-weight:500}
-.date-quick-btn:hover{background:#F3F4F6;border-color:#D1D5DB}
+.date-time-row{display:flex;align-items:center;gap:8px;padding-top:10px;margin-top:10px;border-top:1px solid #E5E7EB}
+.date-time-group{display:flex;align-items:center;gap:4px;font-size:12px;color:#6B7280}
+.date-time-group label{font-weight:500;white-space:nowrap;font-size:10px;color:#9CA3AF}
+.date-time-input{width:32px;height:26px;border:1px solid #E5E7EB;border-radius:4px;text-align:center;font-size:12px;font-weight:500;color:#374151;padding:0}
+.date-time-input:focus{outline:none;border-color:#3B82F6}
+.date-time-sep{font-size:12px;font-weight:600;color:#9CA3AF}
+.date-time-dash{font-size:12px;color:#9CA3AF;padding:0 4px}
+.date-quick-select{width:80px;display:flex;flex-direction:column;gap:4px;border-left:1px solid #E5E7EB;padding-left:12px}
+.date-quick-title{font-size:10px;font-weight:600;color:#9CA3AF;margin-bottom:2px}
+.date-quick-btn{padding:5px 8px;border:1px solid #E5E7EB;border-radius:5px;background:#fff;font-size:12px;color:#374151;cursor:pointer;transition:all .15s;text-align:left;font-weight:500;white-space:nowrap}
+.date-quick-btn:hover{background:#EFF6FF;border-color:#3B82F6;color:#2563EB}
 .date-quick-btn.active{background:#EFF6FF;border-color:#3B82F6;color:#2563EB}
 </style>
 </head>
@@ -255,24 +246,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <input type="hidden" data-rule="date">
           <div class="date-picker-panel">
             <div class="date-picker-left">
-            <div class="date-picker-calendars">
-              <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
-            </div>
+            <div class="date-cal cal-1"><div class="date-cal-header"><button class="prev-1">&lt;</button><span class="cal-title"></span><button class="next-1">&gt;</button></div><div class="date-cal-grid"></div></div>
             <div class="date-time-row">
               <div class="date-time-group"><label>起始</label>
-                <div class="time-scroll-wrap" data-role="start">
-                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
-                  <span class="time-scroll-separator">:</span>
-                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
-                </div>
+                <input class="date-time-input" data-role="start-h" value="00" maxlength="2"><span class="date-time-sep">:</span><input class="date-time-input" data-role="start-m" value="00" maxlength="2">
               </div>
-              <span class="date-time-separator">—</span>
+              <span class="date-time-dash">—</span>
               <div class="date-time-group"><label>結束</label>
-                <div class="time-scroll-wrap" data-role="end">
-                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="hour"></div></div>
-                  <span class="time-scroll-separator">:</span>
-                  <div class="time-scroll-col"><div class="time-scroll-list" data-unit="minute"></div></div>
-                </div>
+                <input class="date-time-input" data-role="end-h" value="23" maxlength="2"><span class="date-time-sep">:</span><input class="date-time-input" data-role="end-m" value="59" maxlength="2">
               </div>
             </div>
             </div>
@@ -280,8 +261,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
               <div class="date-quick-title">快速選擇</div>
               <button class="date-quick-btn" data-range="today">今天</button>
               <button class="date-quick-btn" data-range="yesterday">昨天</button>
-              <button class="date-quick-btn" data-range="last7">最近 7 天</button>
-              <button class="date-quick-btn" data-range="last30">最近 30 天</button>
+              <button class="date-quick-btn" data-range="last7">近7天</button>
+              <button class="date-quick-btn" data-range="last30">近30天</button>
               <button class="date-quick-btn" data-range="thisMonth">本月</button>
               <button class="date-quick-btn" data-range="lastMonth">上個月</button>
             </div>
@@ -397,62 +378,12 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     container.innerHTML = html;
   }
   
-  // Scroll time picker initialization
-  function initTimeScroll(wrap) {
-    wrap.querySelectorAll('.time-scroll-list').forEach(list => {
-      const unit = list.dataset.unit;
-      const max = unit === 'hour' ? 24 : 60;
-      let html = '';
-      for (let i = 0; i < max; i++) {
-        html += '<div class="time-scroll-item" data-val="'+i+'">'+String(i).padStart(2,'0')+'</div>';
-      }
-      list.innerHTML = html;
-      // Default: hour=0, minute=0 for start; hour=23, minute=59 for end
-      const role = wrap.dataset.role;
-      const defaultVal = role === 'end' ? (unit === 'hour' ? 23 : 59) : 0;
-      setTimeout(() => scrollToVal(list, defaultVal), 50);
-    });
-  }
+  // Scroll time picker initialization - REMOVED (replaced with input fields)
 
-  function scrollToVal(list, val) {
-    const item = list.querySelector('[data-val="'+val+'"]');
-    if (item) {
-      list.scrollTop = item.offsetTop - 40;
-      list.querySelectorAll('.time-scroll-item').forEach(el => el.classList.remove('active'));
-      item.classList.add('active');
-    }
-  }
-
-  function getScrollVal(list) {
-    const items = list.querySelectorAll('.time-scroll-item');
-    const center = list.scrollTop + 60;
-    let closest = items[0], minDist = Infinity;
-    items.forEach(item => {
-      const dist = Math.abs(item.offsetTop + 20 - center);
-      if (dist < minDist) { minDist = dist; closest = item; }
-    });
-    return +closest.dataset.val;
-  }
-
-  function attachScrollSnap(list, onChange) {
-    let timer;
-    list.addEventListener('scroll', () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        const val = getScrollVal(list);
-        list.querySelectorAll('.time-scroll-item').forEach(el => el.classList.remove('active'));
-        const active = list.querySelector('[data-val="'+val+'"]');
-        if (active) active.classList.add('active');
-        if (onChange) onChange();
-      }, 80);
-    });
-  }
-
-  function getTimeFromWrap(wrap) {
-    const lists = wrap.querySelectorAll('.time-scroll-list');
-    const h = String(getScrollVal(lists[0])).padStart(2,'0');
-    const m = String(getScrollVal(lists[1])).padStart(2,'0');
-    return h + ':' + m;
+  function getTimeFromInputs(panel, role) {
+    const h = panel.querySelector('[data-role="'+role+'-h"]');
+    const m = panel.querySelector('[data-role="'+role+'-m"]');
+    return (h?h.value:'00').padStart(2,'0') + ':' + (m?m.value:'00').padStart(2,'0');
   }
 
   document.querySelectorAll('.date-picker-wrap').forEach(wrap => {
@@ -460,26 +391,23 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     const panel = wrap.querySelector('.date-picker-panel');
     const hiddenInput = wrap.querySelector('input[type="hidden"]');
     const display = wrap.querySelector('.date-display');
-    const startWrap = panel.querySelector('.time-scroll-wrap[data-role="start"]');
-    const endWrap = panel.querySelector('.time-scroll-wrap[data-role="end"]');
     let rs = null, re = null, selecting = false;
     let cY = today.getFullYear(), cM = today.getMonth();
 
-    initTimeScroll(startWrap);
-    initTimeScroll(endWrap);
-
     function updateDisplay() {
       if (rs && re) {
-        const ts = getTimeFromWrap(startWrap);
-        const te = getTimeFromWrap(endWrap);
+        const ts = getTimeFromInputs(panel, 'start');
+        const te = getTimeFromInputs(panel, 'end');
         display.textContent = fmt(rs)+' '+ts+' \u2013 '+fmt(re)+' '+te;
         if(hiddenInput) hiddenInput.value = fmt(rs)+' '+ts+' ~ '+fmt(re)+' '+te;
       }
     }
 
-    // Attach scroll listeners for time update
-    startWrap.querySelectorAll('.time-scroll-list').forEach(l => attachScrollSnap(l, updateDisplay));
-    endWrap.querySelectorAll('.time-scroll-list').forEach(l => attachScrollSnap(l, updateDisplay));
+    // Time input validation & update
+    panel.querySelectorAll('.date-time-input').forEach(inp => {
+      inp.addEventListener('input', () => { inp.value = inp.value.replace(/[^0-9]/g,'').slice(0,2); });
+      inp.addEventListener('change', updateDisplay);
+    });
     
     function render(){
       const c1 = panel.querySelector('.cal-1 .date-cal-grid');
@@ -512,24 +440,6 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
       if(!isOpen){
         panel.classList.add('show');
         render();
-        // Re-scroll after panel visible
-        if(!inited){
-          inited = true;
-          setTimeout(()=>{
-            startWrap.querySelectorAll('.time-scroll-list').forEach(list => {
-              const role = startWrap.dataset.role;
-              const unit = list.dataset.unit;
-              const val = role === 'end' ? (unit === 'hour' ? 23 : 59) : 0;
-              scrollToVal(list, val);
-            });
-            endWrap.querySelectorAll('.time-scroll-list').forEach(list => {
-              const role = endWrap.dataset.role;
-              const unit = list.dataset.unit;
-              const val = role === 'end' ? (unit === 'hour' ? 23 : 59) : 0;
-              scrollToVal(list, val);
-            });
-          }, 30);
-        }
       }
       else{panel.classList.remove('show');}
     });
