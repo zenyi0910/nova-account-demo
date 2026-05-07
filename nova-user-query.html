@@ -637,10 +637,115 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   });
 })();
 
-// === Batch Dropdown ===
+// === Batch Operation Mode ===
 (function(){
   const btn = document.getElementById('batchBtn');
   if(!btn) return;
+  let batchMode = false;
+  const pageHeader = document.querySelector('.page-header');
+
+  // Batch action bar (hidden by default)
+  const batchBar = document.createElement('div');
+  batchBar.id = 'batchBar';
+  batchBar.style.cssText = 'display:none;align-items:center;gap:8px;margin-bottom:12px;padding:10px 16px;background:#fff;border:1px solid #E5E7EB;border-radius:8px';
+  batchBar.innerHTML = `
+    <button id="batchClose" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#9CA3AF;color:#fff">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>關閉批次操作</button>
+    <button id="batchStatus" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#3B82F6;color:#fff">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>狀態調整(<span id="batchStatusCount">0</span>)</button>
+    <button id="batchVip" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#6366F1;color:#fff">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>VIP等級調整(<span id="batchVipCount">0</span>)</button>
+  `;
+  // Insert after page-header
+  pageHeader.parentNode.insertBefore(batchBar, pageHeader.nextSibling);
+
+  function getSelectedCount(){
+    return document.querySelectorAll('.batch-checkbox:checked').length;
+  }
+  function updateCounts(){
+    const c = getSelectedCount();
+    document.getElementById('batchStatusCount').textContent = c;
+    document.getElementById('batchVipCount').textContent = c;
+  }
+
+  function enterBatchMode(){
+    batchMode = true;
+    btn.style.display = 'none';
+    batchBar.style.display = 'flex';
+    // Add checkbox column to table
+    const table = document.querySelector('.data-table');
+    const headerRow = table.querySelector('thead tr');
+    const thCheck = document.createElement('th');
+    thCheck.style.cssText = 'width:40px;text-align:center';
+    thCheck.innerHTML = '<label style="cursor:pointer"><input type="checkbox" id="batchSelectAll" style="width:16px;height:16px;cursor:pointer;accent-color:#6366F1"></label>';
+    headerRow.insertBefore(thCheck, headerRow.firstChild);
+    // Add checkboxes to each row
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      const td = document.createElement('td');
+      td.style.cssText = 'text-align:center';
+      td.innerHTML = '<input type="checkbox" class="batch-checkbox" style="width:16px;height:16px;cursor:pointer;accent-color:#6366F1">';
+      tr.insertBefore(td, tr.firstChild);
+    });
+    // Select all handler
+    document.getElementById('batchSelectAll').addEventListener('change', function(){
+      document.querySelectorAll('.batch-checkbox').forEach(cb => { cb.checked = this.checked; });
+      updateCounts();
+    });
+    // Individual checkbox handler
+    table.addEventListener('change', function(e){
+      if(e.target.classList.contains('batch-checkbox')){
+        updateCounts();
+        const all = document.querySelectorAll('.batch-checkbox');
+        const checked = document.querySelectorAll('.batch-checkbox:checked');
+        document.getElementById('batchSelectAll').checked = all.length === checked.length;
+      }
+    });
+  }
+
+  function exitBatchMode(){
+    batchMode = false;
+    btn.style.display = 'flex';
+    batchBar.style.display = 'none';
+    // Remove checkbox column
+    const table = document.querySelector('.data-table');
+    const headerRow = table.querySelector('thead tr');
+    if(headerRow.firstChild && headerRow.firstChild.querySelector('#batchSelectAll')){
+      headerRow.removeChild(headerRow.firstChild);
+    }
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      const first = tr.firstChild;
+      if(first && first.querySelector('.batch-checkbox')){
+        tr.removeChild(first);
+      }
+    });
+  }
+
+  btn.addEventListener('click', enterBatchMode);
+  document.getElementById('batchClose').addEventListener('click', exitBatchMode);
+
+  // Batch status adjustment dialog
+  document.getElementById('batchStatus').addEventListener('click', function(){
+    const count = getSelectedCount();
+    if(count === 0){ alert('請先勾選要調整的用戶'); return; }
+    const choice = prompt('批次狀態調整（已選 '+count+' 位用戶）\n\n請輸入目標狀態：\n1. 啟用\n2. 停用\n3. 凍結');
+    if(choice){
+      const statusMap = {'1':'啟用','2':'停用','3':'凍結'};
+      const target = statusMap[choice] || choice;
+      alert('已將 '+count+' 位用戶狀態調整為「'+target+'」');
+      exitBatchMode();
+    }
+  });
+
+  // Batch VIP adjustment dialog
+  document.getElementById('batchVip').addEventListener('click', function(){
+    const count = getSelectedCount();
+    if(count === 0){ alert('請先勾選要調整的用戶'); return; }
+    const choice = prompt('批次VIP等級調整（已選 '+count+' 位用戶）\n\n請輸入目標VIP等級 (1-6)：');
+    if(choice && +choice >= 1 && +choice <= 6){
+      alert('已將 '+count+' 位用戶VIP等級調整為 VIP '+choice);
+      exitBatchMode();
+    }
+  });
 })();
 
 </script>
