@@ -168,7 +168,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .maint-row .maint-name{flex:1;font-weight:500}
 .maint-row .maint-status{font-size:11px;padding:2px 6px;border-radius:3px}
 .maint-row select{padding:4px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:11px;font-family:inherit}
-.hall-tabs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px}
+.hall-tabs{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;position:relative;scroll-behavior:smooth}
+.hall-tabs::-webkit-scrollbar{display:none}
+.hall-tabs-wrapper{position:relative;display:flex;align-items:center;gap:6px;margin-bottom:16px}
+.hall-tabs-arrow{width:28px;height:28px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s}
+.hall-tabs-arrow:hover{background:#F3F4F6;border-color:#393939}
+.hall-tabs-arrow:disabled{opacity:.3;cursor:not-allowed}
 .hall-tab{padding:10px 16px;border:1px solid oklch(0.922 0 0);border-radius:8px;cursor:pointer;background:#fff;min-width:140px;transition:all .15s;flex-shrink:0}
 .hall-tab:hover{border-color:#393939}
 .hall-tab.active{border-color:#393939;background:rgba(57,57,57,0.04);box-shadow:0 0 0 1px #393939}

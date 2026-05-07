@@ -54,17 +54,20 @@ let pendingToggle = null;
 let currentHall = 'VA';
 let currentDetailId = null;
 
-// === Hall Selector (now horizontal tabs) ===
+// === Hall Selector (now horizontal tabs with arrows) ===
 function initHallSelector() {
   const container = document.getElementById('hallCards');
-  container.innerHTML = '<div class="hall-tabs">' +
-    Object.entries(halls).map(([id, h]) => {
-      const dotColor = h.status === 'on' ? '#22C55E' : '#EF4444';
-      const gc = games.filter(g => g.hall === id).length;
-      return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
-        '<div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
-        '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
-    }).join('') + '</div>';
+  const tabsHtml = Object.entries(halls).map(([id, h]) => {
+    const dotColor = h.status === 'on' ? '#22C55E' : '#EF4444';
+    const gc = games.filter(g => g.hall === id).length;
+    return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
+      '<div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
+      '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
+  }).join('');
+  container.innerHTML = '<div class="hall-tabs-wrapper">' +
+    '<button class="hall-tabs-arrow" onclick="scrollTabs(-1)">&#8249;</button>' +
+    '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div>' +
+    '<button class="hall-tabs-arrow" onclick="scrollTabs(1)">&#8250;</button></div>';
   // Also update the filter dropdown
   const sel = document.getElementById('hallSelect');
   sel.innerHTML = '<option value="">所有娛樂廳</option>' +
@@ -73,6 +76,11 @@ function initHallSelector() {
       return '<option value="' + id + '">' + dot + ' ' + h.name + '</option>';
     }).join('');
   sel.value = currentHall;
+}
+
+function scrollTabs(dir) {
+  const el = document.getElementById('hallTabsScroll');
+  el.scrollBy({ left: dir * 200, behavior: 'smooth' });
 }
 
 function selectHall(id) {
