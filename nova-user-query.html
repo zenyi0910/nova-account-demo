@@ -331,7 +331,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 // === User Data Generation & Pagination ===
 (function(){
   const TOTAL = 847;
-  const nicknames = ['Elina','Joe','Toby','Yang','Flare','Rico','Leader_A','Leader_B','Leader_C','Leader_D','小明','阿華','大雄','靜香','胖虎','小夫','出木杉','世修','小珠','安雄','技子','美夜子','露露','哆啦美','骨川','剛田','野比','源靜香','多啦A夢','迷你哆啦','遊俠','苦節紙','stagingElina','Yannnng','User'];
+  const nicknames = ['玩家','用戶','會員','新手','高手','大師','俠客','遊俠'];
   const guilds = ['','','','','','','Elina公會','公會_A','公會_B','公會_C','公會_D','龍之谷','星辰戰隊','皇家俱樂部','蛋捲公會'];
   const sources = [{name:'手機',cls:'source-phone'},{name:'LINE',cls:'source-line'},{name:'Telegram',cls:'source-telegram'},{name:'OpenXin',cls:'source-openxin'}];
   const statuses = [{name:'啟用',cls:'status-online'},{name:'停用',cls:'status-offline'},{name:'凍結',cls:'status-maint'}];
@@ -342,7 +342,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   const allUsers = [];
   for(let i=0;i<TOTAL;i++){
     const r = rand;
-    const nick = nicknames[Math.floor(r()*nicknames.length)] + (Math.floor(r()*900000)+100000);
+    const suffixes = ['001','888','999','520','168','666']; const nick = nicknames[Math.floor(r()*nicknames.length)] + suffixes[Math.floor(r()*suffixes.length)] + String(Math.floor(r()*9000)+1000);
     const guildIdx = Math.floor(r()*guilds.length);
     const acct = String.fromCharCode(65+Math.floor(r()*26)) + String.fromCharCode(97+Math.floor(r()*26)) + String.fromCharCode(97+Math.floor(r()*26)) + Math.floor(r()*9000+1000);
     const src = sources[Math.floor(r()*sources.length)];
