@@ -643,21 +643,22 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   if(!btn) return;
   let batchMode = false;
   const pageHeader = document.querySelector('.page-header');
+  const exportBtn = document.querySelector('.btn-export');
 
-  // Batch action bar (hidden by default)
-  const batchBar = document.createElement('div');
-  batchBar.id = 'batchBar';
-  batchBar.style.cssText = 'display:none;align-items:center;gap:8px;margin-bottom:12px;padding:10px 16px;background:#fff;border:1px solid #E5E7EB;border-radius:8px';
-  batchBar.innerHTML = `
-    <button id="batchClose" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#9CA3AF;color:#fff">
+  // Create batch action buttons (hidden by default, inserted into page-header)
+  const batchActions = document.createElement('span');
+  batchActions.id = 'batchActions';
+  batchActions.style.cssText = 'display:none;align-items:center;gap:6px';
+  batchActions.innerHTML = `
+    <button id="batchClose" class="btn-batch" style="background:#6B7280;color:#fff;border-color:#6B7280">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>關閉批次操作</button>
-    <button id="batchStatus" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#3B82F6;color:#fff">
+    <button id="batchStatus" class="btn-batch" style="background:#3B82F6;color:#fff;border-color:#3B82F6">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>狀態調整(<span id="batchStatusCount">0</span>)</button>
-    <button id="batchVip" style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#6366F1;color:#fff">
+    <button id="batchVip" class="btn-batch" style="background:#6366F1;color:#fff;border-color:#6366F1">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>VIP等級調整(<span id="batchVipCount">0</span>)</button>
   `;
-  // Insert after page-header
-  pageHeader.parentNode.insertBefore(batchBar, pageHeader.nextSibling);
+  // Insert into page-header, before export button
+  pageHeader.insertBefore(batchActions, exportBtn);
 
   function getSelectedCount(){
     return document.querySelectorAll('.batch-checkbox:checked').length;
@@ -671,7 +672,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   function enterBatchMode(){
     batchMode = true;
     btn.style.display = 'none';
-    batchBar.style.display = 'flex';
+    batchActions.style.display = 'flex';
     // Add checkbox column to table
     const table = document.querySelector('.data-table');
     const headerRow = table.querySelector('thead tr');
@@ -705,7 +706,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   function exitBatchMode(){
     batchMode = false;
     btn.style.display = 'flex';
-    batchBar.style.display = 'none';
+    batchActions.style.display = 'none';
     // Remove checkbox column
     const table = document.querySelector('.data-table');
     const headerRow = table.querySelector('thead tr');
