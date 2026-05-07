@@ -65,20 +65,12 @@ function initHallSelector() {
       '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
   }).join('');
   container.innerHTML = '<div class="hall-tabs-wrapper">' +
-    '<button class="hall-tabs-arrow" onclick="scrollTabs(-1)">&#8249;</button>' +
-    '<div class="hall-tabs-scroll-area at-start" id="hallTabsArea">' +
+    '<button class="hall-tabs-arrow arr-left" id="arrLeft" onclick="scrollTabs(-1)">&#8249;</button>' +
+    '<div class="hall-tabs-scroll-area" id="hallTabsArea">' +
     '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div></div>' +
-    '<button class="hall-tabs-arrow" onclick="scrollTabs(1)">&#8250;</button></div>';
+    '<button class="hall-tabs-arrow arr-right" id="arrRight" onclick="scrollTabs(1)">&#8250;</button></div>';
   // Update gradient state after render
   setTimeout(updateScrollGradients, 50);
-  // Also update the filter dropdown
-  const sel = document.getElementById('hallSelect');
-  sel.innerHTML = '<option value="">所有娛樂廳</option>' +
-    Object.entries(halls).map(([id, h]) => {
-      const dot = h.status === 'on' ? '●' : '○';
-      return '<option value="' + id + '">' + dot + ' ' + h.name + '</option>';
-    }).join('');
-  sel.value = currentHall;
 }
 
 function scrollTabs(dir) {
@@ -92,20 +84,14 @@ function updateScrollGradients() {
   if (!area) return;
   const atStart = area.scrollLeft <= 5;
   const atEnd = area.scrollLeft + area.clientWidth >= area.scrollWidth - 5;
-  area.classList.toggle('at-start', atStart);
-  area.classList.toggle('at-end', atEnd);
+  const left = document.getElementById('arrLeft');
+  const right = document.getElementById('arrRight');
+  if (left) left.classList.toggle('show-grad', !atStart);
+  if (right) right.classList.toggle('hide-grad', atEnd);
 }
 
 function selectHall(id) {
   currentHall = id;
-  document.getElementById('hallSelect').value = id;
-  initHallSelector();
-  renderHallDetail();
-  renderTable();
-}
-
-function switchHall() {
-  currentHall = document.getElementById('hallSelect').value;
   initHallSelector();
   renderHallDetail();
   renderTable();
@@ -141,22 +127,19 @@ function renderHallDetail() {
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      '<button class="btn btn-outline btn-sm" onclick="openCurrModal(\'' + id + '\')">幣種設定</button>' +
       '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
     '</div>' +
     '<div class="hall-body"><div class="hall-sections">' +
       '<div class="sec-card gold"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-        '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span></div>' +
-        '<div class="curr-row"><div class="curr-field"><label>最低投注</label><span class="val">$' + h.gold.min.toLocaleString() + '</span></div>' +
-        '<div class="curr-field"><label>最高投注</label><span class="val">$' + h.gold.max.toLocaleString() + '</span></div>' +
-        '<div class="curr-field"><label>兌換比率</label><span class="val">' + h.gold.rate + '</span></div></div></div>' +
+        '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
+        '<span class="spacer"></span><button class="edit-inline-btn" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')">修改</button></div>' +
+        '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
       '<div class="sec-card star"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
-        '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span></div>' +
-        '<div class="curr-row"><div class="curr-field"><label>最低投注</label><span class="val">' + (h.star.enabled ? '$' + h.star.min.toLocaleString() : '-') + '</span></div>' +
-        '<div class="curr-field"><label>最高投注</label><span class="val">' + (h.star.enabled ? '$' + h.star.max.toLocaleString() : '-') + '</span></div>' +
-        '<div class="curr-field"><label>兌換比率</label><span class="val">' + (h.star.enabled ? h.star.rate : '-') + '</span></div></div></div>' +
+        '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
+        '<span class="spacer"></span><button class="edit-inline-btn" onclick="toggleCurrEdit(\'' + id + '\',\'star\')">修改</button></div>' +
+        '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
       '<div class="sec-card sched"><div class="sec-title">' +
         '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '排程開關<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
@@ -166,6 +149,55 @@ function renderHallDetail() {
 
   document.getElementById('hallDetail').innerHTML = html;
 }
+
+// === Inline Currency Edit ===
+function renderCurrFields(curr, hallId, type, editing) {
+  if (!curr.enabled) {
+    return '<div class="curr-field"><label>最低投注</label><span class="val">-</span></div>' +
+      '<div class="curr-field"><label>最高投注</label><span class="val">-</span></div>' +
+      '<div class="curr-field"><label>兌換比率</label><span class="val">-</span></div>';
+  }
+  if (editing) {
+    return '<div class="curr-field"><label>最低投注</label><input class="curr-input" id="edit_' + type + '_min_' + hallId + '" value="' + curr.min + '"></div>' +
+      '<div class="curr-field"><label>最高投注</label><input class="curr-input" id="edit_' + type + '_max_' + hallId + '" value="' + curr.max + '"></div>' +
+      '<div class="curr-field"><label>兌換比率</label><input class="curr-input" id="edit_' + type + '_rate_' + hallId + '" value="' + curr.rate + '"></div>' +
+      '<div class="curr-actions">' +
+        '<button class="curr-save" onclick="saveCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="儲存">&#10003;</button>' +
+        '<button class="curr-cancel" onclick="cancelCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="取消">&#10005;</button></div>';
+  }
+  return '<div class="curr-field"><label>最低投注</label><span class="val">$' + curr.min.toLocaleString() + '</span></div>' +
+    '<div class="curr-field"><label>最高投注</label><span class="val">$' + curr.max.toLocaleString() + '</span></div>' +
+    '<div class="curr-field"><label>兌換比率</label><span class="val">' + curr.rate + '</span></div>';
+}
+
+function toggleCurrEdit(hallId, type) {
+  const h = halls[hallId];
+  const curr = type === 'gold' ? h.gold : h.star;
+  const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  container.innerHTML = renderCurrFields(curr, hallId, type, true);
+}
+
+function saveCurrEdit(hallId, type) {
+  const h = halls[hallId];
+  const curr = type === 'gold' ? h.gold : h.star;
+  const minVal = parseInt(document.getElementById('edit_' + type + '_min_' + hallId).value) || curr.min;
+  const maxVal = parseInt(document.getElementById('edit_' + type + '_max_' + hallId).value) || curr.max;
+  const rateVal = document.getElementById('edit_' + type + '_rate_' + hallId).value || curr.rate;
+  curr.min = minVal;
+  curr.max = maxVal;
+  curr.rate = rateVal;
+  const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  container.innerHTML = renderCurrFields(curr, hallId, type, false);
+  renderTable();
+}
+
+function cancelCurrEdit(hallId, type) {
+  const h = halls[hallId];
+  const curr = type === 'gold' ? h.gold : h.star;
+  const container = document.getElementById('curr' + (type === 'gold' ? 'Gold' : 'Star') + '_' + hallId);
+  container.innerHTML = renderCurrFields(curr, hallId, type, false);
+}
+
 // === Render Game Table ===
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();

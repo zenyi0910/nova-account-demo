@@ -171,23 +171,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .hall-tabs{display:flex;gap:10px;padding-bottom:4px;width:max-content}
 .hall-tabs::-webkit-scrollbar{display:none}
 .hall-tabs-wrapper{position:relative;display:flex;align-items:stretch;gap:0;margin-bottom:16px}
-.hall-tabs-arrow{width:20px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s;z-index:2}
-.hall-tabs-arrow:hover{background:#F3F4F6;border-color:#393939}
-.hall-tabs-arrow:disabled{opacity:.3;cursor:not-allowed}
 .hall-tabs-scroll-area{position:relative;overflow-x:auto;overflow-y:hidden;flex:1;scroll-behavior:smooth}
 .hall-tabs-scroll-area::-webkit-scrollbar{display:none}
-.hall-tabs-scroll-area::before,.hall-tabs-scroll-area::after{content:'';position:absolute;top:0;bottom:0;width:32px;z-index:1;pointer-events:none;transition:opacity .3s}
-.hall-tabs-scroll-area::before{left:0;background:linear-gradient(to right,#fff 0%,transparent 100%);opacity:0}
-.hall-tabs-scroll-area::after{right:0;background:linear-gradient(to left,#fff 0%,transparent 100%);opacity:1}
-.hall-tabs-scroll-area.at-start::before{opacity:0}
-.hall-tabs-scroll-area.at-end::after{opacity:0}
-.hall-tabs-scroll-area:not(.at-start)::before{opacity:1}
+.hall-tabs-arrow{width:20px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s;z-index:2;position:relative}
+.hall-tabs-arrow:hover{background:#F3F4F6;border-color:#393939}
+.hall-tabs-arrow:disabled{opacity:.3;cursor:not-allowed}
+.hall-tabs-arrow.arr-left::after{content:'';position:absolute;left:100%;top:0;bottom:0;width:40px;pointer-events:none;background:linear-gradient(to right,#fff 0%,transparent 100%);opacity:0;transition:opacity .3s}
+.hall-tabs-arrow.arr-right::after{content:'';position:absolute;right:100%;top:0;bottom:0;width:40px;pointer-events:none;background:linear-gradient(to left,#fff 0%,transparent 100%);opacity:1;transition:opacity .3s}
+.hall-tabs-arrow.arr-left.show-grad::after{opacity:1}
+.hall-tabs-arrow.arr-right.hide-grad::after{opacity:0}
 .hall-tab{padding:10px 16px;border:1px solid oklch(0.922 0 0);border-radius:8px;cursor:pointer;background:#fff;min-width:140px;transition:all .2s ease;flex-shrink:0;transform:scale(1)}
 .hall-tab:hover{border-color:#393939}
-.hall-tab.active{border-color:#393939;background:rgba(57,57,57,0.04);box-shadow:0 0 0 1px #393939;transform:scale(1.02)}
+.hall-tab.active{border-color:#393939;background:#393939;color:#fff}
+.hall-tab.active .ht-name{color:#fff}
+.hall-tab.active .ht-meta{color:rgba(255,255,255,0.7)}
 .hall-tab .ht-name{font-size:13px;font-weight:600;color:#111827;display:flex;align-items:center;gap:5px}
 .hall-tab .ht-name .dot{width:7px;height:7px;border-radius:50%}
 .hall-tab .ht-meta{font-size:11px;color:#6B7280;margin-top:2px}
+.edit-inline-btn{font-size:11px;padding:2px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;background:#fff;cursor:pointer;color:#374151;transition:all .15s}
+.edit-inline-btn:hover{border-color:#393939;background:#F3F4F6}
+.curr-input{width:80px;padding:3px 6px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit;transition:border-color .15s}
+.curr-input:focus{outline:none;border-color:#393939}
+.curr-actions{display:flex;align-items:center;gap:6px;margin-left:8px}
+.curr-save,.curr-cancel{width:24px;height:24px;border-radius:4px;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.curr-save{background:#22C55E;color:#fff}
+.curr-save:hover{background:#16A34A}
+.curr-cancel{background:#EF4444;color:#fff}
+.curr-cancel:hover{background:#DC2626}
 .modal.expanded{max-width:95vw!important;width:95vw!important;max-height:95vh!important;height:95vh!important}
 .modal-expand{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:14px;margin-right:4px}
 .modal-expand:hover{background:#F3F4F6}
@@ -219,7 +229,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="count" id="gameCount">28 筆</span>
       </div>
       <div class="filter-bar">
-        <select id="hallSelect" onchange="switchHall()" style="min-width:160px"></select>
         <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
         <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
         <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option></select>
