@@ -635,35 +635,63 @@ function renderTagsManagement() {
 }
 
 function addTagPrompt() {
-  const val = prompt('輸入新標籤名稱：');
-  if (!val || !val.trim()) return;
-  if (commonTags.includes(val.trim())) { showToast('標籤已存在', 'error'); return; }
-  commonTags.push(val.trim());
-  renderTagsManagement();
-  showToast('標籤已新增：' + val.trim(), 'success');
+  openTagEditModal(-1);
 }
 
 function editTag(idx) {
-  const row = document.querySelector('#commonTabContent tr:nth-child(' + (idx + 2) + ')');
-  if (!row) return;
-  const nameCell = row.querySelector('td:nth-child(3)');
-  if (!nameCell) return;
-  const oldName = commonTags[idx];
-  nameCell.innerHTML = '<input type="text" class="curr-input" style="width:120px" value="' + oldName + '" id="editTagInput_' + idx + '" onkeydown="if(event.key===\'Enter\')saveTagEdit(' + idx + ')">' +
-    ' <button class="curr-save" onclick="saveTagEdit(' + idx + ')">儲存</button>' +
-    ' <button class="curr-cancel" onclick="renderTagsManagement()">取消</button>';
-  document.getElementById('editTagInput_' + idx).focus();
+  openTagEditModal(idx);
 }
 
-function saveTagEdit(idx) {
-  const input = document.getElementById('editTagInput_' + idx);
+function openTagEditModal(idx) {
+  const isNew = idx === -1;
+  const name = isNew ? '' : commonTags[idx];
+  const tagIcons = {'超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'};
+  const icon = isNew ? '🏷️' : (tagIcons[name] || '🏷️');
+  const title = isNew ? '遊戲共用設定 - Icon新增' : '遊戲共用設定 - Icon編輯';
+
+  let html = '<div class="modal-overlay show" id="tagEditOverlay" style="z-index:600">' +
+    '<div class="modal" style="max-width:480px">' +
+    '<div class="modal-header"><h3>' + title + '</h3>' +
+    '<button class="modal-close" onclick="closeTagEditModal()">×</button></div>' +
+    '<div class="modal-body">' +
+    '<div class="form-group"><label>Icon名稱</label>' +
+    '<input type="text" id="tagEditName" class="form-control" value="' + name + '" placeholder="輸入標籤名稱"></div>' +
+    '<div class="form-group"><label>Logo圖片 <span style="color:#EF4444">*</span></label>' +
+    '<div class="tag-logo-preview"><span style="font-size:48px">' + icon + '</span></div>' +
+    '<div style="margin-top:8px;font-size:11px;color:#9CA3AF">建議尺寸：200x200px，支援 PNG/JPG</div></div>' +
+    '</div>' +
+    '<div class="modal-footer">' +
+    '<button class="btn-tag-cancel" onclick="closeTagEditModal()">取消</button>' +
+    '<button class="btn-tag-save" onclick="saveTagFromModal(' + idx + ')">儲存</button>' +
+    '</div></div></div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.getElementById('tagEditName').focus();
+}
+
+function closeTagEditModal() {
+  const el = document.getElementById('tagEditOverlay');
+  if (el) el.remove();
+}
+
+function saveTagFromModal(idx) {
+  const input = document.getElementById('tagEditName');
   if (!input) return;
   const val = input.value.trim();
   if (!val) { showToast('名稱不能為空', 'error'); return; }
-  commonTags[idx] = val;
+  if (idx === -1) {
+    if (commonTags.includes(val)) { showToast('標籤已存在', 'error'); return; }
+    commonTags.push(val);
+    showToast('標籤已新增：' + val, 'success');
+  } else {
+    commonTags[idx] = val;
+    showToast('標籤已更新', 'success');
+  }
+  closeTagEditModal();
   renderTagsManagement();
-  showToast('標籤已更新', 'success');
 }
+
+function saveTagEdit(idx) { saveTagFromModal(idx); }
 
 function removeTag(idx) {
   const name = commonTags[idx];
