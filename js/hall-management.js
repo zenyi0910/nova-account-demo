@@ -10,42 +10,38 @@ const halls = {
 };
 
 const games = [
-  {id:1,hall:'VA',cat:'電子',name:'埃及三秘寶',status:'使用中',vip:'-',goldMin:10,goldMax:50000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:2,hall:'VA',cat:'電子',name:'財神倍倍發 X4096',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:40000,tag:'-',recommend:false,note:''},
-  {id:3,hall:'VA',cat:'電子',name:'印加祖瑪 豪華版',status:'停用中',vip:'-',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'推薦',recommend:true,note:''},
-  {id:4,hall:'VA',cat:'電子',name:'財富金幣',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:5,hall:'VA',cat:'電子',name:'阿茲特克神話',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:6,hall:'VA',cat:'棋牌',name:'自摸無雙 2',status:'使用中',vip:'-',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:7,hall:'VA',cat:'棋牌',name:'自摸無雙3',status:'使用中',vip:'-',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:8,hall:'VA',cat:'電子',name:'法老祕寶',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:true,note:''},
-  {id:9,hall:'VA',cat:'電子',name:'印加女神',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:10,hall:'VA',cat:'電子',name:'星運雷神',status:'使用中',vip:'VIP 1',goldMin:50,goldMax:200000,starMin:500,starMax:100000,tag:'熱門',recommend:true,note:''},
-  {id:11,hall:'VA',cat:'捕魚',name:'爆礦傳奇',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:12,hall:'VA',cat:'電子',name:'星運賽特',status:'使用中',vip:'-',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:13,hall:'VA',cat:'棋牌',name:'自摸無雙',status:'使用中',vip:'-',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:14,hall:'VA',cat:'棋牌',name:'自摸無雙 5',status:'使用中',vip:'-',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:15,hall:'YGR',cat:'電子',name:'祖瑪探險',status:'即將上線',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:16,hall:'YGR',cat:'棋牌',name:'自摸財神',status:'停用中',vip:'-',goldMin:20,goldMax:60000,starMin:200,starMax:25000,tag:'-',recommend:false,note:''},
-  {id:17,hall:'YGR',cat:'電子',name:'聚寶福祿壽',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:18,hall:'YGR',cat:'電子',name:'甜蜜聖誕',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:19,hall:'YGR',cat:'電子',name:'福來臨',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:20,hall:'YGR',cat:'捕魚',name:'祥龍獻瑞',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:21,hall:'YGR',cat:'電子',name:'龍族傳說6',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:22,hall:'YGR',cat:'電子',name:'龍族傳說7',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:23,hall:'YGR',cat:'電子',name:'賽特神話',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:24,hall:'YGR',cat:'捕魚',name:'王國秘寶',status:'使用中',vip:'-',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
-  {id:25,hall:'JDB',cat:'電子',name:'彩虹軟糖',status:'使用中',vip:'-',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
-  {id:26,hall:'JDB',cat:'電子',name:'鐵道富翁',status:'使用中',vip:'-',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
-  {id:27,hall:'JDB',cat:'捕魚',name:'豬滿滿',status:'使用中',vip:'-',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
-  {id:28,hall:'JDB',cat:'棋牌',name:'天上聖母',status:'使用中',vip:'-',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
-  {id:29,hall:'PG',cat:'電子',name:'麻將之路',status:'使用中',vip:'-',goldMin:10,goldMax:120000,starMin:0,starMax:0,tag:'-',recommend:false,note:''},
-  {id:30,hall:'PG',cat:'電子',name:'寶石傳奇',status:'使用中',vip:'-',goldMin:10,goldMax:120000,starMin:0,starMax:0,tag:'-',recommend:false,note:''},
-  {id:31,hall:'CQ9',cat:'電子',name:'跳跳樂',status:'使用中',vip:'-',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'-',recommend:false,note:''},
-  {id:32,hall:'CQ9',cat:'捕魚',name:'捕魚達人',status:'使用中',vip:'-',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'-',recommend:false,note:''},
-  {id:33,hall:'RSG',cat:'電子',name:'金猴爺',status:'使用中',vip:'-',goldMin:20,goldMax:100000,starMin:200,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:34,hall:'RSG',cat:'棋牌',name:'德州撲克',status:'使用中',vip:'-',goldMin:20,goldMax:100000,starMin:200,starMax:50000,tag:'-',recommend:false,note:''},
-  {id:35,hall:'FC',cat:'電子',name:'招財進寶',status:'使用中',vip:'-',goldMin:10,goldMax:70000,starMin:100,starMax:35000,tag:'-',recommend:false,note:''},
-  {id:36,hall:'FC',cat:'捕魚',name:'深海獵手',status:'使用中',vip:'-',goldMin:10,goldMax:70000,starMin:100,starMax:35000,tag:'-',recommend:false,note:''}
+  {id:1,hall:'VA',cat:'電動',name:'埃及三秘寶',status:'即將上線',vip:'不限制',goldMin:10,goldMax:50000,starMin:100,starMax:30000,tag:'-',recommend:false,note:'批次維護測試中'},
+  {id:2,hall:'VA',cat:'電動',name:'財神倍倍發 X4096',status:'即將上線',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:40000,tag:'-',recommend:false,note:'批次維護測試中'},
+  {id:3,hall:'VA',cat:'電動',name:'印加祖瑪 豪華版',status:'停用中',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'推薦',recommend:true,note:''},
+  {id:4,hall:'VA',cat:'電動',name:'財富金幣',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:5,hall:'VA',cat:'電動',name:'阿茲特克神話',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:6,hall:'VA',cat:'電動',name:'自摸無雙 2',status:'使用中',vip:'不限制',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:7,hall:'VA',cat:'電動',name:'自摸無雙3',status:'使用中',vip:'不限制',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:8,hall:'VA',cat:'電動',name:'法老祕寶',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:true,note:''},
+  {id:9,hall:'VA',cat:'電動',name:'印加女神',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:10,hall:'YGR',cat:'街機',name:'祖瑪探險',status:'即將上線',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'推薦',recommend:true,note:'批次維護測試中(原使用中)'},
+  {id:11,hall:'YGR',cat:'電動',name:'自摸財神',status:'停用中',vip:'不限制',goldMin:20,goldMax:60000,starMin:200,starMax:25000,tag:'-',recommend:false,note:'批次維護測試中(原使用中)'},
+  {id:12,hall:'YGR',cat:'電動',name:'聚寶福祿壽',status:'使用中',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:13,hall:'YGR',cat:'電動',name:'甜蜜聖誕',status:'使用中',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:14,hall:'YGR',cat:'電動',name:'福來臨',status:'使用中',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:15,hall:'YGR',cat:'電動',name:'祥龍獻瑞',status:'使用中',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:16,hall:'VA',cat:'電動',name:'星運雷神',status:'使用中',vip:'VIP1',goldMin:50,goldMax:200000,starMin:500,starMax:100000,tag:'最新',recommend:true,note:''},
+  {id:17,hall:'VA',cat:'未分類',name:'爆礦傳奇',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:18,hall:'VA',cat:'未分類',name:'星運賽特',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:19,hall:'VA',cat:'未分類',name:'自摸無雙',status:'使用中',vip:'不限制',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:20,hall:'VA',cat:'未分類',name:'自摸無雙 5',status:'使用中',vip:'不限制',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
+  {id:21,hall:'JDB',cat:'電動',name:'彩虹軟糖',status:'使用中',vip:'不限制',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
+  {id:22,hall:'JDB',cat:'電動',name:'鐵道富翁',status:'使用中',vip:'不限制',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
+  {id:23,hall:'JDB',cat:'電動',name:'豬滿滿',status:'使用中',vip:'不限制',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
+  {id:24,hall:'JDB',cat:'電動',name:'天上聖母',status:'使用中',vip:'不限制',goldMin:5,goldMax:50000,starMin:50,starMax:20000,tag:'-',recommend:false,note:''},
+  {id:25,hall:'PG',cat:'電動',name:'麻將之路',status:'使用中',vip:'不限制',goldMin:10,goldMax:120000,starMin:0,starMax:0,tag:'-',recommend:false,note:''},
+  {id:26,hall:'PG',cat:'電動',name:'寶石傳奇',status:'使用中',vip:'不限制',goldMin:10,goldMax:120000,starMin:0,starMax:0,tag:'-',recommend:false,note:''},
+  {id:27,hall:'CQ9',cat:'電動',name:'跳跳樂',status:'使用中',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'-',recommend:false,note:''},
+  {id:28,hall:'CQ9',cat:'電動',name:'捕魚達人',status:'使用中',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'-',recommend:false,note:''},
+  {id:29,hall:'RSG',cat:'電動',name:'金猴爺',status:'使用中',vip:'不限制',goldMin:20,goldMax:100000,starMin:200,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:30,hall:'RSG',cat:'電動',name:'德州撲克',status:'使用中',vip:'不限制',goldMin:20,goldMax:100000,starMin:200,starMax:50000,tag:'-',recommend:false,note:''},
+  {id:31,hall:'FC',cat:'電動',name:'招財進寶',status:'使用中',vip:'不限制',goldMin:10,goldMax:70000,starMin:100,starMax:35000,tag:'-',recommend:false,note:''},
+  {id:32,hall:'FC',cat:'電動',name:'深海獵手',status:'使用中',vip:'不限制',goldMin:10,goldMax:70000,starMin:100,starMax:35000,tag:'-',recommend:false,note:''}
 ];
 
 const commonTags = ['刮刮樂','連消','推薦','星幣','最新','熱門','限制'];
@@ -174,8 +170,8 @@ function toggleCurrEdit(hallId, type) {
   const btn = document.getElementById('editBtn_' + type + '_' + hallId);
   container.innerHTML = renderCurrFields(curr, hallId, type, true);
   btn.onclick = null;
-  btn.innerHTML = '<button class="curr-save" onclick="saveCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="儲存">&#10003;</button>' +
-    '<button class="curr-cancel" onclick="cancelCurrEdit(\'' + hallId + '\',\'' + type + '\')" title="取消">&#10005;</button>';
+  btn.innerHTML = '<button class="curr-save" onclick="saveCurrEdit(\'' + hallId + '\',\'' + type + '\')">儲存變更</button>' +
+    '<button class="curr-cancel" onclick="cancelCurrEdit(\'' + hallId + '\',\'' + type + '\')">取消</button>';
 }
 
 function saveCurrEdit(hallId, type) {
@@ -207,44 +203,123 @@ function cancelCurrEdit(hallId, type) {
   btn.title = '修改';
 }
 
+let currentCurrTab = 'gold'; // gold or star
+
 // === Render Game Table ===
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();
   const hallF = currentHall;
   const statusF = document.getElementById('filterStatus').value;
   const catF = document.getElementById('filterCat').value;
+  // Advanced filters
+  const hallAdvEl = document.getElementById('filterHallAdv');
+  const tagAdvEl = document.getElementById('filterTagAdv');
+  const vipAdvEl = document.getElementById('filterVipAdv');
+  const hallAdv = hallAdvEl ? hallAdvEl.value : '';
+  const tagAdv = tagAdvEl ? tagAdvEl.value : '';
+  const vipAdv = vipAdvEl ? vipAdvEl.value : '';
   const filtered = games.filter(g => {
     if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
     if (hallF && g.hall !== hallF) return false;
     if (statusF && g.status !== statusF) return false;
     if (catF && g.cat !== catF) return false;
+    if (hallAdv && g.hall !== hallAdv) return false;
+    if (tagAdv && g.tag !== tagAdv) return false;
+    if (vipAdv && g.vip !== vipAdv) return false;
     return true;
   });
-  document.getElementById('gameCount').textContent = filtered.length + ' 筆';
+  document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = filtered.map(g => {
-    const h = halls[g.hall];
+  tbody.innerHTML = filtered.map((g, idx) => {
     const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
-    const goldOv = h.gold.min !== g.goldMin || h.gold.max !== g.goldMax;
-    const starOv = h.star.min !== g.starMin || h.star.max !== g.starMax;
-    const hasOv = goldOv || starOv;
-    const goldD = goldOv
-      ? '<span class="val override">$' + h.gold.min.toLocaleString() + '~$' + h.gold.max.toLocaleString() + '</span><br><span class="orig">$' + g.goldMin.toLocaleString() + '~$' + g.goldMax.toLocaleString() + '</span>'
-      : '$' + g.goldMin.toLocaleString() + ' ~ $' + g.goldMax.toLocaleString();
-    const starD = starOv
-      ? '<span class="val override">$' + h.star.min.toLocaleString() + '~$' + h.star.max.toLocaleString() + '</span><br><span class="orig">$' + g.starMin.toLocaleString() + '~$' + g.starMax.toLocaleString() + '</span>'
-      : '$' + g.starMin.toLocaleString() + ' ~ $' + g.starMax.toLocaleString();
-    const ovCol = hasOv ? '<span class="override-indicator">廳級覆蓋</span>' : '<span class="inherit-indicator">原始設定</span>';
-    return '<tr><td>' + g.id + '</td><td>' + g.hall + '</td><td>' + g.cat + '</td><td style="font-weight:500">' + g.name + '</td><td><span class="badge ' + bc + '">' + g.status + '</span></td><td>' + g.vip + '</td><td style="font-size:11px">' + goldD + '</td><td style="font-size:11px">' + starD + '</td><td>' + ovCol + '</td><td><button class="btn btn-outline btn-sm" onclick="openDetail(' + g.id + ')">詳情</button></td></tr>';
+    const tagDisplay = g.tag === '-' ? '-' : '<span class="tag-badge">' + g.tag + '</span>';
+    return '<tr>' +
+      '<td>' + (idx + 1) + '</td>' +
+      '<td>' + tagDisplay + '</td>' +
+      '<td>' + g.hall + '</td>' +
+      '<td>' + g.cat + '</td>' +
+      '<td><button class="game-name-link" onclick="openDetail(' + g.id + ')">' + g.name + '</button></td>' +
+      '<td><span class="badge ' + bc + '">' + g.status + '</span></td>' +
+      '<td>' + g.vip + '</td>' +
+      '<td class="action-cell"><button class="btn-edit-icon" onclick="openDetail(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>' +
+      '<td class="note-cell">' + (g.note || '') + '</td>' +
+      '</tr>';
   }).join('');
+}
+
+function toggleMoreMenu(event, gameId) {
+  event.stopPropagation();
+  const existing = document.querySelector('.more-menu');
+  if (existing) existing.remove();
+  const g = games.find(x => x.id === gameId);
+  if (!g) return;
+  const menu = document.createElement('div');
+  menu.className = 'more-menu';
+  menu.innerHTML = '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'使用中\')">設為使用中</div>' +
+    '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'停用中\')">設為停用中</div>' +
+    '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'維護中\')">設為維護中</div>' +
+    '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'即將上線\')">設為即將上線</div>';
+  const btn = event.currentTarget;
+  const rect = btn.getBoundingClientRect();
+  menu.style.position = 'fixed';
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.left = (rect.left - 80) + 'px';
+  document.body.appendChild(menu);
+  setTimeout(() => { document.addEventListener('click', closeMoreMenu, { once: true }); }, 10);
+}
+
+function closeMoreMenu() {
+  const m = document.querySelector('.more-menu');
+  if (m) m.remove();
+}
+
+function changeGameStatus(gameId, newStatus) {
+  const g = games.find(x => x.id === gameId);
+  if (g) { g.status = newStatus; renderTable(); showToast(g.name + ' → ' + newStatus, 'success'); }
+  closeMoreMenu();
+}
+
+function switchCurrTab(tab) {
+  currentCurrTab = tab;
+  document.querySelectorAll('.curr-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  renderTable();
 }
 
 function filterGames() { renderTable(); }
 
+function resetFilters() {
+  document.getElementById('filterName').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterCat').value = '';
+  renderTable();
+}
+
+function toggleAdvFilter() {
+  const panel = document.getElementById('advFilterPanel');
+  if (!panel) return;
+  const isOpen = panel.classList.contains('show');
+  panel.classList.toggle('show');
+  document.getElementById('advFilterBtn').textContent = isOpen ? '進階篩選' : '收起篩選';
+}
+
+function applyAdvFilter() {
+  renderTable();
+}
+
+function openBatchMaintModal() {
+  document.getElementById('commonModal').classList.add('show');
+  switchCommonTab('maint');
+}
+
 function initFilters() {
   const cats = [...new Set(games.map(g => g.cat))].sort();
   const catSel = document.getElementById('filterCat');
-  catSel.innerHTML = '<option value="">所有種類</option>' + cats.map(c => '<option>' + c + '</option>').join('');
+  catSel.innerHTML = '<option value="">選擇種類</option>' + cats.map(c => '<option>' + c + '</option>').join('');
+  // Populate advanced hall filter
+  const hallAdvSel = document.getElementById('filterHallAdv');
+  if (hallAdvSel) {
+    hallAdvSel.innerHTML = '<option value="">全部</option>' + Object.keys(halls).map(k => '<option value="' + k + '">' + k + '</option>').join('');
+  }
 }
 
 // === Toggle Hall ===

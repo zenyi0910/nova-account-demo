@@ -192,16 +192,67 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .edit-icon-btn:hover{border-color:#393939;background:#F3F4F6}
 .curr-input{width:80px;padding:3px 6px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit;transition:border-color .15s}
 .curr-input:focus{outline:none;border-color:#393939}
-.curr-save,.curr-cancel{width:20px;height:20px;border-radius:4px;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.curr-save,.curr-cancel{padding:3px 10px;border-radius:4px;border:none;cursor:pointer;font-size:11px;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
 .curr-save{background:#22C55E;color:#fff}
 .curr-save:hover{background:#16A34A}
-.curr-cancel{background:#EF4444;color:#fff}
-.curr-cancel:hover{background:#DC2626}
+.curr-cancel{background:transparent;color:#6B7280;border:1px solid oklch(0.922 0 0)}
+.curr-cancel:hover{background:#F3F4F6;border-color:#393939}
 .modal.expanded{max-width:95vw!important;width:95vw!important;max-height:95vh!important;height:95vh!important}
 .modal-expand{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:14px;margin-right:4px}
 .modal-expand:hover{background:#F3F4F6}
 @media(max-width:900px){.hall-sections{grid-template-columns:1fr}}
 @media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:100}.sidebar.show{transform:translateX(0)}.main{margin-left:0}.content{padding:12px}}
+/* 全廳維護控制 */
+.maint-control-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;margin-bottom:16px}
+.maint-control-icon{color:#DC2626;flex-shrink:0}
+.maint-control-text{flex:1;display:flex;flex-direction:column;gap:2px}
+.maint-control-text strong{font-size:13px;color:#DC2626}
+.maint-control-text span{font-size:12px;color:#6B7280}
+/* 金幣/星幣 Tab */
+.curr-tabs{display:flex;gap:0;margin-bottom:16px}
+.curr-tab{padding:8px 20px;border:1px solid oklch(0.922 0 0);background:#F9FAFB;font-size:13px;font-family:inherit;cursor:pointer;transition:all .15s;color:#6B7280}
+.curr-tab:first-child{border-radius:6px 0 0 6px}
+.curr-tab:last-child{border-radius:0 6px 6px 0}
+.curr-tab.active{background:#fff;border-color:#393939;color:#111827;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+/* Filter bar */
+.filter-bar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.filter-group{display:flex;flex-direction:column;gap:4px}
+.filter-group label{font-size:11px;font-weight:600;color:#6B7280}
+.filter-group select,.filter-input-wrap input{padding:7px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit;min-width:140px}
+.filter-group select:focus,.filter-input-wrap input:focus{outline:none;border-color:#393939}
+.filter-input-wrap{display:flex;align-items:center;gap:6px;border:1px solid oklch(0.922 0 0);border-radius:6px;padding:0 10px;background:#fff}
+.filter-input-wrap input{border:none;padding:7px 0;min-width:160px}
+.filter-input-wrap input:focus{outline:none}
+.filter-input-wrap svg{color:#9CA3AF;flex-shrink:0}
+.filter-actions{display:flex;gap:6px;align-items:flex-end}
+.filter-advanced-toggle{margin-bottom:12px}
+.btn-link{background:none;border:none;color:#6B7280;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:inherit;padding:4px 0}
+.btn-link:hover{color:#393939}
+/* Table info */
+.table-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+.table-info-right{display:flex;align-items:center;gap:6px}
+.page-size-select{padding:3px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit}
+/* Game name link */
+.game-name-link{background:none;border:none;color:#2563EB;cursor:pointer;font-size:13px;font-family:inherit;text-align:left;padding:0}
+.game-name-link:hover{text-decoration:underline}
+/* Tag badge */
+.tag-badge{background:#EEF2FF;color:#4338CA;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+/* Action cell */
+.action-cell{display:flex;align-items:center;gap:4px}
+.btn-edit-icon,.btn-more-icon{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;border-radius:4px;display:flex;align-items:center;justify-content:center}
+.btn-edit-icon:hover,.btn-more-icon:hover{background:#F3F4F6;color:#393939}
+/* More menu */
+.more-menu{background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);padding:4px;z-index:1000;min-width:140px}
+.more-item{padding:8px 12px;font-size:12px;cursor:pointer;border-radius:4px;color:#374151}
+.more-item:hover{background:#F3F4F6}
+/* Note cell */
+.note-cell{font-size:11px;color:#6B7280;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Advanced filter panel */
+.adv-filter-panel{display:none;gap:12px;padding:10px 16px;background:#FAFAFA;border:1px solid oklch(0.922 0 0);border-radius:6px;margin-bottom:8px}
+.adv-filter-panel.show{display:flex}
+/* btn-danger */
+.btn-danger{background:#DC2626;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500}
+.btn-danger:hover{background:#B91C1C}
 </style>
 </head>
 <body>
@@ -222,19 +273,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     </div>
     <div id="hallCards"></div>
     <div id="hallDetail"></div>
-    <div class="game-section">
-      <div class="game-section-header">
-        <h5>遊戲列表</h5>
-        <span class="count" id="gameCount">28 筆</span>
+    <!-- 全廳維護控制 -->
+    <div class="maint-control-bar">
+      <div class="maint-control-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
+      <div class="maint-control-text">
+        <strong>全廳維護控制</strong>
+        <span>此操作將批次變更所選娛樂城內所有遊戲的維護狀態</span>
       </div>
+      <button class="btn btn-danger" onclick="openBatchMaintModal()">設定娛樂城維護</button>
+    </div>
+    <!-- 金幣/星幣 Tab -->
+    <div class="curr-tabs">
+      <button class="curr-tab active" data-tab="gold" onclick="switchCurrTab('gold')">金幣</button>
+      <button class="curr-tab" data-tab="star" onclick="switchCurrTab('star')">星幣</button>
+    </div>
+    <div class="game-section">
       <div class="filter-bar">
-        <input type="text" placeholder="搜尋遊戲名稱..." id="filterName" oninput="filterGames()">
-        <select id="filterStatus" onchange="filterGames()"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select>
-        <select id="filterCat" onchange="filterGames()"><option value="">所有種類</option></select>
+        <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
+        <div class="filter-group"><label>狀態</label><select id="filterStatus"><option value="">選擇狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
+        <div class="filter-group"><label>種類</label><select id="filterCat"><option value="">選擇種類</option></select></div>
+        <div class="filter-actions">
+          <button class="btn btn-primary btn-sm" onclick="filterGames()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 搜尋</button>
+          <button class="btn btn-outline btn-sm" onclick="resetFilters()">重置</button>
+        </div>
+      </div>
+      <div class="filter-advanced-toggle"><button class="btn-link" id="advFilterBtn" onclick="toggleAdvFilter()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> 進階篩選</button></div>
+      <div class="adv-filter-panel" id="advFilterPanel">
+        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">全部</option></select></div>
+        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">全部</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
+        <div class="filter-group"><label>VIP 等級</label><select id="filterVipAdv"><option value="">全部</option><option>不限制</option><option>VIP1</option></select></div>
+      </div>
+      <div class="table-info">
+        <span id="gameCount">第 1 頁，共 20 筆資料</span>
+        <span class="table-info-right">每頁顯示 <select class="page-size-select"><option>20</option><option>50</option><option>100</option></select> 筆</span>
       </div>
       <div style="overflow-x:auto">
         <table class="data-table">
-          <thead><tr><th>序號</th><th>娛樂廳</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP</th><th>金幣投注</th><th>星幣投注</th><th>覆蓋狀態</th><th>操作</th></tr></thead>
+          <thead><tr><th>序號</th><th>標籤</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP 等級以上</th><th>操作</th><th>備註</th></tr></thead>
           <tbody id="tableBody"></tbody>
         </table>
       </div>
@@ -311,6 +386,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="js/hall-management.js"></script>
+<script src="js/hall-management.js?v=2"></script>
 </body>
 </html>
