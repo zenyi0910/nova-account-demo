@@ -169,8 +169,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .orig{font-size:10px;color:#9CA3AF;text-decoration:line-through}
 .btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
 .btn svg{width:14px;height:14px}
-.btn-primary{background:#393939;color:#fff}
-.btn-primary:hover{background:#1a1a1a}
+.btn-primary{background:#2563EB;color:#fff}
+.btn-primary:hover{background:#1D4ED8}
+.btn-dark{background:#393939;color:#fff}
+.btn-dark:hover{background:#1a1a1a}
 .btn-outline{border:1px solid oklch(0.922 0 0);background:#fff;color:#374151}
 .btn-outline:hover{background:#F9FAFB}
 .btn-danger{background:#DC2626;color:#fff}
@@ -240,8 +242,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .curr-input{width:80px;padding:3px 6px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit;transition:border-color .15s}
 .curr-input:focus{outline:none;border-color:#393939}
 .curr-save,.curr-cancel{padding:3px 10px;border-radius:4px;border:none;cursor:pointer;font-size:11px;font-family:inherit;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.curr-save{background:#393939;color:#fff}
-.curr-save:hover{background:#1a1a1a}
+.curr-save{background:#2563EB;color:#fff}
+.curr-save:hover{background:#1D4ED8}
 .curr-cancel{background:transparent;color:#6B7280;border:1px solid oklch(0.922 0 0)}
 .curr-cancel:hover{background:#F3F4F6;border-color:#393939}
 .modal.expanded{max-width:95vw!important;width:95vw!important;max-height:95vh!important;height:95vh!important}
@@ -262,7 +264,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .curr-tab:last-child{border-radius:0}
 .curr-tab.active{background:none;border-color:transparent;color:#393939;font-weight:600;box-shadow:none;border-bottom-color:#393939}
 /* Filter bar */
-.filter-bar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.filter-bar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:8px;background:#F5F5F5;padding:16px;border-radius:6px}
 .filter-group{display:flex;flex-direction:column;gap:4px}
 .filter-group label{font-size:11px;font-weight:600;color:#6B7280}
 .filter-group select,.filter-input-wrap input{padding:7px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit;min-width:140px}
@@ -336,16 +338,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <h4>娛樂廳管理</h4>
       <span class="desc">廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定</span>
       <span style="flex:1"></span>
-      <button class="btn btn-primary" onclick="openCommonModal()">共用設定</button>
+      <button class="btn btn-dark" onclick="openCommonModal()">共用設定</button>
     </div>
     <div id="hallCards"></div>
     <div id="hallDetail"></div>
 
-    <!-- 金幣/星幣 Tab -->
-    <div class="curr-tabs">
-      <button class="curr-tab active" data-tab="gold" onclick="switchCurrTab('gold')">金幣</button>
-      <button class="curr-tab" data-tab="star" onclick="switchCurrTab('star')">星幣</button>
-    </div>
+    <!-- 遊戲列表 -->
     <div class="game-section">
       <div class="filter-bar">
         <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
