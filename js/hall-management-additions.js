@@ -51,7 +51,7 @@ function openAddRecommendModal() {
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('addRecommendModal')" style="background:#8B7E2A;color:#fff;border:none">取消</button>
-      <button class="btn btn-primary" onclick="submitAddRecommend()" style="background:#393939;color:#fff">新增</button>
+      <button class="btn btn-dark" onclick="submitAddRecommend()">新增</button>
     </div>
   </div>
 </div>`;
@@ -207,7 +207,7 @@ function openAddIconModal() {
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('addIconModal')" style="background:#8B7E2A;color:#fff;border:none">取消</button>
-      <button class="btn btn-primary" onclick="submitAddIcon()" style="background:#393939;color:#fff">新增</button>
+      <button class="btn btn-dark" onclick="submitAddIcon()">新增</button>
     </div>
   </div>
 </div>`;

@@ -447,7 +447,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="form-group"><label>備註</label><input type="text" id="sNote" placeholder="例：例行維護、版本更新"></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('schedModal')">取消</button><button class="btn btn-primary" onclick="addSchedule()">新增排程</button></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('schedModal')">取消</button><button class="btn btn-dark" onclick="addSchedule()">新增排程</button></div>
   </div>
 </div>
 <!-- Modal: 幣種覆蓋設定 -->
@@ -467,7 +467,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div class="form-row"><div class="form-group"><label>兌換比率</label><input type="text" id="cStarRate" placeholder="10:1"><div class="form-hint">星幣:遊戲幣</div></div><div class="form-group"><label>狀態</label><select id="cStarStatus"><option value="on">啟用</option><option value="off">停用</option></select></div></div>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('currModal')">取消</button><button class="btn btn-primary" onclick="saveCurr()">儲存設定</button></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('currModal')">取消</button><button class="btn btn-dark" onclick="saveCurr()">儲存設定</button></div>
   </div>
 </div>
 <!-- Modal: 快速開關確認 -->
@@ -503,10 +503,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 <!-- Modal: 遊戲詳情 -->
 <div class="modal-overlay" id="detailModal">
-  <div class="modal" style="max-width:600px">
+  <div class="modal" style="max-width:720px">
     <div class="modal-header"><h3 id="detailTitle">遊戲詳情</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
     <div class="modal-body" id="detailBody"></div>
-    <div class="modal-footer" id="detailFooter"><button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button><button class="btn btn-primary" onclick="openEditDetail(currentDetailId)">編輯</button></div>
+    <div class="modal-footer" id="detailFooter"><button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button><button class="btn btn-dark" onclick="openEditDetail(currentDetailId)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>編輯</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>

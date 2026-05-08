@@ -251,7 +251,7 @@ function renderRecommendModalContent() {
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
     '<button class="btn btn-outline" style="padding:6px 12px;font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>' +
-    '<button class="btn btn-primary" style="padding:6px 12px;font-size:12px" onclick="openAddRecommendModal()">+ 新增遊戲</button>' +
+    '<button class="btn btn-dark" style="padding:6px 12px;font-size:12px" onclick="openAddRecommendModal()">+ 新增遊戲</button>' +
     '</div></div>';
 
   html += '<table class="data-table"><thead><tr>' +
@@ -584,7 +584,7 @@ function requestToggle(id) {
   pendingToggle = { id, newState: ns };
   document.getElementById('toggleMsg').innerHTML = '確定要<strong>' + act + ' ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。' + (ns === 'off' ? '<br><span style="color:#DC2626">關閉後玩家將無法進入該廳所有遊戲。</span>' : '');
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
-  document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-primary';
+  document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
 }
 
@@ -670,19 +670,19 @@ function openDetail(gameId) {
   const imgUrl = gameImages[g.name] || 'https://picsum.photos/seed/' + g.id + '/615/512';
 
   let html = '<div class="detail-section">' +
-    '<h6><span class="dot" style="background:#2563EB"></span> 基本資訊</h6>' +
+    '<h6>基本資訊</h6>' +
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
     '<div class="detail-field"><label>名稱</label><div class="detail-val">' + g.name + '</div></div>' +
     '<div class="detail-field"><label>種類</label><div class="detail-val">' + g.cat + '</div></div>' +
     '<div class="detail-field"><label>娛樂城</label><div class="detail-val">' + g.hall + '</div></div>' +
-    '<div class="detail-field"><label>狀態</label><div class="detail-val"><span class="badge ' + (g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon') + '">' + g.status + '</span></div></div>' +
+    '<div class="detail-field"><label>狀態</label><div class="detail-val">' + g.status + '</div></div>' +
     '<div class="detail-field"><label>標籤</label><div class="detail-val">' + (g.tag === '-' ? '-' : g.tag) + '</div></div>' +
     '<div class="detail-field"><label>限制VIP等級以上</label><div class="detail-val">' + g.vip + '</div></div>' +
     '<div class="detail-field" style="grid-column:1/-1"><label>備註</label><div class="detail-val">' + (g.note || '-') + '</div></div>' +
     '</div></div>';
 
   html += '<div class="detail-section">' +
-    '<h6><span class="dot" style="background:#D97706"></span> 圖片預覽</h6>' +
+    '<h6>圖片預覽</h6>' +
     '<div style="text-align:center">' +
     '<img src="' + imgUrl + '" style="max-width:100%;height:auto;border-radius:8px;border:1px solid oklch(0.922 0 0)" onerror="this.style.display=\'none\'">' +
     '<div style="margin-top:8px;font-size:11px;color:#6B7280">點擊圖片可在新視窗中檢視原圖</div>' +
@@ -747,14 +747,51 @@ function saveDetail() {
 // === Common Settings Modal (標籤管理) ===
 function openCommonModal() {
   document.getElementById('commonModal').classList.add('show');
-  renderTagsManagement();
+  switchCommonTab('tag');
+}
+
+function switchCommonTab(tab) {
+  const tagBtn = document.getElementById('commonTabTag');
+  const iconBtn = document.getElementById('commonTabIcon');
+  if (tagBtn && iconBtn) {
+    tagBtn.classList.toggle('active', tab === 'tag');
+    iconBtn.classList.toggle('active', tab === 'icon');
+  }
+  if (tab === 'tag') {
+    renderTagsManagement();
+  } else {
+    renderIconManagement();
+  }
+}
+
+function renderIconManagement() {
+  const container = document.getElementById('commonTabContent');
+  const icons = [
+    {name:'熱門', img:'🔥'}, {name:'推薦', img:'😊'}, {name:'最新', img:'🆕'},
+    {name:'限時', img:'⏰'}, {name:'穩贏', img:'🟢'}, {name:'刮刮樂', img:'🎰'}
+  ];
+  let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
+    '<span style="font-size:12px;color:#6B7280">總共 ' + icons.length + ' 筆資料</span>' +
+    '<button class="btn btn-dark btn-sm" onclick="openAddIconModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
+  html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">Logo</th><th>Icon名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
+  icons.forEach((ic, i) => {
+    html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
+      '<td style="text-align:center;font-size:18px">' + ic.img + '</td>' +
+      '<td style="font-weight:500">' + ic.name + '</td>' +
+      '<td><div style="display:flex;gap:6px">' +
+      '<button class="btn-icon-action edit" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+      '<button class="btn-icon-action delete" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+      '</div></td></tr>';
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
 }
 
 function renderTagsManagement() {
   const container = document.getElementById('commonTabContent');
   let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + commonTags.length + ' 筆資料</span>' +
-    '<button class="btn btn-primary btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
+    '<button class="btn btn-dark btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
   html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">圖片</th><th>標籤名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
   const tagIcons = {
     '超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'
