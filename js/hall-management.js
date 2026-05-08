@@ -644,9 +644,22 @@ function addTagPrompt() {
 }
 
 function editTag(idx) {
-  const val = prompt('修改標籤名稱：', commonTags[idx]);
-  if (!val || !val.trim()) return;
-  commonTags[idx] = val.trim();
+  const row = document.querySelector('#commonTabContent tr:nth-child(' + (idx + 1) + ')');
+  if (!row) return;
+  const nameCell = row.querySelector('td:nth-child(3)');
+  const oldName = commonTags[idx];
+  nameCell.innerHTML = '<input type="text" class="curr-input" style="width:120px" value="' + oldName + '" id="editTagInput_' + idx + '" onkeydown="if(event.key===\'Enter\')saveTagEdit(' + idx + ')">' +
+    ' <button class="curr-save" onclick="saveTagEdit(' + idx + ')">儲存</button>' +
+    ' <button class="curr-cancel" onclick="renderTagsManagement()">取消</button>';
+  document.getElementById('editTagInput_' + idx).focus();
+}
+
+function saveTagEdit(idx) {
+  const input = document.getElementById('editTagInput_' + idx);
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) { showToast('名稱不能為空', 'error'); return; }
+  commonTags[idx] = val;
   renderTagsManagement();
   showToast('標籤已更新', 'success');
 }
