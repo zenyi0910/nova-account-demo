@@ -578,97 +578,152 @@ function saveDetail() {
   showToast(g.name + ' 設定已儲存', 'success');
 }
 
-// === Common Settings Modal ===
+// === Common Settings Modal (標籤管理) ===
 function openCommonModal() {
   document.getElementById('commonModal').classList.add('show');
-  switchCommonTab('maint');
+  renderTagsManagement();
 }
 
-function switchCommonTab(tab) {
-  document.querySelectorAll('.common-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+function renderTagsManagement() {
   const container = document.getElementById('commonTabContent');
-  if (tab === 'maint') renderMaintTab(container);
-  else if (tab === 'recommend') renderRecommendTab(container);
-  else renderTagsTab(container);
-}
-
-function renderMaintTab(el) {
-  let html = '<div style="margin-bottom:12px;font-size:12px;color:#6B7280">批次設定遊戲維護狀態，不需逐一操作</div>';
-  html += '<div style="display:flex;gap:8px;margin-bottom:12px"><select id="maintHallFilter" onchange="renderMaintList()" style="padding:5px 10px;border:1px solid oklch(0.922 0 0);border-radius:5px;font-size:12px;font-family:inherit"><option value="">所有娛樂廳</option>' +
-    Object.keys(halls).map(k => '<option value="' + k + '">' + k + '</option>').join('') + '</select>' +
-    '<select id="maintStatusFilter" onchange="renderMaintList()" style="padding:5px 10px;border:1px solid oklch(0.922 0 0);border-radius:5px;font-size:12px;font-family:inherit"><option value="">所有狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>';
-  html += '<div id="maintList"></div>';
-  el.innerHTML = html;
-  renderMaintList();
-}
-
-function renderMaintList() {
-  const hf = document.getElementById('maintHallFilter').value;
-  const sf = document.getElementById('maintStatusFilter').value;
-  let list = games.filter(g => {
-    if (hf && g.hall !== hf) return false;
-    if (sf && g.status !== sf) return false;
-    return true;
-  }).slice(0, 15);
-  const html = list.map(g => {
-    const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
-    return '<div class="maint-row"><span style="font-size:10px;color:#9CA3AF;width:20px">' + g.id + '</span><span class="maint-name">' + g.name + '</span><span style="font-size:10px;color:#6B7280">' + g.hall + '</span><span class="badge ' + bc + '" style="font-size:10px">' + g.status + '</span>' +
-      '<select onchange="changeMaintStatus(' + g.id + ',this.value)" style="padding:3px 6px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:11px"><option value="">變更...</option><option value="使用中">使用中</option><option value="停用中">停用中</option><option value="維護中">維護中</option><option value="即將上線">即將上線</option></select></div>';
-  }).join('');
-  document.getElementById('maintList').innerHTML = html || '<div style="font-size:12px;color:#9CA3AF;padding:12px">無符合條件的遊戲</div>';
-}
-
-function changeMaintStatus(id, val) {
-  if (!val) return;
-  const g = games.find(x => x.id === id);
-  if (g) { g.status = val; renderMaintList(); renderTable(); showToast(g.name + ' → ' + val, 'success'); }
-}
-
-function renderRecommendTab(el) {
-  const recommended = games.filter(g => g.recommend);
-  let html = '<div style="margin-bottom:10px;font-size:12px;color:#6B7280">管理推薦遊戲列表（近期爆獎 / 最受歡迎）</div>';
-  html += '<table class="recommend-table"><thead><tr><th>順序</th><th>娛樂廳</th><th>遊戲名稱</th><th>操作</th></tr></thead><tbody>';
-  if (recommended.length === 0) {
-    html += '<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:16px">尚無推薦遊戲</td></tr>';
-  } else {
-    recommended.forEach((g, i) => {
-      html += '<tr><td>' + (i+1) + '</td><td>' + g.hall + '</td><td>' + g.name + '</td><td><button class="btn btn-outline btn-sm" style="font-size:10px;padding:2px 6px;color:#DC2626;border-color:#FCA5A5" onclick="removeRecommend(' + g.id + ')">移除</button></td></tr>';
-    });
-  }
+  let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
+    '<span style="font-size:12px;color:#6B7280">總共 ' + commonTags.length + ' 筆資料</span>' +
+    '<button class="btn btn-primary btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
+  html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">圖片</th><th>標籤名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
+  const tagIcons = {
+    '超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'
+  };
+  commonTags.forEach((t, i) => {
+    const icon = tagIcons[t] || '🏷️';
+    html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
+      '<td style="text-align:center;font-size:18px">' + icon + '</td>' +
+      '<td style="font-weight:500">' + t + '</td>' +
+      '<td><div style="display:flex;gap:6px">' +
+      '<button class="btn-icon-action edit" onclick="editTag(' + i + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+      '<button class="btn-icon-action delete" onclick="removeTag(' + i + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+      '</div></td></tr>';
+  });
   html += '</tbody></table>';
-  el.innerHTML = html;
+  container.innerHTML = html;
+}
+
+function addTagPrompt() {
+  const val = prompt('輸入新標籤名稱：');
+  if (!val || !val.trim()) return;
+  if (commonTags.includes(val.trim())) { showToast('標籤已存在', 'error'); return; }
+  commonTags.push(val.trim());
+  renderTagsManagement();
+  showToast('標籤已新增：' + val.trim(), 'success');
+}
+
+function editTag(idx) {
+  const val = prompt('修改標籤名稱：', commonTags[idx]);
+  if (!val || !val.trim()) return;
+  commonTags[idx] = val.trim();
+  renderTagsManagement();
+  showToast('標籤已更新', 'success');
+}
+
+function removeTag(idx) {
+  const name = commonTags[idx];
+  commonTags.splice(idx, 1);
+  renderTagsManagement();
+  showToast('已刪除：' + name, 'warning');
 }
 
 function removeRecommend(id) {
   const g = games.find(x => x.id === id);
-  if (g) { g.recommend = false; switchCommonTab('recommend'); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
+  if (g) { g.recommend = false; renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
 }
 
-function renderTagsTab(el) {
-  let html = '<div style="margin-bottom:10px;font-size:12px;color:#6B7280">管理遊戲標籤（刮刮樂、推薦、熱門等）</div>';
-  html += '<div class="tag-list">';
-  commonTags.forEach((t, i) => {
-    html += '<div class="tag-item"><span class="tag-order">#' + (i+1) + '</span><span>' + t + '</span><button class="tag-del" onclick="removeTag(' + i + ')" title="刪除">&times;</button></div>';
+// Old renderTagsTab / addTag removed — replaced by renderTagsManagement above
+
+// === Game Sorting Section ===
+let currentSortHall = 'VA';
+
+function initSortSection() {
+  const tabs = document.getElementById('sortHallTabs');
+  if (!tabs) return;
+  let html = '';
+  Object.keys(halls).forEach(k => {
+    html += '<button class="sort-hall-tab' + (k === currentSortHall ? ' active' : '') + '" onclick="switchSortHall(\'' + k + '\')">' + k + ' 娛樂廳</button>';
   });
-  html += '</div>';
-  html += '<div style="margin-top:12px;display:flex;gap:8px"><input type="text" id="newTagInput" placeholder="新增標籤名稱..." style="padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:5px;font-size:12px;flex:1"><button class="btn btn-primary btn-sm" onclick="addTag()">新增</button></div>';
-  el.innerHTML = html;
+  tabs.innerHTML = html;
+  renderSortList();
 }
 
-function removeTag(idx) {
-  commonTags.splice(idx, 1);
-  switchCommonTab('tags');
-  showToast('標籤已刪除', 'warning');
+function switchSortHall(hall) {
+  currentSortHall = hall;
+  document.querySelectorAll('.sort-hall-tab').forEach(b => b.classList.toggle('active', b.textContent.startsWith(hall)));
+  renderSortList();
 }
 
-function addTag() {
-  const input = document.getElementById('newTagInput');
-  const val = input.value.trim();
-  if (!val) { showToast('請輸入標籤名稱', 'error'); return; }
-  if (commonTags.includes(val)) { showToast('標籤已存在', 'error'); return; }
-  commonTags.push(val);
-  switchCommonTab('tags');
-  showToast('標籤已新增：' + val, 'success');
+function renderSortList() {
+  const container = document.getElementById('sortListContainer');
+  if (!container) return;
+  const hallGames = games.filter(g => g.hall === currentSortHall);
+  if (hallGames.length === 0) {
+    container.innerHTML = '<div style="padding:20px;text-align:center;color:#9CA3AF;font-size:12px">此娛樂廳尚無遊戲</div>';
+    return;
+  }
+  let html = '<ul class="sort-list">';
+  hallGames.forEach((g, i) => {
+    const sc = g.status === '使用中' ? 'color:#059669' : g.status === '維護中' ? 'color:#D97706' : g.status === '停用中' ? 'color:#DC2626' : 'color:#6B7280';
+    html += '<li class="sort-item" draggable="true" data-id="' + g.id + '">' +
+      '<span class="sort-handle"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></span>' +
+      '<span class="sort-order">' + (i + 1) + '</span>' +
+      '<span class="sort-name">' + g.name + '</span>' +
+      '<span class="sort-cat">' + g.cat + '</span>' +
+      '<span class="sort-status" style="' + sc + '">' + g.status + '</span>' +
+      '</li>';
+  });
+  html += '</ul>';
+  container.innerHTML = html;
+  initDragSort();
+}
+
+function initDragSort() {
+  const list = document.querySelector('.sort-list');
+  if (!list) return;
+  let dragItem = null;
+  list.querySelectorAll('.sort-item').forEach(item => {
+    item.addEventListener('dragstart', function(e) {
+      dragItem = this;
+      this.style.opacity = '0.5';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    item.addEventListener('dragend', function() {
+      this.style.opacity = '1';
+      dragItem = null;
+      list.querySelectorAll('.sort-item').forEach(el => el.style.borderTop = '');
+    });
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      this.style.borderTop = '2px solid #393939';
+    });
+    item.addEventListener('dragleave', function() {
+      this.style.borderTop = '';
+    });
+    item.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.style.borderTop = '';
+      if (dragItem && dragItem !== this) {
+        list.insertBefore(dragItem, this);
+        updateSortNumbers();
+      }
+    });
+  });
+}
+
+function updateSortNumbers() {
+  document.querySelectorAll('.sort-item .sort-order').forEach((el, i) => {
+    el.textContent = i + 1;
+  });
+}
+
+function saveSortOrder() {
+  showToast(currentSortHall + ' 娛樂廳排序已儲存', 'success');
 }
 
 // === Utilities ===
@@ -707,4 +762,5 @@ initHallSelector();
 initFilters();
 renderHallDetail();
 renderTable();
+initSortSection();
 

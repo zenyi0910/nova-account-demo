@@ -146,19 +146,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg><h1>序號產生</h1></div>
     <div class="filter-card">
-      <div class="filter-group" data-rule="serial"><label>序號</label><div class="filter-input"><input type="text" placeholder="搜尋序號（6字元英數）"></div><div class="filter-error"></div></div>
       <div class="filter-group filter-wide" data-rule="uuid"><label>序號群組編號</label><div class="filter-input"><input type="text" placeholder="搜尋群組 UUID"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>VIP等級以上</label><div class="filter-input"><select><option value="">全部</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
-      <div class="filter-group"><label>序號類型</label><div class="filter-input"><select><option value="">全部</option><option value="一般">一般</option><option value="活動">活動</option><option value="補償">補償</option></select></div></div>
-      <div class="filter-group filter-wide" data-rule="keyword"><label>序號申請原因</label><div class="filter-input"><input type="text" placeholder="搜尋序號申請原因"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>VIP等級以上</label><div class="filter-input"><select><option value="">選擇VIP等級</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
+      <div class="filter-group"><label>序號類型</label><div class="filter-input"><select><option value="">選擇序號類型</option><option>儲值序號</option><option>紅包序號</option><option>vip序號</option></select></div></div>
+      <div class="filter-group filter-wide" data-rule="keyword"><label>序號申請區間</label><div class="filter-input"><input type="text" placeholder="搜尋序號申請區間"></div><div class="filter-error"></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
-    <div class="pagination-bar"><span>共 245 組序號</span></div>
-    <table class="data-table"><thead><tr><th>序號</th><th>群組編號</th><th>類型</th><th>內容</th><th>VIP限制</th><th>使用次數</th><th>有效期限</th><th>狀態</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">aB3xY7</td><td style="font-size:11px;color:#2563EB;cursor:pointer">0193a2b4-8f4a-7c1d-9e2f-3a4b5c6d7e8f</td><td>金幣序號</td><td>金幣 x10,000</td><td>VIP 1 以上</td><td>1,245 / 5,000</td><td style="color:#6B7280">2026-05-31</td><td><span class="status-badge status-online">未使用</span></td></tr>
-      <tr><td style="font-weight:500">kP9mW2</td><td style="font-size:11px;color:#2563EB;cursor:pointer">0193b5c8-2d1e-7a4f-8b3c-6e9f0a1b2c3d</td><td>星幣序號</td><td>星幣 x5,000</td><td>VIP 3 以上</td><td>328 / 1,000</td><td style="color:#6B7280">2026-05-15</td><td><span class="status-badge status-online">未使用</span></td></tr>
-      <tr><td style="font-weight:500">nR5tQ8</td><td style="font-size:11px;color:#2563EB;cursor:pointer">0193c7d9-4e2f-7b5a-9c4d-7f0a1b2c3d4e</td><td>道具序號</td><td>新手禮包</td><td>不限制</td><td>892 / 10,000</td><td style="color:#6B7280">2026-12-31</td><td><span class="status-badge status-online">未使用</span></td></tr>
-      <tr><td style="font-weight:500">jL4vH6</td><td style="font-size:11px;color:#2563EB;cursor:pointer">0193d8ea-5f3a-7c6b-0d5e-8a1b2c3d4e5f</td><td>金幣序號</td><td>金幣 x5,000</td><td>不限制</td><td>5,000 / 5,000</td><td style="color:#6B7280">2026-04-30</td><td><span class="status-badge status-offline">已過期</span></td></tr>
+    <!-- 進階篩選 -->
+    <details class="adv-filter" style="margin-bottom:14px">
+      <summary style="cursor:pointer;font-size:12px;color:#6B7280;margin-bottom:8px">▶ 進階篩選</summary>
+      <div class="filter-card" style="margin-bottom:0">
+        <div class="filter-group" data-rule="keyword"><label>序號申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div><div class="filter-error"></div></div>
+        <div class="filter-group"><label>申請日期（起）</label><div class="filter-input"><input type="datetime-local"></div></div>
+        <div class="filter-group"><label>申請日期（迄）</label><div class="filter-input"><input type="datetime-local"></div></div>
+        <div class="filter-group" data-rule="order"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋紅包訂單編號"></div><div class="filter-error"></div></div>
+        <div class="filter-group"><label>序號狀態</label><div class="filter-input"><select><option value="">選擇序號狀態</option><option>已過期</option><option>已作廢</option><option>未使用</option><option>已使用</option></select></div></div>
+      </div>
+    </details>
+    <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><span>每頁顯示 20 筆</span></div>
+    <div class="page-header" style="margin-bottom:12px"><span class="spacer"></span><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#16a34a;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500">+ 新增序號群組</button><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#2563EB;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;margin-left:8px">匯出報表</button></div>
+    <table class="data-table"><thead><tr><th>序號群組編號</th><th>VIP</th><th>序號申請類型</th><th>序號類型</th><th>序號申請人</th><th>序號申請日期</th><th>紅包訂單編號</th><th>序號狀態</th></tr></thead><tbody>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019e01db-c26f-73ec-b074-928af5dcad6e</td><td>不限制</td><td>儲值序號</td><td>序號</td><td>paul1</td><td style="color:#6B7280">2026-05-07 15:16</td><td>—</td><td><span class="status-badge status-offline">已過期</span></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019e020b-6dac-7c92-a009-c835e1a07b04</td><td>VIP4</td><td>vip測試</td><td>序號</td><td>paul1</td><td style="color:#6B7280">2026-05-06 10:54</td><td>—</td><td><span class="status-badge status-offline">已過期</span></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019df06b-2488-7d7f-b862-667c125aec0b</td><td>不限制</td><td>紅包序號</td><td>序號</td><td>casper</td><td style="color:#6B7280">2026-05-05 13:55</td><td style="color:#2563EB">20260505f7f1</td><td><span class="status-badge status-maint">已作廢</span></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019df0f3-1ab2-7933-961a-ec20b8997de5</td><td>不限制</td><td>紅包序號</td><td>序號</td><td>maxmom1</td><td style="color:#6B7280">2026-05-05 14:04</td><td style="color:#2563EB">20260421f1f12</td><td><span class="status-badge status-offline">已過期</span></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019dd1da-3a33-7e95-883d-cba15d7f8413</td><td>VIP4</td><td>—</td><td>Test Enable Flag</td><td>henry1</td><td style="color:#6B7280">2026-04-29 14:12</td><td>—</td><td><span class="status-badge status-offline">已過期</span></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB;cursor:pointer">019dd7dd-c5b5-7393-8ae2-f1a2b3c4d5e6</td><td>不限制</td><td>儲值序號</td><td>Test Disable Flag</td><td>henry1</td><td style="color:#6B7280">2026-04-29 14:12</td><td>—</td><td><span class="status-badge status-offline">已過期</span></td></tr>
     </tbody></table>
   </div>
 </div>

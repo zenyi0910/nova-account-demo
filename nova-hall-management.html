@@ -295,6 +295,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* btn-danger */
 .btn-danger{background:#DC2626;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500}
 .btn-danger:hover{background:#B91C1C}
+/* Icon action buttons (tag management) */
+.btn-icon-action{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;display:flex;align-items:center;justify-content:center}
+.btn-icon-action.edit{color:#2563EB}
+.btn-icon-action.edit:hover{background:#EFF6FF}
+.btn-icon-action.delete{color:#DC2626}
+.btn-icon-action.delete:hover{background:#FEF2F2}
+/* Sort section */
+.sort-hall-tabs{display:flex;gap:0;margin-bottom:14px;border-bottom:1px solid oklch(0.922 0 0)}
+.sort-hall-tab{padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:#6B7280;border-bottom:2px solid transparent;font-family:inherit;transition:all .15s}
+.sort-hall-tab:hover{color:#393939}
+.sort-hall-tab.active{color:#393939;border-bottom-color:#393939;font-weight:600}
+.sort-list{list-style:none;padding:0;margin:0}
+.sort-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid oklch(0.922 0 0);border-radius:6px;margin-bottom:6px;background:#fff;cursor:grab;transition:box-shadow .15s}
+.sort-item:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.sort-item:active{cursor:grabbing;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.sort-item .sort-handle{color:#9CA3AF;display:flex;align-items:center}
+.sort-item .sort-order{font-size:11px;color:#9CA3AF;min-width:24px;text-align:center}
+.sort-item .sort-name{font-size:13px;font-weight:500;flex:1}
+.sort-item .sort-cat{font-size:11px;color:#6B7280;background:#F3F4F6;padding:2px 8px;border-radius:4px}
+.sort-item .sort-status{font-size:11px}
 </style>
 </head>
 <body>
@@ -345,6 +365,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </table>
       </div>
     </div>
+
+    <!-- 遊戲排序區域 -->
+    <div class="game-section" id="sortSection" style="margin-top:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg>
+          <h5 style="margin:0;font-size:14px;font-weight:600">遊戲排序</h5>
+          <span style="font-size:11px;color:#6B7280">拖曳調整前台顯示順序</span>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="saveSortOrder()">儲存排序</button>
+      </div>
+      <div class="sort-hall-tabs" id="sortHallTabs"></div>
+      <div id="sortListContainer"></div>
+    </div>
   </div>
 </div>
 <!-- Modal: 排程設定 -->
@@ -392,17 +426,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('toggleConfirm')">取消</button><button class="btn btn-danger" id="toggleConfirmBtn" onclick="confirmToggle()">確認</button></div>
   </div>
 </div>
-<!-- Modal: 共用設定 -->
+<!-- Modal: 共用設定（標籤管理） -->
 <div class="modal-overlay" id="commonModal">
-  <div class="modal" style="max-width:680px">
+  <div class="modal" style="max-width:580px">
     <div class="modal-header"><h3>遊戲共用設定</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('commonModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="info-box">整合遊戲維護、推薦、標籤設定。此處設定影響所有娛樂廳。</div>
-      <div style="display:flex;gap:8px;margin-bottom:16px">
-        <button class="btn btn-outline btn-sm common-tab active" data-tab="maint" onclick="switchCommonTab('maint')">維護設定</button>
-        <button class="btn btn-outline btn-sm common-tab" data-tab="recommend" onclick="switchCommonTab('recommend')">推薦設定</button>
-        <button class="btn btn-outline btn-sm common-tab" data-tab="tags" onclick="switchCommonTab('tags')">標籤管理</button>
-      </div>
+      <div class="info-box">管理遊戲標籤（前台顯示用）。標籤可套用至各遊戲。</div>
       <div id="commonTabContent"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('commonModal')">關閉</button></div>
@@ -417,6 +446,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="js/hall-management.js?v=4"></script>
+<script src="js/hall-management.js?v=5"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 後台 - 遊戲維護設定</title>
+<title>Nova 後台 - 遊戲排序</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F9FAFB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
@@ -21,18 +21,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
 .sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
 .sidebar-chevron.open{transform:rotate(90deg)}
-
 .sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
-.sidebar-sub.open{max-height:400px;opacity:1;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
-.sidebar-sub .sidebar-item{transform:translateY(-4px);opacity:0;transition:transform .3s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
-.sidebar-sub.open .sidebar-item{transform:translateY(0);opacity:1}
-.sidebar-sub.open .sidebar-item:nth-child(1){transition-delay:0.03s}
-.sidebar-sub.open .sidebar-item:nth-child(2){transition-delay:0.06s}
-.sidebar-sub.open .sidebar-item:nth-child(3){transition-delay:0.09s}
-.sidebar-sub.open .sidebar-item:nth-child(4){transition-delay:0.12s}
-.sidebar-sub.open .sidebar-item:nth-child(5){transition-delay:0.15s}
-.sidebar-sub.open .sidebar-item:nth-child(6){transition-delay:0.18s}
-.sidebar-sub.open .sidebar-item:nth-child(7){transition-delay:0.21s}
+.sidebar-sub.open{max-height:400px;opacity:1}
 .sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
 .sidebar-sub .sidebar-item:hover{color:#111827}
 .sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
@@ -55,59 +45,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
-.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-.filter-actions{order:999;margin-left:auto;display:flex;gap:8px;align-items:flex-end}
-.filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:200px}
-.filter-group.filter-wide{min-width:280px;max-width:360px}
-.filter-group label{font-size:11px;font-weight:500;color:#6B7280}
-.filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:130px}
-.filter-input svg{width:14px;height:14px;color:#9CA3AF;flex-shrink:0}
-.filter-input input{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;width:100%}
-.filter-input input::placeholder{color:#9CA3AF}
-.filter-input select{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;cursor:pointer;-webkit-appearance:none;width:100%}
-.btn-search{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;color:#fff;background:#1F2937}
-.btn-search:hover{background:#111827}
-.btn-search svg{width:14px;height:14px}
-.btn-reset{padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff}
-.btn-reset:hover{background:#F3F4F6}
+.tab-bar{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid #E5E7EB}
+.tab-btn{padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:#6B7280;border-bottom:2px solid transparent;font-family:inherit}
+.tab-btn:hover{color:#374151}
+.tab-btn.active{color:#111827;border-bottom-color:#111827;font-weight:600}
+.cat-bar{display:flex;gap:6px;margin-bottom:14px}
+.cat-btn{padding:6px 14px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;font-size:12px;cursor:pointer;font-family:inherit;color:#374151}
+.cat-btn:hover{background:#F3F4F6}
+.cat-btn.active{background:#1F2937;color:#fff;border-color:#1F2937}
+.btn-save{padding:7px 14px;border-radius:6px;border:none;background:#2563EB;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-save:hover{background:#1D4ED8}
+.pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
 .data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
 .data-table th{background:#F5F5F5;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB}
 .data-table td{padding:10px 14px;border-bottom:1px solid #F3F4F6;font-size:13px;vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover{background:#FAFAFA}
-.toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none}
-.toggle.on{background:#26A69A}
-.toggle.off{background:#D1D5DB}
-.toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.toggle.on::after{left:18px}
-.toggle.off::after{left:2px}
-.toggle-label{font-size:11px;margin-left:4px}
-.toggle-label.on{color:#16a34a}
-.toggle-label.off{color:#9CA3AF}
-.btn-edit{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;border-radius:4px}
-.btn-edit:hover{color:#374151}
-.btn-edit svg{width:16px;height:16px}
-.status-badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:500}
-.status-online{background:#DCFCE7;color:#166534}
-.status-maint{background:#FEF3C7;color:#92400E}
-.status-offline{background:#FEE2E2;color:#991B1B}
-.pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
-
-
-.sidebar-user{position:relative;cursor:pointer}
-.user-chevron{width:14px;height:14px;color:#9CA3AF;margin-left:auto;flex-shrink:0;transition:transform .2s}
-.sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
-.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
-.sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
-.user-popover-header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
-.user-popover .user-avatar{width:36px;height:36px;font-size:14px}
-.user-popover-info{display:flex;flex-direction:column}
-.user-popover-name{font-size:13px;font-weight:600;color:#111827}
-.user-popover-sub{font-size:11px;color:#6B7280}
-.user-popover-divider{height:1px;background:#E5E7EB;margin:4px 0 8px}
-.user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
-.user-popover-item:hover{background:#F3F4F6}
-.user-popover-item svg{width:16px;height:16px;color:#6B7280}
 .sidebar-collapsed .sidebar{transform:translateX(-250px)}
 .sidebar-collapsed .main{margin-left:0}
 .sidebar{transition:transform .3s cubic-bezier(.25,.1,.25,1)}
@@ -115,27 +68,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 @media(max-width:768px){
 .sidebar{transform:translateX(-100%);position:fixed;z-index:100;transition:transform .3s}
 .sidebar.show{transform:translateX(0)}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
-.sidebar-overlay.show{display:block}
 .main{margin-left:0}
-.topbar{padding:0 12px}
 .content{padding:12px}
-.filter-card{flex-direction:column;}
-.filter-group{max-width:100%}
-.filter-actions{margin-left:0;width:100%;justify-content:flex-start}
-.filter-group{width:100%}
-.filter-input{width:100%}
 .data-table{display:block;overflow-x:auto;white-space:nowrap}
 }
-.filter-error{font-size:11px;color:#DC2626;margin-top:3px;display:none}
-.filter-group.has-error .filter-error{display:block}
-.filter-group.has-error .filter-input{border-color:#DC2626}
 </style>
 </head>
 <body>
 <nav class="sidebar" id="sidebar"></nav>
 <script src="components/sidebar.js"></script>
-
 
 <div class="main">
   <div class="topbar">
@@ -144,96 +85,89 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><h1>遊戲排序</h1></div>
-    <div class="filter-card">
-      <div class="filter-group"><label>遊戲類型</label><div class="filter-input"><select><option value="">全部</option><option>真人</option><option>電子</option><option>棋牌</option><option>體育</option></select></div></div>
-      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>篩選</button><button class="btn-reset">重置</button></div>
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <h1>遊戲排序</h1>
+      <span class="spacer"></span>
+      <button class="btn-save" onclick="alert('排序已儲存')">儲存排序</button>
     </div>
-    <div class="pagination-bar"><span>共 24 款遊戲（拖曳調整排序）</span></div>
-    <table class="data-table"><thead><tr><th>排序</th><th>遊戲名稱</th><th>類型</th><th>供應商</th><th>上線日期</th><th>狀態</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">1</td><td>百家樂 VIP</td><td>真人</td><td>AG</td><td style="color:#6B7280">2025-08-01</td><td><span class="status-badge status-online">上架</span></td></tr>
-      <tr><td style="font-weight:500">2</td><td>幸運老虎機</td><td>電子</td><td>PG</td><td style="color:#6B7280">2025-09-15</td><td><span class="status-badge status-online">上架</span></td></tr>
-      <tr><td style="font-weight:500">3</td><td>德州撲克</td><td>棋牌</td><td>自研</td><td style="color:#6B7280">2025-07-01</td><td><span class="status-badge status-online">上架</span></td></tr>
-      <tr><td style="font-weight:500">4</td><td>骰寶大亂鬥</td><td>電子</td><td>自研</td><td style="color:#6B7280">2025-10-20</td><td><span class="status-badge status-online">上架</span></td></tr>
-      <tr><td style="font-weight:500">5</td><td>21 點經典</td><td>棋牌</td><td>AG</td><td style="color:#6B7280">2025-11-01</td><td><span class="status-badge status-online">上架</span></td></tr>
-    </tbody></table>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab(this)">全部</button>
+      <button class="tab-btn" onclick="switchTab(this)">星等</button>
+    </div>
+
+    <div class="cat-bar">
+      <button class="cat-btn active" onclick="switchCat(this)">全部</button>
+      <button class="cat-btn" onclick="switchCat(this)">電動</button>
+      <button class="cat-btn" onclick="switchCat(this)">棋牌</button>
+      <button class="cat-btn" onclick="switchCat(this)">機率</button>
+    </div>
+
+    <div class="pagination-bar"><span>總共 43 筆資料</span></div>
+    <table class="data-table">
+      <thead><tr><th style="width:60px">順序</th><th style="width:80px">遊戲域</th><th>遊戲名稱</th></tr></thead>
+      <tbody id="sortBody"></tbody>
+    </table>
   </div>
 </div>
 
 <script>
+const gameData = [
+  {order:1, hall:'VA', name:'埃及三秘寶'},
+  {order:2, hall:'VA', name:'財神倍倍發 X4096'},
+  {order:3, hall:'VA', name:'財富金幣'},
+  {order:4, hall:'VA', name:'阿茲特克神話'},
+  {order:5, hall:'VA', name:'自摸無雙 2'},
+  {order:6, hall:'VA', name:'自摸無雙3'},
+  {order:7, hall:'VA', name:'法老祕寶'},
+  {order:8, hall:'VA', name:'印加女神'},
+  {order:9, hall:'YGR', name:'組隊棋牌'},
+  {order:10, hall:'YGR', name:'聲音麻將場'},
+  {order:11, hall:'YGR', name:'超豐盈場'},
+  {order:12, hall:'YGR', name:'福來場'},
+  {order:13, hall:'YGR', name:'陣風動場'},
+  {order:14, hall:'YGR', name:'金幣848'},
+  {order:15, hall:'JDB', name:'龍虎鬥'},
+  {order:16, hall:'JDB', name:'百搭水果機'},
+  {order:17, hall:'JDB', name:'財神到'},
+  {order:18, hall:'JDB', name:'金雞報喜'},
+  {order:19, hall:'PG', name:'麻將胡了'},
+  {order:20, hall:'PG', name:'寶石侠'},
+  {order:21, hall:'CQ9', name:'跳跳樂'},
+  {order:22, hall:'CQ9', name:'五福臨門'},
+  {order:23, hall:'RSG', name:'鑽石列車'},
+  {order:24, hall:'RSG', name:'瘋狂水果盤'},
+  {order:25, hall:'FC', name:'金蟾捕魚'},
+  {order:26, hall:'FC', name:'歡樂捕魚'},
+];
 
-document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
-  const isMobile=window.innerWidth<=768;
-  if(isMobile){
-    document.querySelector('.sidebar').classList.toggle('show');
-    let ov=document.querySelector('.sidebar-overlay');
-    if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
-    ov.classList.toggle('show');
-  }else{
-    document.body.classList.toggle('sidebar-collapsed');
-  }
+function renderSort() {
+  const tbody = document.getElementById('sortBody');
+  tbody.innerHTML = gameData.map(g =>
+    '<tr><td style="text-align:center;font-weight:500;color:#6B7280">' + g.order + '</td>' +
+    '<td><span style="font-weight:500">' + g.hall + '</span></td>' +
+    '<td>' + g.name + '</td></tr>'
+  ).join('');
+}
+
+function switchTab(btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+document.querySelector('.topbar-toggle')?.addEventListener('click', function(){
+  if(window.innerWidth<=768){document.querySelector('.sidebar').classList.toggle('show');}
+  else{document.body.classList.toggle('sidebar-collapsed');}
 });
-
-function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
-document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 
-// Field validation
-document.querySelector('.btn-search')?.addEventListener('click', function(e) {
-  let valid = true;
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-  document.querySelectorAll('.filter-group[data-rule]').forEach(group => {
-    const rule = group.dataset.rule;
-    const input = group.querySelector('input');
-    if (!input) return;
-    const val = input.value.trim();
-    if (!val) return;
-    let errorMsg = '';
-    switch(rule) {
-      case 'account':
-        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
-        for (const acc of accounts) {
-          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
-        }
-        break;
-      case 'nickname':
-        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
-        break;
-      case 'order':
-        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
-        break;
-      case 'phone':
-        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
-        break;
-      case 'date':
-        if (val.includes('~')) {
-          const parts = val.split('~').map(s => s.trim());
-          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
-        } else {
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-        }
-        break;
-      case 'keyword':
-        if (val.length < 1) errorMsg = '請輸入搜尋內容';
-        break;
-      case 'amount':
-        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
-        break;
-    }
-    if (errorMsg) {
-      valid = false;
-      const errEl = group.querySelector('.filter-error');
-      if (errEl) errEl.textContent = errorMsg;
-    }
-  });
-});
-document.querySelector('.btn-reset')?.addEventListener('click', function() {
-  document.querySelectorAll('.filter-group input').forEach(i => i.value = '');
-  document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-});
+renderSort();
 </script>
 </body>
 </html>
