@@ -1,8 +1,22 @@
 /**
- * Nova UI 共用元件庫 v1
+ * Nova UI 共用元件庫 v2
  * 統一按鈕、Modal、表單、表格、Badge、Toggle 的產生方式
  * 用法：UI.btn.dark('儲存', 'save()') → 回傳 HTML string
  */
+
+// 自動注入元件庫 CSS（seg-control 等）
+(function() {
+  if (document.getElementById('ui-components-css')) return;
+  const style = document.createElement('style');
+  style.id = 'ui-components-css';
+  style.textContent = [
+    '.seg-control{display:inline-flex;background:oklch(0.967 0.003 264.542);border-radius:10px;padding:3px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.05)}',
+    '.seg-btn{padding:4px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:8px;font-weight:500;transition:all .15s}',
+    '.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.1)}',
+    '.seg-btn:hover:not(.active){background:rgba(255,255,255,0.5)}'
+  ].join('\n');
+  document.head.appendChild(style);
+})();
 
 const UI = {
   // ═══ 按鈕 ═══
