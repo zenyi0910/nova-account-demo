@@ -526,6 +526,27 @@ function switchCurrTab(tab) {
 
 function filterGames() { renderTable(); }
 
+let gameCurrency = 'gold'; // 遊戲列表幣種切換
+
+function switchGameCurrency(curr) {
+  gameCurrency = curr;
+  document.getElementById('currTabGold').classList.toggle('active', curr === 'gold');
+  document.getElementById('currTabStar').classList.toggle('active', curr === 'star');
+  renderTable();
+}
+
+function toggleAdvFilter() {
+  const panel = document.getElementById('advFilterPanel');
+  const arrow = document.getElementById('advFilterArrow');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'flex';
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    panel.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  }
+}
+
 function resetFilters() {
   document.getElementById('filterName').value = '';
   document.getElementById('filterStatus').value = '';
