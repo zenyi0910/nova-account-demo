@@ -384,9 +384,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <h4>娛樂廳管理</h4>
       <span class="desc">廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定</span>
       <span style="flex:1"></span>
-      <button class="btn btn-dark" onclick="openCommonModal()">共用設定</button>
-      <button class="btn btn-dark" onclick="openAddIconModal()" style="margin-left:8px">Icon新增</button>
-      <button class="btn btn-dark" onclick="openRecommendModal()" style="margin-left:8px">推薦設定</button>
+      <button class="btn btn-dark" onclick="openCommonModal()">遊戲共用設定</button>
+      <button class="btn btn-dark" onclick="openRecommendModal()" style="margin-left:8px">遊戲推薦設定</button>
     </div>
     <div id="hallCards"></div>
     <div id="hallDetail"></div>
@@ -484,7 +483,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal" style="max-width:580px">
     <div class="modal-header"><h3>遊戲共用設定</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('commonModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="info-box">管理遊戲標籤（前台顯示用）。標籤可套用至各遊戲。</div>
+      <div class="info-box">管理遊戲標籤與 Icon（前台顯示用）。標籤可套用至各遊戲。</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <button class="seg-btn active" id="commonTabTag" onclick="switchCommonTab('tag')">標籤管理</button>
+        <button class="seg-btn" id="commonTabIcon" onclick="switchCommonTab('icon')">Icon管理</button>
+      </div>
       <div id="commonTabContent"></div>
     </div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('commonModal')">關閉</button></div>

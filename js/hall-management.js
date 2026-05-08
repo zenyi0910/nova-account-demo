@@ -116,22 +116,15 @@ function renderHallDetail() {
   // 排程區塊
   let schedHtml = renderScheduleTab(id, h);
 
-  // 幣種設定區塊
-  let currHtml = renderCurrencyTab(id, h);
-
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      '<button class="btn btn-outline" style="padding:4px 12px;font-size:11px;margin-right:8px;color:#DC2626;border-color:#FCA5A5" onclick="quickCloseHall(\'' + id + '\')" title="不需設定維護中，立即關閉此廳">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> 快速關閉</button>' +
       '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
     '</div>' +
     '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 排程開關</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
-    '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg> 幣種設定 <span style="font-size:10px;color:#6B7280;font-weight:400;margin-left:8px">廳級設定優先覆蓋所有遊戲，取消後遊戲恢復原始設定</span></div>' +
-    '<div class="hall-tab-body">' + currHtml + '</div>' +
   '</div>';
 
   document.getElementById('hallDetail').innerHTML = html;
@@ -167,10 +160,11 @@ function renderScheduleTab(id, h) {
     }).join('');
   }
   return '<div class="sched-tab-content">' +
-    '<div class="sched-tab-header"><span class="sched-tab-desc">設定自動開關排程，到時間自動執行，不需手動操作</span>' +
-    '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
-    schedHtml + '</div>';
+    schedHtml +
+    '<div class="info-box" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>設定自動開關排程，到時間自動執行，不需手動操作</div>' +
+    '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')" style="margin-top:12px">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button>' +
+    '</div>';
 }
 
 let recommendCurrency = 'gold'; // 預設金幣

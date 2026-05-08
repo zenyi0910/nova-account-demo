@@ -1,21 +1,3 @@
-// === 快速關閉娛樂廳（不需設定維護中）===
-function quickCloseHall(hallId) {
-  const h = halls[hallId];
-  if (h.status === 'off') {
-    showToast(h.name + ' 已經是關閉狀態', 'warning');
-    return;
-  }
-  const gc = games.filter(g => g.hall === hallId).length;
-  pendingToggle = { id: hallId, newState: 'off' };
-  document.getElementById('toggleMsg').innerHTML = '確定要<strong>快速關閉 ' + h.name + '</strong>？<br><br>' +
-    '此操作將<strong>立即關閉</strong>該廳，不需先設定維護中。<br>' +
-    '影響範圍：<strong>' + gc + '</strong> 款遊戲將無法進入。<br><br>' +
-    '<span style="color:#6B7280;font-size:12px">提示：若需定時關閉，請使用排程功能</span>';
-  document.getElementById('toggleConfirmBtn').textContent = '確認關閉';
-  document.getElementById('toggleConfirmBtn').className = 'btn btn-danger';
-  document.getElementById('toggleConfirm').classList.add('show');
-}
-
 // === 推薦設定新增遊戲 modal ===
 function openAddRecommendModal() {
   const modal = document.getElementById('addRecommendModal');
