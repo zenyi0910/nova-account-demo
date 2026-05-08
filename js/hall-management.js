@@ -12,7 +12,7 @@ const halls = {
 const games = [
   {id:1,hall:'VA',cat:'電動',name:'埃及三秘寶',status:'即將上線',vip:'不限制',goldMin:10,goldMax:50000,starMin:100,starMax:30000,tag:'-',recommend:false,note:'批次維護測試中'},
   {id:2,hall:'VA',cat:'電動',name:'財神倍倍發 X4096',status:'即將上線',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:40000,tag:'-',recommend:false,note:'批次維護測試中'},
-  {id:3,hall:'VA',cat:'電動',name:'印加祖瑪 豪華版',status:'停用中',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'推薦',recommend:true,note:''},
+  {id:3,hall:'VA',cat:'電動',name:'印加祖瑪 豪華版',status:'停用中',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:25000,tag:'推薦',recommend:true,note:'',bannerUrl:'https://placehold.co/600x200/1ABC9C/fff?text=印加祖瑪+豪華版'},
   {id:4,hall:'VA',cat:'電動',name:'財富金幣',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
   {id:5,hall:'VA',cat:'電動',name:'阿茲特克神話',status:'使用中',vip:'不限制',goldMin:10,goldMax:100000,starMin:100,starMax:50000,tag:'-',recommend:false,note:''},
   {id:6,hall:'VA',cat:'電動',name:'自摸無雙 2',status:'使用中',vip:'不限制',goldMin:20,goldMax:50000,starMin:200,starMax:30000,tag:'-',recommend:false,note:''},
@@ -268,12 +268,14 @@ function renderRecommendModalContent() {
     );
 
   // 表格用 UI.table
-  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'140px'},{label:'操作',width:'60px'}];
+  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'60px'}];
   const rows = recommended.map((g, i) => [
     '<span style="color:#6B7280">' + (i + 1) + '</span>',
     g.hall,
     '<span style="font-weight:500">' + g.name + '</span>',
-    '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
+    g.bannerUrl
+      ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"> <span style="color:#1ABC9C;font-size:11px">預覽</span></div>'
+      : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
     UI.btn.icon('upload', 'uploadBanner(' + g.id + ')', '上傳圖片')
   ]);
 

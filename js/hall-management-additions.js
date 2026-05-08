@@ -140,6 +140,13 @@ function previewBanner(gameId) {
   const game = games.find(g => g.id === gameId);
   if (!game) return;
   
+  // 有圖片：另開分頁預覽
+  if (game.bannerUrl) {
+    window.open(game.bannerUrl, '_blank');
+    return;
+  }
+  
+  // 無圖片：顯示 modal 提示
   const modal = document.getElementById('bannerPreviewModal');
   if (!modal) {
     const modalHtml = `
