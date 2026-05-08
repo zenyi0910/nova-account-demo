@@ -188,7 +188,8 @@ function renderRecommendHallTab(hallId) {
     '<div class="currency-toggle-group">' +
     '<button class="currency-toggle-btn' + (recommendCurrency === 'gold' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'gold\')">金幣</button>' +
     '<button class="currency-toggle-btn' + (recommendCurrency === 'star' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'star\')">星幣</button>' +
-    '</div></div>' +
+    '</div>' +
+    '</div>' +
     '<div class="recommend-layout">' +
     '<div class="recommend-col">' +
     '<div class="recommend-col-header"><span class="recommend-col-title">已推薦</span><span class="recommend-count">' + recommended.length + '</span></div>' +
