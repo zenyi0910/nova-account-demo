@@ -261,7 +261,7 @@ function renderRecommendModalContent() {
     ) +
     '</div></div>' +
     (recommendSortMode ? '' :
-      '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">' +
+      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:14px">' +
       UI.btn.add('新增遊戲', 'openAddRecommendModal()') +
       UI.btn.secondary('編輯排序', 'toggleRecommendSortMode()', {icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> '}) +
       '</div>'
