@@ -123,7 +123,7 @@ function renderHallDetail() {
       UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
     '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
-    UI.btn.add('新增排程', "openSchedModal('" + id + "')") + '</div>' +
+    UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + '</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
   '</div>';
 

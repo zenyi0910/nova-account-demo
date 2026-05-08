@@ -23,8 +23,9 @@ const UI = {
       return `<button class="${cls}" onclick="${onclick}">${text}</button>`;
     },
     /** 綠色新增按鈕（頁面級） */
-    add(text, onclick) {
-      return `<button class="btn-add" onclick="${onclick}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> ${text}</button>`;
+    add(text, onclick, opts = {}) {
+      const sm = opts.sm ? ' style="padding:6px 12px;font-size:12px"' : '';
+      return `<button class="btn-add" onclick="${onclick}"${sm}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> ${text}</button>`;
     },
     /** 灰色次要按鈕 */
     secondary(text, onclick, opts = {}) {
