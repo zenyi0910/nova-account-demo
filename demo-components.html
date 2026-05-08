@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI 元件庫展示 - Nova 後台</title>
+<link rel="stylesheet" href="nova-hall-management.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;padding:40px}
+.demo-container{max-width:1000px;margin:0 auto;background:#fff;border-radius:12px;padding:32px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.demo-section{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid #E5E7EB}
+.demo-section:last-child{border-bottom:none;margin-bottom:0}
+.demo-title{font-size:20px;font-weight:700;color:#111827;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.demo-title::before{content:'';width:4px;height:20px;background:#00bba7;border-radius:2px}
+.demo-subtitle{font-size:14px;font-weight:600;color:#374151;margin:20px 0 12px;padding-left:12px;border-left:3px solid #D1D5DB}
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.demo-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.demo-code{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:12px;font-family:'Courier New',monospace;font-size:12px;color:#374151;margin-top:8px;overflow-x:auto}
+.demo-preview{background:#FAFAFA;border:1px dashed #D1D5DB;border-radius:8px;padding:20px;margin-bottom:12px}
+h1{font-size:28px;font-weight:700;color:#111827;margin-bottom:8px}
+.subtitle{font-size:14px;color:#6B7280;margin-bottom:32px}
+/* 引入 Nova 樣式 */
+.btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn svg{width:14px;height:14px}
+.btn-dark{background:#393939;color:#fff}
+.btn-dark:hover{background:#1a1a1a}
+.btn-search{background:#393939;color:#fff}
+.btn-search:hover{background:#1a1a1a}
+.btn-outline{border:1px solid #E5E7EB;background:#fff;color:#374151}
+.btn-outline:hover{background:#F9FAFB}
+.btn-danger{background:#DC2626;color:#fff}
+.btn-danger:hover{background:#B91C1C}
+.btn-add{background:oklch(0.777 0.152 181.912);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn-add:hover{background:oklch(0.7 0.152 181.912)}
+.btn-sort{background:#E5E7EB;color:#374151;border:none;padding:5px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.btn-sort:hover{background:#D1D5DB}
+.btn-icon-action{width:28px;height:28px;border-radius:4px;border:1px solid #E5E7EB;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btn-icon-action.edit{color:#6B7280}
+.btn-icon-action.edit:hover{background:#F3F4F6}
+.btn-icon-action.delete{color:#EF4444;border-color:#FCA5A5}
+.btn-icon-action.delete:hover{background:#FEF2F2}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.badge-on{background:#DCFCE7;color:#166534}
+.badge-off{background:#FEE2E2;color:#991B1B}
+.badge-maint{background:#FEF3C7;color:#92400E}
+.badge-soon{background:#DBEAFE;color:#1E40AF}
+.toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
+.toggle.on{background:oklch(0.777 0.152 181.912)}
+.toggle.off{background:#D1D5DB}
+.toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle.on::after{left:18px}
+.toggle.off::after{left:2px}
+.seg-control{display:inline-flex;border:1px solid #E5E7EB;border-radius:20px;overflow:hidden}
+.seg-btn{padding:6px 16px;border:none;background:#fff;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-right:1px solid #E5E7EB}
+.seg-btn:last-child{border-right:none}
+.seg-btn.active{background:#393939;color:#fff;font-weight:500}
+.tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#F0FDFA;border:1px solid #99F6E4;border-radius:8px;font-size:13px;color:#374151}
+.tips-box svg{color:#14B8A6;flex-shrink:0}
+.tips-box span{font-weight:600;color:#0D9488}
+.info-box{padding:10px 12px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.15);border-radius:6px;font-size:12px;color:#1E40AF}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:5px}
+.form-control{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-hint{font-size:11px;color:#6B7280;margin-top:4px}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:8px;overflow:hidden}
+.data-table th{background:rgba(57,57,57,0.04);padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#393939;border-bottom:1px solid #E5E7EB;white-space:nowrap}
+.data-table td{padding:10px 12px;border-bottom:1px solid #F3F4F6;font-size:12px;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(243,244,246,0.5)}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;color:#fff;z-index:9999;transform:translateX(120%);opacity:0;transition:all .3s;visibility:hidden}
+.toast.show{transform:translateX(0);opacity:1;visibility:visible}
+.toast.success{background:#393939}
+.toast.error{background:#DC2626}
+.toast.warning{background:#D97706}
+</style>
+</head>
+<body>
+<div class="demo-container">
+  <h1>🎨 Nova UI 元件庫</h1>
+  <p class="subtitle">統一的按鈕、表單、表格、Badge、Toggle 元件，避免重複 inline style</p>
+
+  <!-- 按鈕 -->
+  <div class="demo-section">
+    <div class="demo-title">按鈕 (UI.btn)</div>
+    
+    <div class="demo-subtitle">主要按鈕</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnDarkDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.dark('儲存', 'save()')</div>
+
+    <div class="demo-subtitle">搜尋按鈕</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnSearchDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.search('搜尋', 'search()')</div>
+
+    <div class="demo-subtitle">輪廓按鈕</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnOutlineDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.outline('取消', 'cancel()')</div>
+
+    <div class="demo-subtitle">新增按鈕（綠色）</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnAddDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.add('新增', 'add()')</div>
+
+    <div class="demo-subtitle">次要按鈕（灰色）</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnSecondaryDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.secondary('編輯排序', 'sort()')</div>
+
+    <div class="demo-subtitle">危險按鈕</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnDangerDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.danger('刪除', 'del()')</div>
+
+    <div class="demo-subtitle">圖示按鈕</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="btnIconDemo"></div>
+    </div>
+    <div class="demo-code">UI.btn.icon('edit', 'edit()', '編輯')<br>UI.btn.icon('delete', 'del()', '刪除')<br>UI.btn.icon('upload', 'upload()', '上傳')</div>
+  </div>
+
+  <!-- Badge -->
+  <div class="demo-section">
+    <div class="demo-title">Badge 標籤</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="badgeDemo"></div>
+    </div>
+    <div class="demo-code">UI.badge('使用中', 'on')<br>UI.badge('停用中', 'off')<br>UI.badge('維護中', 'maint')<br>UI.badge('即將上線', 'soon')<br>UI.statusBadge('使用中') // 自動判斷</div>
+  </div>
+
+  <!-- Toggle -->
+  <div class="demo-section">
+    <div class="demo-title">Toggle 開關</div>
+    <div class="demo-preview">
+      <div class="demo-row" id="toggleDemo"></div>
+    </div>
+    <div class="demo-code">UI.toggle('on', 'toggle()')<br>UI.toggle('off', 'toggle()')</div>
+  </div>
+
+  <!-- Segmented Control -->
+  <div class="demo-section">
+    <div class="demo-title">Segmented Control 分段控制</div>
+    <div class="demo-preview" id="segmentedDemo"></div>
+    <div class="demo-code">UI.segmented([<br>  {label: '金幣', active: true, onclick: 'switchCurr("gold")'},<br>  {label: '星幣', active: false, onclick: 'switchCurr("star")'}<br>])</div>
+  </div>
+
+  <!-- Tips & Info Box -->
+  <div class="demo-section">
+    <div class="demo-title">提示框</div>
+    <div class="demo-subtitle">Tips Box</div>
+    <div class="demo-preview" id="tipsDemo"></div>
+    <div class="demo-code">UI.tips('廳級設定優先覆蓋個別遊戲')</div>
+
+    <div class="demo-subtitle">Info Box</div>
+    <div class="demo-preview" id="infoDemo"></div>
+    <div class="demo-code">UI.infoBox('排程到達指定時間後自動執行開關動作')</div>
+  </div>
+
+  <!-- 表單 -->
+  <div class="demo-section">
+    <div class="demo-title">表單元件 (UI.form)</div>
+    
+    <div class="demo-subtitle">下拉選單</div>
+    <div class="demo-preview" id="formSelectDemo"></div>
+    <div class="demo-code">UI.form.select('hall', '娛樂廳', ['VA', 'YGR', 'JDB'], {required: true})</div>
+
+    <div class="demo-subtitle">文字輸入</div>
+    <div class="demo-preview" id="formInputDemo"></div>
+    <div class="demo-code">UI.form.input('name', '遊戲名稱', {placeholder: '請輸入...', hint: '最多 20 字'})</div>
+
+    <div class="demo-subtitle">日期時間</div>
+    <div class="demo-preview" id="formDatetimeDemo"></div>
+    <div class="demo-code">UI.form.datetime('start', '開始時間', {required: true})</div>
+
+    <div class="demo-subtitle">兩欄排列</div>
+    <div class="demo-preview" id="formRowDemo"></div>
+    <div class="demo-code">UI.form.row(<br>  UI.form.input('min', '最低投注', {type: 'number'}),<br>  UI.form.input('max', '最高投注', {type: 'number'})<br>)</div>
+  </div>
+
+  <!-- 表格 -->
+  <div class="demo-section">
+    <div class="demo-title">表格 (UI.table)</div>
+    <div class="demo-preview" id="tableDemo"></div>
+    <div class="demo-code">UI.table.create(<br>  [{label: '序號', width: '60px'}, {label: '名稱'}, {label: '狀態', width: '80px'}],<br>  [['1', '埃及三秘寶', UI.statusBadge('使用中')], ['2', '財神倍倍發', UI.statusBadge('停用中')]],<br>  {empty: '無資料'}<br>)</div>
+  </div>
+
+  <!-- Toast -->
+  <div class="demo-section">
+    <div class="demo-title">Toast 通知</div>
+    <div class="demo-preview">
+      <div class="demo-row">
+        <button class="btn btn-dark" onclick="UI.toast('操作成功', 'success')">Success</button>
+        <button class="btn btn-danger" onclick="UI.toast('操作失敗', 'error')">Error</button>
+        <button class="btn btn-outline" onclick="UI.toast('請注意', 'warning')">Warning</button>
+      </div>
+    </div>
+    <div class="demo-code">UI.toast('操作成功', 'success')<br>UI.toast('操作失敗', 'error')<br>UI.toast('請注意', 'warning')</div>
+  </div>
+
+  <!-- 圖示 -->
+  <div class="demo-section">
+    <div class="demo-title">SVG 圖示 (UI.icon)</div>
+    <div class="demo-preview">
+      <div class="demo-row" style="align-items:center;gap:16px" id="iconDemo"></div>
+    </div>
+    <div class="demo-code">UI.icon.clock<br>UI.icon.edit<br>UI.icon.search<br>UI.icon.sort<br>UI.icon.save<br>UI.icon.image<br>UI.icon.drag<br>UI.icon.bulb<br>UI.icon.monitor</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/components.js?v=1"></script>
+<script>
+// 渲染所有 demo
+document.getElementById('btnDarkDemo').innerHTML = UI.btn.dark('儲存', 'alert("儲存")');
+document.getElementById('btnSearchDemo').innerHTML = UI.btn.search('搜尋', 'alert("搜尋")');
+document.getElementById('btnOutlineDemo').innerHTML = UI.btn.outline('取消', 'alert("取消")');
+document.getElementById('btnAddDemo').innerHTML = UI.btn.add('新增', 'alert("新增")');
+document.getElementById('btnSecondaryDemo').innerHTML = UI.btn.secondary('編輯排序', 'alert("排序")');
+document.getElementById('btnDangerDemo').innerHTML = UI.btn.danger('刪除', 'alert("刪除")');
+document.getElementById('btnIconDemo').innerHTML = 
+  UI.btn.icon('edit', 'alert("編輯")', '編輯') + 
+  UI.btn.icon('delete', 'alert("刪除")', '刪除') + 
+  UI.btn.icon('upload', 'alert("上傳")', '上傳');
+
+document.getElementById('badgeDemo').innerHTML = 
+  UI.badge('使用中', 'on') + 
+  UI.badge('停用中', 'off') + 
+  UI.badge('維護中', 'maint') + 
+  UI.badge('即將上線', 'soon');
+
+document.getElementById('toggleDemo').innerHTML = 
+  UI.toggle('on', 'alert("開")') + 
+  '<span style="margin:0 8px">→</span>' +
+  UI.toggle('off', 'alert("關")');
+
+document.getElementById('segmentedDemo').innerHTML = UI.segmented([
+  {label: '金幣', active: true, onclick: 'alert("金幣")'},
+  {label: '星幣', active: false, onclick: 'alert("星幣")'}
+]);
+
+document.getElementById('tipsDemo').innerHTML = UI.tips('廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定');
+document.getElementById('infoDemo').innerHTML = UI.infoBox('排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉');
+
+document.getElementById('formSelectDemo').innerHTML = UI.form.select('hall', '娛樂廳', ['VA 娛樂廳', 'YGR 娛樂廳', 'JDB 娛樂廳'], {required: true});
+document.getElementById('formInputDemo').innerHTML = UI.form.input('name', '遊戲名稱', {placeholder: '請輸入遊戲名稱...', hint: '最多 20 字'});
+document.getElementById('formDatetimeDemo').innerHTML = UI.form.datetime('start', '開始時間', {required: true});
+document.getElementById('formRowDemo').innerHTML = UI.form.row(
+  UI.form.input('min', '最低投注', {type: 'number', placeholder: '10'}),
+  UI.form.input('max', '最高投注', {type: 'number', placeholder: '100000'})
+);
+
+document.getElementById('tableDemo').innerHTML = UI.table.create(
+  [{label: '序號', width: '60px'}, {label: '遊戲名稱'}, {label: '狀態', width: '100px'}],
+  [
+    ['1', '埃及三秘寶', UI.statusBadge('使用中')],
+    ['2', '財神倍倍發', UI.statusBadge('停用中')],
+    ['3', '印加祖瑪', UI.statusBadge('維護中')],
+    ['4', '財富金幣', UI.statusBadge('即將上線')]
+  ]
+);
+
+document.getElementById('iconDemo').innerHTML = 
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.clock + '<span style="font-size:10px;color:#9CA3AF">clock</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.edit + '<span style="font-size:10px;color:#9CA3AF">edit</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.search + '<span style="font-size:10px;color:#9CA3AF">search</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.sort + '<span style="font-size:10px;color:#9CA3AF">sort</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.save + '<span style="font-size:10px;color:#9CA3AF">save</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.image + '<span style="font-size:10px;color:#9CA3AF">image</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.drag + '<span style="font-size:10px;color:#9CA3AF">drag</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.bulb + '<span style="font-size:10px;color:#9CA3AF">bulb</span></div>' +
+  '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.monitor + '<span style="font-size:10px;color:#9CA3AF">monitor</span></div>';
+</script>
+</body>
+</html>
