@@ -644,9 +644,10 @@ function addTagPrompt() {
 }
 
 function editTag(idx) {
-  const row = document.querySelector('#commonTabContent tr:nth-child(' + (idx + 1) + ')');
+  const row = document.querySelector('#commonTabContent tr:nth-child(' + (idx + 2) + ')');
   if (!row) return;
   const nameCell = row.querySelector('td:nth-child(3)');
+  if (!nameCell) return;
   const oldName = commonTags[idx];
   nameCell.innerHTML = '<input type="text" class="curr-input" style="width:120px" value="' + oldName + '" id="editTagInput_' + idx + '" onkeydown="if(event.key===\'Enter\')saveTagEdit(' + idx + ')">' +
     ' <button class="curr-save" onclick="saveTagEdit(' + idx + ')">儲存</button>' +
