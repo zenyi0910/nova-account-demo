@@ -352,8 +352,11 @@ function renderTable() {
   tbody.innerHTML = filtered.map((g, idx) => {
     const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
     const tagDisplay = g.tag === '-' ? '-' : '<span class="tag-badge">' + g.tag + '</span>';
-    return '<tr>' +
-      '<td>' + (idx + 1) + '</td>' +
+    const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></td>' : '';
+    const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
+    return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
+      dragHandle +
+      sortNum +
       '<td>' + tagDisplay + '</td>' +
       '<td>' + g.hall + '</td>' +
       '<td>' + g.cat + '</td>' +
@@ -364,6 +367,17 @@ function renderTable() {
       '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
+  // Update table header for sort mode
+  const thead = document.querySelector('.data-table thead tr');
+  if (sortMode) {
+    if (!thead.querySelector('.sort-th')) {
+      thead.insertAdjacentHTML('afterbegin', '<th class="sort-th" style="width:30px"></th>');
+    }
+  } else {
+    const sortTh = thead.querySelector('.sort-th');
+    if (sortTh) sortTh.remove();
+  }
+  if (sortMode) initDragSort();
 }
 
 function toggleMoreMenu(event, gameId) {
@@ -638,78 +652,69 @@ function removeRecommend(id) {
 
 // Old renderTagsTab / addTag removed — replaced by renderTagsManagement above
 
-// === Game Sorting Section ===
+// === Game Sort Mode (integrated into table) ===
+let sortMode = false;
 let currentSortHall = 'VA';
 
+function toggleSortMode() {
+  sortMode = !sortMode;
+  const btn = document.getElementById('sortModeBtn');
+  const saveBtn = document.getElementById('saveSortBtn');
+  if (sortMode) {
+    btn.classList.add('active');
+    btn.style.background = '#393939';
+    btn.style.color = '#fff';
+    saveBtn.style.display = '';
+    renderTable();
+  } else {
+    btn.classList.remove('active');
+    btn.style.background = '';
+    btn.style.color = '';
+    saveBtn.style.display = 'none';
+    renderTable();
+  }
+}
+
 function initSortSection() {
-  const tabs = document.getElementById('sortHallTabs');
-  if (!tabs) return;
-  let html = '';
-  Object.keys(halls).forEach(k => {
-    html += '<button class="sort-hall-tab' + (k === currentSortHall ? ' active' : '') + '" onclick="switchSortHall(\'' + k + '\')">' + k + ' 娛樂廳</button>';
-  });
-  tabs.innerHTML = html;
-  renderSortList();
+  // No longer needed as separate section — sort is integrated into table
 }
 
 function switchSortHall(hall) {
   currentSortHall = hall;
-  document.querySelectorAll('.sort-hall-tab').forEach(b => b.classList.toggle('active', b.textContent.startsWith(hall)));
-  renderSortList();
 }
 
 function renderSortList() {
-  const container = document.getElementById('sortListContainer');
-  if (!container) return;
-  const hallGames = games.filter(g => g.hall === currentSortHall);
-  if (hallGames.length === 0) {
-    container.innerHTML = '<div style="padding:20px;text-align:center;color:#9CA3AF;font-size:12px">此娛樂廳尚無遊戲</div>';
-    return;
-  }
-  let html = '<ul class="sort-list">';
-  hallGames.forEach((g, i) => {
-    const sc = g.status === '使用中' ? 'color:#059669' : g.status === '維護中' ? 'color:#D97706' : g.status === '停用中' ? 'color:#DC2626' : 'color:#6B7280';
-    html += '<li class="sort-item" draggable="true" data-id="' + g.id + '">' +
-      '<span class="sort-handle"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></span>' +
-      '<span class="sort-order">' + (i + 1) + '</span>' +
-      '<span class="sort-name">' + g.name + '</span>' +
-      '<span class="sort-cat">' + g.cat + '</span>' +
-      '<span class="sort-status" style="' + sc + '">' + g.status + '</span>' +
-      '</li>';
-  });
-  html += '</ul>';
-  container.innerHTML = html;
-  initDragSort();
+  // Deprecated — sort is now in table rows
 }
 
 function initDragSort() {
-  const list = document.querySelector('.sort-list');
-  if (!list) return;
-  let dragItem = null;
-  list.querySelectorAll('.sort-item').forEach(item => {
-    item.addEventListener('dragstart', function(e) {
-      dragItem = this;
-      this.style.opacity = '0.5';
+  const tbody = document.getElementById('tableBody');
+  if (!tbody) return;
+  let dragRow = null;
+  tbody.querySelectorAll('tr[draggable]').forEach(row => {
+    row.addEventListener('dragstart', function(e) {
+      dragRow = this;
+      this.style.opacity = '0.4';
       e.dataTransfer.effectAllowed = 'move';
     });
-    item.addEventListener('dragend', function() {
+    row.addEventListener('dragend', function() {
       this.style.opacity = '1';
-      dragItem = null;
-      list.querySelectorAll('.sort-item').forEach(el => el.style.borderTop = '');
+      dragRow = null;
+      tbody.querySelectorAll('tr').forEach(r => r.style.borderTop = '');
     });
-    item.addEventListener('dragover', function(e) {
+    row.addEventListener('dragover', function(e) {
       e.preventDefault();
       e.dataTransfer.dropEffect = 'move';
       this.style.borderTop = '2px solid #393939';
     });
-    item.addEventListener('dragleave', function() {
+    row.addEventListener('dragleave', function() {
       this.style.borderTop = '';
     });
-    item.addEventListener('drop', function(e) {
+    row.addEventListener('drop', function(e) {
       e.preventDefault();
       this.style.borderTop = '';
-      if (dragItem && dragItem !== this) {
-        list.insertBefore(dragItem, this);
+      if (dragRow && dragRow !== this) {
+        tbody.insertBefore(dragRow, this);
         updateSortNumbers();
       }
     });
@@ -717,13 +722,21 @@ function initDragSort() {
 }
 
 function updateSortNumbers() {
-  document.querySelectorAll('.sort-item .sort-order').forEach((el, i) => {
+  document.querySelectorAll('#tableBody tr .sort-num').forEach((el, i) => {
     el.textContent = i + 1;
   });
 }
 
 function saveSortOrder() {
-  showToast(currentSortHall + ' 娛樂廳排序已儲存', 'success');
+  showToast('遊戲排序已儲存', 'success');
+  sortMode = false;
+  const btn = document.getElementById('sortModeBtn');
+  const saveBtn = document.getElementById('saveSortBtn');
+  btn.classList.remove('active');
+  btn.style.background = '';
+  btn.style.color = '';
+  saveBtn.style.display = 'none';
+  renderTable();
 }
 
 // === Utilities ===

@@ -141,6 +141,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sort-arrows{display:flex;flex-direction:column;gap:1px;flex-shrink:0}
 .sort-arrow{width:18px;height:14px;border:1px solid oklch(0.922 0 0);border-radius:3px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280}
 .sort-arrow:hover{background:#F3F4F6;color:#393939}
+.sort-mode-btn{gap:4px}
+.sort-mode-btn.active{background:#393939;color:#fff}
+.data-table tr[draggable]{cursor:grab}
+.data-table tr[draggable]:active{cursor:grabbing;opacity:0.7}
+.sort-handle-cell{width:30px;text-align:center}
 .game-section{margin-top:24px}
 .game-section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .game-section-header h5{font-size:14px;font-weight:600;color:#111827}
@@ -356,7 +361,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="table-info">
         <span id="gameCount">第 1 頁，共 20 筆資料</span>
-        <span class="table-info-right">每頁顯示 <select class="page-size-select"><option>20</option><option>50</option><option>100</option></select> 筆</span>
+        <span class="table-info-right">
+          <button class="btn btn-outline btn-sm sort-mode-btn" id="sortModeBtn" onclick="toggleSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 排序模式</button>
+          <button class="btn btn-primary btn-sm" id="saveSortBtn" style="display:none" onclick="saveSortOrder()">儲存排序</button>
+          每頁顯示 <select class="page-size-select"><option>20</option><option>50</option><option>100</option></select> 筆
+        </span>
       </div>
       <div style="overflow-x:auto">
         <table class="data-table">
@@ -366,19 +375,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
 
-    <!-- 遊戲排序區域 -->
-    <div class="game-section" id="sortSection" style="margin-top:20px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg>
-          <h5 style="margin:0;font-size:14px;font-weight:600">遊戲排序</h5>
-          <span style="font-size:11px;color:#6B7280">拖曳調整前台顯示順序</span>
-        </div>
-        <button class="btn btn-primary btn-sm" onclick="saveSortOrder()">儲存排序</button>
-      </div>
-      <div class="sort-hall-tabs" id="sortHallTabs"></div>
-      <div id="sortListContainer"></div>
-    </div>
+    <!-- 遊戲排序區域 (已整合至表格) -->
   </div>
 </div>
 <!-- Modal: 排程設定 -->

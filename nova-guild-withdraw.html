@@ -149,8 +149,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group" data-rule="keyword"><label>公會名稱</label><div class="filter-input"><input type="text" placeholder="搜尋公會名稱"></div><div class="filter-error"></div></div>
       <div class="filter-group" data-rule="keyword"><label>最小金額</label><div class="filter-input"><input type="text" placeholder="最小金額"></div><div class="filter-error"></div></div>
       <div class="filter-group" data-rule="keyword"><label>最大金額</label><div class="filter-input"><input type="text" placeholder="最大金額"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>操作時間(起)</label><div class="filter-input"><input type="datetime-local"></div></div>
-      <div class="filter-group"><label>操作時間(迄)</label><div class="filter-input"><input type="datetime-local"></div></div>
+      <div class="filter-group filter-wide date-picker-wrap"><label>操作時間</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span>共 18 筆提領申請</span></div>
@@ -237,5 +236,6 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
 });
 </script>
+<script src="components/date-picker.js"></script>
 </body>
 </html>
