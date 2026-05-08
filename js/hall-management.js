@@ -620,6 +620,7 @@ function confirmToggle() {
 // === Schedule ===
 function openSchedModal(id) {
   document.getElementById('sHall').value = id;
+  document.getElementById('sDate').value = '';
   document.getElementById('sStart').value = '';
   document.getElementById('sEnd').value = '';
   document.getElementById('sNote').value = '';
