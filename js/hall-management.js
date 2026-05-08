@@ -114,54 +114,20 @@ function renderHallDetail() {
   const gameCount = games.filter(g => g.hall === id).length;
 
   const schedHtml = renderScheduleTab(id, h);
-  const currHtml = renderCurrencySection(id, h);
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      '<span class="hall-quick-switch">' +
-        '<span class="quick-label">' + (h.status === 'on' ? '營運中' : '已關閉') + '</span>' +
-        UI.toggle(h.status, "requestToggle('" + id + "')") +
-      '</span>' +
+      UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
-    // 排程區塊
-    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關' +
-      '<span class="hall-section-hint">設定自動開關時間，到時自動執行</span>' +
-      '<span class="spacer"></span>' +
-      UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + '</div>' +
+    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
+    UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + '</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
-    // 幣種設定區塊
-    '<div class="hall-section-title" style="margin-top:16px">' +
-      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-      ' 幣種設定' +
-      '<span class="hall-section-hint">娛樂廳層級設定，優先覆蓋單一遊戲</span>' +
-    '</div>' +
-    '<div class="hall-tab-body">' + currHtml + '</div>' +
-    // 覆蓋提示
-    '<div class="override-tip">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
-      ' 娛樂廳設定優先覆蓋個別遊戲，但不會修改遊戲原始設定值' +
-    '</div>' +
   '</div>';
 
   document.getElementById('hallDetail').innerHTML = html;
-}
-
-function renderCurrencySection(id, h) {
-  return '<div class="currency-dual">' +
-    '<div class="sec-card gold"><div class="sec-title">' +
-      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-      '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
-      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_gold_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
-      '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
-    '<div class="sec-card star"><div class="sec-title">' +
-      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
-      '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
-      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_star_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'star\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
-      '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
-  '</div>';
 }
 
 function renderCurrencyTab(id, h) {
