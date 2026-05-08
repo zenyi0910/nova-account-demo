@@ -123,7 +123,9 @@ function renderHallDetail() {
       '<span class="spacer"></span>' +
       '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
     '</div>' +
-    '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 排程開關</div>' +
+    '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 排程開關<span class="spacer"></span>' +
+    '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
   '</div>';
 
@@ -149,20 +151,19 @@ function renderScheduleTab(id, h) {
   let schedHtml = '<div class="sched-empty">尚無排程</div>';
   if (h.schedules.length > 0) {
     schedHtml = h.schedules.map((s, i) => {
+      const repeatBadge = s.repeatText ? '<span style="background:#E0F2FE;color:#0369A1;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">' + s.repeatText + '</span>' : '';
       return '<div class="sched-item">' +
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '<div class="sched-text"><span class="sched-time">' + fmtDT(s.start) + '</span>' +
         (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)') +
         ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
-        (s.note ? ' — ' + s.note : '') + '</div>' +
-        '<button class="del-btn" onclick="delSched(\'' + id + '\',' + i + ')" title="刪除">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+        repeatBadge +
+        (s.note ? '<div class="sched-note">' + s.note + '</div>' : '') + '</div>' +
+        '<button class="btn-icon-action delete" onclick="delSched(\'' + id + '\',' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>';
     }).join('');
   }
   return '<div class="sched-tab-content">' +
     schedHtml +
-    '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')" style="margin-top:12px">' +
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button>' +
     '</div>';
 }
 
@@ -249,8 +250,8 @@ function renderRecommendModalContent() {
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
-    '<button class="btn btn-outline" style="padding:6px 12px;font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>' +
-    '<button class="btn btn-dark" style="padding:6px 12px;font-size:12px" onclick="openAddRecommendModal()">+ 新增遊戲</button>' +
+    '<button class="btn-recommend-add" onclick="openAddRecommendModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增遊戲</button>' +
+    '<button class="btn-recommend-sort"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 編輯排序</button>' +
     '</div></div>';
 
   html += '<table class="data-table"><thead><tr>' +
@@ -603,7 +604,15 @@ function openSchedModal(id) {
   document.getElementById('sStart').value = '';
   document.getElementById('sEnd').value = '';
   document.getElementById('sNote').value = '';
+  document.getElementById('sRepeat').value = 'once';
+  toggleRepeatOptions();
   document.getElementById('schedModal').classList.add('show');
+}
+
+function toggleRepeatOptions() {
+  const repeat = document.getElementById('sRepeat').value;
+  document.getElementById('repeatWeekly').style.display = repeat === 'weekly' ? 'block' : 'none';
+  document.getElementById('repeatMonthly').style.display = repeat === 'monthly' ? 'block' : 'none';
 }
 
 function addSchedule() {
@@ -612,8 +621,22 @@ function addSchedule() {
   const start = document.getElementById('sStart').value;
   const end = document.getElementById('sEnd').value;
   const note = document.getElementById('sNote').value;
+  const repeat = document.getElementById('sRepeat').value;
   if (!start) { showToast('請選擇開始時間', 'error'); return; }
-  halls[id].schedules.push({ action, start, end, note });
+  
+  let repeatText = '';
+  if (repeat === 'weekly') {
+    const days = Array.from(document.querySelectorAll('#repeatWeekly input:checked')).map(c => c.value);
+    if (days.length === 0) { showToast('請選擇每週幾', 'error'); return; }
+    const dayNames = {0:'日',1:'一',2:'二',3:'三',4:'四',5:'五',6:'六'};
+    repeatText = '每週' + days.map(d => dayNames[d]).join('、');
+  } else if (repeat === 'monthly') {
+    const monthDay = document.getElementById('sMonthDay').value.trim();
+    if (!monthDay) { showToast('請輸入每月幾號', 'error'); return; }
+    repeatText = '每月' + monthDay + '號';
+  }
+  
+  halls[id].schedules.push({ action, start, end, note, repeat, repeatText });
   closeModal('schedModal');
   renderHallDetail();
   showToast('排程已新增：' + halls[id].name, 'success');
@@ -746,63 +769,32 @@ function saveDetail() {
 // === Common Settings Modal (標籤管理) ===
 function openCommonModal() {
   document.getElementById('commonModal').classList.add('show');
-  switchCommonTab('tag');
-}
-
-function switchCommonTab(tab) {
-  const tagBtn = document.getElementById('commonTabTag');
-  const iconBtn = document.getElementById('commonTabIcon');
-  if (tagBtn && iconBtn) {
-    tagBtn.classList.toggle('active', tab === 'tag');
-    iconBtn.classList.toggle('active', tab === 'icon');
-  }
-  if (tab === 'tag') {
-    renderTagsManagement();
-  } else {
-    renderIconManagement();
-  }
-}
-
-function renderIconManagement() {
-  const container = document.getElementById('commonTabContent');
-  const icons = [
-    {name:'熱門', img:'🔥'}, {name:'推薦', img:'😊'}, {name:'最新', img:'🆕'},
-    {name:'限時', img:'⏰'}, {name:'穩贏', img:'🟢'}, {name:'刮刮樂', img:'🎰'}
-  ];
-  let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
-    '<span style="font-size:12px;color:#6B7280">總共 ' + icons.length + ' 筆資料</span>' +
-    '<button class="btn btn-outline btn-sm" onclick="openAddIconModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
-  html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">Logo</th><th>Icon名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
-  icons.forEach((ic, i) => {
-    html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
-      '<td style="text-align:center;font-size:18px">' + ic.img + '</td>' +
-      '<td style="font-weight:500">' + ic.name + '</td>' +
-      '<td><div style="display:flex;gap:6px">' +
-      '<button class="btn-icon-action edit" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
-      '<button class="btn-icon-action delete" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
-      '</div></td></tr>';
-  });
-  html += '</tbody></table>';
-  container.innerHTML = html;
+  renderTagsManagement();
 }
 
 function renderTagsManagement() {
   const container = document.getElementById('commonTabContent');
-  let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
-    '<span style="font-size:12px;color:#6B7280">總共 ' + commonTags.length + ' 筆資料</span>' +
-    '<button class="btn btn-outline btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
-  html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">圖片</th><th>標籤名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
-  const tagIcons = {
-    '超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'
+  document.getElementById('commonCount').textContent = commonTags.length;
+  const tagImages = {
+    '刮刮樂':'https://picsum.photos/seed/scratch/64/64',
+    '連消':'https://picsum.photos/seed/chain/64/64',
+    '推薦':'https://picsum.photos/seed/recommend/64/64',
+    '星幣':'https://picsum.photos/seed/star/64/64',
+    '最新':'https://picsum.photos/seed/new/64/64',
+    '熱門':'https://picsum.photos/seed/hot/64/64',
+    '限時':'https://picsum.photos/seed/limit/64/64',
+    '超熱門':'https://picsum.photos/seed/superhot/64/64',
+    '穩贏':'https://picsum.photos/seed/win/64/64'
   };
+  let html = '<table class="data-table"><thead><tr><th style="width:60px">順序</th><th style="width:60px">圖片</th><th>標籤名稱</th><th style="width:100px">操作</th></tr></thead><tbody>';
   commonTags.forEach((t, i) => {
-    const icon = tagIcons[t] || '🏷️';
+    const img = tagImages[t] || 'https://picsum.photos/seed/' + encodeURIComponent(t) + '/64/64';
     html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
-      '<td style="text-align:center;font-size:18px">' + icon + '</td>' +
+      '<td><img src="' + img + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;border:1px solid oklch(0.922 0 0)" alt="' + t + '"></td>' +
       '<td style="font-weight:500">' + t + '</td>' +
       '<td><div style="display:flex;gap:6px">' +
-      '<button class="btn-icon-action edit" onclick="editTag(' + i + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
-      '<button class="btn-icon-action delete" onclick="removeTag(' + i + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+      '<button class="btn-icon-action edit" onclick="openTagEditModal(' + i + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+      '<button class="btn-icon-action delete" onclick="removeTag(' + i + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
       '</div></td></tr>';
   });
   html += '</tbody></table>';
