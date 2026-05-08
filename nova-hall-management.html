@@ -274,6 +274,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .currency-tab:first-child{border-radius:6px 0 0 6px}
 .currency-tab:last-child{border-radius:0 6px 6px 0;border-left:none}
 .currency-tab.active{background:#f5f5f5;color:#1a1a1a;font-weight:600;border-color:#999}
+.seg-control{display:inline-flex;border:1px solid oklch(0.85 0 0);border-radius:20px;overflow:hidden}
+.seg-btn{padding:6px 16px;border:none;background:#fff;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-right:1px solid oklch(0.85 0 0)}
+.seg-btn:last-child{border-right:none}
+.seg-btn.active{background:#393939;color:#fff;font-weight:500}
+.btn-sort{background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;padding:5px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.btn-sort:hover{background:#FDE68A}
+.btn-sort-outline{background:#fff;color:#92400E;border:1px solid #F59E0B;padding:5px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit}
+.btn-sort-outline:hover{background:#FEF3C7}
+.btn-sort-fill{background:#F59E0B;color:#fff;border:1px solid #F59E0B;padding:5px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.btn-sort-fill:hover{background:#D97706}
 .adv-filter-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;padding:8px 0;font-size:12px;color:#6B7280;user-select:none}
 .adv-filter-toggle:hover{color:#374151}
 .adv-filter-panel{display:flex;gap:12px;flex-wrap:wrap;padding:12px 0;border-top:1px solid oklch(0.922 0 0)}
@@ -372,6 +382,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span class="desc">廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定</span>
       <span style="flex:1"></span>
       <button class="btn btn-dark" onclick="openCommonModal()">共用設定</button>
+      <button class="btn btn-dark" onclick="openAddIconModal()" style="margin-left:8px">Icon新增</button>
       <button class="btn btn-dark" onclick="openRecommendModal()" style="margin-left:8px">推薦設定</button>
     </div>
     <div id="hallCards"></div>
@@ -379,33 +390,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <!-- 遊戲列表 -->
     <div class="game-section">
-      <div class="currency-tabs">
-        <button class="currency-tab active" id="currTabGold" onclick="switchGameCurrency('gold')">金幣</button>
-        <button class="currency-tab" id="currTabStar" onclick="switchGameCurrency('star')">星幣</button>
+      <div class="seg-control" id="currencySegment">
+        <button class="seg-btn active" onclick="switchGameCurrency('gold')">金幣</button>
+        <button class="seg-btn" onclick="switchGameCurrency('star')">星幣</button>
       </div>
-      <div class="filter-bar">
+      <div class="seg-control" id="catSegment" style="margin-top:8px">
+        <button class="seg-btn active" onclick="switchGameCat('')">全部</button>
+        <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
+        <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
+        <button class="seg-btn" onclick="switchGameCat('棋牌')">棋牌</button>
+      </div>
+      <div class="filter-bar" style="margin-top:12px">
         <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
         <div class="filter-group"><label>狀態</label><select id="filterStatus"><option value="">選擇狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
-        <div class="filter-group"><label>種類</label><select id="filterCat"><option value="">選擇種類</option></select></div>
+        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">選擇娛樂城</option></select></div>
+        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">選擇標籤</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
+        <div class="filter-group"><label>VIP 等級以上</label><select id="filterVipAdv"><option value="">所有等級</option><option>不限制</option><option>VIP1</option></select></div>
         <div class="filter-actions">
           <button class="btn btn-search" onclick="filterGames()" style="padding:7px 16px;font-size:13px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 搜尋</button>
           <button class="btn btn-outline" onclick="resetFilters()" style="padding:7px 16px;font-size:13px">重置</button>
         </div>
       </div>
-      <div class="adv-filter-toggle" onclick="toggleAdvFilter()">
-        <span>進階篩選</span>
-        <svg id="advFilterArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="transition:transform .2s"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="adv-filter-panel" id="advFilterPanel" style="display:none">
-        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">選擇娛樂城</option></select></div>
-        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">選擇標籤</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
-        <div class="filter-group"><label>VIP 等級以上</label><select id="filterVipAdv"><option value="">所有等級</option><option>不限制</option><option>VIP1</option></select></div>
-      </div>
       <div class="table-info">
-        <span id="gameCount">第 1 頁，共 20 筆資料</span>
+        <span id="gameCount">總共 32 筆資料</span>
         <span class="table-info-right">
-          <button class="btn btn-outline btn-sm sort-mode-btn" id="sortModeBtn" onclick="toggleSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 排序模式</button>
-          <button class="btn btn-primary btn-sm" id="saveSortBtn" style="display:none" onclick="saveSortOrder()">儲存排序</button>
+          <button class="btn btn-sort" id="sortModeBtn" onclick="toggleSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>
+          <button class="btn btn-sort-outline" id="cancelSortBtn" style="display:none" onclick="cancelSortMode()">取消</button>
+          <button class="btn btn-sort-fill" id="saveSortBtn" style="display:none" onclick="saveSortOrder()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存排序</button>
           每頁顯示 <select class="page-size-select"><option>20</option><option>50</option><option>100</option></select> 筆
         </span>
       </div>
@@ -493,6 +504,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="js/hall-management.js?v=10"></script>
+<script src="js/hall-management.js?v=12"></script>
+<script src="js/hall-management-additions.js?v=12"></script>
 </body>
 </html>

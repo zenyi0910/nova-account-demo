@@ -49,6 +49,8 @@ const commonTags = ['刮刮樂','連消','推薦','星幣','最新','熱門','�
 let pendingToggle = null;
 let currentHall = 'VA';
 let currentDetailId = null;
+let gameCurrency = 'gold'; // gold or star
+let gameCat = ''; // '', '電動', '街機', '棋牌'
 
 // === Hall Selector (now horizontal tabs with arrows) ===
 function initHallSelector() {
@@ -248,7 +250,7 @@ function renderRecommendModalContent() {
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
     '<button class="btn btn-outline" style="padding:6px 12px;font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>' +
-    '<button class="btn btn-primary" style="padding:6px 12px;font-size:12px" onclick="addRecommendGame()">+ 新增遊戲</button>' +
+    '<button class="btn btn-primary" style="padding:6px 12px;font-size:12px" onclick="openAddRecommendModal()">+ 新增遊戲</button>' +
     '</div></div>';
 
   html += '<table class="data-table"><thead><tr>' +
@@ -256,7 +258,7 @@ function renderRecommendModalContent() {
     '<th style="width:70px">娛樂城</th>' +
     '<th>遊戲名稱</th>' +
     '<th style="width:140px">遊戲長條圖</th>' +
-    '<th style="width:80px">操作</th>' +
+    '<th style="width:60px">操作</th>' +
     '</tr></thead><tbody>';
 
   if (recommended.length === 0) {
@@ -267,11 +269,10 @@ function renderRecommendModalContent() {
         '<td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
         '<td style="text-align:center">' + g.hall + '</td>' +
         '<td style="font-weight:500">' + g.name + '</td>' +
-        '<td><div class="recommend-banner-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/><circle cx="8.5" cy="8.5" r="1.5"/></svg> <span style="color:#9CA3AF;font-size:11px">未設置</span></div></td>' +
-        '<td><div style="display:flex;gap:6px">' +
-        '<button class="btn-icon-action edit" onclick="editRecommendGame(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
-        '<button class="btn-icon-action delete" onclick="removeFromRecommend(' + g.id + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
-        '</div></td></tr>';
+        '<td><div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/><circle cx="8.5" cy="8.5" r="1.5"/></svg> <span style="color:#9CA3AF;font-size:11px">未設置</span></div></td>' +
+        '<td style="text-align:center">' +
+        '<button class="btn-icon-action edit" onclick="uploadBanner(' + g.id + ')" title="上傳圖片"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>' +
+        '</td></tr>';
     });
   }
 
@@ -415,7 +416,6 @@ let currentCurrTab = 'gold'; // gold or star
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();
   const statusF = document.getElementById('filterStatus').value;
-  const catF = document.getElementById('filterCat').value;
   // Advanced filters (now inline)
   const hallAdvEl = document.getElementById('filterHallAdv');
   const tagAdvEl = document.getElementById('filterTagAdv');
@@ -426,7 +426,7 @@ function renderTable() {
   const filtered = games.filter(g => {
     if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
     if (statusF && g.status !== statusF) return false;
-    if (catF && g.cat !== catF) return false;
+    if (gameCat && g.cat !== gameCat) return false;
     if (hallAdv && g.hall !== hallAdv) return false;
     if (tagAdv && g.tag !== tagAdv) return false;
     if (vipAdv && g.vip !== vipAdv) return false;
@@ -506,30 +506,47 @@ function switchCurrTab(tab) {
 function filterGames() { renderTable(); }
 
 let gameCurrency = 'gold'; // 遊戲列表幣種切換
+let gameCat = ''; // 遊戲類型篩選
 
 function switchGameCurrency(curr) {
   gameCurrency = curr;
-  document.getElementById('currTabGold').classList.toggle('active', curr === 'gold');
-  document.getElementById('currTabStar').classList.toggle('active', curr === 'star');
+  const btns = document.querySelectorAll('#currencySegment .seg-btn');
+  btns.forEach(b => b.classList.toggle('active', b.textContent === (curr === 'gold' ? '金幣' : '星幣')));
+  renderTable();
+}
+
+function switchGameCat(cat) {
+  gameCat = cat;
+  const btns = document.querySelectorAll('#catSegment .seg-btn');
+  btns.forEach(b => {
+    const label = cat === '' ? '全部' : cat;
+    b.classList.toggle('active', b.textContent === label);
+  });
   renderTable();
 }
 
 function toggleAdvFilter() {
   const panel = document.getElementById('advFilterPanel');
   const arrow = document.getElementById('advFilterArrow');
-  if (panel.style.display === 'none') {
+  if (panel && panel.style.display === 'none') {
     panel.style.display = 'flex';
-    arrow.style.transform = 'rotate(180deg)';
-  } else {
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+  } else if (panel) {
     panel.style.display = 'none';
-    arrow.style.transform = 'rotate(0deg)';
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
   }
+}
+
+function cancelSortMode() {
+  toggleSortMode();
 }
 
 function resetFilters() {
   document.getElementById('filterName').value = '';
   document.getElementById('filterStatus').value = '';
-  document.getElementById('filterCat').value = '';
+  gameCat = '';
+  const btns = document.querySelectorAll('#catSegment .seg-btn');
+  btns.forEach(b => b.classList.toggle('active', b.textContent === '全部'));
   const hallAdvEl = document.getElementById('filterHallAdv');
   const tagAdvEl = document.getElementById('filterTagAdv');
   const vipAdvEl = document.getElementById('filterVipAdv');
@@ -811,16 +828,15 @@ function toggleSortMode() {
   sortMode = !sortMode;
   const btn = document.getElementById('sortModeBtn');
   const saveBtn = document.getElementById('saveSortBtn');
+  const cancelBtn = document.getElementById('cancelSortBtn');
   if (sortMode) {
-    btn.classList.add('active');
-    btn.style.background = '#393939';
-    btn.style.color = '#fff';
+    btn.style.display = 'none';
+    if (cancelBtn) cancelBtn.style.display = '';
     saveBtn.style.display = '';
     renderTable();
   } else {
-    btn.classList.remove('active');
-    btn.style.background = '';
-    btn.style.color = '';
+    btn.style.display = '';
+    if (cancelBtn) cancelBtn.style.display = 'none';
     saveBtn.style.display = 'none';
     renderTable();
   }
