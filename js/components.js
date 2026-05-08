@@ -10,9 +10,9 @@
   const style = document.createElement('style');
   style.id = 'ui-components-css';
   style.textContent = [
-    '.seg-control{display:inline-flex;background:oklch(0.967 0.003 264.542);border-radius:10px;padding:3px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.05)}',
-    '.seg-btn{padding:4px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:8px;font-weight:500;transition:all .15s}',
-    '.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,0.1)}',
+    '.seg-control{display:inline-flex;background:oklch(0.95 0.003 264.542);border-radius:10px;padding:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)}',
+    '.seg-btn{padding:5px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:8px;font-weight:500;transition:all .15s}',
+    '.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.15);transform:translateY(-0.5px)}',
     '.seg-btn:hover:not(.active){background:rgba(255,255,255,0.5)}'
   ].join('\n');
   document.head.appendChild(style);
