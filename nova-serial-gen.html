@@ -150,19 +150,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group"><label>VIP等級以上</label><div class="filter-input"><select><option value="">選擇VIP等級</option><option value="VIP 1">VIP 1</option><option value="VIP 2">VIP 2</option><option value="VIP 3">VIP 3</option><option value="VIP 4">VIP 4</option><option value="VIP 5">VIP 5</option><option value="VIP 6">VIP 6</option></select></div></div>
       <div class="filter-group"><label>序號類型</label><div class="filter-input"><select><option value="">選擇序號類型</option><option>儲值序號</option><option>紅包序號</option><option>vip序號</option></select></div></div>
       <div class="filter-group filter-wide" data-rule="keyword"><label>序號申請區間</label><div class="filter-input"><input type="text" placeholder="搜尋序號申請區間"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="keyword"><label>序號申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>申請日期（起）</label><div class="filter-input"><input type="datetime-local"></div></div>
+      <div class="filter-group"><label>申請日期（迄）</label><div class="filter-input"><input type="datetime-local"></div></div>
+      <div class="filter-group" data-rule="order"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋紅包訂單編號"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>序號狀態</label><div class="filter-input"><select><option value="">選擇序號狀態</option><option>已過期</option><option>已作廢</option><option>未使用</option><option>已使用</option></select></div></div>
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
-    <!-- 進階篩選 -->
-    <details class="adv-filter" style="margin-bottom:14px">
-      <summary style="cursor:pointer;font-size:12px;color:#6B7280;margin-bottom:8px">▶ 進階篩選</summary>
-      <div class="filter-card" style="margin-bottom:0">
-        <div class="filter-group" data-rule="keyword"><label>序號申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div><div class="filter-error"></div></div>
-        <div class="filter-group"><label>申請日期（起）</label><div class="filter-input"><input type="datetime-local"></div></div>
-        <div class="filter-group"><label>申請日期（迄）</label><div class="filter-input"><input type="datetime-local"></div></div>
-        <div class="filter-group" data-rule="order"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋紅包訂單編號"></div><div class="filter-error"></div></div>
-        <div class="filter-group"><label>序號狀態</label><div class="filter-input"><select><option value="">選擇序號狀態</option><option>已過期</option><option>已作廢</option><option>未使用</option><option>已使用</option></select></div></div>
-      </div>
-    </details>
     <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><span>每頁顯示 20 筆</span></div>
     <div class="page-header" style="margin-bottom:12px"><span class="spacer"></span><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#16a34a;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500">+ 新增序號群組</button><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#2563EB;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;margin-left:8px">匯出報表</button></div>
     <table class="data-table"><thead><tr><th>序號群組編號</th><th>VIP</th><th>序號申請類型</th><th>序號類型</th><th>序號申請人</th><th>序號申請日期</th><th>紅包訂單編號</th><th>序號狀態</th></tr></thead><tbody>
