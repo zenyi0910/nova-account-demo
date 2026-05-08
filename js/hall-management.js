@@ -94,6 +94,13 @@ function selectHall(id) {
 }
 
 // === Render Hall Detail ===
+let hallDetailTab = 'currency'; // currency, schedule, recommend, sort
+
+function switchHallTab(tab) {
+  hallDetailTab = tab;
+  renderHallDetail();
+}
+
 function renderHallDetail() {
   if (!currentHall) {
     document.getElementById('hallDetail').innerHTML = '';
@@ -104,6 +111,51 @@ function renderHallDetail() {
   const h = halls[id];
   const gameCount = games.filter(g => g.hall === id).length;
 
+  // Tab bar
+  const tabs = [
+    {key:'currency', label:'幣種設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>'},
+    {key:'schedule', label:'排程開關', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'},
+    {key:'recommend', label:'推薦設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>'},
+    {key:'sort', label:'遊戲排序', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="14" y2="15"/><line x1="4" y1="3" x2="16" y2="3"/><line x1="4" y1="21" x2="10" y2="21"/></svg>'}
+  ];
+  const tabHtml = tabs.map(t => '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>').join('');
+
+  let bodyHtml = '';
+  if (hallDetailTab === 'currency') bodyHtml = renderCurrencyTab(id, h);
+  else if (hallDetailTab === 'schedule') bodyHtml = renderScheduleTab(id, h);
+  else if (hallDetailTab === 'recommend') bodyHtml = renderRecommendHallTab(id);
+  else if (hallDetailTab === 'sort') bodyHtml = renderSortTab(id);
+
+  const html = '<div class="hall-card">' +
+    '<div class="hall-header">' +
+      '<span class="hall-name">' + h.name + '</span>' +
+      '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
+      '<span class="spacer"></span>' +
+      '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
+    '</div>' +
+    '<div class="hall-detail-tabs">' + tabHtml + '</div>' +
+    '<div class="hall-tab-body">' + bodyHtml + '</div>' +
+  '</div>';
+
+  document.getElementById('hallDetail').innerHTML = html;
+}
+
+function renderCurrencyTab(id, h) {
+  return '<div class="hall-sections">' +
+    '<div class="sec-card gold"><div class="sec-title">' +
+      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
+      '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
+      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_gold_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
+      '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
+    '<div class="sec-card star"><div class="sec-title">' +
+      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
+      '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
+      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_star_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'star\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
+      '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
+  '</div>';
+}
+
+function renderScheduleTab(id, h) {
   let schedHtml = '<div class="sched-empty">尚無排程</div>';
   if (h.schedules.length > 0) {
     schedHtml = h.schedules.map((s, i) => {
@@ -117,33 +169,103 @@ function renderHallDetail() {
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
     }).join('');
   }
+  return '<div class="sched-tab-content">' +
+    '<div class="sched-tab-header"><span class="sched-tab-desc">設定自動開關排程，到時間自動執行，不需手動操作</span>' +
+    '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
+    schedHtml + '</div>';
+}
 
-  const html = '<div class="hall-card">' +
-    '<div class="hall-header">' +
-      '<span class="hall-name">' + h.name + '</span>' +
-      '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
-      '<span class="spacer"></span>' +
-      '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
-    '</div>' +
-    '<div class="hall-body"><div class="hall-sections">' +
-      '<div class="sec-card gold"><div class="sec-title">' +
-        '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-        '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
-        '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_gold_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
-        '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
-      '<div class="sec-card star"><div class="sec-title">' +
-        '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
-        '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
-        '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_star_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'star\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
-        '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
-      '<div class="sec-card sched"><div class="sec-title">' +
-        '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '排程開關<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增</button></div>' +
-        schedHtml + '</div>' +
-    '</div></div></div>';
+function renderRecommendHallTab(hallId) {
+  const hallGames = games.filter(g => g.hall === hallId);
+  const recommended = hallGames.filter(g => g.recommend);
+  const notRecommended = hallGames.filter(g => !g.recommend);
 
-  document.getElementById('hallDetail').innerHTML = html;
+  let html = '<div class="recommend-tab-content">' +
+    '<div class="recommend-desc">推薦遊戲會顯示在前台該廳的推薦區塊，玩家優先看到這些遊戲</div>' +
+    '<div class="recommend-layout">' +
+    '<div class="recommend-col">' +
+    '<div class="recommend-col-header"><span class="recommend-col-title">已推薦</span><span class="recommend-count">' + recommended.length + '</span></div>' +
+    '<div class="recommend-list" id="recommendedList">';
+
+  if (recommended.length === 0) {
+    html += '<div class="recommend-empty">尚無推薦遊戲<br>從右側列表點擊 + 加入</div>';
+  } else {
+    recommended.forEach((g, i) => {
+      html += '<div class="recommend-item active">' +
+        '<span class="recommend-order">' + (i + 1) + '</span>' +
+        '<span class="recommend-name">' + g.name + '</span>' +
+        '<span class="recommend-cat">' + g.cat + '</span>' +
+        '<button class="recommend-remove" onclick="removeFromRecommend(' + g.id + ')" title="移除推薦">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>';
+    });
+  }
+
+  html += '</div></div>' +
+    '<div class="recommend-col">' +
+    '<div class="recommend-col-header"><span class="recommend-col-title">可加入推薦</span><span class="recommend-count">' + notRecommended.length + '</span></div>' +
+    '<div class="recommend-list" id="availableList">';
+
+  notRecommended.forEach(g => {
+    html += '<div class="recommend-item">' +
+      '<span class="recommend-name">' + g.name + '</span>' +
+      '<span class="recommend-cat">' + g.cat + '</span>' +
+      '<span class="badge ' + (g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon') + '" style="font-size:10px">' + g.status + '</span>' +
+      '<button class="recommend-add" onclick="addToRecommend(' + g.id + ')" title="加入推薦">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>';
+  });
+
+  html += '</div></div></div></div>';
+  return html;
+}
+
+function addToRecommend(gameId) {
+  const g = games.find(x => x.id === gameId);
+  if (g) { g.recommend = true; renderHallDetail(); renderTable(); showToast(g.name + ' 已加入推薦', 'success'); }
+}
+
+function removeFromRecommend(gameId) {
+  const g = games.find(x => x.id === gameId);
+  if (g) { g.recommend = false; renderHallDetail(); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
+}
+
+function renderSortTab(hallId) {
+  const hallGames = games.filter(g => g.hall === hallId);
+
+  let html = '<div class="sort-tab-content">' +
+    '<div class="sort-desc">拖拉調整遊戲在前台的顯示順序，排在前面的遊戲玩家優先看到</div>' +
+    '<div class="sort-list" id="sortList">';
+
+  hallGames.forEach((g, i) => {
+    const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
+    html += '<div class="sort-item" data-id="' + g.id + '">' +
+      '<span class="sort-handle" title="拖拉排序"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/></svg></span>' +
+      '<span class="sort-order">' + (i + 1) + '</span>' +
+      '<span class="sort-name">' + g.name + '</span>' +
+      '<span class="sort-cat">' + g.cat + '</span>' +
+      '<span class="badge ' + bc + '" style="font-size:10px">' + g.status + '</span>' +
+      '<div class="sort-arrows">' +
+      '<button class="sort-arrow" onclick="moveGame(' + g.id + ',-1)" title="上移"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="18 15 12 9 6 15"/></svg></button>' +
+      '<button class="sort-arrow" onclick="moveGame(' + g.id + ',1)" title="下移"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg></button>' +
+      '</div></div>';
+  });
+
+  html += '</div></div>';
+  return html;
+}
+
+function moveGame(gameId, dir) {
+  const hallGames = games.filter(g => g.hall === currentHall);
+  const idx = hallGames.findIndex(g => g.id === gameId);
+  if (idx < 0) return;
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= hallGames.length) return;
+  // Swap in main games array
+  const mainIdx1 = games.indexOf(hallGames[idx]);
+  const mainIdx2 = games.indexOf(hallGames[newIdx]);
+  [games[mainIdx1], games[mainIdx2]] = [games[mainIdx2], games[mainIdx1]];
+  renderHallDetail();
+  renderTable();
 }
 
 // === Inline Currency Edit ===

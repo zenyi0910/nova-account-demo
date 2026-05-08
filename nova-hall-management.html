@@ -99,6 +99,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sched-empty{font-size:12px;color:#9CA3AF;padding:8px 0}
 .add-sched-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#2563EB;cursor:pointer;padding:4px 8px;border-radius:4px;border:1px dashed #93C5FD;background:none;margin-top:8px;font-family:inherit}
 .add-sched-btn:hover{background:#EFF6FF}
+/* Hall detail tabs */
+.hall-detail-tabs{display:flex;gap:0;border-bottom:1px solid oklch(0.922 0 0);padding:0 16px}
+.hall-detail-tab{display:inline-flex;align-items:center;gap:5px;padding:10px 14px;font-size:12px;font-weight:500;color:#6B7280;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit;transition:all .15s}
+.hall-detail-tab:hover{color:#393939;background:#F9FAFB}
+.hall-detail-tab.active{color:#393939;border-bottom-color:#393939;font-weight:600}
+.hall-tab-body{padding:16px}
+/* Schedule tab */
+.sched-tab-content{}
+.sched-tab-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sched-tab-desc{font-size:12px;color:#6B7280}
+/* Recommend tab */
+.recommend-tab-content{}
+.recommend-desc{font-size:12px;color:#6B7280;margin-bottom:14px}
+.recommend-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.recommend-col{}
+.recommend-col-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid oklch(0.922 0 0)}
+.recommend-col-title{font-size:12px;font-weight:600;color:#374151}
+.recommend-count{font-size:10px;background:#F3F4F6;color:#6B7280;padding:1px 6px;border-radius:8px}
+.recommend-list{max-height:240px;overflow-y:auto}
+.recommend-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;border:1px solid oklch(0.95 0 0);margin-bottom:4px;font-size:12px;transition:all .1s}
+.recommend-item:hover{background:#F9FAFB;border-color:oklch(0.85 0 0)}
+.recommend-item.active{background:#F0FDF4;border-color:#BBF7D0}
+.recommend-order{width:18px;height:18px;border-radius:50%;background:#393939;color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.recommend-name{flex:1;font-weight:500;color:#111827}
+.recommend-cat{font-size:10px;color:#9CA3AF}
+.recommend-empty{text-align:center;padding:24px 12px;color:#9CA3AF;font-size:12px;line-height:1.6}
+.recommend-add,.recommend-remove{width:22px;height:22px;border-radius:4px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;flex-shrink:0}
+.recommend-add:hover{background:#DCFCE7;border-color:#86EFAC;color:#166534}
+.recommend-remove:hover{background:#FEE2E2;border-color:#FCA5A5;color:#DC2626}
+/* Sort tab */
+.sort-tab-content{}
+.sort-desc{font-size:12px;color:#6B7280;margin-bottom:14px}
+.sort-list{max-height:320px;overflow-y:auto}
+.sort-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;border:1px solid oklch(0.95 0 0);margin-bottom:4px;font-size:12px;transition:all .1s}
+.sort-item:hover{background:#F9FAFB;border-color:oklch(0.85 0 0)}
+.sort-handle{color:#9CA3AF;cursor:grab;flex-shrink:0;display:flex;align-items:center}
+.sort-order{width:20px;font-size:11px;color:#6B7280;font-weight:600;text-align:center;flex-shrink:0}
+.sort-name{flex:1;font-weight:500;color:#111827}
+.sort-cat{font-size:10px;color:#9CA3AF;min-width:40px}
+.sort-arrows{display:flex;flex-direction:column;gap:1px;flex-shrink:0}
+.sort-arrow{width:18px;height:14px;border:1px solid oklch(0.922 0 0);border-radius:3px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280}
+.sort-arrow:hover{background:#F3F4F6;color:#393939}
 .game-section{margin-top:24px}
 .game-section-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .game-section-header h5{font-size:14px;font-weight:600;color:#111827}
@@ -378,6 +420,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="js/hall-management.js?v=2"></script>
+<script src="js/hall-management.js?v=3"></script>
 </body>
 </html>
