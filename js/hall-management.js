@@ -250,8 +250,13 @@ function renderRecommendModalContent() {
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
-    '<button class="btn-recommend-add" onclick="openAddRecommendModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增遊戲</button>' +
-    '<button class="btn-recommend-sort"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 編輯排序</button>' +
+    (recommendSortMode ?
+      '<button class="btn-recommend-cancel" onclick="cancelRecommendSort()">取消</button>' +
+      '<button class="btn-recommend-save" onclick="saveRecommendSort()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 儲存排序</button>'
+      :
+      '<button class="btn-recommend-add" onclick="openAddRecommendModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增遊戲</button>' +
+      '<button class="btn-recommend-sort" onclick="toggleRecommendSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 編輯排序</button>'
+    ) +
     '</div></div>';
 
   html += '<table class="data-table"><thead><tr>' +
@@ -288,6 +293,24 @@ function switchRecommendSubTab(tab) {
 
 function switchRecommendCurrency(curr) {
   recommendCurrency = curr;
+  renderRecommendModalContent();
+}
+
+let recommendSortMode = false;
+
+function toggleRecommendSortMode() {
+  recommendSortMode = !recommendSortMode;
+  renderRecommendModalContent();
+}
+
+function saveRecommendSort() {
+  recommendSortMode = false;
+  renderRecommendModalContent();
+  showToast('排序已儲存', 'success');
+}
+
+function cancelRecommendSort() {
+  recommendSortMode = false;
   renderRecommendModalContent();
 }
 
