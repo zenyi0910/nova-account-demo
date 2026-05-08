@@ -453,7 +453,7 @@ function renderTable() {
   document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = filtered.map((g, idx) => {
-    const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span style="color:#9CA3AF">' + g.tag + '</span>';
+    const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span>' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
     return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
