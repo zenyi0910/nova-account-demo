@@ -113,17 +113,16 @@ function renderHallDetail() {
   const h = halls[id];
   const gameCount = games.filter(g => g.hall === id).length;
 
-  // 排程區塊
-  let schedHtml = renderScheduleTab(id, h);
+  const schedHtml = renderScheduleTab(id, h);
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
+      UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
-    '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 排程開關<span class="spacer"></span>' +
+    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
     '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
@@ -166,12 +165,10 @@ function renderScheduleTab(id, h) {
         ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
         repeatBadge +
         (s.note ? '<div class="sched-note">' + s.note + '</div>' : '') + '</div>' +
-        '<button class="btn-icon-action delete" onclick="delSched(\'' + id + '\',' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></div>';
+        UI.btn.icon('delete', "delSched('" + id + "'," + i + ")", '刪除排程') + '</div>';
     }).join('');
   }
-  return '<div class="sched-tab-content">' +
-    schedHtml +
-    '</div>';
+  return '<div class="sched-tab-content">' + schedHtml + '</div>';
 }
 
 let recommendCurrency = 'gold'; // 預設金幣
@@ -246,22 +243,22 @@ function renderRecommendModalContent() {
   const recommended = games.filter(g => g.recommend);
 
   let html = '<div class="recommend-tab-content">' +
-    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
-    '<button class="toggle-btn' + (recommendCurrency === 'gold' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'gold\')">金幣</button>' +
-    '<button class="toggle-btn' + (recommendCurrency === 'star' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'star\')">星幣</button>' +
-    '</div>' +
-    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
-    '<button class="toggle-btn' + (recommendSubTab === 'recent' ? ' active' : '') + '" onclick="switchRecommendSubTab(\'recent\')">近期爆獎</button>' +
-    '<button class="toggle-btn' + (recommendSubTab === 'popular' ? ' active' : '') + '" onclick="switchRecommendSubTab(\'popular\')">最受歡迎</button>' +
-    '</div>' +
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+    UI.toggleGroup([
+      {label: '金幣', active: recommendCurrency === 'gold', onclick: "switchRecommendCurrency('gold')"},
+      {label: '星幣', active: recommendCurrency === 'star', onclick: "switchRecommendCurrency('star')"}
+    ]) +
+    ' ' +
+    UI.toggleGroup([
+      {label: '近期爆獎', active: recommendSubTab === 'recent', onclick: "switchRecommendSubTab('recent')"},
+      {label: '最受歡迎', active: recommendSubTab === 'popular', onclick: "switchRecommendSubTab('popular')"}
+    ]) +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
     (recommendSortMode ?
       '<button class="btn-recommend-cancel" onclick="cancelRecommendSort()">取消</button>' +
-      '<button class="btn-recommend-save" onclick="saveRecommendSort()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> 儲存排序</button>'
-      :
-      ''
+      '<button class="btn-recommend-save" onclick="saveRecommendSort()">' + UI.icon.save + ' 儲存排序</button>'
+      : ''
     ) +
     '</div></div>' +
     (recommendSortMode ? '' :
@@ -271,30 +268,17 @@ function renderRecommendModalContent() {
       '</div>'
     );
 
-  html += '<table class="data-table"><thead><tr>' +
-    '<th style="width:50px">順序</th>' +
-    '<th style="width:70px">娛樂城</th>' +
-    '<th>遊戲名稱</th>' +
-    '<th style="width:140px">遊戲長條圖</th>' +
-    '<th style="width:60px">操作</th>' +
-    '</tr></thead><tbody>';
+  // 表格用 UI.table
+  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'140px'},{label:'操作',width:'60px'}];
+  const rows = recommended.map((g, i) => [
+    '<span style="color:#6B7280">' + (i + 1) + '</span>',
+    g.hall,
+    '<span style="font-weight:500">' + g.name + '</span>',
+    '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
+    UI.btn.icon('upload', 'uploadBanner(' + g.id + ')', '上傳圖片')
+  ]);
 
-  if (recommended.length === 0) {
-    html += '<tr><td colspan="5" style="text-align:center;padding:30px;color:#9CA3AF">尚無推薦遊戲</td></tr>';
-  } else {
-    recommended.forEach((g, i) => {
-      html += '<tr>' +
-        '<td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
-        '<td style="text-align:center">' + g.hall + '</td>' +
-        '<td style="font-weight:500">' + g.name + '</td>' +
-        '<td><div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/><circle cx="8.5" cy="8.5" r="1.5"/></svg> <span style="color:#9CA3AF;font-size:11px">未設置</span></div></td>' +
-        '<td style="text-align:center">' +
-        '<button class="btn-icon-action edit" onclick="uploadBanner(' + g.id + ')" title="上傳圖片"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>' +
-        '</td></tr>';
-    });
-  }
-
-  html += '</tbody></table></div>';
+  html += UI.table.create(columns, rows, {empty: '尚無推薦遊戲'}) + '</div>';
   document.getElementById('recommendModalBody').innerHTML = html;
 }
 
@@ -452,7 +436,6 @@ let currentCurrTab = 'gold'; // gold or star
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();
   const statusF = document.getElementById('filterStatus').value;
-  // Advanced filters (now inline)
   const hallAdvEl = document.getElementById('filterHallAdv');
   const tagAdvEl = document.getElementById('filterTagAdv');
   const vipAdvEl = document.getElementById('filterVipAdv');
@@ -471,9 +454,8 @@ function renderTable() {
   document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = filtered.map((g, idx) => {
-    const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
     const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span style="color:#9CA3AF">' + g.tag + '</span>';
-    const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></td>' : '';
+    const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
     return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
       dragHandle +
@@ -482,9 +464,12 @@ function renderTable() {
       '<td>' + g.hall + '</td>' +
       '<td>' + g.cat + '</td>' +
       '<td><button class="game-name-link" onclick="openDetail(' + g.id + ')">' + g.name + '</button></td>' +
-      '<td><span class="badge ' + bc + '">' + g.status + '</span></td>' +
+      '<td>' + UI.statusBadge(g.status) + '</td>' +
       '<td>' + g.vip + '</td>' +
-      '<td class="action-cell"><button class="btn-edit-icon" onclick="openEditDetail(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>' +
+      '<td class="action-cell">' +
+        '<button class="btn-edit-icon" onclick="openEditDetail(' + g.id + ')" title="編輯">' + UI.icon.edit + '</button>' +
+        '<button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>' +
+      '</td>' +
       '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
@@ -830,19 +815,17 @@ function renderTagsManagement() {
     '超熱門':'https://picsum.photos/seed/superhot/64/64',
     '穩贏':'https://picsum.photos/seed/win/64/64'
   };
-  let html = '<table class="data-table"><thead><tr><th style="width:60px">順序</th><th style="width:60px">圖片</th><th>標籤名稱</th><th style="width:100px">操作</th></tr></thead><tbody>';
-  commonTags.forEach((t, i) => {
+  const columns = [{label:'順序',width:'60px'},{label:'圖片',width:'60px'},{label:'標籤名稱'},{label:'操作',width:'100px'}];
+  const rows = commonTags.map((t, i) => {
     const img = tagImages[t] || 'https://picsum.photos/seed/' + encodeURIComponent(t) + '/64/64';
-    html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
-      '<td><img src="' + img + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;border:1px solid oklch(0.922 0 0)" alt="' + t + '"></td>' +
-      '<td style="font-weight:500">' + t + '</td>' +
-      '<td><div style="display:flex;gap:6px">' +
-      '<button class="btn-icon-action edit" onclick="openTagEditModal(' + i + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
-      '<button class="btn-icon-action delete" onclick="removeTag(' + i + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
-      '</div></td></tr>';
+    return [
+      '<span style="color:#6B7280">' + (i + 1) + '</span>',
+      '<img src="' + img + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;border:1px solid oklch(0.922 0 0)" alt="' + t + '">',
+      '<span style="font-weight:500">' + t + '</span>',
+      '<div style="display:flex;gap:6px">' + UI.btn.icon('edit', 'openTagEditModal(' + i + ')', '編輯') + UI.btn.icon('delete', 'removeTag(' + i + ')', '刪除') + '</div>'
+    ];
   });
-  html += '</tbody></table>';
-  container.innerHTML = html;
+  container.innerHTML = UI.table.create(columns, rows, {empty: '尚無標籤'});
 }
 
 function addTagPrompt() {
@@ -1005,7 +988,7 @@ function saveSortOrder() {
 }
 
 // === Utilities ===
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function closeModal(id) { UI.modal.close(id); }
 
 function toggleExpand(btn) {
   const modal = btn.closest('.modal');
@@ -1019,13 +1002,7 @@ function fmtDT(dt) {
   return d.toLocaleDateString('zh-TW') + ' ' + d.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
 }
 
-function showToast(msg, type) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => { t.className = 'toast'; }, 2500);
-}
+function showToast(msg, type) { UI.toast(msg, type); }
 
 function toggleSidebarMobile() {
   if (window.innerWidth <= 768) {
