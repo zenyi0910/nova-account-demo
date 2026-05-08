@@ -175,13 +175,20 @@ function renderScheduleTab(id, h) {
     schedHtml + '</div>';
 }
 
+let recommendCurrency = 'gold'; // 預設金幣
+
 function renderRecommendHallTab(hallId) {
   const hallGames = games.filter(g => g.hall === hallId);
   const recommended = hallGames.filter(g => g.recommend);
   const notRecommended = hallGames.filter(g => !g.recommend);
 
   let html = '<div class="recommend-tab-content">' +
+    '<div class="recommend-header-row">' +
     '<div class="recommend-desc">推薦遊戲會顯示在前台該廳的推薦區塊，玩家優先看到這些遊戲</div>' +
+    '<div class="currency-toggle-group">' +
+    '<button class="currency-toggle-btn' + (recommendCurrency === 'gold' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'gold\')">金幣</button>' +
+    '<button class="currency-toggle-btn' + (recommendCurrency === 'star' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'star\')">星幣</button>' +
+    '</div></div>' +
     '<div class="recommend-layout">' +
     '<div class="recommend-col">' +
     '<div class="recommend-col-header"><span class="recommend-col-title">已推薦</span><span class="recommend-count">' + recommended.length + '</span></div>' +
@@ -226,6 +233,11 @@ function addToRecommend(gameId) {
 function removeFromRecommend(gameId) {
   const g = games.find(x => x.id === gameId);
   if (g) { g.recommend = false; renderHallDetail(); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
+}
+
+function switchRecommendCurrency(curr) {
+  recommendCurrency = curr;
+  renderHallDetail();
 }
 
 function renderSortTab(hallId) {
