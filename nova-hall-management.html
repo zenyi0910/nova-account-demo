@@ -113,11 +113,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .recommend-tab-content{}
 .recommend-header-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .recommend-desc{font-size:12px;color:#6B7280}
-.currency-toggle-group{display:flex;gap:0;border:1px solid oklch(0.922 0 0);border-radius:20px;overflow:hidden;background:white}
-.currency-toggle-btn{padding:6px 20px;border:none;background:white;color:#666;font-size:13px;cursor:pointer;transition:all 0.2s;position:relative}
-.currency-toggle-btn:first-child{border-right:1px solid oklch(0.922 0 0)}
-.currency-toggle-btn.active{background:#393939;color:white}
-.currency-toggle-btn:hover:not(.active){background:#f5f5f5}
+.currency-toggle-group{display:inline-flex;gap:8px}
+.currency-toggle-btn{padding:6px 20px;border:1px solid oklch(0.85 0 0);border-radius:20px;background:white;color:#9CA3AF;font-size:13px;cursor:pointer;transition:all 0.2s}
+.currency-toggle-btn.active{border:2px solid #374151;color:#111827;font-weight:600}
+.currency-toggle-btn:hover:not(.active){border-color:#6B7280;color:#6B7280}
 .recommend-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .recommend-col{}
 .recommend-col-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid oklch(0.922 0 0)}
