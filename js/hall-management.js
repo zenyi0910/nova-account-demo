@@ -152,10 +152,17 @@ function renderScheduleTab(id, h) {
   if (h.schedules.length > 0) {
     schedHtml = h.schedules.map((s, i) => {
       const repeatBadge = s.repeatText ? '<span style="background:#E0F2FE;color:#0369A1;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">' + s.repeatText + '</span>' : '';
+      let timeDisplay = '';
+      if (s.repeat && s.repeat !== 'once') {
+        timeDisplay = '<span class="sched-time">' + s.start + '</span>' +
+          (s.end ? ' ~ <span class="sched-time">' + s.end + '</span>' : '');
+      } else {
+        timeDisplay = '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
+          (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)');
+      }
       return '<div class="sched-item">' +
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '<div class="sched-text"><span class="sched-time">' + fmtDT(s.start) + '</span>' +
-        (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)') +
+        '<div class="sched-text">' + timeDisplay +
         ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
         repeatBadge +
         (s.note ? '<div class="sched-note">' + s.note + '</div>' : '') + '</div>' +
@@ -641,27 +648,36 @@ function toggleRepeatOptions() {
   const repeat = document.getElementById('sRepeat').value;
   document.getElementById('repeatWeekly').style.display = repeat === 'weekly' ? 'block' : 'none';
   document.getElementById('repeatMonthly').style.display = repeat === 'monthly' ? 'block' : 'none';
+  document.getElementById('schedTimeOnce').style.display = repeat === 'once' ? 'flex' : 'none';
+  document.getElementById('schedTimeRepeat').style.display = repeat !== 'once' ? 'flex' : 'none';
 }
 
 function addSchedule() {
   const id = document.getElementById('sHall').value;
   const action = document.getElementById('sAction').value;
-  const start = document.getElementById('sStart').value;
-  const end = document.getElementById('sEnd').value;
   const note = document.getElementById('sNote').value;
   const repeat = document.getElementById('sRepeat').value;
-  if (!start) { showToast('請選擇開始時間', 'error'); return; }
   
-  let repeatText = '';
-  if (repeat === 'weekly') {
-    const days = Array.from(document.querySelectorAll('#repeatWeekly input:checked')).map(c => c.value);
-    if (days.length === 0) { showToast('請選擇每週幾', 'error'); return; }
-    const dayNames = {0:'日',1:'一',2:'二',3:'三',4:'四',5:'五',6:'六'};
-    repeatText = '每週' + days.map(d => dayNames[d]).join('、');
-  } else if (repeat === 'monthly') {
-    const monthDay = document.getElementById('sMonthDay').value.trim();
-    if (!monthDay) { showToast('請輸入每月幾號', 'error'); return; }
-    repeatText = '每月' + monthDay + '號';
+  let start, end, repeatText = '';
+  
+  if (repeat === 'once') {
+    start = document.getElementById('sStart').value;
+    end = document.getElementById('sEnd').value;
+    if (!start) { showToast('請選擇開始時間', 'error'); return; }
+  } else {
+    start = document.getElementById('sTimeStart').value;
+    end = document.getElementById('sTimeEnd').value;
+    if (!start) { showToast('請選擇開始時間', 'error'); return; }
+    if (repeat === 'weekly') {
+      const days = Array.from(document.querySelectorAll('#repeatWeekly input:checked')).map(c => c.value);
+      if (days.length === 0) { showToast('請選擇每週幾', 'error'); return; }
+      const dayNames = {0:'日',1:'一',2:'二',3:'三',4:'四',5:'五',6:'六'};
+      repeatText = '每週' + days.map(d => dayNames[d]).join('、');
+    } else if (repeat === 'monthly') {
+      const monthDay = document.getElementById('sMonthDay').value.trim();
+      if (!monthDay) { showToast('請輸入每月幾號', 'error'); return; }
+      repeatText = '每月' + monthDay + '號';
+    }
   }
   
   halls[id].schedules.push({ action, start, end, note, repeat, repeatText });
