@@ -94,7 +94,7 @@ function selectHall(id) {
 }
 
 // === Render Hall Detail ===
-let hallDetailTab = 'currency'; // currency, schedule, recommend
+let hallDetailTab = 'schedule'; // schedule, currency, recommend
 
 function switchHallTab(tab) {
   hallDetailTab = tab;
@@ -113,15 +113,13 @@ function renderHallDetail() {
 
   // Tab bar
   const tabs = [
-    {key:'currency', label:'幣種設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>'},
-    {key:'schedule', label:'排程開關', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'},
-    {key:'recommend', label:'推薦設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>'}
+    {key:'schedule', label:'排程開關', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'}
   ];
   const tabHtml = tabs.map(t => '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>').join('');
 
   let bodyHtml = '';
-  if (hallDetailTab === 'currency') bodyHtml = renderCurrencyTab(id, h);
-  else if (hallDetailTab === 'schedule') bodyHtml = renderScheduleTab(id, h);
+  if (hallDetailTab === 'schedule') bodyHtml = renderScheduleTab(id, h);
+  else if (hallDetailTab === 'currency') bodyHtml = renderCurrencyTab(id, h);
   else if (hallDetailTab === 'recommend') bodyHtml = renderRecommendHallTab(id);
   else if (hallDetailTab === 'sort') bodyHtml = renderSortTab(id);
 
@@ -154,13 +152,16 @@ function renderCurrencyTab(id, h) {
   '</div>';
 }
 
+let schedCurrency = 'gold'; // 排程幣種切換
+
 function renderScheduleTab(id, h) {
   let schedHtml = '<div class="sched-empty">尚無排程</div>';
   if (h.schedules.length > 0) {
     schedHtml = h.schedules.map((s, i) => {
+      const currLabel = s.currency === 'star' ? '<span style="color:#9333EA;font-size:10px;margin-right:4px">[星幣]</span>' : '<span style="color:#D97706;font-size:10px;margin-right:4px">[金幣]</span>';
       return '<div class="sched-item">' +
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '<div class="sched-text"><span class="sched-time">' + fmtDT(s.start) + '</span>' +
+        '<div class="sched-text">' + currLabel + '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
         (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)') +
         ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
         (s.note ? ' — ' + s.note : '') + '</div>' +
@@ -169,10 +170,19 @@ function renderScheduleTab(id, h) {
     }).join('');
   }
   return '<div class="sched-tab-content">' +
+    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
+    '<button class="toggle-btn' + (schedCurrency === 'gold' ? ' active' : '') + '" onclick="switchSchedCurrency(\'gold\')">金幣</button>' +
+    '<button class="toggle-btn' + (schedCurrency === 'star' ? ' active' : '') + '" onclick="switchSchedCurrency(\'star\')">星幣</button>' +
+    '</div>' +
     '<div class="sched-tab-header"><span class="sched-tab-desc">設定自動開關排程，到時間自動執行，不需手動操作</span>' +
     '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
     schedHtml + '</div>';
+}
+
+function switchSchedCurrency(curr) {
+  schedCurrency = curr;
+  renderHallDetail();
 }
 
 let recommendCurrency = 'gold'; // 預設金幣
@@ -228,17 +238,100 @@ function renderRecommendHallTab(hallId) {
 
 function addToRecommend(gameId) {
   const g = games.find(x => x.id === gameId);
-  if (g) { g.recommend = true; renderHallDetail(); renderTable(); showToast(g.name + ' 已加入推薦', 'success'); }
+  if (g) { g.recommend = true; renderRecommendModalContent(); renderTable(); showToast(g.name + ' 已加入推薦', 'success'); }
 }
 
 function removeFromRecommend(gameId) {
   const g = games.find(x => x.id === gameId);
-  if (g) { g.recommend = false; renderHallDetail(); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
+  if (g) { g.recommend = false; renderRecommendModalContent(); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
+}
+
+function openRecommendModal() {
+  document.getElementById('recommendModal').classList.add('show');
+  renderRecommendModalContent();
+}
+
+let recommendSubTab = 'recent'; // recent, popular
+
+function renderRecommendModalContent() {
+  const recommended = games.filter(g => g.recommend);
+
+  let html = '<div class="recommend-tab-content">' +
+    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
+    '<button class="toggle-btn' + (recommendCurrency === 'gold' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'gold\')">金幣</button>' +
+    '<button class="toggle-btn' + (recommendCurrency === 'star' ? ' active' : '') + '" onclick="switchRecommendCurrency(\'star\')">星幣</button>' +
+    '</div>' +
+    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
+    '<button class="toggle-btn' + (recommendSubTab === 'recent' ? ' active' : '') + '" onclick="switchRecommendSubTab(\'recent\')">近期爆獎</button>' +
+    '<button class="toggle-btn' + (recommendSubTab === 'popular' ? ' active' : '') + '" onclick="switchRecommendSubTab(\'popular\')">最受歡迎</button>' +
+    '</div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+    '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
+    '<div style="display:flex;gap:8px">' +
+    '<button class="btn btn-outline" style="padding:6px 12px;font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>' +
+    '<button class="btn btn-primary" style="padding:6px 12px;font-size:12px" onclick="addRecommendGame()">+ 新增遊戲</button>' +
+    '</div></div>';
+
+  html += '<table class="data-table"><thead><tr>' +
+    '<th style="width:50px">順序</th>' +
+    '<th style="width:70px">娛樂城</th>' +
+    '<th>遊戲名稱</th>' +
+    '<th style="width:140px">遊戲長條圖</th>' +
+    '<th style="width:80px">操作</th>' +
+    '</tr></thead><tbody>';
+
+  if (recommended.length === 0) {
+    html += '<tr><td colspan="5" style="text-align:center;padding:30px;color:#9CA3AF">尚無推薦遊戲</td></tr>';
+  } else {
+    recommended.forEach((g, i) => {
+      html += '<tr>' +
+        '<td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
+        '<td style="text-align:center">' + g.hall + '</td>' +
+        '<td style="font-weight:500">' + g.name + '</td>' +
+        '<td><div class="recommend-banner-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="15" x2="21" y2="15"/><circle cx="8.5" cy="8.5" r="1.5"/></svg> <span style="color:#9CA3AF;font-size:11px">未設置</span></div></td>' +
+        '<td><div style="display:flex;gap:6px">' +
+        '<button class="btn-icon-action edit" onclick="editRecommendGame(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+        '<button class="btn-icon-action delete" onclick="removeFromRecommend(' + g.id + ')" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+        '</div></td></tr>';
+    });
+  }
+
+  html += '</tbody></table></div>';
+  document.getElementById('recommendModalBody').innerHTML = html;
+}
+
+function switchRecommendSubTab(tab) {
+  recommendSubTab = tab;
+  renderRecommendModalContent();
 }
 
 function switchRecommendCurrency(curr) {
   recommendCurrency = curr;
-  renderHallDetail();
+  renderRecommendModalContent();
+}
+
+function addRecommendGame() {
+  // 找出未推薦的遊戲，加入第一個
+  const notRec = games.filter(g => !g.recommend);
+  if (notRec.length === 0) { showToast('所有遊戲已加入推薦', 'warning'); return; }
+  notRec[0].recommend = true;
+  renderRecommendModalContent();
+  renderTable();
+  showToast(notRec[0].name + ' 已加入推薦', 'success');
+}
+
+function editRecommendGame(gameId) {
+  openDetail(gameId);
+}
+
+function addToRecommend(gameId) {
+  const g = games.find(x => x.id === gameId);
+  if (g) { g.recommend = true; renderRecommendModalContent(); renderTable(); showToast(g.name + ' 已加入推薦', 'success'); }
+}
+
+function removeFromRecommend(gameId) {
+  const g = games.find(x => x.id === gameId);
+  if (g) { g.recommend = false; renderRecommendModalContent(); renderTable(); showToast(g.name + ' 已移除推薦', 'warning'); }
 }
 
 function renderSortTab(hallId) {
@@ -508,11 +601,12 @@ function addSchedule() {
   const start = document.getElementById('sStart').value;
   const end = document.getElementById('sEnd').value;
   const note = document.getElementById('sNote').value;
+  const currency = document.getElementById('sCurrency').value;
   if (!start) { showToast('請選擇開始時間', 'error'); return; }
-  halls[id].schedules.push({ action, start, end, note });
+  halls[id].schedules.push({ action, start, end, note, currency });
   closeModal('schedModal');
   renderHallDetail();
-  showToast('排程已新增：' + halls[id].name, 'success');
+  showToast('排程已新增：' + halls[id].name + ' (' + (currency === 'star' ? '星幣' : '金幣') + ')', 'success');
 }
 
 function delSched(id, idx) {
@@ -558,31 +652,37 @@ function openDetail(gameId) {
   const g = games.find(x => x.id === gameId);
   if (!g) return;
   currentDetailId = gameId;
-  document.getElementById('detailTitle').textContent = g.name + ' — 遊戲詳情';
+  document.getElementById('detailTitle').textContent = '編輯遊戲';
   const h = halls[g.hall];
-  const goldOv = h.gold.min !== g.goldMin || h.gold.max !== g.goldMax;
-  const starOv = h.star.min !== g.starMin || h.star.max !== g.starMax;
 
-  let html = '<div class="detail-section"><h6>基本資訊</h6>' +
-    '<div class="form-row"><div class="form-group"><label>娛樂廳</label><input type="text" value="' + g.hall + ' 娛樂廳" disabled></div>' +
-    '<div class="form-group"><label>種類</label><input type="text" value="' + g.cat + '" disabled></div></div>' +
-    '<div class="form-row"><div class="form-group"><label>狀態</label><select id="dStatus"><option' + (g.status==='使用中'?' selected':'') + '>使用中</option><option' + (g.status==='停用中'?' selected':'') + '>停用中</option><option' + (g.status==='維護中'?' selected':'') + '>維護中</option><option' + (g.status==='即將上線'?' selected':'') + '>即將上線</option></select></div>' +
-    '<div class="form-group"><label>VIP 等級限制</label><select id="dVip"><option value="-"' + (g.vip==='-'?' selected':'') + '>不限制</option><option value="VIP 1"' + (g.vip==='VIP 1'?' selected':'') + '>VIP 1</option><option value="VIP 2"' + (g.vip==='VIP 2'?' selected':'') + '>VIP 2</option><option value="VIP 3"' + (g.vip==='VIP 3'?' selected':'') + '>VIP 3</option></select></div></div>' +
-    '<div class="form-group"><label>標籤</label><select id="dTag"><option value="-">無</option>' + commonTags.map(t => '<option' + (g.tag===t?' selected':'') + '>' + t + '</option>').join('') + '</select></div>' +
-    '<div class="form-group"><label>備註</label><input type="text" id="dNote" value="' + (g.note||'') + '" placeholder="選填"></div></div>';
+  // 模擬遊戲圖片（用 emoji 代替）
+  const gameIcons = {'埃及三秘寶':'🏺','財神倍倍發 X4096':'🧧','印加祖瑪 豪華版':'🗿','財富金幣':'💰','阿茲特克神話':'🌮','自摸無雙 2':'🀄','自摸無雙3':'🀄','法老祕寶':'👑','印加女神':'👸','祖瑪探險':'🌋','星運雷神':'⚡','黃金礦工':'⛏️','龍虎鬥':'🐉','百家樂':'🃏'};
+  const icon = gameIcons[g.name] || '🎮';
 
-  html += '<div class="detail-section"><h6><span class="dot" style="background:#D97706"></span>金幣投注設定</h6>' +
-    (goldOv ? '<div class="info-box" style="margin-bottom:10px">目前為廳級覆蓋（' + h.name + '：$' + h.gold.min.toLocaleString() + ' ~ $' + h.gold.max.toLocaleString() + '）</div>' : '') +
-    '<div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="dGoldMin" value="' + g.goldMin + '"></div>' +
-    '<div class="form-group"><label>最高投注</label><input type="number" id="dGoldMax" value="' + g.goldMax + '"></div></div></div>';
+  let html = '<div class="form-group"><label>狀態</label>' +
+    '<select id="dStatus"><option' + (g.status==='使用中'?' selected':'') + '>使用中</option><option' + (g.status==='停用中'?' selected':'') + '>停用中</option><option' + (g.status==='維護中'?' selected':'') + '>維護中</option><option' + (g.status==='即將上線'?' selected':'') + '>即將上線</option></select></div>';
 
-  html += '<div class="detail-section"><h6><span class="dot" style="background:#7C3AED"></span>星幣投注設定</h6>' +
-    (starOv ? '<div class="info-box" style="margin-bottom:10px">目前為廳級覆蓋（' + h.name + '：$' + h.star.min.toLocaleString() + ' ~ $' + h.star.max.toLocaleString() + '）</div>' : '') +
-    '<div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="dStarMin" value="' + g.starMin + '"></div>' +
-    '<div class="form-group"><label>最高投注</label><input type="number" id="dStarMax" value="' + g.starMax + '"></div></div></div>';
+  html += '<div class="form-group"><label>標籤</label>' +
+    '<select id="dTag"><option value="-">請選擇標籤</option>' + commonTags.map(t => '<option' + (g.tag===t?' selected':'') + '>' + t + '</option>').join('') + '</select></div>';
 
-  html += '<div class="detail-section"><h6>推薦設定</h6>' +
-    '<div class="form-group"><label><input type="checkbox" id="dRecommend"' + (g.recommend?' checked':'') + '> 加入推薦列表（近期爆獎 / 最受歡迎）</label></div></div>';
+  html += '<div class="form-group"><label>圖片 <span style="color:#EF4444">*</span></label>' +
+    '<div class="game-img-preview"><span style="font-size:64px">' + icon + '</span></div>' +
+    '<div style="margin-top:6px;font-size:11px;color:#E97B2C">建議尺寸：615 x 512 px</div></div>';
+
+  html += '<div class="form-group"><label>名稱</label>' +
+    '<input type="text" id="dName" value="' + g.name + '"></div>';
+
+  html += '<div class="form-group"><label>娛樂城</label>' +
+    '<select id="dHall" disabled><option>' + g.hall + '</option></select></div>';
+
+  html += '<div class="form-group"><label>遊戲種類</label>' +
+    '<select id="dCat" disabled><option>' + g.cat + '</option></select></div>';
+
+  html += '<div class="form-group"><label>備註</label>' +
+    '<input type="text" id="dNote" value="' + (g.note||'') + '" placeholder="選填"></div>';
+
+  html += '<div class="form-group"><label>限制VIP等級以上</label>' +
+    '<select id="dVip"><option value="-"' + (g.vip==='-'?' selected':'') + '>不限制</option><option value="VIP 1"' + (g.vip==='VIP 1'?' selected':'') + '>VIP 1</option><option value="VIP 2"' + (g.vip==='VIP 2'?' selected':'') + '>VIP 2</option><option value="VIP 3"' + (g.vip==='VIP 3'?' selected':'') + '>VIP 3</option></select></div>';
 
   document.getElementById('detailBody').innerHTML = html;
   document.getElementById('detailModal').classList.add('show');
@@ -595,11 +695,8 @@ function saveDetail() {
   g.vip = document.getElementById('dVip').value;
   g.tag = document.getElementById('dTag').value;
   g.note = document.getElementById('dNote').value;
-  g.goldMin = parseInt(document.getElementById('dGoldMin').value) || 0;
-  g.goldMax = parseInt(document.getElementById('dGoldMax').value) || 0;
-  g.starMin = parseInt(document.getElementById('dStarMin').value) || 0;
-  g.starMax = parseInt(document.getElementById('dStarMax').value) || 0;
-  g.recommend = document.getElementById('dRecommend').checked;
+  const nameInput = document.getElementById('dName');
+  if (nameInput) g.name = nameInput.value;
   closeModal('detailModal');
   renderTable();
   showToast(g.name + ' 設定已儲存', 'success');
