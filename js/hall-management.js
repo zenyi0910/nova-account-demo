@@ -161,7 +161,6 @@ function renderScheduleTab(id, h) {
   }
   return '<div class="sched-tab-content">' +
     schedHtml +
-    '<div class="info-box" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;vertical-align:middle;margin-right:6px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>設定自動開關排程，到時間自動執行，不需手動操作</div>' +
     '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')" style="margin-top:12px">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button>' +
     '</div>';
@@ -772,7 +771,7 @@ function renderIconManagement() {
   ];
   let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + icons.length + ' 筆資料</span>' +
-    '<button class="btn btn-dark btn-sm" onclick="openAddIconModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
+    '<button class="btn btn-outline btn-sm" onclick="openAddIconModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
   html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">Logo</th><th>Icon名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
   icons.forEach((ic, i) => {
     html += '<tr><td style="text-align:center;color:#6B7280">' + (i + 1) + '</td>' +
@@ -791,7 +790,7 @@ function renderTagsManagement() {
   const container = document.getElementById('commonTabContent');
   let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + commonTags.length + ' 筆資料</span>' +
-    '<button class="btn btn-dark btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
+    '<button class="btn btn-outline btn-sm" onclick="addTagPrompt()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增</button></div>';
   html += '<table class="data-table"><thead><tr><th style="width:50px">順序</th><th style="width:50px">圖片</th><th>標籤名稱</th><th style="width:80px">操作</th></tr></thead><tbody>';
   const tagIcons = {
     '超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'
