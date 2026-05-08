@@ -505,9 +505,6 @@ function switchCurrTab(tab) {
 
 function filterGames() { renderTable(); }
 
-let gameCurrency = 'gold'; // 遊戲列表幣種切換
-let gameCat = ''; // 遊戲類型篩選
-
 function switchGameCurrency(curr) {
   gameCurrency = curr;
   const btns = document.querySelectorAll('#currencySegment .seg-btn');
