@@ -94,7 +94,7 @@ function selectHall(id) {
 }
 
 // === Render Hall Detail ===
-let hallDetailTab = 'currency'; // currency, schedule, recommend, sort
+let hallDetailTab = 'currency'; // currency, schedule, recommend
 
 function switchHallTab(tab) {
   hallDetailTab = tab;
@@ -115,8 +115,7 @@ function renderHallDetail() {
   const tabs = [
     {key:'currency', label:'幣種設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>'},
     {key:'schedule', label:'排程開關', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'},
-    {key:'recommend', label:'推薦設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>'},
-    {key:'sort', label:'遊戲排序', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="14" y2="15"/><line x1="4" y1="3" x2="16" y2="3"/><line x1="4" y1="21" x2="10" y2="21"/></svg>'}
+    {key:'recommend', label:'推薦設定', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>'}
   ];
   const tabHtml = tabs.map(t => '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>').join('');
 
@@ -330,10 +329,9 @@ let currentCurrTab = 'gold'; // gold or star
 // === Render Game Table ===
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();
-  const hallF = currentHall;
   const statusF = document.getElementById('filterStatus').value;
   const catF = document.getElementById('filterCat').value;
-  // Advanced filters
+  // Advanced filters (now inline)
   const hallAdvEl = document.getElementById('filterHallAdv');
   const tagAdvEl = document.getElementById('filterTagAdv');
   const vipAdvEl = document.getElementById('filterVipAdv');
@@ -342,7 +340,6 @@ function renderTable() {
   const vipAdv = vipAdvEl ? vipAdvEl.value : '';
   const filtered = games.filter(g => {
     if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
-    if (hallF && g.hall !== hallF) return false;
     if (statusF && g.status !== statusF) return false;
     if (catF && g.cat !== catF) return false;
     if (hallAdv && g.hall !== hallAdv) return false;
@@ -413,15 +410,17 @@ function resetFilters() {
   document.getElementById('filterName').value = '';
   document.getElementById('filterStatus').value = '';
   document.getElementById('filterCat').value = '';
+  const hallAdvEl = document.getElementById('filterHallAdv');
+  const tagAdvEl = document.getElementById('filterTagAdv');
+  const vipAdvEl = document.getElementById('filterVipAdv');
+  if (hallAdvEl) hallAdvEl.value = '';
+  if (tagAdvEl) tagAdvEl.value = '';
+  if (vipAdvEl) vipAdvEl.value = '';
   renderTable();
 }
 
 function toggleAdvFilter() {
-  const panel = document.getElementById('advFilterPanel');
-  if (!panel) return;
-  const isOpen = panel.classList.contains('show');
-  panel.classList.toggle('show');
-  document.getElementById('advFilterBtn').textContent = isOpen ? '進階篩選' : '收起篩選';
+  // Removed - filters are now inline
 }
 
 function applyAdvFilter() {

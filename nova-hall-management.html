@@ -326,16 +326,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
         <div class="filter-group"><label>狀態</label><select id="filterStatus"><option value="">選擇狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
         <div class="filter-group"><label>種類</label><select id="filterCat"><option value="">選擇種類</option></select></div>
+        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">全部</option></select></div>
+        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">全部</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
+        <div class="filter-group"><label>VIP 等級</label><select id="filterVipAdv"><option value="">全部</option><option>不限制</option><option>VIP1</option></select></div>
         <div class="filter-actions">
           <button class="btn btn-primary btn-sm" onclick="filterGames()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 搜尋</button>
           <button class="btn btn-outline btn-sm" onclick="resetFilters()">重置</button>
         </div>
-      </div>
-      <div class="filter-advanced-toggle"><button class="btn-link" id="advFilterBtn" onclick="toggleAdvFilter()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg> 進階篩選</button></div>
-      <div class="adv-filter-panel" id="advFilterPanel">
-        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">全部</option></select></div>
-        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">全部</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
-        <div class="filter-group"><label>VIP 等級</label><select id="filterVipAdv"><option value="">全部</option><option>不限制</option><option>VIP1</option></select></div>
       </div>
       <div class="table-info">
         <span id="gameCount">第 1 頁，共 20 筆資料</span>
@@ -420,6 +417,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<script src="js/hall-management.js?v=3"></script>
+<script src="js/hall-management.js?v=4"></script>
 </body>
 </html>
