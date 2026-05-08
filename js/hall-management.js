@@ -255,15 +255,15 @@ function renderRecommendModalContent() {
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
     (recommendSortMode ?
-      '<button class="btn-recommend-cancel" onclick="cancelRecommendSort()">取消</button>' +
-      '<button class="btn-recommend-save" onclick="saveRecommendSort()">' + UI.icon.save + ' 儲存排序</button>'
+      UI.btn.outline('取消', 'cancelRecommendSort()') +
+      UI.btn.dark('儲存排序', 'saveRecommendSort()')
       : ''
     ) +
     '</div></div>' +
     (recommendSortMode ? '' :
       '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">' +
-      '<button class="btn-recommend-add" onclick="openAddRecommendModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增遊戲</button>' +
-      '<button class="btn-recommend-sort" onclick="toggleRecommendSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 編輯排序</button>' +
+      UI.btn.add('新增遊戲', 'openAddRecommendModal()') +
+      UI.btn.secondary('編輯排序', 'toggleRecommendSortMode()', {icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> '}) +
       '</div>'
     );
 
@@ -855,8 +855,8 @@ function openTagEditModal(idx) {
     '<div style="margin-top:8px;font-size:11px;color:#9CA3AF">建議尺寸：200x200px，支援 PNG/JPG</div></div>' +
     '</div>' +
     '<div class="modal-footer">' +
-    '<button class="btn-tag-cancel" onclick="closeTagEditModal()">取消</button>' +
-    '<button class="btn-tag-save" onclick="saveTagFromModal(' + idx + ')">儲存</button>' +
+    UI.btn.outline('取消', 'closeTagEditModal()') +
+    UI.btn.dark('儲存', "saveTagFromModal(" + idx + ")") +
     '</div></div></div>';
 
   document.body.insertAdjacentHTML('beforeend', html);
