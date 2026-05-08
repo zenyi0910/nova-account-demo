@@ -111,17 +111,8 @@ function renderHallDetail() {
   const h = halls[id];
   const gameCount = games.filter(g => g.hall === id).length;
 
-  // Tab bar
-  const tabs = [
-    {key:'schedule', label:'排程開關', icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'}
-  ];
-  const tabHtml = tabs.map(t => '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>').join('');
-
-  let bodyHtml = '';
-  if (hallDetailTab === 'schedule') bodyHtml = renderScheduleTab(id, h);
-  else if (hallDetailTab === 'currency') bodyHtml = renderCurrencyTab(id, h);
-  else if (hallDetailTab === 'recommend') bodyHtml = renderRecommendHallTab(id);
-  else if (hallDetailTab === 'sort') bodyHtml = renderSortTab(id);
+  // Tab bar - 只有排程開關，不需要 tab 形式，直接顯示
+  let bodyHtml = renderScheduleTab(id, h);
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
@@ -130,7 +121,7 @@ function renderHallDetail() {
       '<span class="spacer"></span>' +
       '<button class="toggle ' + h.status + '" onclick="requestToggle(\'' + id + '\')"></button>' +
     '</div>' +
-    '<div class="hall-detail-tabs">' + tabHtml + '</div>' +
+    '<div class="hall-section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 排程開關</div>' +
     '<div class="hall-tab-body">' + bodyHtml + '</div>' +
   '</div>';
 
@@ -152,16 +143,13 @@ function renderCurrencyTab(id, h) {
   '</div>';
 }
 
-let schedCurrency = 'gold'; // 排程幣種切換
-
 function renderScheduleTab(id, h) {
   let schedHtml = '<div class="sched-empty">尚無排程</div>';
   if (h.schedules.length > 0) {
     schedHtml = h.schedules.map((s, i) => {
-      const currLabel = s.currency === 'star' ? '<span style="color:#9333EA;font-size:10px;margin-right:4px">[星幣]</span>' : '<span style="color:#D97706;font-size:10px;margin-right:4px">[金幣]</span>';
       return '<div class="sched-item">' +
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '<div class="sched-text">' + currLabel + '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
+        '<div class="sched-text"><span class="sched-time">' + fmtDT(s.start) + '</span>' +
         (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)') +
         ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
         (s.note ? ' — ' + s.note : '') + '</div>' +
@@ -170,19 +158,10 @@ function renderScheduleTab(id, h) {
     }).join('');
   }
   return '<div class="sched-tab-content">' +
-    '<div class="toggle-btn-group" style="margin-bottom:12px">' +
-    '<button class="toggle-btn' + (schedCurrency === 'gold' ? ' active' : '') + '" onclick="switchSchedCurrency(\'gold\')">金幣</button>' +
-    '<button class="toggle-btn' + (schedCurrency === 'star' ? ' active' : '') + '" onclick="switchSchedCurrency(\'star\')">星幣</button>' +
-    '</div>' +
     '<div class="sched-tab-header"><span class="sched-tab-desc">設定自動開關排程，到時間自動執行，不需手動操作</span>' +
     '<button class="add-sched-btn" onclick="openSchedModal(\'' + id + '\')">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:10px;height:10px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增排程</button></div>' +
     schedHtml + '</div>';
-}
-
-function switchSchedCurrency(curr) {
-  schedCurrency = curr;
-  renderHallDetail();
 }
 
 let recommendCurrency = 'gold'; // 預設金幣
@@ -622,12 +601,11 @@ function addSchedule() {
   const start = document.getElementById('sStart').value;
   const end = document.getElementById('sEnd').value;
   const note = document.getElementById('sNote').value;
-  const currency = document.getElementById('sCurrency').value;
   if (!start) { showToast('請選擇開始時間', 'error'); return; }
-  halls[id].schedules.push({ action, start, end, note, currency });
+  halls[id].schedules.push({ action, start, end, note });
   closeModal('schedModal');
   renderHallDetail();
-  showToast('排程已新增：' + halls[id].name + ' (' + (currency === 'star' ? '星幣' : '金幣') + ')', 'success');
+  showToast('排程已新增：' + halls[id].name, 'success');
 }
 
 function delSched(id, idx) {
