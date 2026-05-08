@@ -288,6 +288,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .adv-filter-toggle:hover{color:#374151}
 .adv-filter-panel{display:flex;gap:12px;flex-wrap:wrap;padding:12px 0;border-top:1px solid oklch(0.922 0 0)}
 .hall-section-title{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#374151;padding:10px 16px;border-bottom:1px solid oklch(0.922 0 0)}
+.detail-field{display:flex;flex-direction:column;gap:4px}
+.detail-field label{font-size:11px;color:#6B7280;font-weight:500}
+.detail-field .detail-val{font-size:13px;color:#1F2937;font-weight:500}
 .form-control{width:100%;padding:8px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit}
 .modal.expanded{max-width:95vw!important;width:95vw!important;max-height:95vh!important;height:95vh!important}
 .modal-expand{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:14px;margin-right:4px}
@@ -500,7 +503,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal" style="max-width:600px">
     <div class="modal-header"><h3 id="detailTitle">遊戲詳情</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
     <div class="modal-body" id="detailBody"></div>
-    <div class="modal-footer"><button class="btn-tag-cancel" onclick="closeModal('detailModal')">取消</button><button class="btn-tag-save" onclick="saveDetail()">儲存</button></div>
+    <div class="modal-footer" id="detailFooter"><button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button><button class="btn btn-primary" onclick="openEditDetail(currentDetailId)">編輯</button></div>
   </div>
 </div>
 <div class="toast" id="toast"></div>

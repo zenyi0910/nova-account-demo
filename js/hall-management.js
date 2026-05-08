@@ -436,7 +436,7 @@ function renderTable() {
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = filtered.map((g, idx) => {
     const bc = g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon';
-    const tagDisplay = g.tag === '-' ? '-' : '<span class="tag-badge">' + g.tag + '</span>';
+    const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span style="color:#9CA3AF">' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
     return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
@@ -448,7 +448,7 @@ function renderTable() {
       '<td><button class="game-name-link" onclick="openDetail(' + g.id + ')">' + g.name + '</button></td>' +
       '<td><span class="badge ' + bc + '">' + g.status + '</span></td>' +
       '<td>' + g.vip + '</td>' +
-      '<td class="action-cell"><button class="btn-edit-icon" onclick="openDetail(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>' +
+      '<td class="action-cell"><button class="btn-edit-icon" onclick="openEditDetail(' + g.id + ')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td>' +
       '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
@@ -567,13 +567,10 @@ function openBatchMaintModal() {
 }
 
 function initFilters() {
-  const cats = [...new Set(games.map(g => g.cat))].sort();
-  const catSel = document.getElementById('filterCat');
-  catSel.innerHTML = '<option value="">選擇種類</option>' + cats.map(c => '<option>' + c + '</option>').join('');
   // Populate advanced hall filter
   const hallAdvSel = document.getElementById('filterHallAdv');
   if (hallAdvSel) {
-    hallAdvSel.innerHTML = '<option value="">全部</option>' + Object.keys(halls).map(k => '<option value="' + k + '">' + k + '</option>').join('');
+    hallAdvSel.innerHTML = '<option value="">選擇娛樂城</option>' + Object.keys(halls).map(k => '<option value="' + k + '">' + k + '</option>').join('');
   }
 }
 
@@ -665,11 +662,42 @@ function openDetail(gameId) {
   const g = games.find(x => x.id === gameId);
   if (!g) return;
   currentDetailId = gameId;
-  document.getElementById('detailTitle').textContent = '編輯遊戲';
-  const h = halls[g.hall];
+  document.getElementById('detailTitle').textContent = '遊戲詳細資訊';
 
-  // 模擬遊戲圖片（用 emoji 代替）
-  const gameIcons = {'埃及三秘寶':'🏺','財神倍倍發 X4096':'🧧','印加祖瑪 豪華版':'🗿','財富金幣':'💰','阿茲特克神話':'🌮','自摸無雙 2':'🀄','自摸無雙3':'🀄','法老祕寶':'👑','印加女神':'👸','祖瑪探險':'🌋','星運雷神':'⚡','黃金礦工':'⛏️','龍虎鬥':'🐉','百家樂':'🃏'};
+  // 模擬遊戲圖片
+  const gameImages = {'埃及三秘寶':'https://picsum.photos/seed/egypt/615/512','財神倍倍發 X4096':'https://picsum.photos/seed/god/615/512','印加祖瑪 豪華版':'https://picsum.photos/seed/inca/615/512','財富金幣':'https://picsum.photos/seed/gold/615/512','阿茲特克神話':'https://picsum.photos/seed/aztec/615/512','自摸無雙 2':'https://picsum.photos/seed/mj2/615/512','法老祕寶':'https://picsum.photos/seed/pharaoh/615/512','祖瑪探險':'https://picsum.photos/seed/zuma/615/512','星運雷神':'https://picsum.photos/seed/thor/615/512'};
+  const imgUrl = gameImages[g.name] || 'https://picsum.photos/seed/' + g.id + '/615/512';
+
+  let html = '<div class="detail-section">' +
+    '<h6><span class="dot" style="background:#2563EB"></span> 基本資訊</h6>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+    '<div class="detail-field"><label>名稱</label><div class="detail-val">' + g.name + '</div></div>' +
+    '<div class="detail-field"><label>種類</label><div class="detail-val">' + g.cat + '</div></div>' +
+    '<div class="detail-field"><label>娛樂城</label><div class="detail-val">' + g.hall + '</div></div>' +
+    '<div class="detail-field"><label>狀態</label><div class="detail-val"><span class="badge ' + (g.status === '使用中' ? 'badge-on' : g.status === '停用中' ? 'badge-off' : g.status === '維護中' ? 'badge-maint' : 'badge-soon') + '">' + g.status + '</span></div></div>' +
+    '<div class="detail-field"><label>標籤</label><div class="detail-val">' + (g.tag === '-' ? '-' : g.tag) + '</div></div>' +
+    '<div class="detail-field"><label>限制VIP等級以上</label><div class="detail-val">' + g.vip + '</div></div>' +
+    '<div class="detail-field" style="grid-column:1/-1"><label>備註</label><div class="detail-val">' + (g.note || '-') + '</div></div>' +
+    '</div></div>';
+
+  html += '<div class="detail-section">' +
+    '<h6><span class="dot" style="background:#D97706"></span> 圖片預覽</h6>' +
+    '<div style="text-align:center">' +
+    '<img src="' + imgUrl + '" style="max-width:100%;height:auto;border-radius:8px;border:1px solid oklch(0.922 0 0)" onerror="this.style.display=\'none\'">' +
+    '<div style="margin-top:8px;font-size:11px;color:#6B7280">點擊圖片可在新視窗中檢視原圖</div>' +
+    '</div></div>';
+
+  document.getElementById('detailBody').innerHTML = html;
+  document.getElementById('detailModal').classList.add('show');
+}
+
+function openEditDetail(gameId) {
+  const g = games.find(x => x.id === gameId);
+  if (!g) return;
+  currentDetailId = gameId;
+  document.getElementById('detailTitle').textContent = '編輯遊戲';
+
+  const gameIcons = {'埃及三秘寶':'🏺','財神倍倍發 X4096':'🧧','印加祖瑪 豪華版':'🗿','財富金幣':'💰','阿茲特克神話':'🌮','自摸無雙 2':'🀄','自摸無雙3':'🀄','法老祕寶':'👑','印加女神':'👸','祖瑪探險':'🌋','星運雷神':'⚡'};
   const icon = gameIcons[g.name] || '🎮';
 
   let html = '<div class="form-group"><label>狀態</label>' +
