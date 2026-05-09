@@ -126,10 +126,6 @@ function renderHallDetail() {
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      '<button class="btn-quick-off' + (h.status === 'off' ? ' is-off' : '') + '" onclick="quickToggleHall(\'' + id + '\')">' +
-        (h.status === 'on' ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg> 快速關閉' :
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg> 立即開啟') +
-      '</button>' +
       UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
     overrideTip +
@@ -471,27 +467,23 @@ function renderTable() {
   document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = filtered.map((g, idx) => {
-    const hallOff = halls[g.hall] && halls[g.hall].status === 'off';
     const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span>' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
-    const statusCell = hallOff
-      ? '<span class="badge badge-override" title="娛樂廳已關閉，覆蓋中">廳關閉</span>'
-      : UI.statusBadge(g.status);
-    return '<tr class="' + (hallOff ? 'row-hall-off' : '') + '"' + (sortMode ? ' draggable="true"' : '') + '>' +
+    return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
       dragHandle +
       sortNum +
       '<td>' + tagDisplay + '</td>' +
       '<td>' + g.hall + '</td>' +
       '<td>' + g.cat + '</td>' +
       '<td><button class="game-name-link" onclick="openDetail(' + g.id + ')">' + g.name + '</button></td>' +
-      '<td>' + statusCell + '</td>' +
+      '<td>' + UI.statusBadge(g.status) + '</td>' +
       '<td>' + g.vip + '</td>' +
       '<td class="action-cell">' +
         '<button class="btn-edit-icon" onclick="openEditDetail(' + g.id + ')" title="編輯">' + UI.icon.edit + '</button>' +
         '<button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>' +
       '</td>' +
-      '<td class="note-cell">' + (hallOff ? '<span style="color:#DC2626;font-size:10px">廳級覆蓋</span>' : (g.note || '')) + '</td>' +
+      '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
   // Update table header for sort mode
@@ -627,17 +619,6 @@ function requestToggle(id) {
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
   document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
-}
-
-// 快速開關（不需要維護中）
-function quickToggleHall(id) {
-  const h = halls[id];
-  const ns = h.status === 'on' ? 'off' : 'on';
-  h.status = ns;
-  initHallSelector();
-  renderHallDetail();
-  renderTable();
-  showToast(h.name + (ns === 'on' ? ' 已開啟' : ' 已快速關閉'), ns === 'on' ? 'success' : 'warning');
 }
 
 // 清除全部排程
