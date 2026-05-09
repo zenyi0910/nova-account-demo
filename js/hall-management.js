@@ -114,12 +114,6 @@ function renderHallDetail() {
   const gameCount = games.filter(g => g.hall === id).length;
 
   const schedHtml = renderScheduleTab(id, h);
-  const currHtml = renderCurrencyTab(id, h);
-
-  // 覆蓋提示
-  const overrideTip = '<div class="override-tip">' +
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
-    '<span>娛樂廳設定優先覆蓋個別遊戲設定，但不會修改遊戲原始值。關閉覆蓋後遊戲恢復自身設定。</span></div>';
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
@@ -128,15 +122,10 @@ function renderHallDetail() {
       '<span class="spacer"></span>' +
       UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
-    overrideTip +
     '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
     UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + ' ' +
     UI.btn.icon('delete', "delAllSched('" + id + "')", '清除全部排程') + '</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
-    '<div class="hall-section-title" style="margin-top:16px">' +
-      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-      ' 幣別設定</div>' +
-    '<div class="hall-tab-body">' + currHtml + '</div>' +
   '</div>';
 
   document.getElementById('hallDetail').innerHTML = html;
