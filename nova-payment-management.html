@@ -156,6 +156,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Blocked row (provider off) */
 .row-blocked td{opacity:.5;background:#FEF2F2}
 .row-blocked td:first-child{border-left:3px solid #EF4444}
+
+/* Disabled banner */
+.disabled-banner{padding:10px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;gap:8px;font-size:13px;color:#991B1B}
 </style>
 </head>
 <body>
@@ -212,6 +215,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <button class="toggle on" id="detailToggle" onclick="toggleProvider()"></button>
       </div>
       <div class="detail-body">
+        <!-- Disabled Banner -->
+        <div id="disabledBanner" class="disabled-banner" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          此供應商已停用，底下所有支付方式與通道均無法使用
+        </div>
         <!-- Schedule -->
         <div class="sched-section">
           <div class="sched-title">

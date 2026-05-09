@@ -176,6 +176,11 @@ function renderDetail() {
   document.getElementById('detailName').textContent = p.name + ' (' + p.code + ')';
   var toggle = document.getElementById('detailToggle');
   toggle.className = 'toggle ' + p.status;
+
+  // Show/hide disabled banner
+  var banner = document.getElementById('disabledBanner');
+  if (banner) banner.style.display = p.status === 'off' ? '' : 'none';
+
   renderSchedules();
   renderTable();
 }
