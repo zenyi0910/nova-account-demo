@@ -42,16 +42,102 @@ const amounts = [
   {id:'a5',provider:'startest',method:'測試支付',channel:'測試通道A',values:[10,50,100],status:'on'}
 ];
 
+// 商城管理資料
+const storeGeneral = [
+  {id:'sg1',name:'MyCard 點數卡 50元',provider:'mycard',method:'點數卡',amount:50,sort:1,status:'on'},
+  {id:'sg2',name:'MyCard 點數卡 100元',provider:'mycard',method:'點數卡',amount:100,sort:2,status:'on'},
+  {id:'sg3',name:'MyCard 點數卡 300元',provider:'mycard',method:'點數卡',amount:300,sort:3,status:'on'},
+  {id:'sg4',name:'MyCard 點數卡 500元',provider:'mycard',method:'點數卡',amount:500,sort:4,status:'on'},
+  {id:'sg5',name:'Gash 點數卡 100元',provider:'gash',method:'點數卡',amount:100,sort:5,status:'on'},
+  {id:'sg6',name:'Gash 點數卡 500元',provider:'gash',method:'點數卡',amount:500,sort:6,status:'on'},
+  {id:'sg7',name:'LINE Pay 300元',provider:'linepay',method:'行動支付',amount:300,sort:7,status:'on'},
+  {id:'sg8',name:'LINE Pay 1000元',provider:'linepay',method:'行動支付',amount:1000,sort:8,status:'on'}
+];
+
+const storeFast = [
+  {id:'sf1',name:'快速儲值 100元',provider:'mycard',method:'點數卡',amount:100,sort:1,status:'on'},
+  {id:'sf2',name:'快速儲值 300元',provider:'mycard',method:'點數卡',amount:300,sort:2,status:'on'},
+  {id:'sf3',name:'快速儲值 500元',provider:'gash',method:'點數卡',amount:500,sort:3,status:'on'},
+  {id:'sf4',name:'快速儲值 1000元',provider:'linepay',method:'行動支付',amount:1000,sort:4,status:'on'}
+];
+
 let currentProvider = 'mycard';
 let currentTab = 'methods';
 let currentPage = 1;
+let currentSection = 'payment'; // 'payment' or 'store'
+let currentStoreTab = 'general'; // 'general' or 'fast'
 const pageSize = 10;
 
 // === Init ===
 function init() {
+  renderSectionTabs();
   renderProviders();
   renderDetail();
 }
+
+// === Section Tabs (三方支付 / 商城管理) ===
+function renderSectionTabs() {
+  var container = document.getElementById('sectionTabs');
+  if (!container) return;
+  container.innerHTML =
+    '<button class="section-tab' + (currentSection === 'payment' ? ' active' : '') + '" onclick="switchSection(\'payment\',this)">三方支付設定</button>' +
+    '<button class="section-tab' + (currentSection === 'store' ? ' active' : '') + '" onclick="switchSection(\'store\',this)">商城管理</button>';
+}
+
+function switchSection(section, el) {
+  currentSection = section;
+  currentPage = 1;
+  document.querySelectorAll('.section-tab').forEach(function(b){ b.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  // Show/hide panels
+  document.getElementById('paymentSection').style.display = section === 'payment' ? '' : 'none';
+  document.getElementById('storeSection').style.display = section === 'store' ? '' : 'none';
+  if (section === 'store') renderStoreTable();
+}
+
+// === Store Section ===
+function switchStoreTab(tab, el) {
+  currentStoreTab = tab;
+  currentPage = 1;
+  document.querySelectorAll('.store-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  renderStoreTable();
+}
+
+function renderStoreTable() {
+  var container = document.getElementById('storeTableContainer');
+  if (!container) return;
+  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
+
+  var total = data.length;
+  var totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+  var start = (currentPage - 1) * pageSize;
+  var pageData = data.slice(start, start + pageSize);
+
+  var rows = pageData.map(function(item) {
+    var blocked = providerOff.indexOf(item.provider) >= 0;
+    var rowCls = blocked ? ' class="row-blocked"' : '';
+    var statusHtml = blocked ?
+      '<span class="status-badge off">供應商停用</span>' :
+      '<span class="status-badge ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span>';
+    return '<tr' + rowCls + '><td>' + item.name + '</td><td>' + item.provider + '</td><td>' + item.method + '</td><td>$' + item.amount + '</td><td>' + item.sort + '</td><td>' + statusHtml + '</td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px"' + (blocked ? ' disabled' : '') + '>編輯</button></td></tr>';
+  }).join('');
+
+  if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+
+  container.innerHTML = '<table class="data-table"><thead><tr><th>商品名稱</th><th>供應商</th><th>支付方式</th><th>金額</th><th>排序</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+
+  document.getElementById('storePageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
+  var pageBtns = '';
+  for (var i = 1; i <= totalPages; i++) {
+    pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goStorePage(' + i + ')">' + i + '</button>';
+  }
+  document.getElementById('storePageButtons').innerHTML = pageBtns;
+}
+
+function goStorePage(p) { currentPage = p; renderStoreTable(); }
 
 // === Provider Cards ===
 function renderProviders() {

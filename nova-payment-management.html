@@ -147,6 +147,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .channel-item:hover{background:#F9FAFB}
 .channel-item .ch-name{flex:1}
 .channel-item .ch-code{font-size:11px;color:#9CA3AF;font-family:monospace}
+/* Section tabs */
+.section-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid oklch(0.922 0 0)}
+.section-tab{padding:12px 24px;font-size:14px;font-weight:500;color:#6B7280;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.section-tab:hover{color:#374151}
+.section-tab.active{color:#4338CA;border-bottom-color:#4338CA;font-weight:600}
+
+/* Blocked row (provider off) */
+.row-blocked td{opacity:.5;background:#FEF2F2}
+.row-blocked td:first-child{border-left:3px solid #EF4444}
 </style>
 </head>
 <body>
@@ -187,6 +196,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span>Tips</span> 關閉供應商將停用底下所有支付方式與付款通道，重新啟用不影響個別通道設定
     </div>
 
+    <!-- Section Tabs -->
+    <div id="sectionTabs" class="section-tabs"></div>
+
+    <!-- Payment Section -->
+    <div id="paymentSection">
     <!-- Provider Cards -->
     <div class="provider-grid" id="providerGrid"></div>
 
@@ -240,6 +254,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
       </div>
     </div>
+    </div><!-- /paymentSection -->
+
+    <!-- Store Section -->
+    <div id="storeSection" style="display:none">
+      <div class="tips-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Tips</span> 供應商停用時，對應的商城商品將無法購買（顯示為灰色）
+      </div>
+      <div class="tab-bar">
+        <button class="store-tab-btn tab-btn active" onclick="switchStoreTab('general',this)">一般儲值</button>
+        <button class="store-tab-btn tab-btn" onclick="switchStoreTab('fast',this)">快速儲值</button>
+      </div>
+      <div id="storeTableContainer"></div>
+      <div class="pagination">
+        <span id="storePageInfo"></span>
+        <div class="pagination-pages" id="storePageButtons"></div>
+      </div>
+    </div><!-- /storeSection -->
+
   </div>
 </div>
 
