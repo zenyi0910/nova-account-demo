@@ -344,6 +344,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .table-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
 .table-info-right{display:flex;align-items:center;gap:6px}
 .page-size-select{padding:3px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit}
+.pg-btn{padding:4px 10px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;background:#fff;cursor:pointer;font-family:inherit;min-width:30px}
+.pg-btn:hover:not(:disabled):not(.active){background:#F3F4F6}
+.pg-btn.active{background:#393939;color:#fff;border-color:#393939}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed}
+.pg-dots{font-size:12px;color:#9CA3AF;padding:0 2px}
 /* Game name link */
 .game-name-link{background:none;border:none;color:#2563EB;cursor:pointer;font-size:13px;font-family:inherit;text-align:left;padding:0}
 .game-name-link:hover{text-decoration:underline}
@@ -436,9 +441,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <button class="btn btn-sort" id="sortModeBtn" onclick="toggleSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="9" y2="18"/></svg> 編輯排序</button>
           <button class="btn btn-sort-outline" id="cancelSortBtn" style="display:none" onclick="cancelSortMode()">取消</button>
           <button class="btn btn-sort-fill" id="saveSortBtn" style="display:none" onclick="saveSortOrder()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存排序</button>
-          每頁顯示 <select class="page-size-select"><option>20</option><option>50</option><option>100</option></select> 筆
+          每頁顯示 <select class="page-size-select" id="pageSizeSelect" onchange="changePageSize()"><option>20</option><option>50</option><option>100</option></select> 筆
         </span>
       </div>
+      <div class="pagination-bar" id="paginationBar" style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:12px;padding:8px 0"></div>
       <div style="overflow-x:auto">
         <table class="data-table">
           <thead><tr><th>序號</th><th>標籤</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP 等級以上</th><th>操作</th><th>備註</th></tr></thead>

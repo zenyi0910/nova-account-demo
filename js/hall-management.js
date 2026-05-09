@@ -431,6 +431,20 @@ function cancelCurrEdit(hallId, type) {
 let currentCurrTab = 'gold'; // gold or star
 
 // === Render Game Table ===
+let currentPage = 1;
+let pageSize = 20;
+
+function changePageSize() {
+  pageSize = parseInt(document.getElementById('pageSizeSelect').value);
+  currentPage = 1;
+  renderTable();
+}
+
+function goToPage(p) {
+  currentPage = p;
+  renderTable();
+}
+
 function renderTable() {
   const nameF = document.getElementById('filterName').value.toLowerCase();
   const statusF = document.getElementById('filterStatus').value;
@@ -449,12 +463,17 @@ function renderTable() {
     if (vipAdv && g.vip !== vipAdv) return false;
     return true;
   });
-  document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * pageSize;
+  const paged = filtered.slice(start, start + pageSize);
+  document.getElementById('gameCount').textContent = '第 ' + currentPage + ' 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = filtered.map((g, idx) => {
+  tbody.innerHTML = paged.map((g, idx) => {
+    const globalIdx = start + idx;
     const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span>' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
-    const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
+    const sortNum = sortMode ? '<td class="sort-num">' + (globalIdx + 1) + '</td>' : '<td>' + (globalIdx + 1) + '</td>';
     return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
       dragHandle +
       sortNum +
@@ -471,6 +490,8 @@ function renderTable() {
       '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
+  // Pagination bar
+  renderPagination(totalPages);
   // Update table header for sort mode
   const thead = document.querySelector('.data-table thead tr');
   if (sortMode) {
@@ -482,6 +503,23 @@ function renderTable() {
     if (sortTh) sortTh.remove();
   }
   if (sortMode) initDragSort();
+}
+
+function renderPagination(totalPages) {
+  const bar = document.getElementById('paginationBar');
+  if (!bar || totalPages <= 1) { if (bar) bar.innerHTML = ''; return; }
+  let html = '<button class="pg-btn" onclick="goToPage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
+  const maxVisible = 7;
+  let startP = Math.max(1, currentPage - 3);
+  let endP = Math.min(totalPages, startP + maxVisible - 1);
+  if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
+  if (startP > 1) html += '<button class="pg-btn" onclick="goToPage(1)">1</button><span class="pg-dots">...</span>';
+  for (let i = startP; i <= endP; i++) {
+    html += '<button class="pg-btn' + (i === currentPage ? ' active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
+  }
+  if (endP < totalPages) html += '<span class="pg-dots">...</span><button class="pg-btn" onclick="goToPage(' + totalPages + ')">' + totalPages + '</button>';
+  html += '<button class="pg-btn" onclick="goToPage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>&rsaquo;</button>';
+  bar.innerHTML = html;
 }
 
 function toggleMoreMenu(event, gameId) {
