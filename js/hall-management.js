@@ -508,7 +508,43 @@ function renderTable() {
 function renderPagination(totalPages) {
   const bar = document.getElementById('paginationBar');
   if (!bar || totalPages <= 1) { if (bar) bar.innerHTML = ''; return; }
-  let html = '<button class="pg-btn" onclick="goToPage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
+  const start = (currentPage - 1) * pageSize + 1;
+  const end = Math.min(currentPage * pageSize, games.filter(g => {
+    const nameF = document.getElementById('filterName').value.toLowerCase();
+    const statusF = document.getElementById('filterStatus').value;
+    const hallAdvEl = document.getElementById('filterHallAdv');
+    const tagAdvEl = document.getElementById('filterTagAdv');
+    const vipAdvEl = document.getElementById('filterVipAdv');
+    const hallAdv = hallAdvEl ? hallAdvEl.value : '';
+    const tagAdv = tagAdvEl ? tagAdvEl.value : '';
+    const vipAdv = vipAdvEl ? vipAdvEl.value : '';
+    if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
+    if (statusF && g.status !== statusF) return false;
+    if (gameCat && g.cat !== gameCat) return false;
+    if (hallAdv && g.hall !== hallAdv) return false;
+    if (tagAdv && g.tag !== tagAdv) return false;
+    if (vipAdv && g.vip !== vipAdv) return false;
+    return true;
+  }).length);
+  const total = games.filter(g => {
+    const nameF = document.getElementById('filterName').value.toLowerCase();
+    const statusF = document.getElementById('filterStatus').value;
+    const hallAdvEl = document.getElementById('filterHallAdv');
+    const tagAdvEl = document.getElementById('filterTagAdv');
+    const vipAdvEl = document.getElementById('filterVipAdv');
+    const hallAdv = hallAdvEl ? hallAdvEl.value : '';
+    const tagAdv = tagAdvEl ? tagAdvEl.value : '';
+    const vipAdv = vipAdvEl ? vipAdvEl.value : '';
+    if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
+    if (statusF && g.status !== statusF) return false;
+    if (gameCat && g.cat !== gameCat) return false;
+    if (hallAdv && g.hall !== hallAdv) return false;
+    if (tagAdv && g.tag !== tagAdv) return false;
+    if (vipAdv && g.vip !== vipAdv) return false;
+    return true;
+  }).length;
+  let html = '<span style="font-size:12px;color:#6B7280">顯示 ' + start + '-' + end + ' 筆，共 ' + total + ' 筆</span><div style="display:flex;align-items:center;gap:4px">';
+  html += '<button class="pg-btn" onclick="goToPage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage === 1 ? 'disabled' : '') + '>&lsaquo;</button>';
   const maxVisible = 7;
   let startP = Math.max(1, currentPage - 3);
   let endP = Math.min(totalPages, startP + maxVisible - 1);
@@ -519,7 +555,11 @@ function renderPagination(totalPages) {
   }
   if (endP < totalPages) html += '<span class="pg-dots">...</span><button class="pg-btn" onclick="goToPage(' + totalPages + ')">' + totalPages + '</button>';
   html += '<button class="pg-btn" onclick="goToPage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage === totalPages ? 'disabled' : '') + '>&rsaquo;</button>';
+  html += '</div>';
   bar.innerHTML = html;
+  bar.style.display = 'flex';
+  bar.style.alignItems = 'center';
+  bar.style.justifyContent = 'space-between';
 }
 
 function toggleMoreMenu(event, gameId) {
