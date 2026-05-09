@@ -79,8 +79,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .upload-text{font-size:13px;color:oklch(0.6 0.1 181.912);font-weight:500;margin-bottom:4px}
 .upload-hint{font-size:11px;color:#9CA3AF}
 .upload-btn{margin-top:12px;padding:6px 14px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:12px;background:#fff;cursor:pointer;font-family:inherit}
-.btn-cancel{background:#8B7E2A;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500}
-.btn-cancel:hover{background:#6F6520}
+
 .toast{position:fixed;bottom:24px;right:24px;background:#1F2937;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;z-index:999;pointer-events:none}
 .toast.show{opacity:1}
 </style>
@@ -141,7 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal('addIconModal')">取消</button>
+      <button class="btn btn-outline" onclick="closeModal('addIconModal')">取消</button>
       <button class="btn btn-dark" onclick="submitAddIcon()">+ 新增</button>
     </div>
   </div>

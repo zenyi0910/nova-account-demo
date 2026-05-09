@@ -252,21 +252,17 @@ function renderRecommendModalContent() {
       {label: '近期爆獎', active: recommendSubTab === 'recent', onclick: "switchRecommendSubTab('recent')"},
       {label: '最受歡迎', active: recommendSubTab === 'popular', onclick: "switchRecommendSubTab('popular')"}
     ]) +
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 14px 0">' +
     '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
     '<div style="display:flex;gap:8px">' +
     (recommendSortMode ?
       UI.btn.outline('取消', 'cancelRecommendSort()') +
       UI.btn.dark('儲存排序', 'saveRecommendSort()')
-      : ''
-    ) +
-    '</div></div>' +
-    (recommendSortMode ? '' :
-      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:14px">' +
+      :
       UI.btn.secondary('編輯排序', 'toggleRecommendSortMode()', {icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> '}) +
-      UI.btn.add('新增遊戲', 'openAddRecommendModal()') +
-      '</div>'
-    );
+      UI.btn.add('新增遊戲', 'openAddRecommendModal()')
+    ) +
+    '</div></div>';
 
   // 表格用 UI.table
   const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'60px'}];
