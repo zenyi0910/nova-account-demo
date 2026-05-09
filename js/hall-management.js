@@ -471,23 +471,27 @@ function renderTable() {
   document.getElementById('gameCount').textContent = '第 1 頁，共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = filtered.map((g, idx) => {
+    const hallOff = halls[g.hall] && halls[g.hall].status === 'off';
     const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span>' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (idx + 1) + '</td>' : '<td>' + (idx + 1) + '</td>';
-    return '<tr' + (sortMode ? ' draggable="true"' : '') + '>' +
+    const statusCell = hallOff
+      ? '<span class="badge badge-override" title="娛樂廳已關閉，覆蓋中">廳關閉</span>'
+      : UI.statusBadge(g.status);
+    return '<tr class="' + (hallOff ? 'row-hall-off' : '') + '"' + (sortMode ? ' draggable="true"' : '') + '>' +
       dragHandle +
       sortNum +
       '<td>' + tagDisplay + '</td>' +
       '<td>' + g.hall + '</td>' +
       '<td>' + g.cat + '</td>' +
       '<td><button class="game-name-link" onclick="openDetail(' + g.id + ')">' + g.name + '</button></td>' +
-      '<td>' + UI.statusBadge(g.status) + '</td>' +
+      '<td>' + statusCell + '</td>' +
       '<td>' + g.vip + '</td>' +
       '<td class="action-cell">' +
         '<button class="btn-edit-icon" onclick="openEditDetail(' + g.id + ')" title="編輯">' + UI.icon.edit + '</button>' +
         '<button class="btn-more-icon" onclick="toggleMoreMenu(event,' + g.id + ')" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>' +
       '</td>' +
-      '<td class="note-cell">' + (g.note || '') + '</td>' +
+      '<td class="note-cell">' + (hallOff ? '<span style="color:#DC2626;font-size:10px">廳級覆蓋</span>' : (g.note || '')) + '</td>' +
       '</tr>';
   }).join('');
   // Update table header for sort mode
@@ -632,6 +636,7 @@ function quickToggleHall(id) {
   h.status = ns;
   initHallSelector();
   renderHallDetail();
+  renderTable();
   showToast(h.name + (ns === 'on' ? ' 已開啟' : ' 已快速關閉'), ns === 'on' ? 'success' : 'warning');
 }
 
