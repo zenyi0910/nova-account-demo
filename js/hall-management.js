@@ -114,17 +114,33 @@ function renderHallDetail() {
   const gameCount = games.filter(g => g.hall === id).length;
 
   const schedHtml = renderScheduleTab(id, h);
+  const currHtml = renderCurrencyTab(id, h);
+
+  // 覆蓋提示
+  const overrideTip = '<div class="override-tip">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+    '<span>娛樂廳設定優先覆蓋個別遊戲設定，但不會修改遊戲原始值。關閉覆蓋後遊戲恢復自身設定。</span></div>';
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
+      '<button class="btn-quick-off' + (h.status === 'off' ? ' is-off' : '') + '" onclick="quickToggleHall(\'' + id + '\')">' +
+        (h.status === 'on' ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg> 快速關閉' :
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg> 立即開啟') +
+      '</button>' +
       UI.toggle(h.status, "requestToggle('" + id + "')") +
     '</div>' +
+    overrideTip +
     '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
-    UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + '</div>' +
+    UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + ' ' +
+    UI.btn.icon('delete', "delAllSched('" + id + "')", '清除全部排程') + '</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
+    '<div class="hall-section-title" style="margin-top:16px">' +
+      '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
+      ' 幣別設定</div>' +
+    '<div class="hall-tab-body">' + currHtml + '</div>' +
   '</div>';
 
   document.getElementById('hallDetail').innerHTML = html;
@@ -607,6 +623,24 @@ function requestToggle(id) {
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
   document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
+}
+
+// 快速開關（不需要維護中）
+function quickToggleHall(id) {
+  const h = halls[id];
+  const ns = h.status === 'on' ? 'off' : 'on';
+  h.status = ns;
+  initHallSelector();
+  renderHallDetail();
+  showToast(h.name + (ns === 'on' ? ' 已開啟' : ' 已快速關閉'), ns === 'on' ? 'success' : 'warning');
+}
+
+// 清除全部排程
+function delAllSched(id) {
+  if (halls[id].schedules.length === 0) { showToast('無排程可清除', 'warning'); return; }
+  halls[id].schedules = [];
+  renderHallDetail();
+  showToast('已清除所有排程', 'success');
 }
 
 function confirmToggle() {
