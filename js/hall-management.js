@@ -274,7 +274,7 @@ function renderRecommendModalContent() {
     g.hall,
     '<span style="font-weight:500">' + g.name + '</span>',
     g.bannerUrl
-      ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"> <span style="color:#1ABC9C;font-size:11px">預覽</span></div>'
+      ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
       : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
     UI.btn.icon('upload', 'uploadBanner(' + g.id + ')', '上傳圖片')
   ]);
