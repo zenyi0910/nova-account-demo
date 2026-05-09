@@ -344,11 +344,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .table-info{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
 .table-info-right{display:flex;align-items:center;gap:6px}
 .page-size-select{padding:3px 8px;border:1px solid oklch(0.922 0 0);border-radius:4px;font-size:12px;font-family:inherit}
-.pg-btn{min-width:28px;height:28px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#374151;display:flex;align-items:center;justify-content:center}
+.pg-btn{min-width:28px;height:28px;padding:0 6px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#374151;font-family:inherit;display:inline-flex;align-items:center;justify-content:center}
 .pg-btn:hover:not(:disabled):not(.active){background:#F3F4F6;border-color:#D1D5DB}
 .pg-btn.active{background:#1F2937;color:#fff;border-color:#1F2937}
 .pg-btn:disabled{opacity:.4;cursor:not-allowed}
 .pg-dots{font-size:12px;color:#9CA3AF;padding:0 2px}
+.pagination-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding:8px 0;font-size:12px;color:#6B7280}
+.pagination-pages{display:flex;align-items:center;gap:4px}
+.pagination-pages button{min-width:28px;height:28px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#374151;display:flex;align-items:center;justify-content:center}
+.pagination-pages button:hover{background:#F3F4F6;border-color:#D1D5DB}
+.pagination-pages button.active{background:#1F2937;color:#fff;border-color:#1F2937}
+.pagination-pages button:disabled{opacity:.4;cursor:not-allowed}
 /* Game name link */
 .game-name-link{background:none;border:none;color:#2563EB;cursor:pointer;font-size:13px;font-family:inherit;text-align:left;padding:0}
 .game-name-link:hover{text-decoration:underline}
