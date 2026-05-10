@@ -17,6 +17,7 @@
           children: [
             { name: '一般儲值', href: 'nova-deposit.html' },
             { name: '快速儲值', href: 'nova-quick-deposit.html' },
+            { name: '三方支付管理', href: 'nova-payment-management.html' },
             { name: '供應商', href: 'nova-payment-provider.html' },
             { name: '支付方式', href: 'nova-payment-method.html' },
             { name: '付款通道', href: 'nova-payment-channel.html' },

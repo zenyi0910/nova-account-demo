@@ -253,10 +253,9 @@ function clearAllSched() {
 // === 共用狀態欄元件（toggle + 文字標籤，對齊 Nova 系統） ===
 function renderStatusCell(status, toggleFn, disabled) {
   var st = disabled ? 'off' : status;
-  var text = st === 'on' ? '啟用' : '停用';
   var dis = disabled ? ' disabled' : '';
   var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
-  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button><span class="status-label ' + st + '">' + text + '</span></label></td>';
+  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
 }
 
 // === 共用操作按鈕元件（只有編輯按鈕，對齊 Nova 系統） ===
@@ -672,7 +671,7 @@ function renderStoreAmountTable() {
       '<td><input type="number" value="' + (v.bonusRate || 0) + '" placeholder="請輸入贈比" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'bonusRate\',this.value)"></td>' +
       '<td style="text-align:center" id="smBonusPoints_' + i + '">' + (v.bonusPoints || 0) + '</td>' +
       '<td style="text-align:center" id="smTotalPoints_' + i + '">' + (v.totalPoints || 0) + '</td>' +
-      '<td style="text-align:center"><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')">刪除</button></td>' +
+      '<td style="text-align:center"><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td>' +
       '</tr>';
   }).join('');
 }
