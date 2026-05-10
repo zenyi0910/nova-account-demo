@@ -288,10 +288,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <button class="tab-btn active" data-tab="methods" onclick="switchTab('methods',this)">支付方式</button>
           <button class="tab-btn" data-tab="channels" onclick="switchTab('channels',this)">付款通道</button>
           <span style="flex:1"></span>
-          <button class="btn-dark" id="addItemBtn" onclick="openAddModal()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span id="addItemLabel">新增支付方式</span>
-          </button>
+        <button class="btn-add" id="addItemBtn" onclick="openAddModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span id="addItemLabel">新增支付方式</span>
+        </button>
         </div>
 
         <!-- Filter -->
@@ -318,8 +318,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div id="storeSection" style="display:none">
       <div style="display:flex;align-items:center;margin-bottom:16px">
         <span style="flex:1"></span>
-        <button class="btn-dark" id="addStoreBtn" onclick="openStoreAddModal()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <button class="btn-add" id="addStoreBtn" onclick="openStoreAddModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
           <span id="addStoreLabel">新增儲值類型</span>
         </button>
       </div>
@@ -462,6 +462,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=12"></script>
+<script src="js/payment-management.js?v=13"></script>
 </body>
 </html>
