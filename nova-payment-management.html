@@ -427,24 +427,46 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<!-- Store Modal (新增/編輯儲值金額表) -->
+<!-- Store Modal (新增/編輯儲值類型) -->
 <div class="modal-overlay" id="storeModal">
   <div class="modal" style="max-width:800px">
-    <div class="modal-header"><h3 id="storeModalTitle">新增儲值金額表</h3><button class="close" onclick="closeModal('storeModal')">&times;</button></div>
+    <div class="modal-header"><h3 id="storeModalTitle">新增儲值類型</h3><button class="close" onclick="closeModal('storeModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option></select></div>
-      <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇支付方式</option></select></div>
-      <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇付款通道</option></select></div>
-      <div class="form-group"><label>儲值金額表</label>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:12px;color:#6B7280">總共 <span id="smAmountCount">0</span> 筆資料</span>
-          <button class="btn-outline" style="font-size:12px;padding:4px 8px" onclick="alert('排序功能')">編輯排序</button>
+      <div class="form-group"><label>儲值類型 <span class="required">*</span></label>
+        <select id="smType" onchange="toggleStoreTypeFields()">
+          <option value="">請選擇儲值類型</option>
+          <option value="一般">一般儲值</option>
+          <option value="快速">快速儲值</option>
+        </select>
+      </div>
+      <div class="form-group"><label>項目名稱 <span class="required">*</span></label><input type="text" id="smName" placeholder="請輸入項目名稱"></div>
+      <div class="form-group"><label>適用 VIP 等級 <span class="required">*</span></label>
+        <div id="smVipCheckboxes" style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 0">
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="全選" onchange="toggleAllVip(this)"> 全選</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="新手" class="vip-cb"> VIP1 - 新手</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="銅牌" class="vip-cb"> VIP2 - 銅牌</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="銀牌" class="vip-cb"> VIP3 - 銀牌</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="金牌" class="vip-cb"> VIP4 - 金牌</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="白金" class="vip-cb"> VIP5 - 白金</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="鑽石" class="vip-cb"> VIP6 - 鑽石</label>
         </div>
-        <table class="data-table" style="font-size:12px">
-          <thead><tr><th style="width:40px">順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th style="width:60px">操作</th></tr></thead>
-          <tbody id="smAmountTableBody"></tbody>
-        </table>
-        <div id="smAddAmountRow" style="text-align:center;padding:10px;background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;cursor:pointer;color:#2563EB;font-size:13px" onclick="addStoreAmountRow()">+ 新增</div>
+      </div>
+      <div id="smGeneralFields">
+        <div class="form-group"><label>項目說明</label><input type="text" id="smDesc" placeholder="請輸入項目說明"></div>
+        <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option></select></div>
+        <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇支付方式</option></select></div>
+        <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇付款通道</option></select></div>
+        <div class="form-group"><label>儲值金額表</label>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:12px;color:#6B7280">總共 <span id="smAmountCount">0</span> 筆資料</span>
+            <button class="btn-outline" style="font-size:12px;padding:4px 8px" onclick="alert('排序功能')">編輯排序</button>
+          </div>
+          <table class="data-table" style="font-size:12px">
+            <thead><tr><th style="width:40px">順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th style="width:60px">操作</th></tr></thead>
+            <tbody id="smAmountTableBody"></tbody>
+          </table>
+          <div id="smAddAmountRow" style="text-align:center;padding:10px;background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;cursor:pointer;color:#2563EB;font-size:13px" onclick="addStoreAmountRow()">+ 新增</div>
+        </div>
       </div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="smStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
@@ -457,6 +479,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=26"></script>
+<script src="js/payment-management.js?v=27"></script>
 </body>
 </html>

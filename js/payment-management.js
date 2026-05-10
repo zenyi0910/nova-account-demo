@@ -594,15 +594,51 @@ function saveAmount() {
 var editingStoreId = null;
 var storeAmountValues = [];
 
+function toggleStoreTypeFields() {
+  var type = document.getElementById('smType').value;
+  var generalFields = document.getElementById('smGeneralFields');
+  if (type === '快速') {
+    generalFields.style.display = 'none';
+  } else {
+    generalFields.style.display = '';
+  }
+}
+
+function toggleAllVip(el) {
+  var cbs = document.querySelectorAll('.vip-cb');
+  cbs.forEach(function(cb) { cb.checked = el.checked; });
+}
+
+function getSelectedVips() {
+  var cbs = document.querySelectorAll('.vip-cb:checked');
+  return Array.from(cbs).map(function(cb) { return cb.value; });
+}
+
+function setSelectedVips(vipArr) {
+  document.querySelectorAll('.vip-cb').forEach(function(cb) {
+    cb.checked = vipArr.indexOf(cb.value) >= 0;
+  });
+  // Update "全選" checkbox
+  var allCbs = document.querySelectorAll('.vip-cb');
+  var allChecked = Array.from(allCbs).every(function(cb) { return cb.checked; });
+  var selectAllCb = document.querySelector('input[value="全選"]');
+  if (selectAllCb) selectAllCb.checked = allChecked;
+}
+
 function openStoreAddModal() {
   editingStoreId = null;
   storeAmountValues = [];
-  document.getElementById('storeModalTitle').textContent = '新增儲值金額表';
+  document.getElementById('storeModalTitle').textContent = '新增儲值類型';
+  document.getElementById('smType').value = '';
+  document.getElementById('smName').value = '';
+  document.getElementById('smDesc').value = '';
+  setSelectedVips([]);
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   document.getElementById('smMethod').innerHTML = '<option value="">請選擇支付方式</option>';
   document.getElementById('smChannel').innerHTML = '<option value="">請選擇付款通道</option>';
   document.getElementById('smStatus').className = 'toggle on';
+  document.getElementById('smGeneralFields').style.display = '';
   renderStoreAmountTable();
   selP.onchange = function() { populateStoreDropdowns(selP.value); };
   document.getElementById('storeModal').classList.add('show');
@@ -612,7 +648,11 @@ function openStoreEditModal(id) {
   editingStoreId = id;
   var item = storeItems.find(function(x){ return x.id === id; });
   if (!item) return;
-  document.getElementById('storeModalTitle').textContent = '編輯儲值金額表';
+  document.getElementById('storeModalTitle').textContent = '編輯儲值類型';
+  document.getElementById('smType').value = item.type || '一般';
+  document.getElementById('smName').value = item.name || '';
+  document.getElementById('smDesc').value = item.desc || '';
+  setSelectedVips(item.vip || []);
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   selP.value = item.provider;
@@ -622,6 +662,7 @@ function openStoreEditModal(id) {
   storeAmountValues = (item.amounts || []).slice();
   renderStoreAmountTable();
   document.getElementById('smStatus').className = 'toggle ' + item.status;
+  toggleStoreTypeFields();
   selP.onchange = function() { populateStoreDropdowns(selP.value); };
   document.getElementById('storeModal').classList.add('show');
 }
@@ -690,16 +731,40 @@ function renderStoreAmountTable() {
 }
 
 function saveStoreItem() {
-  var provider = document.getElementById('smProvider').value;
-  var method = document.getElementById('smMethod').value;
-  var channel = document.getElementById('smChannel').value;
+  var type = document.getElementById('smType').value;
+  var name = document.getElementById('smName').value.trim();
+  var vips = getSelectedVips();
   var status = document.getElementById('smStatus').className.includes('on') ? 'on' : 'off';
-  if (!provider || !method || !channel) { alert('請填寫必填欄位'); return; }
+  
+  if (!type) { alert('請選擇儲值類型'); return; }
+  if (!name) { alert('請輸入項目名稱'); return; }
+  if (vips.length === 0) { alert('請選擇適用 VIP 等級'); return; }
+  
+  var provider = '', method = '', channel = '', desc = '';
+  if (type === '一般') {
+    provider = document.getElementById('smProvider').value;
+    method = document.getElementById('smMethod').value;
+    channel = document.getElementById('smChannel').value;
+    desc = document.getElementById('smDesc').value.trim();
+    if (!provider || !method || !channel) { alert('請填寫必填欄位'); return; }
+  }
+  
   if (editingStoreId) {
     var item = storeItems.find(function(x){ return x.id === editingStoreId; });
-    item.provider = provider; item.method = method; item.channel = channel; item.amounts = storeAmountValues.slice(); item.status = status;
+    item.type = type; item.name = name; item.vip = vips; item.status = status; item.desc = desc;
+    if (type === '一般') {
+      item.provider = provider; item.method = method; item.channel = channel; item.amounts = storeAmountValues.slice();
+    } else {
+      item.provider = ''; item.method = ''; item.channel = ''; item.amounts = [];
+    }
   } else {
-    storeItems.push({id: 'sg' + (storeItems.length + 1), provider: provider, name: method, method: method, channel: channel, type: '一般', vip: ['新手'], amounts: storeAmountValues.slice(), status: status});
+    var newItem = {id: 'sg' + (storeItems.length + 1), name: name, type: type, vip: vips, status: status, desc: desc};
+    if (type === '一般') {
+      newItem.provider = provider; newItem.method = method; newItem.channel = channel; newItem.amounts = storeAmountValues.slice();
+    } else {
+      newItem.provider = ''; newItem.method = ''; newItem.channel = ''; newItem.amounts = [];
+    }
+    storeItems.push(newItem);
   }
   closeModal('storeModal');
   renderStoreTable();
