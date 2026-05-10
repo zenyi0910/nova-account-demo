@@ -480,10 +480,6 @@ function openChannelModal(id) {
   var selM = document.getElementById('cmMethod');
   selM.innerHTML = '<option value="">請選擇支付方式</option>' + methods.filter(function(m){ return m.provider === currentProvider; }).map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
   
-  // 清空金額表格
-  channelAmountValues = [];
-  renderChannelAmountTable();
-  
   if (id) {
     var c = channels.find(function(x){ return x.id === id; });
     document.getElementById('cmCode').value = c.code;
@@ -491,8 +487,6 @@ function openChannelModal(id) {
     selP.value = c.provider;
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
-    channelAmountValues = (c.values || []).map(function(v){ return {amount: v.amount, type: v.type}; });
-    renderChannelAmountTable();
   } else {
     document.getElementById('cmCode').value = '';
     document.getElementById('cmName').value = '';
@@ -502,39 +496,6 @@ function openChannelModal(id) {
   document.getElementById('channelModal').classList.add('show');
 }
 
-var channelAmountValues = [];
-
-function addChannelAmount() {
-  var input = document.getElementById('cmNewAmount');
-  var typeSelect = document.getElementById('cmAmountType');
-  var val = parseInt(input.value);
-  var type = typeSelect.value;
-  if (!val || val <= 0) { alert('請輸入有效金額'); return; }
-  if (channelAmountValues.find(function(v){ return v.amount === val && v.type === type; })) { 
-    alert('此金額和類型組合已存在'); return; 
-  }
-  channelAmountValues.push({amount: val, type: type});
-  channelAmountValues.sort(function(a,b){ return a.amount - b.amount; });
-  renderChannelAmountTable();
-  input.value = '';
-}
-
-function removeChannelAmount(idx) {
-  channelAmountValues.splice(idx, 1);
-  renderChannelAmountTable();
-}
-
-function renderChannelAmountTable() {
-  var tbody = document.getElementById('cmAmountTableBody');
-  if (channelAmountValues.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#999">尚未新增儲值金額</td></tr>';
-    return;
-  }
-  var rows = channelAmountValues.map(function(item, idx) {
-    return '<tr><td>' + item.amount + '</td><td>' + item.type + '</td><td><button class="btn-icon btn-icon-danger" onclick="removeChannelAmount(' + idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td></tr>';
-  }).join('');
-  tbody.innerHTML = rows;
-}
 function saveChannel() {
   var code = document.getElementById('cmCode').value.trim();
   var name = document.getElementById('cmName').value.trim();
@@ -619,20 +580,18 @@ function saveAmount() {
 
 // === Store Modal: New/Edit ===
 var editingStoreId = null;
+var storeAmountValues = [];
 
 function openStoreAddModal() {
   editingStoreId = null;
-  document.getElementById('storeModalTitle').textContent = '新增儲值類型';
-  document.getElementById('smType').value = '一般';
-  document.getElementById('smName').value = '';
+  storeAmountValues = [];
+  document.getElementById('storeModalTitle').textContent = '新增儲值金額表';
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   document.getElementById('smMethod').innerHTML = '<option value="">請選擇支付方式</option>';
   document.getElementById('smChannel').innerHTML = '<option value="">請選擇付款通道</option>';
-  // Reset VIP checkboxes
-  document.querySelectorAll('#smVipGroup input').forEach(function(cb){ cb.checked = cb.value === '新手'; });
   document.getElementById('smStatus').className = 'toggle on';
-  // Provider change → populate method/channel
+  renderStoreAmountTable();
   selP.onchange = function() { populateStoreDropdowns(selP.value); };
   document.getElementById('storeModal').classList.add('show');
 }
@@ -641,19 +600,15 @@ function openStoreEditModal(id) {
   editingStoreId = id;
   var item = storeItems.find(function(x){ return x.id === id; });
   if (!item) return;
-  document.getElementById('storeModalTitle').textContent = '編輯儲值類型';
-  document.getElementById('smType').value = item.type || '一般';
-  document.getElementById('smName').value = item.name;
+  document.getElementById('storeModalTitle').textContent = '編輯儲值金額表';
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   selP.value = item.provider;
   populateStoreDropdowns(item.provider);
   document.getElementById('smMethod').value = item.method;
   document.getElementById('smChannel').value = item.channel;
-  // Set VIP checkboxes
-  document.querySelectorAll('#smVipGroup input').forEach(function(cb){
-    cb.checked = item.vip.indexOf(cb.value) >= 0;
-  });
+  storeAmountValues = (item.amounts || []).slice();
+  renderStoreAmountTable();
   document.getElementById('smStatus').className = 'toggle ' + item.status;
   selP.onchange = function() { populateStoreDropdowns(selP.value); };
   document.getElementById('storeModal').classList.add('show');
@@ -668,29 +623,56 @@ function populateStoreDropdowns(providerId) {
   selC.innerHTML = '<option value="">請選擇付款通道</option>' + filteredChannels.map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
 }
 
+function addStoreAmount() {
+  var amtInput = document.getElementById('smNewAmount');
+  var bonusInput = document.getElementById('smNewBonus');
+  var amount = parseInt(amtInput.value);
+  var bonus = parseInt(bonusInput.value) || 0;
+  if (!amount || amount <= 0) { alert('請輸入有效金額'); return; }
+  var basePoints = amount;
+  var bonusPoints = Math.floor(basePoints * bonus / 100);
+  storeAmountValues.push({amount: amount, basePoints: basePoints, bonusRate: bonus, bonusPoints: bonusPoints, totalPoints: basePoints + bonusPoints});
+  storeAmountValues.sort(function(a,b){ return a.amount - b.amount; });
+  renderStoreAmountTable();
+  amtInput.value = '';
+  bonusInput.value = '0';
+}
+
+function removeStoreAmount(idx) {
+  storeAmountValues.splice(idx, 1);
+  renderStoreAmountTable();
+}
+
+function renderStoreAmountTable() {
+  var tbody = document.getElementById('smAmountTableBody');
+  if (!tbody) return;
+  if (storeAmountValues.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:12px">尚未有任何資料</td></tr>';
+    return;
+  }
+  tbody.innerHTML = storeAmountValues.map(function(v, i) {
+    return '<tr><td>' + v.amount + '</td><td>' + v.basePoints + '</td><td>' + v.bonusRate + '%</td><td>' + v.bonusPoints + '</td><td>' + v.totalPoints + '</td><td><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td></tr>';
+  }).join('');
+}
+
 function saveStoreItem() {
-  var type = document.getElementById('smType').value;
   var provider = document.getElementById('smProvider').value;
-  var name = document.getElementById('smName').value.trim();
   var method = document.getElementById('smMethod').value;
   var channel = document.getElementById('smChannel').value;
   var status = document.getElementById('smStatus').className.includes('on') ? 'on' : 'off';
-  var vip = [];
-  document.querySelectorAll('#smVipGroup input:checked').forEach(function(cb){ vip.push(cb.value); });
-  if (!provider || !name || !method || !channel) { alert('請填寫必填欄位'); return; }
+  if (!provider || !method || !channel) { alert('請填寫必填欄位'); return; }
   if (editingStoreId) {
     var item = storeItems.find(function(x){ return x.id === editingStoreId; });
-    item.provider = provider; item.name = name; item.method = method; item.channel = channel; item.type = type; item.vip = vip; item.status = status;
+    item.provider = provider; item.method = method; item.channel = channel; item.amounts = storeAmountValues.slice(); item.status = status;
   } else {
-    var prefix = type === '快速' ? 'sf' : 'sg';
-    storeItems.push({id: prefix + (storeItems.length + 1), provider: provider, name: name, method: method, channel: channel, type: type, vip: vip, status: status});
+    storeItems.push({id: 'sg' + (storeItems.length + 1), provider: provider, name: method, method: method, channel: channel, type: '一般', vip: ['新手'], amounts: storeAmountValues.slice(), status: status});
   }
   closeModal('storeModal');
   renderStoreTable();
 }
 
 function deleteStoreItem(id) {
-  if (!confirm('確定要刪除此商品？')) return;
+  if (!confirm('確定要刪除此項目？')) return;
   var idx = storeItems.findIndex(function(x){ return x.id === id; });
   if (idx >= 0) storeItems.splice(idx, 1);
   renderStoreTable();

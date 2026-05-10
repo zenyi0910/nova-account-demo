@@ -128,7 +128,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
-.modal{background:#fff;border-radius:12px;width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal{background:#fff;border-radius:12px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0)}
 .modal-header h3{font-size:16px;font-weight:600;flex:1}
 .modal-header .close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px}
@@ -324,7 +324,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span style="flex:1"></span>
         <button class="btn-add" id="addStoreBtn" onclick="openStoreAddModal()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-          <span id="addStoreLabel">新增儲值類型</span>
+          <span id="addStoreLabel">新增儲值金額表</span>
         </button>
       </div>
       <div class="filter-bar">
@@ -386,14 +386,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal">
     <div class="modal-header"><h3 id="methodModalTitle">新增支付方式</h3><button class="close" onclick="closeModal('methodModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>Logo</label>
+      <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="mmProvider"><option value="">請選擇供應商</option></select></div>
+      <div class="form-group"><label>名稱 <span class="required">*</span></label><input type="text" id="mmName" placeholder="輸入支付方式名稱"></div>
+      <div class="form-group"><label>Logo 圖片</label>
         <div class="upload-area" id="mmLogoArea">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>點擊上傳圖片</span>
         </div>
       </div>
-      <div class="form-group"><label>支付方式名稱 <span class="required">*</span></label><input type="text" id="mmName" placeholder="輸入支付方式名稱"></div>
-      <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="mmProvider"><option value="">請選擇供應商</option></select></div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="mmStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
       </div>
@@ -407,40 +407,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- Channel Modal (新增/編輯付款通道) -->
 <div class="modal-overlay" id="channelModal">
-  <div class="modal">
+  <div class="modal" style="max-width:700px">
     <div class="modal-header"><h3 id="channelModalTitle">新增付款通道</h3><button class="close" onclick="closeModal('channelModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>Logo</label>
+      <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="cmProvider"><option value="">請選擇供應商</option></select></div>
+      <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="cmMethod"><option value="">請選擇支付方式</option></select></div>
+      <div class="form-group"><label>付款通道名稱 <span class="required">*</span></label><input type="text" id="cmName" placeholder="輸入通道名稱"></div>
+      <div class="form-group"><label>Logo 圖片</label>
         <div class="upload-area" id="cmLogoArea">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           <span>點擊上傳圖片</span>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="cmMethod"><option value="">請選擇支付方式</option></select></div>
-        <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="cmProvider"><option value="">請選擇供應商</option></select></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>付款通道代碼 <span class="required">*</span></label><input type="text" id="cmCode" placeholder="輸入通道代碼"></div>
-        <div class="form-group"><label>付款通道名稱 <span class="required">*</span></label><input type="text" id="cmName" placeholder="輸入通道名稱"></div>
-      </div>
-      <div class="form-group"><label>儲值金額 <span class="required">*</span></label>
-        <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center">
-          <input type="number" id="cmNewAmount" placeholder="輸入金額" style="width:120px">
-          <select id="cmAmountType" style="width:100px">
-            <option value="一般">一般</option>
-            <option value="快速">快速</option>
-          </select>
-          <button class="btn-add" onclick="addChannelAmount()">新增</button>
-        </div>
-        <table class="data-table" id="cmAmountTable" style="font-size:12px">
-          <thead><tr><th style="width:40%">金額</th><th style="width:30%">類型</th><th style="width:30%">操作</th></tr></thead>
-          <tbody id="cmAmountTableBody"></tbody>
-        </table>
-      </div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="cmStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
       </div>
+      <div class="form-group"><label>付款通道代碼</label><input type="text" id="cmCode" placeholder="輸入通道代碼（選填）"></div>
     </div>
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('channelModal')">取消</button>
@@ -449,24 +431,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<!-- Store Modal (新增/編輯商城商品) -->
+<!-- Store Modal (新增/編輯儲值金額表) -->
 <div class="modal-overlay" id="storeModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="storeModalTitle">新增一般儲值</h3><button class="close" onclick="closeModal('storeModal')">&times;</button></div>
+  <div class="modal" style="max-width:800px">
+    <div class="modal-header"><h3 id="storeModalTitle">新增儲值金額表</h3><button class="close" onclick="closeModal('storeModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>類型 <span class="required">*</span></label><select id="smType"><option value="一般">一般儲值</option><option value="快速">快速儲值</option></select></div>
       <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option></select></div>
-      <div class="form-group"><label>項目名稱 <span class="required">*</span></label><input type="text" id="smName" placeholder="輸入項目名稱"></div>
       <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇支付方式</option></select></div>
       <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇付款通道</option></select></div>
-      <div class="form-group"><label>適用 VIP 等級</label>
-        <div class="vip-checkboxes" id="smVipGroup">
-          <label class="vip-cb"><input type="checkbox" value="新手" checked> 新手</label>
-          <label class="vip-cb"><input type="checkbox" value="銅牌"> 銅牌</label>
-          <label class="vip-cb"><input type="checkbox" value="銀牌"> 銀牌</label>
-          <label class="vip-cb"><input type="checkbox" value="金牌"> 金牌</label>
-          <label class="vip-cb"><input type="checkbox" value="白金"> 白金</label>
-          <label class="vip-cb"><input type="checkbox" value="鑽石"> 鑽石</label>
+      <div class="form-group"><label>儲值金額表</label>
+        <table class="data-table" style="font-size:12px">
+          <thead><tr><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead>
+          <tbody id="smAmountTableBody"></tbody>
+        </table>
+        <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+          <input type="number" id="smNewAmount" placeholder="金額" style="width:100px">
+          <input type="number" id="smNewBonus" placeholder="贈比%" style="width:80px" value="0">
+          <button class="btn-add" onclick="addStoreAmount()">新增</button>
         </div>
       </div>
       <div class="form-group"><label>狀態</label>
@@ -480,6 +461,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=18"></script>
+<script src="js/payment-management.js?v=19"></script>
 </body>
 </html>
