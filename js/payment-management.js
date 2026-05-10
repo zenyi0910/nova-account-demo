@@ -110,8 +110,8 @@ function renderStoreTable() {
     var rowCls = blocked ? ' class="row-blocked"' : '';
     var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
-      '<label class="switch-cell"><button class="toggle off" disabled></button></label>' :
-      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button></label>';
+      '<label class="switch-cell"><button class="toggle off" disabled></button><span class="status-label off">停用</span></label>' :
+      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button><span class="status-label ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span></label>';
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
@@ -250,15 +250,12 @@ function clearAllSched() {
   renderSchedules();
 }
 
-// === 共用操作按鈕元件（編輯 + 刪除 icon 並排） ===
+// === 共用操作按鈕元件（只有編輯按鈕，對齊 Nova 系統） ===
 function renderActionCell(type, id, disabled) {
   var dis = disabled ? ' disabled' : '';
   return '<td class="action-cell">' +
     '<button class="btn-icon" title="編輯"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
-    '</button>' +
-    '<button class="btn-icon btn-icon-danger" title="刪除"' + dis + ' onclick="delete' + type + '(\'' + id + '\')">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
     '</button>' +
     '</td>';
 }
@@ -328,10 +325,10 @@ function renderTable() {
 
   if (currentTab === 'methods') {
     data = methods.filter(function(m){ return m.provider === currentProvider; });
-    headers = '<th>Logo</th><th>支付方式</th><th>狀態</th><th>操作</th>';
+    headers = '<th>Logo</th><th>支付方式</th><th>供應商</th><th>狀態</th><th>操作</th>';
   } else {
     data = channels.filter(function(c){ return c.provider === currentProvider; });
-    headers = '<th>Logo</th><th>支付方式</th><th>付款通道</th><th>通道代碼</th><th>儲值金額</th><th>狀態</th><th>操作</th>';
+    headers = '<th>Logo</th><th>支付方式</th><th>供應商</th><th>付款通道代碼</th><th>付款通道</th><th>狀態</th><th>操作</th>';
   }
 
   if (nameFilter) {
@@ -349,12 +346,20 @@ function renderTable() {
 
   var rows = '';
   if (currentTab === 'methods') {
-    rows = pageData.map(function(m){ return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(m){ 
+      var provName = (providers.find(function(p){ return p.id === m.provider; }) || {}).name || m.provider;
+      var statusText = m.status === 'on' ? '啟用' : '停用';
+      return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td>' + provName + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button><span class="status-label ' + m.status + '">' + statusText + '</span></label></td>' + renderActionCell('Method', m.id) + '</tr>'; 
+    }).join('');
   } else {
-    rows = pageData.map(function(c){ return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + (c.values || []).map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v.amount + ' <small style=color:#6B7280>' + v.type + '</small></span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(c){ 
+      var provName = (providers.find(function(p){ return p.id === c.provider; }) || {}).name || c.provider;
+      var statusText = c.status === 'on' ? '啟用' : '停用';
+      return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + provName + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + c.name + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button><span class="status-label ' + c.status + '">' + statusText + '</span></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; 
+    }).join('');
   }
 
-  if (!rows) rows = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+  if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
   container.innerHTML = '<table class="data-table"><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
 

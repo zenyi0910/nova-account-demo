@@ -60,6 +60,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .toggle.on::after{left:18px}
 .toggle.off::after{left:2px}
+.switch-cell{display:inline-flex;align-items:center;gap:8px}
+.status-label{font-size:12px;font-weight:500}
+.status-label.on{color:#166534}
+.status-label.off{color:#6B7280}
 
 /* Detail panel */
 .detail-panel{background:#fff;border:1px solid oklch(0.922 0 0);border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
