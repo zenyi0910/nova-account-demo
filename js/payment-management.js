@@ -584,8 +584,8 @@ var editingStoreId = null;
 
 function openStoreAddModal() {
   editingStoreId = null;
-  var title = currentStoreTab === 'general' ? '新增一般儲值' : '新增快速儲值';
-  document.getElementById('storeModalTitle').textContent = title;
+  document.getElementById('storeModalTitle').textContent = '新增儲值類型';
+  document.getElementById('smType').value = '一般';
   document.getElementById('smName').value = '';
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
@@ -603,8 +603,8 @@ function openStoreEditModal(id) {
   editingStoreId = id;
   var item = storeItems.find(function(x){ return x.id === id; });
   if (!item) return;
-  var title = '編輯儲值類型';
-  document.getElementById('storeModalTitle').textContent = title;
+  document.getElementById('storeModalTitle').textContent = '編輯儲值類型';
+  document.getElementById('smType').value = item.type || '一般';
   document.getElementById('smName').value = item.name;
   var selP = document.getElementById('smProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
@@ -631,6 +631,7 @@ function populateStoreDropdowns(providerId) {
 }
 
 function saveStoreItem() {
+  var type = document.getElementById('smType').value;
   var provider = document.getElementById('smProvider').value;
   var name = document.getElementById('smName').value.trim();
   var method = document.getElementById('smMethod').value;
@@ -639,13 +640,12 @@ function saveStoreItem() {
   var vip = [];
   document.querySelectorAll('#smVipGroup input:checked').forEach(function(cb){ vip.push(cb.value); });
   if (!provider || !name || !method || !channel) { alert('請填寫必填欄位'); return; }
-  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
   if (editingStoreId) {
-    var item = data.find(function(x){ return x.id === editingStoreId; });
-    item.provider = provider; item.name = name; item.method = method; item.channel = channel; item.vip = vip; item.status = status;
+    var item = storeItems.find(function(x){ return x.id === editingStoreId; });
+    item.provider = provider; item.name = name; item.method = method; item.channel = channel; item.type = type; item.vip = vip; item.status = status;
   } else {
-    var prefix = currentStoreTab === 'general' ? 'sg' : 'sf';
-    data.push({id: prefix + (data.length + 1), provider: provider, name: name, method: method, channel: channel, vip: vip, status: status});
+    var prefix = type === '快速' ? 'sf' : 'sg';
+    storeItems.push({id: prefix + (storeItems.length + 1), provider: provider, name: name, method: method, channel: channel, type: type, vip: vip, status: status});
   }
   closeModal('storeModal');
   renderStoreTable();
