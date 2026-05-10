@@ -131,8 +131,7 @@ function renderStoreTable() {
       '<td>' + item.channel + '</td>' +
       '<td>' + statusHtml + '</td>' +
       '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
-      '<td class="action-cell"><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openStoreEditModal(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>編輯</button>' +
-      '<button class="btn-del-sm" onclick="deleteStoreItem(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>刪除</button></td></tr>';
+      renderActionCell('StoreEdit', item.id, blocked) + '</tr>';
   }).join('');
 
   if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
@@ -252,6 +251,43 @@ function clearAllSched() {
   renderSchedules();
 }
 
+// === 共用操作按鈕元件 ===
+function renderActionCell(type, id, disabled) {
+  var dis = disabled ? ' disabled' : '';
+  return '<td class="action-cell">' +
+    '<button class="btn-outline btn-action-edit"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">編輯</button>' +
+    '<button class="btn-del-sm"' + dis + ' onclick="delete' + type + '(\'' + id + '\')">刪除</button>' +
+    '</td>';
+}
+
+// === 刪除操作 ===
+function deleteMethod(id) {
+  if (!confirm('確定要刪除此支付方式？')) return;
+  var idx = methods.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) methods.splice(idx, 1);
+  renderProviders();
+  renderTable();
+}
+
+function deleteChannel(id) {
+  if (!confirm('確定要刪除此付款通道？')) return;
+  var idx = channels.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) channels.splice(idx, 1);
+  renderProviders();
+  renderTable();
+}
+
+function deleteAmount(id) {
+  if (!confirm('確定要刪除此儲值金額？')) return;
+  var idx = amounts.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) amounts.splice(idx, 1);
+  renderTable();
+}
+
+function deleteStoreEdit(id) {
+  deleteStoreItem(id);
+}
+
 // === Tabs ===
 function switchTab(tab, el) {
   currentTab = tab;
@@ -308,11 +344,11 @@ function renderTable() {
 
   var rows = '';
   if (currentTab === 'methods') {
-    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openMethodModal(\'' + m.id + '\')">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
   } else if (currentTab === 'channels') {
-    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openChannelModal(\'' + c.id + '\')">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   } else {
-    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><span class="status-badge ' + a.status + '">' + (a.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openAmountModal(\'' + a.id + '\')">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><span class="status-badge ' + a.status + '">' + (a.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Amount', a.id) + '</tr>'; }).join('');
   }
 
   if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
