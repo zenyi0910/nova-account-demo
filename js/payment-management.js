@@ -121,8 +121,8 @@ function renderStoreTable() {
     var rowCls = blocked ? ' class="row-blocked"' : '';
     var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
-      UI.badge('供應商停用', 'off') :
-      UI.badge(item.status === 'on' ? '啟用' : '停用', item.status === 'on' ? 'on' : 'off');
+      '<span class="status-badge off">供應商停用</span>' :
+      '<span class="status-badge ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span>';
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
@@ -131,10 +131,8 @@ function renderStoreTable() {
       '<td>' + item.channel + '</td>' +
       '<td>' + statusHtml + '</td>' +
       '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
-      '<td class="action-cell">' +
-        UI.btn.icon('edit', "openStoreEditModal('" + item.id + "')", '編輯') +
-        (blocked ? '' : UI.btn.icon('delete', "deleteStoreItem('" + item.id + "')", '刪除')) +
-      '</td></tr>';
+      '<td class="action-cell"><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openStoreEditModal(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>編輯</button>' +
+      '<button class="btn-del-sm" onclick="deleteStoreItem(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>刪除</button></td></tr>';
   }).join('');
 
   if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
