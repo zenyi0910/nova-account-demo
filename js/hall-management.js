@@ -689,7 +689,9 @@ function confirmToggle() {
 
 // === Schedule ===
 function openSchedModal(id) {
-  document.getElementById('sHall').value = id;
+  var hall = halls.find(function(h){ return h.id === id; });
+  document.getElementById('sHall').value = hall ? hall.name + ' 娛樂廳' : id;
+  document.getElementById('sHall').dataset.hallId = id;
   document.getElementById('sDate').value = '';
   document.getElementById('sStart').value = '';
   document.getElementById('sEnd').value = '';
@@ -708,7 +710,7 @@ function toggleRepeatOptions() {
 }
 
 function addSchedule() {
-  const id = document.getElementById('sHall').value;
+  const id = document.getElementById('sHall').dataset.hallId || document.getElementById('sHall').value;
   const action = document.getElementById('sAction').value;
   const note = document.getElementById('sNote').value;
   const repeat = document.getElementById('sRepeat').value;

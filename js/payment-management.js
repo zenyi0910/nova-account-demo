@@ -444,6 +444,11 @@ function openChannelModal(id) {
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   var selM = document.getElementById('cmMethod');
   selM.innerHTML = '<option value="">請選擇支付方式</option>' + methods.filter(function(m){ return m.provider === currentProvider; }).map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
+  
+  // 清空金額 tags
+  channelAmountValues = [];
+  renderChannelAmountTags();
+  
   if (id) {
     var c = channels.find(function(x){ return x.id === id; });
     document.getElementById('cmCode').value = c.code;
@@ -451,6 +456,8 @@ function openChannelModal(id) {
     selP.value = c.provider;
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
+    channelAmountValues = c.values || [];
+    renderChannelAmountTags();
   } else {
     document.getElementById('cmCode').value = '';
     document.getElementById('cmName').value = '';
@@ -460,6 +467,36 @@ function openChannelModal(id) {
   document.getElementById('channelModal').classList.add('show');
 }
 
+var channelAmountValues = [];
+
+function addChannelAmountTag() {
+  var input = document.getElementById('cmNewAmount');
+  var val = parseInt(input.value);
+  if (!val || val <= 0) { alert('請輸入有效金額'); return; }
+  if (channelAmountValues.indexOf(val) >= 0) { alert('金額已存在'); return; }
+  channelAmountValues.push(val);
+  channelAmountValues.sort(function(a,b){ return a - b; });
+  renderChannelAmountTags();
+  input.value = '';
+}
+
+function removeChannelAmountTag(val) {
+  var idx = channelAmountValues.indexOf(val);
+  if (idx >= 0) channelAmountValues.splice(idx, 1);
+  renderChannelAmountTags();
+}
+
+function renderChannelAmountTags() {
+  var container = document.getElementById('cmAmountTags');
+  if (!channelAmountValues.length) {
+    container.innerHTML = '<div style="color:#9CA3AF;font-size:12px;padding:8px 0">尚未新增金額</div>';
+    return;
+  }
+  container.innerHTML = channelAmountValues.map(function(v){
+    return '<span class="amount-tag">$' + v + '<button onclick="removeChannelAmountTag(' + v + ')">&times;</button></span>';
+  }).join('');
+}
+
 function saveChannel() {
   var code = document.getElementById('cmCode').value.trim();
   var name = document.getElementById('cmName').value.trim();
@@ -467,11 +504,13 @@ function saveChannel() {
   var method = document.getElementById('cmMethod').value;
   var status = document.getElementById('cmStatus').className.includes('on') ? 'on' : 'off';
   if (!code || !name || !provider || !method) { alert('請填寫必填欄位'); return; }
+  if (!channelAmountValues.length) { alert('請至少新增一個儲值金額'); return; }
+  
   if (editingChannelId) {
     var c = channels.find(function(x){ return x.id === editingChannelId; });
-    c.code = code; c.name = name; c.provider = provider; c.method = method; c.status = status;
+    c.code = code; c.name = name; c.provider = provider; c.method = method; c.status = status; c.values = channelAmountValues.slice();
   } else {
-    channels.push({id:'c'+(channels.length+1), provider:provider, method:method, name:name, code:code, status:status});
+    channels.push({id:'c'+(channels.length+1), provider:provider, method:method, name:name, code:code, status:status, values:channelAmountValues.slice()});
   }
   closeModal('channelModal');
   renderProviders();
