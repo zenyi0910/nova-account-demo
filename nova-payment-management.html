@@ -187,6 +187,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .dropdown-item.danger:hover{background:#FEF2F2}
 .switch-cell{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
 .switch-label{font-size:12px;color:#374151}
+.type-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.type-badge.normal{background:#EEF2FF;color:#4338CA}
+.type-badge.fast{background:#FEF3C7;color:#D97706}
 .btn-del-sm{padding:4px 10px;font-size:12px;background:none;border:1px solid #FECACA;color:#DC2626;border-radius:6px;cursor:pointer;margin-left:4px}
 .btn-del-sm:hover{background:#FEF2F2}
 .btn-del-sm:disabled{opacity:.4;cursor:not-allowed}
@@ -284,7 +287,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div class="tab-bar" style="display:flex;align-items:center">
           <button class="tab-btn active" data-tab="methods" onclick="switchTab('methods',this)">支付方式</button>
           <button class="tab-btn" data-tab="channels" onclick="switchTab('channels',this)">付款通道</button>
-          <button class="tab-btn" data-tab="amounts" onclick="switchTab('amounts',this)">儲值金額表</button>
           <span style="flex:1"></span>
           <button class="btn-dark" id="addItemBtn" onclick="openAddModal()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -319,12 +321,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span>Tips</span> 供應商停用時，對應的商城商品將無法購買（顯示為灰色）
       </div>
       <div class="tab-bar" style="display:flex;align-items:center">
-        <button class="store-tab-btn tab-btn active" onclick="switchStoreTab('general',this)">一般儲值</button>
-        <button class="store-tab-btn tab-btn" onclick="switchStoreTab('fast',this)">快速儲值</button>
         <span style="flex:1"></span>
         <button class="btn-dark" id="addStoreBtn" onclick="openStoreAddModal()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span id="addStoreLabel">新增一般儲值</span>
+          <span id="addStoreLabel">新增商城商品</span>
         </button>
       </div>
       <div id="storeTableContainer"></div>
@@ -428,34 +428,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<!-- Amount Modal (新增/編輯儲值金額表) -->
-<div class="modal-overlay" id="amountModal">
-  <div class="modal">
-    <div class="modal-header"><h3 id="amountModalTitle">新增儲值金額</h3><button class="close" onclick="closeModal('amountModal')">&times;</button></div>
-    <div class="modal-body">
-      <div class="form-row">
-        <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="amMethod"><option value="">請選擇支付方式</option></select></div>
-        <div class="form-group"><label>供應商</label><select id="amProvider" disabled><option value="">自動帶入</option></select></div>
-      </div>
-      <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="amChannel"><option value="">請選擇付款通道</option></select></div>
-      <div class="form-group"><label>金額選項 <span class="required">*</span></label>
-        <div class="amount-tags" id="amTags"></div>
-        <div class="amount-input-row">
-          <input type="number" id="amNewAmount" placeholder="輸入金額" style="width:120px">
-          <button class="btn-add" onclick="addAmountTag()">新增</button>
-        </div>
-      </div>
-      <div class="form-group"><label>狀態</label>
-        <div class="toggle-row"><button class="toggle on" id="amStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-outline" onclick="closeModal('amountModal')">取消</button>
-      <button class="btn-dark" onclick="saveAmount()">儲存</button>
-    </div>
-  </div>
-</div>
-
 <!-- Store Modal (新增/編輯商城商品) -->
 <div class="modal-overlay" id="storeModal">
   <div class="modal">
@@ -486,6 +458,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=6"></script>
+<script src="js/payment-management.js?v=7"></script>
 </body>
 </html>

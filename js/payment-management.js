@@ -22,47 +22,35 @@ const methods = [
 ];
 
 const channels = [
-  {id:'c1',provider:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05',status:'on'},
-  {id:'c2',provider:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004',status:'off'},
-  {id:'c3',provider:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B',status:'off'},
-  {id:'c4',provider:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01',status:'on'},
-  {id:'c5',provider:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09',status:'on'},
-  {id:'c6',provider:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001',status:'on'},
-  {id:'c7',provider:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01',status:'off'},
-  {id:'c8',provider:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01',status:'off'},
-  {id:'c9',provider:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A',status:'on'},
-  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',status:'on'}
+  {id:'c1',provider:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05',status:'on',values:[50,100,300,500,1000]},
+  {id:'c2',provider:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004',status:'off',values:[100,300,500]},
+  {id:'c3',provider:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B',status:'off',values:[100,300,500,1000]},
+  {id:'c4',provider:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01',status:'on',values:[100,300,500,1000,2000]},
+  {id:'c5',provider:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09',status:'on',values:[50,100,500]},
+  {id:'c6',provider:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001',status:'on',values:[100,300,500,1000,3000]},
+  {id:'c7',provider:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01',status:'off',values:[300,500,1000,3000]},
+  {id:'c8',provider:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01',status:'off',values:[500,1000,3000,5000]},
+  {id:'c9',provider:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A',status:'on',values:[10,50,100]},
+  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',status:'on',values:[50,100,500]}
 ];
 
-const amounts = [
-  {id:'a1',provider:'mycard',method:'點數卡',channel:'點數卡',values:[50,100,300,500,1000],status:'on'},
-  {id:'a2',provider:'gash',method:'點數卡',channel:'點數卡',values:[100,300,500,1000,2000],status:'on'},
-  {id:'a3',provider:'gash',method:'會員扣點',channel:'錢包扣點',values:[50,100,500],status:'on'},
-  {id:'a4',provider:'linepay',method:'行動支付',channel:'LINE Pay',values:[100,300,500,1000,3000],status:'on'},
-  {id:'a5',provider:'startest',method:'測試支付',channel:'測試通道A',values:[10,50,100],status:'on'}
-];
-
-// 商城管理資料
-const storeGeneral = [
-  {id:'sg1',name:'線上轉點',provider:'mycard',method:'線上轉點',channel:'信用卡3D',vip:['新手','金牌','鑽石','銀牌','白金','銅牌'],status:'on'},
-  {id:'sg2',name:'電信帳單',provider:'mycard',method:'電信帳單',channel:'手機小額付款',vip:['新手','白金','金牌','鑽石','銅牌','銀牌'],status:'on'},
-  {id:'sg3',name:'Gash錢包扣點',provider:'gash',method:'會員扣點',channel:'錢包扣點',vip:['新手','白金','銅牌','鑽石','銀牌','金牌'],status:'on'},
-  {id:'sg4',name:'LINE Pay儲值',provider:'linepay',method:'行動支付',channel:'LINE Pay',vip:['新手','金牌','鑽石'],status:'on'},
-  {id:'sg5',name:'MyCard點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',vip:['新手','銅牌','銀牌','金牌','白金','鑽石'],status:'on'}
-];
-
-const storeFast = [
-  {id:'sf1',name:'快速儲值-點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',vip:['新手','銅牌','銀牌'],status:'on'},
-  {id:'sf2',name:'快速儲值-錢包',provider:'gash',method:'會員扣點',channel:'錢包扣點',vip:['新手','金牌'],status:'on'},
-  {id:'sf3',name:'快速儲值-LINE',provider:'linepay',method:'行動支付',channel:'LINE Pay',vip:['新手','鑽石','白金'],status:'on'},
-  {id:'sf4',name:'快速儲值-電信',provider:'mycard',method:'電信帳單',channel:'手機小額付款',vip:['新手','銅牌'],status:'on'}
+// 商城管理資料（一般+快速合併，type 區分）
+const storeItems = [
+  {id:'sg1',name:'線上轉點',provider:'mycard',method:'線上轉點',channel:'信用卡3D',type:'一般',vip:['新手','金牌','鑽石','銀牌','白金','銅牌'],status:'on'},
+  {id:'sg2',name:'電信帳單',provider:'mycard',method:'電信帳單',channel:'手機小額付款',type:'一般',vip:['新手','白金','金牌','鑽石','銅牌','銀牌'],status:'on'},
+  {id:'sg3',name:'Gash錢包扣點',provider:'gash',method:'會員扣點',channel:'錢包扣點',type:'一般',vip:['新手','白金','銅牌','鑽石','銀牌','金牌'],status:'on'},
+  {id:'sg4',name:'LINE Pay儲值',provider:'linepay',method:'行動支付',channel:'LINE Pay',type:'一般',vip:['新手','金牌','鑽石'],status:'on'},
+  {id:'sg5',name:'MyCard點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',type:'一般',vip:['新手','銅牌','銀牌','金牌','白金','鑽石'],status:'on'},
+  {id:'sf1',name:'快速儲值-點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',type:'快速',vip:['新手','銅牌','銀牌'],status:'on'},
+  {id:'sf2',name:'快速儲值-錢包',provider:'gash',method:'會員扣點',channel:'錢包扣點',type:'快速',vip:['新手','金牌'],status:'on'},
+  {id:'sf3',name:'快速儲值-LINE',provider:'linepay',method:'行動支付',channel:'LINE Pay',type:'快速',vip:['新手','鑽石','白金'],status:'on'},
+  {id:'sf4',name:'快速儲值-電信',provider:'mycard',method:'電信帳單',channel:'手機小額付款',type:'快速',vip:['新手','銅牌'],status:'on'}
 ];
 
 let currentProvider = 'mycard';
 let currentTab = 'methods';
 let currentPage = 1;
 let currentSection = 'payment'; // 'payment' or 'store'
-let currentStoreTab = 'general'; // 'general' or 'fast'
 const pageSize = 10;
 
 // === Init ===
@@ -93,21 +81,10 @@ function switchSection(section, el) {
 }
 
 // === Store Section ===
-function switchStoreTab(tab, el) {
-  currentStoreTab = tab;
-  currentPage = 1;
-  document.querySelectorAll('.store-tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  if (el) el.classList.add('active');
-  // Update add button label
-  var label = document.getElementById('addStoreLabel');
-  if (label) label.textContent = tab === 'general' ? '新增一般儲值' : '新增快速儲值';
-  renderStoreTable();
-}
-
 function renderStoreTable() {
   var container = document.getElementById('storeTableContainer');
   if (!container) return;
-  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  var data = storeItems;
   var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
 
   var total = data.length;
@@ -127,6 +104,7 @@ function renderStoreTable() {
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
       '<td>' + item.name + '</td>' +
+      '<td><span class="type-badge ' + (item.type === '快速' ? 'fast' : 'normal') + '">' + item.type + '</span></td>' +
       '<td>' + item.method + '</td>' +
       '<td>' + item.channel + '</td>' +
       '<td>' + statusHtml + '</td>' +
@@ -134,9 +112,9 @@ function renderStoreTable() {
       renderActionCell('StoreEdit', item.id, blocked) + '</tr>';
   }).join('');
 
-  if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+  if (!rows) rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
-  container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>類型</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('storePageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
   var pageBtns = '';
@@ -266,15 +244,14 @@ function renderActionCell(type, id, disabled) {
 
 // === 狀態切換 ===
 function toggleItemStatus(type, id) {
-  var arr = type === 'methods' ? methods : type === 'channels' ? channels : amounts;
+  var arr = type === 'methods' ? methods : channels;
   var item = arr.find(function(x){ return x.id === id; });
   if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
   renderTable();
 }
 
 function toggleStoreStatus(id) {
-  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
-  var item = data.find(function(x){ return x.id === id; });
+  var item = storeItems.find(function(x){ return x.id === id; });
   if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
   renderStoreTable();
 }
@@ -292,14 +269,6 @@ function deleteChannel(id) {
   if (!confirm('確定要刪除此付款通道？')) return;
   var idx = channels.findIndex(function(x){ return x.id === id; });
   if (idx >= 0) channels.splice(idx, 1);
-  renderProviders();
-  renderTable();
-}
-
-function deleteAmount(id) {
-  if (!confirm('確定要刪除此儲值金額？')) return;
-  var idx = amounts.findIndex(function(x){ return x.id === id; });
-  if (idx >= 0) amounts.splice(idx, 1);
   renderTable();
 }
 
@@ -317,7 +286,7 @@ function switchTab(tab, el) {
   // Update add button label
   var label = document.getElementById('addItemLabel');
   if (label) {
-    var labels = {methods:'新增支付方式', channels:'新增付款通道', amounts:'新增儲值金額'};
+    var labels = {methods:'新增支付方式', channels:'新增付款通道'};
     label.textContent = labels[tab] || '新增';
   }
   renderTable();
@@ -325,8 +294,7 @@ function switchTab(tab, el) {
 
 function openAddModal() {
   if (currentTab === 'methods') openMethodModal();
-  else if (currentTab === 'channels') openChannelModal();
-  else openAmountModal();
+  else openChannelModal();
 }
 
 // === Table ===
@@ -340,12 +308,9 @@ function renderTable() {
   if (currentTab === 'methods') {
     data = methods.filter(function(m){ return m.provider === currentProvider; });
     headers = '<th>Logo</th><th>支付方式</th><th>狀態</th><th>操作</th>';
-  } else if (currentTab === 'channels') {
-    data = channels.filter(function(c){ return c.provider === currentProvider; });
-    headers = '<th>支付方式</th><th>付款通道</th><th>通道代碼</th><th>狀態</th><th>操作</th>';
   } else {
-    data = amounts.filter(function(a){ return a.provider === currentProvider; });
-    headers = '<th>支付方式</th><th>付款通道</th><th>金額選項</th><th>狀態</th><th>操作</th>';
+    data = channels.filter(function(c){ return c.provider === currentProvider; });
+    headers = '<th>支付方式</th><th>付款通道</th><th>通道代碼</th><th>儲值金額</th><th>狀態</th><th>操作</th>';
   }
 
   if (nameFilter) {
@@ -364,13 +329,11 @@ function renderTable() {
   var rows = '';
   if (currentTab === 'methods') {
     rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
-  } else if (currentTab === 'channels') {
-    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   } else {
-    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + a.status + '" onclick="toggleItemStatus(\'amounts\',\'' + a.id + '\')"></button></label></td>' + renderActionCell('Amount', a.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + (c.values || []).map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   }
 
-  if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+  if (!rows) rows = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
   container.innerHTML = '<table class="data-table"><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
 
@@ -652,8 +615,7 @@ function saveStoreItem() {
 
 function deleteStoreItem(id) {
   if (!confirm('確定要刪除此商品？')) return;
-  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
-  var idx = data.findIndex(function(x){ return x.id === id; });
-  if (idx >= 0) data.splice(idx, 1);
+  var idx = storeItems.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) storeItems.splice(idx, 1);
   renderStoreTable();
 }
