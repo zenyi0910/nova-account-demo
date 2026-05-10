@@ -197,7 +197,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-del-sm{padding:4px 10px;font-size:12px;background:none;border:1px solid #FECACA;color:#DC2626;border-radius:6px;cursor:pointer;margin-left:4px}
 .btn-del-sm:hover{background:#FEF2F2}
 .btn-del-sm:disabled{opacity:.4;cursor:not-allowed}
-.action-cell{white-space:nowrap}
+.action-cell{white-space:nowrap;display:flex;align-items:center;gap:2px}
+.dropdown-wrap{position:relative;display:inline-flex}
+.dropdown-menu{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);min-width:80px;z-index:100;padding:4px}
+.dropdown-menu.show{display:block}
+.dropdown-menu button{display:block;width:100%;text-align:left;padding:6px 12px;border:none;background:none;cursor:pointer;font-size:13px;color:#DC2626;border-radius:4px}
+.dropdown-menu button:hover{background:#FEF2F2}
+.avatar-sm{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:#EEF2FF;color:#4338CA;font-size:13px;font-weight:600}
 .vip-checkboxes{display:flex;flex-wrap:wrap;gap:8px}
 .vip-cb{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer}
 .vip-cb input{width:14px;height:14px}
@@ -466,6 +472,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=22"></script>
+<script src="js/payment-management.js?v=23"></script>
 </body>
 </html>

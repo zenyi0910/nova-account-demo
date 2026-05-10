@@ -258,13 +258,21 @@ function renderStatusCell(status, toggleFn, disabled) {
   return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
 }
 
-// === 共用操作按鈕元件（只有編輯按鈕，對齊 Nova 系統） ===
+// === 共用操作按鈕元件（編輯 + 三點選單，對齊 Nova 系統） ===
 function renderActionCell(type, id, disabled) {
   var dis = disabled ? ' disabled' : '';
   return '<td class="action-cell">' +
     '<button class="btn-icon" title="編輯"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
     '</button>' +
+    '<div class="dropdown-wrap">' +
+      '<button class="btn-icon btn-more" title="更多"' + dis + ' onclick="toggleDropdown(this)">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>' +
+      '</button>' +
+      '<div class="dropdown-menu">' +
+        '<button onclick="delete' + type + '(\'' + id + '\')"' + dis + '>刪除</button>' +
+      '</div>' +
+    '</div>' +
     '</td>';
 }
 
@@ -283,6 +291,20 @@ function toggleStoreStatus(id) {
 }
 
 // === 刪除操作 ===
+function toggleDropdown(btn) {
+  var menu = btn.nextElementSibling;
+  var isOpen = menu.classList.contains('show');
+  // 關閉所有其他 dropdown
+  document.querySelectorAll('.dropdown-menu.show').forEach(function(m){ m.classList.remove('show'); });
+  if (!isOpen) menu.classList.add('show');
+}
+// 點擊其他地方關閉 dropdown
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.dropdown-wrap')) {
+    document.querySelectorAll('.dropdown-menu.show').forEach(function(m){ m.classList.remove('show'); });
+  }
+});
+
 function deleteMethod(id) {
   if (!confirm('確定要刪除此支付方式？')) return;
   var idx = methods.findIndex(function(x){ return x.id === id; });
@@ -356,14 +378,14 @@ function renderTable() {
   if (currentTab === 'methods') {
     rows = pageData.map(function(m){ 
       var provName = (providers.find(function(p){ return p.id === m.provider; }) || {}).name || m.provider;
-      var statusText = m.status === 'on' ? '啟用' : '停用';
-      return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td>' + provName + '</td>' + renderStatusCell(m.status, "toggleItemStatus('methods','" + m.id + "')") + renderActionCell('Method', m.id) + '</tr>'; 
+      var initial = m.name.charAt(0);
+      return '<tr><td><span class="avatar-sm">' + initial + '</span></td><td>' + m.name + '</td><td>' + provName + '</td>' + renderStatusCell(m.status, "toggleItemStatus('methods','" + m.id + "')") + renderActionCell('Method', m.id) + '</tr>'; 
     }).join('');
   } else {
     rows = pageData.map(function(c){ 
       var provName = (providers.find(function(p){ return p.id === c.provider; }) || {}).name || c.provider;
-      var statusText = c.status === 'on' ? '啟用' : '停用';
-      return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + provName + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + c.name + '</td>' + renderStatusCell(c.status, "toggleItemStatus('channels','" + c.id + "')") + renderActionCell('Channel', c.id) + '</tr>'; 
+      var initial = c.name.charAt(0);
+      return '<tr><td><span class="avatar-sm">' + initial + '</span></td><td>' + c.method + '</td><td>' + provName + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + c.name + '</td>' + renderStatusCell(c.status, "toggleItemStatus('channels','" + c.id + "')") + renderActionCell('Channel', c.id) + '</tr>'; 
     }).join('');
   }
 
