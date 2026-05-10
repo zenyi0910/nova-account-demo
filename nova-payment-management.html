@@ -443,12 +443,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <table class="data-table" style="font-size:12px">
           <thead><tr><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead>
           <tbody id="smAmountTableBody"></tbody>
+          <tfoot>
+            <tr>
+              <td><input type="number" id="smNewAmount" placeholder="請輸入金額" style="width:100%"></td>
+              <td><input type="number" id="smNewBasePoints" placeholder="請輸入基本點數" style="width:100%" oninput="calcStoreAmountPreview()"></td>
+              <td><input type="number" id="smNewBonus" placeholder="請輸入贈比" style="width:100%" value="0" oninput="calcStoreAmountPreview()"></td>
+              <td><input type="number" id="smNewBonusPoints" placeholder="" style="width:100%;background:#f3f4f6" readonly></td>
+              <td><input type="number" id="smNewTotalPoints" placeholder="" style="width:100%;background:#f3f4f6" readonly></td>
+              <td><button class="btn-add" onclick="addStoreAmount()">新增</button></td>
+            </tr>
+          </tfoot>
         </table>
-        <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-          <input type="number" id="smNewAmount" placeholder="金額" style="width:100px">
-          <input type="number" id="smNewBonus" placeholder="贈比%" style="width:80px" value="0">
-          <button class="btn-add" onclick="addStoreAmount()">新增</button>
-        </div>
       </div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="smStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
@@ -461,6 +466,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=19"></script>
+<script src="js/payment-management.js?v=20"></script>
 </body>
 </html>

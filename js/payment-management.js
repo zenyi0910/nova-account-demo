@@ -625,17 +625,31 @@ function populateStoreDropdowns(providerId) {
 
 function addStoreAmount() {
   var amtInput = document.getElementById('smNewAmount');
+  var baseInput = document.getElementById('smNewBasePoints');
   var bonusInput = document.getElementById('smNewBonus');
   var amount = parseInt(amtInput.value);
+  var basePoints = parseInt(baseInput.value);
   var bonus = parseInt(bonusInput.value) || 0;
   if (!amount || amount <= 0) { alert('請輸入有效金額'); return; }
-  var basePoints = amount;
+  if (!basePoints || basePoints <= 0) { alert('請輸入有效基本點數'); return; }
   var bonusPoints = Math.floor(basePoints * bonus / 100);
   storeAmountValues.push({amount: amount, basePoints: basePoints, bonusRate: bonus, bonusPoints: bonusPoints, totalPoints: basePoints + bonusPoints});
   storeAmountValues.sort(function(a,b){ return a.amount - b.amount; });
   renderStoreAmountTable();
   amtInput.value = '';
+  baseInput.value = '';
   bonusInput.value = '0';
+  document.getElementById('smNewBonusPoints').value = '';
+  document.getElementById('smNewTotalPoints').value = '';
+}
+
+// 自動計算贈點和實際點數
+function calcStoreAmountPreview() {
+  var basePoints = parseInt(document.getElementById('smNewBasePoints').value) || 0;
+  var bonus = parseInt(document.getElementById('smNewBonus').value) || 0;
+  var bonusPoints = Math.floor(basePoints * bonus / 100);
+  document.getElementById('smNewBonusPoints').value = bonusPoints || '';
+  document.getElementById('smNewTotalPoints').value = (basePoints + bonusPoints) || '';
 }
 
 function removeStoreAmount(idx) {
