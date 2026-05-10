@@ -67,6 +67,15 @@ function renderSectionTabs() {
   container.innerHTML =
     '<button class="section-tab' + (currentSection === 'payment' ? ' active' : '') + '" onclick="switchSection(\'payment\',this)">三方支付設定</button>' +
     '<button class="section-tab' + (currentSection === 'store' ? ' active' : '') + '" onclick="switchSection(\'store\',this)">商城管理</button>';
+  // 右側新增按鈕
+  var btnContainer = document.getElementById('sectionAddBtn');
+  if (btnContainer) {
+    if (currentSection === 'payment') {
+      btnContainer.innerHTML = '<button class="btn-add" onclick="openProviderModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增供應商</button>';
+    } else {
+      btnContainer.innerHTML = '<button class="btn-add" onclick="openStoreAddModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增儲值類型</button>';
+    }
+  }
 }
 
 function switchSection(section, el) {
@@ -78,6 +87,7 @@ function switchSection(section, el) {
   document.getElementById('paymentSection').style.display = section === 'payment' ? '' : 'none';
   document.getElementById('storeSection').style.display = section === 'store' ? '' : 'none';
   if (section === 'store') renderStoreTable();
+  renderSectionTabs();
 }
 
 // === Store Section ===
