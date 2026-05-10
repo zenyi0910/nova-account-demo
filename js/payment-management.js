@@ -22,16 +22,16 @@ const methods = [
 ];
 
 const channels = [
-  {id:'c1',provider:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=點數卡',status:'on',values:[50,100,300,500,1000]},
-  {id:'c2',provider:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004',logo:'https://placehold.co/80x80/FEF3C7/D97706?text=電信',status:'off',values:[100,300,500]},
-  {id:'c3',provider:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B',logo:'https://placehold.co/80x80/DCFCE7/166534?text=3D',status:'off',values:[100,300,500,1000]},
-  {id:'c4',provider:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=點數卡',status:'on',values:[100,300,500,1000,2000]},
-  {id:'c5',provider:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=錢包',status:'on',values:[50,100,500]},
-  {id:'c6',provider:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001',logo:'https://placehold.co/80x80/DCFCE7/166534?text=LINE',status:'on',values:[100,300,500,1000,3000]},
-  {id:'c7',provider:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=信用卡',status:'off',values:[300,500,1000,3000]},
-  {id:'c8',provider:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'off',values:[500,1000,3000,5000]},
-  {id:'c9',provider:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試A',status:'on',values:[10,50,100]},
-  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on',values:[50,100,500]}
+  {id:'c1',provider:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=點數卡',status:'on',values:[{amount:50,type:'一般'},{amount:100,type:'一般'},{amount:300,type:'快速'},{amount:500,type:'一般'},{amount:1000,type:'快速'}]},
+  {id:'c2',provider:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004',logo:'https://placehold.co/80x80/FEF3C7/D97706?text=電信',status:'off',values:[{amount:100,type:'一般'},{amount:300,type:'快速'},{amount:500,type:'一般'}]},
+  {id:'c3',provider:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B',logo:'https://placehold.co/80x80/DCFCE7/166534?text=3D',status:'off',values:[{amount:100,type:'一般'},{amount:300,type:'一般'},{amount:500,type:'快速'},{amount:1000,type:'一般'}]},
+  {id:'c4',provider:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=點數卡',status:'on',values:[{amount:100,type:'一般'},{amount:300,type:'一般'},{amount:500,type:'快速'},{amount:1000,type:'一般'},{amount:2000,type:'快速'}]},
+  {id:'c5',provider:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=錢包',status:'on',values:[{amount:50,type:'快速'},{amount:100,type:'一般'},{amount:500,type:'一般'}]},
+  {id:'c6',provider:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001',logo:'https://placehold.co/80x80/DCFCE7/166534?text=LINE',status:'on',values:[{amount:100,type:'一般'},{amount:300,type:'一般'},{amount:500,type:'快速'},{amount:1000,type:'一般'},{amount:3000,type:'快速'}]},
+  {id:'c7',provider:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=信用卡',status:'off',values:[{amount:300,type:'一般'},{amount:500,type:'一般'},{amount:1000,type:'快速'},{amount:3000,type:'一般'}]},
+  {id:'c8',provider:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'off',values:[{amount:500,type:'一般'},{amount:1000,type:'一般'},{amount:3000,type:'快速'},{amount:5000,type:'一般'}]},
+  {id:'c9',provider:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試A',status:'on',values:[{amount:10,type:'快速'},{amount:50,type:'一般'},{amount:100,type:'一般'}]},
+  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on',values:[{amount:50,type:'一般'},{amount:100,type:'快速'},{amount:500,type:'一般'}]}
 ];
 
 // 商城管理資料（一般+快速合併，type 區分）
@@ -351,7 +351,7 @@ function renderTable() {
     headers = '<th>Logo</th><th>支付方式</th><th>狀態</th><th>操作</th>';
   } else {
     data = channels.filter(function(c){ return c.provider === currentProvider; });
-    headers = '<th>Logo</th><th>支付方式</th><th>付款通道</th><th>通道代碼</th><th>狀態</th><th>操作</th>';
+    headers = '<th>Logo</th><th>支付方式</th><th>付款通道</th><th>通道代碼</th><th>儲值金額</th><th>狀態</th><th>操作</th>';
   }
 
   if (nameFilter) {
@@ -371,7 +371,7 @@ function renderTable() {
   if (currentTab === 'methods') {
     rows = pageData.map(function(m){ return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
   } else {
-    rows = pageData.map(function(c){ return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + (c.values || []).map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v.amount + ' <small style=color:#6B7280>' + v.type + '</small></span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   }
 
   if (!rows) rows = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
@@ -497,7 +497,7 @@ function openChannelModal(id) {
     selP.value = c.provider;
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
-    channelAmountValues = c.values || [];
+    channelAmountValues = (c.values || []).map(function(v){ return {amount: v.amount, type: v.type}; });
     renderChannelAmountTable();
   } else {
     document.getElementById('cmCode').value = '';
@@ -512,32 +512,35 @@ var channelAmountValues = [];
 
 function addChannelAmount() {
   var input = document.getElementById('cmNewAmount');
+  var typeSelect = document.getElementById('cmAmountType');
   var val = parseInt(input.value);
+  var type = typeSelect.value;
   if (!val || val <= 0) { alert('請輸入有效金額'); return; }
-  if (channelAmountValues.indexOf(val) >= 0) { alert('金額已存在'); return; }
-  channelAmountValues.push(val);
-  channelAmountValues.sort(function(a,b){ return a - b; });
+  if (channelAmountValues.find(function(v){ return v.amount === val && v.type === type; })) { 
+    alert('此金額和類型組合已存在'); return; 
+  }
+  channelAmountValues.push({amount: val, type: type});
+  channelAmountValues.sort(function(a,b){ return a.amount - b.amount; });
   renderChannelAmountTable();
   input.value = '';
 }
 
-function removeChannelAmount(val) {
-  var idx = channelAmountValues.indexOf(val);
-  if (idx >= 0) channelAmountValues.splice(idx, 1);
+function removeChannelAmount(idx) {
+  channelAmountValues.splice(idx, 1);
   renderChannelAmountTable();
 }
 
 function renderChannelAmountTable() {
   var tbody = document.getElementById('cmAmountTableBody');
-  if (!channelAmountValues.length) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#9CA3AF;padding:12px">尚未新增金額</td></tr>';
+  if (channelAmountValues.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#999">尚未新增儲值金額</td></tr>';
     return;
   }
-  tbody.innerHTML = channelAmountValues.map(function(v){
-    return '<tr><td>$' + v + '</td><td><button class="btn-del-sm" onclick="removeChannelAmount(' + v + ')">刪除</button></td></tr>';
+  var rows = channelAmountValues.map(function(item, idx) {
+    return '<tr><td>' + item.amount + '</td><td>' + item.type + '</td><td><button class="btn-icon btn-icon-danger" onclick="removeChannelAmount(' + idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td></tr>';
   }).join('');
+  tbody.innerHTML = rows;
 }
-
 function saveChannel() {
   var code = document.getElementById('cmCode').value.trim();
   var name = document.getElementById('cmName').value.trim();
