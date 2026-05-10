@@ -110,8 +110,8 @@ function renderStoreTable() {
     var rowCls = blocked ? ' class="row-blocked"' : '';
     var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
-      '<label class="switch-cell"><button class="toggle off" disabled></button><span class="status-label off">停用</span></label>' :
-      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button><span class="status-label ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span></label>';
+      renderStatusCell('off', '', true) :
+      renderStatusCell(item.status, "toggleStoreStatus('" + item.id + "')");
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
@@ -119,7 +119,7 @@ function renderStoreTable() {
       '<td><span class="type-badge ' + (item.type === '快速' ? 'fast' : 'normal') + '">' + item.type + '</span></td>' +
       '<td>' + item.method + '</td>' +
       '<td>' + item.channel + '</td>' +
-      '<td>' + statusHtml + '</td>' +
+      statusHtml +
       '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
       renderActionCell('StoreEdit', item.id, blocked) + '</tr>';
   }).join('');
@@ -250,6 +250,15 @@ function clearAllSched() {
   renderSchedules();
 }
 
+// === 共用狀態欄元件（toggle + 文字標籤，對齊 Nova 系統） ===
+function renderStatusCell(status, toggleFn, disabled) {
+  var st = disabled ? 'off' : status;
+  var text = st === 'on' ? '啟用' : '停用';
+  var dis = disabled ? ' disabled' : '';
+  var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
+  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button><span class="status-label ' + st + '">' + text + '</span></label></td>';
+}
+
 // === 共用操作按鈕元件（只有編輯按鈕，對齊 Nova 系統） ===
 function renderActionCell(type, id, disabled) {
   var dis = disabled ? ' disabled' : '';
@@ -349,13 +358,13 @@ function renderTable() {
     rows = pageData.map(function(m){ 
       var provName = (providers.find(function(p){ return p.id === m.provider; }) || {}).name || m.provider;
       var statusText = m.status === 'on' ? '啟用' : '停用';
-      return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td>' + provName + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button><span class="status-label ' + m.status + '">' + statusText + '</span></label></td>' + renderActionCell('Method', m.id) + '</tr>'; 
+      return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td>' + provName + '</td>' + renderStatusCell(m.status, "toggleItemStatus('methods','" + m.id + "')") + renderActionCell('Method', m.id) + '</tr>'; 
     }).join('');
   } else {
     rows = pageData.map(function(c){ 
       var provName = (providers.find(function(p){ return p.id === c.provider; }) || {}).name || c.provider;
       var statusText = c.status === 'on' ? '啟用' : '停用';
-      return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + provName + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + c.name + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button><span class="status-label ' + c.status + '">' + statusText + '</span></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; 
+      return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + provName + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + c.name + '</td>' + renderStatusCell(c.status, "toggleItemStatus('channels','" + c.id + "')") + renderActionCell('Channel', c.id) + '</tr>'; 
     }).join('');
   }
 
