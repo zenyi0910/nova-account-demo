@@ -601,10 +601,9 @@ function openStoreAddModal() {
 
 function openStoreEditModal(id) {
   editingStoreId = id;
-  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
-  var item = data.find(function(x){ return x.id === id; });
+  var item = storeItems.find(function(x){ return x.id === id; });
   if (!item) return;
-  var title = currentStoreTab === 'general' ? '編輯一般儲值' : '編輯快速儲值';
+  var title = '編輯儲值類型';
   document.getElementById('storeModalTitle').textContent = title;
   document.getElementById('smName').value = item.name;
   var selP = document.getElementById('smProvider');
