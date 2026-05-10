@@ -623,34 +623,32 @@ function populateStoreDropdowns(providerId) {
   selC.innerHTML = '<option value="">請選擇付款通道</option>' + filteredChannels.map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
 }
 
-function addStoreAmount() {
-  var amtInput = document.getElementById('smNewAmount');
-  var baseInput = document.getElementById('smNewBasePoints');
-  var bonusInput = document.getElementById('smNewBonus');
-  var amount = parseInt(amtInput.value);
-  var basePoints = parseInt(baseInput.value);
-  var bonus = parseInt(bonusInput.value) || 0;
-  if (!amount || amount <= 0) { alert('請輸入有效金額'); return; }
-  if (!basePoints || basePoints <= 0) { alert('請輸入有效基本點數'); return; }
-  var bonusPoints = Math.floor(basePoints * bonus / 100);
-  storeAmountValues.push({amount: amount, basePoints: basePoints, bonusRate: bonus, bonusPoints: bonusPoints, totalPoints: basePoints + bonusPoints});
-  storeAmountValues.sort(function(a,b){ return a.amount - b.amount; });
+function addStoreAmountRow() {
+  storeAmountValues.push({amount: '', basePoints: '', bonusRate: 0, bonusPoints: 0, totalPoints: 0});
   renderStoreAmountTable();
-  amtInput.value = '';
-  baseInput.value = '';
-  bonusInput.value = '0';
-  document.getElementById('smNewBonusPoints').value = '';
-  document.getElementById('smNewTotalPoints').value = '';
 }
 
-// 自動計算贈點和實際點數
-function calcStoreAmountPreview() {
-  var basePoints = parseInt(document.getElementById('smNewBasePoints').value) || 0;
-  var bonus = parseInt(document.getElementById('smNewBonus').value) || 0;
-  var bonusPoints = Math.floor(basePoints * bonus / 100);
-  document.getElementById('smNewBonusPoints').value = bonusPoints || '';
-  document.getElementById('smNewTotalPoints').value = (basePoints + bonusPoints) || '';
+function addStoreAmount() { addStoreAmountRow(); }
+
+function updateStoreAmountField(idx, field, value) {
+  var row = storeAmountValues[idx];
+  if (!row) return;
+  var val = parseInt(value) || 0;
+  if (field === 'amount') row.amount = val;
+  else if (field === 'basePoints') row.basePoints = val;
+  else if (field === 'bonusRate') row.bonusRate = val;
+  row.bonusPoints = Math.floor((row.basePoints || 0) * (row.bonusRate || 0) / 100);
+  row.totalPoints = (row.basePoints || 0) + row.bonusPoints;
+  // Update readonly cells without full re-render
+  var bpCell = document.getElementById('smBonusPoints_' + idx);
+  var tpCell = document.getElementById('smTotalPoints_' + idx);
+  if (bpCell) bpCell.textContent = row.bonusPoints;
+  if (tpCell) tpCell.textContent = row.totalPoints;
+  document.getElementById('smAmountCount').textContent = storeAmountValues.length;
 }
+
+// 自動計算贈點和實際點數（legacy, kept for compatibility）
+function calcStoreAmountPreview() {}
 
 function removeStoreAmount(idx) {
   storeAmountValues.splice(idx, 1);
@@ -660,12 +658,22 @@ function removeStoreAmount(idx) {
 function renderStoreAmountTable() {
   var tbody = document.getElementById('smAmountTableBody');
   if (!tbody) return;
+  var countEl = document.getElementById('smAmountCount');
+  if (countEl) countEl.textContent = storeAmountValues.length;
   if (storeAmountValues.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:12px">尚未有任何資料</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:12px">尚未有任何資料</td></tr>';
     return;
   }
   tbody.innerHTML = storeAmountValues.map(function(v, i) {
-    return '<tr><td>' + v.amount + '</td><td>' + v.basePoints + '</td><td>' + v.bonusRate + '%</td><td>' + v.bonusPoints + '</td><td>' + v.totalPoints + '</td><td><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td></tr>';
+    return '<tr>' +
+      '<td style="text-align:center">' + (i + 1) + '</td>' +
+      '<td><input type="number" value="' + (v.amount || '') + '" placeholder="請輸入金額" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'amount\',this.value)"></td>' +
+      '<td><input type="number" value="' + (v.basePoints || '') + '" placeholder="請輸入基本點數" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'basePoints\',this.value)"></td>' +
+      '<td><input type="number" value="' + (v.bonusRate || 0) + '" placeholder="請輸入贈比" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'bonusRate\',this.value)"></td>' +
+      '<td style="text-align:center" id="smBonusPoints_' + i + '">' + (v.bonusPoints || 0) + '</td>' +
+      '<td style="text-align:center" id="smTotalPoints_' + i + '">' + (v.totalPoints || 0) + '</td>' +
+      '<td style="text-align:center"><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')">刪除</button></td>' +
+      '</tr>';
   }).join('');
 }
 
