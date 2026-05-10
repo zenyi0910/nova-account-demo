@@ -118,7 +118,7 @@ function renderStoreTable() {
   var rows = pageData.map(function(item) {
     var blocked = providerOff.indexOf(item.provider) >= 0;
     var rowCls = blocked ? ' class="row-blocked"' : '';
-    var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider || '-';
+    var provName = item.type === '快速' ? '-' : ((providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider || '-');
     var statusHtml = blocked ?
       renderStatusCell('off', '', true) :
       renderStatusCell(item.status, "toggleStoreStatus('" + item.id + "')");
@@ -127,8 +127,8 @@ function renderStoreTable() {
       '<td>' + provName + '</td>' +
       '<td>' + item.name + '</td>' +
       '<td><span class="type-badge ' + (item.type === '快速' ? 'fast' : 'normal') + '">' + item.type + '</span></td>' +
-      '<td>' + (item.method || '-') + '</td>' +
-      '<td>' + (item.channel || '-') + '</td>' +
+      '<td>' + (item.type === '快速' ? '-' : (item.method || '-')) + '</td>' +
+      '<td>' + (item.type === '快速' ? '-' : (item.channel || '-')) + '</td>' +
       statusHtml +
       '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
       renderActionCell('StoreEdit', item.id, blocked) + '</tr>';
