@@ -114,18 +114,37 @@ function renderHallDetail() {
   const gameCount = games.filter(g => g.hall === id).length;
 
   const schedHtml = renderScheduleTab(id, h);
+  const currHtml = renderCurrencyTab(id, h);
+
+  // 快速開關區
+  const quickSwitchHtml = '<div class="hall-quick-switch">' +
+    '<span class="quick-label">' + (h.status === 'on' ? '運行中' : '已關閉') + '</span>' +
+    UI.toggle(h.status, "requestToggle('" + id + "')") +
+    '</div>';
 
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
       '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
       '<span class="spacer"></span>' +
-      UI.toggle(h.status, "requestToggle('" + id + "')") +
+      quickSwitchHtml +
     '</div>' +
-    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關<span class="spacer"></span>' +
+    // 排程開關區
+    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關' +
+    '<span class="hall-section-hint">到達指定時間自動執行，不需手動設定維護</span>' +
+    '<span class="spacer"></span>' +
     UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + ' ' +
     UI.btn.icon('delete', "delAllSched('" + id + "')", '清除全部排程') + '</div>' +
     '<div class="hall-tab-body">' + schedHtml + '</div>' +
+    // 幣種設定區
+    '<div class="hall-section-title">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
+    ' 幣種設定' +
+    '<span class="hall-section-hint">廳級設定優先覆蓋個別遊戲，取消後遊戲恢復原始值</span>' +
+    '<span class="spacer"></span>' +
+    UI.btn.icon('edit', "openCurrModal('" + id + "')", '編輯幣種設定') + '</div>' +
+    '<div class="currency-dual">' + currHtml + '</div>' +
+    '<div class="override-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 廳級設定會覆蓋該廳下所有遊戲的投注範圍，個別遊戲原始設定不受影響（取消覆蓋後自動恢復）</div>' +
   '</div>';
 
   document.getElementById('hallDetail').innerHTML = html;
@@ -135,13 +154,13 @@ function renderCurrencyTab(id, h) {
   return '<div class="hall-sections">' +
     '<div class="sec-card gold"><div class="sec-title">' +
       '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' +
-      '金幣<span class="sec-badge ' + (h.gold.enabled ? 'on' : 'off') + '">' + (h.gold.enabled ? '啟用' : '停用') + '</span>' +
-      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_gold_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'gold\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
+      '金幣' + UI.badge(h.gold.enabled ? '啟用' : '停用', h.gold.enabled ? 'on' : 'off') +
+      '</div>' +
       '<div class="curr-row" id="currGold_' + id + '">' + renderCurrFields(h.gold, id, 'gold', false) + '</div></div>' +
     '<div class="sec-card star"><div class="sec-title">' +
       '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
-      '星幣<span class="sec-badge ' + (h.star.enabled ? 'on' : 'off') + '">' + (h.star.enabled ? '啟用' : '停用') + '</span>' +
-      '<span class="spacer"></span><button class="edit-icon-btn" id="editBtn_star_' + id + '" onclick="toggleCurrEdit(\'' + id + '\',\'star\')" title="修改"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div>' +
+      '星幣' + UI.badge(h.star.enabled ? '啟用' : '停用', h.star.enabled ? 'on' : 'off') +
+      '</div>' +
       '<div class="curr-row" id="currStar_' + id + '">' + renderCurrFields(h.star, id, 'star', false) + '</div></div>' +
   '</div>';
 }
