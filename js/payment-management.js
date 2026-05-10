@@ -121,8 +121,8 @@ function renderStoreTable() {
     var rowCls = blocked ? ' class="row-blocked"' : '';
     var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
-      '<span class="status-badge off">供應商停用</span>' :
-      '<span class="status-badge ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span>';
+      '<label class="switch-cell"><button class="toggle off" disabled></button><span class="switch-label">供應商停用</span></label>' :
+      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button><span class="switch-label">' + (item.status === 'on' ? '啟用' : '停用') + '</span></label>';
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
@@ -251,13 +251,54 @@ function clearAllSched() {
   renderSchedules();
 }
 
-// === 共用操作按鈕元件 ===
+// === 共用操作按鈕元件（模擬實際系統：編輯icon + ⋮更多選單） ===
 function renderActionCell(type, id, disabled) {
   var dis = disabled ? ' disabled' : '';
   return '<td class="action-cell">' +
-    '<button class="btn-outline btn-action-edit"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">編輯</button>' +
-    '<button class="btn-del-sm"' + dis + ' onclick="delete' + type + '(\'' + id + '\')">刪除</button>' +
+    '<button class="btn-icon" title="編輯"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+    '</button>' +
+    '<div class="dropdown-wrap">' +
+      '<button class="btn-icon btn-more" title="更多"' + dis + ' onclick="toggleDropdown(this)">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>' +
+      '</button>' +
+      '<div class="dropdown-menu">' +
+        '<button class="dropdown-item danger" onclick="delete' + type + '(\'' + id + '\')">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+          '刪除</button>' +
+      '</div>' +
+    '</div>' +
     '</td>';
+}
+
+// 下拉選單切換
+function toggleDropdown(btn) {
+  var menu = btn.nextElementSibling;
+  var isOpen = menu.classList.contains('show');
+  // 關閉所有已開啟的
+  document.querySelectorAll('.dropdown-menu.show').forEach(function(m){ m.classList.remove('show'); });
+  if (!isOpen) menu.classList.add('show');
+}
+// 點擊其他地方關閉
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.dropdown-wrap')) {
+    document.querySelectorAll('.dropdown-menu.show').forEach(function(m){ m.classList.remove('show'); });
+  }
+});
+
+// === 狀態切換 ===
+function toggleItemStatus(type, id) {
+  var arr = type === 'methods' ? methods : type === 'channels' ? channels : amounts;
+  var item = arr.find(function(x){ return x.id === id; });
+  if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
+  renderTable();
+}
+
+function toggleStoreStatus(id) {
+  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  var item = data.find(function(x){ return x.id === id; });
+  if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
+  renderStoreTable();
 }
 
 // === 刪除操作 ===
@@ -344,11 +385,11 @@ function renderTable() {
 
   var rows = '';
   if (currentTab === 'methods') {
-    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button><span class="switch-label">' + (m.status === 'on' ? '啟用' : '停用') + '</span></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
   } else if (currentTab === 'channels') {
-    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button><span class="switch-label">' + (c.status === 'on' ? '啟用' : '停用') + '</span></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   } else {
-    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><span class="status-badge ' + a.status + '">' + (a.status === 'on' ? '啟用' : '停用') + '</span></td>' + renderActionCell('Amount', a.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + a.status + '" onclick="toggleItemStatus(\'amounts\',\'' + a.id + '\')"></button><span class="switch-label">' + (a.status === 'on' ? '啟用' : '停用') + '</span></label></td>' + renderActionCell('Amount', a.id) + '</tr>'; }).join('');
   }
 
   if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
