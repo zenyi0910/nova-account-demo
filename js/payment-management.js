@@ -84,7 +84,19 @@ function switchSection(section, el) {
 function renderStoreTable() {
   var container = document.getElementById('storeTableContainer');
   if (!container) return;
-  var data = storeItems;
+  
+  // Apply filters
+  var nameFilter = (document.getElementById('storeFilterName') || {}).value || '';
+  var statusFilter = (document.getElementById('storeFilterStatus') || {}).value || '';
+  var typeFilter = (document.getElementById('storeFilterType') || {}).value || '';
+  
+  var data = storeItems.filter(function(item) {
+    if (nameFilter && item.name.toLowerCase().indexOf(nameFilter.toLowerCase()) < 0) return false;
+    if (statusFilter && item.status !== statusFilter) return false;
+    if (typeFilter && item.type !== typeFilter) return false;
+    return true;
+  });
+  
   var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
 
   var total = data.length;
@@ -125,6 +137,15 @@ function renderStoreTable() {
 }
 
 function goStorePage(p) { currentPage = p; renderStoreTable(); }
+
+function applyStoreFilter() { currentPage = 1; renderStoreTable(); }
+function resetStoreFilter() {
+  document.getElementById('storeFilterName').value = '';
+  document.getElementById('storeFilterStatus').value = '';
+  document.getElementById('storeFilterType').value = '';
+  currentPage = 1;
+  renderStoreTable();
+}
 
 // === Provider Cards ===
 function renderProviders() {
@@ -445,9 +466,9 @@ function openChannelModal(id) {
   var selM = document.getElementById('cmMethod');
   selM.innerHTML = '<option value="">請選擇支付方式</option>' + methods.filter(function(m){ return m.provider === currentProvider; }).map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
   
-  // 清空金額 tags
+  // 清空金額表格
   channelAmountValues = [];
-  renderChannelAmountTags();
+  renderChannelAmountTable();
   
   if (id) {
     var c = channels.find(function(x){ return x.id === id; });
@@ -457,7 +478,7 @@ function openChannelModal(id) {
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
     channelAmountValues = c.values || [];
-    renderChannelAmountTags();
+    renderChannelAmountTable();
   } else {
     document.getElementById('cmCode').value = '';
     document.getElementById('cmName').value = '';
@@ -469,31 +490,31 @@ function openChannelModal(id) {
 
 var channelAmountValues = [];
 
-function addChannelAmountTag() {
+function addChannelAmount() {
   var input = document.getElementById('cmNewAmount');
   var val = parseInt(input.value);
   if (!val || val <= 0) { alert('請輸入有效金額'); return; }
   if (channelAmountValues.indexOf(val) >= 0) { alert('金額已存在'); return; }
   channelAmountValues.push(val);
   channelAmountValues.sort(function(a,b){ return a - b; });
-  renderChannelAmountTags();
+  renderChannelAmountTable();
   input.value = '';
 }
 
-function removeChannelAmountTag(val) {
+function removeChannelAmount(val) {
   var idx = channelAmountValues.indexOf(val);
   if (idx >= 0) channelAmountValues.splice(idx, 1);
-  renderChannelAmountTags();
+  renderChannelAmountTable();
 }
 
-function renderChannelAmountTags() {
-  var container = document.getElementById('cmAmountTags');
+function renderChannelAmountTable() {
+  var tbody = document.getElementById('cmAmountTableBody');
   if (!channelAmountValues.length) {
-    container.innerHTML = '<div style="color:#9CA3AF;font-size:12px;padding:8px 0">尚未新增金額</div>';
+    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#9CA3AF;padding:12px">尚未新增金額</td></tr>';
     return;
   }
-  container.innerHTML = channelAmountValues.map(function(v){
-    return '<span class="amount-tag">$' + v + '<button onclick="removeChannelAmountTag(' + v + ')">&times;</button></span>';
+  tbody.innerHTML = channelAmountValues.map(function(v){
+    return '<tr><td>$' + v + '</td><td><button class="btn-del-sm" onclick="removeChannelAmount(' + v + ')">刪除</button></td></tr>';
   }).join('');
 }
 

@@ -323,6 +323,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <span id="addStoreLabel">新增儲值類型</span>
         </button>
       </div>
+      <div class="filter-bar">
+        <input type="text" placeholder="搜尋名稱..." id="storeFilterName" style="width:160px">
+        <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
+        <select id="storeFilterType"><option value="">全部類型</option><option value="一般">一般</option><option value="快速">快速</option></select>
+        <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
+        <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
+      </div>
       <div id="storeTableContainer"></div>
       <div class="pagination">
         <span id="storePageInfo"></span>
@@ -414,11 +421,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div class="form-group"><label>付款通道名稱 <span class="required">*</span></label><input type="text" id="cmName" placeholder="輸入通道名稱"></div>
       </div>
       <div class="form-group"><label>儲值金額 <span class="required">*</span></label>
-        <div class="amount-tags" id="cmAmountTags"></div>
-        <div class="amount-input-row">
-          <input type="number" id="cmNewAmount" placeholder="輸入金額" style="width:120px">
-          <button class="btn-add" onclick="addChannelAmountTag()">新增</button>
+        <div style="margin-bottom:8px">
+          <input type="number" id="cmNewAmount" placeholder="輸入金額" style="width:120px;margin-right:8px">
+          <button class="btn-add" onclick="addChannelAmount()">新增</button>
         </div>
+        <table class="data-table" id="cmAmountTable" style="font-size:12px">
+          <thead><tr><th style="width:60%">金額</th><th style="width:40%">操作</th></tr></thead>
+          <tbody id="cmAmountTableBody"></tbody>
+        </table>
       </div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="cmStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
@@ -462,6 +472,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=13"></script>
+<script src="js/payment-management.js?v=14"></script>
 </body>
 </html>
