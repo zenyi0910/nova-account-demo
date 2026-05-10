@@ -110,8 +110,8 @@ function renderStoreTable() {
     var rowCls = blocked ? ' class="row-blocked"' : '';
     var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
-      '<label class="switch-cell"><button class="toggle off" disabled></button><span class="switch-label">停用</span></label>' :
-      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button><span class="switch-label">' + (item.status === 'on' ? '啟用' : '停用') + '</span></label>';
+      '<label class="switch-cell"><button class="toggle off" disabled></button></label>' :
+      '<label class="switch-cell"><button class="toggle ' + item.status + '" onclick="toggleStoreStatus(\'' + item.id + '\')"></button></label>';
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr' + rowCls + '>' +
       '<td>' + provName + '</td>' +
@@ -369,9 +369,9 @@ function renderTable() {
 
   var rows = '';
   if (currentTab === 'methods') {
-    rows = pageData.map(function(m){ return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button><span class="switch-label">' + (m.status === 'on' ? '啟用' : '停用') + '</span></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(m){ return '<tr><td><a href="' + m.logo + '" target="_blank" title="點擊預覽"><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + m.name + '"></a></td><td>' + m.name + '</td><td><label class="switch-cell"><button class="toggle ' + m.status + '" onclick="toggleItemStatus(\'methods\',\'' + m.id + '\')"></button></label></td>' + renderActionCell('Method', m.id) + '</tr>'; }).join('');
   } else {
-    rows = pageData.map(function(c){ return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + (c.values || []).map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button><span class="switch-label">' + (c.status === 'on' ? '啟用' : '停用') + '</span></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td><a href="' + c.logo + '" target="_blank" title="點擊預覽"><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;cursor:pointer" alt="' + c.name + '"></a></td><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td>' + (c.values || []).map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><label class="switch-cell"><button class="toggle ' + c.status + '" onclick="toggleItemStatus(\'channels\',\'' + c.id + '\')"></button></label></td>' + renderActionCell('Channel', c.id) + '</tr>'; }).join('');
   }
 
   if (!rows) rows = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
