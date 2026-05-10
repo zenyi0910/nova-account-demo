@@ -170,6 +170,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .amount-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:#F3F4F6;border-radius:4px;font-size:12px}
 .amount-tag .del{cursor:pointer;color:#EF4444;font-weight:700;margin-left:2px}
 .amount-input-row{display:flex;gap:8px;align-items:center}
+.vip-tags{display:flex;flex-wrap:wrap;gap:4px}
+.vip-tag{display:inline-block;padding:2px 8px;background:#EEF2FF;color:#4338CA;border-radius:4px;font-size:11px}
+.btn-del-sm{padding:4px 10px;font-size:12px;background:none;border:1px solid #FECACA;color:#DC2626;border-radius:6px;cursor:pointer;margin-left:4px}
+.btn-del-sm:hover{background:#FEF2F2}
+.btn-del-sm:disabled{opacity:.4;cursor:not-allowed}
+.action-cell{white-space:nowrap}
+.vip-checkboxes{display:flex;flex-wrap:wrap;gap:8px}
+.vip-cb{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer}
+.vip-cb input{width:14px;height:14px}
 </style>
 </head>
 <body>
@@ -294,9 +303,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         <span>Tips</span> 供應商停用時，對應的商城商品將無法購買（顯示為灰色）
       </div>
-      <div class="tab-bar">
+      <div class="tab-bar" style="display:flex;align-items:center">
         <button class="store-tab-btn tab-btn active" onclick="switchStoreTab('general',this)">一般儲值</button>
         <button class="store-tab-btn tab-btn" onclick="switchStoreTab('fast',this)">快速儲值</button>
+        <span style="flex:1"></span>
+        <button class="btn-dark" id="addStoreBtn" onclick="openStoreAddModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span id="addStoreLabel">新增一般儲值</span>
+        </button>
       </div>
       <div id="storeTableContainer"></div>
       <div class="pagination">
@@ -427,6 +441,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=2"></script>
+<!-- Store Modal (新增/編輯商城商品) -->
+<div class="modal-overlay" id="storeModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="storeModalTitle">新增一般儲值</h3><button class="close" onclick="closeModal('storeModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option></select></div>
+      <div class="form-group"><label>項目名稱 <span class="required">*</span></label><input type="text" id="smName" placeholder="輸入項目名稱"></div>
+      <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇支付方式</option></select></div>
+      <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇付款通道</option></select></div>
+      <div class="form-group"><label>適用 VIP 等級</label>
+        <div class="vip-checkboxes" id="smVipGroup">
+          <label class="vip-cb"><input type="checkbox" value="新手" checked> 新手</label>
+          <label class="vip-cb"><input type="checkbox" value="銅牌"> 銅牌</label>
+          <label class="vip-cb"><input type="checkbox" value="銀牌"> 銀牌</label>
+          <label class="vip-cb"><input type="checkbox" value="金牌"> 金牌</label>
+          <label class="vip-cb"><input type="checkbox" value="白金"> 白金</label>
+          <label class="vip-cb"><input type="checkbox" value="鑽石"> 鑽石</label>
+        </div>
+      </div>
+      <div class="form-group"><label>狀態</label>
+        <div class="toggle-row"><button class="toggle on" id="smStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('storeModal')">取消</button>
+      <button class="btn-dark" onclick="saveStoreItem()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/payment-management.js?v=3"></script>
 </body>
 </html>

@@ -44,21 +44,18 @@ const amounts = [
 
 // 商城管理資料
 const storeGeneral = [
-  {id:'sg1',name:'MyCard 點數卡 50元',provider:'mycard',method:'點數卡',amount:50,sort:1,status:'on'},
-  {id:'sg2',name:'MyCard 點數卡 100元',provider:'mycard',method:'點數卡',amount:100,sort:2,status:'on'},
-  {id:'sg3',name:'MyCard 點數卡 300元',provider:'mycard',method:'點數卡',amount:300,sort:3,status:'on'},
-  {id:'sg4',name:'MyCard 點數卡 500元',provider:'mycard',method:'點數卡',amount:500,sort:4,status:'on'},
-  {id:'sg5',name:'Gash 點數卡 100元',provider:'gash',method:'點數卡',amount:100,sort:5,status:'on'},
-  {id:'sg6',name:'Gash 點數卡 500元',provider:'gash',method:'點數卡',amount:500,sort:6,status:'on'},
-  {id:'sg7',name:'LINE Pay 300元',provider:'linepay',method:'行動支付',amount:300,sort:7,status:'on'},
-  {id:'sg8',name:'LINE Pay 1000元',provider:'linepay',method:'行動支付',amount:1000,sort:8,status:'on'}
+  {id:'sg1',name:'線上轉點',provider:'mycard',method:'線上轉點',channel:'信用卡3D',vip:['新手','金牌','鑽石','銀牌','白金','銅牌'],status:'on'},
+  {id:'sg2',name:'電信帳單',provider:'mycard',method:'電信帳單',channel:'手機小額付款',vip:['新手','白金','金牌','鑽石','銅牌','銀牌'],status:'on'},
+  {id:'sg3',name:'Gash錢包扣點',provider:'gash',method:'會員扣點',channel:'錢包扣點',vip:['新手','白金','銅牌','鑽石','銀牌','金牌'],status:'on'},
+  {id:'sg4',name:'LINE Pay儲值',provider:'linepay',method:'行動支付',channel:'LINE Pay',vip:['新手','金牌','鑽石'],status:'on'},
+  {id:'sg5',name:'MyCard點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',vip:['新手','銅牌','銀牌','金牌','白金','鑽石'],status:'on'}
 ];
 
 const storeFast = [
-  {id:'sf1',name:'快速儲值 100元',provider:'mycard',method:'點數卡',amount:100,sort:1,status:'on'},
-  {id:'sf2',name:'快速儲值 300元',provider:'mycard',method:'點數卡',amount:300,sort:2,status:'on'},
-  {id:'sf3',name:'快速儲值 500元',provider:'gash',method:'點數卡',amount:500,sort:3,status:'on'},
-  {id:'sf4',name:'快速儲值 1000元',provider:'linepay',method:'行動支付',amount:1000,sort:4,status:'on'}
+  {id:'sf1',name:'快速儲值-點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',vip:['新手','銅牌','銀牌'],status:'on'},
+  {id:'sf2',name:'快速儲值-錢包',provider:'gash',method:'會員扣點',channel:'錢包扣點',vip:['新手','金牌'],status:'on'},
+  {id:'sf3',name:'快速儲值-LINE',provider:'linepay',method:'行動支付',channel:'LINE Pay',vip:['新手','鑽石','白金'],status:'on'},
+  {id:'sf4',name:'快速儲值-電信',provider:'mycard',method:'電信帳單',channel:'手機小額付款',vip:['新手','銅牌'],status:'on'}
 ];
 
 let currentProvider = 'mycard';
@@ -101,6 +98,9 @@ function switchStoreTab(tab, el) {
   currentPage = 1;
   document.querySelectorAll('.store-tab-btn').forEach(function(b){ b.classList.remove('active'); });
   if (el) el.classList.add('active');
+  // Update add button label
+  var label = document.getElementById('addStoreLabel');
+  if (label) label.textContent = tab === 'general' ? '新增一般儲值' : '新增快速儲值';
   renderStoreTable();
 }
 
@@ -119,15 +119,25 @@ function renderStoreTable() {
   var rows = pageData.map(function(item) {
     var blocked = providerOff.indexOf(item.provider) >= 0;
     var rowCls = blocked ? ' class="row-blocked"' : '';
+    var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider;
     var statusHtml = blocked ?
       '<span class="status-badge off">供應商停用</span>' :
       '<span class="status-badge ' + item.status + '">' + (item.status === 'on' ? '啟用' : '停用') + '</span>';
-    return '<tr' + rowCls + '><td>' + item.name + '</td><td>' + item.provider + '</td><td>' + item.method + '</td><td>$' + item.amount + '</td><td>' + item.sort + '</td><td>' + statusHtml + '</td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px"' + (blocked ? ' disabled' : '') + '>編輯</button></td></tr>';
+    var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
+    return '<tr' + rowCls + '>' +
+      '<td>' + provName + '</td>' +
+      '<td>' + item.name + '</td>' +
+      '<td>' + item.method + '</td>' +
+      '<td>' + item.channel + '</td>' +
+      '<td>' + statusHtml + '</td>' +
+      '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
+      '<td class="action-cell"><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openStoreEditModal(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>編輯</button>' +
+      '<button class="btn-del-sm" onclick="deleteStoreItem(\'' + item.id + '\')"' + (blocked ? ' disabled' : '') + '>刪除</button></td></tr>';
   }).join('');
 
   if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
-  container.innerHTML = '<table class="data-table"><thead><tr><th>商品名稱</th><th>供應商</th><th>支付方式</th><th>金額</th><th>排序</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('storePageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
   var pageBtns = '';
@@ -510,4 +520,85 @@ function saveAmount() {
   }
   closeModal('amountModal');
   renderTable();
+}
+
+// === Store Modal: New/Edit ===
+var editingStoreId = null;
+
+function openStoreAddModal() {
+  editingStoreId = null;
+  var title = currentStoreTab === 'general' ? '新增一般儲值' : '新增快速儲值';
+  document.getElementById('storeModalTitle').textContent = title;
+  document.getElementById('smName').value = '';
+  var selP = document.getElementById('smProvider');
+  selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
+  document.getElementById('smMethod').innerHTML = '<option value="">請選擇支付方式</option>';
+  document.getElementById('smChannel').innerHTML = '<option value="">請選擇付款通道</option>';
+  // Reset VIP checkboxes
+  document.querySelectorAll('#smVipGroup input').forEach(function(cb){ cb.checked = cb.value === '新手'; });
+  document.getElementById('smStatus').className = 'toggle on';
+  // Provider change → populate method/channel
+  selP.onchange = function() { populateStoreDropdowns(selP.value); };
+  document.getElementById('storeModal').classList.add('show');
+}
+
+function openStoreEditModal(id) {
+  editingStoreId = id;
+  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  var item = data.find(function(x){ return x.id === id; });
+  if (!item) return;
+  var title = currentStoreTab === 'general' ? '編輯一般儲值' : '編輯快速儲值';
+  document.getElementById('storeModalTitle').textContent = title;
+  document.getElementById('smName').value = item.name;
+  var selP = document.getElementById('smProvider');
+  selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
+  selP.value = item.provider;
+  populateStoreDropdowns(item.provider);
+  document.getElementById('smMethod').value = item.method;
+  document.getElementById('smChannel').value = item.channel;
+  // Set VIP checkboxes
+  document.querySelectorAll('#smVipGroup input').forEach(function(cb){
+    cb.checked = item.vip.indexOf(cb.value) >= 0;
+  });
+  document.getElementById('smStatus').className = 'toggle ' + item.status;
+  selP.onchange = function() { populateStoreDropdowns(selP.value); };
+  document.getElementById('storeModal').classList.add('show');
+}
+
+function populateStoreDropdowns(providerId) {
+  var selM = document.getElementById('smMethod');
+  var selC = document.getElementById('smChannel');
+  var filteredMethods = methods.filter(function(m){ return m.provider === providerId; });
+  selM.innerHTML = '<option value="">請選擇支付方式</option>' + filteredMethods.map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
+  var filteredChannels = channels.filter(function(c){ return c.provider === providerId; });
+  selC.innerHTML = '<option value="">請選擇付款通道</option>' + filteredChannels.map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
+}
+
+function saveStoreItem() {
+  var provider = document.getElementById('smProvider').value;
+  var name = document.getElementById('smName').value.trim();
+  var method = document.getElementById('smMethod').value;
+  var channel = document.getElementById('smChannel').value;
+  var status = document.getElementById('smStatus').className.includes('on') ? 'on' : 'off';
+  var vip = [];
+  document.querySelectorAll('#smVipGroup input:checked').forEach(function(cb){ vip.push(cb.value); });
+  if (!provider || !name || !method || !channel) { alert('請填寫必填欄位'); return; }
+  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  if (editingStoreId) {
+    var item = data.find(function(x){ return x.id === editingStoreId; });
+    item.provider = provider; item.name = name; item.method = method; item.channel = channel; item.vip = vip; item.status = status;
+  } else {
+    var prefix = currentStoreTab === 'general' ? 'sg' : 'sf';
+    data.push({id: prefix + (data.length + 1), provider: provider, name: name, method: method, channel: channel, vip: vip, status: status});
+  }
+  closeModal('storeModal');
+  renderStoreTable();
+}
+
+function deleteStoreItem(id) {
+  if (!confirm('確定要刪除此商品？')) return;
+  var data = currentStoreTab === 'general' ? storeGeneral : storeFast;
+  var idx = data.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) data.splice(idx, 1);
+  renderStoreTable();
 }
