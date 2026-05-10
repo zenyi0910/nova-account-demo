@@ -249,7 +249,19 @@ function switchTab(tab, el) {
   document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
   if (el) el.classList.add('active');
   else document.querySelector('.tab-btn[data-tab="' + tab + '"]').classList.add('active');
+  // Update add button label
+  var label = document.getElementById('addItemLabel');
+  if (label) {
+    var labels = {methods:'新增支付方式', channels:'新增付款通道', amounts:'新增儲值金額'};
+    label.textContent = labels[tab] || '新增';
+  }
   renderTable();
+}
+
+function openAddModal() {
+  if (currentTab === 'methods') openMethodModal();
+  else if (currentTab === 'channels') openChannelModal();
+  else openAmountModal();
 }
 
 // === Table ===
@@ -286,11 +298,11 @@ function renderTable() {
 
   var rows = '';
   if (currentTab === 'methods') {
-    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(m){ return '<tr><td>' + m.logo + '</td><td>' + m.name + '</td><td><span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openMethodModal(\'' + m.id + '\')">編輯</button></td></tr>'; }).join('');
   } else if (currentTab === 'channels') {
-    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(c){ return '<tr><td>' + c.method + '</td><td>' + c.name + '</td><td><code style="font-size:11px;color:#6B7280">' + c.code + '</code></td><td><span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openChannelModal(\'' + c.id + '\')">編輯</button></td></tr>'; }).join('');
   } else {
-    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><span class="status-badge ' + a.status + '">' + (a.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px">編輯</button></td></tr>'; }).join('');
+    rows = pageData.map(function(a){ return '<tr><td>' + a.method + '</td><td>' + a.channel + '</td><td>' + a.values.map(function(v){ return '<span style="display:inline-block;padding:2px 8px;background:#F3F4F6;border-radius:4px;margin:2px;font-size:11px">$' + v + '</span>'; }).join('') + '</td><td><span class="status-badge ' + a.status + '">' + (a.status === 'on' ? '啟用' : '停用') + '</span></td><td><button class="btn-outline" style="padding:4px 10px;font-size:12px" onclick="openAmountModal(\'' + a.id + '\')">編輯</button></td></tr>'; }).join('');
   }
 
   if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
@@ -316,3 +328,186 @@ function resetFilter() {
 
 // Init on load
 init();
+
+// === Modal: New/Edit Provider ===
+var editingProviderId = null;
+
+function openProviderModal(id) {
+  editingProviderId = id || null;
+  var title = id ? '編輯供應商' : '新增供應商';
+  document.getElementById('providerModalTitle').textContent = title;
+  if (id) {
+    var p = providers.find(function(x){ return x.id === id; });
+    document.getElementById('pmName').value = p.name;
+    document.getElementById('pmCode').value = p.code;
+    document.getElementById('pmStatus').className = 'toggle ' + p.status;
+  } else {
+    document.getElementById('pmName').value = '';
+    document.getElementById('pmCode').value = '';
+    document.getElementById('pmStatus').className = 'toggle on';
+  }
+  document.getElementById('providerModal').classList.add('show');
+}
+
+function saveProvider() {
+  var name = document.getElementById('pmName').value.trim();
+  var code = document.getElementById('pmCode').value.trim();
+  var status = document.getElementById('pmStatus').className.includes('on') ? 'on' : 'off';
+  if (!name || !code) { alert('請填寫必填欄位'); return; }
+  if (editingProviderId) {
+    var p = providers.find(function(x){ return x.id === editingProviderId; });
+    p.name = name; p.code = code; p.status = status;
+  } else {
+    var newId = name.toLowerCase().replace(/\s+/g,'');
+    providers.push({id:newId, name:name, code:code, status:status, schedules:[]});
+  }
+  closeModal('providerModal');
+  renderProviders();
+  renderDetail();
+}
+
+// === Modal: New/Edit Method ===
+var editingMethodId = null;
+
+function openMethodModal(id) {
+  editingMethodId = id || null;
+  var title = id ? '編輯支付方式' : '新增支付方式';
+  document.getElementById('methodModalTitle').textContent = title;
+  // Populate provider dropdown
+  var sel = document.getElementById('mmProvider');
+  sel.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
+  if (id) {
+    var m = methods.find(function(x){ return x.id === id; });
+    document.getElementById('mmName').value = m.name;
+    sel.value = m.provider;
+    document.getElementById('mmStatus').className = 'toggle ' + m.status;
+  } else {
+    document.getElementById('mmName').value = '';
+    sel.value = currentProvider;
+    document.getElementById('mmStatus').className = 'toggle on';
+  }
+  document.getElementById('methodModal').classList.add('show');
+}
+
+function saveMethod() {
+  var name = document.getElementById('mmName').value.trim();
+  var provider = document.getElementById('mmProvider').value;
+  var status = document.getElementById('mmStatus').className.includes('on') ? 'on' : 'off';
+  if (!name || !provider) { alert('請填寫必填欄位'); return; }
+  if (editingMethodId) {
+    var m = methods.find(function(x){ return x.id === editingMethodId; });
+    m.name = name; m.provider = provider; m.status = status;
+  } else {
+    methods.push({id:'m'+(methods.length+1), provider:provider, name:name, logo:'🆕', status:status});
+  }
+  closeModal('methodModal');
+  renderProviders();
+  renderTable();
+}
+
+// === Modal: New/Edit Channel ===
+var editingChannelId = null;
+
+function openChannelModal(id) {
+  editingChannelId = id || null;
+  var title = id ? '編輯付款通道' : '新增付款通道';
+  document.getElementById('channelModalTitle').textContent = title;
+  var selP = document.getElementById('cmProvider');
+  selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
+  var selM = document.getElementById('cmMethod');
+  selM.innerHTML = '<option value="">請選擇支付方式</option>' + methods.filter(function(m){ return m.provider === currentProvider; }).map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
+  if (id) {
+    var c = channels.find(function(x){ return x.id === id; });
+    document.getElementById('cmCode').value = c.code;
+    document.getElementById('cmName').value = c.name;
+    selP.value = c.provider;
+    selM.value = c.method;
+    document.getElementById('cmStatus').className = 'toggle ' + c.status;
+  } else {
+    document.getElementById('cmCode').value = '';
+    document.getElementById('cmName').value = '';
+    selP.value = currentProvider;
+    document.getElementById('cmStatus').className = 'toggle on';
+  }
+  document.getElementById('channelModal').classList.add('show');
+}
+
+function saveChannel() {
+  var code = document.getElementById('cmCode').value.trim();
+  var name = document.getElementById('cmName').value.trim();
+  var provider = document.getElementById('cmProvider').value;
+  var method = document.getElementById('cmMethod').value;
+  var status = document.getElementById('cmStatus').className.includes('on') ? 'on' : 'off';
+  if (!code || !name || !provider || !method) { alert('請填寫必填欄位'); return; }
+  if (editingChannelId) {
+    var c = channels.find(function(x){ return x.id === editingChannelId; });
+    c.code = code; c.name = name; c.provider = provider; c.method = method; c.status = status;
+  } else {
+    channels.push({id:'c'+(channels.length+1), provider:provider, method:method, name:name, code:code, status:status});
+  }
+  closeModal('channelModal');
+  renderProviders();
+  renderTable();
+}
+
+// === Modal: New/Edit Amount ===
+var editingAmountId = null;
+var tempAmounts = [];
+
+function openAmountModal(id) {
+  editingAmountId = id || null;
+  var title = id ? '編輯儲值金額' : '新增儲值金額';
+  document.getElementById('amountModalTitle').textContent = title;
+  var selM = document.getElementById('amMethod');
+  selM.innerHTML = '<option value="">請選擇支付方式</option>' + methods.filter(function(m){ return m.provider === currentProvider; }).map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
+  var selC = document.getElementById('amChannel');
+  selC.innerHTML = '<option value="">請選擇付款通道</option>' + channels.filter(function(c){ return c.provider === currentProvider; }).map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
+  if (id) {
+    var a = amounts.find(function(x){ return x.id === id; });
+    selM.value = a.method;
+    selC.value = a.channel;
+    tempAmounts = a.values.slice();
+    document.getElementById('amStatus').className = 'toggle ' + a.status;
+  } else {
+    tempAmounts = [];
+    document.getElementById('amStatus').className = 'toggle on';
+  }
+  renderAmountTags();
+  document.getElementById('amountModal').classList.add('show');
+}
+
+function renderAmountTags() {
+  document.getElementById('amTags').innerHTML = tempAmounts.map(function(v, i){
+    return '<span class="amount-tag">$' + v + '<span class="del" onclick="removeAmountTag(' + i + ')">x</span></span>';
+  }).join('');
+}
+
+function addAmountTag() {
+  var input = document.getElementById('amNewAmount');
+  var val = parseInt(input.value);
+  if (!val || val <= 0) return;
+  tempAmounts.push(val);
+  tempAmounts.sort(function(a,b){ return a - b; });
+  input.value = '';
+  renderAmountTags();
+}
+
+function removeAmountTag(i) {
+  tempAmounts.splice(i, 1);
+  renderAmountTags();
+}
+
+function saveAmount() {
+  var method = document.getElementById('amMethod').value;
+  var channel = document.getElementById('amChannel').value;
+  var status = document.getElementById('amStatus').className.includes('on') ? 'on' : 'off';
+  if (!method || !channel || !tempAmounts.length) { alert('請填寫必填欄位'); return; }
+  if (editingAmountId) {
+    var a = amounts.find(function(x){ return x.id === editingAmountId; });
+    a.method = method; a.channel = channel; a.values = tempAmounts.slice(); a.status = status;
+  } else {
+    amounts.push({id:'a'+(amounts.length+1), provider:currentProvider, method:method, channel:channel, values:tempAmounts.slice(), status:status});
+  }
+  closeModal('amountModal');
+  renderTable();
+}
