@@ -113,8 +113,6 @@ function renderHallDetail() {
   const h = halls[id];
   const gameCount = games.filter(g => g.hall === id).length;
 
-  const schedHtml = renderScheduleTab(id, h);
-
   const html = '<div class="hall-card">' +
     '<div class="hall-header">' +
       '<span class="hall-name">' + h.name + '</span>' +
@@ -123,12 +121,6 @@ function renderHallDetail() {
       '<div class="hall-quick-switch"><span class="quick-label ' + h.status + '">' + (h.status === 'on' ? '運行中' : '已關閉') + '</span>' +
       UI.toggle(h.status, "requestToggle('" + id + "')") + '</div>' +
     '</div>' +
-    '<div class="hall-section-title">' + UI.icon.clock + ' 排程開關' +
-    '<span class="hall-section-hint">到達指定時間自動執行，不需手動設定維護</span>' +
-    '<span class="spacer"></span>' +
-    UI.btn.add('新增排程', "openSchedModal('" + id + "')", {sm: true}) + ' ' +
-    UI.btn.icon('delete', "delAllSched('" + id + "')", '清除全部排程') + '</div>' +
-    '<div class="hall-tab-body">' + schedHtml + '</div>' +
     (h.status === 'off' ? '<div class="override-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 娛樂廳已關閉，該廳下所有遊戲暫停對外開放。重新開啟後，各遊戲恢復原本狀態設定。</div>' : '') +
   '</div>';
 
