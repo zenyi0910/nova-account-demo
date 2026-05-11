@@ -4,34 +4,18 @@
  * 用法：UI.btn.dark('儲存', 'save()') → 回傳 HTML string
  */
 
-// 自動注入元件庫 CSS（seg-control、按鈕等）
+// 自動注入元件庫 CSS（seg-control 等）
 (function() {
   if (document.getElementById('ui-components-css')) return;
   const style = document.createElement('style');
   style.id = 'ui-components-css';
   style.textContent = [
-    // Segmented Control 基礎
     '.seg-control{display:inline-flex;background:oklch(0.95 0.003 264.542);border-radius:10px;padding:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)}',
-    '.seg-btn{padding:5px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:6px;font-weight:500;transition:all .15s}',
+    '.seg-btn{padding:5px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:8px;font-weight:500;transition:all .15s}',
+    '.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.15);transform:translateY(-0.5px)}',
     '.seg-btn:hover:not(.active){background:rgba(255,255,255,0.5)}',
-    // 幣種 tab（暖黃選中態）
-    '.seg-control.currency-seg{background:#f5f5f5;border-radius:8px;padding:3px;box-shadow:none}',
-    '.currency-seg .seg-btn.active{background:#fef3c7;color:#92400e;font-weight:600;box-shadow:none;transform:none}',
-    // 分類 tab（深色邊框選中態）
-    '.seg-control.category-seg{background:transparent;border:1px solid #e5e7eb;border-radius:8px;padding:3px;box-shadow:none}',
-    '.category-seg .seg-btn.active{background:transparent;color:#1f2937;font-weight:600;border:2px solid #1f2937;box-shadow:none;transform:none}',
-    // 編輯排序按鈕（深藍）
-    '.btn-sort{background:#2563EB;color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}',
-    '.btn-sort:hover{background:#1D4ED8}',
-    // 取消排序按鈕（灰色）
-    '.btn-sort-outline{background:rgb(153,161,175);color:#fff;border:1px solid oklch(0.922 0 0);padding:6px 12px;font-size:12px;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:500;height:30px;box-sizing:border-box;box-shadow:0 1px 2px rgba(0,0,0,0.05)}',
-    '.btn-sort-outline:hover{background:rgb(138,146,160)}',
-    // 儲存排序按鈕（琥珀色）
-    '.btn-sort-fill{background:rgb(240,177,0);color:#fff;border:1px solid oklch(0.922 0 0);padding:6px 12px;font-size:12px;border-radius:8px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;height:30px;box-sizing:border-box;box-shadow:0 1px 2px rgba(0,0,0,0.05)}',
-    '.btn-sort-fill:hover{background:rgb(220,160,0)}',
-    // 新增按鈕（teal）
-    '.btn-add{background:#00bba7;color:#fff;border:none;padding:6px 14px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;font-weight:500}',
-    '.btn-add:hover{background:#00a896}'
+    '.btn-sort{background:rgb(144,161,185);color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}',
+    '.btn-sort:hover{background:rgb(130,147,170)}'
   ].join('\n');
   document.head.appendChild(style);
 })();
@@ -65,7 +49,7 @@ const UI = {
       const icon = opts.icon || '';
       return `<button class="btn-secondary" onclick="${onclick}">${icon}${text}</button>`;
     },
-    /** 編輯排序按鈕（深藍） */
+    /** 編輯排序按鈕（灰色） */
     sort(text, onclick, opts = {}) {
       const sortIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg>';
       const icon = opts.noIcon ? '' : sortIcon;
@@ -73,18 +57,18 @@ const UI = {
       const style = opts.style ? ` style="${opts.style}"` : '';
       return `<button class="btn-sort"${id}${style} onclick="${onclick}">${icon}${icon ? ' ' : ''}${text}</button>`;
     },
-    /** 取消排序按鈕（灰色） */
+    /** 取消排序按鈕 */
     sortCancel(text, onclick, opts = {}) {
       const id = opts.id ? ` id="${opts.id}"` : '';
       const style = opts.style ? ` style="${opts.style}"` : '';
-      return `<button class="btn-sort-outline"${id}${style} onclick="${onclick}">${text || '取消'}</button>`;
+      return `<button class="btn-cancel"${id}${style} onclick="${onclick}">${text || '取消'}</button>`;
     },
-    /** 儲存排序按鈕（琥珀色） */
+    /** 儲存排序按鈕 */
     sortSave(text, onclick, opts = {}) {
       const saveIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>';
       const id = opts.id ? ` id="${opts.id}"` : '';
       const style = opts.style ? ` style="${opts.style}"` : '';
-      return `<button class="btn-sort-fill"${id}${style} onclick="${onclick}">${saveIcon} ${text || '儲存排序'}</button>`;
+      return `<button class="btn-confirm"${id}${style} onclick="${onclick}">${saveIcon} ${text || '儲存排序'}</button>`;
     },
     /** 危險按鈕 */
     danger(text, onclick) {
@@ -234,9 +218,7 @@ const UI = {
   // ═══ Segmented Control ═══
   segmented(items, opts = {}) {
     const id = opts.id || '';
-    const variant = opts.variant || ''; // 'currency' | 'category' | ''
-    const variantCls = variant ? ` ${variant}-seg` : '';
-    let html = `<div class="seg-control${variantCls}"${id ? ' id="'+id+'"' : ''}${opts.style ? ' style="'+opts.style+'"' : ''}>`;
+    let html = `<div class="seg-control"${id ? ' id="'+id+'"' : ''}>`;
     items.forEach(item => {
       html += `<button class="seg-btn${item.active ? ' active' : ''}" onclick="${item.onclick}">${item.label}</button>`;
     });
