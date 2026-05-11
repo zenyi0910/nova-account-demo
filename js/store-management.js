@@ -102,7 +102,7 @@ function openStoreAddModal() {
   document.getElementById('smGeneralFields').style.display = '';
   document.getElementById('smFastFields').style.display = 'none';
   document.querySelectorAll('.vip-cb').forEach(c => c.checked = false);
-  document.querySelector('[value="全選"]').checked = false;
+  document.querySelector('[value="all"]').checked = false;
   if (document.getElementById('smDesc')) document.getElementById('smDesc').value = '';
   if (document.getElementById('smProvider')) document.getElementById('smProvider').value = '';
   if (document.getElementById('smMethod')) document.getElementById('smMethod').value = '';
