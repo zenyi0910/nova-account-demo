@@ -249,21 +249,31 @@ function renderSchedules() {
 
 function openSchedModal() {
   document.getElementById('schedModal').classList.add('show');
-  document.getElementById('schedRepeat').onchange = function() {
-    document.getElementById('schedRepeatEndGroup').style.display = this.value === 'none' ? 'none' : '';
-  };
+  document.getElementById('schedRepeat').value = 'none';
+  toggleSchedRepeat();
+}
+function toggleSchedRepeat() {
+  var val = document.getElementById('schedRepeat').value;
+  document.getElementById('schedRepeatEndGroup').style.display = val === 'none' ? 'none' : '';
+  document.getElementById('schedDateTimeRow').querySelectorAll('input[type=date]').forEach(function(el) {
+    el.style.display = val === 'none' ? '' : 'none';
+  });
 }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 function addSchedule() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
-  var start = document.getElementById('schedStart').value;
-  var end = document.getElementById('schedEnd').value;
+  var startDate = document.getElementById('schedStartDate').value;
+  var startTime = document.getElementById('schedStartTime').value;
+  var endDate = document.getElementById('schedEndDate').value;
+  var endTime = document.getElementById('schedEndTime').value;
   var action = document.getElementById('schedAction').value;
   var note = document.getElementById('schedNote').value;
   var repeat = document.getElementById('schedRepeat').value;
   var repeatEnd = document.getElementById('schedRepeatEnd').value;
-  if (!start) { alert('請選擇開始時間'); return; }
+  if (!startTime) { alert('請選擇開始時間'); return; }
+  var start = (startDate ? startDate + 'T' : '') + startTime;
+  var end = (endDate ? endDate + 'T' : '') + endTime;
   p.schedules.push({action:action, start:start, end:end, note:note, repeat:repeat, repeatEnd:repeatEnd});
   closeModal('schedModal');
   renderSchedules();
