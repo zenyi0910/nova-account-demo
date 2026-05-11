@@ -128,6 +128,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .quick-row label{font-size:13px;color:#374151;font-weight:500;min-width:70px}
 .quick-row .spacer{flex:1}
 
+/* Schedule */
+.sched-list{margin-top:10px}
+.sched-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;margin-bottom:8px}
+.sched-item svg{width:14px;height:14px;color:#D97706;flex-shrink:0}
+.sched-info{flex:1;font-size:12px;color:#92400E}
+.sched-time{font-weight:600}
+.sched-action{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+.sched-action.off{background:#FEE2E2;color:#991B1B}
+.sched-action.on{background:#DCFCE7;color:#166534}
+.sched-form{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:10px;align-items:end;padding:12px 14px;background:#F9FAFB;border:1px solid oklch(0.922 0 0);border-radius:8px;margin-top:10px}
+.sched-form .sf-group{display:flex;flex-direction:column;gap:3px}
+.sched-form .sf-group label{font-size:11px;color:#6B7280;font-weight:500}
+.sched-form .sf-group input,.sched-form .sf-group select{padding:6px 10px;border:1px solid oklch(0.922 0 0);border-radius:5px;font-size:12px;font-family:inherit}
+
 /* Currency Inline */
 .curr-section{margin-top:12px}
 .curr-row{display:grid;grid-template-columns:80px 1fr 1fr 1fr auto;gap:10px;align-items:center;padding:10px 14px;border-radius:8px;margin-bottom:8px}
@@ -178,6 +192,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .topbar{padding:0 12px}
 .content{padding:12px}
 .curr-row{grid-template-columns:1fr;gap:8px}
+.sched-form{grid-template-columns:1fr 1fr;gap:8px}
 .hall-tabs{overflow-x:auto}
 }
 </style>
@@ -198,13 +213,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <h1>娛樂城管理</h1>
       <div class="spacer"></div>
       <button class="btn btn-outline" onclick="openGlobalModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>遊戲共用設定</button>
-      <button class="btn btn-dark" onclick="openGlobalModal()" style="margin-left:8px">遊戲推薦設定</button>
     </div>
 
     <!-- Priority Info -->
     <div class="info-banner">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      <div>設定優先順序：<strong>娛樂城設定</strong>（最高）&gt; <strong>遊戲共用設定</strong>（基底）&gt; 遊戲原始值。娛樂城覆蓋不會修改遊戲本身的原始設定值，取消覆蓋後自動恢復。</div>
+      <div>設定優先順序：<strong>娛樂廳設定</strong>（最高）&gt; <strong>遊戲共用設定</strong>（基底）&gt; 遊戲原始值。廳級覆蓋不會修改遊戲本身的原始設定值，取消覆蓋後自動恢復。</div>
     </div>
 
     <!-- Hall Tabs -->
@@ -224,7 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div style="padding:20px;overflow-y:auto;flex:1">
       <div style="padding:10px 12px;background:rgba(57,57,57,0.03);border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:12px;color:#475569;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;flex-shrink:0;margin-top:1px;color:#6B7280"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span>此為所有娛樂城的基底設定。娛樂城可個別覆蓋這些值，覆蓋後以城級設定為準。</span>
+        <span>此為所有娛樂廳的基底設定。娛樂廳可個別覆蓋這些值，覆蓋後以廳級設定為準。</span>
       </div>
       <div id="globalFormContent"></div>
     </div>
@@ -251,6 +265,7 @@ const halls = [
     id:'VA', name:'VA 娛樂城', status:'on',
     gold:{enabled:true, min:10, max:100000, rate:'1:1'},
     star:{enabled:true, min:100, max:50000, rate:'10:1'},
+    schedules:[{action:'off',start:'2026-05-10T03:00',end:'2026-05-10T05:00',note:'例行維護'}],
     games:[
       {name:'埃及三秘寶',cat:'電動',status:'即將上線',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:40000},
       {name:'財神倍倍發 X4096',cat:'電動',status:'即將上線',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:40000},
@@ -272,6 +287,7 @@ const halls = [
     id:'YGR', name:'YGR 娛樂城', status:'on',
     gold:{enabled:true, min:10, max:80000, rate:'1:1'},
     star:{enabled:true, min:100, max:30000, rate:'10:1'},
+    schedules:[],
     games:[
       {name:'祖瑪探險',cat:'街機',status:'即將上線',vip:'不限制',goldMin:10,goldMax:60000,starMin:100,starMax:30000},
       {name:'自摸財神',cat:'電動',status:'停用中',vip:'不限制',goldMin:10,goldMax:80000,starMin:100,starMax:30000},
@@ -309,16 +325,36 @@ function renderPanels(){
 
 function renderHall(hall){
   const sc=hall.status==='on'?'online':'offline';
-  const st=hall.status==='on'?'運行中':'維護中';
+  const st=hall.status==='on'?'運行中':'已關閉';
+
+  // Schedule HTML
+  let schedHtml='<div style="color:#9CA3AF;font-size:12px;padding:6px 0">尚無排程</div>';
+  if(hall.schedules.length>0){
+    schedHtml=hall.schedules.map((s,i)=>`
+      <div class="sched-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="sched-info">
+          <span class="sched-time">${fmtDT(s.start)}</span>
+          ${s.end?' ~ <span class="sched-time">'+fmtDT(s.end)+'</span>':' (手動恢復)'}
+          <span class="sched-action ${s.action}">${s.action==='off'?'關閉':'開啟'}</span>
+          ${s.note?'<span style="margin-left:6px;color:#6B7280;font-style:italic">'+s.note+'</span>':''}
+        </div>
+        <button class="btn btn-sm btn-outline" onclick="delSched('${hall.id}',${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>`).join('');
+  }
 
   // Games table
   const gamesHtml=hall.games.map(g=>{
+    const goldOv=hall.gold.enabled&&(g.goldMin!==hall.gold.min||g.goldMax!==hall.gold.max);
+    const starOv=hall.star.enabled&&g.starMin>0&&(g.starMin!==hall.star.min||g.starMax!==hall.star.max);
     const sb=g.status==='使用中'?'online':g.status==='維護中'?'maint':g.status==='停用中'?'offline':'upcoming';
     return `<tr>
       <td><span class="game-name-link">${g.name}</span></td>
       <td>${g.cat}</td>
       <td><span class="status-badge ${sb}"><span class="status-dot ${sb}"></span>${g.status}</span></td>
       <td>${g.vip}</td>
+      <td>${goldOv?'<span class="override-val">$'+hall.gold.min.toLocaleString()+'~$'+hall.gold.max.toLocaleString()+'</span><span class="original-val">$'+g.goldMin.toLocaleString()+'~$'+g.goldMax.toLocaleString()+'</span>':'$'+g.goldMin.toLocaleString()+'~$'+g.goldMax.toLocaleString()}</td>
+      <td>${g.starMin>0?(starOv?'<span class="override-val">$'+hall.star.min.toLocaleString()+'~$'+hall.star.max.toLocaleString()+'</span><span class="original-val">$'+g.starMin.toLocaleString()+'~$'+g.starMax.toLocaleString()+'</span>':'$'+g.starMin.toLocaleString()+'~$'+g.starMax.toLocaleString()):'<span style="color:#9CA3AF">-</span>'}</td>
     </tr>`;
   }).join('');
 
@@ -327,7 +363,7 @@ function renderHall(hall){
     <div class="sect-card">
       <div class="sect-header">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <h3>娛樂城狀態與開關控制</h3>
+        <h3>廳狀態與開關控制</h3>
         <div class="spacer"></div>
         <span class="status-badge ${sc}"><span class="status-dot ${sc}"></span>${st}</span>
       </div>
@@ -344,18 +380,61 @@ function renderHall(hall){
           ${hall.status==='on'?'立即關閉':'立即開啟'}
         </button>
       </div>
+      <!-- Inline schedule -->
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid oklch(0.922 0 0)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:#6B7280"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span style="font-size:13px;font-weight:600;color:#374151">排程開關</span>
+          <span class="badge-count">${hall.schedules.length}</span>
+        </div>
+        <div class="sched-list">${schedHtml}</div>
+        <div class="sched-form" id="schedForm-${hall.id}">
+          <div class="sf-group"><label>動作</label><select id="sa-${hall.id}"><option value="off">關閉</option><option value="on">開啟</option></select></div>
+          <div class="sf-group"><label>開始時間</label><input type="datetime-local" id="ss-${hall.id}"></div>
+          <div class="sf-group"><label>結束時間</label><input type="datetime-local" id="se-${hall.id}"></div>
+          <div class="sf-group"><label>備註</label><input type="text" id="sn-${hall.id}" placeholder="例：版本更新"></div>
+          <button class="btn btn-sm btn-primary" onclick="addSched('${hall.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增</button>
+        </div>
       </div>
     </div>
 
-    <!-- Section 2: Game List -->
+    <!-- Section 2: Currency Settings (inline, no modal) -->
+    <div class="sect-card">
+      <div class="sect-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>
+        <h3>幣種設定（廳級覆蓋）</h3>
+        <div class="spacer"></div>
+        <button class="btn btn-sm btn-outline" onclick="saveCurrency('${hall.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>儲存</button>
+      </div>
+      <div class="curr-section">
+        <div class="curr-row gold-row">
+          <div class="curr-label"><div class="coin-dot gold"></div>金幣</div>
+          <div class="curr-field"><label>最低投注</label><input type="number" id="gm-${hall.id}" value="${hall.gold.min}"></div>
+          <div class="curr-field"><label>最高投注</label><input type="number" id="gx-${hall.id}" value="${hall.gold.max}"></div>
+          <div class="curr-field"><label>兌換比率</label><input type="text" id="gr-${hall.id}" value="${hall.gold.rate}"></div>
+          <div class="curr-toggle"><button class="toggle ${hall.gold.enabled?'on':'off'}" onclick="toggleCurr('${hall.id}','gold')"></button><span class="toggle-text ${hall.gold.enabled?'on':'off'}">${hall.gold.enabled?'啟用':'停用'}</span></div>
+        </div>
+        <div class="curr-row star-row">
+          <div class="curr-label"><div class="coin-dot star"></div>星幣</div>
+          <div class="curr-field"><label>最低投注</label><input type="number" id="sm-${hall.id}" value="${hall.star.min}"></div>
+          <div class="curr-field"><label>最高投注</label><input type="number" id="sx-${hall.id}" value="${hall.star.max}"></div>
+          <div class="curr-field"><label>兌換比率</label><input type="text" id="sr-${hall.id}" value="${hall.star.rate}"></div>
+          <div class="curr-toggle"><button class="toggle ${hall.star.enabled?'on':'off'}" onclick="toggleCurr('${hall.id}','star')"></button><span class="toggle-text ${hall.star.enabled?'on':'off'}">${hall.star.enabled?'啟用':'停用'}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Game List -->
     <div class="sect-card">
       <div class="sect-header">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        <h3>娛樂城內遊戲（${hall.games.length}）</h3>
+        <h3>廳內遊戲（${hall.games.length}）</h3>
+        <div class="spacer"></div>
+        <span style="font-size:11px;color:#6B7280">覆蓋值以橘色標示，刪除線為原始值</span>
       </div>
       <div style="overflow-x:auto">
         <table class="game-table">
-          <thead><tr><th>遊戲名稱</th><th>種類</th><th>狀態</th><th>VIP限制</th></tr></thead>
+          <thead><tr><th>遊戲名稱</th><th>種類</th><th>狀態</th><th>VIP限制</th><th>金幣投注範圍</th><th>星幣投注範圍</th></tr></thead>
           <tbody>${gamesHtml}</tbody>
         </table>
       </div>
@@ -377,6 +456,27 @@ function toggleHall(id){
   renderPanels();
   document.querySelectorAll('.hall-tab').forEach(t=>{if(t.textContent.includes(h.name))t.click();});
   showToast(h.name+(h.status==='on'?' 已開啟':' 已關閉'),h.status==='on'?'success':'warning');
+}
+
+function addSched(id){
+  const h=halls.find(x=>x.id===id);
+  const act=document.getElementById('sa-'+id).value;
+  const start=document.getElementById('ss-'+id).value;
+  const end=document.getElementById('se-'+id).value;
+  const note=document.getElementById('sn-'+id).value;
+  if(!start){showToast('請選擇開始時間','error');return;}
+  h.schedules.push({action:act,start,end,note});
+  renderPanels();
+  switchToTab(id);
+  showToast('排程已新增：'+h.name,'success');
+}
+
+function delSched(id,idx){
+  const h=halls.find(x=>x.id===id);
+  h.schedules.splice(idx,1);
+  renderPanels();
+  switchToTab(id);
+  showToast('排程已刪除','warning');
 }
 
 function toggleCurr(id,type){
@@ -445,6 +545,12 @@ function switchToTab(id){
   document.querySelectorAll('.hall-tab').forEach((t,i)=>t.classList.toggle('active',halls[i].id===id));
   document.querySelectorAll('.hall-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
+}
+
+function fmtDT(dt){
+  if(!dt)return '';
+  const d=new Date(dt);
+  return d.toLocaleDateString('zh-TW')+' '+d.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'});
 }
 
 function showToast(msg,type){
