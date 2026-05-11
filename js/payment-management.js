@@ -265,7 +265,7 @@ function renderStatusCell(status, toggleFn, disabled) {
   var st = disabled ? 'off' : status;
   var dis = disabled ? ' disabled' : '';
   var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
-  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
+  return '<td style="width:60px;text-align:center"><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
 }
 
 // === 共用操作按鈕元件（編輯 + 刪除，對齊 Nova 系統） ===
