@@ -255,25 +255,41 @@ function renderRecommendModalContent() {
       UI.btn.outline('取消', 'cancelRecommendSort()') +
       UI.btn.dark('儲存排序', 'saveRecommendSort()')
       :
-      UI.btn.secondary('編輯排序', 'toggleRecommendSortMode()', {icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> '}) +
-      (recommendSubTab === 'recent' ? UI.btn.add('新增遊戲', 'openAddRecommendModal()') : '')
+      '<button class="btn-sort" onclick="toggleRecommendSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg> 編輯排序</button>' +
+      (recommendSubTab === 'recent' ? ' ' + UI.btn.add('新增遊戲', 'openAddRecommendModal()') : '')
     ) +
     '</div></div>';
 
   // 表格用 UI.table
-  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}];
-  const rows = recommended.map((g, i) => [
-    '<span style="color:#6B7280">' + (i + 1) + '</span>',
-    g.hall,
-    '<span style="font-weight:500">' + g.name + '</span>',
-    g.bannerUrl
-      ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
-      : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
-    '<div style="display:flex;gap:4px">' + UI.btn.icon('edit', 'openEditDetail(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecommend(' + g.id + ')', '刪除') + '</div>'
-  ]);
+  const columns = recommendSortMode
+    ? [{label:'',width:'30px'},{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}]
+    : [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}];
+  const rows = recommended.map((g, i) => {
+    const base = [
+      '<span style="color:#6B7280">' + (i + 1) + '</span>',
+      g.hall,
+      '<span style="font-weight:500">' + g.name + '</span>',
+      g.bannerUrl
+        ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
+        : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
+      '<div style="display:flex;gap:4px">' + UI.btn.icon('edit', 'openEditDetail(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecommend(' + g.id + ')', '刪除') + '</div>'
+    ];
+    if (recommendSortMode) {
+      base.unshift('<svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14" style="cursor:grab"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>');
+    }
+    return base;
+  });
 
-  html += UI.table.create(columns, rows, {empty: '尚無推薦遊戲'}) + '</div>';
+  html += UI.table.create(columns, rows.map((r, i) => {
+    if (recommendSortMode) { r._attrs = ' draggable="true" data-idx="' + i + '" class="recommend-drag-row"'; }
+    return r;
+  }), {empty: '尚無推薦遊戲'}) + '</div>';
   document.getElementById('recommendModalBody').innerHTML = html;
+  
+  // 排序模式下啟用拖曳
+  if (recommendSortMode) {
+    initRecommendDragSort();
+  }
 }
 
 function switchRecommendSubTab(tab) {
@@ -284,6 +300,57 @@ function switchRecommendSubTab(tab) {
 function switchRecommendCurrency(curr) {
   recommendCurrency = curr;
   renderRecommendModalContent();
+}
+
+// 推薦列表拖曳排序
+function initRecommendDragSort() {
+  const tbody = document.querySelector('#recommendModalBody .data-table tbody');
+  if (!tbody) return;
+  let dragRow = null;
+  
+  tbody.querySelectorAll('tr[draggable]').forEach(row => {
+    row.addEventListener('dragstart', function(e) {
+      dragRow = this;
+      this.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', function() {
+      this.style.opacity = '1';
+      tbody.querySelectorAll('tr').forEach(r => r.classList.remove('drag-over'));
+      dragRow = null;
+    });
+    row.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      this.classList.add('drag-over');
+    });
+    row.addEventListener('dragleave', function() {
+      this.classList.remove('drag-over');
+    });
+    row.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over');
+      if (dragRow === this) return;
+      // Swap in DOM
+      const allRows = [...tbody.querySelectorAll('tr')];
+      const fromIdx = allRows.indexOf(dragRow);
+      const toIdx = allRows.indexOf(this);
+      if (fromIdx < toIdx) {
+        tbody.insertBefore(dragRow, this.nextSibling);
+      } else {
+        tbody.insertBefore(dragRow, this);
+      }
+      // Update order numbers
+      tbody.querySelectorAll('tr').forEach((r, i) => {
+        const firstTd = r.querySelector('td:nth-child(2)');
+        if (firstTd) firstTd.innerHTML = '<span style="color:#6B7280">' + (i + 1) + '</span>';
+      });
+      // Swap in data
+      const recommended = games.filter(g => g.recommend);
+      const moved = recommended.splice(fromIdx, 1)[0];
+      recommended.splice(toIdx, 0, moved);
+    });
+  });
 }
 
 let recommendSortMode = false;

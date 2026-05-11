@@ -54,7 +54,7 @@ const UI = {
     /** Modal footer 按鈕組（取消 + 確認）— 共用元件 */
     modalFooter(confirmText, confirmOnclick, cancelOnclick) {
       cancelOnclick = cancelOnclick || "closeModal(event.target.closest('.modal-overlay').id)";
-      return '<button class="btn btn-outline" onclick="' + cancelOnclick.replace(/"/g, '&quot;') + '">取消</button><button class="btn btn-dark" onclick="' + confirmOnclick.replace(/"/g, '&quot;') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ' + confirmText + '</button>';
+      return '<button class="btn btn-outline" onclick="' + cancelOnclick.replace(/"/g, '&quot;') + '">取消</button><button class="btn btn-add" onclick="' + confirmOnclick.replace(/"/g, '&quot;') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ' + confirmText + '</button>';
     },
     /** 工具列按鈕組（取消 + 新增）— 共用元件 */
     toolbarActions(confirmText, confirmOnclick, cancelOnclick) {
