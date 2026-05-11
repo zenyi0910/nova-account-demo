@@ -16,14 +16,14 @@ function openAddRecommendModal() {
         <label>娛樂城 <span style="color:#DC2626">*</span></label>
         <select id="addRecHall" class="form-control">
           <option value="">請選擇娛樂城</option>
-          <option value="VA">VA 娛樂廳</option>
-          <option value="YGR">YGR 娛樂廳</option>
-          <option value="JDB">JDB 娛樂廳</option>
-          <option value="PG">PG 娛樂廳</option>
-          <option value="PP">PP 娛樂廳</option>
-          <option value="CQ9">CQ9 娛樂廳</option>
-          <option value="RSG">RSG 娛樂廳</option>
-          <option value="FC">FC 娛樂廳</option>
+          <option value="VA">VA 娛樂城</option>
+          <option value="YGR">YGR 娛樂城</option>
+          <option value="JDB">JDB 娛樂城</option>
+          <option value="PG">PG 娛樂城</option>
+          <option value="PP">PP 娛樂城</option>
+          <option value="CQ9">CQ9 娛樂城</option>
+          <option value="RSG">RSG 娛樂城</option>
+          <option value="FC">FC 娛樂城</option>
         </select>
       </div>
       <div class="form-group">
