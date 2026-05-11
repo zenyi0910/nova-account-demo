@@ -517,9 +517,34 @@ function saveMethod() {
 
 // === Modal: New/Edit Channel ===
 var editingChannelId = null;
+var channelAmountValues = [];
+
+function renderChannelAmountTags() {
+  var el = document.getElementById('cmAmountTags');
+  if (!el) return;
+  el.innerHTML = channelAmountValues.map(function(v, i){
+    return '<span class="amount-tag">$' + v + '<span class="del" onclick="removeChannelAmount(' + i + ')">×</span></span>';
+  }).join('');
+}
+
+function addChannelAmount() {
+  var input = document.getElementById('cmNewAmount');
+  var val = parseInt(input.value);
+  if (!val || val <= 0) return;
+  channelAmountValues.push(val);
+  channelAmountValues.sort(function(a,b){ return a - b; });
+  input.value = '';
+  renderChannelAmountTags();
+}
+
+function removeChannelAmount(i) {
+  channelAmountValues.splice(i, 1);
+  renderChannelAmountTags();
+}
 
 function openChannelModal(id) {
   editingChannelId = id || null;
+  channelAmountValues = [];
   var title = id ? '編輯付款通道' : '新增付款通道';
   document.getElementById('channelModalTitle').textContent = title;
   var selP = document.getElementById('cmProvider');
@@ -534,12 +559,14 @@ function openChannelModal(id) {
     selP.value = c.provider;
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
+    channelAmountValues = (c.values || []).slice();
   } else {
     document.getElementById('cmCode').value = '';
     document.getElementById('cmName').value = '';
     selP.value = currentProvider;
     document.getElementById('cmStatus').className = 'toggle on';
   }
+  renderChannelAmountTags();
   document.getElementById('channelModal').classList.add('show');
 }
 
