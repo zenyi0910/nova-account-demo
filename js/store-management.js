@@ -34,7 +34,7 @@ function renderStoreTable() {
         <td>${r.name}</td>
         <td>${r.method || '-'}</td>
         <td><span class="channel-check">✓ ${r.channel || '-'}</span></td>
-        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
+        <td>${st}</td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
         <td class="actions">
           ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
@@ -53,7 +53,7 @@ function renderStoreTable() {
       html += `<tr>
         <td><a href="#" class="link-name">${r.name}</a></td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
-        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
+        <td>${st}</td>
         <td class="actions">
           ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}

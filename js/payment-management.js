@@ -304,9 +304,8 @@ function clearAllSched() {
 // === 共用狀態欄元件（toggle + 文字標籤，對齊 Nova 系統） ===
 function renderStatusCell(status, toggleFn, disabled) {
   var st = disabled ? 'off' : status;
-  var dis = disabled ? ' disabled' : '';
-  var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
-  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
+  var label = st === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
+  return '<td>' + label + '</td>';
 }
 
 // === 共用操作按鈕元件（使用 UI.btn.icon 共用元件） ===
