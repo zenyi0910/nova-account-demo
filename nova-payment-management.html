@@ -96,6 +96,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Table */
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
 .data-table th{background:#F9FAFB;padding:10px 12px;text-align:left;font-weight:600;color:#374151;border-bottom:1px solid oklch(0.922 0 0);white-space:nowrap}
+.data-table th.sortable{cursor:pointer;user-select:none}
+.data-table th.sortable:hover{background:#F3F4F6}
+.sort-icon{margin-left:4px;font-size:11px;color:#9CA3AF}
+.sort-icon.active{color:#4338CA}
 .data-table td{padding:10px 12px;border-bottom:1px solid oklch(0.95 0 0);color:#374151;vertical-align:middle}
 .data-table tr:hover td{background:#F9FAFB}
 .status-badge{padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;display:inline-block}
@@ -480,6 +484,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/payment-management.js?v=27"></script>
+<script src="js/payment-management.js?v=28"></script>
 </body>
 </html>

@@ -53,6 +53,42 @@ let currentPage = 1;
 let currentSection = 'payment'; // 'payment' or 'store'
 const pageSize = 10;
 
+// Sort state
+let sortKey = '';
+let sortDir = 'asc';
+let storeSortKey = '';
+let storeSortDir = 'asc';
+
+function toggleSort(key, table) {
+  if (table === 'store') {
+    if (storeSortKey === key) { storeSortDir = storeSortDir === 'asc' ? 'desc' : 'asc'; }
+    else { storeSortKey = key; storeSortDir = 'asc'; }
+    renderStoreTable();
+  } else {
+    if (sortKey === key) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+    else { sortKey = key; sortDir = 'asc'; }
+    renderTable();
+  }
+}
+
+function sortIcon(key, table) {
+  var active = table === 'store' ? storeSortKey : sortKey;
+  var dir = table === 'store' ? storeSortDir : sortDir;
+  if (active !== key) return '<span class="sort-icon">⇅</span>';
+  return '<span class="sort-icon active">' + (dir === 'asc' ? '↑' : '↓') + '</span>';
+}
+
+function sortData(data, key, dir) {
+  if (!key) return data;
+  return data.slice().sort(function(a, b) {
+    var va = (a[key] || '').toString().toLowerCase();
+    var vb = (b[key] || '').toString().toLowerCase();
+    if (va < vb) return dir === 'asc' ? -1 : 1;
+    if (va > vb) return dir === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
+
 // === Init ===
 function init() {
   renderSectionTabs();
@@ -109,6 +145,9 @@ function renderStoreTable() {
   
   var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
 
+  // Sort data
+  data = sortData(data, storeSortKey, storeSortDir);
+
   var total = data.length;
   var totalPages = Math.max(1, Math.ceil(total / pageSize));
   if (currentPage > totalPages) currentPage = totalPages;
@@ -136,7 +175,15 @@ function renderStoreTable() {
 
   if (!rows) rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
-  container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>類型</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  container.innerHTML = '<table class="data-table"><thead><tr>' +
+    '<th class="sortable" onclick="toggleSort(\'provider\',\'store\')">供應商' + sortIcon('provider','store') + '</th>' +
+    '<th class="sortable" onclick="toggleSort(\'name\',\'store\')">項目名稱' + sortIcon('name','store') + '</th>' +
+    '<th class="sortable" onclick="toggleSort(\'type\',\'store\')">類型' + sortIcon('type','store') + '</th>' +
+    '<th class="sortable" onclick="toggleSort(\'method\',\'store\')">支付方式' + sortIcon('method','store') + '</th>' +
+    '<th class="sortable" onclick="toggleSort(\'channel\',\'store\')">付款通道' + sortIcon('channel','store') + '</th>' +
+    '<th>狀態</th>' +
+    '<th>適用 VIP 等級</th>' +
+    '<th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('storePageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
   var pageBtns = '';
@@ -346,10 +393,10 @@ function renderTable() {
 
   if (currentTab === 'methods') {
     data = methods.filter(function(m){ return m.provider === currentProvider; });
-    headers = '<th>Logo</th><th>支付方式</th><th>供應商</th><th>狀態</th><th>操作</th>';
+    headers = '<th>Logo</th><th class="sortable" onclick="toggleSort(\'name\',\'payment\')">支付方式' + sortIcon('name','payment') + '</th><th>供應商</th><th>狀態</th><th>操作</th>';
   } else {
     data = channels.filter(function(c){ return c.provider === currentProvider; });
-    headers = '<th>Logo</th><th>支付方式</th><th>供應商</th><th>付款通道代碼</th><th>付款通道</th><th>狀態</th><th>操作</th>';
+    headers = '<th>Logo</th><th class="sortable" onclick="toggleSort(\'method\',\'payment\')">支付方式' + sortIcon('method','payment') + '</th><th>供應商</th><th class="sortable" onclick="toggleSort(\'code\',\'payment\')">付款通道代碼' + sortIcon('code','payment') + '</th><th class="sortable" onclick="toggleSort(\'name\',\'payment\')">付款通道' + sortIcon('name','payment') + '</th><th>狀態</th><th>操作</th>';
   }
 
   if (nameFilter) {
@@ -358,6 +405,9 @@ function renderTable() {
   if (statusFilter) {
     data = data.filter(function(d){ return d.status === statusFilter; });
   }
+
+  // Sort data
+  data = sortData(data, sortKey, sortDir);
 
   var total = data.length;
   var totalPages = Math.max(1, Math.ceil(total / pageSize));
