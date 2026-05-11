@@ -68,26 +68,22 @@ function changeStorePageSize(val) {
 // === Init ===
 function init() {
   renderSectionTabs();
+  // 新增供應商按鈕移到供應商列表行
+  var provBtn = document.getElementById('providerAddBtn');
+  if (provBtn) { provBtn.innerHTML = UI.btn.add('新增供應商', 'openProviderModal()'); }
   renderProviders();
   renderDetail();
 }
 
-// === Section Tabs (三方支付 / 商城管理) ===
+// === Section Tabs (商城管理) ===
 function renderSectionTabs() {
   var container = document.getElementById('sectionTabs');
   if (!container) return;
   container.innerHTML =
-    '<button class="section-tab' + (currentSection === 'payment' ? ' active' : '') + '" onclick="switchSection(\'payment\',this)">三方支付設定</button>' +
     '<button class="section-tab' + (currentSection === 'store' ? ' active' : '') + '" onclick="switchSection(\'store\',this)">商城管理</button>';
-  // 右側新增按鈕
+  // 清空右側按鈕（新增供應商移到供應商列表行）
   var btnContainer = document.getElementById('sectionAddBtn');
-  if (btnContainer) {
-    if (currentSection === 'payment') {
-      btnContainer.innerHTML = '<button class="btn-add" onclick="openProviderModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增供應商</button>';
-    } else {
-      btnContainer.innerHTML = '<button class="btn-add" onclick="openStoreAddModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增儲值類型</button>';
-    }
-  }
+  if (btnContainer) { btnContainer.innerHTML = ''; }
 }
 
 function switchSection(section, el) {
