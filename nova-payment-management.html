@@ -42,8 +42,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .warning-banner svg{color:#D97706;flex-shrink:0}
 .per-page-select{font-size:13px;color:#6B7280;display:flex;align-items:center;gap:6px}
 .per-page-select select{padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px}
-.form-row{display:flex;gap:12px;align-items:center}
-.form-row .form-group{flex:1;display:flex;gap:6px}
+.form-row{display:flex;gap:12px;align-items:flex-start}
+.form-row .form-group{flex:1}
+.form-hint{font-size:11px;color:#9CA3AF;margin-top:4px}
 
 /* Provider cards */
 .provider-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
@@ -355,23 +356,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal">
     <div class="modal-header"><h3>新增維護排程</h3><button class="close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body">
-      <div class="form-group"><label>起訖時間</label>
-        <div class="form-row" id="schedDateTimeRow">
-          <div class="form-group"><input type="date" id="schedStartDate"><input type="time" id="schedStartTime"></div>
-          <span style="padding-top:8px;color:#6B7280">~</span>
-          <div class="form-group"><input type="date" id="schedEndDate"><input type="time" id="schedEndTime"></div>
-        </div>
-      </div>
       <div class="form-group"><label>動作</label><select id="schedAction"><option value="off">關閉（維護）</option><option value="on">開啟</option></select></div>
       <div class="form-group"><label>重複</label>
         <select id="schedRepeat" onchange="toggleSchedRepeat()">
-          <option value="none">不重複</option>
+          <option value="none">單次（不重複）</option>
           <option value="daily">每天</option>
           <option value="weekly">每週</option>
           <option value="monthly">每月</option>
         </select>
       </div>
-      <div class="form-group" id="schedRepeatEndGroup" style="display:none"><label>重複結束日期</label><input type="date" id="schedRepeatEnd"></div>
+      <div id="schedTimeOnce" class="form-row" style="flex-wrap:wrap">
+        <div class="form-group" style="flex:1 1 100%"><label>日期</label><input type="date" id="schedDate"></div>
+        <div class="form-group" style="flex:1"><label>開始時間</label><input type="time" id="schedStartTime"></div>
+        <div class="form-group" style="flex:1"><label>結束時間（選填）</label><input type="time" id="schedEndTime"><div class="form-hint">留空表示手動恢復</div></div>
+      </div>
+      <div id="schedTimeRepeat" style="display:none" class="form-row">
+        <div class="form-group"><label>開始時間</label><input type="time" id="schedRStart"></div>
+        <div class="form-group"><label>結束時間（選填）</label><input type="time" id="schedREnd"><div class="form-hint">留空表示手動恢復</div></div>
+      </div>
       <div class="form-group"><label>備註</label><input type="text" id="schedNote" placeholder="例：例行維護"></div>
     </div>
     <div class="modal-footer">

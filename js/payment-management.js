@@ -254,27 +254,33 @@ function openSchedModal() {
 }
 function toggleSchedRepeat() {
   var val = document.getElementById('schedRepeat').value;
-  document.getElementById('schedRepeatEndGroup').style.display = val === 'none' ? 'none' : '';
-  document.getElementById('schedDateTimeRow').querySelectorAll('input[type=date]').forEach(function(el) {
-    el.style.display = val === 'none' ? '' : 'none';
-  });
+  var isOnce = val === 'none';
+  document.getElementById('schedTimeOnce').style.display = isOnce ? '' : 'none';
+  document.getElementById('schedTimeRepeat').style.display = isOnce ? 'none' : '';
 }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 function addSchedule() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
-  var startDate = document.getElementById('schedStartDate').value;
-  var startTime = document.getElementById('schedStartTime').value;
-  var endDate = document.getElementById('schedEndDate').value;
-  var endTime = document.getElementById('schedEndTime').value;
   var action = document.getElementById('schedAction').value;
-  var note = document.getElementById('schedNote').value;
   var repeat = document.getElementById('schedRepeat').value;
-  var repeatEnd = document.getElementById('schedRepeatEnd').value;
-  if (!startTime) { alert('請選擇開始時間'); return; }
-  var start = (startDate ? startDate + 'T' : '') + startTime;
-  var end = (endDate ? endDate + 'T' : '') + endTime;
-  p.schedules.push({action:action, start:start, end:end, note:note, repeat:repeat, repeatEnd:repeatEnd});
+  var note = document.getElementById('schedNote').value;
+  var start, end;
+  if (repeat === 'none') {
+    var date = document.getElementById('schedDate').value;
+    var st = document.getElementById('schedStartTime').value;
+    var et = document.getElementById('schedEndTime').value;
+    if (!date || !st) { alert('請選擇日期與開始時間'); return; }
+    start = date + 'T' + st;
+    end = et ? date + 'T' + et : '';
+  } else {
+    var rst = document.getElementById('schedRStart').value;
+    var ret = document.getElementById('schedREnd').value;
+    if (!rst) { alert('請選擇開始時間'); return; }
+    start = rst;
+    end = ret || '';
+  }
+  p.schedules.push({action:action, start:start, end:end, note:note, repeat:repeat});
   closeModal('schedModal');
   renderSchedules();
 }
