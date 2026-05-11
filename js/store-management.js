@@ -10,14 +10,15 @@ const storeData = [
 ];
 
 let storePage = 1, storePageSize = 20, storeFiltered = [...storeData], currentTab = '一般';
+let fastRows = []; // 快速儲值 modal 明細列
 
 function renderVipBadges(vips) {
   return vips.map(v => `<span class="vip-badge"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${v}</span>`).join('');
 }
 
 function renderStoreTable() {
-  const start = (storePage - 1) * storePageSize;
   const tabData = storeFiltered.filter(r => r.type === currentTab);
+  const start = (storePage - 1) * storePageSize;
   const page = tabData.slice(start, start + storePageSize);
   let html = '';
 
@@ -26,14 +27,14 @@ function renderStoreTable() {
       <th>供應商</th><th>項目名稱</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th>
     </tr></thead><tbody>`;
     page.forEach(r => {
-      const statusClass = r.status === 'on' ? 'on' : 'off';
-      const statusText = r.status === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
+      const sc = r.status === 'on' ? 'on' : 'off';
+      const st = r.status === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
       html += `<tr>
         <td>${r.provider || '-'}</td>
         <td>${r.name}</td>
         <td>${r.method || '-'}</td>
         <td><span class="channel-check">✓ ${r.channel || '-'}</span></td>
-        <td><button class="toggle ${statusClass}" onclick="toggleStoreStatus(${r.id},this)"></button>${statusText}</td>
+        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
         <td class="actions">
           <button class="btn-icon" title="編輯" onclick="openStoreEditModal(${r.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
@@ -47,12 +48,12 @@ function renderStoreTable() {
       <th>項目名稱</th><th>使用 VIP</th><th>狀態</th><th>操作</th>
     </tr></thead><tbody>`;
     page.forEach(r => {
-      const statusClass = r.status === 'on' ? 'on' : 'off';
-      const statusText = r.status === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
+      const sc = r.status === 'on' ? 'on' : 'off';
+      const st = r.status === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
       html += `<tr>
         <td><a href="#" class="link-name">${r.name}</a></td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
-        <td><button class="toggle ${statusClass}" onclick="toggleStoreStatus(${r.id},this)"></button>${statusText}</td>
+        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
         <td class="actions">
           <button class="btn-icon btn-delete" title="刪除" onclick="deleteStoreItem(${r.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
           <button class="btn-icon" title="更多">⋮</button>
@@ -80,7 +81,6 @@ function switchTab(tab) {
   storePage = 1;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-  // Update add button text
   document.getElementById('addBtnText').textContent = tab === '一般' ? '新增一般儲值' : '新增快速儲值';
   renderStoreTable();
 }
@@ -112,55 +112,92 @@ function toggleStoreStatus(id, btn) {
   if (span) { span.className = item.status === 'on' ? 'status-on' : 'status-off'; span.textContent = item.status === 'on' ? '啟用' : '停用'; }
 }
 
-function toggleStoreTypeFields() {
-  const type = document.getElementById('smType').value;
-  document.getElementById('smGeneralFields').style.display = type === '快速' ? 'none' : '';
-  document.getElementById('smFastFields').style.display = type === '快速' ? '' : 'none';
-}
-
-function toggleAllVip(cb) {
-  document.querySelectorAll('.vip-cb').forEach(c => c.checked = cb.checked);
-}
-
+// Modal logic
 function openStoreAddModal() {
-  document.getElementById('storeModalTitle').textContent = currentTab === '一般' ? '新增一般儲值' : '新增快速儲值';
-  document.getElementById('smType').value = currentTab;
-  document.getElementById('smName').value = '';
-  document.getElementById('smSort').value = '0';
-  document.getElementById('smStatus').className = 'toggle on';
-  toggleStoreTypeFields();
-  document.querySelectorAll('.vip-cb').forEach(c => c.checked = false);
-  document.querySelector('[value="all"]').checked = false;
-  if (document.getElementById('smDesc')) document.getElementById('smDesc').value = '';
-  if (document.getElementById('smProvider')) document.getElementById('smProvider').value = '';
-  if (document.getElementById('smMethod')) document.getElementById('smMethod').value = '';
-  if (document.getElementById('smChannel')) document.getElementById('smChannel').value = '';
-  if (document.getElementById('smAmountList')) document.getElementById('smAmountList').value = '';
-  if (document.getElementById('smMinAmount')) document.getElementById('smMinAmount').value = '';
-  if (document.getElementById('smMaxAmount')) document.getElementById('smMaxAmount').value = '';
-  document.getElementById('storeModal').classList.add('active');
+  if (currentTab === '一般') {
+    document.getElementById('generalModal').classList.add('active');
+    document.getElementById('gmTitle').textContent = '新增一般儲值';
+    document.getElementById('gmName').value = '';
+    document.getElementById('gmProvider').value = '';
+    document.getElementById('gmMethod').value = '';
+    document.getElementById('gmChannel').value = '';
+    document.getElementById('gmVip').value = '';
+    document.getElementById('gmStatus').className = 'toggle on';
+  } else {
+    document.getElementById('fastModal').classList.add('active');
+    document.getElementById('fmTitle').textContent = '新增快速儲值';
+    document.getElementById('fmName').value = '';
+    document.getElementById('fmVip').value = '';
+    document.getElementById('fmStatus').className = 'toggle on';
+    fastRows = [{ provider: '', method: '', channel: '', amount: '', basePoints: 0, ratio: 0, bonus: 0, total: 0 }];
+    renderFastRows();
+  }
 }
 
 function openStoreEditModal(id) {
   const item = storeData.find(r => r.id === id);
   if (!item) return;
-  document.getElementById('storeModalTitle').textContent = '編輯儲值類型';
-  document.getElementById('smType').value = item.type;
-  document.getElementById('smName').value = item.name;
-  document.getElementById('smSort').value = item.sort || 0;
-  document.getElementById('smStatus').className = 'toggle ' + item.status;
-  toggleStoreTypeFields();
-  document.getElementById('storeModal').classList.add('active');
+  if (item.type === '一般') {
+    document.getElementById('generalModal').classList.add('active');
+    document.getElementById('gmTitle').textContent = '編輯一般儲值';
+    document.getElementById('gmName').value = item.name;
+    document.getElementById('gmProvider').value = item.provider || '';
+    document.getElementById('gmMethod').value = item.method || '';
+    document.getElementById('gmChannel').value = item.channel || '';
+    document.getElementById('gmStatus').className = 'toggle ' + item.status;
+  } else {
+    document.getElementById('fastModal').classList.add('active');
+    document.getElementById('fmTitle').textContent = '編輯快速儲值';
+    document.getElementById('fmName').value = item.name;
+    document.getElementById('fmStatus').className = 'toggle ' + item.status;
+    fastRows = [{ provider: '', method: '', channel: '', amount: '', basePoints: 0, ratio: 0, bonus: 0, total: 0 }];
+    renderFastRows();
+  }
+}
+
+function renderFastRows() {
+  const tbody = document.getElementById('fastRowsBody');
+  let html = '';
+  fastRows.forEach((r, i) => {
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><select class="sm-select"><option value="">請選擇供應商</option><option>MyCard</option><option>Gash</option><option>LINE Pay</option></select></td>
+      <td><select class="sm-select"><option value="">請選擇支付方式</option><option>線上轉點</option><option>電信帳單</option><option>點數卡</option></select></td>
+      <td><select class="sm-select"><option value="">請選擇付款通道</option><option>線上轉點</option><option>手機小額付款</option><option>錢包扣點</option></select></td>
+      <td><select class="sm-select"><option value="">請選擇儲值金額</option><option>100</option><option>300</option><option>500</option><option>1000</option></select></td>
+      <td>0</td><td>0</td><td>0</td><td>0</td>
+      <td><button class="btn-sm-delete" onclick="removeFastRow(${i})">刪除</button></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+  document.getElementById('fastRowCount').textContent = fastRows.length;
+}
+
+function addFastRow() {
+  fastRows.push({ provider: '', method: '', channel: '', amount: '', basePoints: 0, ratio: 0, bonus: 0, total: 0 });
+  renderFastRows();
+}
+
+function removeFastRow(i) {
+  fastRows.splice(i, 1);
+  if (fastRows.length === 0) fastRows.push({ provider: '', method: '', channel: '', amount: '', basePoints: 0, ratio: 0, bonus: 0, total: 0 });
+  renderFastRows();
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-function saveStoreItem() {
-  const type = document.getElementById('smType').value;
-  const name = document.getElementById('smName').value.trim();
-  if (!type || !name) { alert('請填寫必填欄位'); return; }
+function saveGeneralItem() {
+  const name = document.getElementById('gmName').value.trim();
+  if (!name) { alert('請填寫項目名稱'); return; }
   alert('儲存成功（Demo）');
-  closeModal('storeModal');
+  closeModal('generalModal');
+}
+
+function saveFastItem() {
+  const name = document.getElementById('fmName').value.trim();
+  if (!name) { alert('請填寫項目名稱'); return; }
+  alert('儲存成功（Demo）');
+  closeModal('fastModal');
 }
 
 function deleteStoreItem(id) {
