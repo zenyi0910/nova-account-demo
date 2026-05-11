@@ -16,11 +16,7 @@
         { name: '帳務管理', id: 'financeSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>',
           children: [
             { name: '商城管理', href: 'nova-store-management.html' },
-            { name: '三方支付管理', href: 'nova-payment-management.html' },
-            { name: '供應商', href: 'nova-payment-provider.html' },
-            { name: '支付方式', href: 'nova-payment-method.html' },
-            { name: '付款通道', href: 'nova-payment-channel.html' },
-            { name: '儲值金額表', href: 'nova-deposit-table.html' }
+            { name: '三方支付管理', href: 'nova-payment-management.html' }
           ]
         },
         { name: '報表與查詢', id: 'reportSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
