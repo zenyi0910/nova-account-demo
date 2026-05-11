@@ -290,19 +290,16 @@ function renderStatusCell(status, toggleFn, disabled) {
   var st = disabled ? 'off' : status;
   var dis = disabled ? ' disabled' : '';
   var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
-  return '<td style="width:60px;text-align:center"><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
+  return '<td><label class="switch-cell"><button class="toggle ' + st + '"' + dis + onclick + '></button></label></td>';
 }
 
-// === 共用操作按鈕元件（編輯 + 刪除，對齊 Nova 系統） ===
+// === 共用操作按鈕元件（使用 UI.btn.icon 共用元件） ===
 function renderActionCell(type, id, disabled) {
-  var dis = disabled ? ' disabled' : '';
+  var editOnclick = disabled ? '' : "open" + type + "Modal('" + id + "')";
+  var deleteOnclick = disabled ? '' : "delete" + type + "('" + id + "')";
   return '<td class="action-cell"><div class="action-inner">' +
-    '<button class="btn-icon" title="編輯"' + dis + ' onclick="open' + type + 'Modal(\'' + id + '\')">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
-    '</button>' +
-    '<button class="btn-icon btn-icon-danger" title="刪除"' + dis + ' onclick="delete' + type + '(\'' + id + '\')">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
-    '</button>' +
+    UI.btn.icon('edit', editOnclick, '編輯') +
+    UI.btn.icon('delete', deleteOnclick, '刪除') +
   '</div></td>';
 }
 
