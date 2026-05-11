@@ -689,7 +689,7 @@ function confirmToggle() {
 
 // === Schedule ===
 function openSchedModal(id) {
-  var hall = halls.find(function(h){ return h.id === id; });
+  var hall = halls[id];
   document.getElementById('sHall').value = hall ? hall.name + ' 娛樂廳' : id;
   document.getElementById('sHall').dataset.hallId = id;
   document.getElementById('sDate').value = '';

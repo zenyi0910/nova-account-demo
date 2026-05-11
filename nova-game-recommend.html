@@ -118,8 +118,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     </div>
 
     <div class="filter-bar">
-      <button class="filter-btn active">狀態篩選</button>
-      <button class="filter-btn">最受歡迎</button>
+      <button class="filter-btn active" onclick="switchRecommendTab('status')">狀態篩選</button>
+      <button class="filter-btn" onclick="switchRecommendTab('popular')">最受歡迎</button>
+      <button class="filter-btn" onclick="switchRecommendTab('jackpot')">近期爆獎</button>
+    </div>
+
+    <div class="filter-action-bar" id="filterActionBar" style="display:none;margin-bottom:12px">
+      <button class="btn-primary" onclick="alert('新增遊戲')">+ 新增遊戲</button>
     </div>
 
     <div class="pagination-bar"><span>總共 4 筆資料</span></div>
@@ -177,6 +182,10 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
     this.classList.add('active');
   });
 });
+function switchRecommendTab(tab) {
+  var actionBar = document.getElementById('filterActionBar');
+  actionBar.style.display = tab === 'jackpot' ? '' : 'none';
+}
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 </script>
 </body>

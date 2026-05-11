@@ -51,6 +51,11 @@ const UI = {
     danger(text, onclick) {
       return `<button class="btn btn-danger" onclick="${onclick}">${text}</button>`;
     },
+    /** Modal footer 按鈕組（取消 + 確認）— 共用元件 */
+    modalFooter(confirmText, confirmOnclick, cancelOnclick) {
+      cancelOnclick = cancelOnclick || "closeModal(event.target.closest('.modal-overlay').id)";
+      return `<div class="modal-footer"><button class="btn-outline" onclick="${cancelOnclick}">取消</button><button class="btn-dark" onclick="${confirmOnclick}">${confirmText}</button></div>`;
+    },
     /** 圖示按鈕（編輯/刪除/上傳） */
     icon(type, onclick, title) {
       const svgs = {
