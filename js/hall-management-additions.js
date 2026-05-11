@@ -1,12 +1,14 @@
 // === 推薦設定新增遊戲 modal ===
 function openAddRecommendModal() {
   const modal = document.getElementById('addRecommendModal');
+  const tabLabel = recommendSubTab === 'recent' ? '近期爆獎' : '最受歡迎';
   if (!modal) {
     const modalHtml = `
 <div class="modal-overlay" id="addRecommendModal">
   <div class="modal" style="max-width:500px">
     <div class="modal-header">
-      <h3>推薦設定 - 新增遊戲</h3>
+      <h3 id="addRecommendModalTitle">${tabLabel} - 新增遊戲</h3>
+      <button class="modal-expand" onclick="toggleExpand(this)">⤢</button>
       <button class="modal-close" onclick="closeModal('addRecommendModal')">&times;</button>
     </div>
     <div class="modal-body">
@@ -32,6 +34,7 @@ function openAddRecommendModal() {
       </div>
       <div class="form-group">
         <label>圖片 <span style="color:#DC2626">*</span></label>
+        <div style="font-size:12px;color:#F59E0B;margin-bottom:6px">建議尺寸：512 x 1024 px</div>
         <div class="upload-area" onclick="document.getElementById('recImageInput').click()" style="width:100%;height:200px;border:2px dashed #D1D5DB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;cursor:pointer;transition:all .2s">
           <svg viewBox="0 0 24 24" fill="none" stroke="#00bba7" stroke-width="2" width="40" height="40" style="margin-bottom:12px">
             <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -39,7 +42,6 @@ function openAddRecommendModal() {
             <polyline points="21 15 16 10 5 21"/>
           </svg>
           <div style="font-size:13px;color:#374151;margin-bottom:4px">點擊或拖放圖片至此處</div>
-          <div style="font-size:11px;color:#9CA3AF">建議尺寸 512 × 1024 px</div>
           <div style="font-size:11px;color:#9CA3AF;margin-top:2px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>
           <button type="button" class="btn btn-outline" style="margin-top:12px;padding:6px 16px;font-size:12px" onclick="event.stopPropagation();document.getElementById('recImageInput').click()">選擇圖片</button>
         </div>
@@ -50,8 +52,7 @@ function openAddRecommendModal() {
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('addRecommendModal')" style="background:#8B7E2A;color:#fff;border:none">取消</button>
-      <button class="btn btn-dark" onclick="submitAddRecommend()">新增</button>
+      ${UI.btn.modalFooter('新增', 'submitAddRecommend()', 'closeModal("addRecommendModal")')}
     </div>
   </div>
 </div>`;
@@ -69,6 +70,9 @@ function openAddRecommendModal() {
         });
       }
     });
+  } else {
+    // modal 已存在，更新標題
+    document.getElementById('addRecommendModalTitle').textContent = tabLabel + ' - 新增遊戲';
   }
   document.getElementById('addRecommendModal').classList.add('show');
 }
@@ -187,6 +191,7 @@ function openAddIconModal() {
   <div class="modal" style="max-width:500px">
     <div class="modal-header">
       <h3>媒體共用設定 - Icon新增</h3>
+      <button class="modal-expand" onclick="toggleExpand(this)">⤢</button>
       <button class="modal-close" onclick="closeModal('addIconModal')">&times;</button>
     </div>
     <div class="modal-body">
@@ -213,8 +218,7 @@ function openAddIconModal() {
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('addIconModal')" style="background:#8B7E2A;color:#fff;border:none">取消</button>
-      <button class="btn btn-dark" onclick="submitAddIcon()">新增</button>
+      ${UI.btn.modalFooter('新增', 'submitAddIcon()', 'closeModal("addIconModal")')}
     </div>
   </div>
 </div>`;
