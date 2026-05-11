@@ -198,6 +198,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <h1>娛樂城管理</h1>
       <div class="spacer"></div>
       <button class="btn btn-outline" onclick="openGlobalModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>遊戲共用設定</button>
+      <button class="btn btn-dark" onclick="openGlobalModal()" style="margin-left:8px">遊戲推薦設定</button>
     </div>
 
     <!-- Priority Info -->
@@ -312,16 +313,12 @@ function renderHall(hall){
 
   // Games table
   const gamesHtml=hall.games.map(g=>{
-    const goldOv=hall.gold.enabled&&(g.goldMin!==hall.gold.min||g.goldMax!==hall.gold.max);
-    const starOv=hall.star.enabled&&g.starMin>0&&(g.starMin!==hall.star.min||g.starMax!==hall.star.max);
     const sb=g.status==='使用中'?'online':g.status==='維護中'?'maint':g.status==='停用中'?'offline':'upcoming';
     return `<tr>
       <td><span class="game-name-link">${g.name}</span></td>
       <td>${g.cat}</td>
       <td><span class="status-badge ${sb}"><span class="status-dot ${sb}"></span>${g.status}</span></td>
       <td>${g.vip}</td>
-      <td>${goldOv?'<span class="override-val">$'+hall.gold.min.toLocaleString()+'~$'+hall.gold.max.toLocaleString()+'</span><span class="original-val">$'+g.goldMin.toLocaleString()+'~$'+g.goldMax.toLocaleString()+'</span>':'$'+g.goldMin.toLocaleString()+'~$'+g.goldMax.toLocaleString()}</td>
-      <td>${g.starMin>0?(starOv?'<span class="override-val">$'+hall.star.min.toLocaleString()+'~$'+hall.star.max.toLocaleString()+'</span><span class="original-val">$'+g.starMin.toLocaleString()+'~$'+g.starMax.toLocaleString()+'</span>':'$'+g.starMin.toLocaleString()+'~$'+g.starMax.toLocaleString()):'<span style="color:#9CA3AF">-</span>'}</td>
     </tr>`;
   }).join('');
 
@@ -350,43 +347,15 @@ function renderHall(hall){
       </div>
     </div>
 
-    <!-- Section 2: Currency Settings (inline, no modal) -->
-    <div class="sect-card">
-      <div class="sect-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>
-        <h3>幣種設定（娛樂城覆蓋）</h3>
-        <div class="spacer"></div>
-        <button class="btn btn-sm btn-outline" onclick="saveCurrency('${hall.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>儲存</button>
-      </div>
-      <div class="curr-section">
-        <div class="curr-row gold-row">
-          <div class="curr-label"><div class="coin-dot gold"></div>金幣</div>
-          <div class="curr-field"><label>最低投注</label><input type="number" id="gm-${hall.id}" value="${hall.gold.min}"></div>
-          <div class="curr-field"><label>最高投注</label><input type="number" id="gx-${hall.id}" value="${hall.gold.max}"></div>
-          <div class="curr-field"><label>兌換比率</label><input type="text" id="gr-${hall.id}" value="${hall.gold.rate}"></div>
-          <div class="curr-toggle"><button class="toggle ${hall.gold.enabled?'on':'off'}" onclick="toggleCurr('${hall.id}','gold')"></button><span class="toggle-text ${hall.gold.enabled?'on':'off'}">${hall.gold.enabled?'啟用':'停用'}</span></div>
-        </div>
-        <div class="curr-row star-row">
-          <div class="curr-label"><div class="coin-dot star"></div>星幣</div>
-          <div class="curr-field"><label>最低投注</label><input type="number" id="sm-${hall.id}" value="${hall.star.min}"></div>
-          <div class="curr-field"><label>最高投注</label><input type="number" id="sx-${hall.id}" value="${hall.star.max}"></div>
-          <div class="curr-field"><label>兌換比率</label><input type="text" id="sr-${hall.id}" value="${hall.star.rate}"></div>
-          <div class="curr-toggle"><button class="toggle ${hall.star.enabled?'on':'off'}" onclick="toggleCurr('${hall.id}','star')"></button><span class="toggle-text ${hall.star.enabled?'on':'off'}">${hall.star.enabled?'啟用':'停用'}</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Section 3: Game List -->
+    <!-- Section 2: Game List -->
     <div class="sect-card">
       <div class="sect-header">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         <h3>娛樂城內遊戲（${hall.games.length}）</h3>
-        <div class="spacer"></div>
-        <span style="font-size:11px;color:#6B7280">覆蓋值以橘色標示，刪除線為原始值</span>
       </div>
       <div style="overflow-x:auto">
         <table class="game-table">
-          <thead><tr><th>遊戲名稱</th><th>種類</th><th>狀態</th><th>VIP限制</th><th>金幣投注範圍</th><th>星幣投注範圍</th></tr></thead>
+          <thead><tr><th>遊戲名稱</th><th>種類</th><th>狀態</th><th>VIP限制</th></tr></thead>
           <tbody>${gamesHtml}</tbody>
         </table>
       </div>
