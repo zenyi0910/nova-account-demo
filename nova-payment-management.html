@@ -266,7 +266,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <!-- Payment Section -->
     <div id="paymentSection" style="overflow:hidden">
     <!-- Provider Cards -->
-    <div style="display:flex;align-items:center;margin-bottom:12px;margin-top:24px">
+    <div style="display:flex;align-items:center;margin-bottom:12px;margin-top:16px">
       <span style="font-size:13px;font-weight:600;color:#374151">供應商列表</span>
       <span style="flex:1"></span>
       <span id="providerAddBtn"></span>
@@ -443,11 +443,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="form-group"><label>付款通道代碼</label><input type="text" id="cmCode" placeholder="輸入通道代碼（選填）"></div>
       <div class="form-group"><label>儲值金額表 <span class="required">*</span></label>
-        <div style="display:flex;gap:8px;margin-bottom:8px">
-          <input type="number" id="cmNewAmount" placeholder="輸入金額" style="flex:1">
-          <button class="btn-add" onclick="addChannelAmount()" style="white-space:nowrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:12px;color:#6B7280">總共 <span id="cmAmountCount">0</span> 筆資料</span>
+          <button class="btn-outline" style="font-size:12px;padding:4px 8px" onclick="alert('排序功能')">編輯排序</button>
         </div>
-        <div id="cmAmountTags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+        <table class="data-table" style="font-size:12px">
+          <thead><tr><th style="width:40px">順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th style="width:60px">操作</th></tr></thead>
+          <tbody id="cmAmountTableBody"></tbody>
+        </table>
+        <div id="cmAddAmountRow" style="text-align:center;padding:10px;background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;cursor:pointer;color:#2563EB;font-size:13px" onclick="addChannelAmountRow()">+ 新增</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -510,6 +514,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=7"></script>
-<script src="js/payment-management.js?v=40"></script>
+<script src="js/payment-management.js?v=41"></script>
 </body>
 </html>

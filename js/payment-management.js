@@ -527,27 +527,34 @@ function saveMethod() {
 var editingChannelId = null;
 var channelAmountValues = [];
 
-function renderChannelAmountTags() {
-  var el = document.getElementById('cmAmountTags');
-  if (!el) return;
-  el.innerHTML = channelAmountValues.map(function(v, i){
-    return '<span class="amount-tag">$' + v + '<span class="del" onclick="removeChannelAmount(' + i + ')">×</span></span>';
+function renderChannelAmountTable() {
+  var tbody = document.getElementById('cmAmountTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = channelAmountValues.map(function(v, i){
+    var pts = v.amount || 0;
+    var bonus = v.bonusPct || 0;
+    var bonusPts = v.bonusPts || 0;
+    var actual = pts + bonusPts;
+    return '<tr><td>' + (i+1) + '</td><td>' + v.amount + '</td><td>' + pts + '</td><td>' + bonus + '</td><td>' + bonusPts + '</td><td>' + actual + '</td><td><button class="btn-icon-action delete" onclick="removeChannelAmountRow(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button></td></tr>';
   }).join('');
+  var countEl = document.getElementById('cmAmountCount');
+  if (countEl) countEl.textContent = channelAmountValues.length;
 }
 
-function addChannelAmount() {
-  var input = document.getElementById('cmNewAmount');
-  var val = parseInt(input.value);
-  if (!val || val <= 0) return;
-  channelAmountValues.push(val);
-  channelAmountValues.sort(function(a,b){ return a - b; });
-  input.value = '';
-  renderChannelAmountTags();
+function addChannelAmountRow() {
+  var amount = prompt('請輸入金額（台幣）');
+  if (!amount || isNaN(amount) || parseInt(amount) <= 0) return;
+  amount = parseInt(amount);
+  var bonusPct = prompt('贈比（%），無則填 0') || '0';
+  var bonusPts = prompt('贈點，無則填 0') || '0';
+  channelAmountValues.push({amount: amount, bonusPct: parseInt(bonusPct), bonusPts: parseInt(bonusPts)});
+  channelAmountValues.sort(function(a,b){ return a.amount - b.amount; });
+  renderChannelAmountTable();
 }
 
-function removeChannelAmount(i) {
+function removeChannelAmountRow(i) {
   channelAmountValues.splice(i, 1);
-  renderChannelAmountTags();
+  renderChannelAmountTable();
 }
 
 function openChannelModal(id) {
@@ -574,7 +581,7 @@ function openChannelModal(id) {
     selP.value = currentProvider;
     document.getElementById('cmStatus').className = 'toggle on';
   }
-  renderChannelAmountTags();
+  renderChannelAmountTable();
   document.getElementById('channelModal').classList.add('show');
 }
 
@@ -585,7 +592,7 @@ function saveChannel() {
   var method = document.getElementById('cmMethod').value;
   var status = document.getElementById('cmStatus').className.includes('on') ? 'on' : 'off';
   if (!code || !name || !provider || !method) { alert('請填寫必填欄位'); return; }
-  if (!channelAmountValues.length) { alert('請至少新增一個儲值金額'); return; }
+  if (!channelAmountValues.length) { alert('請至少新增一筆儲值金額'); return; }
   
   if (editingChannelId) {
     var c = channels.find(function(x){ return x.id === editingChannelId; });
