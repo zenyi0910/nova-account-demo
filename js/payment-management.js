@@ -73,6 +73,8 @@ function init() {
   // 隱藏 sectionTabs 和 storeSection
   var st = document.getElementById('sectionTabs');
   if (st) st.style.display = 'none';
+  var sb = document.getElementById('sectionAddBtn');
+  if (sb) sb.style.display = 'none';
   var ss = document.getElementById('storeSection');
   if (ss) ss.style.display = 'none';
   var ps = document.getElementById('paymentSection');
