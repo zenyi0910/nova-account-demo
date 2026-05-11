@@ -230,6 +230,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-popover-item:hover{background:#F3F4F6}
 .user-popover-item svg{width:16px;height:16px;color:#6B7280}
 </style>
+<style>
+.vip-badge{display:inline-flex;align-items:center;gap:2px;padding:2px 8px;border-radius:4px;font-size:11px;background:#FEF3C7;color:#D97706;border:1px solid #FCD34D;margin:2px}
+.vip-badge svg{color:#D97706}
+.status-on{color:#059669;font-size:12px;margin-left:6px}
+.status-off{color:#6B7280;font-size:12px;margin-left:6px}
+.channel-check{color:#059669;font-size:13px}
+.vip-cell{max-width:280px}
+.btn-delete{color:#EF4444}
+.btn-delete:hover{background:#FEE2E2}
+.link-name{color:#2563EB;text-decoration:none}
+.link-name:hover{text-decoration:underline}
+.tips-box{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;font-size:13px;color:#1E40AF}
+.tips-box svg{flex-shrink:0}
+.tab-bar{display:flex;gap:0;margin-bottom:16px;border-bottom:2px solid #E5E7EB}
+.tab-btn{padding:10px 20px;font-size:14px;font-weight:500;color:#6B7280;background:none;border:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:#059669;border-bottom-color:#059669}
+.tab-btn:hover{color:#059669}
+</style>
 </head>
 <body>
 <nav class="sidebar" id="sidebar"></nav>
@@ -243,16 +261,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
       <h4>商城管理</h4>
       <span style="flex:1"></span>
-      <button class="btn-add" onclick="openStoreAddModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增儲值類型</button>
+      <button class="btn-add" onclick="openStoreAddModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> <span id="addBtnText">新增一般儲值</span></button>
     </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="一般" onclick="switchTab('一般')">一般儲值</button>
+      <button class="tab-btn" data-tab="快速" onclick="switchTab('快速')">快速儲值</button>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span><b>Tips</b> 該功能僅支援金幣類型。</span>
+    </div>
+
+    <!-- Filter -->
     <div class="filter-bar">
-      <input type="text" placeholder="搜尋名稱..." id="storeFilterName" style="width:160px">
-      <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
-      <select id="storeFilterType"><option value="">全部類型</option><option value="一般">一般儲值</option><option value="快速">快速儲值</option></select>
+      <label style="font-size:13px;color:#374151;margin-right:8px">啟用狀態</label>
+      <select id="storeFilterStatus"><option value="">選擇啟用狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
       <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
       <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
     </div>
+
+    <!-- Table -->
     <div id="storeTableContainer"></div>
+
+    <!-- Pagination -->
     <div class="pagination">
       <span id="storePageInfo"></span>
       <div class="per-page-select">每頁顯示 <select id="storePerPageSelect" onchange="changeStorePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
@@ -283,9 +318,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div id="smGeneralFields">
         <div class="form-group"><label>項目說明</label><input type="text" id="smDesc" placeholder="請輸入項目說明"></div>
-        <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option><option value="綠界">綠界科技</option><option value="藍新">藍新金流</option><option value="MyCard">MyCard</option><option value="Gash">Gash</option><option value="LINE Pay">LINE Pay</option></select></div>
-        <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇</option><option value="信用卡">信用卡</option><option value="ATM轉帳">ATM轉帳</option><option value="超商代碼">超商代碼</option><option value="行動支付">行動支付</option><option value="點數卡">點數卡</option><option value="線上轉點">線上轉點</option><option value="電信帳單">電信帳單</option><option value="會員扣點">會員扣點</option></select></div>
-        <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇</option><option value="信用卡3D">信用卡3D</option><option value="虛擬帳號">虛擬帳號</option><option value="超商代碼">超商代碼</option><option value="LINE Pay">LINE Pay</option><option value="點數卡">點數卡</option><option value="手機小額付款">手機小額付款</option><option value="錢包扣點">錢包扣點</option></select></div>
+        <div class="form-group"><label>供應商 <span class="required">*</span></label><select id="smProvider"><option value="">請選擇供應商</option><option value="MyCard">MyCard</option><option value="Gash">Gash</option><option value="LINE Pay">LINE Pay</option><option value="綠界">綠界科技</option><option value="藍新">藍新金流</option></select></div>
+        <div class="form-group"><label>支付方式 <span class="required">*</span></label><select id="smMethod"><option value="">請選擇</option><option value="線上轉點">線上轉點</option><option value="電信帳單">電信帳單</option><option value="會員扣點">會員扣點</option><option value="行動支付">行動支付</option><option value="點數卡">點數卡</option><option value="信用卡">信用卡</option><option value="ATM轉帳">ATM轉帳</option></select></div>
+        <div class="form-group"><label>付款通道 <span class="required">*</span></label><select id="smChannel"><option value="">請選擇</option><option value="線上轉點">線上轉點</option><option value="手機小額付款">手機小額付款</option><option value="錢包扣點">錢包扣點</option><option value="LINE Pay">LINE Pay</option><option value="點數卡">點數卡</option><option value="信用卡3D">信用卡3D</option><option value="虛擬帳號">虛擬帳號</option></select></div>
       </div>
       <div id="smFastFields" style="display:none">
         <div class="form-group"><label>快速金額列表 <span class="required">*</span></label><input type="text" id="smAmountList" placeholder="以逗號分隔，如: 100,300,500,1000"></div>
@@ -305,6 +340,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=8"></script>
-<script src="js/store-management.js?v=3"></script>
+<script src="js/store-management.js?v=4"></script>
 </body>
 </html>
