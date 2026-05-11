@@ -256,7 +256,7 @@ function renderRecommendModalContent() {
       UI.btn.dark('儲存排序', 'saveRecommendSort()')
       :
       '<button class="btn-sort" onclick="toggleRecommendSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg> 編輯排序</button>' +
-      (recommendSubTab === 'recent' ? ' ' + UI.btn.dark('+ 新增遊戲', 'openAddRecommendModal()') : '')
+      (recommendSubTab === 'recent' ? ' ' + UI.btn.add('新增遊戲', 'openAddRecommendModal()') : '')
     ) +
     '</div></div>';
 
