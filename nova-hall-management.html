@@ -290,10 +290,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .currency-tab:last-child{border-radius:0 6px 6px 0;border-left:none}
 .currency-tab.active{background:#f5f5f5;color:#1a1a1a;font-weight:600;border-color:#999}
 .seg-control{display:inline-flex;background:oklch(0.95 0.003 264.542);border-radius:10px;padding:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)}
-.seg-btn{padding:5px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:8px;font-weight:500;transition:all .15s}
-.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.15);transform:translateY(-0.5px)}
-.btn-sort{background:rgb(144,161,185);color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}
-.btn-sort:hover{background:rgb(130,147,170)}
+.seg-control.currency-seg{background:#f5f5f5;border-radius:8px;padding:3px;box-shadow:none}
+.seg-control.category-seg{background:transparent;border:1px solid #e5e7eb;border-radius:8px;padding:3px;box-shadow:none}
+.seg-btn{padding:5px 16px;border:none;background:transparent;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-radius:6px;font-weight:500;transition:all .15s}
+.currency-seg .seg-btn.active{background:#fef3c7;color:#92400e;font-weight:600;box-shadow:none;transform:none}
+.category-seg .seg-btn.active{background:transparent;color:#1f2937;font-weight:600;border:2px solid #1f2937;box-shadow:none;transform:none}
+.btn-sort{background:#2563EB;color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}
+.btn-sort:hover{background:#1D4ED8}
 .btn-cancel{background:#5a5a5a;color:#fff;border:none;padding:8px 16px;font-size:14px;border-radius:6px;cursor:pointer;font-family:inherit}
 .btn-cancel:hover{background:#4a4a4a}
 .btn-confirm{background:#5c5c23;color:#fff;border:none;padding:8px 16px;font-size:14px;border-radius:6px;cursor:pointer;font-family:inherit}
@@ -433,11 +436,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <!-- 遊戲列表 -->
     <div class="game-section">
-      <div class="seg-control" id="currencySegment">
+      <div class="seg-control currency-seg" id="currencySegment">
         <button class="seg-btn active" onclick="switchGameCurrency('gold')">金幣</button>
         <button class="seg-btn" onclick="switchGameCurrency('star')">星幣</button>
       </div>
-      <div class="seg-control" id="catSegment" style="margin-top:8px">
+      <div class="seg-control category-seg" id="catSegment" style="margin-top:8px">
         <button class="seg-btn active" onclick="switchGameCat('')">全部</button>
         <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
         <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
