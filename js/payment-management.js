@@ -51,7 +51,19 @@ let currentProvider = 'mycard';
 let currentTab = 'methods';
 let currentPage = 1;
 let currentSection = 'payment'; // 'payment' or 'store'
-const pageSize = 10;
+let pageSize = 20;
+let storePageSize = 20;
+
+function changePageSize(val) {
+  pageSize = parseInt(val);
+  currentPage = 1;
+  renderTable();
+}
+function changeStorePageSize(val) {
+  storePageSize = parseInt(val);
+  currentPage = 1;
+  renderStoreTable();
+}
 
 // === Init ===
 function init() {
@@ -110,10 +122,10 @@ function renderStoreTable() {
   var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
 
   var total = data.length;
-  var totalPages = Math.max(1, Math.ceil(total / pageSize));
+  var totalPages = Math.max(1, Math.ceil(total / storePageSize));
   if (currentPage > totalPages) currentPage = totalPages;
-  var start = (currentPage - 1) * pageSize;
-  var pageData = data.slice(start, start + pageSize);
+  var start = (currentPage - 1) * storePageSize;
+  var pageData = data.slice(start, start + storePageSize);
 
   var rows = pageData.map(function(item) {
     var blocked = providerOff.indexOf(item.provider) >= 0;
@@ -138,7 +150,7 @@ function renderStoreTable() {
 
   container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>類型</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
-  document.getElementById('storePageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
+  document.getElementById('storePageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + total + ' 筆資料';
   var pageBtns = '';
   for (var i = 1; i <= totalPages; i++) {
     pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goStorePage(' + i + ')">' + i + '</button>';
@@ -221,10 +233,13 @@ function renderSchedules() {
   list.innerHTML = p.schedules.map(function(s, i) {
     var startStr = new Date(s.start).toLocaleString('zh-TW');
     var endStr = s.end ? new Date(s.end).toLocaleString('zh-TW') : '無限期';
+    var repeatLabel = {none:'',daily:'每天',weekly:'每週',monthly:'每月'}[s.repeat||'none'];
+    var repeatHtml = repeatLabel ? '<span class="repeat-tag">' + repeatLabel + '</span>' : '';
     return '<div class="sched-item">' +
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
       '<span class="time">' + startStr + ' ~ ' + endStr + '</span>' +
       '<span class="action-tag ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
+      repeatHtml +
       '<span class="note">' + (s.note || '') + '</span>' +
       '<span class="spacer"></span>' +
       '<button class="del-btn" onclick="delSched(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
@@ -232,7 +247,12 @@ function renderSchedules() {
   }).join('');
 }
 
-function openSchedModal() { document.getElementById('schedModal').classList.add('show'); }
+function openSchedModal() {
+  document.getElementById('schedModal').classList.add('show');
+  document.getElementById('schedRepeat').onchange = function() {
+    document.getElementById('schedRepeatEndGroup').style.display = this.value === 'none' ? 'none' : '';
+  };
+}
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
 function addSchedule() {
@@ -241,8 +261,10 @@ function addSchedule() {
   var end = document.getElementById('schedEnd').value;
   var action = document.getElementById('schedAction').value;
   var note = document.getElementById('schedNote').value;
+  var repeat = document.getElementById('schedRepeat').value;
+  var repeatEnd = document.getElementById('schedRepeatEnd').value;
   if (!start) { alert('請選擇開始時間'); return; }
-  p.schedules.push({action:action, start:start, end:end, note:note});
+  p.schedules.push({action:action, start:start, end:end, note:note, repeat:repeat, repeatEnd:repeatEnd});
   closeModal('schedModal');
   renderSchedules();
 }
@@ -384,7 +406,7 @@ function renderTable() {
 
   container.innerHTML = '<table class="data-table"><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
 
-  document.getElementById('pageInfo').textContent = '顯示 ' + (total ? start + 1 : 0) + '-' + Math.min(start + pageSize, total) + ' 筆，共 ' + total + ' 筆';
+  document.getElementById('pageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + total + ' 筆資料';
   var pageBtns = '';
   for (var i = 1; i <= totalPages; i++) {
     pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goPage(' + i + ')">' + i + '</button>';
