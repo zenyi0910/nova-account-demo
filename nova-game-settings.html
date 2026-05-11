@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 後台 - 遊戲設定</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh;transition:margin-left .3s}
+.topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
+.topbar-toggle{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
+.topbar-toggle svg{width:20px;height:20px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7280}
+.breadcrumb a{color:#6B7280;text-decoration:none}
+.breadcrumb .sep{color:#D1D5DB}
+.breadcrumb .current{color:#374151;font-weight:500}
+.content{padding:24px;flex:1;max-width:1200px}
+.page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.page-header svg{width:20px;height:20px;color:#6B7280}
+.page-header h4{font-size:18px;font-weight:600;color:#111827}
+.tab-nav{display:flex;gap:0;border-bottom:1px solid oklch(0.922 0 0);margin-bottom:20px}
+.tab-btn{padding:12px 20px;font-size:13px;font-weight:500;color:#6B7280;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-family:inherit;transition:all .15s}
+.tab-btn:hover{color:#393939;background:#F9FAFB}
+.tab-btn.active{color:#393939;border-bottom-color:#393939;font-weight:600}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-header .count{font-size:13px;color:#6B7280}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid oklch(0.922 0 0);border-radius:8px;overflow:hidden}
+.data-table th{background:rgba(57,57,57,0.04);padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#393939;border-bottom:1px solid oklch(0.922 0 0);white-space:nowrap}
+.data-table td{padding:10px 12px;border-bottom:1px solid oklch(0.95 0 0);font-size:12px;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:rgba(243,244,246,0.5)}
+.btn{padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.btn-dark{background:#393939;color:#fff;display:inline-flex;align-items:center;gap:4px}
+.btn-dark:hover{background:#1a1a1a}
+.btn-outline{border:1px solid #D1D5DB;background:#fff;color:#6B7280;font-weight:500}
+.btn-outline:hover{background:#F9FAFB}
+.btn-add{background:#00bba7;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.btn-add:hover{background:#009e8e}
+.btn-sort{background:rgb(144,161,185);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px}
+.btn-sort:hover{opacity:.9}
+.btn-icon-action{width:28px;height:28px;border-radius:6px;border:1px solid oklch(0.922 0 0);background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#6B7280;transition:all .15s}
+.btn-icon-action.edit:hover{background:#EEF2FF;border-color:#C7D2FE;color:#4338CA}
+.btn-icon-action.delete:hover{background:#FEE2E2;border-color:#FCA5A5;color:#DC2626}
+.toggle-group{display:inline-flex;border:1px solid oklch(0.922 0 0);border-radius:8px;overflow:hidden;background:#F9FAFB}
+.toggle-btn{padding:6px 16px;font-size:12px;font-weight:500;border:none;background:transparent;cursor:pointer;color:#6B7280;font-family:inherit;transition:all .15s}
+.toggle-btn.active{background:#fff;color:#111827;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.recommend-drag-row{transition:opacity .2s}
+.recommend-drag-row:hover{background:#F8FAFC}
+.drag-over{border-top:2px solid #00bba7!important;background:#F0FDFA!important}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:90%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0)}
+.modal-header h3{font-size:15px;font-weight:600;flex:1}
+.modal-close{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:18px}
+.modal-close:hover{background:#F3F4F6}
+.modal-expand{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9CA3AF;font-size:14px;margin-right:4px}
+.modal-expand:hover{background:#F3F4F6;color:#374151}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.modal-footer{padding:14px 20px;border-top:1px solid oklch(0.922 0 0);display:flex;justify-content:flex-end;gap:8px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:5px}
+.form-group input,.form-group select{width:100%;padding:8px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit}
+.form-control{width:100%;padding:8px 12px;border:1px solid oklch(0.922 0 0);border-radius:6px;font-size:13px;font-family:inherit}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;color:#fff;z-index:9999;transform:translateX(120%);opacity:0;transition:all .3s;visibility:hidden}
+.toast.show{transform:translateX(0);opacity:1;visibility:visible}
+.toast.success{background:#393939}
+.toast.error{background:#DC2626}
+.toast.warning{background:#D97706}
+.sidebar-collapsed .main{margin-left:0}
+.tag-logo-preview{width:80px;height:80px;border-radius:12px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;border:1px solid oklch(0.922 0 0)}
+</style>
+</head>
+<body>
+<div id="sidebarRoot"></div>
+<div class="main">
+  <div class="topbar">
+    <button class="topbar-toggle" onclick="document.body.classList.toggle('sidebar-collapsed')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">遊戲管理</a><span class="sep">&gt;</span><span class="current">遊戲設定</span></div>
+  </div>
+  <div class="content">
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <h4>遊戲設定</h4>
+    </div>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('common')">遊戲共用設定</button>
+      <button class="tab-btn" onclick="switchTab('recommend')">遊戲推薦設定</button>
+    </div>
+    <div class="tab-panel active" id="panelCommon">
+      <div class="section-header">
+        <span class="count">總共 <strong id="commonCount">0</strong> 筆資料</span>
+        <button class="btn btn-dark" onclick="openAddIconModal()" style="padding:6px 14px;font-size:12px">+ 新增</button>
+      </div>
+      <div id="commonTabContent"></div>
+    </div>
+    <div class="tab-panel" id="panelRecommend">
+      <div id="recommendContent"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="components/sidebar.js?v=10"></script>
+<script src="js/components.js?v=8"></script>
+<script>
+// === Data ===
+const games = [
+  {id:1,hall:'VA',cat:'電動',name:'埃及三秘寶',status:'即將上線',vip:'不限制',tag:'-',recommend:false},
+  {id:2,hall:'VA',cat:'電動',name:'財神倍倍發 X4096',status:'即將上線',vip:'不限制',tag:'-',recommend:false},
+  {id:3,hall:'VA',cat:'電動',name:'印加祖瑪 豪華版',status:'停用中',vip:'不限制',tag:'推薦',recommend:true,bannerUrl:'https://placehold.co/600x200/1ABC9C/fff?text=印加祖瑪+豪華版'},
+  {id:8,hall:'VA',cat:'電動',name:'法老祕寶',status:'使用中',vip:'不限制',tag:'-',recommend:true},
+  {id:10,hall:'YGR',cat:'街機',name:'祖瑪探險',status:'即將上線',vip:'不限制',tag:'推薦',recommend:true},
+  {id:16,hall:'VA',cat:'電動',name:'星運雷神',status:'使用中',vip:'VIP1',tag:'最新',recommend:true}
+];
+const commonTags = ['刮刮樂','連消','推薦','星幣','最新','熱門','限時','超熱門','穩贏'];
+
+// === Tab Switch ===
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', (tab === 'common' && i === 0) || (tab === 'recommend' && i === 1));
+  });
+  document.getElementById('panelCommon').classList.toggle('active', tab === 'common');
+  document.getElementById('panelRecommend').classList.toggle('active', tab === 'recommend');
+}
+
+// === Common Settings (Icon/Tag Management) ===
+function renderTagsManagement() {
+  const container = document.getElementById('commonTabContent');
+  document.getElementById('commonCount').textContent = commonTags.length;
+  const tagImages = {
+    '刮刮樂':'https://picsum.photos/seed/scratch/64/64','連消':'https://picsum.photos/seed/chain/64/64',
+    '推薦':'https://picsum.photos/seed/recommend/64/64','星幣':'https://picsum.photos/seed/star/64/64',
+    '最新':'https://picsum.photos/seed/new/64/64','熱門':'https://picsum.photos/seed/hot/64/64',
+    '限時':'https://picsum.photos/seed/limit/64/64','超熱門':'https://picsum.photos/seed/superhot/64/64',
+    '穩贏':'https://picsum.photos/seed/win/64/64'
+  };
+  const columns = [{label:'順序',width:'60px'},{label:'圖片',width:'60px'},{label:'標籤名稱'},{label:'操作',width:'100px'}];
+  const rows = commonTags.map((t, i) => {
+    const img = tagImages[t] || 'https://picsum.photos/seed/' + encodeURIComponent(t) + '/64/64';
+    return [
+      '<span style="color:#6B7280">' + (i + 1) + '</span>',
+      '<img src="' + img + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover;border:1px solid oklch(0.922 0 0)" alt="' + t + '">',
+      '<span style="font-weight:500">' + t + '</span>',
+      '<div style="display:flex;gap:6px">' + UI.btn.icon('edit', 'openTagEditModal(' + i + ')', '編輯') + UI.btn.icon('delete', 'removeTag(' + i + ')', '刪除') + '</div>'
+    ];
+  });
+  container.innerHTML = UI.table.create(columns, rows, {empty: '尚無標籤'});
+}
+
+function removeTag(idx) {
+  const name = commonTags[idx];
+  commonTags.splice(idx, 1);
+  renderTagsManagement();
+  showToast(name + ' 已刪除', 'warning');
+}
+
+function openTagEditModal(idx) {
+  const isNew = idx === -1;
+  const name = isNew ? '' : commonTags[idx];
+  const tagIcons = {'超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'};
+  const icon = isNew ? '🏷️' : (tagIcons[name] || '🏷️');
+  const title = isNew ? '遊戲共用設定 - Icon新增' : '遊戲共用設定 - Icon編輯';
+  let html = '<div class="modal-overlay show" id="tagEditOverlay" style="z-index:600">' +
+    '<div class="modal" style="max-width:480px">' +
+    '<div class="modal-header"><h3>' + title + '</h3>' +
+    '<button class="modal-close" onclick="closeTagEditModal()">×</button></div>' +
+    '<div class="modal-body">' +
+    '<div class="form-group"><label>Icon名稱</label>' +
+    '<input type="text" id="tagEditName" class="form-control" value="' + name + '" placeholder="輸入標籤名稱"></div>' +
+    '<div class="form-group"><label>Logo圖片 <span style="color:#EF4444">*</span></label>' +
+    '<div class="tag-logo-preview"><span style="font-size:48px">' + icon + '</span></div>' +
+    '<div style="margin-top:8px;font-size:11px;color:#9CA3AF">建議尺寸：200x200px，支援 PNG/JPG</div></div>' +
+    '</div>' +
+    '<div class="modal-footer">' + UI.btn.modalFooter('儲存', 'saveTagFromModal(' + idx + ')', 'closeTagEditModal()') + '</div></div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.getElementById('tagEditName').focus();
+}
+
+function closeTagEditModal() {
+  const el = document.getElementById('tagEditOverlay');
+  if (el) el.remove();
+}
+
+function saveTagFromModal(idx) {
+  const input = document.getElementById('tagEditName');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) { showToast('名稱不能為空', 'error'); return; }
+  if (idx === -1) {
+    if (commonTags.includes(val)) { showToast('標籤已存在', 'error'); return; }
+    commonTags.push(val);
+    showToast('標籤已新增：' + val, 'success');
+  } else {
+    commonTags[idx] = val;
+    showToast('標籤已更新', 'success');
+  }
+  closeTagEditModal();
+  renderTagsManagement();
+}
+
+function openAddIconModal() { openTagEditModal(-1); }
+
+// === Recommend Settings ===
+let recommendCurrency = 'gold';
+let recommendSubTab = 'recent';
+let recommendSortMode = false;
+
+function renderRecommendContent() {
+  const recommended = games.filter(g => g.recommend);
+  let html = '<div style="display:flex;gap:8px;margin-bottom:14px">' +
+    '<div class="toggle-group"><button class="toggle-btn' + (recommendCurrency === 'gold' ? ' active' : '') + '" onclick="switchRecCurrency(\'gold\')">金幣</button>' +
+    '<button class="toggle-btn' + (recommendCurrency === 'star' ? ' active' : '') + '" onclick="switchRecCurrency(\'star\')">星幣</button></div> ' +
+    '<div class="toggle-group"><button class="toggle-btn' + (recommendSubTab === 'recent' ? ' active' : '') + '" onclick="switchRecSubTab(\'recent\')">近期爆獎</button>' +
+    '<button class="toggle-btn' + (recommendSubTab === 'popular' ? ' active' : '') + '" onclick="switchRecSubTab(\'popular\')">最受歡迎</button></div></div>';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">' +
+    '<span style="font-size:12px;color:#6B7280">總共 ' + recommended.length + ' 筆資料</span>' +
+    '<div style="display:flex;gap:8px">' +
+    (recommendSortMode ?
+      '<button class="btn btn-outline" onclick="cancelRecSort()">取消</button><button class="btn btn-dark" onclick="saveRecSort()">儲存排序</button>' :
+      '<button class="btn-sort" onclick="toggleRecSort()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg> 編輯排序</button>' +
+      (recommendSubTab === 'recent' ? ' <button class="btn-add" onclick="openAddRecommendModal()">新增遊戲</button>' : '')
+    ) + '</div></div>';
+
+  // Table
+  const columns = recommendSortMode
+    ? [{label:'',width:'30px'},{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}]
+    : [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}];
+  const rows = recommended.map((g, i) => {
+    const base = [
+      '<span style="color:#6B7280">' + (i + 1) + '</span>',
+      g.hall,
+      '<span style="font-weight:500">' + g.name + '</span>',
+      g.bannerUrl
+        ? '<div style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
+        : '<div style="cursor:pointer;color:#9CA3AF;font-size:11px">未設置</div>',
+      '<div style="display:flex;gap:4px">' + UI.btn.icon('edit', 'editRecGame(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecGame(' + g.id + ')', '刪除') + '</div>'
+    ];
+    if (recommendSortMode) {
+      base.unshift('<svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14" style="cursor:grab"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>');
+    }
+    return base;
+  });
+  html += UI.table.create(columns, rows, {empty: '尚無推薦遊戲'});
+  document.getElementById('recommendContent').innerHTML = html;
+}
+
+function switchRecCurrency(c) { recommendCurrency = c; renderRecommendContent(); }
+function switchRecSubTab(t) { recommendSubTab = t; renderRecommendContent(); }
+function toggleRecSort() { recommendSortMode = true; renderRecommendContent(); }
+function cancelRecSort() { recommendSortMode = false; renderRecommendContent(); }
+function saveRecSort() { recommendSortMode = false; renderRecommendContent(); showToast('排序已儲存', 'success'); }
+function editRecGame(id) { showToast('編輯遊戲 ID:' + id, 'success'); }
+function removeRecGame(id) {
+  const g = games.find(x => x.id === id);
+  if (g) { g.recommend = false; renderRecommendContent(); showToast(g.name + ' 已移除推薦', 'warning'); }
+}
+
+function openAddRecommendModal() {
+  const modal = document.getElementById('addRecommendModal');
+  if (!modal) {
+    const html = '<div class="modal-overlay" id="addRecommendModal"><div class="modal" style="max-width:500px">' +
+      '<div class="modal-header"><h3>近期爆獎 - 新增遊戲</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal(\'addRecommendModal\')">&times;</button></div>' +
+      '<div class="modal-body"><div class="form-group"><label>娛樂城 <span style="color:#DC2626">*</span></label>' +
+      '<select id="addRecHall" class="form-control"><option value="">請選擇娛樂城</option><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="JDB">JDB 娛樂城</option></select></div>' +
+      '<div class="form-group"><label>遊戲名稱 <span style="color:#DC2626">*</span></label><select id="addRecGame" class="form-control"><option value="">請選擇遊戲</option></select></div></div>' +
+      '<div class="modal-footer">' + UI.btn.modalFooter('新增', 'submitAddRecommend()', 'closeModal("addRecommendModal")') + '</div></div></div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+  document.getElementById('addRecommendModal').classList.add('show');
+}
+
+function submitAddRecommend() {
+  closeModal('addRecommendModal');
+  showToast('遊戲已加入推薦', 'success');
+  renderRecommendContent();
+}
+
+// === Utils ===
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function toggleExpand(btn) {
+  const modal = btn.closest('.modal');
+  if (modal.style.maxWidth === '95%') { modal.style.maxWidth = ''; modal.style.maxHeight = ''; }
+  else { modal.style.maxWidth = '95%'; modal.style.maxHeight = '95vh'; }
+}
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast', 2500);
+}
+
+// Init
+renderTagsManagement();
+renderRecommendContent();
+</script>
+</body>
+</html>

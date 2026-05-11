@@ -59,7 +59,8 @@ function initHallSelector() {
     const dotColor = h.status === 'on' ? '#22C55E' : '#EF4444';
     const gc = games.filter(g => g.hall === id).length;
     return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
-      '<div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
+      '<div class="ht-top"><div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
+      '<button class="ht-toggle ' + h.status + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button></div>' +
       '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
   }).join('');
   container.innerHTML = '<div class="hall-tabs-wrapper">' +
@@ -91,7 +92,6 @@ function updateScrollGradients() {
 function selectHall(id) {
   currentHall = id;
   initHallSelector();
-  renderHallDetail();
   renderTable();
 }
 
@@ -104,27 +104,8 @@ function switchHallTab(tab) {
 }
 
 function renderHallDetail() {
-  if (!currentHall) {
-    document.getElementById('hallDetail').innerHTML = '';
-    document.getElementById('hallCards').innerHTML = '';
-    return;
-  }
-  const id = currentHall;
-  const h = halls[id];
-  const gameCount = games.filter(g => g.hall === id).length;
-
-  const html = '<div class="hall-card">' +
-    '<div class="hall-header">' +
-      '<span class="hall-name">' + h.name + '</span>' +
-      '<span class="hall-meta">(' + gameCount + ' 款遊戲)</span>' +
-      '<span class="spacer"></span>' +
-      '<div class="hall-quick-switch"><span class="quick-label ' + h.status + '">' + (h.status === 'on' ? '運行中' : '已關閉') + '</span>' +
-      UI.toggle(h.status, "requestToggle('" + id + "')") + '</div>' +
-    '</div>' +
-    (h.status === 'off' ? '<div class="override-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 娛樂城已關閉，該城下所有遊戲暫停對外開放。重新開啟後，各遊戲恢復原本狀態設定。</div>' : '') +
-  '</div>';
-
-  document.getElementById('hallDetail').innerHTML = html;
+  // Hall detail card removed - toggle is now on tabs
+  initHallSelector();
 }
 
 function renderCurrencyTab(id, h) {
