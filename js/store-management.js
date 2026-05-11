@@ -83,7 +83,7 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
   const label = tab === '一般' ? '新增一般儲值' : '新增快速儲值';
-  document.getElementById('toolbarBtns').innerHTML = `<button class="btn-toolbar-confirm" onclick="openStoreAddModal()">＋ ${label}</button>`;
+  document.getElementById('toolbarBtns').innerHTML = UI.btn.add(label, 'openStoreAddModal()');
   renderStoreTable();
 }
 
@@ -211,6 +211,6 @@ function deleteStoreItem(id) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('toolbarBtns').innerHTML = `<button class="btn-toolbar-confirm" onclick="openStoreAddModal()">＋ 新增一般儲值</button>`;
+  document.getElementById('toolbarBtns').innerHTML = UI.btn.add('新增一般儲值', 'openStoreAddModal()');
   renderStoreTable();
 });
