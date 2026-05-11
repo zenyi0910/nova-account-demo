@@ -7,6 +7,34 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#fff;border-right:1px solid oklch(0.922 0 0);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden;transition:transform .3s}
+.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden}
+.sidebar-group{padding:4px 8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:#374151;font-size:14px;transition:background .15s;text-decoration:none;min-height:38px}
+.sidebar-item:hover{background:#F3F4F6}
+.sidebar-item.active{background:#EEF2FF;font-weight:600;color:#4338CA}
+.sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
+.sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
+.sidebar-chevron.open{transform:rotate(90deg)}
+.sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
+.sidebar-sub.open{max-height:400px;opacity:1}
+.sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
+.sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
+.sidebar-user{padding:12px 16px;border-top:1px solid oklch(0.922 0 0);display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;cursor:pointer}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.logo-text{display:flex;flex-direction:column}
+.logo-name{font-size:15px;font-weight:700;color:#111827}
+.logo-sub{font-size:10px;color:#9CA3AF;font-weight:500}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:#E0E7FF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#4338CA;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:12px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role{font-size:11px;color:#6B7280}
+.user-chevron{width:14px;height:14px;color:#9CA3AF;transform:rotate(180deg);transition:transform .2s}
+.sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
+.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200}
+.sidebar-user.open .user-popover{display:block}
+.sidebar-group-label{font-size:11px;font-weight:600;color:#9CA3AF;padding:12px 12px 4px;text-transform:uppercase;letter-spacing:.5px}
 .main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh;transition:margin-left .3s}
 .topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
 .topbar-toggle{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
@@ -160,20 +188,24 @@ function removeTag(idx) {
 function openTagEditModal(idx) {
   const isNew = idx === -1;
   const name = isNew ? '' : commonTags[idx];
-  const tagIcons = {'超熱門':'🏆','推薦':'😊','穩贏':'🟢','星幣':'⭐','最新':'🆕','刮刮樂':'🎰','熱門':'🔥','限時':'⏰','連消':'🎯'};
-  const icon = isNew ? '🏷️' : (tagIcons[name] || '🏷️');
   const title = isNew ? '遊戲共用設定 - Icon新增' : '遊戲共用設定 - Icon編輯';
   let html = '<div class="modal-overlay show" id="tagEditOverlay" style="z-index:600">' +
-    '<div class="modal" style="max-width:480px">' +
+    '<div class="modal" style="max-width:500px">' +
     '<div class="modal-header"><h3>' + title + '</h3>' +
+    '<button class="modal-expand" onclick="toggleExpand(this)">⤢</button>' +
     '<button class="modal-close" onclick="closeTagEditModal()">×</button></div>' +
     '<div class="modal-body">' +
-    '<div class="form-group"><label>Icon名稱</label>' +
-    '<input type="text" id="tagEditName" class="form-control" value="' + name + '" placeholder="輸入標籤名稱"></div>' +
-    '<div class="form-group"><label>Logo圖片 <span style="color:#EF4444">*</span></label>' +
-    '<div class="tag-logo-preview"><span style="font-size:48px">' + icon + '</span></div>' +
-    '<div style="margin-top:8px;font-size:11px;color:#9CA3AF">建議尺寸：200x200px，支援 PNG/JPG</div></div>' +
+    '<div class="form-group"><label>Icon名稱 <span style="color:#DC2626">*</span></label>' +
+    '<input type="text" id="tagEditName" class="form-control" value="' + name + '" placeholder="請輸入Icon名稱"></div>' +
+    '<div class="form-group"><label>Logo圖片 <span style="color:#DC2626">*</span></label>' +
+    '<div onclick="document.getElementById(\'tagEditImageInput\').click()" style="width:100%;height:200px;border:2px dashed #D1D5DB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;cursor:pointer;transition:all .2s">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#00bba7" stroke-width="2" width="40" height="40" style="margin-bottom:12px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+    '<div style="font-size:13px;color:#374151;margin-bottom:4px">點擊或拖放圖片至此處</div>' +
+    '<div style="font-size:11px;color:#9CA3AF;margin-top:4px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>' +
+    '<button type="button" class="btn btn-outline" style="margin-top:12px;padding:6px 16px;font-size:12px" onclick="event.stopPropagation();document.getElementById(\'tagEditImageInput\').click()">瀏覽圖片</button>' +
     '</div>' +
+    '<input type="file" id="tagEditImageInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none">' +
+    '</div></div>' +
     '<div class="modal-footer">' + UI.btn.modalFooter('儲存', 'saveTagFromModal(' + idx + ')', 'closeTagEditModal()') + '</div></div></div>';
   document.body.insertAdjacentHTML('beforeend', html);
   document.getElementById('tagEditName').focus();
@@ -201,7 +233,72 @@ function saveTagFromModal(idx) {
   renderTagsManagement();
 }
 
-function openAddIconModal() { openTagEditModal(-1); }
+function openAddIconModal() {
+  const modal = document.getElementById('addIconModal');
+  if (!modal) {
+    const modalHtml = `
+<div class="modal-overlay" id="addIconModal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <h3>媒體共用設定 - Icon新增</h3>
+      <button class="modal-expand" onclick="toggleExpand(this)">⤢</button>
+      <button class="modal-close" onclick="closeModal('addIconModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Icon名稱 <span style="color:#DC2626">*</span></label>
+        <input type="text" id="iconName" class="form-control" placeholder="請輸入Icon名稱">
+      </div>
+      <div class="form-group">
+        <label>Logo圖片 <span style="color:#DC2626">*</span></label>
+        <div class="upload-area" onclick="document.getElementById('iconImageInput').click()" style="width:100%;height:200px;border:2px dashed #D1D5DB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;cursor:pointer;transition:all .2s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00bba7" stroke-width="2" width="40" height="40" style="margin-bottom:12px">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <div style="font-size:13px;color:#374151;margin-bottom:4px">點擊或拖放圖片至此處</div>
+          <div style="font-size:11px;color:#9CA3AF;margin-top:4px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>
+          <button type="button" class="btn btn-outline" style="margin-top:12px;padding:6px 16px;font-size:12px" onclick="event.stopPropagation();document.getElementById('iconImageInput').click()">瀏覽圖片</button>
+        </div>
+        <input type="file" id="iconImageInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" onchange="handleIconImageUpload(event)">
+        <div id="iconImagePreview" style="margin-top:8px;display:none">
+          <img id="iconImagePreviewImg" style="max-width:100%;max-height:200px;border-radius:6px;border:1px solid oklch(0.922 0 0)">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      ` + UI.btn.modalFooter('新增', 'submitAddIcon()', 'closeModal("addIconModal")') + `
+    </div>
+  </div>
+</div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+  }
+  document.getElementById('addIconModal').classList.add('show');
+}
+
+function handleIconImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('圖片大小不能超過 10MB', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('iconImagePreviewImg').src = e.target.result;
+    document.getElementById('iconImagePreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitAddIcon() {
+  const iconName = document.getElementById('iconName').value.trim();
+  const imageInput = document.getElementById('iconImageInput');
+  if (!iconName) { showToast('請輸入Icon名稱', 'warning'); return; }
+  if (!imageInput.files.length) { showToast('請上傳Logo圖片', 'warning'); return; }
+  commonTags.push(iconName);
+  closeModal('addIconModal');
+  renderTagsManagement();
+  showToast('Icon 新增成功', 'success');
+}
 
 // === Recommend Settings ===
 let recommendCurrency = 'gold';
@@ -260,14 +357,26 @@ function removeRecGame(id) {
 
 function openAddRecommendModal() {
   const modal = document.getElementById('addRecommendModal');
+  const tabLabel = recommendSubTab === 'recent' ? '近期爆獎' : '最受歡迎';
   if (!modal) {
     const html = '<div class="modal-overlay" id="addRecommendModal"><div class="modal" style="max-width:500px">' +
-      '<div class="modal-header"><h3>近期爆獎 - 新增遊戲</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal(\'addRecommendModal\')">&times;</button></div>' +
+      '<div class="modal-header"><h3 id="addRecommendModalTitle">' + tabLabel + ' - 新增遊戲</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal(\'addRecommendModal\')">&times;</button></div>' +
       '<div class="modal-body"><div class="form-group"><label>娛樂城 <span style="color:#DC2626">*</span></label>' +
-      '<select id="addRecHall" class="form-control"><option value="">請選擇娛樂城</option><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="JDB">JDB 娛樂城</option></select></div>' +
-      '<div class="form-group"><label>遊戲名稱 <span style="color:#DC2626">*</span></label><select id="addRecGame" class="form-control"><option value="">請選擇遊戲</option></select></div></div>' +
+      '<select id="addRecHall" class="form-control"><option value="">請選擇娛樂城</option><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="JDB">JDB 娛樂城</option><option value="PG">PG 娛樂城</option><option value="PP">PP 娛樂城</option><option value="CQ9">CQ9 娛樂城</option><option value="RSG">RSG 娛樂城</option><option value="FC">FC 娛樂城</option></select></div>' +
+      '<div class="form-group"><label>遊戲名稱 <span style="color:#DC2626">*</span></label><select id="addRecGame" class="form-control"><option value="">請選擇遊戲</option></select></div>' +
+      '<div class="form-group"><label>圖片 <span style="color:#DC2626">*</span></label>' +
+      '<div style="font-size:12px;color:#F59E0B;margin-bottom:6px">建議尺寸：512 x 1024 px</div>' +
+      '<div onclick="document.getElementById(\'recImageInput\').click()" style="width:100%;height:200px;border:2px dashed #D1D5DB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;cursor:pointer;transition:all .2s">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="#00bba7" stroke-width="2" width="40" height="40" style="margin-bottom:12px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+      '<div style="font-size:13px;color:#374151;margin-bottom:4px">點擊或拖放圖片至此處</div>' +
+      '<div style="font-size:11px;color:#9CA3AF;margin-top:2px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>' +
+      '<button type="button" class="btn btn-outline" style="margin-top:12px;padding:6px 16px;font-size:12px" onclick="event.stopPropagation();document.getElementById(\'recImageInput\').click()">選擇圖片</button></div>' +
+      '<input type="file" id="recImageInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none" onchange="handleRecImageUpload(event)">' +
+      '<div id="recImagePreview" style="margin-top:8px;display:none"><img id="recImagePreviewImg" style="max-width:100%;max-height:200px;border-radius:6px;border:1px solid oklch(0.922 0 0)"></div></div></div>' +
       '<div class="modal-footer">' + UI.btn.modalFooter('新增', 'submitAddRecommend()', 'closeModal("addRecommendModal")') + '</div></div></div>';
     document.body.insertAdjacentHTML('beforeend', html);
+  } else {
+    document.getElementById('addRecommendModalTitle').textContent = tabLabel + ' - 新增遊戲';
   }
   document.getElementById('addRecommendModal').classList.add('show');
 }
@@ -276,6 +385,40 @@ function submitAddRecommend() {
   closeModal('addRecommendModal');
   showToast('遊戲已加入推薦', 'success');
   renderRecommendContent();
+}
+
+function handleRecImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 10 * 1024 * 1024) { showToast('圖片大小不能超過 10MB', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('recImagePreviewImg').src = e.target.result;
+    document.getElementById('recImagePreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function editRecGame(id) {
+  const g = games.find(x => x.id === id);
+  if (!g) return;
+  const existing = document.getElementById('editRecModal');
+  if (existing) existing.remove();
+  const html = '<div class="modal-overlay show" id="editRecModal" style="z-index:600"><div class="modal" style="max-width:500px">' +
+    '<div class="modal-header"><h3>近期爆獎 - 編輯遊戲</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal(\'editRecModal\')">×</button></div>' +
+    '<div class="modal-body"><div class="form-group"><label>娛樂城 <span style="color:#DC2626">*</span></label>' +
+    '<select id="editRecHall" class="form-control"><option value="VA"' + (g.hall==='VA'?' selected':'') + '>VA 娛樂城</option><option value="YGR"' + (g.hall==='YGR'?' selected':'') + '>YGR 娛樂城</option><option value="JDB"' + (g.hall==='JDB'?' selected':'') + '>JDB 娛樂城</option><option value="PG"' + (g.hall==='PG'?' selected':'') + '>PG 娛樂城</option><option value="PP"' + (g.hall==='PP'?' selected':'') + '>PP 娛樂城</option><option value="CQ9"' + (g.hall==='CQ9'?' selected':'') + '>CQ9 娛樂城</option><option value="RSG"' + (g.hall==='RSG'?' selected':'') + '>RSG 娛樂城</option><option value="FC"' + (g.hall==='FC'?' selected':'') + '>FC 娛樂城</option></select></div>' +
+    '<div class="form-group"><label>遊戲名稱 <span style="color:#DC2626">*</span></label><input type="text" id="editRecName" class="form-control" value="' + g.name + '"></div>' +
+    '<div class="form-group"><label>圖片 <span style="color:#DC2626">*</span></label>' +
+    '<div style="font-size:12px;color:#F59E0B;margin-bottom:6px">建議尺寸：512 x 1024 px</div>' +
+    '<div onclick="document.getElementById(\'editRecImageInput\').click()" style="width:100%;height:200px;border:2px dashed #D1D5DB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;cursor:pointer;transition:all .2s">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="#00bba7" stroke-width="2" width="40" height="40" style="margin-bottom:12px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' +
+    '<div style="font-size:13px;color:#374151;margin-bottom:4px">點擊或拖放圖片至此處</div>' +
+    '<div style="font-size:11px;color:#9CA3AF;margin-top:2px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>' +
+    '<button type="button" class="btn btn-outline" style="margin-top:12px;padding:6px 16px;font-size:12px" onclick="event.stopPropagation();document.getElementById(\'editRecImageInput\').click()">選擇圖片</button></div>' +
+    '<input type="file" id="editRecImageInput" accept="image/jpeg,image/png,image/gif,image/webp" style="display:none"></div></div>' +
+    '<div class="modal-footer">' + UI.btn.modalFooter('儲存', 'closeModal("editRecModal");showToast("遊戲已更新","success");renderRecommendContent()', 'closeModal("editRecModal")') + '</div></div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
 }
 
 // === Utils ===
