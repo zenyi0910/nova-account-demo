@@ -67,10 +67,16 @@ function changeStorePageSize(val) {
 
 // === Init ===
 function init() {
-  renderSectionTabs();
   // 新增供應商按鈕移到供應商列表行
   var provBtn = document.getElementById('providerAddBtn');
   if (provBtn) { provBtn.innerHTML = UI.btn.add('新增供應商', 'openProviderModal()'); }
+  // 隱藏 sectionTabs 和 storeSection
+  var st = document.getElementById('sectionTabs');
+  if (st) st.style.display = 'none';
+  var ss = document.getElementById('storeSection');
+  if (ss) ss.style.display = 'none';
+  var ps = document.getElementById('paymentSection');
+  if (ps) ps.style.display = '';
   renderProviders();
   renderDetail();
 }

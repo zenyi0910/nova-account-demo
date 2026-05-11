@@ -34,12 +34,14 @@ function renderStoreTable() {
         <td>${r.name}</td>
         <td>${r.method || '-'}</td>
         <td><span class="channel-check">✓ ${r.channel || '-'}</span></td>
-        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
+        <td><div class="toggle-wrap"><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</div></td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
         <td class="actions">
+          <div class="actions-wrap">
           ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}
           ${UI.btn.icon('more', '', '更多')}
+          </div>
         </td>
       </tr>`;
     });
@@ -53,11 +55,13 @@ function renderStoreTable() {
       html += `<tr>
         <td><a href="#" class="link-name">${r.name}</a></td>
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
-        <td><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</td>
+        <td><div class="toggle-wrap"><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</div></td>
         <td class="actions">
+          <div class="actions-wrap">
           ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}
           ${UI.btn.icon('more', '', '更多')}
+          </div>
         </td>
       </tr>`;
     });
