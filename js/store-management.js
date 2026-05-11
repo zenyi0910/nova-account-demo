@@ -129,6 +129,8 @@ function openStoreAddModal() {
     document.getElementById('gmChannel').value = '';
     document.getElementById('gmVip').value = '';
     document.getElementById('gmStatus').className = 'toggle on';
+    gmAmountValues = [];
+    renderGmAmountTable();
   } else {
     document.getElementById('fastModal').classList.add('active');
     document.getElementById('fmTitle').textContent = '新增快速儲值';
@@ -191,6 +193,39 @@ function removeFastRow(i) {
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// 一般儲值 儲值金額表
+var gmAmountValues = [];
+
+function renderGmAmountTable() {
+  var tbody = document.getElementById('gmAmountBody');
+  if (!tbody) return;
+  tbody.innerHTML = gmAmountValues.map(function(v, i){
+    var pts = v.amount || 0;
+    var bonus = v.bonusPct || 0;
+    var bonusPts = v.bonusPts || 0;
+    var actual = pts + bonusPts;
+    return '<tr><td>' + (i+1) + '</td><td>' + v.amount + '</td><td>' + pts + '</td><td>' + bonus + '</td><td>' + bonusPts + '</td><td>' + actual + '</td><td><button class="btn-sm-delete" onclick="removeGmAmountRow(' + i + ')">刪除</button></td></tr>';
+  }).join('');
+  var countEl = document.getElementById('gmAmountCount');
+  if (countEl) countEl.textContent = gmAmountValues.length;
+}
+
+function addGmAmountRow() {
+  var amount = prompt('請輸入金額（台幣）');
+  if (!amount || isNaN(amount) || parseInt(amount) <= 0) return;
+  amount = parseInt(amount);
+  var bonusPct = prompt('贈比（%），無則填 0') || '0';
+  var bonusPts = prompt('贈點，無則填 0') || '0';
+  gmAmountValues.push({amount: amount, bonusPct: parseInt(bonusPct), bonusPts: parseInt(bonusPts)});
+  gmAmountValues.sort(function(a,b){ return a.amount - b.amount; });
+  renderGmAmountTable();
+}
+
+function removeGmAmountRow(i) {
+  gmAmountValues.splice(i, 1);
+  renderGmAmountTable();
+}
 
 function saveGeneralItem() {
   const name = document.getElementById('gmName').value.trim();

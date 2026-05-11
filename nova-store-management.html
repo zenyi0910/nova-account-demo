@@ -323,12 +323,14 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
       <div class="form-group" style="margin-bottom:16px">
         <label>儲值金額表</label>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:12px;color:#6B7280">總共 <b id="gmAmountCount">0</b> 筆資料</span>
+          <span style="font-size:12px;color:#6B7280">總共 <span id="gmAmountCount">0</span> 筆資料</span>
+          <button class="btn-outline" style="font-size:12px;padding:4px 8px" onclick="alert('排序功能')">編輯排序</button>
         </div>
         <table class="fast-table">
-          <thead><tr><th>順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th></tr></thead>
-          <tbody id="gmAmountBody"><tr><td colspan="6" style="color:#9CA3AF;padding:20px;text-align:center">查無匹配儲值金額表</td></tr></tbody>
+          <thead><tr><th style="width:40px">順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th style="width:60px">操作</th></tr></thead>
+          <tbody id="gmAmountBody"></tbody>
         </table>
+        <div style="text-align:center;padding:10px;background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;cursor:pointer;color:#2563EB;font-size:13px" onclick="addGmAmountRow()">+ 新增</div>
       </div>
       <div class="form-group"><label>狀態</label>
         <div class="toggle-row"><button class="toggle on" id="gmStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
@@ -336,7 +338,7 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
     </div>
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('generalModal')">取消</button>
-      <button class="btn-dark" onclick="saveGeneralItem()">+ 新增</button>
+      <button class="btn-dark" onclick="saveGeneralItem()">儲存</button>
     </div>
   </div>
 </div>
@@ -371,6 +373,6 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
 </div>
 
 <script src="js/components.js?v=8"></script>
-<script src="js/store-management.js?v=10"></script>
+<script src="js/store-management.js?v=11"></script>
 </body>
 </html>
