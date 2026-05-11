@@ -63,7 +63,10 @@ function initHallSelector() {
       '<button class="ht-toggle ' + h.status + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button></div>' +
       '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
   }).join('');
-  container.innerHTML = '<div class="hall-tabs-wrapper">' +
+  container.innerHTML = '<div class="hall-tip" style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:8px">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>' +
+    '<span>關閉娛樂城將覆蓋個別遊戲設定並停用，啟用將不影響個別遊戲原本設定</span></div>' +
+    '<div class="hall-tabs-wrapper">' +
     '<button class="hall-tabs-arrow arr-left" id="arrLeft" onclick="scrollTabs(-1)">&#8249;</button>' +
     '<div class="hall-tabs-scroll-area" id="hallTabsArea">' +
     '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div></div>' +
