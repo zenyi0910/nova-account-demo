@@ -269,7 +269,7 @@ function renderRecommendModalContent() {
     '</div></div>';
 
   // 表格用 UI.table
-  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'60px'}];
+  const columns = [{label:'順序',width:'50px'},{label:'娛樂城',width:'70px'},{label:'遊戲名稱'},{label:'遊戲長條圖',width:'180px'},{label:'操作',width:'80px'}];
   const rows = recommended.map((g, i) => [
     '<span style="color:#6B7280">' + (i + 1) + '</span>',
     g.hall,
@@ -277,7 +277,7 @@ function renderRecommendModalContent() {
     g.bannerUrl
       ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
       : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
-    UI.btn.icon('edit', 'openEditDetail(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecommend(' + g.id + ')', '刪除')
+    '<div style="display:flex;gap:4px">' + UI.btn.icon('edit', 'openEditDetail(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecommend(' + g.id + ')', '刪除') + '</div>'
   ]);
 
   html += UI.table.create(columns, rows, {empty: '尚無推薦遊戲'}) + '</div>';
