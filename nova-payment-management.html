@@ -353,7 +353,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- Schedule Modal -->
 <div class="modal-overlay" id="schedModal">
-  <div class="modal">
+  <div class="modal" style="max-width:580px">
     <div class="modal-header"><h3>新增排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body">
       <div style="background:#F0F4F8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#475569;line-height:1.6">排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉</div>
@@ -366,7 +366,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
         <div class="form-row" style="gap:8px;margin-top:8px">
           <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">開始時間</label><input type="time" id="schedStartTime"></div>
-          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">結束時間 <span style="color:#DC2626">*</span></label><input type="time" id="schedEndTime"></div>
+          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">結束時間</label><input type="time" id="schedEndTime"></div>
         </div>
       </div>
       <div class="form-group"><label>備註</label><input type="text" id="schedNote" placeholder="例：例行維護、版本更新"></div>
@@ -499,6 +499,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=6"></script>
-<script src="js/payment-management.js?v=32"></script>
+<script src="js/payment-management.js?v=33"></script>
 </body>
 </html>

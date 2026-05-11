@@ -250,9 +250,26 @@ function renderSchedules() {
 function openSchedModal() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
   document.getElementById('schedTargetName').textContent = p ? p.name : '-';
+  // 自動填入今天日期和預設時間
+  var today = new Date().toISOString().split('T')[0];
+  document.getElementById('schedStartDate').value = today;
+  document.getElementById('schedEndDate').value = today;
+  document.getElementById('schedStartTime').value = '00:00';
+  document.getElementById('schedEndTime').value = '23:59';
   document.getElementById('schedModal').classList.add('show');
 }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function toggleExpand(btn) {
+  var modal = btn.closest('.modal');
+  if (modal.style.maxWidth === '95vw') {
+    modal.style.maxWidth = '580px';
+    btn.textContent = '⤢';
+  } else {
+    modal.style.maxWidth = '95vw';
+    btn.textContent = '⤡';
+  }
+}
 
 function addSchedule() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
@@ -260,10 +277,9 @@ function addSchedule() {
   var note = document.getElementById('schedNote').value;
   var startDate = document.getElementById('schedStartDate').value;
   var endDate = document.getElementById('schedEndDate').value;
-  var st = document.getElementById('schedStartTime').value;
-  var et = document.getElementById('schedEndTime').value;
-  if (!startDate || !st) { alert('請選擇開始日期與開始時間'); return; }
-  if (!et) { alert('結束時間為必填'); return; }
+  var st = document.getElementById('schedStartTime').value || '00:00';
+  var et = document.getElementById('schedEndTime').value || '23:59';
+  if (!startDate) { alert('請選擇開始日期'); return; }
   if (!endDate) endDate = startDate;
   var start = startDate + 'T' + st;
   var end = endDate + 'T' + et;
