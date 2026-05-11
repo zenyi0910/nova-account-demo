@@ -277,7 +277,7 @@ function renderRecommendModalContent() {
     g.bannerUrl
       ? '<div class="recommend-banner-has" onclick="previewBanner(' + g.id + ')" style="cursor:pointer"><img src="' + g.bannerUrl + '" style="height:32px;border-radius:4px;object-fit:cover"></div>'
       : '<div class="recommend-banner-placeholder" onclick="previewBanner(' + g.id + ')" style="cursor:pointer">' + UI.icon.image + ' <span style="color:#9CA3AF;font-size:11px">未設置</span></div>',
-    UI.btn.icon('upload', 'uploadBanner(' + g.id + ')', '上傳圖片')
+    UI.btn.icon('edit', 'openEditDetail(' + g.id + ')', '編輯') + UI.btn.icon('delete', 'removeRecommend(' + g.id + ')', '刪除')
   ]);
 
   html += UI.table.create(columns, rows, {empty: '尚無推薦遊戲'}) + '</div>';
