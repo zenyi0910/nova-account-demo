@@ -207,7 +207,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 #schedModal .modal-box{background:#fff;border-radius:12px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);overflow:visible;width:360px;max-width:360px}
 .modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0)}
 .modal-header h3{font-size:15px;font-weight:600;flex:1}
-.modal-close{width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:18px}
+.modal-close{border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:20px;padding:4px;width:24px;height:24px}
 .modal-close:hover{background:#F3F4F6}
 .modal-body{padding:20px;overflow-y:auto;flex:1}
 .date-picker-wrap{position:relative}
@@ -215,7 +215,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
 .date-picker-trigger:hover{border-color:#3B82F6}
 #schedModal .dp2-quick{display:none}
-#schedModal .dp2-panel{position:relative;top:auto;left:auto;box-shadow:none;border:1px solid #E5E7EB;margin-top:6px}
+#schedModal .dp2-panel{position:absolute;top:100%;left:0;box-shadow:0 4px 12px rgba(0,0,0,.15);border:1px solid #E5E7EB;margin-top:6px;z-index:1000}
 #schedModal .modal-body{overflow:visible}
 .modal-footer{padding:14px 20px;border-top:1px solid oklch(0.922 0 0);display:flex;justify-content:flex-end;gap:8px}
 .form-group{margin-bottom:14px}
@@ -526,7 +526,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <!-- 排程 Modal -->
 <div class="modal-overlay" id="schedModal">
   <div class="modal-box" style="width:400px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.15)">
-    <div class="modal-header"><h3 id="schedModalTitle">新增維護排程</h3><button class="close" onclick="closeModal('schedModal')">&times;</button></div>
+    <div class="modal-header"><h3 id="schedModalTitle">新增維護排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body" style="overflow:visible">
       <input type="hidden" id="sHall">
       <div class="form-group"><label>動作</label>
