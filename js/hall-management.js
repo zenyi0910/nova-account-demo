@@ -143,9 +143,8 @@ function renderCurrencyTab(id, h) {
 }
 
 function renderScheduleTab(id, h) {
-  // Show all halls' schedules, split into active vs expired (last 7 days)
   const now = new Date();
-  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   let activeScheds = [];
   let expiredScheds = [];
   Object.entries(halls).forEach(([hid, hall]) => {
@@ -153,7 +152,7 @@ function renderScheduleTab(id, h) {
       const item = {hallId: hid, hallName: hall.name, sched: s, idx: i};
       const endTime = s.end ? new Date(s.end) : null;
       if (endTime && endTime < now) {
-        if (endTime >= sevenDaysAgo) expiredScheds.push(item);
+        if (endTime >= yesterday) expiredScheds.push(item);
       } else {
         activeScheds.push(item);
       }
@@ -180,15 +179,32 @@ function renderScheduleTab(id, h) {
         UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
     }).join('');
   }
-  let html = renderItems(activeScheds);
+  // Collapsed: show first item fully, second item half-height clipped, then "更多" button
+  // Expanded: all active + expired section
+  let collapsed = '';
+  let expanded = '';
+  if (activeScheds.length <= 1 && expiredScheds.length === 0) {
+    return '<div class="sched-tab-content">' + renderItems(activeScheds) + '</div>';
+  }
+  // Collapsed view: first item + clipped second
+  collapsed += renderItems(activeScheds.slice(0, 1));
+  if (activeScheds.length > 1) {
+    collapsed += '<div style="max-height:22px;overflow:hidden;opacity:0.5">' + renderItems(activeScheds.slice(1, 2)) + '</div>';
+  }
+  collapsed += '<div style="text-align:center;margin-top:6px">' +
+    '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>';
+  // Expanded view: all active + expired toggle
+  expanded += renderItems(activeScheds);
   if (expiredScheds.length > 0) {
-    html += '<div style="margin-top:12px;text-align:center">' +
+    expanded += '<div style="margin-top:12px;text-align:center">' +
       '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
       '<span>昨日已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
       '</div>' +
       '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds) + '</div>';
   }
-  return '<div class="sched-tab-content">' + html + '</div>';
+  return '<div class="sched-tab-content">' +
+    '<div id="schedCollapsed">' + collapsed + '</div>' +
+    '<div id="schedExpanded" style="display:none">' + expanded + '</div></div>';
 }
 
 let recommendCurrency = 'gold'; // 預設金幣
@@ -200,6 +216,13 @@ function toggleExpiredSched() {
   const show = el.style.display === 'none';
   el.style.display = show ? 'block' : 'none';
   if (arrow) arrow.innerHTML = show ? '<polyline points="6 15 12 9 18 15"/>' : '<polyline points="6 9 12 15 18 9"/>';
+}
+
+function expandSchedList() {
+  const c = document.getElementById('schedCollapsed');
+  const e = document.getElementById('schedExpanded');
+  if (c) c.style.display = 'none';
+  if (e) e.style.display = 'block';
 }
 
 function renderRecommendHallTab(hallId) {
