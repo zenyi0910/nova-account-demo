@@ -274,14 +274,17 @@ function renderSchedules() {
 }
 
 function openSchedModal() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
-  document.getElementById('schedTargetName').textContent = p ? p.name : '-';
-  // 自動填入今天日期和預設時間
-  var today = new Date().toISOString().split('T')[0];
-  document.getElementById('schedStartDate').value = today;
-  document.getElementById('schedEndDate').value = today;
-  document.getElementById('schedStartTime').value = '00:00';
-  document.getElementById('schedEndTime').value = '23:59';
+  // Populate provider dropdown
+  var sel = document.getElementById('sProvider');
+  sel.innerHTML = '<option value="">請選擇</option>';
+  providers.forEach(function(p) {
+    sel.innerHTML += '<option value="'+p.id+'">'+p.name+'</option>';
+  });
+  if (currentProvider) sel.value = currentProvider;
+  // Reset date-picker
+  var dp = document.getElementById('schedDatePicker');
+  if (dp._dpInstance) dp._dpInstance.reset();
+  document.getElementById('schedNote').value = '';
   document.getElementById('schedModal').classList.add('show');
 }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
@@ -298,18 +301,18 @@ function toggleExpand(btn) {
 }
 
 function addSchedule() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
-  var action = document.getElementById('schedAction').value;
-  var note = document.getElementById('schedNote').value;
-  var startDate = document.getElementById('schedStartDate').value;
-  var endDate = document.getElementById('schedEndDate').value;
-  var st = document.getElementById('schedStartTime').value || '00:00';
-  var et = document.getElementById('schedEndTime').value || '23:59';
-  if (!startDate) { alert('請選擇開始日期'); return; }
+  var providerId = document.getElementById('sProvider').value;
+  if (!providerId) { alert('請選擇供應商'); return; }
+  var p = providers.find(function(x){ return x.id === providerId; });
+  var dp = document.getElementById('schedDatePicker');
+  var startDate = dp._dpInstance ? dp._dpInstance.startDate : '';
+  var endDate = dp._dpInstance ? dp._dpInstance.endDate : '';
+  if (!startDate) { alert('請選擇維護時間'); return; }
   if (!endDate) endDate = startDate;
-  var start = startDate + 'T' + st;
-  var end = endDate + 'T' + et;
-  p.schedules.push({action:action, start:start, end:end, note:note, repeat:'none'});
+  var note = document.getElementById('schedNote').value;
+  var start = startDate + 'T00:00';
+  var end = endDate + 'T23:59';
+  p.schedules.push({action:'off', start:start, end:end, note:note, repeat:'none'});
   closeModal('schedModal');
   renderSchedules();
 }

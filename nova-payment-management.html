@@ -233,6 +233,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-popover-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;font-size:13px;color:#374151;text-decoration:none;transition:background .15s}
 .user-popover-item:hover{background:#F3F4F6}
 .user-popover-item svg{width:16px;height:16px;color:#6B7280}
+.date-picker-wrap{position:relative}
+.date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:180px;white-space:nowrap}
+.date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
+.date-picker-trigger:hover{border-color:#3B82F6}
+#schedModal .dp2-quick{display:none}
+#schedModal .dp2-panel{position:absolute;top:100%;left:0;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:1000;border-radius:8px}
 </style>
 </head>
 <body>
@@ -380,27 +386,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- Schedule Modal -->
 <div class="modal-overlay" id="schedModal">
-  <div class="modal" style="max-width:580px">
-    <div class="modal-header"><h3>新增排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="close" onclick="closeModal('schedModal')">&times;</button></div>
-    <div class="modal-body">
-      <div style="background:#F0F4F8;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#475569;line-height:1.6">排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉</div>
-      <div class="form-group"><label>目標供應商</label><div style="background:#F1F5F9;padding:8px 12px;border-radius:6px;font-size:13px;color:#374151" id="schedTargetName">-</div></div>
-      <div class="form-group"><label>動作</label><select id="schedAction"><option value="off">關閉（維護）</option><option value="on">開啟</option></select></div>
-      <div class="form-group"><label>時間段</label>
-        <div class="form-row" style="gap:8px">
-          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">開始日期</label><input type="date" id="schedStartDate"></div>
-          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">結束日期</label><input type="date" id="schedEndDate"></div>
-        </div>
-        <div class="form-row" style="gap:8px;margin-top:8px">
-          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">開始時間</label><input type="time" id="schedStartTime"></div>
-          <div class="form-group" style="flex:1"><label style="font-size:11px;color:#6B7280">結束時間</label><input type="time" id="schedEndTime"></div>
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header"><h3>新增維護排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="close" style="border:none;background:none;font-size:20px;cursor:pointer" onclick="closeModal('schedModal')">&times;</button></div>
+    <div class="modal-body" style="overflow:visible">
+      <div class="form-group"><label>選擇供應商</label><select id="sProvider"><option value="">請選擇</option></select></div>
+      <div class="form-group"><label>維護時間</label>
+        <div class="date-picker-wrap" id="schedDatePicker">
+          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
         </div>
       </div>
-      <div class="form-group"><label>備註</label><input type="text" id="schedNote" placeholder="例：例行維護、版本更新"></div>
+      <div class="form-group"><label>備註</label><input type="text" id="schedNote" placeholder="例：例行維護"></div>
     </div>
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('schedModal')">取消</button>
-      <button class="btn-dark" onclick="addSchedule()">新增排程</button>
+      <button class="btn-dark" onclick="addSchedule()">確認新增</button>
     </div>
   </div>
 </div>
@@ -537,6 +536,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=11"></script>
-<script src="js/payment-management.js?v=45"></script>
+<script src="components/date-picker.js"></script>
+<script src="js/payment-management.js?v=46"></script>
 </body>
 </html>
