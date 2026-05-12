@@ -143,34 +143,59 @@ function renderCurrencyTab(id, h) {
 }
 
 function renderScheduleTab(id, h) {
-  // Show all halls' schedules
-  let allScheds = [];
+  // Show all halls' schedules, split into active vs expired (last 7 days)
+  const now = new Date();
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  let activeScheds = [];
+  let expiredScheds = [];
   Object.entries(halls).forEach(([hid, hall]) => {
     hall.schedules.forEach((s, i) => {
-      allScheds.push({hallId: hid, hallName: hall.name, sched: s, idx: i});
+      const item = {hallId: hid, hallName: hall.name, sched: s, idx: i};
+      const endTime = s.end ? new Date(s.end) : null;
+      if (endTime && endTime < now) {
+        if (endTime >= sevenDaysAgo) expiredScheds.push(item);
+      } else {
+        activeScheds.push(item);
+      }
     });
   });
-  if (allScheds.length === 0) return '<div class="sched-tab-content"><div class="sched-empty">尚無排程</div></div>';
-  let schedHtml = allScheds.map(item => {
-    const s = item.sched;
-    let timeDisplay = '';
-    if (s.repeat && s.repeat !== 'once') {
-      timeDisplay = '<span class="sched-time">' + s.start + '</span>' +
-        (s.end ? ' ~ <span class="sched-time">' + s.end + '</span>' : '');
-    } else {
-      timeDisplay = '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
-        (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)');
-    }
-    return '<div class="sched-item">' +
-      '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-      '<div class="sched-text"><span style="font-weight:600;margin-right:6px">' + item.hallName + '</span>' + timeDisplay +
-      (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
-      UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
-  }).join('');
-  return '<div class="sched-tab-content">' + schedHtml + '</div>';
+  if (activeScheds.length === 0 && expiredScheds.length === 0) {
+    return '<div class="sched-tab-content"><div class="sched-empty">尚無排程</div></div>';
+  }
+  function renderItems(items) {
+    return items.map(item => {
+      const s = item.sched;
+      let timeDisplay = '';
+      if (s.repeat && s.repeat !== 'once') {
+        timeDisplay = '<span class="sched-time">' + s.start + '</span>' +
+          (s.end ? ' ~ <span class="sched-time">' + s.end + '</span>' : '');
+      } else {
+        timeDisplay = '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
+          (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)');
+      }
+      return '<div class="sched-item">' +
+        '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+        '<div class="sched-text"><span style="font-weight:600;margin-right:6px">' + item.hallName + '</span>' + timeDisplay +
+        (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
+        UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
+    }).join('');
+  }
+  let html = renderItems(activeScheds);
+  if (expiredScheds.length > 0) {
+    html += '<div style="margin-top:10px"><label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#EF4444;border:1px solid #EF4444;border-radius:4px;padding:3px 8px">' +
+      '<input type="checkbox" id="showExpiredSched" onchange="toggleExpiredSched()" style="accent-color:#EF4444"> 展開已結束的排程</label></div>' +
+      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds) + '</div>';
+  }
+  return '<div class="sched-tab-content">' + html + '</div>';
 }
 
 let recommendCurrency = 'gold'; // 預設金幣
+
+function toggleExpiredSched() {
+  const el = document.getElementById('expiredSchedList');
+  const cb = document.getElementById('showExpiredSched');
+  if (el) el.style.display = cb && cb.checked ? 'block' : 'none';
+}
 
 function renderRecommendHallTab(hallId) {
   const hallGames = games.filter(g => g.hall === hallId);
