@@ -338,7 +338,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
 
         <!-- Filter -->
-        <div class="filter-bar">
+        <div class="filter-bar" style="position:relative;padding-top:18px">
+          <span style="font-size:11px;color:#6B7280;position:absolute;top:0;left:12px">搜尋支付方式</span>
           <input type="text" placeholder="搜尋名稱..." id="filterName" style="width:160px">
           <select id="filterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
           <span style="flex:1"></span>
@@ -366,7 +367,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <!-- Store Section -->
     <div id="storeSection" style="display:none">
-      <div class="filter-bar">
+      <div class="filter-bar" style="position:relative;padding-top:18px">
+        <span style="font-size:11px;color:#6B7280;position:absolute;top:0;left:12px">搜尋商城商品</span>
         <input type="text" placeholder="搜尋名稱..." id="storeFilterName" style="width:160px">
         <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
         <select id="storeFilterType"><option value="">全部類型</option><option value="一般">一般</option><option value="快速">快速</option></select>
