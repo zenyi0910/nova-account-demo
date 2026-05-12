@@ -64,29 +64,91 @@ function renderMaintenance() {
 
 function renderScheduleList() {
   const scheds = maintSchedules[currentMaintTab] || [];
+  const now = new Date();
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  // Split active vs expired (yesterday)
+  const active = scheds.filter(s => new Date(s.end) >= now);
+  const expired = (maintHistory[currentMaintTab] || []).filter(s => {
+    const end = new Date(s.end);
+    return end < now && end >= yesterday;
+  });
+
   let html = `<div class="sched-section">`;
-  html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">`;
-  html += `<span style="font-size:13px;color:#6B7280">共 ${scheds.length} 筆排程</span>`;
-  html += UI.btn.add('新增排程', 'openMaintSchedModal()', { sm: true });
+  // Header: title + filter + add + clear
+  html += `<div class="sched-header">`;
+  html += `${UI.icon.clock} <span class="sched-title">維護排程</span>`;
+  html += `<span class="spacer"></span>`;
+  html += `<button class="btn-sched-add" onclick="openMaintSchedModal()">+ 新增排程</button>`;
+  html += `<button class="btn-sched-clear" onclick="clearAllMaintSched()" title="全部清除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`;
   html += `</div>`;
 
-  if (scheds.length === 0) {
-    html += `<div style="text-align:center;padding:40px;color:#9CA3AF;background:#fff;border:1px solid #E5E7EB;border-radius:10px">目前無排程</div>`;
+  if (active.length === 0 && expired.length === 0) {
+    html += `<div style="text-align:center;padding:40px;color:#9CA3AF">目前無排程</div>`;
   } else {
-    html += `<div class="sched-list">`;
-    scheds.forEach((s, i) => {
-      html += `<div class="sched-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
-        <span class="note">${s.content}</span>
-        <span class="spacer"></span>
-        <button class="del-btn" onclick="delMaintSched(${i})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
-      </div>`;
-    });
-    html += `</div>`;
+    // Collapsed view: first item full, second with gradient
+    let collapsed = '';
+    let expanded = '';
+    if (active.length > 0) {
+      collapsed += renderSchedItem(active[0], 0, true);
+      if (active.length > 1) {
+        collapsed += `<div class="sched-fade-wrap">` +
+          `<div class="sched-fade-overlay"><span onclick="expandSchedList()" class="more-btn">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>` +
+          renderSchedItem(active[1], 1, false) + `</div>`;
+      }
+    }
+    // Expanded: all active
+    active.forEach((s, i) => { expanded += renderSchedItem(s, i, true); });
+    // Expired section
+    if (expired.length > 0) {
+      expanded += `<div class="expired-toggle" onclick="toggleExpiredMaint()"><span>昨日已結束</span><svg id="expiredMaintArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>`;
+      expanded += `<div id="expiredMaintList" class="expired-list" style="display:none">`;
+      expired.forEach((s, i) => { expanded += renderSchedItem(s, i, false, true); });
+      expanded += `</div>`;
+    }
+
+    html += `<div id="schedCollapsed">${collapsed}</div>`;
+    html += `<div id="schedExpanded" style="display:none">${expanded}</div>`;
   }
   html += `</div>`;
   return html;
+}
+
+function renderSchedItem(s, idx, isActive, isExpired) {
+  const dot = isActive
+    ? `<span class="sched-dot active"></span>`
+    : `<span class="sched-dot"></span>`;
+  const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
+  return `<div class="sched-item${cls}">
+    ${dot}
+    <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
+    <span class="note">${s.content}</span>
+    <span class="spacer"></span>
+    <button class="del-btn" onclick="delMaintSched(${idx})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+  </div>`;
+}
+
+function expandSchedList() {
+  document.getElementById('schedCollapsed').style.display = 'none';
+  document.getElementById('schedExpanded').style.display = '';
+}
+
+function toggleExpiredMaint() {
+  const el = document.getElementById('expiredMaintList');
+  const arrow = document.getElementById('expiredMaintArrow');
+  if (el.style.display === 'none') {
+    el.style.display = '';
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    el.style.display = 'none';
+    arrow.style.transform = '';
+  }
+}
+
+function clearAllMaintSched() {
+  if (!confirm('確定清除所有排程？')) return;
+  maintSchedules[currentMaintTab] = [];
+  renderMaintenance();
+  UI.toast('已清除所有排程');
 }
 
 function renderHistoryTable() {
