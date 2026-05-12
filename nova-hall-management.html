@@ -204,7 +204,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal,.modal-box{background:#fff;border-radius:12px;width:90%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);overflow:visible}
-#schedModal .modal-box{background:#fff;border-radius:12px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);overflow:visible;width:360px;max-width:360px}
+#schedModal .modal-box{background:#fff;border-radius:12px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15);overflow:visible;width:420px;max-width:420px}
 .modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid oklch(0.922 0 0)}
 .modal-header h3{font-size:15px;font-weight:600;flex:1}
 .modal-close{border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280;font-size:20px;padding:4px;width:24px;height:24px}
@@ -525,7 +525,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- 排程 Modal -->
 <div class="modal-overlay" id="schedModal">
-  <div class="modal-box" style="width:400px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.15)">
+  <div class="modal-box" style="width:420px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.15)">
     <div class="modal-header"><h3 id="schedModalTitle">新增維護排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body" style="overflow:visible">
       <div class="form-group"><label>選擇娛樂城</label>
@@ -539,12 +539,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <option value="CQ9">CQ9 娛樂城</option>
           <option value="RSG">RSG 娛樂城</option>
           <option value="FC">FC 娛樂城</option>
-        </select>
-      </div>
-      <div class="form-group"><label>動作</label>
-        <select id="sAction" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
-          <option value="off">關閉（停用）</option>
-          <option value="on">開啟（啟用）</option>
         </select>
       </div>
       <div class="form-group"><label>維護時間</label>
@@ -565,7 +559,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script src="components/date-picker.js"></script>
 <script src="js/components.js?v=11"></script>
-<script src="js/hall-management.js?v=30"></script>
+<script src="js/hall-management.js?v=31"></script>
 <script src="js/hall-management-additions.js?v=17"></script>
 </body>
 </html>
