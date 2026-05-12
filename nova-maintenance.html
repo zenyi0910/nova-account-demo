@@ -43,17 +43,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header .spacer{flex:1}
 
 /* Schedule list */
-.sched-section{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:20px}
-.sched-header{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.sched-header svg{color:#6B7280}
-.sched-title{font-size:14px;font-weight:600;color:#374151}
+.sched-section{margin-bottom:20px}
+.sched-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sched-header svg{color:#6B7280;width:16px;height:16px}
+.sched-title{font-size:13px;font-weight:600;color:#111827}
 .sched-header .spacer{flex:1}
-.btn-sched-add{background:#2DBFA0;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit}
-.btn-sched-add:hover{background:#26A88C}
+
 .btn-sched-clear{background:none;border:none;cursor:pointer;color:#9CA3AF;padding:4px;border-radius:4px}
 .btn-sched-clear:hover{color:#DC2626;background:#FEE2E2}
-.sched-list{display:flex;flex-direction:column;gap:8px}
-.sched-item{display:flex;align-items:center;gap:10px;padding:10px 14px;font-size:13px}
+.sched-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:8px;font-size:13px}
 .sched-item.faded{opacity:0.45}
 .sched-item.expired{opacity:0.5}
 .sched-item svg.sched-icon{color:#6B7280;flex-shrink:0;width:14px;height:14px}
@@ -62,7 +60,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .sched-item .spacer{flex:1}
 .sched-item .del-btn{background:none;border:none;cursor:pointer;color:#F56C6C;padding:4px;border-radius:4px}
 .sched-item .del-btn:hover{color:#DC2626;background:#FEE2E2}
-.sched-fade-wrap{position:relative;max-height:40px;overflow:hidden}
+.sched-fade-wrap{position:relative;max-height:44px;overflow:hidden;margin-bottom:8px}
 .sched-fade-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8) 50%,rgba(255,255,255,1));z-index:1;display:flex;align-items:center;justify-content:center}
 .more-btn{cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none}
 .more-btn:hover{color:#6B7280}
@@ -106,8 +104,8 @@ textarea.form-control{resize:vertical;min-height:72px}
 .btn-dark:hover{background:#111827}
 .btn-outline{background:#fff;border:1px solid #E5E7EB;color:#374151}
 .btn-outline:hover{background:#F3F4F6}
-.btn-add{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;background:#059669;color:#fff}
-.btn-add:hover{background:#047857}
+.btn-add{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;background:#00bba7;color:#fff}
+.btn-add:hover{background:#00a896}
 
 /* Segmented */
 .seg-control{display:inline-flex;background:oklch(0.95 0.003 264.542);border-radius:10px;padding:4px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1)}
@@ -206,6 +204,6 @@ textarea.form-control{resize:vertical;min-height:72px}
 
 <script src="js/components.js?v=11"></script>
 <script src="components/date-picker.js"></script>
-<script src="js/maintenance.js?v=2"></script>
+<script src="js/maintenance.js?v=3"></script>
 </body>
 </html>

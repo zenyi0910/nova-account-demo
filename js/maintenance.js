@@ -51,7 +51,7 @@ function renderMaintenance() {
 
   const historyBtn = showHistory
     ? `<button class="btn-outline" onclick="toggleHistory()" style="margin-left:auto;font-size:13px;padding:6px 14px">← 返回</button>`
-    : `<button class="btn-add" onclick="toggleHistory()" style="margin-left:auto">${UI.icon.clock} 歷史紀錄</button>`;
+    : `<button class="btn-add" onclick="toggleHistory()" style="margin-left:auto">${UI.icon.clock} <span style="vertical-align:middle">操作紀錄</span></button>`;
 
   let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">${tabs}${historyBtn}</div>`;
 
@@ -80,7 +80,7 @@ function renderScheduleList() {
   html += `<div class="sched-header">`;
   html += `${UI.icon.clock} <span class="sched-title">維護排程</span>`;
   html += `<span class="spacer"></span>`;
-  html += `<button class="btn-sched-add" onclick="openMaintSchedModal()">+ 新增排程</button>`;
+  html += UI.btn.add('新增排程', 'openMaintSchedModal()');
   html += `<button class="btn-sched-clear" onclick="clearAllMaintSched()" title="全部清除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`;
   html += `</div>`;
 
