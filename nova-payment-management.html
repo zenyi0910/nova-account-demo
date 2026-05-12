@@ -299,6 +299,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div style="display:flex;align-items:center;gap:8px">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           <span>維護排程</span>
+          <select id="schedProviderFilter" onchange="renderSchedules()" style="font-size:12px;font-weight:400;padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;color:#374151">
+            <option value="">全部供應商</option>
+          </select>
         </div>
         <div style="display:flex;align-items:center;gap:6px">
           <button class="btn-add" onclick="openSchedModal()" style="background:oklch(0.777 0.152 181.912);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px">
@@ -538,6 +541,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script src="js/components.js?v=11"></script>
 <script src="components/date-picker.js"></script>
-<script src="js/payment-management.js?v=48"></script>
+<script src="js/payment-management.js?v=49"></script>
 </body>
 </html>

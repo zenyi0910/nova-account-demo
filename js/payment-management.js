@@ -252,8 +252,17 @@ function toggleProvider() {
 function renderSchedules() {
   const now = new Date();
   const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  // Populate filter dropdown
+  var filterSel = document.getElementById('schedProviderFilter');
+  var currentFilter = filterSel ? filterSel.value : '';
+  if (filterSel && filterSel.options.length <= 1) {
+    providers.forEach(function(p) {
+      filterSel.innerHTML += '<option value="'+p.id+'">'+p.name+'</option>';
+    });
+  }
   let allScheds = [];
   providers.forEach(function(p) {
+    if (currentFilter && p.id !== currentFilter) return;
     p.schedules.forEach(function(s, i) {
       allScheds.push({providerId: p.id, providerName: p.name, sched: s, idx: i});
     });
