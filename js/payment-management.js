@@ -1,8 +1,8 @@
 // === Data ===
 const providers = [
-  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-12T02:00',end:'2026-05-12T04:00',note:'系統升級'}]},
-  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[]},
-  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[]},
+  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護'},{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新'}]},
+  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復'}]},
+  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級'}]},
   {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[]},
   {id:'esun',name:'玉山銀行',code:'70424393',status:'off',schedules:[]},
   {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[]},
@@ -250,27 +250,72 @@ function toggleProvider() {
 
 // === Schedules ===
 function renderSchedules() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
+  const now = new Date();
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  let allScheds = [];
+  providers.forEach(function(p) {
+    p.schedules.forEach(function(s, i) {
+      allScheds.push({providerId: p.id, providerName: p.name, sched: s, idx: i});
+    });
+  });
+  let activeScheds = [];
+  let expiredScheds = [];
+  allScheds.forEach(function(item) {
+    const endTime = item.sched.end ? new Date(item.sched.end) : null;
+    if (endTime && endTime < now) {
+      if (endTime >= yesterday) expiredScheds.push(item);
+    } else {
+      activeScheds.push(item);
+    }
+  });
   var list = document.getElementById('schedList');
-  if (!p.schedules.length) {
+  if (activeScheds.length === 0 && expiredScheds.length === 0) {
     list.innerHTML = '<div style="color:#9CA3AF;font-size:12px;padding:8px 0">目前無排程</div>';
     return;
   }
-  list.innerHTML = p.schedules.map(function(s, i) {
-    var startStr = new Date(s.start).toLocaleString('zh-TW');
-    var endStr = s.end ? new Date(s.end).toLocaleString('zh-TW') : '無限期';
-    var repeatLabel = {none:'',daily:'每天',weekly:'每週',monthly:'每月'}[s.repeat||'none'];
-    var repeatHtml = repeatLabel ? '<span class="repeat-tag">' + repeatLabel + '</span>' : '';
-    return '<div class="sched-item">' +
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-      '<span class="time">' + startStr + ' ~ ' + endStr + '</span>' +
-      '<span class="action-tag ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
-      repeatHtml +
-      '<span class="note">' + (s.note || '') + '</span>' +
-      '<span class="spacer"></span>' +
-      '<button class="del-btn" onclick="delSched(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
-    '</div>';
-  }).join('');
+  function fmtDT(dt) {
+    return new Date(dt).toLocaleString('zh-TW', {year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  }
+  function renderItems(items) {
+    return items.map(function(item) {
+      const s = item.sched;
+      const timeDisplay = fmtDT(s.start) + (s.end ? ' ~ ' + fmtDT(s.end) : ' (手動恢復)');
+      return '<div class="sched-item">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+        '<span style="font-weight:600;margin-right:6px">' + item.providerName + '</span>' +
+        '<span class="time">' + timeDisplay + '</span>' +
+        (s.note ? '<span class="note">' + s.note + '</span>' : '') +
+        '<span class="spacer"></span>' +
+        '<button class="del-btn" onclick="delSched(\'' + item.providerId + '\',' + item.idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+      '</div>';
+    }).join('');
+  }
+  let collapsed = '';
+  let expanded = '';
+  if (activeScheds.length <= 1 && expiredScheds.length === 0) {
+    list.innerHTML = renderItems(activeScheds);
+    return;
+  }
+  collapsed += renderItems(activeScheds.slice(0, 1));
+  if (activeScheds.length > 1) {
+    collapsed += '<div style="position:relative;max-height:36px;overflow:hidden">' +
+      '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8) 50%,rgba(255,255,255,1));z-index:1;display:flex;align-items:center;justify-content:center">' +
+      '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>' +
+      renderItems(activeScheds.slice(1, 2)) + '</div>';
+  } else {
+    collapsed += '<div style="text-align:center;margin-top:6px">' +
+      '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>';
+  }
+  expanded += renderItems(activeScheds);
+  if (expiredScheds.length > 0) {
+    expanded += '<div style="margin-top:12px;text-align:center">' +
+      '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
+      '<span>昨日已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+      '</div>' +
+      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds) + '</div>';
+  }
+  list.innerHTML = '<div id="schedCollapsed">' + collapsed + '</div>' +
+    '<div id="schedExpanded" style="display:none">' + expanded + '</div>';
 }
 
 function openSchedModal() {
@@ -317,8 +362,8 @@ function addSchedule() {
   renderSchedules();
 }
 
-function delSched(i) {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
+function delSched(providerId, i) {
+  var p = providers.find(function(x){ return x.id === providerId; });
   p.schedules.splice(i, 1);
   renderSchedules();
 }
@@ -328,6 +373,22 @@ function clearAllSched() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
   p.schedules = [];
   renderSchedules();
+}
+
+function toggleExpiredSched() {
+  const el = document.getElementById('expiredSchedList');
+  const arrow = document.getElementById('expiredArrow');
+  if (!el) return;
+  const show = el.style.display === 'none';
+  el.style.display = show ? 'block' : 'none';
+  if (arrow) arrow.innerHTML = show ? '<polyline points="6 15 12 9 18 15"/>' : '<polyline points="6 9 12 15 18 9"/>';
+}
+
+function expandSchedList() {
+  const c = document.getElementById('schedCollapsed');
+  const e = document.getElementById('schedExpanded');
+  if (c) c.style.display = 'none';
+  if (e) e.style.display = 'block';
 }
 
 // === 共用狀態欄元件（toggle + 文字標籤，對齊 Nova 系統） ===
