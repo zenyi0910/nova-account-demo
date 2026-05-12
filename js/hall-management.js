@@ -115,7 +115,8 @@ function renderHallDetail() {
     '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">' +
       '<div style="display:flex;align-items:center;gap:8px">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '<span>維護排程</span><span style="font-size:11px;color:#9CA3AF;font-weight:400;margin-left:8px">該功能不區分幣別</span>' +
+        '<span>維護排程</span>' +
+        '<select id="schedHallFilter" onchange="renderHallDetail()" style="font-size:12px;font-weight:400;padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;color:#374151;margin-left:8px"><option value="">全部娛樂城</option></select>' +
       '</div>' +
       '<div style="display:flex;align-items:center;gap:6px">' +
         '<button class="btn-add" onclick="openSchedModal(\'' + currentHall + '\')" style="background:oklch(0.777 0.152 181.912);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px">' +
@@ -145,9 +146,18 @@ function renderCurrencyTab(id, h) {
 function renderScheduleTab(id, h) {
   const now = new Date();
   const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  // Populate filter dropdown
+  var filterSel = document.getElementById('schedHallFilter');
+  var currentFilter = filterSel ? filterSel.value : '';
+  if (filterSel && filterSel.options.length <= 1) {
+    Object.entries(halls).forEach(([hid, hall]) => {
+      filterSel.innerHTML += '<option value="'+hid+'">'+hall.name+'</option>';
+    });
+  }
   let activeScheds = [];
   let expiredScheds = [];
   Object.entries(halls).forEach(([hid, hall]) => {
+    if (currentFilter && hid !== currentFilter) return;
     hall.schedules.forEach((s, i) => {
       const item = {hallId: hid, hallName: hall.name, sched: s, idx: i};
       const endTime = s.end ? new Date(s.end) : null;
