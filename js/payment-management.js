@@ -405,8 +405,8 @@ function renderStatusCell(status, toggleFn, disabled) {
   var st = disabled ? 'off' : status;
   var dis = disabled ? ' disabled' : '';
   var onclick = disabled ? '' : ' onclick="' + toggleFn + '"';
-  var label = st === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
-  return '<td><button class="toggle ' + st + '"' + dis + onclick + '></button>' + label + '</td>';
+  var label = st === 'on' ? '<span style="font-size:12px;color:#059669;font-weight:500;margin-left:6px">啟用</span>' : '<span style="font-size:12px;color:#6B7280;font-weight:500;margin-left:6px">停用</span>';
+  return '<td style="white-space:nowrap"><button class="toggle ' + st + '"' + dis + onclick + '></button>' + label + '</td>';
 }
 
 // === 共用操作按鈕元件（使用 UI.btn.icon 共用元件） ===
