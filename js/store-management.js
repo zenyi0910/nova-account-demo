@@ -12,8 +12,13 @@ const storeData = [
 let storePage = 1, storePageSize = 20, storeFiltered = [...storeData], currentTab = '一般';
 let fastRows = []; // 快速儲值 modal 明細列
 
+const vipNameMap = { '新手': 'VIP1', '銅牌': 'VIP2', '銀牌': 'VIP3', '金牌': 'VIP4', '白金': 'VIP5', '鑽石': 'VIP6' };
 function renderVipBadges(vips) {
-  return vips.map(v => `<span class="vip-badge"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>${v}</span>`).join('');
+  if (!Array.isArray(vips)) return '';
+  return vips.map(v => {
+    const label = vipNameMap[v] || v;
+    return `<span class="vip-badge">${label}</span>`;
+  }).join('');
 }
 
 function renderStoreTable() {
