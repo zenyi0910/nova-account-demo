@@ -56,10 +56,11 @@ let gameCat = ''; // '', '電動', '街機', '棋牌'
 function initHallSelector() {
   const container = document.getElementById('hallCards');
   const tabsHtml = Object.entries(halls).map(([id, h]) => {
-    const dotColor = h.status === 'on' ? '#22C55E' : '#EF4444';
     const gc = games.filter(g => g.hall === id).length;
+    const hasSched = h.schedules.length > 0;
+    const clockIcon = hasSched ? '<svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" width="14" height="14" style="margin-left:4px;vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' : '';
     return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
-      '<div class="ht-top"><div class="ht-name"><span class="dot" style="background:' + dotColor + '"></span>' + h.name + '</div>' +
+      '<div class="ht-top"><div class="ht-name">' + h.name + clockIcon + '</div>' +
       '<button class="ht-toggle ' + h.status + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button></div>' +
       '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
   }).join('');
@@ -142,26 +143,30 @@ function renderCurrencyTab(id, h) {
 }
 
 function renderScheduleTab(id, h) {
-  let schedHtml = '<div class="sched-empty">尚無排程</div>';
-  if (h.schedules.length > 0) {
-    schedHtml = h.schedules.map((s, i) => {
-      const repeatBadge = s.repeatText ? '<span style="background:#E0F2FE;color:#0369A1;padding:2px 8px;border-radius:4px;font-size:11px;margin-left:6px">' + s.repeatText + '</span>' : '';
-      let timeDisplay = '';
-      if (s.repeat && s.repeat !== 'once') {
-        timeDisplay = '<span class="sched-time">' + s.start + '</span>' +
-          (s.end ? ' ~ <span class="sched-time">' + s.end + '</span>' : '');
-      } else {
-        timeDisplay = '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
-          (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)');
-      }
-      return '<div class="sched-item">' +
-        '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
-        '<div class="sched-text">' + timeDisplay +
-        repeatBadge +
-        (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
-        UI.btn.icon('delete', "delSched('" + id + "'," + i + ")", '刪除排程') + '</div>';
-    }).join('');
-  }
+  // Show all halls' schedules
+  let allScheds = [];
+  Object.entries(halls).forEach(([hid, hall]) => {
+    hall.schedules.forEach((s, i) => {
+      allScheds.push({hallId: hid, hallName: hall.name, sched: s, idx: i});
+    });
+  });
+  if (allScheds.length === 0) return '<div class="sched-tab-content"><div class="sched-empty">尚無排程</div></div>';
+  let schedHtml = allScheds.map(item => {
+    const s = item.sched;
+    let timeDisplay = '';
+    if (s.repeat && s.repeat !== 'once') {
+      timeDisplay = '<span class="sched-time">' + s.start + '</span>' +
+        (s.end ? ' ~ <span class="sched-time">' + s.end + '</span>' : '');
+    } else {
+      timeDisplay = '<span class="sched-time">' + fmtDT(s.start) + '</span>' +
+        (s.end ? ' ~ <span class="sched-time">' + fmtDT(s.end) + '</span>' : ' (手動恢復)');
+    }
+    return '<div class="sched-item">' +
+      '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+      '<div class="sched-text"><span style="font-weight:600;margin-right:6px">' + item.hallName + '</span>' + timeDisplay +
+      (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
+      UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
+  }).join('');
   return '<div class="sched-tab-content">' + schedHtml + '</div>';
 }
 
