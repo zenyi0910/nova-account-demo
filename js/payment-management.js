@@ -155,11 +155,19 @@ function renderStoreTable() {
   container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>類型</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('storePageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + total + ' 筆資料';
-  var pageBtns = '';
+  var pageBtns = '<button class="page-arrow" onclick="goStorePage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage <= 1 ? 'disabled' : '') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
     pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goStorePage(' + i + ')">' + i + '</button>';
   }
+  pageBtns += '<button class="page-arrow" onclick="goStorePage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '>&gt;</button>';
   document.getElementById('storePageButtons').innerHTML = pageBtns;
+
+  var jumpOpts = '';
+  for (var j = 1; j <= totalPages; j++) {
+    jumpOpts += '<option value="' + j + '"' + (j === currentPage ? ' selected' : '') + '>第' + j + '頁</option>';
+  }
+  var jumpEl = document.getElementById('storePageJump');
+  if (jumpEl) jumpEl.innerHTML = jumpOpts;
 }
 
 function goStorePage(p) { currentPage = p; renderStoreTable(); }
@@ -428,11 +436,20 @@ function renderTable() {
   container.innerHTML = '<table class="data-table"><thead><tr>' + headers + '</tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('pageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + total + ' 筆資料';
-  var pageBtns = '';
+  var pageBtns = '<button class="page-arrow" onclick="goPage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage <= 1 ? 'disabled' : '') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
     pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goPage(' + i + ')">' + i + '</button>';
   }
+  pageBtns += '<button class="page-arrow" onclick="goPage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '>&gt;</button>';
   document.getElementById('pageButtons').innerHTML = pageBtns;
+
+  // 頁碼下拉選單
+  var jumpOpts = '';
+  for (var j = 1; j <= totalPages; j++) {
+    jumpOpts += '<option value="' + j + '"' + (j === currentPage ? ' selected' : '') + '>第' + j + '頁</option>';
+  }
+  var jumpEl = document.getElementById('pageJump');
+  if (jumpEl) jumpEl.innerHTML = jumpOpts;
 }
 
 function goPage(p) { currentPage = p; renderTable(); }

@@ -74,11 +74,20 @@ function renderStoreTable() {
 
 function renderStorePages(total) {
   const pages = Math.ceil(total / storePageSize) || 1;
-  let html = '';
+  let html = '<button class="page-arrow" onclick="storePage=Math.max(1,storePage-1);renderStoreTable()" ' + (storePage <= 1 ? 'disabled' : '') + '>&lt;</button>';
   for (let i = 1; i <= pages; i++) {
     html += `<button class="${i === storePage ? 'active' : ''}" onclick="storePage=${i};renderStoreTable()">${i}</button>`;
   }
+  html += '<button class="page-arrow" onclick="storePage=Math.min(' + pages + ',storePage+1);renderStoreTable()" ' + (storePage >= pages ? 'disabled' : '') + '>&gt;</button>';
   document.getElementById('storePageButtons').innerHTML = html;
+
+  // 頁碼下拉選單
+  let jumpOpts = '';
+  for (let j = 1; j <= pages; j++) {
+    jumpOpts += `<option value="${j}"${j === storePage ? ' selected' : ''}>第${j}頁</option>`;
+  }
+  var jumpEl = document.getElementById('storePageJump');
+  if (jumpEl) jumpEl.innerHTML = jumpOpts;
 }
 
 function switchTab(tab) {
