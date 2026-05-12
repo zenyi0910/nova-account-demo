@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 前台展示 - iPhone Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #ffeb3b 0%, #f44336 70%, #b71c1c 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.phone-frame {
+  position: relative;
+  width: 385px;
+  height: 780px;
+  border-radius: 50px;
+  border: 12px solid #1a1a1a;
+  background: #000;
+  box-shadow: 0 0 0 3px #333, 0 0 80px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+/* Dynamic Island */
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 24px;
+  background: #1a1a1a;
+  border-radius: 14px;
+  z-index: 100;
+}
+/* Home indicator */
+.phone-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: #555;
+  border-radius: 3px;
+  z-index: 100;
+}
+.phone-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 38px;
+}
+.version-tag {
+  position: fixed;
+  bottom: 16px;
+  right: 20px;
+  color: rgba(255,255,255,0.6);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+</style>
+</head>
+<body>
+<div class="phone-frame">
+  <iframe src="nova-lobby.html" allow="fullscreen"></iframe>
+</div>
+<span class="version-tag">Nova Frontend Demo — iPhone Frame</span>
+</body>
+</html>
