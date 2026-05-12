@@ -243,14 +243,37 @@ function removeGmAmountRow(i) {
 function saveGeneralItem() {
   const name = document.getElementById('gmName').value.trim();
   if (!name) { alert('請填寫項目名稱'); return; }
-  alert('儲存成功（Demo）');
+  const provider = document.getElementById('gmProvider').value;
+  const method = document.getElementById('gmMethod').value;
+  const channel = document.getElementById('gmChannel').value;
+  const vip = document.getElementById('gmVip').value;
+  const status = document.getElementById('gmStatus').className.includes('on') ? 'on' : 'off';
+  const title = document.getElementById('gmTitle').textContent;
+  if (title.includes('新增')) {
+    storeData.push({ id: Date.now(), name, provider: provider || 'MyCard', method: method || name, channel: channel || name, status, vip: vip || '新手', type: '一般' });
+  } else {
+    // 編輯模式 — 找到正在編輯的項目更新
+    const editing = storeData.find(r => r.name === name && r.type === '一般');
+    if (editing) { Object.assign(editing, { provider: provider || editing.provider, method: method || editing.method, channel: channel || editing.channel, status, vip: vip || editing.vip }); }
+  }
+  storeFiltered = [...storeData];
+  storePage = 1;
+  renderStoreTable();
   closeModal('generalModal');
 }
 
 function saveFastItem() {
   const name = document.getElementById('fmName').value.trim();
   if (!name) { alert('請填寫項目名稱'); return; }
-  alert('儲存成功（Demo）');
+  const vip = document.getElementById('fmVip')?.value || '';
+  const status = document.getElementById('fmStatus').className.includes('on') ? 'on' : 'off';
+  const title = document.getElementById('fmTitle').textContent;
+  if (title.includes('新增')) {
+    storeData.push({ id: Date.now(), name, provider: '快速', method: '快速儲值', channel: '快速通道', status, vip: vip || '新手', type: '快速' });
+  }
+  storeFiltered = [...storeData];
+  storePage = 1;
+  renderStoreTable();
   closeModal('fastModal');
 }
 
