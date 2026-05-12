@@ -21,6 +21,7 @@
 .dp2-grid .dd{font-size:12px;padding:5px 0;border-radius:4px;cursor:pointer;color:#374151}
 .dp2-grid .dd:hover{background:#EFF6FF}
 .dp2-grid .dd.other{color:#D1D5DB;pointer-events:none}
+.dp2-grid .dd.disabled{color:#D1D5DB;pointer-events:none;cursor:not-allowed;opacity:0.5}
 .dp2-grid .dd.today{font-weight:700;box-shadow:inset 0 0 0 1px #3B82F6}
 .dp2-grid .dd.sel{background:#2563EB;color:#fff;border-radius:50%}
 .dp2-grid .dd.in-range{background:#DBEAFE;color:#1E40AF}
@@ -179,6 +180,8 @@
       for(let d=1;d<=daysInMonth;d++){
         const date=new Date(cY,cM,d);
         let cls='dd';
+        const isPast=date<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+        if(isPast)cls+=' disabled';
         if(date.toDateString()===today.toDateString())cls+=' today';
         if(rs&&re&&date>=rs&&date<=re)cls+=' in-range';
         if(rs&&date.toDateString()===rs.toDateString())cls+=' range-start';
@@ -188,7 +191,7 @@
       const total=firstDay+daysInMonth;
       for(let i=1;i<=(7-total%7)%7;i++)html+='<div class="dd other">'+i+'</div>';
       grid.innerHTML=html;
-      grid.querySelectorAll('.dd:not(.other)').forEach(el=>{
+      grid.querySelectorAll('.dd:not(.other):not(.disabled)').forEach(el=>{
         el.addEventListener('click',ev=>{
           ev.stopPropagation();
           const clicked=new Date(cY,cM,+el.dataset.d);
