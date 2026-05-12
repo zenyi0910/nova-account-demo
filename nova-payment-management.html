@@ -346,10 +346,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
 
         <!-- Filter -->
-        <div class="filter-bar" style="position:relative;padding-top:18px">
-          <span style="font-size:11px;color:#6B7280;position:absolute;top:0;left:12px">搜尋支付方式</span>
-          <input type="text" placeholder="搜尋名稱..." id="filterName" style="width:160px">
-          <select id="filterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
+        <div class="filter-bar" style="display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:11px;color:#374151;font-weight:500">支付方式</span>
+            <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="filterName" placeholder="搜尋支付方式" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
+            <select id="filterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
+              <option value="">選擇啟用狀態</option>
+              <option value="on">啟用</option>
+              <option value="off">停用</option>
+            </select>
+          </div>
           <span style="flex:1"></span>
           <button class="btn-search" onclick="applyFilter()">搜尋</button>
           <button class="btn-reset" onclick="resetFilter()">重置</button>
@@ -375,11 +387,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <!-- Store Section -->
     <div id="storeSection" style="display:none">
-      <div class="filter-bar" style="position:relative;padding-top:18px">
-        <span style="font-size:11px;color:#6B7280;position:absolute;top:0;left:12px">搜尋商城商品</span>
-        <input type="text" placeholder="搜尋名稱..." id="storeFilterName" style="width:160px">
-        <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
-        <select id="storeFilterType"><option value="">全部類型</option><option value="一般">一般</option><option value="快速">快速</option></select>
+      <div class="filter-bar" style="display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:11px;color:#374151;font-weight:500">商城商品</span>
+          <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="storeFilterName" placeholder="搜尋商城商品" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
+          <select id="storeFilterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
+            <option value="">選擇啟用狀態</option>
+            <option value="on">啟用</option>
+            <option value="off">停用</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:11px;color:#374151;font-weight:500">類型</span>
+          <select id="storeFilterType" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:100px">
+            <option value="">全部類型</option>
+            <option value="一般">一般</option>
+            <option value="快速">快速</option>
+          </select>
+        </div>
         <span style="flex:1"></span>
         <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
         <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
