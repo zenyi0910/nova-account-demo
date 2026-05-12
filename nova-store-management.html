@@ -296,10 +296,12 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
       <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
       <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
     </div>
-    <div id="storeTableContainer"></div>
-    <div class="pagination">
+    <div class="pagination-info" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
       <span id="storePageInfo"></span>
       <div class="per-page-select">每頁顯示 <select id="storePerPageSelect" onchange="changeStorePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
+    </div>
+    <div id="storeTableContainer"></div>
+    <div class="pagination" style="display:flex;justify-content:center;padding:12px 0">
       <div class="pagination-pages" id="storePageButtons"></div>
     </div>
   </div>
@@ -373,6 +375,6 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
 </div>
 
 <script src="js/components.js?v=8"></script>
-<script src="js/store-management.js?v=11"></script>
+<script src="js/store-management.js?v=12"></script>
 </body>
 </html>

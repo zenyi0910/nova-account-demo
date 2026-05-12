@@ -322,13 +322,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <button class="btn-reset" onclick="resetFilter()">重置</button>
         </div>
 
+        <!-- Page Info (above table) -->
+        <div class="pagination-info" id="paginationInfo" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
+          <span id="pageInfo"></span>
+          <div class="per-page-select">每頁顯示 <select id="perPageSelect" onchange="changePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
+        </div>
+
         <!-- Table -->
         <div id="tableContainer"></div>
 
-        <!-- Pagination -->
-        <div class="pagination">
-          <span id="pageInfo"></span>
-          <div class="per-page-select">每頁顯示 <select id="perPageSelect" onchange="changePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
+        <!-- Pagination (bottom) -->
+        <div class="pagination" style="display:flex;justify-content:center;padding:12px 0">
           <div class="pagination-pages" id="pageButtons"></div>
         </div>
       </div>
@@ -344,10 +348,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
         <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
       </div>
-      <div id="storeTableContainer"></div>
-      <div class="pagination">
+      <div class="pagination-info" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
         <span id="storePageInfo"></span>
         <div class="per-page-select">每頁顯示 <select id="storePerPageSelect" onchange="changeStorePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
+      </div>
+      <div id="storeTableContainer"></div>
+      <div class="pagination" style="display:flex;justify-content:center;padding:12px 0">
         <div class="pagination-pages" id="storePageButtons"></div>
       </div>
     </div><!-- /storeSection -->
@@ -514,6 +520,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=7"></script>
-<script src="js/payment-management.js?v=41"></script>
+<script src="js/payment-management.js?v=42"></script>
 </body>
 </html>
