@@ -91,7 +91,7 @@ function updateScrollGradients() {
 
 function selectHall(id) {
   currentHall = id;
-  initHallSelector();
+  renderHallDetail();
   renderTable();
 }
 
@@ -104,8 +104,31 @@ function switchHallTab(tab) {
 }
 
 function renderHallDetail() {
-  // Hall detail card removed - toggle is now on tabs
   initHallSelector();
+  const section = document.getElementById('hallDetailSection');
+  if (!section) return;
+  const h = halls[currentHall];
+  if (!h) { section.innerHTML = ''; return; }
+  const tabs = [
+    { key: 'schedule', label: '維護排程', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
+    { key: 'currency', label: '幣別設定', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' },
+    { key: 'recommend', label: '推薦遊戲', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' }
+  ];
+  let tabsHtml = '<div class="hall-detail-tabs">' + tabs.map(t =>
+    '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>'
+  ).join('') + '</div>';
+  let bodyHtml = '';
+  if (hallDetailTab === 'schedule') {
+    bodyHtml = renderScheduleTab(currentHall, h);
+    bodyHtml += '<div style="margin-top:10px"><button class="btn btn-dark" onclick="openSchedModal(\'' + currentHall + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增排程</button></div>';
+  } else if (hallDetailTab === 'currency') {
+    bodyHtml = renderCurrencyTab(currentHall, h);
+  } else if (hallDetailTab === 'recommend') {
+    bodyHtml = renderRecommendHallTab(currentHall);
+  }
+  section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden">' +
+    '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB">' + h.name + ' 設定</div>' +
+    tabsHtml + '<div class="hall-tab-body">' + bodyHtml + '</div></div>';
 }
 
 function renderCurrencyTab(id, h) {
