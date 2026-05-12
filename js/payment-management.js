@@ -338,8 +338,10 @@ function renderStatusCell(status, toggleFn, disabled) {
 
 // === 共用操作按鈕元件（使用 UI.btn.icon 共用元件） ===
 function renderActionCell(type, id, disabled) {
+  var viewOnclick = "view" + type + "Modal('" + id + "')";
   var editOnclick = disabled ? '' : "open" + type + "Modal('" + id + "')";
   return '<td class="action-cell"><div class="action-inner">' +
+    UI.btn.icon('view', viewOnclick, '檢視') +
     UI.btn.icon('edit', editOnclick, '編輯') +
   '</div></td>';
 }
@@ -516,10 +518,58 @@ function saveProvider() {
 // === Modal: New/Edit Method ===
 var editingMethodId = null;
 
+function viewMethodModal(id) {
+  var m = methods.find(function(x){ return x.id === id; });
+  if (!m) return;
+  document.getElementById('methodModalTitle').textContent = '檢視支付方式';
+  document.getElementById('mmName').value = m.name;
+  var sel = document.getElementById('mmProvider');
+  sel.innerHTML = '<option value="' + m.provider + '">' + (providers.find(function(p){return p.id===m.provider;})||{}).name + '</option>';
+  sel.value = m.provider;
+  document.getElementById('mmStatus').className = 'toggle ' + m.status;
+  // 設為唯讀
+  document.getElementById('mmName').setAttribute('readonly', true);
+  sel.setAttribute('disabled', true);
+  document.querySelector('#methodModal .modal-footer').style.display = 'none';
+  document.getElementById('methodModal').classList.add('show');
+}
+
+function viewChannelModal(id) {
+  var c = channels.find(function(x){ return x.id === id; });
+  if (!c) return;
+  document.getElementById('channelModalTitle').textContent = '檢視付款通道';
+  document.getElementById('cmCode').value = c.code;
+  document.getElementById('cmName').value = c.name;
+  var selP = document.getElementById('cmProvider');
+  selP.innerHTML = '<option value="' + c.provider + '">' + (providers.find(function(p){return p.id===c.provider;})||{}).name + '</option>';
+  selP.value = c.provider;
+  var selM = document.getElementById('cmMethod');
+  selM.innerHTML = '<option value="' + c.method + '">' + c.method + '</option>';
+  selM.value = c.method;
+  document.getElementById('cmStatus').className = 'toggle ' + c.status;
+  channelAmountValues = (c.values || []).slice();
+  renderChannelAmountTable();
+  // 設為唯讀
+  document.getElementById('cmCode').setAttribute('readonly', true);
+  document.getElementById('cmName').setAttribute('readonly', true);
+  selP.setAttribute('disabled', true);
+  selM.setAttribute('disabled', true);
+  document.querySelector('#channelModal .modal-footer').style.display = 'none';
+  document.getElementById('channelModal').classList.add('show');
+}
+
+function viewStoreEditModal(id) {
+  openStoreEditModal(id);
+}
+
 function openMethodModal(id) {
   editingMethodId = id || null;
   var title = id ? '編輯支付方式' : '新增支付方式';
   document.getElementById('methodModalTitle').textContent = title;
+  // 恢復可編輯
+  document.getElementById('mmName').removeAttribute('readonly');
+  document.getElementById('mmProvider').removeAttribute('disabled');
+  document.querySelector('#methodModal .modal-footer').style.display = '';
   // Populate provider dropdown
   var sel = document.getElementById('mmProvider');
   sel.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
@@ -591,6 +641,12 @@ function openChannelModal(id) {
   channelAmountValues = [];
   var title = id ? '編輯付款通道' : '新增付款通道';
   document.getElementById('channelModalTitle').textContent = title;
+  // 恢復可編輯
+  document.getElementById('cmCode').removeAttribute('readonly');
+  document.getElementById('cmName').removeAttribute('readonly');
+  document.getElementById('cmProvider').removeAttribute('disabled');
+  document.getElementById('cmMethod').removeAttribute('disabled');
+  document.querySelector('#channelModal .modal-footer').style.display = '';
   var selP = document.getElementById('cmProvider');
   selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
   var selM = document.getElementById('cmMethod');
