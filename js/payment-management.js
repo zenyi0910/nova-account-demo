@@ -339,10 +339,8 @@ function renderStatusCell(status, toggleFn, disabled) {
 // === 共用操作按鈕元件（使用 UI.btn.icon 共用元件） ===
 function renderActionCell(type, id, disabled) {
   var editOnclick = disabled ? '' : "open" + type + "Modal('" + id + "')";
-  var deleteOnclick = disabled ? '' : "delete" + type + "('" + id + "')";
   return '<td class="action-cell"><div class="action-inner">' +
     UI.btn.icon('edit', editOnclick, '編輯') +
-    UI.btn.icon('delete', deleteOnclick, '刪除') +
   '</div></td>';
 }
 
