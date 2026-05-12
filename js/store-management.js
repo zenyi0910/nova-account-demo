@@ -38,9 +38,9 @@ function renderStoreTable() {
         <td class="vip-cell">${renderVipBadges(r.vip)}</td>
         <td class="actions">
           <div class="actions-wrap">
+          ${UI.btn.icon('view', 'openStoreEditModal('+r.id+')', '檢視')}
           ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}
-          ${UI.btn.icon('view', 'openStoreEditModal('+r.id+')', '檢視')}
           </div>
         </td>
       </tr>`;
@@ -59,6 +59,7 @@ function renderStoreTable() {
         <td class="actions">
           <div class="actions-wrap">
           ${UI.btn.icon('view', 'openStoreEditModal('+r.id+')', '檢視')}
+          ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}
           </div>
         </td>
