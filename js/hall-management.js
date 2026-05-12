@@ -720,6 +720,7 @@ function openSchedModal(id) {
   document.getElementById('sHall').value = id;
   document.getElementById('sAction').value = 'off';
   document.getElementById('sNote').value = '';
+  document.getElementById('schedModalTitle').textContent = halls[id].name + ' — 新增維護排程';
   const dp = document.getElementById('schedDatePicker');
   if (dp && dp._dpInstance) { dp._dpInstance.reset(); }
   else if (dp && window.NovaDatePicker) { NovaDatePicker.init(dp); }
