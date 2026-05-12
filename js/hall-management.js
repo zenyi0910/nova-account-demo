@@ -723,10 +723,10 @@ function confirmToggle() {
 
 // === Schedule ===
 function openSchedModal(id) {
-  document.getElementById('sHall').value = id;
+  document.getElementById('sHall').value = id || '';
   document.getElementById('sAction').value = 'off';
   document.getElementById('sNote').value = '';
-  document.getElementById('schedModalTitle').textContent = halls[id].name + ' — 新增維護排程';
+  document.getElementById('schedModalTitle').textContent = '新增維護排程';
   const dp = document.getElementById('schedDatePicker');
   if (dp && dp._dpInstance) { dp._dpInstance.reset(); }
   else if (dp && window.NovaDatePicker) { NovaDatePicker.init(dp); }
@@ -735,6 +735,7 @@ function openSchedModal(id) {
 
 function addSchedule() {
   const id = document.getElementById('sHall').value;
+  if (!id) { showToast('請選擇娛樂城', 'error'); return; }
   const action = document.getElementById('sAction').value;
   const dp = document.getElementById('schedDatePicker');
   const inst = dp && dp._dpInstance;
