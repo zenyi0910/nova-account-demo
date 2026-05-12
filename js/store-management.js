@@ -214,7 +214,7 @@ function renderGmAmountTable() {
     var bonus = v.bonusPct || 0;
     var bonusPts = v.bonusPts || 0;
     var actual = pts + bonusPts;
-    return '<tr><td>' + (i+1) + '</td><td>' + v.amount + '</td><td>' + pts + '</td><td>' + bonus + '</td><td>' + bonusPts + '</td><td>' + actual + '</td><td><button class="btn-sm-delete" onclick="removeGmAmountRow(' + i + ')">刪除</button></td></tr>';
+    return '<tr><td>' + (i+1) + '</td><td>' + v.amount + '</td><td>' + pts + '</td><td>' + bonus + '</td><td>' + bonusPts + '</td><td>' + actual + '</td></tr>';
   }).join('');
   var countEl = document.getElementById('gmAmountCount');
   if (countEl) countEl.textContent = gmAmountValues.length;

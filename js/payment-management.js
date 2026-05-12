@@ -184,7 +184,14 @@ function resetStoreFilter() {
 // === Provider Cards ===
 function renderProviders() {
   const grid = document.getElementById('providerGrid');
-  grid.innerHTML = providers.map(function(p) {
+  const nameFilter = (document.getElementById('providerSearchName') || {}).value || '';
+  const statusFilter = (document.getElementById('providerFilterStatus') || {}).value || '';
+  const filtered = providers.filter(function(p) {
+    if (nameFilter && p.name.indexOf(nameFilter) === -1 && p.code.indexOf(nameFilter) === -1) return false;
+    if (statusFilter && p.status !== statusFilter) return false;
+    return true;
+  });
+  grid.innerHTML = filtered.map(function(p) {
     const methodCount = methods.filter(function(m){ return m.provider === p.id; }).length;
     const channelCount = channels.filter(function(c){ return c.provider === p.id; }).length;
     const isActive = p.id === currentProvider;
@@ -201,6 +208,13 @@ function renderProviders() {
       '<div class="provider-status"><span class="status-badge ' + statusCls + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div>' +
     '</div>';
   }).join('');
+}
+
+function filterProviders() { renderProviders(); }
+function resetProviderFilter() {
+  document.getElementById('providerSearchName').value = '';
+  document.getElementById('providerFilterStatus').value = '';
+  renderProviders();
 }
 
 function selectProvider(id) {

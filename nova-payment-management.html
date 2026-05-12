@@ -268,10 +268,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <!-- Payment Section -->
     <div id="paymentSection" style="overflow:hidden">
     <!-- Provider Cards -->
-    <div style="display:flex;align-items:center;margin-bottom:12px;margin-top:16px">
+    <div style="display:flex;align-items:center;margin-bottom:8px;margin-top:16px">
       <span style="font-size:13px;font-weight:600;color:#374151">供應商列表</span>
       <span style="flex:1"></span>
       <span id="providerAddBtn"></span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+      <input type="text" id="providerSearchName" placeholder="搜尋名稱..." style="font-size:12px;padding:5px 10px;border:1px solid #D1D5DB;border-radius:6px;width:120px">
+      <select id="providerFilterStatus" style="font-size:12px;padding:5px 8px;border:1px solid #D1D5DB;border-radius:6px">
+        <option value="">全部狀態</option>
+        <option value="on">啟用</option>
+        <option value="off">停用</option>
+      </select>
+      <button class="btn btn-search" onclick="filterProviders()" style="padding:5px 12px;font-size:12px">搜尋</button>
+      <button class="btn btn-outline" onclick="resetProviderFilter()" style="padding:5px 12px;font-size:12px">重置</button>
     </div>
     <div class="provider-grid" id="providerGrid"></div>
 
