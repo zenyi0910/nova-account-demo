@@ -507,14 +507,10 @@ function renderTable() {
     if (vipAdv && g.vip !== vipAdv) return false;
     return true;
   });
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  if (currentPage > totalPages) currentPage = totalPages;
-  const start = (currentPage - 1) * pageSize;
-  const paged = filtered.slice(start, start + pageSize);
-  document.getElementById('gameCount').textContent = '第 ' + currentPage + ' 頁，共 ' + filtered.length + ' 筆資料';
+  document.getElementById('gameCount').textContent = '總共 ' + filtered.length + ' 筆資料';
   const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = paged.map((g, idx) => {
-    const globalIdx = start + idx;
+  tbody.innerHTML = filtered.map((g, idx) => {
+    const globalIdx = idx;
     const tagDisplay = g.tag === '-' ? '<span style="color:#9CA3AF">-</span>' : '<span>' + g.tag + '</span>';
     const dragHandle = sortMode ? '<td class="sort-handle-cell" style="cursor:grab;color:#9CA3AF">' + UI.icon.drag + '</td>' : '';
     const sortNum = sortMode ? '<td class="sort-num">' + (globalIdx + 1) + '</td>' : '<td>' + (globalIdx + 1) + '</td>';
@@ -534,8 +530,9 @@ function renderTable() {
       '<td class="note-cell">' + (g.note || '') + '</td>' +
       '</tr>';
   }).join('');
-  // Pagination bar
-  renderPagination(totalPages);
+  // Pagination bar removed — show all
+  var pBar = document.getElementById('paginationBar');
+  if (pBar) pBar.innerHTML = '';
   // Update table header for sort mode
   const thead = document.querySelector('.data-table thead tr');
   if (sortMode) {
@@ -591,7 +588,15 @@ function switchCurrTab(tab) {
   renderTable();
 }
 
-function filterGames() { renderTable(); }
+function filterGames() {
+  // 有搜尋條件時隱藏排序按鈕
+  var hasFilter = document.getElementById('filterName').value || document.getElementById('filterStatus').value || gameCat ||
+    (document.getElementById('filterHallAdv') && document.getElementById('filterHallAdv').value) ||
+    (document.getElementById('filterTagAdv') && document.getElementById('filterTagAdv').value) ||
+    (document.getElementById('filterVipAdv') && document.getElementById('filterVipAdv').value);
+  document.getElementById('sortModeBtn').style.display = hasFilter ? 'none' : '';
+  renderTable();
+}
 
 function switchGameCurrency(curr) {
   gameCurrency = curr;
@@ -638,6 +643,8 @@ function resetFilters() {
   if (hallAdvEl) hallAdvEl.value = '';
   if (tagAdvEl) tagAdvEl.value = '';
   if (vipAdvEl) vipAdvEl.value = '';
+  // 重置後恢復排序按鈕
+  document.getElementById('sortModeBtn').style.display = '';
   renderTable();
 }
 
