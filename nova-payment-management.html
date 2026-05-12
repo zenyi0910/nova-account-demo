@@ -279,14 +279,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span style="flex:1"></span>
       <span id="providerAddBtn"></span>
     </div>
-    <div class="filter-bar" style="margin-bottom:12px;position:relative;padding-top:18px">
-      <span style="font-size:11px;color:#6B7280;position:absolute;top:0;left:0">搜尋供應商</span>
-      <input type="text" id="providerSearchName" placeholder="搜尋名稱...">
-      <select id="providerFilterStatus">
-        <option value="">全部狀態</option>
-        <option value="on">啟用</option>
-        <option value="off">停用</option>
-      </select>
+    <div class="filter-bar" style="margin-bottom:12px;display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">供應商名稱</span>
+        <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="providerSearchName" placeholder="搜尋供應商" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
+        <select id="providerFilterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
+          <option value="">選擇啟用狀態</option>
+          <option value="on">啟用</option>
+          <option value="off">停用</option>
+        </select>
+      </div>
       <span style="flex:1"></span>
       <button class="btn-search" onclick="filterProviders()">搜尋</button>
       <button class="btn-reset" onclick="resetProviderFilter()">重置</button>
