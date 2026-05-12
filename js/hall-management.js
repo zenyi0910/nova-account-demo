@@ -186,13 +186,17 @@ function renderScheduleTab(id, h) {
   if (activeScheds.length <= 1 && expiredScheds.length === 0) {
     return '<div class="sched-tab-content">' + renderItems(activeScheds) + '</div>';
   }
-  // Collapsed view: first item + clipped second
+  // Collapsed view: first item + gradient-masked second item with "更多" overlay
   collapsed += renderItems(activeScheds.slice(0, 1));
   if (activeScheds.length > 1) {
-    collapsed += '<div style="max-height:22px;overflow:hidden;opacity:0.5">' + renderItems(activeScheds.slice(1, 2)) + '</div>';
+    collapsed += '<div style="position:relative;max-height:36px;overflow:hidden">' +
+      '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8) 50%,rgba(255,255,255,1));z-index:1;display:flex;align-items:center;justify-content:center">' +
+      '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>' +
+      renderItems(activeScheds.slice(1, 2)) + '</div>';
+  } else {
+    collapsed += '<div style="text-align:center;margin-top:6px">' +
+      '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>';
   }
-  collapsed += '<div style="text-align:center;margin-top:6px">' +
-    '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>';
   // Expanded view: all active + expired toggle
   expanded += renderItems(activeScheds);
   if (expiredScheds.length > 0) {
