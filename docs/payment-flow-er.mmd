@@ -1,0 +1,63 @@
+erDiagram
+    SUPPLIER ||--o{ PAYMENT_METHOD : has
+    SUPPLIER ||--o{ SCHEDULE : has
+    PAYMENT_METHOD ||--o{ CHANNEL : has
+    CHANNEL ||--o{ STORE_ITEM : referenced_by
+    CHANNEL ||--|| AMOUNT_TABLE : contains
+    
+    SUPPLIER {
+        string id PK
+        string name
+        string code
+        string logo
+        string status
+    }
+    
+    PAYMENT_METHOD {
+        string id PK
+        string name
+        string supplier FK
+        string logo
+        string status
+    }
+    
+    CHANNEL {
+        string id PK
+        string name
+        string supplier FK
+        string paymentMethod FK
+        string code
+        string logo
+        array amounts
+        string status
+    }
+    
+    AMOUNT_TABLE {
+        int amount
+        int basePoints
+        int bonusRate
+        int bonusPoints
+        int totalPoints
+    }
+    
+    STORE_ITEM {
+        string id PK
+        string name
+        string description
+        array vipLevels
+        string supplier FK
+        string paymentMethod FK
+        string channel FK
+        array amounts
+        string status
+    }
+    
+    SCHEDULE {
+        string id PK
+        string supplier FK
+        datetime start
+        datetime end
+        string content
+        string remark
+        string operator
+    }
