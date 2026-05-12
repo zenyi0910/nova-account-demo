@@ -36,19 +36,8 @@ function fmtDT(dt) {
 
 function renderMaintenance() {
   const container = document.getElementById('maintContent');
-
-  const historyBtn = showHistory
-    ? `<button class="btn-outline" onclick="toggleHistory()" style="font-size:13px;padding:6px 14px">← 返回</button>`
-    : `<button class="btn-add" onclick="toggleHistory()">${UI.icon.clock} <span style="vertical-align:middle">操作紀錄</span></button>`;
-
-  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">${historyBtn}</div>`;
-
-  if (showHistory) {
-    html += renderHistoryTable();
-  } else {
-    html += renderScheduleList();
-  }
-
+  let html = renderScheduleList();
+  html += `<div style="margin-top:24px">${renderHistoryTable()}</div>`;
   container.innerHTML = html;
 }
 
@@ -141,9 +130,6 @@ function clearAllMaintSched() {
 
 function renderHistoryTable() {
   const items = maintHistory;
-  if (items.length === 0) {
-    return `<div style="text-align:center;padding:40px;color:#9CA3AF;background:#fff;border:1px solid #E5E7EB;border-radius:10px">尚無歷史紀錄</div>`;
-  }
   const columns = [
     { label: '範圍', width: '60px' },
     { label: '開始時間', width: '160px' },
@@ -164,7 +150,9 @@ function renderHistoryTable() {
       `<span class="status-badge status-online">已完成</span>`
     ]
   }));
-  return UI.table.create(columns, rows);
+  let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">操作紀錄</span></div>`;
+  html += UI.table.create(columns, rows);
+  return html;
 }
 
 function openMaintSchedModal() {
