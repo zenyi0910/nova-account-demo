@@ -273,15 +273,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span style="flex:1"></span>
       <span id="providerAddBtn"></span>
     </div>
-    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
-      <input type="text" id="providerSearchName" placeholder="搜尋名稱..." style="font-size:12px;padding:5px 10px;border:1px solid #D1D5DB;border-radius:6px;width:120px">
-      <select id="providerFilterStatus" style="font-size:12px;padding:5px 8px;border:1px solid #D1D5DB;border-radius:6px">
+    <div class="filter-bar" style="margin-bottom:12px">
+      <input type="text" id="providerSearchName" placeholder="搜尋名稱...">
+      <select id="providerFilterStatus">
         <option value="">全部狀態</option>
         <option value="on">啟用</option>
         <option value="off">停用</option>
       </select>
-      <button class="btn btn-search" onclick="filterProviders()" style="padding:5px 12px;font-size:12px">搜尋</button>
-      <button class="btn btn-outline" onclick="resetProviderFilter()" style="padding:5px 12px;font-size:12px">重置</button>
+      <span style="flex:1"></span>
+      <button class="btn-search" onclick="filterProviders()">搜尋</button>
+      <button class="btn-reset" onclick="resetProviderFilter()">重置</button>
     </div>
     <div class="provider-grid" id="providerGrid"></div>
 
@@ -330,6 +331,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <div class="filter-bar">
           <input type="text" placeholder="搜尋名稱..." id="filterName" style="width:160px">
           <select id="filterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
+          <span style="flex:1"></span>
           <button class="btn-search" onclick="applyFilter()">搜尋</button>
           <button class="btn-reset" onclick="resetFilter()">重置</button>
         </div>
@@ -358,6 +360,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <input type="text" placeholder="搜尋名稱..." id="storeFilterName" style="width:160px">
         <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
         <select id="storeFilterType"><option value="">全部類型</option><option value="一般">一般</option><option value="快速">快速</option></select>
+        <span style="flex:1"></span>
         <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
         <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
       </div>
@@ -534,6 +537,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=7"></script>
-<script src="js/payment-management.js?v=43"></script>
+<script src="js/payment-management.js?v=44"></script>
 </body>
 </html>

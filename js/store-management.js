@@ -103,8 +103,10 @@ function switchTab(tab) {
 function changeStorePageSize(v) { storePageSize = +v; storePage = 1; renderStoreTable(); }
 
 function applyStoreFilter() {
+  const name = (document.getElementById('storeFilterName')?.value || '').trim().toLowerCase();
   const status = document.getElementById('storeFilterStatus').value;
   storeFiltered = storeData.filter(r => {
+    if (name && !r.name.toLowerCase().includes(name)) return false;
     if (status && r.status !== status) return false;
     return true;
   });
@@ -113,6 +115,8 @@ function applyStoreFilter() {
 }
 
 function resetStoreFilter() {
+  const nameEl = document.getElementById('storeFilterName');
+  if (nameEl) nameEl.value = '';
   document.getElementById('storeFilterStatus').value = '';
   storeFiltered = [...storeData];
   storePage = 1;

@@ -295,8 +295,9 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
       <span><b>Tips</b> 該功能僅支援金幣類型。</span>
     </div>
     <div class="filter-bar">
-      <label style="font-size:13px;color:#374151;margin-right:8px">啟用狀態</label>
-      <select id="storeFilterStatus"><option value="">選擇啟用狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
+      <input type="text" placeholder="搜尋名稱..." id="storeFilterName">
+      <select id="storeFilterStatus"><option value="">全部狀態</option><option value="on">啟用</option><option value="off">停用</option></select>
+      <span style="flex:1"></span>
       <button class="btn-search" onclick="applyStoreFilter()">搜尋</button>
       <button class="btn-reset" onclick="resetStoreFilter()">重置</button>
     </div>
@@ -382,6 +383,6 @@ td.actions .actions-wrap{display:flex;align-items:center;gap:4px}
 </div>
 
 <script src="js/components.js?v=10"></script>
-<script src="js/store-management.js?v=17"></script>
+<script src="js/store-management.js?v=18"></script>
 </body>
 </html>
