@@ -550,41 +550,7 @@ function renderTable() {
 }
 
 function renderPagination(totalPages) {
-  const bar = document.getElementById('paginationBar');
-  if (!bar || totalPages <= 1) { if (bar) bar.innerHTML = ''; return; }
-  const nameF = document.getElementById('filterName').value.toLowerCase();
-  const statusF = document.getElementById('filterStatus').value;
-  const hallAdvEl = document.getElementById('filterHallAdv');
-  const tagAdvEl = document.getElementById('filterTagAdv');
-  const vipAdvEl = document.getElementById('filterVipAdv');
-  const hallAdv = hallAdvEl ? hallAdvEl.value : '';
-  const tagAdv = tagAdvEl ? tagAdvEl.value : '';
-  const vipAdv = vipAdvEl ? vipAdvEl.value : '';
-  const total = games.filter(g => {
-    if (nameF && !g.name.toLowerCase().includes(nameF)) return false;
-    if (statusF && g.status !== statusF) return false;
-    if (gameCat && g.cat !== gameCat) return false;
-    if (hallAdv && g.hall !== hallAdv) return false;
-    if (tagAdv && g.tag !== tagAdv) return false;
-    if (vipAdv && g.vip !== vipAdv) return false;
-    return true;
-  }).length;
-  const start = (currentPage - 1) * pageSize + 1;
-  const end = Math.min(currentPage * pageSize, total);
-  let pages = '';
-  pages += '<button' + (currentPage === 1 ? ' disabled' : '') + ' onclick="goToPage(' + Math.max(1, currentPage - 1) + ')">&lsaquo;</button>';
-  const maxVisible = 7;
-  let startP = Math.max(1, currentPage - 3);
-  let endP = Math.min(totalPages, startP + maxVisible - 1);
-  if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
-  if (startP > 1) { pages += '<button onclick="goToPage(1)">1</button>'; if (startP > 2) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; }
-  for (let i = startP; i <= endP; i++) {
-    pages += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
-  }
-  if (endP < totalPages) { if (endP < totalPages - 1) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; pages += '<button onclick="goToPage(' + totalPages + ')">' + totalPages + '</button>'; }
-  pages += '<button' + (currentPage === totalPages ? ' disabled' : '') + ' onclick="goToPage(' + Math.min(totalPages, currentPage + 1) + ')">&rsaquo;</button>';
-  bar.innerHTML = '<span>顯示 ' + start + '-' + end + ' 筆，共 ' + total + ' 筆</span><div class="pagination-pages">' + pages + '</div>';
-  bar.className = 'pagination-footer';
+  UI.pagination({ containerId: 'paginationBar', currentPage: currentPage, totalPages: totalPages, onPageChange: 'goToPage' });
 }
 
 function toggleMoreMenu(event, gameId) {

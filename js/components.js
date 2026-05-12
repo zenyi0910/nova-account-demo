@@ -259,3 +259,39 @@ function toggleExpand(btn) {
   modal.classList.toggle('expanded');
   btn.textContent = modal.classList.contains('expanded') ? '⤡' : '⤢';
 }
+
+/**
+ * 共用分頁元件：左側 pageJump dropdown + 右側 < 1 2 3 > 按鈕
+ * @param {object} opts - { containerId, currentPage, totalPages, onPageChange }
+ *   onPageChange: 字串，如 'goToPage' 或 'goStorePage'
+ */
+UI.pagination = function(opts) {
+  const { containerId, currentPage, totalPages, onPageChange } = opts;
+  const bar = document.getElementById(containerId);
+  if (!bar) return;
+  if (totalPages <= 1) { bar.innerHTML = ''; return; }
+  // pageJump dropdown
+  let jumpOpts = '';
+  for (let i = 1; i <= totalPages; i++) {
+    jumpOpts += '<option value="' + i + '"' + (i === currentPage ? ' selected' : '') + '>第' + i + '頁</option>';
+  }
+  const jumpHtml = '<select onchange="' + onPageChange + '(parseInt(this.value))" style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px">' + jumpOpts + '</select>';
+  // page buttons
+  let pages = '';
+  pages += '<button class="page-arrow"' + (currentPage === 1 ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.max(1, currentPage - 1) + ')">&lt;</button>';
+  const maxVisible = 7;
+  let startP = Math.max(1, currentPage - 3);
+  let endP = Math.min(totalPages, startP + maxVisible - 1);
+  if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
+  if (startP > 1) { pages += '<button onclick="' + onPageChange + '(1)">1</button>'; if (startP > 2) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; }
+  for (let i = startP; i <= endP; i++) {
+    pages += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="' + onPageChange + '(' + i + ')">' + i + '</button>';
+  }
+  if (endP < totalPages) { if (endP < totalPages - 1) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; pages += '<button onclick="' + onPageChange + '(' + totalPages + ')">' + totalPages + '</button>'; }
+  pages += '<button class="page-arrow"' + (currentPage === totalPages ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.min(totalPages, currentPage + 1) + ')">&gt;</button>';
+  bar.innerHTML = jumpHtml + '<div class="pagination-pages">' + pages + '</div>';
+  bar.style.display = 'flex';
+  bar.style.justifyContent = 'space-between';
+  bar.style.alignItems = 'center';
+  bar.style.padding = '12px 0';
+};
