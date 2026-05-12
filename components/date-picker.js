@@ -216,6 +216,8 @@
     });
 
     panel.addEventListener('click',ev=>ev.stopPropagation());
+    // Expose instance on DOM element
+    wrap._dpInstance = { get startDate(){ return rs ? fmt(rs)+' '+String(shWheel.get()).padStart(2,'0')+':'+String(smWheel.get()).padStart(2,'0') : ''; }, get endDate(){ return re ? fmt(re)+' '+String(ehWheel.get()).padStart(2,'0')+':'+String(emWheel.get()).padStart(2,'0') : ''; }, reset(){ rs=null;re=null;display.textContent='選擇日期範圍'; } };
   }
 
   document.addEventListener('click',()=>{

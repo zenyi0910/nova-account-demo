@@ -113,7 +113,10 @@ function renderHallDetail() {
   section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden">' +
     '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">' +
       '<span>' + h.name + ' — 維護排程</span>' +
-      '<button class="btn-icon-action edit" onclick="openSchedModal(\'' + currentHall + '\')" title="新增排程"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>' +
+      '<div style="display:flex;align-items:center;gap:6px">' +
+        '<button class="btn-icon-action edit" onclick="openSchedModal(\'' + currentHall + '\')" title="新增排程"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>' +
+        '<button class="btn-icon-action" onclick="confirmDelAllSched(\'' + currentHall + '\')" title="清除所有排程" style="color:#DC2626"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+      '</div>' +
     '</div>' +
     '<div style="padding:12px 16px">' + schedHtml + '</div></div>';
 }
@@ -692,12 +695,14 @@ function requestToggle(id) {
   document.getElementById('toggleConfirm').classList.add('show');
 }
 
-// 清除全部排程
-function delAllSched(id) {
+// 清除全部排程（含確認）
+function confirmDelAllSched(id) {
   if (halls[id].schedules.length === 0) { showToast('無排程可清除', 'warning'); return; }
-  halls[id].schedules = [];
-  renderHallDetail();
-  showToast('已清除所有排程', 'success');
+  if (confirm('確定清除所有排程？')) {
+    halls[id].schedules = [];
+    renderHallDetail();
+    showToast('已清除所有排程', 'success');
+  }
 }
 
 function confirmToggle() {
@@ -714,19 +719,22 @@ function confirmToggle() {
 function openSchedModal(id) {
   document.getElementById('sHall').value = id;
   document.getElementById('sAction').value = 'off';
-  document.getElementById('sStart').value = '';
-  document.getElementById('sEnd').value = '';
   document.getElementById('sNote').value = '';
+  const dp = document.getElementById('schedDatePicker');
+  if (dp && dp._dpInstance) { dp._dpInstance.reset(); }
+  else if (dp && window.NovaDatePicker) { NovaDatePicker.init(dp); }
   document.getElementById('schedModal').classList.add('show');
 }
 
 function addSchedule() {
   const id = document.getElementById('sHall').value;
   const action = document.getElementById('sAction').value;
-  const start = document.getElementById('sStart').value;
-  const end = document.getElementById('sEnd').value;
+  const dp = document.getElementById('schedDatePicker');
+  const inst = dp && dp._dpInstance;
+  const start = inst && inst.startDate ? inst.startDate : '';
+  const end = inst && inst.endDate ? inst.endDate : '';
+  if (!start) { showToast('請選擇維護時間', 'error'); return; }
   const note = document.getElementById('sNote').value;
-  if (!start) { showToast('請選擇開始時間', 'error'); return; }
   halls[id].schedules.push({ action, start, end, note });
   closeModal('schedModal');
   renderHallDetail();
