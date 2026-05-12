@@ -38,10 +38,10 @@ function renderMaintenance() {
   const container = document.getElementById('maintContent');
 
   const historyBtn = showHistory
-    ? `<button class="btn-outline" onclick="toggleHistory()" style="margin-left:auto;font-size:13px;padding:6px 14px">← 返回</button>`
-    : `<button class="btn-add" onclick="toggleHistory()" style="margin-left:auto">${UI.icon.clock} <span style="vertical-align:middle">操作紀錄</span></button>`;
+    ? `<button class="btn-outline" onclick="toggleHistory()" style="font-size:13px;padding:6px 14px">← 返回</button>`
+    : `<button class="btn-add" onclick="toggleHistory()">${UI.icon.clock} <span style="vertical-align:middle">操作紀錄</span></button>`;
 
-  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">${historyBtn}</div>`;
+  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">${historyBtn}</div>`;
 
   if (showHistory) {
     html += renderHistoryTable();
