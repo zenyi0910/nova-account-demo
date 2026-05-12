@@ -514,8 +514,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- 排程 Modal -->
+<div class="modal-overlay" id="schedModal">
+  <div class="modal-box" style="width:400px">
+    <div class="modal-header"><h3>新增維護排程</h3><button class="close" onclick="closeModal('schedModal')">&times;</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="sHall">
+      <div class="form-group"><label>動作</label>
+        <select id="sAction" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
+          <option value="off">關閉（停用）</option>
+          <option value="on">開啟（啟用）</option>
+        </select>
+      </div>
+      <div class="form-group"><label>開始時間</label>
+        <input type="datetime-local" id="sStart" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
+      </div>
+      <div class="form-group"><label>結束時間</label>
+        <input type="datetime-local" id="sEnd" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
+      </div>
+      <div class="form-group"><label>備註</label>
+        <input type="text" id="sNote" placeholder="例：例行維護" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('schedModal')">取消</button>
+      <button class="btn btn-dark" onclick="addSchedule()">確認新增</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/components.js?v=11"></script>
-<script src="js/hall-management.js?v=25"></script>
+<script src="js/hall-management.js?v=26"></script>
 <script src="js/hall-management-additions.js?v=17"></script>
 </body>
 </html>

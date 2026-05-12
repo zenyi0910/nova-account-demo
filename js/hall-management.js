@@ -109,26 +109,13 @@ function renderHallDetail() {
   if (!section) return;
   const h = halls[currentHall];
   if (!h) { section.innerHTML = ''; return; }
-  const tabs = [
-    { key: 'schedule', label: '維護排程', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' },
-    { key: 'currency', label: '幣別設定', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M8 10h8M9 14h6"/></svg>' },
-    { key: 'recommend', label: '推薦遊戲', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' }
-  ];
-  let tabsHtml = '<div class="hall-detail-tabs">' + tabs.map(t =>
-    '<button class="hall-detail-tab' + (hallDetailTab === t.key ? ' active' : '') + '" onclick="switchHallTab(\'' + t.key + '\')">' + t.icon + ' ' + t.label + '</button>'
-  ).join('') + '</div>';
-  let bodyHtml = '';
-  if (hallDetailTab === 'schedule') {
-    bodyHtml = renderScheduleTab(currentHall, h);
-    bodyHtml += '<div style="margin-top:10px"><button class="btn btn-dark" onclick="openSchedModal(\'' + currentHall + '\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> 新增排程</button></div>';
-  } else if (hallDetailTab === 'currency') {
-    bodyHtml = renderCurrencyTab(currentHall, h);
-  } else if (hallDetailTab === 'recommend') {
-    bodyHtml = renderRecommendHallTab(currentHall);
-  }
+  let schedHtml = renderScheduleTab(currentHall, h);
   section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden">' +
-    '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB">' + h.name + ' 設定</div>' +
-    tabsHtml + '<div class="hall-tab-body">' + bodyHtml + '</div></div>';
+    '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">' +
+      '<span>' + h.name + ' — 維護排程</span>' +
+      '<button class="btn-icon-action edit" onclick="openSchedModal(\'' + currentHall + '\')" title="新增排程"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>' +
+    '</div>' +
+    '<div style="padding:12px 16px">' + schedHtml + '</div></div>';
 }
 
 function renderCurrencyTab(id, h) {
@@ -725,55 +712,22 @@ function confirmToggle() {
 
 // === Schedule ===
 function openSchedModal(id) {
-  var hall = halls[id];
-  document.getElementById('sHall').value = hall ? hall.name + ' 娛樂城' : id;
-  document.getElementById('sHall').dataset.hallId = id;
-  document.getElementById('sDate').value = '';
+  document.getElementById('sHall').value = id;
+  document.getElementById('sAction').value = 'off';
   document.getElementById('sStart').value = '';
   document.getElementById('sEnd').value = '';
   document.getElementById('sNote').value = '';
-  document.getElementById('sRepeat').value = 'once';
-  toggleRepeatOptions();
   document.getElementById('schedModal').classList.add('show');
 }
 
-function toggleRepeatOptions() {
-  const repeat = document.getElementById('sRepeat').value;
-  document.getElementById('repeatWeekly').style.display = repeat === 'weekly' ? 'block' : 'none';
-  document.getElementById('repeatMonthly').style.display = repeat === 'monthly' ? 'block' : 'none';
-  document.getElementById('schedTimeOnce').style.display = repeat === 'once' ? 'flex' : 'none';
-  document.getElementById('schedTimeRepeat').style.display = repeat !== 'once' ? 'flex' : 'none';
-}
-
 function addSchedule() {
-  const id = document.getElementById('sHall').dataset.hallId || document.getElementById('sHall').value;
+  const id = document.getElementById('sHall').value;
   const action = document.getElementById('sAction').value;
+  const start = document.getElementById('sStart').value;
+  const end = document.getElementById('sEnd').value;
   const note = document.getElementById('sNote').value;
-  const repeat = document.getElementById('sRepeat').value;
-  
-  let start, end, repeatText = '';
-  
-  if (repeat === 'once') {
-    start = document.getElementById('sStart').value;
-    end = document.getElementById('sEnd').value;
-    if (!start) { showToast('請選擇開始時間', 'error'); return; }
-  } else {
-    start = document.getElementById('sTimeStart').value;
-    end = document.getElementById('sTimeEnd').value;
-    if (!start) { showToast('請選擇開始時間', 'error'); return; }
-    if (repeat === 'weekly') {
-      const days = Array.from(document.querySelectorAll('#repeatWeekly input:checked')).map(c => c.value);
-      if (days.length === 0) { showToast('請選擇每週幾', 'error'); return; }
-      const dayNames = {0:'日',1:'一',2:'二',3:'三',4:'四',5:'五',6:'六'};
-      repeatText = '每週' + days.map(d => dayNames[d]).join('、');
-    } else if (repeat === 'monthly') {
-      const monthDay = document.getElementById('sMonthDay').value.trim();
-      if (!monthDay) { showToast('請輸入每月幾號', 'error'); return; }
-      repeatText = '每月' + monthDay + '號';
-    }
-  }
-  
-  halls[id].schedules.push({ action, start, end, note, repeat, repeatText });
+  if (!start) { showToast('請選擇開始時間', 'error'); return; }
+  halls[id].schedules.push({ action, start, end, note });
   closeModal('schedModal');
   renderHallDetail();
   showToast('排程已新增：' + halls[id].name, 'success');
