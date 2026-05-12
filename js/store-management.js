@@ -58,7 +58,7 @@ function renderStoreTable() {
         <td><div class="toggle-wrap"><button class="toggle ${sc}" onclick="toggleStoreStatus(${r.id},this)"></button>${st}</div></td>
         <td class="actions">
           <div class="actions-wrap">
-          ${UI.btn.icon('edit', 'openStoreEditModal('+r.id+')', '編輯')}
+          ${UI.btn.icon('view', 'openStoreEditModal('+r.id+')', '檢視')}
           ${UI.btn.icon('delete', 'deleteStoreItem('+r.id+')', '刪除')}
           ${UI.btn.icon('more', '', '更多')}
           </div>
