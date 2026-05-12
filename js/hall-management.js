@@ -112,10 +112,16 @@ function renderHallDetail() {
   let schedHtml = renderScheduleTab(currentHall, h);
   section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden">' +
     '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">' +
-      '<span>' + h.name + ' — 維護排程</span>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
+        '<span>維護排程</span>' +
+      '</div>' +
       '<div style="display:flex;align-items:center;gap:6px">' +
-        '<button class="btn-icon-action edit" onclick="openSchedModal(\'' + currentHall + '\')" title="新增排程"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>' +
-        '<button class="btn-icon-action" onclick="confirmDelAllSched(\'' + currentHall + '\')" title="清除所有排程" style="color:#DC2626"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+        '<button class="btn-add" onclick="openSchedModal(\'' + currentHall + '\')" style="background:oklch(0.777 0.152 181.912);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>' +
+          '<span>新增排程</span>' +
+        '</button>' +
+        '<button class="btn-del" onclick="confirmDelAllSched(\'' + currentHall + '\')" title="清除所有排程" style="color:#EF4444;background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
       '</div>' +
     '</div>' +
     '<div style="padding:12px 16px">' + schedHtml + '</div></div>';
