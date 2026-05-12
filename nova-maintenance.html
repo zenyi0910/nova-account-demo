@@ -42,15 +42,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
 
-/* Form */
-.maint-form{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:24px}
+/* Schedule list */
+.sched-section{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:20px}
+.sched-list{display:flex;flex-direction:column;gap:8px}
+.sched-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px;font-size:13px}
+.sched-item svg{color:#6B7280;flex-shrink:0}
+.sched-item .time{color:#374151;font-weight:500;white-space:nowrap}
+.sched-item .note{color:#6B7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sched-item .spacer{flex:1}
+.sched-item .del-btn{background:none;border:none;cursor:pointer;color:#9CA3AF;padding:4px;border-radius:4px}
+.sched-item .del-btn:hover{color:#DC2626;background:#FEE2E2}
+
+/* Form (modal) */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .form-group{display:flex;flex-direction:column;gap:6px}
 .form-group label{font-size:13px;font-weight:500;color:#374151}
-.form-control{border:1px solid #E5E7EB;border-radius:6px;padding:8px 12px;font-size:13px;font-family:inherit;color:#374151;outline:none;transition:border-color .15s}
+.form-control{border:1px solid #E5E7EB;border-radius:6px;padding:8px 12px;font-size:13px;font-family:inherit;color:#374151;outline:none;transition:border-color .15s;width:100%}
 .form-control:focus{border-color:#6366F1}
 textarea.form-control{resize:vertical;min-height:72px}
-select.form-control{-webkit-appearance:none;appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;padding-right:30px}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.15);overflow:hidden}
+.modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #E5E7EB}
+.modal-header h3{font-size:15px;font-weight:600;color:#111827;flex:1}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px;border-radius:4px}
+.modal-close:hover{background:#F3F4F6}
+.modal-body{padding:20px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 20px;border-top:1px solid #E5E7EB}
 
 /* Table */
 .data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
@@ -137,10 +157,37 @@ select.form-control{-webkit-appearance:none;appearance:none;background:url("data
   </div>
 </div>
 
+<!-- 新增排程 Modal -->
+<div class="modal-overlay" id="maintSchedModal">
+  <div class="modal">
+    <div class="modal-header"><h3>新增維護排程</h3><button class="modal-close" onclick="UI.modal.close('maintSchedModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>開始時間 <span style="color:#DC2626">*</span></label>
+          <div class="date-picker-wrap"><input type="text" id="schedStartDate" placeholder="選擇時間日期" readonly></div>
+        </div>
+        <div class="form-group"><label>結束時間 <span style="color:#DC2626">*</span></label>
+          <div class="date-picker-wrap"><input type="text" id="schedEndDate" placeholder="選擇時間日期" readonly></div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:16px"><label>公告內容 <span style="color:#DC2626">*</span></label>
+        <textarea class="form-control" id="schedContent" rows="3" placeholder="請輸入維護公告內容"></textarea>
+      </div>
+      <div class="form-group"><label>備註</label>
+        <input type="text" class="form-control" id="schedRemark" placeholder="請輸入備註">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="UI.modal.close('maintSchedModal')">取消</button>
+      <button class="btn btn-dark" onclick="addMaintSched()">確認新增</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <script src="js/components.js?v=11"></script>
 <script src="components/date-picker.js"></script>
-<script src="js/maintenance.js?v=1"></script>
+<script src="js/maintenance.js?v=2"></script>
 </body>
 </html>

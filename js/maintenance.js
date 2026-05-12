@@ -1,29 +1,33 @@
-// Nova 系統維護 JS
-const maintData = [
-  { id: 1, tab: '全站', startTime: '2026-05-10 02:00', endTime: '2026-05-10 04:00', type: '維護更新', url: '/systemMaintenance', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', whitelist: '', operator: 'casper', status: 'scheduled' },
-  { id: 2, tab: '全站', startTime: '2026-04-23 14:20', endTime: '2026-04-23 14:30', type: '維護更新', url: '/systemMaintenance', content: '緊急維護中，敬請見諒', remark: '測試2', whitelist: 'https://sewer.edcft.click', operator: 'casper', status: 'completed' },
-  { id: 3, tab: '全站', startTime: '2026-04-15 03:00', endTime: '2026-04-15 05:00', type: '緊急維護', url: '/systemMaintenance', content: '支付系統緊急修復', remark: '支付異常', whitelist: '', operator: 'admin', status: 'completed' },
-  { id: 4, tab: '全站', startTime: '2026-04-01 02:00', endTime: '2026-04-01 04:00', type: '維護更新', url: '/systemMaintenance', content: '系統版本升級 v2.3.1', remark: '季度更新', whitelist: '', operator: 'casper', status: 'completed' },
-  { id: 5, tab: '星幣', startTime: '2026-05-08 01:00', endTime: '2026-05-08 02:00', type: '維護更新', url: '/coinMaintenance', content: '星幣系統維護', remark: '資料庫優化', whitelist: '', operator: 'casper', status: 'scheduled' },
-  { id: 6, tab: '星幣', startTime: '2026-04-20 03:00', endTime: '2026-04-20 04:30', type: '緊急維護', url: '/coinMaintenance', content: '星幣交易異常修復', remark: '交易卡頓', whitelist: '', operator: 'admin', status: 'completed' },
-  { id: 7, tab: '星幣', startTime: '2026-03-28 02:00', endTime: '2026-03-28 03:00', type: '維護更新', url: '/coinMaintenance', content: '星幣匯率調整', remark: '例行調整', whitelist: '', operator: 'casper', status: 'completed' },
-];
+// Nova 系統維護 JS — 排程列表模式（類似三方支付維護排程）
+const maintSchedules = {
+  '全站': [
+    { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper' },
+    { id: 2, start: '2026-05-16T02:00', end: '2026-05-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper' },
+  ],
+  '星幣': [
+    { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper' },
+  ]
+};
+
+const maintHistory = {
+  '全站': [
+    { id: 101, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper' },
+    { id: 102, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin' },
+    { id: 103, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper' },
+    { id: 104, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin' },
+  ],
+  '星幣': [
+    { id: 201, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin' },
+    { id: 202, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper' },
+  ]
+};
 
 let currentMaintTab = '全站';
 let showHistory = false;
-
-function getCurrentMaint() {
-  const now = new Date();
-  const tabData = maintData.filter(r => r.tab === currentMaintTab);
-  if (showHistory) return tabData.filter(r => r.status === 'completed');
-  // 顯示最新一筆（預定或進行中）
-  const active = tabData.find(r => r.status === 'scheduled' || r.status === 'active');
-  return active ? [active] : [];
-}
+let schedIdCounter = 300;
 
 function switchMaintTab(tab) {
   currentMaintTab = tab;
-  showHistory = false;
   renderMaintenance();
 }
 
@@ -32,119 +36,120 @@ function toggleHistory() {
   renderMaintenance();
 }
 
+function fmtDT(dt) {
+  return new Date(dt).toLocaleString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
 function renderMaintenance() {
   const container = document.getElementById('maintContent');
-  // Tab buttons
   const tabs = UI.segmented([
     { label: '全站', active: currentMaintTab === '全站', onclick: "switchMaintTab('全站')" },
     { label: '星幣', active: currentMaintTab === '星幣', onclick: "switchMaintTab('星幣')" }
   ]);
 
-  const historyBtn = `<button class="btn-add" onclick="toggleHistory()" style="margin-left:auto">${showHistory ? '← 返回' : UI.icon.clock + ' 歷史紀錄'}</button>`;
+  const historyBtn = showHistory
+    ? `<button class="btn-outline" onclick="toggleHistory()" style="margin-left:auto;font-size:13px;padding:6px 14px">← 返回</button>`
+    : `<button class="btn-add" onclick="toggleHistory()" style="margin-left:auto">${UI.icon.clock} 歷史紀錄</button>`;
 
   let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">${tabs}${historyBtn}</div>`;
 
   if (showHistory) {
     html += renderHistoryTable();
   } else {
-    html += renderMaintForm();
+    html += renderScheduleList();
   }
 
   container.innerHTML = html;
-  // 初始化 date picker
-  if (!showHistory) initMaintDatePickers();
 }
 
-function renderMaintForm() {
-  const items = getCurrentMaint();
-  const item = items[0] || { startTime: '', endTime: '', type: '維護更新', url: '/systemMaintenance', content: '', remark: '', whitelist: '' };
+function renderScheduleList() {
+  const scheds = maintSchedules[currentMaintTab] || [];
+  let html = `<div class="sched-section">`;
+  html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">`;
+  html += `<span style="font-size:13px;color:#6B7280">共 ${scheds.length} 筆排程</span>`;
+  html += UI.btn.add('新增排程', 'openMaintSchedModal()', { sm: true });
+  html += `</div>`;
 
-  return `<div class="maint-form">
-    <div class="form-row">
-      <div class="form-group"><label>維護開始時間 <span style="color:#DC2626">*</span></label>
-        <div class="date-picker-wrap" id="maintStart"><input type="text" placeholder="選擇時間日期" value="${item.startTime}" readonly></div>
-      </div>
-      <div class="form-group"><label>維護結束時間 <span style="color:#DC2626">*</span></label>
-        <div class="date-picker-wrap" id="maintEnd"><input type="text" placeholder="選擇時間日期" value="${item.endTime}" readonly></div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>維護類型 <span style="color:#DC2626">*</span></label>
-        <select class="form-control" id="maintType">
-          <option${item.type==='維護更新'?' selected':''}>維護更新</option>
-          <option${item.type==='緊急維護'?' selected':''}>緊急維護</option>
-          <option${item.type==='版本更新'?' selected':''}>版本更新</option>
-        </select>
-      </div>
-      <div class="form-group"><label>維護網址</label>
-        <input type="text" class="form-control" id="maintUrl" value="${item.url}" disabled style="background:#F3F4F6;color:#6B7280">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>維護公告內容 <span style="color:#DC2626">*</span></label>
-        <textarea class="form-control" id="maintContent" rows="3" placeholder="請輸入維護公告內容">${item.content}</textarea>
-      </div>
-      <div class="form-group"><label>備註 <span style="color:#DC2626">*</span></label>
-        <textarea class="form-control" id="maintRemark" rows="3" placeholder="請輸入備註">${item.remark}</textarea>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>維護白名單域名</label>
-        <input type="text" class="form-control" id="maintWhitelist" value="${item.whitelist}" disabled style="background:#F3F4F6;color:#6B7280">
-      </div>
-      <div class="form-group"></div>
-    </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:16px">
-      ${UI.btn.dark('儲存', 'saveMaintenance()')}
-    </div>
-  </div>`;
+  if (scheds.length === 0) {
+    html += `<div style="text-align:center;padding:40px;color:#9CA3AF;background:#fff;border:1px solid #E5E7EB;border-radius:10px">目前無排程</div>`;
+  } else {
+    html += `<div class="sched-list">`;
+    scheds.forEach((s, i) => {
+      html += `<div class="sched-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
+        <span class="note">${s.content}</span>
+        <span class="spacer"></span>
+        <button class="del-btn" onclick="delMaintSched(${i})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 function renderHistoryTable() {
-  const items = getCurrentMaint();
+  const items = maintHistory[currentMaintTab] || [];
   if (items.length === 0) {
-    return `<div style="text-align:center;padding:40px;color:#9CA3AF">尚無歷史紀錄</div>`;
+    return `<div style="text-align:center;padding:40px;color:#9CA3AF;background:#fff;border:1px solid #E5E7EB;border-radius:10px">尚無歷史紀錄</div>`;
   }
-
   const columns = [
-    { label: '維護類型', width: '100px' },
-    { label: '開始時間', width: '150px' },
-    { label: '結束時間', width: '150px' },
+    { label: '開始時間', width: '160px' },
+    { label: '結束時間', width: '160px' },
     { label: '公告內容' },
     { label: '備註' },
     { label: '操作者', width: '80px' },
     { label: '狀態', width: '80px' }
   ];
-
   const rows = items.map(r => ({
     cells: [
-      `<span style="font-weight:500">${r.type}</span>`,
-      `<span style="color:#6B7280">${r.startTime}</span>`,
-      `<span style="color:#6B7280">${r.endTime}</span>`,
+      `<span style="color:#6B7280">${fmtDT(r.start)}</span>`,
+      `<span style="color:#6B7280">${fmtDT(r.end)}</span>`,
       r.content,
       r.remark || '-',
       r.operator,
       `<span class="status-badge status-online">已完成</span>`
     ]
   }));
-
   return UI.table.create(columns, rows);
 }
 
-function initMaintDatePickers() {
-  // date-picker.js 會自動初始化 .date-picker-wrap
-  if (window.initDatePickers) window.initDatePickers();
+function openMaintSchedModal() {
+  UI.modal.open('maintSchedModal');
 }
 
-function saveMaintenance() {
-  const content = document.getElementById('maintContent')?.value;
-  const remark = document.getElementById('maintRemark')?.value;
-  if (!content || !remark) {
-    UI.toast('請填寫必填欄位', 'error');
-    return;
+function addMaintSched() {
+  const startEl = document.querySelector('#maintSchedModal #schedStartDate');
+  const endEl = document.querySelector('#maintSchedModal #schedEndDate');
+  const content = document.getElementById('schedContent').value.trim();
+  const remark = document.getElementById('schedRemark').value.trim();
+
+  if (!startEl || !endEl || !startEl.value || !endEl.value) {
+    UI.toast('請選擇開始與結束時間', 'error'); return;
   }
-  UI.toast('儲存成功');
+  if (!content) {
+    UI.toast('請填寫公告內容', 'error'); return;
+  }
+
+  const start = startEl.value.includes('T') ? startEl.value : startEl.value + 'T00:00';
+  const end = endEl.value.includes('T') ? endEl.value : endEl.value + 'T23:59';
+
+  if (!maintSchedules[currentMaintTab]) maintSchedules[currentMaintTab] = [];
+  maintSchedules[currentMaintTab].push({
+    id: ++schedIdCounter, start, end, content, remark, operator: 'casper'
+  });
+
+  UI.modal.close('maintSchedModal');
+  renderMaintenance();
+  UI.toast('排程新增成功');
 }
 
-// 初始渲染
+function delMaintSched(idx) {
+  if (!confirm('確定刪除此排程？')) return;
+  maintSchedules[currentMaintTab].splice(idx, 1);
+  renderMaintenance();
+  UI.toast('排程已刪除');
+}
+
 document.addEventListener('DOMContentLoaded', renderMaintenance);
