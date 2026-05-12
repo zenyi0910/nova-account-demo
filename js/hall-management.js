@@ -182,8 +182,10 @@ function renderScheduleTab(id, h) {
   }
   let html = renderItems(activeScheds);
   if (expiredScheds.length > 0) {
-    html += '<div style="margin-top:10px"><label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:#EF4444;border:1px solid #EF4444;border-radius:4px;padding:3px 8px">' +
-      '<input type="checkbox" id="showExpiredSched" onchange="toggleExpiredSched()" style="accent-color:#EF4444"> 展開已結束的排程</label></div>' +
+    html += '<div style="margin-top:12px;text-align:center">' +
+      '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
+      '<span>近七天已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+      '<div style="border-top:1px solid #E5E7EB;margin-top:8px"></div></div>' +
       '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds) + '</div>';
   }
   return '<div class="sched-tab-content">' + html + '</div>';
@@ -193,8 +195,11 @@ let recommendCurrency = 'gold'; // 預設金幣
 
 function toggleExpiredSched() {
   const el = document.getElementById('expiredSchedList');
-  const cb = document.getElementById('showExpiredSched');
-  if (el) el.style.display = cb && cb.checked ? 'block' : 'none';
+  const arrow = document.getElementById('expiredArrow');
+  if (!el) return;
+  const show = el.style.display === 'none';
+  el.style.display = show ? 'block' : 'none';
+  if (arrow) arrow.innerHTML = show ? '<polyline points="6 15 12 9 18 15"/>' : '<polyline points="6 9 12 15 18 9"/>';
 }
 
 function renderRecommendHallTab(hallId) {
