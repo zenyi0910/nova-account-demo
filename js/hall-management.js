@@ -120,7 +120,7 @@ function renderHallDetail() {
         '<button class="btn-add" onclick="openSchedModal(\'' + currentHall + '\')" style="background:oklch(0.777 0.152 181.912);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px">' +
           '<span>+ 新增排程</span>' +
         '</button>' +
-        '<button class="btn-del" onclick="confirmDelAllSched(\'' + currentHall + '\')" title="清除所有排程" style="color:#EF4444;background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+        '<button class="btn-del" onclick="confirmDelAllSched(\'' + currentHall + '\')" title="清除所有排程" style="color:#6B7280;background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
       '</div>' +
     '</div>' +
     '<div style="padding:12px 16px">' + schedHtml + '</div></div>';
@@ -157,9 +157,8 @@ function renderScheduleTab(id, h) {
       return '<div class="sched-item">' +
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '<div class="sched-text">' + timeDisplay +
-        ' <span class="sched-action ' + s.action + '">' + (s.action === 'off' ? '關閉' : '開啟') + '</span>' +
         repeatBadge +
-        (s.note ? '<div class="sched-note">' + s.note + '</div>' : '') + '</div>' +
+        (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
         UI.btn.icon('delete', "delSched('" + id + "'," + i + ")", '刪除排程') + '</div>';
     }).join('');
   }
