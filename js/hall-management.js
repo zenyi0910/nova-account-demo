@@ -722,7 +722,6 @@ function confirmToggle() {
 // === Schedule ===
 function openSchedModal(id) {
   document.getElementById('sHall').value = id || '';
-  document.getElementById('sAction').value = 'off';
   document.getElementById('sNote').value = '';
   document.getElementById('schedModalTitle').textContent = '新增維護排程';
   const dp = document.getElementById('schedDatePicker');
@@ -734,7 +733,7 @@ function openSchedModal(id) {
 function addSchedule() {
   const id = document.getElementById('sHall').value;
   if (!id) { showToast('請選擇娛樂城', 'error'); return; }
-  const action = document.getElementById('sAction').value;
+  const action = 'off';
   const dp = document.getElementById('schedDatePicker');
   const inst = dp && dp._dpInstance;
   const start = inst && inst.startDate ? inst.startDate : '';
