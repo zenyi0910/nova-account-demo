@@ -11,14 +11,16 @@ const maintSchedules = {
 
 const maintHistory = {
   '全站': [
-    { id: 101, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper' },
-    { id: 102, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin' },
-    { id: 103, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper' },
-    { id: 104, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin' },
+    { id: 101, start: '2026-05-11T22:00', end: '2026-05-12T01:00', content: '緊急熱修復', remark: '登入異常', operator: 'admin' },
+    { id: 102, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper' },
+    { id: 103, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin' },
+    { id: 104, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper' },
+    { id: 105, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin' },
   ],
   '星幣': [
-    { id: 201, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin' },
-    { id: 202, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper' },
+    { id: 201, start: '2026-05-11T23:00', end: '2026-05-12T00:30', content: '星幣結算異常修復', remark: '緊急處理', operator: 'admin' },
+    { id: 202, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin' },
+    { id: 203, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper' },
   ]
 };
 
@@ -114,12 +116,10 @@ function renderScheduleList() {
 }
 
 function renderSchedItem(s, idx, isActive, isExpired) {
-  const dot = isActive
-    ? `<span class="sched-dot active"></span>`
-    : `<span class="sched-dot"></span>`;
+  const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
   return `<div class="sched-item${cls}">
-    ${dot}
+    ${clockIcon}
     <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
     <span class="note">${s.content}</span>
     <span class="spacer"></span>
