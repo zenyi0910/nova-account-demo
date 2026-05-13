@@ -176,7 +176,8 @@ function renderScheduleTab(id, h, filterValue) {
   if (activeScheds.length === 0 && expiredScheds.length === 0) {
     return '<div class="sched-tab-content"><div class="sched-empty">尚無排程</div></div>';
   }
-  function renderItems(items) {
+  function renderItems(items, showDelete) {
+    if (showDelete === undefined) showDelete = true;
     return items.map(item => {
       const s = item.sched;
       let timeDisplay = '';
@@ -192,7 +193,7 @@ function renderScheduleTab(id, h, filterValue) {
         '<div class="sched-text"><span style="font-weight:600;margin-right:6px">' + item.hallName + '</span>' + timeDisplay +
         (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
         '<span style="color:#374151;font-size:12px;margin-right:12px">操作者：' + (s.operator || 'casper') + '</span>' +
-        UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
+        (showDelete ? UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') : '') + '</div>';
     }).join('');
   }
   // Collapsed: show first item fully, second item half-height clipped, then "更多" button
@@ -220,7 +221,7 @@ function renderScheduleTab(id, h, filterValue) {
       '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
       '<span>昨日已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
       '</div>' +
-      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds) + '</div>';
+      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds, false) + '</div>';
   }
   return '<div class="sched-tab-content">' +
     '<div id="schedCollapsed">' + collapsed + '</div>' +
