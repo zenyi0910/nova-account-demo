@@ -6,6 +6,7 @@ const maintSchedules = [
 ];
 
 const maintHistory = [
+  { id: 100, start: '2026-05-12T22:00', end: '2026-05-13T01:00', content: '緊急修補安全漏洞', remark: 'CVE-2026-1234', operator: 'admin', scope: '全站' },
   { id: 101, start: '2026-05-11T22:00', end: '2026-05-12T01:00', content: '緊急熱修復', remark: '登入異常', operator: 'admin', scope: '全站' },
   { id: 102, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper', scope: '全站' },
   { id: 103, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin', scope: '全站' },
