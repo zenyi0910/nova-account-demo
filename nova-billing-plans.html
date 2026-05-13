@@ -105,8 +105,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .mm-toggle.on .mm-toggle-thumb{left:14px}
 
-/* L4 column alignment */
-.mm-l4-col{min-width:180px}
+/* Modal footer */
+.modal-footer{display:flex;justify-content:flex-end;gap:12px;padding:16px 24px;border-top:1px solid #E5E7EB}
+.btn-close-modal{padding:8px 20px;border:1px solid #D1D5DB;border-radius:8px;background:#fff;color:#374151;cursor:pointer;font-size:13px}
+.btn-close-modal:hover{background:#F9FAFB}
+.btn-edit-modal{padding:8px 20px;border:none;border-radius:8px;background:#1F2937;color:#fff;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px}
+.btn-edit-modal:hover{background:#111827}
+.bp-info-card{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px}
+.bp-info-card h5{margin:0 0 12px;font-size:14px;color:#374151}
+.bp-info-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F3F4F6;font-size:13px}
+.bp-info-row:last-child{border-bottom:none}
+.bp-label{color:#6B7280}
+.bp-input{width:80px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right}
 
 /* SVG Lines */
 .mm-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
@@ -172,9 +182,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal">
     <div class="modal-header"><h3 id="detailTitle">儲值金額表明細</h3><button class="close" onclick="closeDetailModal()">&times;</button></div>
     <div class="modal-body" id="detailTable"></div>
+    <div class="modal-footer" id="detailFooter"></div>
   </div>
 </div>
 
-<script src="js/billing-plans.js?v=5"></script>
+<script src="js/billing-plans.js?v=6"></script>
 </body>
 </html>
