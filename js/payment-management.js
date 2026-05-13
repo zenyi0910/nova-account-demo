@@ -201,7 +201,7 @@ function renderProviders() {
     return '<div class="provider-card' + (isActive ? ' active' : '') + (p.status === 'off' ? ' disabled' : '') + '" onclick="selectProvider(\'' + p.id + '\')">' +
       '<div class="provider-header">' +
         '<div class="provider-logo">' + p.name.charAt(0) + '</div>' +
-        '<div style="flex:1"><div class="provider-name">' + p.name + clockIcon + '</div><div class="provider-code" style="display:flex;justify-content:space-between;align-items:center"><span>' + p.code + '</span><span style="font-size:12px;color:#6B7280">支付方式: ' + methodCount + '　通道: ' + channelCount + '</span></div></div>' +
+        '<div style="flex:1"><div class="provider-name">' + p.name + clockIcon + '</div><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#9CA3AF;font-family:monospace"><span>' + p.code + '</span><span style="font-family:-apple-system,sans-serif">支付方式: ' + methodCount + '　通道: ' + channelCount + '</span></div></div>' +
         '<button class="toggle ' + (p.status === 'on' ? 'on' : 'off') + '" onclick="event.stopPropagation();toggleProviderStatus(\'' + p.id + '\')"></button>' +
       '</div>' +
     '</div>';
