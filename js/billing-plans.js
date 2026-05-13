@@ -1,6 +1,6 @@
 // === 樹狀資料（來源：Nova 測試後台實際資料）===
-// 結構：供應商 → 支付方式 → 付款通道 → 儲值金額表（第四層）
-// 一個金額表可被多個通道共用，但一個通道只對應一個金額表
+// 結構：供應商 → 支付方式 → 儲值金額表（第三層）→ 付款通道（第四層）
+// 一個金額表可被多個通道共用，一個通道只對應一個金額表
 const billingPlans = {
   'bp-mc-point': {id:'bp-mc-point',name:'序號儲值',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:8,bonus:80,total:1080}]},
   'bp-mc-tel': {id:'bp-mc-tel',name:'手機小額付款-測試 遠傳電信-測試',status:'on',amounts:[{amount:50,base:50,rate:0,bonus:0,total:50},{amount:100,base:100,rate:3,bonus:3,total:103},{amount:300,base:300,rate:5,bonus:15,total:315}]},
@@ -17,36 +17,42 @@ const billingPlans = {
   'bp-rd': {id:'bp-rd',name:'RD 測試003',status:'off',amounts:[{amount:10,base:10,rate:0,bonus:0,total:10},{amount:50,base:50,rate:3,bonus:1,total:51}]}
 };
 
+// 新結構：供應商 → 支付方式 → 儲值金額表 → 付款通道
 const treeData = [
   {
     id:'mycard', name:'MyCard', code:'MYCARD', status:'on',
     methods: [
       { id:'mc-point', name:'點數卡', status:'on',
-        channels: [{id:'ch-point',name:'序號儲值',code:'MYCARD_SEQ',status:'on',billingId:'bp-mc-point'}]
+        billingId:'bp-mc-point',
+        channels: [{id:'ch-point',name:'序號儲值',code:'MYCARD_SEQ',status:'on'}]
       },
       { id:'mc-tel', name:'電信帳單', status:'on',
-        channels: [{id:'ch-tel',name:'手機小額付款',code:'HE0004',status:'off',billingId:'bp-mc-tel'}]
+        billingId:'bp-mc-tel',
+        channels: [{id:'ch-tel',name:'手機小額付款',code:'HE0004',status:'off'},{id:'ch-tel2',name:'遠傳電信',code:'HE0004B',status:'off'}]
       },
       { id:'mc-credit', name:'信用卡', status:'on',
-        channels: [{id:'ch-cc',name:'信用卡',code:'MYCARD_CC',status:'on',billingId:'bp-mc-cc'}]
+        billingId:'bp-mc-cc',
+        channels: [{id:'ch-cc',name:'信用卡',code:'MYCARD_CC',status:'on'}]
       },
       { id:'mc-bank', name:'銀行轉帳', status:'on',
-        channels: [{id:'ch-bank',name:'銀行轉帳',code:'FA038',status:'on',billingId:'bp-mc-bank'}]
+        billingId:'bp-mc-bank',
+        channels: [{id:'ch-bank',name:'銀行轉帳',code:'FA038',status:'on'}]
       },
       { id:'mc-mobile', name:'行動支付', status:'on',
-        channels: [{id:'ch-linepay2',name:'LINE Pay全支付',code:'MYCARD_LP',status:'on',billingId:'bp-mc-mobile'}]
+        billingId:'bp-mc-mobile',
+        channels: [{id:'ch-linepay2',name:'LINE Pay全支付',code:'MYCARD_LP',status:'on'}]
       },
       { id:'mc-online', name:'線上轉點', status:'on',
-        channels: [
-          {id:'ch-cc3d',name:'信用卡3D',code:'CHANNEL_1E8B07D7',status:'off',billingId:'bp-mc-online'},
-          {id:'ch-costpoint',name:'線上轉點',code:'COSTPOINT',status:'on',billingId:'bp-mc-online'}
-        ]
+        billingId:'bp-mc-online',
+        channels: [{id:'ch-cc3d',name:'信用卡3D',code:'CHANNEL_1E8B07D7',status:'off'},{id:'ch-costpoint',name:'線上轉點',code:'COSTPOINT',status:'on'}]
       },
       { id:'mc-free', name:'免費抵扣', status:'on',
-        channels: [{id:'ch-free',name:'免費扣抵',code:'HE0033',status:'off',billingId:'bp-mc-free'}]
+        billingId:'bp-mc-free',
+        channels: [{id:'ch-free',name:'免費扣抵',code:'HE0033',status:'off'}]
       },
       { id:'mc-guild', name:'公會會長大禮包', status:'on',
-        channels: [{id:'ch-guild',name:'公會會長大禮包',code:'FA200000002',status:'on',billingId:'bp-mc-guild'}]
+        billingId:'bp-mc-guild',
+        channels: [{id:'ch-guild',name:'公會會長大禮包',code:'FA200000002',status:'on'}]
       }
     ]
   },
@@ -54,13 +60,16 @@ const treeData = [
     id:'gash', name:'Gash', code:'COPGAM', status:'on',
     methods: [
       { id:'ga-point', name:'點數卡', status:'on',
-        channels: [{id:'ch-gash-pt',name:'點數卡',code:'COPGAM05',status:'on',billingId:'bp-ga-pt'}]
+        billingId:'bp-ga-pt',
+        channels: [{id:'ch-gash-pt',name:'點數卡',code:'COPGAM05',status:'on'}]
       },
       { id:'ga-wallet', name:'會員扣點', status:'on',
-        channels: [{id:'ch-gash-wl',name:'錢包扣點',code:'COPGAM09',status:'on',billingId:'bp-ga-wl'}]
+        billingId:'bp-ga-wl',
+        channels: [{id:'ch-gash-wl',name:'錢包扣點',code:'COPGAM09',status:'on'}]
       },
       { id:'ga-cvs', name:'超商儲值', status:'on',
-        channels: [{id:'ch-gash-cvs',name:'7-11即時儲',code:'GASH_711',status:'on',billingId:'bp-ga-cvs'}]
+        billingId:'bp-ga-cvs',
+        channels: [{id:'ch-gash-cvs',name:'7-11即時儲',code:'GASH_711',status:'on'}]
       }
     ]
   },
@@ -68,13 +77,16 @@ const treeData = [
     id:'ecpay0918', name:'0918綠界', code:'0918EC', status:'off',
     methods: [
       { id:'ec-mobile', name:'行動支付', status:'off',
-        channels: [{id:'ch-ec-lp',name:'0918 linepay',code:'CHANNEL_83DE0D1A',status:'off',billingId:null},{id:'ch-ec-all',name:'0918全支付',code:'CHANNEL_81C410ED',status:'off',billingId:null}]
+        billingId:null,
+        channels: [{id:'ch-ec-lp',name:'0918 linepay',code:'CHANNEL_83DE0D1A',status:'off'},{id:'ch-ec-all',name:'0918全支付',code:'CHANNEL_81C410ED',status:'off'}]
       },
       { id:'ec-bank', name:'銀行轉帳', status:'off',
-        channels: [{id:'ch-ec-bank',name:'0918銀行轉帳',code:'CHANNEL_9B4F3F8A',status:'off',billingId:null}]
+        billingId:null,
+        channels: [{id:'ch-ec-bank',name:'0918銀行轉帳',code:'CHANNEL_9B4F3F8A',status:'off'}]
       },
       { id:'ec-cc', name:'信用卡', status:'on',
-        channels: [{id:'ch-ec-cc',name:'0918信用卡',code:'0918_CC',status:'on',billingId:'bp-ec-cc'}]
+        billingId:'bp-ec-cc',
+        channels: [{id:'ch-ec-cc',name:'0918信用卡',code:'0918_CC',status:'on'}]
       }
     ]
   },
@@ -82,7 +94,8 @@ const treeData = [
     id:'startest', name:'星運測試商', code:'AB00888', status:'on',
     methods: [
       { id:'st-mobile', name:'行動支付', status:'on',
-        channels: [{id:'ch-st-lp',name:'LINE Pay',code:'STAR_LP',status:'on',billingId:null}]
+        billingId:null,
+        channels: [{id:'ch-st-lp',name:'LINE Pay',code:'STAR_LP',status:'on'}]
       }
     ]
   },
@@ -90,10 +103,8 @@ const treeData = [
     id:'rdtest', name:'RD 測試供應商', code:'AC9625BC', status:'off',
     methods: [
       { id:'rd-test', name:'RD 測試支付方式', status:'off',
-        channels: [
-          {id:'ch-rd1',name:'RD 測試003',code:'AC9625BC',status:'off',billingId:'bp-rd'},
-          {id:'ch-rd2',name:'test111',code:'test456',status:'off',billingId:'bp-rd'}
-        ]
+        billingId:'bp-rd',
+        channels: [{id:'ch-rd1',name:'RD 測試003',code:'AC9625BC',status:'off'},{id:'ch-rd2',name:'test111',code:'test456',status:'off'}]
       }
     ]
   }
@@ -111,30 +122,18 @@ function makeToggle(on, id) {
   return '<label class="' + cls + '" data-id="' + id + '"><span class="mm-toggle-track"><span class="mm-toggle-thumb"></span></span></label>';
 }
 
-// === Render Mind Map (4 layers) ===
+// === Render Mind Map (4 layers: 供應商→支付方式→儲值金額表→付款通道) ===
 function renderMindMap() {
   const container = document.getElementById('mindmap');
   let html = '';
-  // 共用金額表：收集哪些 billingId 被多通道引用
-  const billingChannelMap = {};
-  treeData.forEach(function(p) {
-    p.methods.forEach(function(m) {
-      m.channels.forEach(function(ch) {
-        if (ch.billingId) {
-          if (!billingChannelMap[ch.billingId]) billingChannelMap[ch.billingId] = [];
-          billingChannelMap[ch.billingId].push(ch.id);
-        }
-      });
-    });
-  });
 
   treeData.forEach(function(prov) {
+    const provOffTag = prov.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
     html += '<div class="mm-provider-group" data-prov="' + prov.id + '">';
     html += '<div class="mm-row">';
-    // L1 供應商（停用才顯示標籤）
-    const provOffTag = prov.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
+    // L1 供應商
     html += '<div class="mm-node mm-l1" data-id="' + prov.id + '">';
-    html += '<span>' + prov.name + '</span><span class="mm-code">' + prov.code + '</span>' + provOffTag;
+    html += '<span class="mm-name">' + prov.name + '</span>' + provOffTag;
     html += '</div>';
 
     // L2 支付方式
@@ -143,42 +142,50 @@ function renderMindMap() {
       const mOffTag = method.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
       html += '<div class="mm-method-group">';
       html += '<div class="mm-node mm-l2" data-id="' + method.id + '">';
-      html += '<span>' + method.name + '</span>' + mOffTag;
+      html += '<span class="mm-name">' + method.name + '</span>' + mOffTag;
       html += '</div>';
 
-      // L3 付款通道
+      // L3 儲值金額表
       html += '<div class="mm-children">';
-      method.channels.forEach(function(ch) {
-        const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
-        const isShared = ch.billingId && billingChannelMap[ch.billingId] && billingChannelMap[ch.billingId].length > 1;
-        const isFirstOfShared = isShared && billingChannelMap[ch.billingId][0] === ch.id;
-        const showBilling = !isShared || isFirstOfShared;
-
-        html += '<div class="mm-channel-group">';
-        html += '<div class="mm-node mm-l3" data-id="' + ch.id + '">';
-        html += '<span>' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cOffTag;
+      if (method.billingId && billingPlans[method.billingId]) {
+        const bp = billingPlans[method.billingId];
+        html += '<div class="mm-billing-group">';
+        html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
+        html += ICON.billing + '<span class="mm-name">' + bp.name + '</span>';
+        html += makeToggle(bp.status === 'on', bp.id);
+        html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
+        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + ' 編輯</span>';
         html += '</div>';
 
-        // L4 儲值金額表（共用時只在第一個通道顯示）
-        html += '<div class="mm-children mm-l4-col">';
-        if (ch.billingId && billingPlans[ch.billingId] && showBilling) {
-          const bp = billingPlans[ch.billingId];
-          const sharedCount = billingChannelMap[ch.billingId].length;
-          const sharedCls = sharedCount > 1 ? ' shared' : '';
-          html += '<div class="mm-node mm-l4' + sharedCls + '" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
-          html += ICON.billing + '<span class="mm-bp-name">' + bp.name + '</span>';
-          html += makeToggle(bp.status === 'on', bp.id);
-          html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
-          html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + ' 編輯</span>';
+        // L4 付款通道
+        html += '<div class="mm-children">';
+        method.channels.forEach(function(ch) {
+          const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
+          html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
+          html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
+          html += '<span class="mm-code">' + ch.code + '</span>';
           html += '</div>';
-        } else if (!ch.billingId) {
-          html += '<div class="mm-node mm-l4 empty mm-add" onclick="alert(\'新增儲值金額表: ' + ch.name + '\')">';
-          html += ICON.add + '<span>新增金額表</span>';
-          html += '</div>';
-        }
+        });
+        html += '</div>'; // L4 children
+        html += '</div>'; // billing-group
+      } else {
+        // 無金額表
+        html += '<div class="mm-billing-group">';
+        html += '<div class="mm-node mm-l3 empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
+        html += ICON.add + '<span class="mm-name">新增金額表</span>';
         html += '</div>';
-        html += '</div>'; // channel-group
-      });
+        // L4 付款通道（即使沒金額表也顯示）
+        html += '<div class="mm-children">';
+        method.channels.forEach(function(ch) {
+          const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
+          html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
+          html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
+          html += '<span class="mm-code">' + ch.code + '</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+      }
       html += '</div>'; // L3 children
       html += '</div>'; // method-group
     });
@@ -219,47 +226,29 @@ function drawLines() {
 
   document.querySelectorAll('.mm-provider-group').forEach(function(provGroup) {
     const provNode = provGroup.querySelector('.mm-l1');
-    const methodNodes = provGroup.querySelectorAll('.mm-method-group > .mm-l2');
+    const methodGroups = provGroup.querySelectorAll('.mm-method-group');
 
-    methodNodes.forEach(function(mNode) {
+    methodGroups.forEach(function(mGroup) {
+      const mNode = mGroup.querySelector('.mm-l2');
       paths += connectNodes(provNode, mNode, wrapRect);
 
-      const methodGroup = mNode.parentElement;
-      const channelGroups = methodGroup.querySelectorAll(':scope > .mm-children > .mm-channel-group');
-      channelGroups.forEach(function(chGroup) {
-        const chNode = chGroup.querySelector('.mm-l3');
-        paths += connectNodes(mNode, chNode, wrapRect);
-        // L4 billing node
-        const l4Node = chGroup.querySelector('.mm-children > .mm-node');
-        if (l4Node) {
-          paths += connectNodes(chNode, l4Node, wrapRect);
-        } else {
-          // 共用金額表：連到其他通道的金額表節點
-          const chId = chNode.getAttribute('data-id');
-          const billingNode = findSharedBillingNode(chId);
-          if (billingNode) {
-            paths += connectNodes(chNode, billingNode, wrapRect, true);
-          }
+      // L3 billing node
+      const billingGroup = mGroup.querySelector('.mm-billing-group');
+      if (billingGroup) {
+        const bNode = billingGroup.querySelector('.mm-l3');
+        if (bNode) {
+          paths += connectNodes(mNode, bNode, wrapRect);
+          // L4 channel nodes
+          const l4Nodes = billingGroup.querySelectorAll(':scope > .mm-children > .mm-l4');
+          l4Nodes.forEach(function(chNode) {
+            paths += connectNodes(bNode, chNode, wrapRect);
+          });
         }
-      });
+      }
     });
   });
 
   svg.innerHTML = paths;
-}
-
-function findSharedBillingNode(channelId) {
-  // 找到這個 channel 對應的 billingId
-  let billingId = null;
-  treeData.forEach(function(p) {
-    p.methods.forEach(function(m) {
-      m.channels.forEach(function(ch) {
-        if (ch.id === channelId) billingId = ch.billingId;
-      });
-    });
-  });
-  if (!billingId) return null;
-  return document.querySelector('[data-billing="' + billingId + '"]');
 }
 
 function connectNodes(from, to, wrapRect, dashed) {

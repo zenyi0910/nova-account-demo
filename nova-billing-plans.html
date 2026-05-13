@@ -76,25 +76,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* L2 支付方式 */
 .mm-l2{background:#EEF2FF;border:1px solid #C7D2FE;color:#4338CA;font-weight:500;font-size:11px;padding:6px 10px;max-width:72px}
 
-/* L3 付款通道 */
-.mm-l3{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:11px;padding:6px 10px;max-width:100px}
+/* L3 儲值金額表 */
+.mm-l3{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;min-width:180px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s}
+.mm-l3:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.mm-l3.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;min-width:140px;cursor:pointer}
+.mm-l3.empty:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
 
-/* L4 儲值金額表 */
-.mm-l4{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;min-width:220px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s}
-.mm-l4:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.mm-l4.shared{border-color:#6366F1;background:#EEF2FF}
-.mm-l4.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;min-width:220px}
+/* L4 付款通道 */
+.mm-l4{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:11px;padding:6px 10px;max-width:140px}
 
-.mm-channel-group{display:flex;align-items:center}
-.mm-channel-group > .mm-children{margin-left:50px}
+.mm-billing-group{display:flex;align-items:flex-start}
+.mm-billing-group > .mm-children{margin-left:50px}
 
 .mm-tag{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-tag-on{background:#D1FAE5;color:#065F46}
 .mm-tag-off{background:#F3F4F6;color:#6B7280}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
 .mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px}
-.mm-code{font-size:10px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .2s}
+.mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;display:block;margin-top:3px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mm-node:hover .mm-code{opacity:1}
+.mm-name{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mm-node:hover .mm-name{white-space:normal;overflow:visible;text-overflow:unset}
+.mm-node:hover{z-index:10;position:relative}
 .mm-edit-btn{font-size:11px;margin-left:auto;padding:2px 8px;border-radius:6px;background:#FEF3C7;color:#92400E;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:4px}
 .mm-edit-btn:hover{background:#FDE68A}
 .mm-add{background:#fff;border:2px dashed #D1D5DB;color:#6B7280;font-size:12px;cursor:pointer;text-align:center;display:flex;align-items:center;gap:6px}
@@ -181,10 +184,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#4338CA"></div> 供應商</div>
       <div class="legend-item"><div class="legend-dot" style="background:#C7D2FE"></div> 支付方式</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#A7F3D0"></div> 付款通道</div>
       <div class="legend-item"><div class="legend-dot" style="background:#FDE68A"></div> 儲值金額表</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#E0E7FF;border:1px solid #3730A3"></div> 共用（多通道同一金額表）</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#F9FAFB;border:2px dashed #D1D5DB"></div> 尚未建立（可新增）</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A7F3D0"></div> 付款通道</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F9FAFB;border:2px dashed #D1D5DB"></div> 尚未建立</div>
     </div>
     <div class="mindmap-wrap">
       <svg class="mm-lines" id="mmLines"></svg>
@@ -202,6 +204,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans.js?v=7"></script>
+<script src="js/billing-plans.js?v=8"></script>
 </body>
 </html>
