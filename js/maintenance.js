@@ -100,6 +100,7 @@ function renderSchedItem(s, idx, isActive, isExpired) {
     <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
     <span class="note">${s.content}</span>
     <span class="spacer"></span>
+    <span style="color:#DC2626;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
     <button class="del-btn" onclick="delMaintSched(${idx})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
   </div>`;
 }
@@ -137,17 +138,17 @@ function renderHistoryTable() {
     { label: '公告內容' },
     { label: '備註' },
     { label: '操作者', width: '80px' },
-    { label: '狀態', width: '80px' }
+    { label: '狀態', width: '90px' }
   ];
   const rows = items.map(r => ({
     cells: [
-      r.scope === '星幣' ? `<span style="background:#EDE9FE;color:#7C3AED;padding:2px 6px;border-radius:4px;font-size:11px">星幣</span>` : `<span style="background:#FEF3C7;color:#D97706;padding:2px 6px;border-radius:4px;font-size:11px">全站</span>`,
+      r.scope === '星幣' ? `<span style="display:inline-block;background:#EDE9FE;color:#7C3AED;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>` : `<span style="display:inline-block;background:#FEF3C7;color:#D97706;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`,
       `<span style="color:#6B7280">${fmtDT(r.start)}</span>`,
       `<span style="color:#6B7280">${fmtDT(r.end)}</span>`,
       r.content,
       r.remark || '-',
       r.operator,
-      `<span class="status-badge status-online">已完成</span>`
+      `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`
     ]
   }));
   let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">操作紀錄</span></div>`;

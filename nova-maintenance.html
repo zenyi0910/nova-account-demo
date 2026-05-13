@@ -115,7 +115,9 @@ textarea.form-control{resize:vertical;min-height:72px}
 
 /* Date picker wrap */
 .date-picker-wrap{position:relative}
-.date-picker-wrap input{width:100%;border:1px solid #E5E7EB;border-radius:6px;padding:8px 12px;font-size:13px;font-family:inherit;color:#374151;cursor:pointer;background:#fff}
+.date-picker-trigger{display:flex;align-items:center;gap:8px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;font-size:13px;color:#374151;cursor:pointer;min-width:180px;white-space:nowrap}
+.date-picker-trigger svg{width:16px;height:16px;color:#6B7280;flex-shrink:0}
+.date-picker-trigger:hover{border-color:#3B82F6}
 
 /* Toast */
 .toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;opacity:0;transform:translateY(-10px);transition:all .3s;z-index:9999;pointer-events:none}
@@ -183,10 +185,10 @@ textarea.form-control{resize:vertical;min-height:72px}
           <select class="form-control" id="schedScope"><option value="全站">全站</option><option value="星幣">星幣</option></select>
         </div>
         <div class="form-group"><label>開始時間 <span style="color:#DC2626">*</span></label>
-          <div class="date-picker-wrap"><input type="text" id="schedStartDate" placeholder="選擇時間日期" readonly></div>
+          <div class="date-picker-wrap"><div class="date-picker-trigger" onclick="openMaintDatePicker('start')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display" id="schedStartDisplay">選擇時間日期</span></div><input type="hidden" id="schedStartDate"></div>
         </div>
         <div class="form-group"><label>結束時間 <span style="color:#DC2626">*</span></label>
-          <div class="date-picker-wrap"><input type="text" id="schedEndDate" placeholder="選擇時間日期" readonly></div>
+          <div class="date-picker-wrap"><div class="date-picker-trigger" onclick="openMaintDatePicker('end')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display" id="schedEndDisplay">選擇時間日期</span></div><input type="hidden" id="schedEndDate"></div>
         </div>
       </div>
       <div class="form-group" style="margin-bottom:16px"><label>公告內容 <span style="color:#DC2626">*</span></label>
@@ -206,7 +208,7 @@ textarea.form-control{resize:vertical;min-height:72px}
 <div id="toast" class="toast"></div>
 
 <script src="js/components.js?v=11"></script>
-<script src="components/date-picker.js"></script>
-<script src="js/maintenance.js?v=3"></script>
+<script src="js/maintenance-datepicker.js"></script>
+<script src="js/maintenance.js?v=4"></script>
 </body>
 </html>
