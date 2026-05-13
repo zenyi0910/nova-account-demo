@@ -217,14 +217,31 @@ function filterRoles(){
 function resetRoleFilter(){document.getElementById('searchRole').value='';renderRoles(roles);}
 function showRoleDetail(i){const r=roles[i];let msg=`角色：${r.name}\n備註：${r.note}\n帳號數：${r.members}\n\n權限：\n`;permModules.forEach(m=>msg+=`  ${m}: ${r.perms[m]||'none'}\n`);alert(msg);}
 let editRoleIdx=-1;
+// 遊戲管理細項權限
+const gamePermItems=[
+  '遊戲共用設定-查詢檢視','遊戲共用設定-包含新增與異動','遊戲共用設定-刪除',
+  '遊戲推薦設定-查詢檢視','遊戲推薦設定-包含新增、排序與異動','遊戲推薦設定-刪除',
+  '遊戲維護設定-查詢檢視','遊戲維護設定-異動',
+  '遊戲排序-查詢檢視','遊戲排序-包含排序',
+  '轉帳額度確認-查詢檢視','轉帳額度確認-異動'
+];
 function showRoleModal(mode,idx){
   editRoleIdx=mode==='edit'?idx:-1;
-  document.getElementById('roleModalTitle').textContent=mode==='edit'?'編輯角色':'新增角色';
-  const r=mode==='edit'?roles[idx]:{name:'',note:'',perms:{}};
+  document.getElementById('roleModalTitle').textContent=mode==='edit'?'角色-編輯':'角色-新增';
+  const r=mode==='edit'?roles[idx]:{name:'',note:'',perms:{},gamePerms:[]};
   document.getElementById('rmName').value=r.name;
   document.getElementById('rmNote').value=r.note;
   let grid='';
-  permModules.forEach(m=>{
+  // 遊戲管理 - checkbox 細項
+  grid+='<div style="margin-bottom:12px"><div style="font-weight:600;font-size:13px;margin-bottom:8px;color:#374151">遊戲管理</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">';
+  const checked=r.gamePerms||( r.perms['遊戲管理']==='full'?gamePermItems:[]);
+  gamePermItems.forEach(p=>{
+    const ck=checked.includes(p)?'checked':'';
+    grid+=`<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;cursor:pointer"><input type="checkbox" data-game-perm="${p}" ${ck} style="accent-color:#00bba7"> ${p}</label>`;
+  });
+  grid+='</div></div>';
+  // 其他模組 - select
+  permModules.filter(m=>m!=='遊戲管理').forEach(m=>{
     const v=r.perms[m]||'none';
     grid+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:#F9FAFB;border-radius:4px"><span style="font-size:12px">${m}</span><select style="font-size:11px;border:1px solid #E5E7EB;border-radius:4px;padding:2px 4px" data-perm="${m}"><option value="full" ${v==='full'?'selected':''}>完整</option><option value="read" ${v==='read'?'selected':''}>唯讀</option><option value="none" ${v==='none'?'selected':''}>無</option></select></div>`;
   });
