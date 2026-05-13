@@ -163,7 +163,6 @@ function renderMindMap() {
           const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
           html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
           html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
-          html += '<span class="mm-code">' + ch.code + '</span>';
           html += '</div>';
         });
         html += '</div>'; // L4 children
@@ -180,7 +179,6 @@ function renderMindMap() {
           const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
           html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
           html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
-          html += '<span class="mm-code">' + ch.code + '</span>';
           html += '</div>';
         });
         html += '</div>';
