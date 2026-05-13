@@ -14,7 +14,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .breadcrumb a{color:#6B7280;text-decoration:none}
 .breadcrumb .sep{color:#D1D5DB}
 .breadcrumb .current{color:#374151;font-weight:500}
-.content{padding:24px;flex:1;max-width:1400px}
+.content{padding:24px;flex:1}
 .page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
 .page-header h4{font-size:18px;font-weight:600;color:#111827}
 .tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;font-size:13px;color:#374151;margin-bottom:16px}
@@ -22,49 +22,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .tips-box span{font-weight:600;color:#2563EB}
 .user-avatar{width:36px;height:36px;border-radius:50%;background:#EEF2FF;display:flex;align-items:center;justify-content:center;font-weight:600;color:#4338CA;font-size:14px;cursor:pointer;margin-left:auto}
 
-/* Tree */
-.tree-container{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:20px}
-.tree-l1{margin-bottom:4px}
-.tree-l2{margin-left:28px}
-.tree-l3{margin-left:28px}
-.tree-node{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s;user-select:none}
-.tree-node:hover{background:#F3F4F6}
-.tree-arrow{color:#9CA3AF;transition:transform .2s;flex-shrink:0}
-.tree-node:not(.collapsed) .tree-arrow{transform:rotate(90deg)}
-.tree-node.collapsed .tree-arrow{transform:rotate(0deg)}
-.tree-children{overflow:hidden;transition:max-height .3s ease}
-.tree-children.collapsed{max-height:0!important;overflow:hidden}
-.tree-icon{flex-shrink:0}
-.tree-provider{font-weight:600;font-size:14px}
-.tree-provider .tree-icon{color:#4338CA}
-.tree-method{font-weight:500;font-size:13px}
-.tree-method .tree-icon{color:#2563EB}
-.tree-channel{font-size:13px;cursor:default}
-.tree-channel .tree-icon{color:#059669}
-.tree-billing{font-size:13px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px}
-.tree-billing:hover{background:#FEF3C7}
-.tree-billing .tree-icon{color:#D97706}
-.tree-billing.tree-empty{background:#F9FAFB;border:1px dashed #D1D5DB}
-.tree-billing.tree-empty:hover{background:#F3F4F6}
-.tree-label{white-space:nowrap}
-.tree-code{font-size:11px;color:#6B7280;background:#F3F4F6;padding:1px 6px;border-radius:4px;font-family:monospace}
-.tree-amounts{font-size:11px;color:#92400E;background:#FEF3C7;padding:2px 8px;border-radius:10px;margin-left:4px}
-.tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
-.tag-on{background:#D1FAE5;color:#065F46}
-.tag-off{background:#F3F4F6;color:#6B7280}
-.btn-add-small{font-size:11px;padding:2px 8px;background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE;border-radius:4px;cursor:pointer;margin-left:8px}
-.btn-add-small:hover{background:#E0E7FF}
-.btn-icon{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px}
-.btn-icon:hover{background:#E5E7EB}
+/* Mind Map Tree */
+.mindmap-wrap{overflow-x:auto;padding:20px;position:relative}
+.mindmap{display:inline-flex;flex-direction:column;gap:24px;position:relative;z-index:1}
+.mm-provider-group{margin-bottom:8px}
+.mm-row{display:flex;align-items:center;gap:0}
+.mm-children{display:flex;flex-direction:column;gap:6px;margin-left:60px}
+.mm-method-group{display:flex;align-items:center}
+.mm-method-group > .mm-children{margin-left:50px}
+.mm-node{position:relative;padding:10px 16px;border-radius:10px;cursor:pointer;white-space:nowrap;margin:4px 0;transition:transform .15s,box-shadow .15s;font-size:13px;display:flex;align-items:center;gap:8px}
+.mm-node:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.mm-node.active{box-shadow:0 0 0 2px #4338CA}
+
+/* L1 供應商 */
+.mm-l1{background:linear-gradient(135deg,#6366F1,#4338CA);color:#fff;font-weight:600;font-size:14px;border-radius:12px;padding:12px 20px}
+.mm-l1 .mm-code{background:rgba(255,255,255,.2);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px}
+
+/* L2 支付方式 */
+.mm-l2{background:#EEF2FF;border:1px solid #C7D2FE;color:#4338CA;font-weight:500}
+
+/* L3 付款通道 */
+.mm-l3{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:12px}
+
+/* L3 儲值金額表 */
+.mm-l3-billing{background:#FFFBEB;border:1px solid #FDE68A;color:#92400E;font-size:12px}
+.mm-l3-billing.empty{background:#F9FAFB;border:1px dashed #D1D5DB;color:#9CA3AF}
+
+.mm-tag{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:500}
+.mm-tag-on{background:#D1FAE5;color:#065F46}
+.mm-tag-off{background:#F3F4F6;color:#6B7280}
+.mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px}
+.mm-add{background:#fff;border:2px dashed #D1D5DB;color:#6B7280;font-size:12px;cursor:pointer;text-align:center}
+.mm-add:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
+
+/* SVG Lines */
+.mm-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.mm-lines path{fill:none;stroke:#D1D5DB;stroke-width:1.5}
 
 /* Legend */
 .legend{display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:#6B7280;flex-wrap:wrap}
-.legend-item{display:flex;align-items:center;gap:4px}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:12px;height:12px;border-radius:4px}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
-.modal{background:#fff;border-radius:12px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #E5E7EB}
 .modal-header h3{font-size:16px;font-weight:600}
 .modal-header .close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px}
@@ -75,11 +78,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </style>
 </head>
 <body>
-<!-- Sidebar -->
 <nav class="sidebar" id="sidebar"></nav>
 <script src="components/sidebar.js?v=4"></script>
 
-<!-- Main -->
 <div class="main">
   <div class="topbar">
     <nav class="breadcrumb">
@@ -91,23 +92,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
   <div class="content">
     <div class="page-header">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <h4>儲值金額表</h4>
     </div>
-
     <div class="tips-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2v1"/><path d="M12 7a4 4 0 0 0-4 4c0 1.5.8 2.8 2 3.4V17h4v-2.6c1.2-.6 2-1.9 2-3.4a4 4 0 0 0-4-4z"/></svg>
-      <span>Tips</span> 樹狀結構呈現：供應商 → 支付方式 → 付款通道 & 儲值金額表。點擊金額表可查看明細。
+      <span>Tips</span> 橫向樹狀圖：供應商 → 支付方式 → 付款通道 & 儲值金額表。點擊節點可查看/編輯。
     </div>
-
     <div class="legend">
-      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#4338CA" stroke-width="2" width="14" height="14"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> 供應商</div>
-      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" width="14" height="14"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg> 支付方式</div>
-      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="14" height="14"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 付款通道</div>
-      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 儲值金額表</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#4338CA"></div> 供應商</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C7D2FE"></div> 支付方式</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#A7F3D0"></div> 付款通道</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FDE68A"></div> 儲值金額表</div>
     </div>
-
-    <div class="tree-container" id="treeContainer"></div>
+    <div class="mindmap-wrap">
+      <svg class="mm-lines" id="mmLines"></svg>
+      <div class="mindmap" id="mindmap"></div>
+    </div>
   </div>
 </div>
 

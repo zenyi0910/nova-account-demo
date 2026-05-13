@@ -1,4 +1,4 @@
-// === 樹狀資料：供應商 > 支付方式 > 付款通道 & 儲值金額表 ===
+// === 樹狀資料 ===
 const treeData = [
   {
     id:'mycard', name:'MyCard', code:'MYCARD01', status:'on',
@@ -59,84 +59,128 @@ const treeData = [
   }
 ];
 
-// === Render Tree ===
-function renderTree() {
-  var container = document.getElementById('treeContainer');
-  var html = '';
+// === Render Mind Map ===
+function renderMindMap() {
+  const container = document.getElementById('mindmap');
+  let html = '';
+
   treeData.forEach(function(prov) {
-    var provStatus = prov.status === 'on' ? '<span class="tag tag-on">啟用</span>' : '<span class="tag tag-off">停用</span>';
-    html += '<div class="tree-l1">';
-    html += '<div class="tree-node tree-provider" onclick="toggleNode(this)">';
-    html += '<svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 18l6-6-6-6"/></svg>';
-    html += '<svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>';
-    html += '<span class="tree-label">' + prov.name + '</span><code class="tree-code">' + prov.code + '</code>' + provStatus;
+    const provTag = prov.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
+
+    html += '<div class="mm-provider-group" data-prov="' + prov.id + '">';
+    // L1 供應商
+    html += '<div class="mm-row">';
+    html += '<div class="mm-node mm-l1" data-id="' + prov.id + '" onclick="onNodeClick(\'provider\',\'' + prov.id + '\')">';
+    html += '<span>' + prov.name + '</span><span class="mm-code">' + prov.code + '</span>' + provTag;
     html += '</div>';
-    html += '<div class="tree-children">';
 
+    // L2 支付方式 column
+    html += '<div class="mm-children">';
     prov.methods.forEach(function(method) {
-      var mStatus = method.status === 'on' ? '<span class="tag tag-on">啟用</span>' : '<span class="tag tag-off">停用</span>';
-      html += '<div class="tree-l2">';
-      html += '<div class="tree-node tree-method" onclick="toggleNode(this)">';
-      html += '<svg class="tree-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M9 18l6-6-6-6"/></svg>';
-      html += '<svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>';
-      html += '<span class="tree-label">' + method.name + '</span>' + mStatus;
-      html += '</div>';
-      html += '<div class="tree-children">';
+      const mTag = method.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
 
-      // 付款通道
+      html += '<div class="mm-method-group">';
+      html += '<div class="mm-node mm-l2" data-id="' + method.id + '" onclick="onNodeClick(\'method\',\'' + method.id + '\')">';
+      html += '<span>' + method.name + '</span>' + mTag;
+      html += '</div>';
+
+      // L3 付款通道 + 儲值金額表
+      html += '<div class="mm-children">';
       method.channels.forEach(function(ch) {
-        var cStatus = ch.status === 'on' ? '<span class="tag tag-on">啟用</span>' : '<span class="tag tag-off">停用</span>';
-        html += '<div class="tree-l3">';
-        html += '<div class="tree-node tree-channel">';
-        html += '<svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
-        html += '<span class="tree-label">' + ch.name + '</span><code class="tree-code">' + ch.code + '</code>' + cStatus;
-        html += '</div></div>';
+        const cTag = ch.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
+        html += '<div class="mm-node mm-l3" data-id="' + ch.id + '">';
+        html += '<span>' + ch.name + '</span>' + cTag;
+        html += '</div>';
       });
 
       // 儲值金額表
       if (method.billing) {
-        var bStatus = method.billing.status === 'on' ? '<span class="tag tag-on">啟用</span>' : '<span class="tag tag-off">停用</span>';
-        var amountStr = method.billing.amounts.map(function(a){ return '$' + a.amount.toLocaleString(); }).join(', ');
-        html += '<div class="tree-l3">';
-        html += '<div class="tree-node tree-billing" onclick="openBillingDetail(\'' + method.id + '\')">';
-        html += '<svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
-        html += '<span class="tree-label">儲值金額表</span>' + bStatus;
-        html += '<span class="tree-amounts">' + method.billing.amounts.length + ' 筆金額</span>';
-        html += '<button class="btn-icon" title="查看明細" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>';
-        html += '</div></div>';
+        const bTag = method.billing.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
+        html += '<div class="mm-node mm-l3-billing" data-id="' + method.billing.id + '" onclick="openBillingDetail(\'' + method.id + '\')">';
+        html += '<span>💰 儲值金額表</span>' + bTag + '<span class="mm-amounts">' + method.billing.amounts.length + '筆</span>';
+        html += '</div>';
       } else {
-        html += '<div class="tree-l3"><div class="tree-node tree-billing tree-empty">';
-        html += '<svg class="tree-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
-        html += '<span class="tree-label" style="color:#9CA3AF">尚未設定金額表</span>';
-        html += '<button class="btn-add-small" onclick="openBillingModal(\'' + method.id + '\')">+ 新增</button>';
-        html += '</div></div>';
+        html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
+        html += '<span>+ 新增金額表</span>';
+        html += '</div>';
       }
-
-      html += '</div></div>'; // close tree-children, tree-l2
+      html += '</div>'; // mm-children L3
+      html += '</div>'; // mm-method-group
     });
-
-    html += '</div></div>'; // close tree-children, tree-l1
+    html += '</div>'; // mm-children L2
+    html += '</div>'; // mm-row
+    html += '</div>'; // mm-provider-group
   });
+
   container.innerHTML = html;
+  requestAnimationFrame(drawLines);
 }
 
-function toggleNode(el) {
-  var children = el.nextElementSibling;
-  if (!children || !children.classList.contains('tree-children')) return;
-  el.classList.toggle('collapsed');
-  children.classList.toggle('collapsed');
+// === Draw SVG connecting lines ===
+function drawLines() {
+  const svg = document.getElementById('mmLines');
+  const wrap = document.querySelector('.mindmap-wrap');
+  const wrapRect = wrap.getBoundingClientRect();
+
+  // Size SVG to content
+  const mm = document.getElementById('mindmap');
+  svg.style.width = mm.scrollWidth + 'px';
+  svg.style.height = mm.scrollHeight + 'px';
+  svg.setAttribute('viewBox', '0 0 ' + mm.scrollWidth + ' ' + mm.scrollHeight);
+
+  let paths = '';
+
+  document.querySelectorAll('.mm-provider-group').forEach(function(provGroup) {
+    const provNode = provGroup.querySelector('.mm-l1');
+    const methodNodes = provGroup.querySelectorAll('.mm-method-group > .mm-l2');
+
+    methodNodes.forEach(function(mNode) {
+      paths += connectNodes(provNode, mNode, wrapRect);
+
+      const methodGroup = mNode.parentElement;
+      const l3Nodes = methodGroup.querySelectorAll('.mm-children > .mm-node');
+      l3Nodes.forEach(function(l3) {
+        paths += connectNodes(mNode, l3, wrapRect);
+      });
+    });
+  });
+
+  svg.innerHTML = paths;
+}
+
+function connectNodes(from, to, wrapRect) {
+  const fRect = from.getBoundingClientRect();
+  const tRect = to.getBoundingClientRect();
+
+  const x1 = fRect.right - wrapRect.left;
+  const y1 = fRect.top + fRect.height / 2 - wrapRect.top;
+  const x2 = tRect.left - wrapRect.left;
+  const y2 = tRect.top + tRect.height / 2 - wrapRect.top;
+
+  const midX = (x1 + x2) / 2;
+  return '<path d="M' + x1 + ',' + y1 + ' C' + midX + ',' + y1 + ' ' + midX + ',' + y2 + ' ' + x2 + ',' + y2 + '"/>';
+}
+
+// === Node click ===
+function onNodeClick(type, id) {
+  if (type === 'provider') {
+    const prov = treeData.find(function(p){ return p.id === id; });
+    alert('編輯供應商: ' + prov.name + ' (' + prov.code + ')');
+  } else if (type === 'method') {
+    let method = null;
+    treeData.forEach(function(p){ p.methods.forEach(function(m){ if(m.id===id) method=m; }); });
+    if (method) alert('編輯支付方式: ' + method.name);
+  }
 }
 
 // === Billing Detail Modal ===
 function openBillingDetail(methodId) {
-  var method = null;
-  treeData.forEach(function(p){ p.methods.forEach(function(m){ if(m.id===methodId) method=m; }); });
+  let method = null, prov = null;
+  treeData.forEach(function(p){ p.methods.forEach(function(m){ if(m.id===methodId){ method=m; prov=p; } }); });
   if (!method || !method.billing) return;
 
-  var prov = treeData.find(function(p){ return p.methods.indexOf(method) >= 0; });
-  document.getElementById('detailTitle').textContent = (prov?prov.name:'') + ' / ' + method.name + ' - 儲值金額表';
-
-  var rows = method.billing.amounts.map(function(a, i) {
+  document.getElementById('detailTitle').textContent = prov.name + ' / ' + method.name + ' - 儲值金額表';
+  const rows = method.billing.amounts.map(function(a, i) {
     return '<tr><td>' + (i+1) + '</td><td>$' + a.amount.toLocaleString() + '</td><td>' + a.base.toLocaleString() + '</td><td>' + a.rate + '%</td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td></tr>';
   }).join('');
 
@@ -144,13 +188,10 @@ function openBillingDetail(methodId) {
   document.getElementById('detailModal').classList.add('show');
 }
 
-function openBillingModal(methodId) {
-  alert('新增儲值金額表 for method: ' + methodId);
-}
-
 function closeDetailModal() {
   document.getElementById('detailModal').classList.remove('show');
 }
 
 // === Init ===
-renderTree();
+renderMindMap();
+window.addEventListener('resize', drawLines);
