@@ -1,39 +1,52 @@
 // === 樹狀資料（來源：Nova 測試後台實際資料）===
+// 結構：供應商 → 支付方式 → 付款通道 → 儲值金額表（第四層）
+// 一個金額表可被多個通道共用，但一個通道只對應一個金額表
+const billingPlans = {
+  'bp-mc-point': {id:'bp-mc-point',name:'點數卡金額表',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:8,bonus:80,total:1080}]},
+  'bp-mc-tel': {id:'bp-mc-tel',name:'電信帳單金額表',status:'on',amounts:[{amount:50,base:50,rate:0,bonus:0,total:50},{amount:100,base:100,rate:3,bonus:3,total:103},{amount:300,base:300,rate:5,bonus:15,total:315}]},
+  'bp-mc-cc': {id:'bp-mc-cc',name:'信用卡金額表',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]},
+  'bp-mc-bank': {id:'bp-mc-bank',name:'銀行轉帳金額表',status:'on',amounts:[{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050},{amount:2000,base:2000,rate:8,bonus:160,total:2160}]},
+  'bp-mc-mobile': {id:'bp-mc-mobile',name:'行動支付金額表',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:500,base:500,rate:5,bonus:25,total:525}]},
+  'bp-mc-online': {id:'bp-mc-online',name:'線上轉點金額表',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309}]},
+  'bp-mc-free': {id:'bp-mc-free',name:'免費抵扣金額表',status:'on',amounts:[{amount:0,base:100,rate:0,bonus:0,total:100}]},
+  'bp-mc-guild': {id:'bp-mc-guild',name:'公會大禮包金額表',status:'on',amounts:[{amount:1000,base:1000,rate:10,bonus:100,total:1100}]},
+  'bp-ga-pt': {id:'bp-ga-pt',name:'Gash點數卡金額表',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]},
+  'bp-ga-wl': {id:'bp-ga-wl',name:'錢包扣點金額表',status:'on',amounts:[{amount:50,base:5000,rate:3,bonus:150,total:5150},{amount:100,base:10000,rate:5,bonus:500,total:10500}]},
+  'bp-ga-cvs': {id:'bp-ga-cvs',name:'超商儲值金額表',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]},
+  'bp-ec-cc': {id:'bp-ec-cc',name:'0918信用卡金額表',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]},
+  'bp-rd': {id:'bp-rd',name:'RD測試金額表',status:'off',amounts:[{amount:10,base:10,rate:0,bonus:0,total:10},{amount:50,base:50,rate:3,bonus:1,total:51}]}
+};
+
 const treeData = [
   {
     id:'mycard', name:'MyCard', code:'MYCARD', status:'on',
     methods: [
       { id:'mc-point', name:'點數卡', status:'on',
-        channels: [{id:'ch-point',name:'序號儲值',code:'MYCARD_SEQ',status:'on',bound:true}],
-        billing: {id:'bp-mc-point',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:8,bonus:80,total:1080}]}
+        channels: [{id:'ch-point',name:'序號儲值',code:'MYCARD_SEQ',status:'on',billingId:'bp-mc-point'}]
       },
       { id:'mc-tel', name:'電信帳單', status:'on',
-        channels: [{id:'ch-tel',name:'手機小額付款',code:'HE0004',status:'off',bound:true}],
-        billing: {id:'bp-mc-tel',status:'on',amounts:[{amount:50,base:50,rate:0,bonus:0,total:50},{amount:100,base:100,rate:3,bonus:3,total:103},{amount:300,base:300,rate:5,bonus:15,total:315}]}
+        channels: [{id:'ch-tel',name:'手機小額付款',code:'HE0004',status:'off',billingId:'bp-mc-tel'}]
       },
       { id:'mc-credit', name:'信用卡', status:'on',
-        channels: [{id:'ch-cc',name:'信用卡',code:'MYCARD_CC',status:'on',bound:true}],
-        billing: {id:'bp-mc-cc',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]}
+        channels: [{id:'ch-cc',name:'信用卡',code:'MYCARD_CC',status:'on',billingId:'bp-mc-cc'}]
       },
       { id:'mc-bank', name:'銀行轉帳', status:'on',
-        channels: [{id:'ch-bank',name:'銀行轉帳',code:'FA038',status:'on',bound:true}],
-        billing: {id:'bp-mc-bank',status:'on',amounts:[{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050},{amount:2000,base:2000,rate:8,bonus:160,total:2160}]}
+        channels: [{id:'ch-bank',name:'銀行轉帳',code:'FA038',status:'on',billingId:'bp-mc-bank'}]
       },
       { id:'mc-mobile', name:'行動支付', status:'on',
-        channels: [{id:'ch-linepay2',name:'LINE Pay全支付',code:'MYCARD_LP',status:'on',bound:true}],
-        billing: {id:'bp-mc-mobile',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+        channels: [{id:'ch-linepay2',name:'LINE Pay全支付',code:'MYCARD_LP',status:'on',billingId:'bp-mc-mobile'}]
       },
       { id:'mc-online', name:'線上轉點', status:'on',
-        channels: [{id:'ch-cc3d',name:'信用卡3D',code:'CHANNEL_1E8B07D7',status:'off',bound:false},{id:'ch-costpoint',name:'線上轉點',code:'COSTPOINT',status:'on',bound:true}],
-        billing: {id:'bp-mc-online',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309}]}
+        channels: [
+          {id:'ch-cc3d',name:'信用卡3D',code:'CHANNEL_1E8B07D7',status:'off',billingId:'bp-mc-online'},
+          {id:'ch-costpoint',name:'線上轉點',code:'COSTPOINT',status:'on',billingId:'bp-mc-online'}
+        ]
       },
       { id:'mc-free', name:'免費抵扣', status:'on',
-        channels: [{id:'ch-free',name:'免費扣抵',code:'HE0033',status:'off',bound:true}],
-        billing: {id:'bp-mc-free',status:'on',amounts:[{amount:0,base:100,rate:0,bonus:0,total:100}]}
+        channels: [{id:'ch-free',name:'免費扣抵',code:'HE0033',status:'off',billingId:'bp-mc-free'}]
       },
       { id:'mc-guild', name:'公會會長大禮包', status:'on',
-        channels: [{id:'ch-guild',name:'公會會長大禮包',code:'FA200000002',status:'on',bound:true}],
-        billing: {id:'bp-mc-guild',status:'on',amounts:[{amount:1000,base:1000,rate:10,bonus:100,total:1100}]}
+        channels: [{id:'ch-guild',name:'公會會長大禮包',code:'FA200000002',status:'on',billingId:'bp-mc-guild'}]
       }
     ]
   },
@@ -41,16 +54,13 @@ const treeData = [
     id:'gash', name:'Gash', code:'COPGAM', status:'on',
     methods: [
       { id:'ga-point', name:'點數卡', status:'on',
-        channels: [{id:'ch-gash-pt',name:'點數卡',code:'COPGAM05',status:'on',bound:true}],
-        billing: {id:'bp-ga-pt',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+        channels: [{id:'ch-gash-pt',name:'點數卡',code:'COPGAM05',status:'on',billingId:'bp-ga-pt'}]
       },
       { id:'ga-wallet', name:'會員扣點', status:'on',
-        channels: [{id:'ch-gash-wl',name:'錢包扣點',code:'COPGAM09',status:'on',bound:true}],
-        billing: {id:'bp-ga-wl',status:'on',amounts:[{amount:50,base:5000,rate:3,bonus:150,total:5150},{amount:100,base:10000,rate:5,bonus:500,total:10500}]}
+        channels: [{id:'ch-gash-wl',name:'錢包扣點',code:'COPGAM09',status:'on',billingId:'bp-ga-wl'}]
       },
       { id:'ga-cvs', name:'超商儲值', status:'on',
-        channels: [{id:'ch-gash-cvs',name:'7-11即時儲',code:'GASH_711',status:'on',bound:true}],
-        billing: {id:'bp-ga-cvs',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+        channels: [{id:'ch-gash-cvs',name:'7-11即時儲',code:'GASH_711',status:'on',billingId:'bp-ga-cvs'}]
       }
     ]
   },
@@ -58,16 +68,13 @@ const treeData = [
     id:'ecpay0918', name:'0918綠界', code:'0918EC', status:'off',
     methods: [
       { id:'ec-mobile', name:'行動支付', status:'off',
-        channels: [{id:'ch-ec-lp',name:'0918 linepay',code:'CHANNEL_83DE0D1A',status:'off',bound:false},{id:'ch-ec-all',name:'0918全支付',code:'CHANNEL_81C410ED',status:'off',bound:true}],
-        billing: null
+        channels: [{id:'ch-ec-lp',name:'0918 linepay',code:'CHANNEL_83DE0D1A',status:'off',billingId:null},{id:'ch-ec-all',name:'0918全支付',code:'CHANNEL_81C410ED',status:'off',billingId:null}]
       },
       { id:'ec-bank', name:'銀行轉帳', status:'off',
-        channels: [{id:'ch-ec-bank',name:'0918銀行轉帳',code:'CHANNEL_9B4F3F8A',status:'off',bound:false}],
-        billing: null
+        channels: [{id:'ch-ec-bank',name:'0918銀行轉帳',code:'CHANNEL_9B4F3F8A',status:'off',billingId:null}]
       },
       { id:'ec-cc', name:'信用卡', status:'on',
-        channels: [{id:'ch-ec-cc',name:'0918信用卡',code:'0918_CC',status:'on',bound:true}],
-        billing: {id:'bp-ec-cc',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]}
+        channels: [{id:'ch-ec-cc',name:'0918信用卡',code:'0918_CC',status:'on',billingId:'bp-ec-cc'}]
       }
     ]
   },
@@ -75,8 +82,7 @@ const treeData = [
     id:'startest', name:'星運測試商', code:'AB00888', status:'on',
     methods: [
       { id:'st-mobile', name:'行動支付', status:'on',
-        channels: [{id:'ch-st-lp',name:'LINE Pay',code:'STAR_LP',status:'on',bound:false}],
-        billing: null
+        channels: [{id:'ch-st-lp',name:'LINE Pay',code:'STAR_LP',status:'on',billingId:null}]
       }
     ]
   },
@@ -84,17 +90,28 @@ const treeData = [
     id:'rdtest', name:'RD 測試供應商', code:'AC9625BC', status:'off',
     methods: [
       { id:'rd-test', name:'RD 測試支付方式', status:'off',
-        channels: [{id:'ch-rd1',name:'RD 測試003',code:'AC9625BC',status:'off',bound:true},{id:'ch-rd2',name:'test111',code:'test456',status:'off',bound:true}],
-        billing: {id:'bp-rd',status:'off',amounts:[{amount:10,base:10,rate:0,bonus:0,total:10},{amount:50,base:50,rate:3,bonus:1,total:51}]}
+        channels: [
+          {id:'ch-rd1',name:'RD 測試003',code:'AC9625BC',status:'off',billingId:'bp-rd'},
+          {id:'ch-rd2',name:'test111',code:'test456',status:'off',billingId:'bp-rd'}
+        ]
       }
     ]
   }
 ];
 
-// === Render Mind Map ===
+// === SVG Icons ===
+const ICON = {
+  edit: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  add: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+  billing: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>'
+};
+
+// === Render Mind Map (4 layers) ===
 function renderMindMap() {
   const container = document.getElementById('mindmap');
   let html = '';
+  // Track rendered billing plans to handle shared ones
+  const renderedBillings = {};
 
   treeData.forEach(function(prov) {
     const provTag = prov.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
@@ -106,7 +123,7 @@ function renderMindMap() {
     html += '<span>' + prov.name + '</span><span class="mm-code">' + prov.code + '</span>' + provTag;
     html += '</div>';
 
-    // L2 支付方式 column
+    // L2 支付方式
     html += '<div class="mm-children">';
     prov.methods.forEach(function(method) {
       const mTag = method.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
@@ -116,38 +133,58 @@ function renderMindMap() {
       html += '<span>' + method.name + '</span>' + mTag;
       html += '</div>';
 
-      // L3 付款通道 + 儲值金額表
+      // L3 付款通道
       html += '<div class="mm-children">';
       method.channels.forEach(function(ch) {
         const cTag = ch.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
+
+        html += '<div class="mm-channel-group">';
         html += '<div class="mm-node mm-l3" data-id="' + ch.id + '">';
         html += '<span>' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cTag;
         html += '</div>';
-      });
 
-      // 儲值金額表
-      if (method.billing) {
-        const bTag = method.billing.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
-        html += '<div class="mm-node mm-l3-billing" data-id="' + method.billing.id + '" onclick="openBillingDetail(\'' + method.id + '\')">';
-        html += '<span>💰 儲值金額表</span>' + bTag + '<span class="mm-amounts">' + method.billing.amounts.length + '筆</span>';
-        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingDetail(\'' + method.id + '\')">✏️ 編輯</span>';
-        html += '</div>';
-      } else {
-        // 沒有金額表 → 新增入口
-        html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
-        html += '<span>+ 新增金額表</span>';
-        html += '</div>';
-      }
-      html += '</div>'; // mm-children L3
-      html += '</div>'; // mm-method-group
+        // L4 儲值金額表
+        html += '<div class="mm-children">';
+        if (ch.billingId && billingPlans[ch.billingId]) {
+          const bp = billingPlans[ch.billingId];
+          const bTag = bp.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
+          const shared = isSharedBilling(ch.billingId);
+          const sharedLabel = shared ? '<span class="mm-tag mm-tag-shared">共用</span>' : '';
+          html += '<div class="mm-node mm-l4" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
+          html += ICON.billing + '<span>' + bp.name + '</span>' + bTag + '<span class="mm-amounts">' + bp.amounts.length + '筆</span>' + sharedLabel;
+          html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingDetail(\'' + bp.id + '\')">' + ICON.edit + ' 編輯</span>';
+          html += '</div>';
+        } else {
+          html += '<div class="mm-node mm-l4 empty mm-add" onclick="alert(\'新增儲值金額表: ' + ch.name + '\')">';
+          html += ICON.add + '<span>新增金額表</span>';
+          html += '</div>';
+        }
+        html += '</div>'; // L4 children
+        html += '</div>'; // channel-group
+      });
+      html += '</div>'; // L3 children
+      html += '</div>'; // method-group
     });
-    html += '</div>'; // mm-children L2
+    html += '</div>'; // L2 children
     html += '</div>'; // mm-row
-    html += '</div>'; // mm-provider-group
+    html += '</div>'; // provider-group
   });
 
   container.innerHTML = html;
   requestAnimationFrame(drawLines);
+}
+
+// 判斷金額表是否被多個通道共用
+function isSharedBilling(billingId) {
+  let count = 0;
+  treeData.forEach(function(p) {
+    p.methods.forEach(function(m) {
+      m.channels.forEach(function(ch) {
+        if (ch.billingId === billingId) count++;
+      });
+    });
+  });
+  return count > 1;
 }
 
 // === Draw SVG connecting lines ===
@@ -156,7 +193,6 @@ function drawLines() {
   const wrap = document.querySelector('.mindmap-wrap');
   const wrapRect = wrap.getBoundingClientRect();
 
-  // Size SVG to content
   const mm = document.getElementById('mindmap');
   svg.style.width = mm.scrollWidth + 'px';
   svg.style.height = mm.scrollHeight + 'px';
@@ -172,9 +208,15 @@ function drawLines() {
       paths += connectNodes(provNode, mNode, wrapRect);
 
       const methodGroup = mNode.parentElement;
-      const l3Nodes = methodGroup.querySelectorAll('.mm-children > .mm-node');
-      l3Nodes.forEach(function(l3) {
-        paths += connectNodes(mNode, l3, wrapRect);
+      const channelGroups = methodGroup.querySelectorAll(':scope > .mm-children > .mm-channel-group');
+      channelGroups.forEach(function(chGroup) {
+        const chNode = chGroup.querySelector('.mm-l3');
+        paths += connectNodes(mNode, chNode, wrapRect);
+        // L4 billing node
+        const l4Node = chGroup.querySelector('.mm-children > .mm-node');
+        if (l4Node) {
+          paths += connectNodes(chNode, l4Node, wrapRect);
+        }
       });
     });
   });
@@ -208,13 +250,12 @@ function onNodeClick(type, id) {
 }
 
 // === Billing Detail Modal ===
-function openBillingDetail(methodId) {
-  let method = null, prov = null;
-  treeData.forEach(function(p){ p.methods.forEach(function(m){ if(m.id===methodId){ method=m; prov=p; } }); });
-  if (!method || !method.billing) return;
+function openBillingDetail(billingId) {
+  const bp = billingPlans[billingId];
+  if (!bp) return;
 
-  document.getElementById('detailTitle').textContent = prov.name + ' / ' + method.name + ' - 儲值金額表';
-  const rows = method.billing.amounts.map(function(a, i) {
+  document.getElementById('detailTitle').textContent = bp.name;
+  const rows = bp.amounts.map(function(a, i) {
     return '<tr><td>' + (i+1) + '</td><td>$' + a.amount.toLocaleString() + '</td><td>' + a.base.toLocaleString() + '</td><td>' + a.rate + '%</td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td></tr>';
   }).join('');
 
