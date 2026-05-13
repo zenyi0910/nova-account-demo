@@ -100,7 +100,7 @@ function renderSchedItem(s, idx, isActive, isExpired) {
     <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
     <span class="note">${s.content}</span>
     <span class="spacer"></span>
-    <span style="color:#DC2626;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
+    <span style="color:#374151;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
     <button class="del-btn" onclick="delMaintSched(${idx})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
   </div>`;
 }
@@ -161,22 +161,26 @@ function openMaintSchedModal() {
 }
 
 function addMaintSched() {
-  const startEl = document.querySelector('#maintSchedModal #schedStartDate');
-  const endEl = document.querySelector('#maintSchedModal #schedEndDate');
+  const rangeEl = document.getElementById('schedDateRange');
   const content = document.getElementById('schedContent').value.trim();
   const remark = document.getElementById('schedRemark').value.trim();
   const scopeEl = document.getElementById('schedScope');
   const scope = scopeEl ? scopeEl.value : '全站';
 
-  if (!startEl || !endEl || !startEl.value || !endEl.value) {
-    UI.toast('請選擇開始與結束時間', 'error'); return;
+  if (!rangeEl || !rangeEl.value) {
+    UI.toast('請選擇維護時間', 'error'); return;
   }
   if (!content) {
     UI.toast('請填寫公告內容', 'error'); return;
   }
 
-  const start = startEl.value.includes('T') ? startEl.value : startEl.value + 'T00:00';
-  const end = endEl.value.includes('T') ? endEl.value : endEl.value + 'T23:59';
+  // Parse "2026-05-14 03:00:00 ~ 2026-05-14 05:00:59"
+  const parts = rangeEl.value.split(' ~ ');
+  if (parts.length !== 2) {
+    UI.toast('時間格式錯誤', 'error'); return;
+  }
+  const start = parts[0].replace(' ', 'T').substring(0, 16);
+  const end = parts[1].replace(' ', 'T').substring(0, 16);
 
   maintSchedules.push({
     id: ++schedIdCounter, start, end, content, remark, operator: 'casper', scope
