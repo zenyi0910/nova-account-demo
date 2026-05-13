@@ -151,7 +151,6 @@ function renderMindMap() {
         const bp = billingPlans[method.billingId];
         html += '<div class="mm-billing-group">';
         html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
-        html += '<span class="mm-name">' + bp.name + '</span>';
         html += makeToggle(bp.status === 'on', bp.id);
         html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
         html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + '</span>';
@@ -161,16 +160,21 @@ function renderMindMap() {
         html += '<div class="mm-children">';
         method.channels.forEach(function(ch) {
           const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
-          html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
+          const canUnlink = method.channels.length > 1;
+          html += '<div class="mm-node mm-l4" data-id="' + ch.id + '" data-method="' + method.id + '" data-billing="' + bp.id + '">';
           html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
+          if (canUnlink) {
+            html += '<span class="mm-unlink" onclick="event.stopPropagation();unlinkChannel(\'' + method.id + '\',\'' + ch.id + '\',\'' + bp.id + '\')" title="解開此通道">×</span>';
+          }
           html += '</div>';
         });
         html += '</div>'; // L4 children
         html += '</div>'; // billing-group
       } else {
         // 無金額表
+        const prefill = method._prefill ? JSON.stringify(method._prefill).replace(/'/g,'&#39;').replace(/"/g,'&quot;') : '';
         html += '<div class="mm-billing-group">';
-        html += '<div class="mm-node mm-l3 empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
+        html += '<div class="mm-node mm-l3 empty mm-add" onclick="openNewBilling(\'' + method.id + '\',\'' + prefill + '\')">';
         html += ICON.add + '<span class="mm-name">新增金額表</span>';
         html += '</div>';
         // L4 付款通道（即使沒金額表也顯示）
@@ -207,6 +211,58 @@ function isSharedBilling(billingId) {
     });
   });
   return count > 1;
+}
+
+// 解開通道：從金額表移出，變成獨立通道連到「新增儲值金額表」
+function unlinkChannel(methodId, channelId, billingId) {
+  treeData.forEach(function(p) {
+    p.methods.forEach(function(m) {
+      if (m.id === methodId && m.channels.length > 1) {
+        const chIdx = m.channels.findIndex(function(c) { return c.id === channelId; });
+        if (chIdx === -1) return;
+        const ch = m.channels.splice(chIdx, 1)[0];
+        // 在同一個支付方式下新增一個無金額表的 method clone，帶入原通道
+        const newMethod = {
+          id: m.id + '-unlinked-' + ch.id,
+          name: m.name,
+          status: m.status,
+          billingId: null,
+          channels: [ch],
+          _prefill: { billingId: billingId, channel: ch }
+        };
+        // 插入到當前 method 後面
+        const mIdx = p.methods.indexOf(m);
+        p.methods.splice(mIdx + 1, 0, newMethod);
+      }
+    });
+  });
+  renderMindMap();
+}
+
+// 新增儲值金額表（帶入解開通道的原設定）
+function openNewBilling(methodId, prefillStr) {
+  const prefill = prefillStr ? JSON.parse(prefillStr.replace(/&quot;/g,'"').replace(/&#39;/g,"'")) : null;
+  const modal = document.getElementById('billingModal');
+  const title = document.querySelector('#billingModal h3');
+  const body = document.getElementById('billingBody');
+  title.textContent = '新增儲值金額表';
+  let html = '<div class="billing-edit-form">';
+  html += '<div class="form-row"><label>金額表名稱</label><input type="text" value="' + (prefill ? prefill.channel.name : '') + '" placeholder="輸入名稱"></div>';
+  if (prefill) {
+    const bp = billingPlans[prefill.billingId];
+    html += '<div class="form-row"><label>複製來源</label><span class="mm-tag mm-tag-shared">' + (bp ? bp.name : prefill.billingId) + '</span></div>';
+    html += '<table class="billing-table"><thead><tr><th>金額</th><th>基礎值</th><th>加成%</th><th>Bonus</th><th>合計</th></tr></thead><tbody>';
+    if (bp) {
+      bp.amounts.forEach(function(a) {
+        html += '<tr><td>' + a.amount + '</td><td>' + a.base + '</td><td>' + a.rate + '%</td><td>' + a.bonus + '</td><td>' + a.total + '</td></tr>';
+      });
+    }
+    html += '</tbody></table>';
+  }
+  html += '<div class="form-actions"><button class="btn-save" onclick="document.getElementById(\'billingModal\').style.display=\'none\'">儲存</button><button class="btn-cancel" onclick="document.getElementById(\'billingModal\').style.display=\'none\'">取消</button></div>';
+  html += '</div>';
+  body.innerHTML = html;
+  modal.style.display = 'flex';
 }
 
 // === Draw SVG connecting lines ===
