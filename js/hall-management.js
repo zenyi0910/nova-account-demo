@@ -772,7 +772,7 @@ function requestToggle(id) {
   const act = ns === 'off' ? '關閉' : '開啟';
   const gc = games.filter(g => g.hall === id).length;
   pendingToggle = { id, newState: ns };
-  document.getElementById('toggleMsg').innerHTML = '確定要<strong>維護 ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。' + (ns === 'off' ? '<br>關閉後玩家將無法進入該廳所有遊戲。' : '');
+  document.getElementById('toggleMsg').innerHTML = '確定要<strong>維護 ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。';
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
   document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
