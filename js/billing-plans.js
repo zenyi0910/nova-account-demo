@@ -120,9 +120,8 @@ function renderMindMap() {
       html += '<div class="mm-children">';
       method.channels.forEach(function(ch) {
         const cTag = ch.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
-        const boundTag = ch.bound ? '<span class="mm-tag mm-tag-bound">已綁定</span>' : '<span class="mm-tag mm-tag-free">可用</span>';
-        html += '<div class="mm-node mm-l3' + (ch.bound ? ' mm-bound' : '') + '" data-id="' + ch.id + '">';
-        html += '<span>' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cTag + boundTag;
+        html += '<div class="mm-node mm-l3" data-id="' + ch.id + '">';
+        html += '<span>' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cTag;
         html += '</div>';
       });
 
@@ -131,12 +130,14 @@ function renderMindMap() {
         const bTag = method.billing.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
         html += '<div class="mm-node mm-l3-billing" data-id="' + method.billing.id + '" onclick="openBillingDetail(\'' + method.id + '\')">';
         html += '<span>💰 儲值金額表</span>' + bTag + '<span class="mm-amounts">' + method.billing.amounts.length + '筆</span>';
+        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingDetail(\'' + method.id + '\')">✏️ 編輯</span>';
+        html += '</div>';
+      } else {
+        // 沒有金額表 → 新增入口
+        html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
+        html += '<span>+ 新增金額表</span>';
         html += '</div>';
       }
-      // 每個支付方式都有新增入口
-      html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
-      html += '<span>+ 新增金額表</span>';
-      html += '</div>';
       html += '</div>'; // mm-children L3
       html += '</div>'; // mm-method-group
     });
