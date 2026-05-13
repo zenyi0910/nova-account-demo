@@ -34,35 +34,32 @@ const channels = [
   {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on',values:[{amount:50,type:'一般'},{amount:100,type:'快速'},{amount:500,type:'一般'}]}
 ];
 
-// 商城管理資料（一般+快速合併，type 區分）
-const storeItems = [
-  {id:'sg1',name:'線上轉點',provider:'mycard',method:'線上轉點',channel:'信用卡3D',type:'一般',vip:['新手','金牌','鑽石','銀牌','白金','銅牌'],status:'on',amounts:[{amount:100,basePoints:100,bonusRate:0,bonusPoints:0,totalPoints:100},{amount:300,basePoints:300,bonusRate:3,bonusPoints:9,totalPoints:309},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525},{amount:1000,basePoints:1000,bonusRate:8,bonusPoints:80,totalPoints:1080}]},
-  {id:'sg2',name:'電信帳單',provider:'mycard',method:'電信帳單',channel:'手機小額付款',type:'一般',vip:['新手','白金','金牌','鑽石','銅牌','銀牌'],status:'on',amounts:[{amount:50,basePoints:50,bonusRate:0,bonusPoints:0,totalPoints:50},{amount:100,basePoints:100,bonusRate:3,bonusPoints:3,totalPoints:103},{amount:300,basePoints:300,bonusRate:5,bonusPoints:15,totalPoints:315}]},
-  {id:'sg3',name:'Gash錢包扣點',provider:'gash',method:'會員扣點',channel:'錢包扣點',type:'一般',vip:['新手','白金','銅牌','鑽石','銀牌','金牌'],status:'on',amounts:[{amount:50,basePoints:5000,bonusRate:3,bonusPoints:150,totalPoints:5150},{amount:100,basePoints:10000,bonusRate:5,bonusPoints:500,totalPoints:10500},{amount:300,basePoints:30000,bonusRate:8,bonusPoints:2400,totalPoints:32400},{amount:500,basePoints:50000,bonusRate:10,bonusPoints:5000,totalPoints:55000},{amount:1000,basePoints:100000,bonusRate:12,bonusPoints:12000,totalPoints:112000}]},
-  {id:'sg4',name:'LINE Pay儲值',provider:'linepay',method:'行動支付',channel:'LINE Pay',type:'一般',vip:['新手','金牌','鑽石'],status:'on',amounts:[{amount:100,basePoints:100,bonusRate:0,bonusPoints:0,totalPoints:100},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525},{amount:1000,basePoints:1000,bonusRate:10,bonusPoints:100,totalPoints:1100},{amount:3000,basePoints:3000,bonusRate:12,bonusPoints:360,totalPoints:3360}]},
-  {id:'sg5',name:'MyCard點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',type:'一般',vip:['新手','銅牌','銀牌','金牌','白金','鑽石'],status:'on',amounts:[{amount:150,basePoints:150,bonusRate:0,bonusPoints:0,totalPoints:150},{amount:300,basePoints:300,bonusRate:3,bonusPoints:9,totalPoints:309},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525},{amount:1000,basePoints:1000,bonusRate:8,bonusPoints:80,totalPoints:1080},{amount:2000,basePoints:2000,bonusRate:10,bonusPoints:200,totalPoints:2200}]},
-  {id:'sf1',name:'快速儲值-點數卡',provider:'mycard',method:'點數卡',channel:'點數卡',type:'快速',vip:['新手','銅牌','銀牌'],status:'on',amounts:[{amount:50,basePoints:50,bonusRate:0,bonusPoints:0,totalPoints:50},{amount:100,basePoints:100,bonusRate:3,bonusPoints:3,totalPoints:103}]},
-  {id:'sf2',name:'快速儲值-錢包',provider:'gash',method:'會員扣點',channel:'錢包扣點',type:'快速',vip:['新手','金牌'],status:'on',amounts:[{amount:50,basePoints:5000,bonusRate:3,bonusPoints:150,totalPoints:5150},{amount:100,basePoints:10000,bonusRate:5,bonusPoints:500,totalPoints:10500}]},
-  {id:'sf3',name:'快速儲值-LINE',provider:'linepay',method:'行動支付',channel:'LINE Pay',type:'快速',vip:['新手','鑽石','白金'],status:'on',amounts:[{amount:100,basePoints:100,bonusRate:0,bonusPoints:0,totalPoints:100},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525}]},
-  {id:'sf4',name:'快速儲值-電信',provider:'mycard',method:'電信帳單',channel:'手機小額付款',type:'快速',vip:['新手','銅牌'],status:'on',amounts:[{amount:50,basePoints:50,bonusRate:0,bonusPoints:0,totalPoints:50},{amount:100,basePoints:100,bonusRate:3,bonusPoints:3,totalPoints:103},{amount:300,basePoints:300,bonusRate:5,bonusPoints:15,totalPoints:315}]}
+// 儲值金額表資料（獨立實體，綁定一種支付方式 + 多個付款通道）
+const billingPlans = [
+  {id:'bp1',name:'MyCard點數卡方案',provider:'mycard',method:'點數卡',channels:['c1'],vip:['新手','銅牌','銀牌','金牌','白金','鑽石'],status:'on',amounts:[{amount:150,basePoints:150,bonusRate:0,bonusPoints:0,totalPoints:150},{amount:300,basePoints:300,bonusRate:3,bonusPoints:9,totalPoints:309},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525},{amount:1000,basePoints:1000,bonusRate:8,bonusPoints:80,totalPoints:1080},{amount:2000,basePoints:2000,bonusRate:10,bonusPoints:200,totalPoints:2200}]},
+  {id:'bp2',name:'電信帳單方案',provider:'mycard',method:'電信帳單',channels:['c2'],vip:['新手','白金','金牌','鑽石','銅牌','銀牌'],status:'on',amounts:[{amount:50,basePoints:50,bonusRate:0,bonusPoints:0,totalPoints:50},{amount:100,basePoints:100,bonusRate:3,bonusPoints:3,totalPoints:103},{amount:300,basePoints:300,bonusRate:5,bonusPoints:15,totalPoints:315}]},
+  {id:'bp3',name:'Gash錢包方案',provider:'gash',method:'會員扣點',channels:['c5'],vip:['新手','白金','銅牌','鑽石','銀牌','金牌'],status:'on',amounts:[{amount:50,basePoints:5000,bonusRate:3,bonusPoints:150,totalPoints:5150},{amount:100,basePoints:10000,bonusRate:5,bonusPoints:500,totalPoints:10500},{amount:300,basePoints:30000,bonusRate:8,bonusPoints:2400,totalPoints:32400}]},
+  {id:'bp4',name:'LINE Pay方案',provider:'linepay',method:'行動支付',channels:['c6'],vip:['新手','金牌','鑽石'],status:'on',amounts:[{amount:100,basePoints:100,bonusRate:0,bonusPoints:0,totalPoints:100},{amount:500,basePoints:500,bonusRate:5,bonusPoints:25,totalPoints:525},{amount:1000,basePoints:1000,bonusRate:10,bonusPoints:100,totalPoints:1100},{amount:3000,basePoints:3000,bonusRate:12,bonusPoints:360,totalPoints:3360}]},
+  {id:'bp5',name:'星運測試方案',provider:'startest',method:'測試支付',channels:['c9','c10'],vip:['新手','銅牌','銀牌'],status:'on',amounts:[{amount:10,basePoints:10,bonusRate:0,bonusPoints:0,totalPoints:10},{amount:50,basePoints:50,bonusRate:3,bonusPoints:1,totalPoints:51},{amount:100,basePoints:100,bonusRate:5,bonusPoints:5,totalPoints:105}]}
 ];
 
 let currentProvider = 'mycard';
 let currentTab = 'methods';
 let currentPage = 1;
-let currentSection = 'payment'; // 'payment' or 'store'
+let currentSection = 'payment'; // 'payment' or 'billing'
 let pageSize = 20;
-let storePageSize = 20;
+let billingPageSize = 20;
+let billingPage = 1;
 
 function changePageSize(val) {
   pageSize = parseInt(val);
   currentPage = 1;
   renderTable();
 }
-function changeStorePageSize(val) {
-  storePageSize = parseInt(val);
-  currentPage = 1;
-  renderStoreTable();
+function changeBillingPageSize(val) {
+  billingPageSize = parseInt(val);
+  billingPage = 1;
+  renderBillingTable();
 }
 
 // === Init ===
@@ -88,97 +85,111 @@ function renderSectionTabs() {
   var container = document.getElementById('sectionTabs');
   if (!container) return;
   container.innerHTML =
-    '<button class="section-tab' + (currentSection === 'store' ? ' active' : '') + '" onclick="switchSection(\'store\',this)">商城管理</button>';
-  // 清空右側按鈕（新增供應商移到供應商列表行）
+    '<button class="section-tab' + (currentSection === 'billing' ? ' active' : '') + '" onclick="switchSection(\'billing\',this)">儲值金額表</button>';
+  // 儲值金額表 section 的新增按鈕
   var btnContainer = document.getElementById('sectionAddBtn');
-  if (btnContainer) { btnContainer.innerHTML = ''; }
+  if (btnContainer) {
+    btnContainer.innerHTML = currentSection === 'billing' ? '<button class="btn-add" onclick="openBillingAddModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> 新增儲值金額表</button>' : '';
+  }
 }
 
 function switchSection(section, el) {
   currentSection = section;
-  currentPage = 1;
   document.querySelectorAll('.section-tab').forEach(function(b){ b.classList.remove('active'); });
   if (el) el.classList.add('active');
-  // Show/hide panels
   document.getElementById('paymentSection').style.display = section === 'payment' ? '' : 'none';
-  document.getElementById('storeSection').style.display = section === 'store' ? '' : 'none';
-  if (section === 'store') renderStoreTable();
+  document.getElementById('billingSection').style.display = section === 'billing' ? '' : 'none';
+  if (section === 'billing') renderBillingTable();
   renderSectionTabs();
 }
 
-// === Store Section ===
-function renderStoreTable() {
-  var container = document.getElementById('storeTableContainer');
+// === Billing Plan Section ===
+function renderBillingTable() {
+  var container = document.getElementById('billingTableContainer');
   if (!container) return;
-  
-  // Apply filters
-  var nameFilter = (document.getElementById('storeFilterName') || {}).value || '';
-  var statusFilter = (document.getElementById('storeFilterStatus') || {}).value || '';
-  var typeFilter = (document.getElementById('storeFilterType') || {}).value || '';
-  
-  var data = storeItems.filter(function(item) {
+
+  var nameFilter = (document.getElementById('billingFilterName') || {}).value || '';
+  var statusFilter = (document.getElementById('billingFilterStatus') || {}).value || '';
+  var methodFilter = (document.getElementById('billingFilterMethod') || {}).value || '';
+
+  // Populate method filter dropdown
+  var methodSel = document.getElementById('billingFilterMethod');
+  if (methodSel && methodSel.options.length <= 1) {
+    var uniqueMethods = [];
+    billingPlans.forEach(function(bp) { if (uniqueMethods.indexOf(bp.method) < 0) uniqueMethods.push(bp.method); });
+    uniqueMethods.forEach(function(m) { methodSel.innerHTML += '<option value="' + m + '">' + m + '</option>'; });
+  }
+
+  var data = billingPlans.filter(function(item) {
     if (nameFilter && item.name.toLowerCase().indexOf(nameFilter.toLowerCase()) < 0) return false;
     if (statusFilter && item.status !== statusFilter) return false;
-    if (typeFilter && item.type !== typeFilter) return false;
+    if (methodFilter && item.method !== methodFilter) return false;
     return true;
   });
-  
-  var providerOff = providers.filter(function(p){ return p.status === 'off'; }).map(function(p){ return p.id; });
 
   var total = data.length;
-  var totalPages = Math.max(1, Math.ceil(total / storePageSize));
-  if (currentPage > totalPages) currentPage = totalPages;
-  var start = (currentPage - 1) * storePageSize;
-  var pageData = data.slice(start, start + storePageSize);
+  var totalPages = Math.max(1, Math.ceil(total / billingPageSize));
+  if (billingPage > totalPages) billingPage = totalPages;
+  var start = (billingPage - 1) * billingPageSize;
+  var pageData = data.slice(start, start + billingPageSize);
 
   var rows = pageData.map(function(item) {
-    var blocked = providerOff.indexOf(item.provider) >= 0;
-    var rowCls = blocked ? ' class="row-blocked"' : '';
-    var provName = item.type === '快速' ? '-' : ((providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider || '-');
-    var statusHtml = blocked ?
-      renderStatusCell('off', '', true) :
-      renderStatusCell(item.status, "toggleStoreStatus('" + item.id + "')");
+    var provName = (providers.find(function(p){ return p.id === item.provider; }) || {}).name || item.provider || '-';
+    var channelNames = item.channels.map(function(cid) {
+      var ch = channels.find(function(c){ return c.id === cid; });
+      return ch ? ch.name : cid;
+    }).join(', ');
+    var statusHtml = renderStatusCell(item.status, "toggleBillingStatus('" + item.id + "')");
     var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
-    return '<tr' + rowCls + '>' +
-      '<td>' + provName + '</td>' +
+    return '<tr>' +
       '<td>' + item.name + '</td>' +
-      '<td><span class="type-badge ' + (item.type === '快速' ? 'fast' : 'normal') + '">' + item.type + '</span></td>' +
-      '<td>' + (item.type === '快速' ? '-' : (item.method || '-')) + '</td>' +
-      '<td>' + (item.type === '快速' ? '-' : (item.channel || '-')) + '</td>' +
+      '<td>' + provName + '</td>' +
+      '<td>' + item.method + '</td>' +
+      '<td>' + channelNames + '</td>' +
+      '<td>' + item.amounts.length + ' 筆</td>' +
       statusHtml +
       '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
-      renderActionCell('StoreEdit', item.id, blocked) + '</tr>';
+      '<td class="action-cell"><div class="action-inner">' +
+        UI.btn.icon('view', "viewBillingModal('" + item.id + "')", '檢視') +
+        UI.btn.icon('edit', "openBillingModal('" + item.id + "')", '編輯') +
+      '</div></td></tr>';
   }).join('');
 
   if (!rows) rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
-  container.innerHTML = '<table class="data-table"><thead><tr><th>供應商</th><th>項目名稱</th><th>類型</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th>適用 VIP 等級</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  container.innerHTML = '<table class="data-table"><thead><tr><th>金額表名稱</th><th>供應商</th><th>支付方式</th><th>綁定通道</th><th>金額項目</th><th>狀態</th><th>適用 VIP</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
-  document.getElementById('storePageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + total + ' 筆資料';
-  var pageBtns = '<button class="page-arrow" onclick="goStorePage(' + Math.max(1, currentPage - 1) + ')" ' + (currentPage <= 1 ? 'disabled' : '') + '>&lt;</button>';
+  document.getElementById('billingPageInfo').textContent = '第 ' + billingPage + ' 頁，共 ' + total + ' 筆資料';
+  var pageBtns = '<button class="page-arrow" onclick="goBillingPage(' + Math.max(1, billingPage - 1) + ')" ' + (billingPage <= 1 ? 'disabled' : '') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
-    pageBtns += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="goStorePage(' + i + ')">' + i + '</button>';
+    pageBtns += '<button class="' + (i === billingPage ? 'active' : '') + '" onclick="goBillingPage(' + i + ')">' + i + '</button>';
   }
-  pageBtns += '<button class="page-arrow" onclick="goStorePage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '>&gt;</button>';
-  document.getElementById('storePageButtons').innerHTML = pageBtns;
+  pageBtns += '<button class="page-arrow" onclick="goBillingPage(' + Math.min(totalPages, billingPage + 1) + ')" ' + (billingPage >= totalPages ? 'disabled' : '') + '>&gt;</button>';
+  document.getElementById('billingPageButtons').innerHTML = pageBtns;
 
   var jumpOpts = '';
   for (var j = 1; j <= totalPages; j++) {
-    jumpOpts += '<option value="' + j + '"' + (j === currentPage ? ' selected' : '') + '>第' + j + '頁</option>';
+    jumpOpts += '<option value="' + j + '"' + (j === billingPage ? ' selected' : '') + '>第' + j + '頁</option>';
   }
-  var jumpEl = document.getElementById('storePageJump');
+  var jumpEl = document.getElementById('billingPageJump');
   if (jumpEl) jumpEl.innerHTML = jumpOpts;
 }
 
-function goStorePage(p) { currentPage = p; renderStoreTable(); }
+function goBillingPage(p) { billingPage = p; renderBillingTable(); }
 
-function applyStoreFilter() { currentPage = 1; renderStoreTable(); }
-function resetStoreFilter() {
-  document.getElementById('storeFilterName').value = '';
-  document.getElementById('storeFilterStatus').value = '';
-  document.getElementById('storeFilterType').value = '';
-  currentPage = 1;
-  renderStoreTable();
+function applyBillingFilter() { billingPage = 1; renderBillingTable(); }
+function resetBillingFilter() {
+  document.getElementById('billingFilterName').value = '';
+  document.getElementById('billingFilterStatus').value = '';
+  document.getElementById('billingFilterMethod').value = '';
+  billingPage = 1;
+  renderBillingTable();
+}
+
+function toggleBillingStatus(id) {
+  var item = billingPlans.find(function(x){ return x.id === id; });
+  if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
+  renderBillingTable();
 }
 
 // === Provider Cards ===
@@ -436,10 +447,8 @@ function toggleItemStatus(type, id) {
   renderTable();
 }
 
-function toggleStoreStatus(id) {
-  var item = storeItems.find(function(x){ return x.id === id; });
-  if (item) { item.status = item.status === 'on' ? 'off' : 'on'; }
-  renderStoreTable();
+function toggleBillingPlanStatus(id) {
+  toggleBillingStatus(id);
 }
 
 // === 刪除操作 ===
@@ -458,8 +467,11 @@ function deleteChannel(id) {
   renderTable();
 }
 
-function deleteStoreEdit(id) {
-  deleteStoreItem(id);
+function deleteBillingPlan(id) {
+  if (!confirm('確定要刪除此儲值金額表？')) return;
+  var idx = billingPlans.findIndex(function(x){ return x.id === id; });
+  if (idx >= 0) billingPlans.splice(idx, 1);
+  renderBillingTable();
 }
 
 // === Tabs ===
@@ -629,8 +641,17 @@ function viewChannelModal(id) {
   selM.innerHTML = '<option value="' + c.method + '">' + c.method + '</option>';
   selM.value = c.method;
   document.getElementById('cmStatus').className = 'toggle ' + c.status;
-  channelAmountValues = (c.values || []).slice();
-  renderChannelAmountTable();
+  // Show billing plan link
+  var bp = billingPlans.find(function(b){ return b.channels.indexOf(c.id) >= 0; });
+  var nameEl = document.getElementById('cmBillingPlanName');
+  var jumpEl = document.getElementById('cmBillingPlanJump');
+  if (bp) {
+    nameEl.textContent = bp.name;
+    jumpEl.style.display = '';
+  } else {
+    nameEl.textContent = '未綁定';
+    jumpEl.style.display = 'none';
+  }
   // 設為唯讀
   document.getElementById('cmCode').setAttribute('readonly', true);
   document.getElementById('cmName').setAttribute('readonly', true);
@@ -640,8 +661,8 @@ function viewChannelModal(id) {
   document.getElementById('channelModal').classList.add('show');
 }
 
-function viewStoreEditModal(id) {
-  openStoreEditModal(id);
+function viewBillingModal(id) {
+  openBillingModal(id, true);
 }
 
 function openMethodModal(id) {
@@ -686,41 +707,9 @@ function saveMethod() {
 
 // === Modal: New/Edit Channel ===
 var editingChannelId = null;
-var channelAmountValues = [];
-
-function renderChannelAmountTable() {
-  var tbody = document.getElementById('cmAmountTableBody');
-  if (!tbody) return;
-  tbody.innerHTML = channelAmountValues.map(function(v, i){
-    var pts = v.amount || 0;
-    var bonus = v.bonusPct || 0;
-    var bonusPts = v.bonusPts || 0;
-    var actual = pts + bonusPts;
-    return '<tr><td>' + (i+1) + '</td><td>' + v.amount + '</td><td>' + pts + '</td><td>' + bonus + '</td><td>' + bonusPts + '</td><td>' + actual + '</td><td><button class="btn-icon-action delete" onclick="removeChannelAmountRow(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg></button></td></tr>';
-  }).join('');
-  var countEl = document.getElementById('cmAmountCount');
-  if (countEl) countEl.textContent = channelAmountValues.length;
-}
-
-function addChannelAmountRow() {
-  var amount = prompt('請輸入金額（台幣）');
-  if (!amount || isNaN(amount) || parseInt(amount) <= 0) return;
-  amount = parseInt(amount);
-  var bonusPct = prompt('贈比（%），無則填 0') || '0';
-  var bonusPts = prompt('贈點，無則填 0') || '0';
-  channelAmountValues.push({amount: amount, bonusPct: parseInt(bonusPct), bonusPts: parseInt(bonusPts)});
-  channelAmountValues.sort(function(a,b){ return a.amount - b.amount; });
-  renderChannelAmountTable();
-}
-
-function removeChannelAmountRow(i) {
-  channelAmountValues.splice(i, 1);
-  renderChannelAmountTable();
-}
 
 function openChannelModal(id) {
   editingChannelId = id || null;
-  channelAmountValues = [];
   var title = id ? '編輯付款通道' : '新增付款通道';
   document.getElementById('channelModalTitle').textContent = title;
   // 恢復可編輯
@@ -741,14 +730,23 @@ function openChannelModal(id) {
     selP.value = c.provider;
     selM.value = c.method;
     document.getElementById('cmStatus').className = 'toggle ' + c.status;
-    channelAmountValues = (c.values || []).slice();
   } else {
     document.getElementById('cmCode').value = '';
     document.getElementById('cmName').value = '';
     selP.value = currentProvider;
     document.getElementById('cmStatus').className = 'toggle on';
   }
-  renderChannelAmountTable();
+  // Show billing plan link
+  var bp = id ? billingPlans.find(function(b){ return b.channels.indexOf(id) >= 0; }) : null;
+  var nameEl = document.getElementById('cmBillingPlanName');
+  var jumpEl = document.getElementById('cmBillingPlanJump');
+  if (bp) {
+    nameEl.textContent = bp.name;
+    jumpEl.style.display = '';
+  } else {
+    nameEl.textContent = '未綁定';
+    jumpEl.style.display = 'none';
+  }
   document.getElementById('channelModal').classList.add('show');
 }
 
@@ -758,14 +756,13 @@ function saveChannel() {
   var provider = document.getElementById('cmProvider').value;
   var method = document.getElementById('cmMethod').value;
   var status = document.getElementById('cmStatus').className.includes('on') ? 'on' : 'off';
-  if (!code || !name || !provider || !method) { alert('請填寫必填欄位'); return; }
-  if (!channelAmountValues.length) { alert('請至少新增一筆儲值金額'); return; }
+  if (!name || !provider || !method) { alert('請填寫必填欄位'); return; }
   
   if (editingChannelId) {
     var c = channels.find(function(x){ return x.id === editingChannelId; });
-    c.code = code; c.name = name; c.provider = provider; c.method = method; c.status = status; c.values = channelAmountValues.slice();
+    c.code = code; c.name = name; c.provider = provider; c.method = method; c.status = status;
   } else {
-    channels.push({id:'c'+(channels.length+1), provider:provider, method:method, name:name, code:code, status:status, values:channelAmountValues.slice()});
+    channels.push({id:'c'+(channels.length+1), provider:provider, method:method, name:name, code:code, status:status, values:[]});
   }
   closeModal('channelModal');
   renderProviders();
@@ -834,101 +831,138 @@ function saveAmount() {
   renderTable();
 }
 
-// === Store Modal: New/Edit ===
-var editingStoreId = null;
-var storeAmountValues = [];
+// === Billing Plan Modal ===
+var editingBillingId = null;
+var billingAmountValues = [];
 
-function toggleStoreTypeFields() {
-  var type = document.getElementById('smType').value;
-  var generalFields = document.getElementById('smGeneralFields');
-  if (type === '快速') {
-    generalFields.style.display = 'none';
-  } else {
-    generalFields.style.display = '';
-  }
-}
-
-function toggleAllVip(el) {
-  var cbs = document.querySelectorAll('.vip-cb');
+function toggleAllBpVip(el) {
+  var cbs = document.querySelectorAll('.bp-vip-cb');
   cbs.forEach(function(cb) { cb.checked = el.checked; });
 }
 
-function getSelectedVips() {
-  var cbs = document.querySelectorAll('.vip-cb:checked');
+function getSelectedBpVips() {
+  var cbs = document.querySelectorAll('.bp-vip-cb:checked');
   return Array.from(cbs).map(function(cb) { return cb.value; });
 }
 
-function setSelectedVips(vipArr) {
-  document.querySelectorAll('.vip-cb').forEach(function(cb) {
+function setSelectedBpVips(vipArr) {
+  document.querySelectorAll('.bp-vip-cb').forEach(function(cb) {
     cb.checked = vipArr.indexOf(cb.value) >= 0;
   });
-  // Update "全選" checkbox
-  var allCbs = document.querySelectorAll('.vip-cb');
+  var allCbs = document.querySelectorAll('.bp-vip-cb');
   var allChecked = Array.from(allCbs).every(function(cb) { return cb.checked; });
-  var selectAllCb = document.querySelector('input[value="全選"]');
+  var selectAllCb = document.querySelector('#bpVipCheckboxes input[value="全選"]');
   if (selectAllCb) selectAllCb.checked = allChecked;
 }
 
-function openStoreAddModal() {
-  editingStoreId = null;
-  storeAmountValues = [];
-  document.getElementById('storeModalTitle').textContent = '新增儲值類型';
-  document.getElementById('smType').value = '';
-  document.getElementById('smName').value = '';
-  document.getElementById('smDesc').value = '';
-  setSelectedVips([]);
-  var selP = document.getElementById('smProvider');
-  selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
-  document.getElementById('smMethod').innerHTML = '<option value="">請選擇支付方式</option>';
-  document.getElementById('smChannel').innerHTML = '<option value="">請選擇付款通道</option>';
-  document.getElementById('smStatus').className = 'toggle on';
-  document.getElementById('smGeneralFields').style.display = '';
-  renderStoreAmountTable();
-  selP.onchange = function() { populateStoreDropdowns(selP.value); };
-  document.getElementById('storeModal').classList.add('show');
+function onBillingMethodChange() {
+  var methodName = document.getElementById('bpMethod').value;
+  var providerEl = document.getElementById('bpProvider');
+  var checkboxContainer = document.getElementById('bpChannelCheckboxes');
+  if (!methodName) {
+    providerEl.value = '';
+    checkboxContainer.innerHTML = '<span style="font-size:13px;color:#9CA3AF">請先選擇支付方式</span>';
+    return;
+  }
+  // Find provider from method
+  var method = methods.find(function(m){ return m.name === methodName; });
+  if (!method) return;
+  var prov = providers.find(function(p){ return p.id === method.provider; });
+  providerEl.value = prov ? prov.name : method.provider;
+  // List channels under same provider+method
+  var availableChannels = channels.filter(function(c){ return c.provider === method.provider && c.method === methodName; });
+  if (availableChannels.length === 0) {
+    checkboxContainer.innerHTML = '<span style="font-size:13px;color:#9CA3AF">此支付方式下無可用付款通道</span>';
+    return;
+  }
+  checkboxContainer.innerHTML = availableChannels.map(function(ch) {
+    var boundBy = billingPlans.find(function(bp){ return bp.id !== editingBillingId && bp.channels.indexOf(ch.id) >= 0; });
+    var disabled = boundBy ? ' disabled' : '';
+    var hint = boundBy ? ' <span style="color:#EF4444;font-size:11px">(已綁定: ' + boundBy.name + ')</span>' : '';
+    var checked = editingBillingId && billingPlans.find(function(bp){ return bp.id === editingBillingId; }) && billingPlans.find(function(bp){ return bp.id === editingBillingId; }).channels.indexOf(ch.id) >= 0 ? ' checked' : '';
+    return '<label style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px;cursor:' + (boundBy ? 'not-allowed' : 'pointer') + '">' +
+      '<input type="checkbox" value="' + ch.id + '" class="bp-channel-cb"' + disabled + checked + '> ' + ch.name + ' <code style="font-size:11px;color:#6B7280">' + ch.code + '</code>' + hint + '</label>';
+  }).join('');
 }
 
-function openStoreEditModal(id) {
-  editingStoreId = id;
-  var item = storeItems.find(function(x){ return x.id === id; });
-  if (!item) return;
-  document.getElementById('storeModalTitle').textContent = '編輯儲值類型';
-  document.getElementById('smType').value = item.type || '一般';
-  document.getElementById('smName').value = item.name || '';
-  document.getElementById('smDesc').value = item.desc || '';
-  setSelectedVips(item.vip || []);
-  var selP = document.getElementById('smProvider');
-  selP.innerHTML = '<option value="">請選擇供應商</option>' + providers.map(function(p){ return '<option value="' + p.id + '">' + p.name + '</option>'; }).join('');
-  selP.value = item.provider;
-  populateStoreDropdowns(item.provider);
-  document.getElementById('smMethod').value = item.method;
-  document.getElementById('smChannel').value = item.channel;
-  storeAmountValues = (item.amounts || []).slice();
-  renderStoreAmountTable();
-  document.getElementById('smStatus').className = 'toggle ' + item.status;
-  toggleStoreTypeFields();
-  selP.onchange = function() { populateStoreDropdowns(selP.value); };
-  document.getElementById('storeModal').classList.add('show');
+function openBillingModal(id, viewOnly) {
+  editingBillingId = id || null;
+  billingAmountValues = [];
+  var title = id ? (viewOnly ? '檢視儲值金額表' : '編輯儲值金額表') : '新增儲值金額表';
+  document.getElementById('billingModalTitle').textContent = title;
+
+  // Populate method dropdown
+  var selM = document.getElementById('bpMethod');
+  var uniqueMethods = [];
+  methods.forEach(function(m) { if (uniqueMethods.indexOf(m.name) < 0) uniqueMethods.push(m.name); });
+  selM.innerHTML = '<option value="">請選擇支付方式</option>' + uniqueMethods.map(function(m){ return '<option value="' + m + '">' + m + '</option>'; }).join('');
+
+  if (id) {
+    var bp = billingPlans.find(function(x){ return x.id === id; });
+    document.getElementById('bpName').value = bp.name;
+    selM.value = bp.method;
+    onBillingMethodChange();
+    // Re-check channels
+    bp.channels.forEach(function(cid) {
+      var cb = document.querySelector('.bp-channel-cb[value="' + cid + '"]');
+      if (cb) cb.checked = true;
+    });
+    setSelectedBpVips(bp.vip);
+    billingAmountValues = bp.amounts.map(function(a){ return Object.assign({}, a); });
+    document.getElementById('bpStatus').className = 'toggle ' + bp.status;
+  } else {
+    document.getElementById('bpName').value = '';
+    document.getElementById('bpProvider').value = '';
+    document.getElementById('bpChannelCheckboxes').innerHTML = '<span style="font-size:13px;color:#9CA3AF">請先選擇支付方式</span>';
+    setSelectedBpVips([]);
+    document.getElementById('bpStatus').className = 'toggle on';
+  }
+  renderBillingAmountTable();
+
+  // View-only mode
+  if (viewOnly) {
+    document.getElementById('bpName').setAttribute('readonly', true);
+    selM.setAttribute('disabled', true);
+    document.querySelectorAll('.bp-channel-cb').forEach(function(cb){ cb.setAttribute('disabled', true); });
+    document.querySelectorAll('.bp-vip-cb').forEach(function(cb){ cb.setAttribute('disabled', true); });
+    document.querySelector('#billingModal .modal-footer').style.display = 'none';
+  } else {
+    document.getElementById('bpName').removeAttribute('readonly');
+    selM.removeAttribute('disabled');
+    document.querySelector('#billingModal .modal-footer').style.display = '';
+  }
+  document.getElementById('billingModal').classList.add('show');
 }
 
-function populateStoreDropdowns(providerId) {
-  var selM = document.getElementById('smMethod');
-  var selC = document.getElementById('smChannel');
-  var filteredMethods = methods.filter(function(m){ return m.provider === providerId; });
-  selM.innerHTML = '<option value="">請選擇支付方式</option>' + filteredMethods.map(function(m){ return '<option value="' + m.name + '">' + m.name + '</option>'; }).join('');
-  var filteredChannels = channels.filter(function(c){ return c.provider === providerId; });
-  selC.innerHTML = '<option value="">請選擇付款通道</option>' + filteredChannels.map(function(c){ return '<option value="' + c.name + '">' + c.name + '</option>'; }).join('');
+function renderBillingAmountTable() {
+  var tbody = document.getElementById('bpAmountTableBody');
+  if (!tbody) return;
+  var countEl = document.getElementById('bpAmountCount');
+  if (countEl) countEl.textContent = billingAmountValues.length;
+  if (billingAmountValues.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:12px">尚未有任何資料</td></tr>';
+    return;
+  }
+  tbody.innerHTML = billingAmountValues.map(function(v, i) {
+    return '<tr>' +
+      '<td style="text-align:center">' + (i + 1) + '</td>' +
+      '<td><input type="number" value="' + (v.amount || '') + '" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateBillingAmountField(' + i + ',\'amount\',this.value)"></td>' +
+      '<td><input type="number" value="' + (v.basePoints || '') + '" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateBillingAmountField(' + i + ',\'basePoints\',this.value)"></td>' +
+      '<td><input type="number" value="' + (v.bonusRate || 0) + '" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateBillingAmountField(' + i + ',\'bonusRate\',this.value)"></td>' +
+      '<td style="text-align:center" id="bpBonusPoints_' + i + '">' + (v.bonusPoints || 0) + '</td>' +
+      '<td style="text-align:center" id="bpTotalPoints_' + i + '">' + (v.totalPoints || 0) + '</td>' +
+      '<td style="text-align:center"><button class="btn-icon btn-icon-danger" onclick="removeBillingAmount(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td>' +
+      '</tr>';
+  }).join('');
 }
 
-function addStoreAmountRow() {
-  storeAmountValues.push({amount: '', basePoints: '', bonusRate: 0, bonusPoints: 0, totalPoints: 0});
-  renderStoreAmountTable();
+function addBillingAmountRow() {
+  billingAmountValues.push({amount: '', basePoints: '', bonusRate: 0, bonusPoints: 0, totalPoints: 0});
+  renderBillingAmountTable();
 }
 
-function addStoreAmount() { addStoreAmountRow(); }
-
-function updateStoreAmountField(idx, field, value) {
-  var row = storeAmountValues[idx];
+function updateBillingAmountField(idx, field, value) {
+  var row = billingAmountValues[idx];
   if (!row) return;
   var val = parseInt(value) || 0;
   if (field === 'amount') row.amount = val;
@@ -936,87 +970,47 @@ function updateStoreAmountField(idx, field, value) {
   else if (field === 'bonusRate') row.bonusRate = val;
   row.bonusPoints = Math.floor((row.basePoints || 0) * (row.bonusRate || 0) / 100);
   row.totalPoints = (row.basePoints || 0) + row.bonusPoints;
-  // Update readonly cells without full re-render
-  var bpCell = document.getElementById('smBonusPoints_' + idx);
-  var tpCell = document.getElementById('smTotalPoints_' + idx);
+  var bpCell = document.getElementById('bpBonusPoints_' + idx);
+  var tpCell = document.getElementById('bpTotalPoints_' + idx);
   if (bpCell) bpCell.textContent = row.bonusPoints;
   if (tpCell) tpCell.textContent = row.totalPoints;
-  document.getElementById('smAmountCount').textContent = storeAmountValues.length;
+  document.getElementById('bpAmountCount').textContent = billingAmountValues.length;
 }
 
-// 自動計算贈點和實際點數（legacy, kept for compatibility）
-function calcStoreAmountPreview() {}
-
-function removeStoreAmount(idx) {
-  storeAmountValues.splice(idx, 1);
-  renderStoreAmountTable();
+function removeBillingAmount(idx) {
+  billingAmountValues.splice(idx, 1);
+  renderBillingAmountTable();
 }
 
-function renderStoreAmountTable() {
-  var tbody = document.getElementById('smAmountTableBody');
-  if (!tbody) return;
-  var countEl = document.getElementById('smAmountCount');
-  if (countEl) countEl.textContent = storeAmountValues.length;
-  if (storeAmountValues.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:12px">尚未有任何資料</td></tr>';
-    return;
-  }
-  tbody.innerHTML = storeAmountValues.map(function(v, i) {
-    return '<tr>' +
-      '<td style="text-align:center">' + (i + 1) + '</td>' +
-      '<td><input type="number" value="' + (v.amount || '') + '" placeholder="請輸入金額" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'amount\',this.value)"></td>' +
-      '<td><input type="number" value="' + (v.basePoints || '') + '" placeholder="請輸入基本點數" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'basePoints\',this.value)"></td>' +
-      '<td><input type="number" value="' + (v.bonusRate || 0) + '" placeholder="請輸入贈比" style="width:100%;padding:4px;border:1px solid #D1D5DB;border-radius:4px" oninput="updateStoreAmountField(' + i + ',\'bonusRate\',this.value)"></td>' +
-      '<td style="text-align:center" id="smBonusPoints_' + i + '">' + (v.bonusPoints || 0) + '</td>' +
-      '<td style="text-align:center" id="smTotalPoints_' + i + '">' + (v.totalPoints || 0) + '</td>' +
-      '<td style="text-align:center"><button class="btn-icon btn-icon-danger" onclick="removeStoreAmount(' + i + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button></td>' +
-      '</tr>';
-  }).join('');
-}
+function saveBillingPlan() {
+  var name = document.getElementById('bpName').value.trim();
+  var methodName = document.getElementById('bpMethod').value;
+  var vips = getSelectedBpVips();
+  var status = document.getElementById('bpStatus').className.includes('on') ? 'on' : 'off';
+  var selectedChannels = Array.from(document.querySelectorAll('.bp-channel-cb:checked')).map(function(cb){ return cb.value; });
 
-function saveStoreItem() {
-  var type = document.getElementById('smType').value;
-  var name = document.getElementById('smName').value.trim();
-  var vips = getSelectedVips();
-  var status = document.getElementById('smStatus').className.includes('on') ? 'on' : 'off';
-  
-  if (!type) { alert('請選擇儲值類型'); return; }
-  if (!name) { alert('請輸入項目名稱'); return; }
+  if (!name) { alert('請輸入金額表名稱'); return; }
+  if (!methodName) { alert('請選擇支付方式'); return; }
+  if (selectedChannels.length === 0) { alert('請至少選擇一個付款通道'); return; }
   if (vips.length === 0) { alert('請選擇適用 VIP 等級'); return; }
-  
-  var provider = '', method = '', channel = '', desc = '';
-  if (type === '一般') {
-    provider = document.getElementById('smProvider').value;
-    method = document.getElementById('smMethod').value;
-    channel = document.getElementById('smChannel').value;
-    desc = document.getElementById('smDesc').value.trim();
-    if (!provider || !method || !channel) { alert('請填寫必填欄位'); return; }
-  }
-  
-  if (editingStoreId) {
-    var item = storeItems.find(function(x){ return x.id === editingStoreId; });
-    item.type = type; item.name = name; item.vip = vips; item.status = status; item.desc = desc;
-    if (type === '一般') {
-      item.provider = provider; item.method = method; item.channel = channel; item.amounts = storeAmountValues.slice();
-    } else {
-      item.provider = ''; item.method = ''; item.channel = ''; item.amounts = [];
-    }
+  if (billingAmountValues.length === 0) { alert('請至少新增一筆金額項目'); return; }
+
+  // Find provider from method
+  var method = methods.find(function(m){ return m.name === methodName; });
+  var providerId = method ? method.provider : '';
+
+  if (editingBillingId) {
+    var bp = billingPlans.find(function(x){ return x.id === editingBillingId; });
+    bp.name = name; bp.provider = providerId; bp.method = methodName;
+    bp.channels = selectedChannels; bp.vip = vips; bp.status = status;
+    bp.amounts = billingAmountValues.slice();
   } else {
-    var newItem = {id: 'sg' + (storeItems.length + 1), name: name, type: type, vip: vips, status: status, desc: desc};
-    if (type === '一般') {
-      newItem.provider = provider; newItem.method = method; newItem.channel = channel; newItem.amounts = storeAmountValues.slice();
-    } else {
-      newItem.provider = ''; newItem.method = ''; newItem.channel = ''; newItem.amounts = [];
-    }
-    storeItems.push(newItem);
+    billingPlans.push({id:'bp'+(billingPlans.length+1), name:name, provider:providerId, method:methodName, channels:selectedChannels, vip:vips, status:status, amounts:billingAmountValues.slice()});
   }
-  closeModal('storeModal');
-  renderStoreTable();
+  closeModal('billingModal');
+  renderBillingTable();
 }
 
-function deleteStoreItem(id) {
-  if (!confirm('確定要刪除此項目？')) return;
-  var idx = storeItems.findIndex(function(x){ return x.id === id; });
-  if (idx >= 0) storeItems.splice(idx, 1);
-  renderStoreTable();
+function openBillingAddModal() {
+  openBillingModal(null, false);
 }
