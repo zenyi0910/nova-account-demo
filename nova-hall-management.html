@@ -454,13 +454,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <button class="seg-btn active" onclick="switchGameCurrency('gold')">金幣</button>
           <button class="seg-btn" onclick="switchGameCurrency('star')">星幣</button>
         </div>
-        <label id="enlargeToggle" style="display:none;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none">首張圖放大 <span class="toggle-sw on" onclick="toggleEnlarge(event)"><span class="toggle-dot"></span></span> <span id="enlargeLabel">啟用</span></label>
-      </div>
-      <div class="seg-control" id="catSegment" style="margin-top:8px">
-        <button class="seg-btn active" onclick="switchGameCat('')">全部</button>
-        <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
-        <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
-        <button class="seg-btn" onclick="switchGameCat('棋牌')">棋牌</button>
+        <div class="seg-control" id="catSegment">
+          <button class="seg-btn active" onclick="switchGameCat('')">全部</button>
+          <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
+          <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
+          <button class="seg-btn" onclick="switchGameCat('棋牌')">棋牌</button>
+        </div>
+        <label id="enlargeToggle" style="display:none;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none;margin-left:auto">首張圖放大 <span class="toggle-sw on" onclick="toggleEnlarge(event)"><span class="toggle-dot"></span></span> <span id="enlargeLabel">啟用</span></label>
       </div>
       <div class="filter-bar" style="margin-top:12px">
         <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
