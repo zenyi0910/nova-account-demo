@@ -93,7 +93,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-tag-on{background:#D1FAE5;color:#065F46}
 .mm-tag-off{background:#FEE2E2;color:#DC2626}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
-.mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px;font-weight:500}
+.mm-amounts{font-size:10px;color:#6B7280;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-unlink{display:none;font-size:14px;font-weight:700;color:#DC2626;cursor:pointer;margin-left:4px;line-height:1}
 .mm-l4:hover .mm-unlink{display:inline-block}
 .mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;display:block;margin-top:3px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -147,9 +147,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-lines path{fill:none;stroke:#D1D5DB;stroke-width:1.5}
 
 /* Legend */
-.legend{display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:#6B7280;flex-wrap:wrap}
+.legend{display:flex;gap:16px;margin-bottom:12px;font-size:12px;color:#6B7280;flex-wrap:wrap}
 .legend-item{display:flex;align-items:center;gap:6px}
 .legend-dot{width:12px;height:12px;border-radius:4px}
+.mm-filter{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;color:#374151}
+.mm-filter select{padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:12px;color:#374151;background:#fff}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -191,7 +193,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="legend-item"><div class="legend-dot" style="background:#C7D2FE"></div> 支付方式</div>
       <div class="legend-item"><div class="legend-dot" style="background:#D1D5DB"></div> 儲值金額表</div>
       <div class="legend-item"><div class="legend-dot" style="background:#BFDBFE"></div> 付款通道</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#ECFDF5;border:2px dashed #6EE7B7"></div> 新增金額表</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ECFDF5;border:2px dashed #6EE7B7"></div> 新增儲值金額表</div>
+    </div>
+    <div class="mm-filter">
+      <label>儲值金額表狀態：</label>
+      <select id="billingFilter" onchange="filterBillingStatus(this.value)">
+        <option value="all">全部</option>
+        <option value="on">啟用中</option>
+        <option value="off">停用中</option>
+      </select>
     </div>
     <div class="mindmap-wrap">
       <svg class="mm-lines" id="mmLines"></svg>
@@ -209,6 +219,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans.js?v=13"></script>
+<script src="js/billing-plans.js?v=14"></script>
 </body>
 </html>

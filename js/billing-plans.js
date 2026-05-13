@@ -123,6 +123,13 @@ function makeToggle(on, id) {
   return '<label class="' + cls + '" data-id="' + id + '"><span class="mm-toggle-track"><span class="mm-toggle-thumb"></span></span></label>';
 }
 
+// === 篩選儲值金額表狀態 ===
+var currentFilter = 'all';
+function filterBillingStatus(status) {
+  currentFilter = status;
+  renderMindMap();
+}
+
 // === Render Mind Map (4 layers: 供應商→支付方式→儲值金額表→付款通道) ===
 function renderMindMap() {
   const container = document.getElementById('mindmap');
@@ -150,6 +157,12 @@ function renderMindMap() {
       html += '<div class="mm-children">';
       if (method.billingId && billingPlans[method.billingId]) {
         const bp = billingPlans[method.billingId];
+        // 篩選：如果不符合當前 filter 則隱藏整個 method
+        if (currentFilter !== 'all' && bp.status !== currentFilter) {
+          html += '</div>'; // L3 children
+          html += '</div>'; // method-group
+          return;
+        }
         html += '<div class="mm-billing-group">';
         html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
         html += makeToggle(bp.status === 'on', bp.id);
@@ -177,7 +190,7 @@ function renderMindMap() {
         const prefill = method._prefill ? JSON.stringify(method._prefill).replace(/'/g,'&#39;').replace(/"/g,'&quot;') : '';
         html += '<div class="mm-billing-group">';
         html += '<div class="mm-node mm-l3 empty mm-add" onclick="openNewBilling(\'' + method.id + '\',\'' + prefill + '\')">';
-        html += ICON.add + '<span class="mm-name">新增金額表</span>';
+        html += ICON.add + '<span class="mm-name">新增儲值金額表</span>';
         html += '</div>';
         // L4 付款通道（即使沒金額表也顯示）
         html += '<div class="mm-children">';
