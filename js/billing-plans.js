@@ -99,11 +99,11 @@ function renderMindMap() {
         html += '<div class="mm-node mm-l3-billing" data-id="' + method.billing.id + '" onclick="openBillingDetail(\'' + method.id + '\')">';
         html += '<span>💰 儲值金額表</span>' + bTag + '<span class="mm-amounts">' + method.billing.amounts.length + '筆</span>';
         html += '</div>';
-      } else {
-        html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
-        html += '<span>+ 新增金額表</span>';
-        html += '</div>';
       }
+      // 每個支付方式都有新增入口
+      html += '<div class="mm-node mm-l3-billing empty mm-add" onclick="alert(\'新增儲值金額表: ' + method.name + '\')">';
+      html += '<span>+ 新增金額表</span>';
+      html += '</div>';
       html += '</div>'; // mm-children L3
       html += '</div>'; // mm-method-group
     });
