@@ -772,7 +772,7 @@ function requestToggle(id) {
   const act = ns === 'off' ? '關閉' : '開啟';
   const gc = games.filter(g => g.hall === id).length;
   pendingToggle = { id, newState: ns };
-  document.getElementById('toggleMsg').innerHTML = '確定要<strong>' + act + ' ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。' + (ns === 'off' ? '<br><span style="color:#DC2626">關閉後玩家將無法進入該廳所有遊戲。</span>' : '');
+  document.getElementById('toggleMsg').innerHTML = '確定要<strong>維護 ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。' + (ns === 'off' ? '<br><span style="color:#DC2626">關閉後玩家將無法進入該廳所有遊戲。</span>' : '');
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
   document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
@@ -790,11 +790,17 @@ function confirmDelAllSched(id) {
 
 function confirmToggle() {
   if (!pendingToggle) return;
-  halls[pendingToggle.id].status = pendingToggle.newState;
+  const h = halls[pendingToggle.id];
+  const gc = games.filter(g => g.hall === pendingToggle.id).length;
+  h.status = pendingToggle.newState;
   closeModal('toggleConfirm');
   initHallSelector();
   renderHallDetail();
-  showToast(halls[pendingToggle.id].name + (pendingToggle.newState === 'on' ? ' 已開啟' : ' 已關閉'), pendingToggle.newState === 'on' ? 'success' : 'warning');
+  if (pendingToggle.newState === 'off') {
+    showToast(h.name + ' 已維護，成功更新 ' + gc + ' 個遊戲的狀態', 'warning');
+  } else {
+    showToast(h.name + ' 已開啟', 'success');
+  }
   pendingToggle = null;
 }
 
