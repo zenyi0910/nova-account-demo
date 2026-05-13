@@ -70,27 +70,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-node.active{box-shadow:0 0 0 2px #4338CA}
 
 /* L1 供應商 */
-.mm-l1{background:linear-gradient(135deg,#6366F1,#4338CA);color:#fff;font-weight:600;font-size:12px;border-radius:10px;padding:8px 12px;max-width:80px}
+.mm-l1{background:linear-gradient(135deg,#6366F1,#4338CA);color:#fff;font-weight:600;font-size:12px;border-radius:10px;padding:8px 12px;min-width:80px;max-width:100px}
 .mm-l1 .mm-code{background:rgba(255,255,255,.2);color:#fff;font-size:9px;padding:2px 4px;border-radius:4px}
 
 /* L2 支付方式 */
-.mm-l2{background:#EEF2FF;border:1px solid #C7D2FE;color:#4338CA;font-weight:500;font-size:11px;padding:6px 10px;max-width:72px}
+.mm-l2{background:#EEF2FF;border:1px solid #C7D2FE;color:#4338CA;font-weight:500;font-size:11px;padding:6px 10px;min-width:72px;max-width:100px}
 
 /* L3 儲值金額表 */
-.mm-l3{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;min-width:180px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s}
+.mm-l3{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;width:200px;min-width:200px;max-width:200px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s}
 .mm-l3:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.mm-l3.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;min-width:140px;cursor:pointer}
+.mm-l3.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;width:200px;min-width:200px;max-width:200px;cursor:pointer}
 .mm-l3.empty:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
 
 /* L4 付款通道 */
-.mm-l4{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:11px;padding:6px 10px;max-width:140px}
+.mm-l4{background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;font-size:11px;padding:6px 10px;min-width:100px;max-width:150px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
 .mm-billing-group{display:flex;align-items:flex-start}
 .mm-billing-group > .mm-children{margin-left:50px}
 
 .mm-tag{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-tag-on{background:#D1FAE5;color:#065F46}
-.mm-tag-off{background:#F3F4F6;color:#6B7280}
+.mm-tag-off{background:#FEE2E2;color:#DC2626}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
 .mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px}
 .mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;display:block;margin-top:3px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -204,6 +204,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans.js?v=8"></script>
+<script src="js/billing-plans.js?v=9"></script>
 </body>
 </html>

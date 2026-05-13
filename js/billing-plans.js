@@ -151,10 +151,10 @@ function renderMindMap() {
         const bp = billingPlans[method.billingId];
         html += '<div class="mm-billing-group">';
         html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
-        html += ICON.billing + '<span class="mm-name">' + bp.name + '</span>';
+        html += '<span class="mm-name">' + bp.name + '</span>';
         html += makeToggle(bp.status === 'on', bp.id);
         html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
-        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + ' 編輯</span>';
+        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + '</span>';
         html += '</div>';
 
         // L4 付款通道
