@@ -267,10 +267,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span>Tips</span> 關閉供應商將停用底下所有支付方式與付款通道，重新啟用不影響個別通道設定
     </div>
 
-    <!-- Section Tabs -->
-    <div id="sectionTabs" class="section-tabs"></div>
-    <div id="sectionAddBtn" style="position:relative;margin-top:-54px;margin-bottom:34px;text-align:right"></div>
-
     <!-- Payment Section -->
     <div id="paymentSection" style="overflow:hidden">
     <!-- Provider Cards -->
@@ -385,49 +381,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     </div>
     </div><!-- /paymentSection -->
 
-    <!-- Billing Plan Section (儲值金額表) -->
-    <div id="billingSection" style="display:none">
-      <div class="tips-box" style="margin-bottom:16px">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2v1"/><path d="M12 7a4 4 0 0 0-4 4c0 1.5.8 2.8 2 3.4V17h4v-2.6c1.2-.6 2-1.9 2-3.4a4 4 0 0 0-4-4z"/></svg>
-        <span>Tips</span> 一張儲值金額表綁定一種支付方式 + 多個付款通道，一個付款通道只能被一張金額表綁定
-      </div>
-      <div class="filter-bar" style="display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <span style="font-size:11px;color:#374151;font-weight:500">金額表名稱</span>
-          <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="billingFilterName" placeholder="搜尋金額表" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
-          <select id="billingFilterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
-            <option value="">選擇啟用狀態</option>
-            <option value="on">啟用</option>
-            <option value="off">停用</option>
-          </select>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px">
-          <span style="font-size:11px;color:#374151;font-weight:500">支付方式</span>
-          <select id="billingFilterMethod" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
-            <option value="">全部支付方式</option>
-          </select>
-        </div>
-        <span style="flex:1"></span>
-        <button class="btn-search" onclick="applyBillingFilter()">搜尋</button>
-        <button class="btn-reset" onclick="resetBillingFilter()">重置</button>
-      </div>
-      <div class="pagination-info" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
-        <span id="billingPageInfo"></span>
-        <div class="per-page-select">每頁顯示 <select id="billingPerPageSelect" onchange="changeBillingPageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
-      </div>
-      <div id="billingTableContainer"></div>
-      <div class="pagination" style="display:flex;justify-content:space-between;align-items:center;padding:12px 0">
-        <select id="billingPageJump" onchange="goBillingPage(parseInt(this.value))" style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px"></select>
-        <div class="pagination-pages" id="billingPageButtons"></div>
-      </div>
-    </div><!-- /billingSection -->
-
   </div>
 </div>
 
@@ -526,61 +479,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<!-- Billing Plan Modal (新增/編輯儲值金額表) -->
-<div class="modal-overlay" id="billingModal">
-  <div class="modal" style="max-width:800px">
-    <div class="modal-header"><h3 id="billingModalTitle">新增儲值金額表</h3><button class="close" onclick="closeModal('billingModal')">&times;</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label>金額表名稱 <span class="required">*</span></label><input type="text" id="bpName" placeholder="請輸入金額表名稱"></div>
-      <div class="form-group"><label>支付方式 <span class="required">*</span></label>
-        <select id="bpMethod" onchange="onBillingMethodChange()">
-          <option value="">請選擇支付方式</option>
-        </select>
-        <div class="form-hint">選擇支付方式後，將自動帶出供應商並列出可綁定的付款通道</div>
-      </div>
-      <div class="form-group"><label>供應商</label>
-        <input type="text" id="bpProvider" readonly style="background:#F9FAFB;color:#6B7280" placeholder="自動帶出">
-      </div>
-      <div class="form-group"><label>綁定付款通道 <span class="required">*</span></label>
-        <div class="form-hint" style="margin-bottom:8px">勾選要綁定的付款通道（已被其他金額表綁定的通道無法選取）</div>
-        <div id="bpChannelCheckboxes" style="border:1px solid #E5E7EB;border-radius:8px;padding:12px;max-height:180px;overflow-y:auto;background:#F9FAFB">
-          <span style="font-size:13px;color:#9CA3AF">請先選擇支付方式</span>
-        </div>
-      </div>
-      <div class="form-group"><label>適用 VIP 等級 <span class="required">*</span></label>
-        <div id="bpVipCheckboxes" style="display:flex;flex-wrap:wrap;gap:8px;padding:8px 0">
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="全選" onchange="toggleAllBpVip(this)"> 全選</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="新手" class="bp-vip-cb"> VIP1 - 新手</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="銅牌" class="bp-vip-cb"> VIP2 - 銅牌</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="銀牌" class="bp-vip-cb"> VIP3 - 銀牌</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="金牌" class="bp-vip-cb"> VIP4 - 金牌</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="白金" class="bp-vip-cb"> VIP5 - 白金</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" value="鑽石" class="bp-vip-cb"> VIP6 - 鑽石</label>
-        </div>
-      </div>
-      <div class="form-group"><label>金額項目 <span class="required">*</span></label>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <span style="font-size:12px;color:#6B7280">總共 <span id="bpAmountCount">0</span> 筆</span>
-          <button class="btn-outline" style="font-size:12px;padding:4px 8px" onclick="alert('排序功能')">編輯排序</button>
-        </div>
-        <table class="data-table" style="font-size:12px">
-          <thead><tr><th style="width:40px">順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th style="width:60px">操作</th></tr></thead>
-          <tbody id="bpAmountTableBody"></tbody>
-        </table>
-        <div style="text-align:center;padding:10px;background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;cursor:pointer;color:#2563EB;font-size:13px" onclick="addBillingAmountRow()">+ 新增</div>
-      </div>
-      <div class="form-group"><label>狀態</label>
-        <div class="toggle-row"><button class="toggle on" id="bpStatus" onclick="this.className=this.className.includes('on')?'toggle off':'toggle on'"></button><span class="toggle-label">啟用</span></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-outline" onclick="closeModal('billingModal')">取消</button>
-      <button class="btn-dark" onclick="saveBillingPlan()">儲存</button>
-    </div>
-  </div>
-</div>
-
-<script src="js/components.js?v=11"></script>
+<!-- Schedule Modal -->
 <script src="components/date-picker.js"></script>
 <script src="js/payment-management.js?v=61"></script>
 </body>

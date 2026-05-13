@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 後台 - 儲值金額表</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#fff;border-right:1px solid oklch(0.922 0 0);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden}
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7280}
+.breadcrumb a{color:#6B7280;text-decoration:none}
+.breadcrumb .sep{color:#D1D5DB}
+.breadcrumb .current{color:#374151;font-weight:500}
+.content{padding:24px;flex:1;max-width:1400px}
+.page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.page-header h4{font-size:18px;font-weight:600;color:#111827}
+.tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;font-size:13px;color:#374151;margin-bottom:16px}
+.tips-box svg{color:#3B82F6;flex-shrink:0}
+.tips-box span{font-weight:600;color:#2563EB}
+.user-avatar{width:36px;height:36px;border-radius:50%;background:#EEF2FF;display:flex;align-items:center;justify-content:center;font-weight:600;color:#4338CA;font-size:14px;cursor:pointer;margin-left:auto}
+
+/* Tree */
+.tree-container{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:20px}
+.tree-l1{margin-bottom:4px}
+.tree-l2{margin-left:28px}
+.tree-l3{margin-left:28px}
+.tree-node{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;cursor:pointer;transition:background .15s;user-select:none}
+.tree-node:hover{background:#F3F4F6}
+.tree-arrow{color:#9CA3AF;transition:transform .2s;flex-shrink:0}
+.tree-node:not(.collapsed) .tree-arrow{transform:rotate(90deg)}
+.tree-node.collapsed .tree-arrow{transform:rotate(0deg)}
+.tree-children{overflow:hidden;transition:max-height .3s ease}
+.tree-children.collapsed{max-height:0!important;overflow:hidden}
+.tree-icon{flex-shrink:0}
+.tree-provider{font-weight:600;font-size:14px}
+.tree-provider .tree-icon{color:#4338CA}
+.tree-method{font-weight:500;font-size:13px}
+.tree-method .tree-icon{color:#2563EB}
+.tree-channel{font-size:13px;cursor:default}
+.tree-channel .tree-icon{color:#059669}
+.tree-billing{font-size:13px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px}
+.tree-billing:hover{background:#FEF3C7}
+.tree-billing .tree-icon{color:#D97706}
+.tree-billing.tree-empty{background:#F9FAFB;border:1px dashed #D1D5DB}
+.tree-billing.tree-empty:hover{background:#F3F4F6}
+.tree-label{white-space:nowrap}
+.tree-code{font-size:11px;color:#6B7280;background:#F3F4F6;padding:1px 6px;border-radius:4px;font-family:monospace}
+.tree-amounts{font-size:11px;color:#92400E;background:#FEF3C7;padding:2px 8px;border-radius:10px;margin-left:4px}
+.tag{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.tag-on{background:#D1FAE5;color:#065F46}
+.tag-off{background:#F3F4F6;color:#6B7280}
+.btn-add-small{font-size:11px;padding:2px 8px;background:#EEF2FF;color:#4338CA;border:1px solid #C7D2FE;border-radius:4px;cursor:pointer;margin-left:8px}
+.btn-add-small:hover{background:#E0E7FF}
+.btn-icon{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px}
+.btn-icon:hover{background:#E5E7EB}
+
+/* Legend */
+.legend{display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:#6B7280;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:4px}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #E5E7EB}
+.modal-header h3{font-size:16px;font-weight:600}
+.modal-header .close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px}
+.modal-body{padding:24px}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{background:#F9FAFB;padding:10px 12px;text-align:left;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB}
+.data-table td{padding:10px 12px;border-bottom:1px solid #F3F4F6;color:#374151}
+</style>
+</head>
+<body>
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar"></nav>
+<script src="components/sidebar.js?v=4"></script>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <nav class="breadcrumb">
+      <a href="#">首頁</a><span class="sep">/</span>
+      <a href="nova-payment-management.html">三方支付設定</a><span class="sep">/</span>
+      <span class="current">儲值金額表</span>
+    </nav>
+    <div class="user-avatar" style="margin-left:auto">C</div>
+  </div>
+  <div class="content">
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <h4>儲值金額表</h4>
+    </div>
+
+    <div class="tips-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2v1"/><path d="M12 7a4 4 0 0 0-4 4c0 1.5.8 2.8 2 3.4V17h4v-2.6c1.2-.6 2-1.9 2-3.4a4 4 0 0 0-4-4z"/></svg>
+      <span>Tips</span> 樹狀結構呈現：供應商 → 支付方式 → 付款通道 & 儲值金額表。點擊金額表可查看明細。
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#4338CA" stroke-width="2" width="14" height="14"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> 供應商</div>
+      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" width="14" height="14"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg> 支付方式</div>
+      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="14" height="14"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 付款通道</div>
+      <div class="legend-item"><svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 儲值金額表</div>
+    </div>
+
+    <div class="tree-container" id="treeContainer"></div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <div class="modal-header"><h3 id="detailTitle">儲值金額表明細</h3><button class="close" onclick="closeDetailModal()">&times;</button></div>
+    <div class="modal-body" id="detailTable"></div>
+  </div>
+</div>
+
+<script src="js/billing-plans.js"></script>
+</body>
+</html>
