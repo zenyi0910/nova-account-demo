@@ -67,24 +67,26 @@ function init() {
   // 新增供應商按鈕移到供應商列表行
   var provBtn = document.getElementById('providerAddBtn');
   if (provBtn) { provBtn.innerHTML = UI.btn.add('新增供應商', 'openProviderModal()'); }
-  // 隱藏 sectionTabs 和 storeSection
+  // 顯示 sectionTabs
   var st = document.getElementById('sectionTabs');
-  if (st) st.style.display = 'none';
+  if (st) st.style.display = '';
   var sb = document.getElementById('sectionAddBtn');
-  if (sb) sb.style.display = 'none';
-  var ss = document.getElementById('storeSection');
-  if (ss) ss.style.display = 'none';
+  if (sb) sb.style.display = '';
+  var bs = document.getElementById('billingSection');
+  if (bs) bs.style.display = 'none';
   var ps = document.getElementById('paymentSection');
   if (ps) ps.style.display = '';
+  renderSectionTabs();
   renderProviders();
   renderDetail();
 }
 
-// === Section Tabs (商城管理) ===
+// === Section Tabs ===
 function renderSectionTabs() {
   var container = document.getElementById('sectionTabs');
   if (!container) return;
   container.innerHTML =
+    '<button class="section-tab' + (currentSection === 'payment' ? ' active' : '') + '" onclick="switchSection(\'payment\',this)">三方支付設定</button>' +
     '<button class="section-tab' + (currentSection === 'billing' ? ' active' : '') + '" onclick="switchSection(\'billing\',this)">儲值金額表</button>';
   // 儲值金額表 section 的新增按鈕
   var btnContainer = document.getElementById('sectionAddBtn');
@@ -140,24 +142,20 @@ function renderBillingTable() {
       return ch ? ch.name : cid;
     }).join(', ');
     var statusHtml = renderStatusCell(item.status, "toggleBillingStatus('" + item.id + "')");
-    var vipHtml = item.vip.map(function(v){ return '<span class="vip-tag">' + v + '</span>'; }).join('');
     return '<tr>' +
-      '<td>' + item.name + '</td>' +
-      '<td>' + provName + '</td>' +
       '<td>' + item.method + '</td>' +
+      '<td>' + provName + '</td>' +
       '<td>' + channelNames + '</td>' +
-      '<td>' + item.amounts.length + ' 筆</td>' +
       statusHtml +
-      '<td><div class="vip-tags">' + vipHtml + '</div></td>' +
       '<td class="action-cell"><div class="action-inner">' +
         UI.btn.icon('view', "viewBillingModal('" + item.id + "')", '檢視') +
         UI.btn.icon('edit', "openBillingModal('" + item.id + "')", '編輯') +
       '</div></td></tr>';
   }).join('');
 
-  if (!rows) rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+  if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
 
-  container.innerHTML = '<table class="data-table"><thead><tr><th>金額表名稱</th><th>供應商</th><th>支付方式</th><th>綁定通道</th><th>金額項目</th><th>狀態</th><th>適用 VIP</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  container.innerHTML = '<table class="data-table"><thead><tr><th>支付方式</th><th>供應商</th><th>付款通道</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   document.getElementById('billingPageInfo').textContent = '第 ' + billingPage + ' 頁，共 ' + total + ' 筆資料';
   var pageBtns = '<button class="page-arrow" onclick="goBillingPage(' + Math.max(1, billingPage - 1) + ')" ' + (billingPage <= 1 ? 'disabled' : '') + '>&lt;</button>';
