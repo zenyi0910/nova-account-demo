@@ -64,7 +64,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-row{display:flex;align-items:center;gap:0}
 .mm-children{display:flex;flex-direction:column;gap:6px;margin-left:60px}
 .mm-method-group{display:flex;align-items:center}
-.mm-method-group > .mm-children{margin-left:50px}
+.mm-method-group > .mm-children{margin-left:50px;display:flex;flex-direction:column;align-items:flex-start}
 .mm-node{position:relative;padding:10px 16px;border-radius:10px;cursor:pointer;white-space:nowrap;margin:4px 0;transition:transform .15s,box-shadow .15s;font-size:13px;display:flex;align-items:center;gap:8px}
 .mm-node:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .mm-node.active{box-shadow:0 0 0 2px #4338CA}
@@ -93,7 +93,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-tag-on{background:#D1FAE5;color:#065F46}
 .mm-tag-off{background:#FEE2E2;color:#DC2626}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
-.mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px}
+.mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-unlink{display:none;font-size:14px;font-weight:700;color:#DC2626;cursor:pointer;margin-left:4px;line-height:1}
 .mm-l4:hover .mm-unlink{display:inline-block}
 .mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;display:block;margin-top:3px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -103,7 +103,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-node:hover{z-index:10;position:relative}
 .mm-edit-btn{font-size:11px;margin-left:auto;padding:2px 4px;cursor:pointer;opacity:.5;transition:opacity .15s;display:flex;align-items:center}
 .mm-edit-btn:hover{opacity:1}
-.mm-view-btn{font-size:11px;padding:2px 4px;cursor:pointer;opacity:.5;transition:opacity .15s;display:flex;align-items:center}
+.mm-view-btn{font-size:11px;padding:2px 4px;cursor:pointer;color:#4338CA;opacity:.7;transition:opacity .15s;display:flex;align-items:center}
 .mm-view-btn:hover{opacity:1}
 .mm-add{background:#fff;border:2px dashed #D1D5DB;color:#6B7280;font-size:12px;cursor:pointer;text-align:center;display:flex;align-items:center;gap:6px}
 .mm-add:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
