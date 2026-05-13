@@ -191,6 +191,7 @@ function renderScheduleTab(id, h, filterValue) {
         '<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '<div class="sched-text"><span style="font-weight:600;margin-right:6px">' + item.hallName + '</span>' + timeDisplay +
         (s.note ? ' <span class="sched-note">' + s.note + '</span>' : '') + '</div>' +
+        '<span style="color:#374151;font-size:12px;margin-right:12px">操作者：' + (s.operator || 'casper') + '</span>' +
         UI.btn.icon('delete', "delSched('" + item.hallId + "'," + item.idx + ")", '刪除排程') + '</div>';
     }).join('');
   }
