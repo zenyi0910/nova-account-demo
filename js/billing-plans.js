@@ -402,22 +402,24 @@ function openBillingEdit(billingId) {
   document.getElementById('detailTitle').textContent = '編輯儲值金額表';
 
   let html = '<div class="bp-edit-form">';
-  html += '<div class="bp-form-row"><div class="bp-form-field"><label>金額表名稱<span class="req">*</span></label><input type="text" class="bp-input" value="' + bp.name + '"></div>';
-  html += '<div class="bp-form-field"><label>狀態</label>' + makeToggle(bp.status === 'on', bp.id) + '<span class="bp-status-text ' + (bp.status === 'on' ? 'on' : '') + '">' + (bp.status === 'on' ? '啟用' : '停用') + '</span></div></div>';
   html += '<div class="bp-form-row"><div class="bp-form-field"><label>供應商<span class="req">*</span></label><select class="bp-select"><option>' + provName + '</option></select></div>';
   html += '<div class="bp-form-field"><label>支付方式<span class="req">*</span></label><select class="bp-select"><option>' + methodName + '</option></select></div></div>';
   html += '<div class="bp-form-row"><div class="bp-form-field full"><label>付款通道<span class="req">*</span></label><select class="bp-select"><option>' + chNames.join('、') + '</option></select></div></div>';
   html += '</div>';
 
   // 金額表格
-  html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 ' + bp.amounts.length + ' 筆資料</span></h5>';
+  html += '<div class="bp-info-card"><div class="bp-card-header"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 ' + bp.amounts.length + ' 筆資料</span></h5>';
+  html += '<button class="btn-sort-header" onclick="alert(\'編輯排序（Demo）\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h12M3 18h6"/></svg> 編輯排序</button></div>';
   html += '<table class="data-table"><thead><tr><th>順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody>';
   bp.amounts.forEach(function(a, i) {
-    html += '<tr><td>' + (i+1) + '</td><td><input type="number" value="' + a.amount + '" class="bp-input sm"></td><td><input type="number" value="' + a.base + '" class="bp-input sm"></td><td><input type="number" value="' + a.rate + '" class="bp-input sm"></td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td><td class="bp-actions"><button class="btn-sort" title="排序" onclick="alert(\'拖曳排序（Demo）\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M5 9l7-7 7 7M5 15l7 7 7-7"/></svg></button><button class="btn-del" title="刪除" onclick="alert(\'刪除第' + (i+1) + '筆（Demo）\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/></svg></button></td></tr>';
+    html += '<tr><td>' + (i+1) + '</td><td><input type="number" value="' + a.amount + '" class="bp-input sm"></td><td><input type="number" value="' + a.base + '" class="bp-input sm"></td><td><input type="number" value="' + a.rate + '" class="bp-input sm"></td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td><td><button class="btn-del-text" onclick="alert(\'刪除第' + (i+1) + '筆（Demo）\')">刪除</button></td></tr>';
   });
   html += '</tbody></table>';
   html += '<div class="bp-add-row" onclick="alert(\'新增金額列（Demo）\')">+ 新增</div>';
   html += '</div>';
+
+  // 狀態 toggle（獨立區塊）
+  html += '<div class="bp-status-row"><span class="bp-label">狀態</span>' + makeToggle(bp.status === 'on', bp.id) + '<span class="bp-status-text ' + (bp.status === 'on' ? 'on' : '') + '">' + (bp.status === 'on' ? '啟用' : '停用') + '</span></div>';
 
   document.getElementById('detailTable').innerHTML = html;
   document.getElementById('detailFooter').innerHTML = '<button class="btn-close-modal" onclick="closeDetailModal()">取消</button><button class="btn-edit-modal" onclick="alert(\'儲存成功（Demo）\');closeDetailModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存</button>';
