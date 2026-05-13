@@ -91,11 +91,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-tag-off{background:#F3F4F6;color:#6B7280}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
 .mm-amounts{font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px}
-.mm-code{font-size:10px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 6px;border-radius:4px}
-.mm-edit-btn{font-size:11px;margin-left:auto;padding:2px 8px;border-radius:6px;background:#FEF3C7;color:#92400E;cursor:pointer;transition:background .15s}
+.mm-code{font-size:10px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 6px;border-radius:4px;opacity:0;transition:opacity .2s}
+.mm-node:hover .mm-code{opacity:1}
+.mm-edit-btn{font-size:11px;margin-left:auto;padding:2px 8px;border-radius:6px;background:#FEF3C7;color:#92400E;cursor:pointer;transition:background .15s;display:flex;align-items:center;gap:4px}
 .mm-edit-btn:hover{background:#FDE68A}
-.mm-add{background:#fff;border:2px dashed #D1D5DB;color:#6B7280;font-size:12px;cursor:pointer;text-align:center}
+.mm-add{background:#fff;border:2px dashed #D1D5DB;color:#6B7280;font-size:12px;cursor:pointer;text-align:center;display:flex;align-items:center;gap:6px}
 .mm-add:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
+
+/* Toggle switch */
+.mm-toggle{display:inline-flex;align-items:center;cursor:pointer;flex-shrink:0}
+.mm-toggle-track{width:28px;height:16px;border-radius:8px;background:#D1D5DB;position:relative;transition:background .2s}
+.mm-toggle.on .mm-toggle-track{background:#10B981}
+.mm-toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.mm-toggle.on .mm-toggle-thumb{left:14px}
+
+/* L4 column alignment */
+.mm-l4-col{min-width:180px}
 
 /* SVG Lines */
 .mm-lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
@@ -164,6 +175,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans.js?v=4"></script>
+<script src="js/billing-plans.js?v=5"></script>
 </body>
 </html>
