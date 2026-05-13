@@ -164,11 +164,11 @@ function renderMindMap() {
         if (ch.billingId && billingPlans[ch.billingId] && showBilling) {
           const bp = billingPlans[ch.billingId];
           const sharedCount = billingChannelMap[ch.billingId].length;
-          const sharedLabel = sharedCount > 1 ? '<span class="mm-tag mm-tag-shared">' + sharedCount + '通道共用</span>' : '';
-          html += '<div class="mm-node mm-l4" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
+          const sharedCls = sharedCount > 1 ? ' shared' : '';
+          html += '<div class="mm-node mm-l4' + sharedCls + '" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
           html += ICON.billing + '<span class="mm-bp-name">' + bp.name + '</span>';
           html += makeToggle(bp.status === 'on', bp.id);
-          html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>' + sharedLabel;
+          html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
           html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + ' 編輯</span>';
           html += '</div>';
         } else if (!ch.billingId) {
