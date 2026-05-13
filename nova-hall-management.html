@@ -87,6 +87,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .toggle.on::after{left:18px}
 .toggle.off::after{left:2px}
+.toggle-sw{display:inline-block;width:36px;height:20px;border-radius:10px;position:relative;transition:background .2s;vertical-align:middle}
+.toggle-sw.on{background:oklch(0.777 0.152 181.912)}
+.toggle-sw.off{background:#D1D5DB}
+.toggle-dot{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
+.toggle-sw.on .toggle-dot{left:18px}
+.toggle-sw.off .toggle-dot{left:2px}
 .hall-body{padding:20px}
 .hall-sections{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .sec-card{border:1px solid oklch(0.922 0 0);border-radius:8px;padding:14px 16px;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
@@ -452,6 +458,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
         <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
         <button class="seg-btn" onclick="switchGameCat('棋牌')">棋牌</button>
+        <label id="enlargeToggle" style="display:none;margin-left:auto;align-items:center;gap:6px;font-size:13px;cursor:pointer;user-select:none">首張圖放大 <span class="toggle-sw on" onclick="toggleEnlarge(event)"><span class="toggle-dot"></span></span> <span id="enlargeLabel">啟用</span></label>
       </div>
       <div class="filter-bar" style="margin-top:12px">
         <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>

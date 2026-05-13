@@ -708,7 +708,19 @@ function switchGameCat(cat) {
     const label = cat === '' ? '全部' : cat;
     b.classList.toggle('active', b.textContent === label);
   });
+  // 顯示/隱藏首張圖放大 toggle
+  const el = document.getElementById('enlargeToggle');
+  if (el) el.style.display = (cat === '電動' || cat === '街機' || cat === '棋牌') ? 'flex' : 'none';
   renderTable();
+}
+
+let enlargeEnabled = true;
+function toggleEnlarge(e) {
+  e.stopPropagation();
+  enlargeEnabled = !enlargeEnabled;
+  const sw = document.querySelector('#enlargeToggle .toggle-sw');
+  sw.className = 'toggle-sw ' + (enlargeEnabled ? 'on' : 'off');
+  document.getElementById('enlargeLabel').textContent = enlargeEnabled ? '啟用' : '停用';
 }
 
 function toggleAdvFilter() {
