@@ -196,16 +196,19 @@ function renderProviders() {
     const channelCount = channels.filter(function(c){ return c.provider === p.id; }).length;
     const isActive = p.id === currentProvider;
     const statusCls = p.status === 'on' ? 'on' : 'off';
+    const hasSchedule = p.schedules && p.schedules.length > 0;
+    const clockIcon = hasSchedule ? '<svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" width="14" height="14" style="margin-left:4px;vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' : '';
     return '<div class="provider-card' + (isActive ? ' active' : '') + (p.status === 'off' ? ' disabled' : '') + '" onclick="selectProvider(\'' + p.id + '\')">' +
       '<div class="provider-header">' +
         '<div class="provider-logo">' + p.name.charAt(0) + '</div>' +
-        '<div><div class="provider-name">' + p.name + '</div><div class="provider-code">' + p.code + '</div></div>' +
+        '<div><div class="provider-name">' + p.name + clockIcon + '</div><div class="provider-code">' + p.code + '</div></div>' +
+        '<span style="flex:1"></span>' +
+        '<span class="status-badge ' + statusCls + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span>' +
       '</div>' +
-      '<div class="provider-meta">' +
+      '<div class="provider-meta" style="text-align:right;margin-top:4px">' +
         '<span class="count">支付方式: ' + methodCount + '</span>' +
         '<span class="count">通道: ' + channelCount + '</span>' +
       '</div>' +
-      '<div class="provider-status"><span class="status-badge ' + statusCls + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div>' +
     '</div>';
   }).join('');
 }
