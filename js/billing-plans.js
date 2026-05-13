@@ -1,59 +1,91 @@
-// === 樹狀資料 ===
+// === 樹狀資料（來源：Nova 測試後台實際資料）===
 const treeData = [
   {
-    id:'mycard', name:'MyCard', code:'MYCARD01', status:'on',
+    id:'mycard', name:'MyCard', code:'MYCARD', status:'on',
     methods: [
-      { id:'m1', name:'點數卡', status:'on',
-        channels: [{id:'c1',name:'點數卡',code:'MYCARD_CARD',status:'on'}],
-        billing: {id:'bp1',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:8,bonus:80,total:1080},{amount:2000,base:2000,rate:10,bonus:200,total:2200}]}
+      { id:'mc-point', name:'點數卡', status:'on',
+        channels: [{id:'ch-point',name:'序號儲值',code:'MYCARD_SEQ',status:'on',bound:true}],
+        billing: {id:'bp-mc-point',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:8,bonus:80,total:1080}]}
       },
-      { id:'m2', name:'電信帳單', status:'on',
-        channels: [{id:'c2',name:'手機小額付款',code:'MYCARD_TEL',status:'on'}],
-        billing: {id:'bp2',status:'on',amounts:[{amount:50,base:50,rate:0,bonus:0,total:50},{amount:100,base:100,rate:3,bonus:3,total:103},{amount:300,base:300,rate:5,bonus:15,total:315}]}
+      { id:'mc-tel', name:'電信帳單', status:'on',
+        channels: [{id:'ch-tel',name:'手機小額付款',code:'HE0004',status:'off',bound:true}],
+        billing: {id:'bp-mc-tel',status:'on',amounts:[{amount:50,base:50,rate:0,bonus:0,total:50},{amount:100,base:100,rate:3,bonus:3,total:103},{amount:300,base:300,rate:5,bonus:15,total:315}]}
       },
-      { id:'m3', name:'線上轉點', status:'on',
-        channels: [{id:'c3',name:'信用卡3D',code:'MYCARD_CC3D',status:'on'},{id:'c4',name:'WebATM',code:'MYCARD_WATM',status:'off'}],
+      { id:'mc-credit', name:'信用卡', status:'on',
+        channels: [{id:'ch-cc',name:'信用卡',code:'MYCARD_CC',status:'on',bound:true}],
+        billing: {id:'bp-mc-cc',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]}
+      },
+      { id:'mc-bank', name:'銀行轉帳', status:'on',
+        channels: [{id:'ch-bank',name:'銀行轉帳',code:'FA038',status:'on',bound:true}],
+        billing: {id:'bp-mc-bank',status:'on',amounts:[{amount:500,base:500,rate:3,bonus:15,total:515},{amount:1000,base:1000,rate:5,bonus:50,total:1050},{amount:2000,base:2000,rate:8,bonus:160,total:2160}]}
+      },
+      { id:'mc-mobile', name:'行動支付', status:'on',
+        channels: [{id:'ch-linepay2',name:'LINE Pay全支付',code:'MYCARD_LP',status:'on',bound:true}],
+        billing: {id:'bp-mc-mobile',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+      },
+      { id:'mc-online', name:'線上轉點', status:'on',
+        channels: [{id:'ch-cc3d',name:'信用卡3D',code:'CHANNEL_1E8B07D7',status:'off',bound:false},{id:'ch-costpoint',name:'線上轉點',code:'COSTPOINT',status:'on',bound:true}],
+        billing: {id:'bp-mc-online',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309}]}
+      },
+      { id:'mc-free', name:'免費抵扣', status:'on',
+        channels: [{id:'ch-free',name:'免費扣抵',code:'HE0033',status:'off',bound:true}],
+        billing: {id:'bp-mc-free',status:'on',amounts:[{amount:0,base:100,rate:0,bonus:0,total:100}]}
+      },
+      { id:'mc-guild', name:'公會會長大禮包', status:'on',
+        channels: [{id:'ch-guild',name:'公會會長大禮包',code:'FA200000002',status:'on',bound:true}],
+        billing: {id:'bp-mc-guild',status:'on',amounts:[{amount:1000,base:1000,rate:10,bonus:100,total:1100}]}
+      }
+    ]
+  },
+  {
+    id:'gash', name:'Gash', code:'COPGAM', status:'on',
+    methods: [
+      { id:'ga-point', name:'點數卡', status:'on',
+        channels: [{id:'ch-gash-pt',name:'點數卡',code:'COPGAM05',status:'on',bound:true}],
+        billing: {id:'bp-ga-pt',status:'on',amounts:[{amount:150,base:150,rate:0,bonus:0,total:150},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+      },
+      { id:'ga-wallet', name:'會員扣點', status:'on',
+        channels: [{id:'ch-gash-wl',name:'錢包扣點',code:'COPGAM09',status:'on',bound:true}],
+        billing: {id:'bp-ga-wl',status:'on',amounts:[{amount:50,base:5000,rate:3,bonus:150,total:5150},{amount:100,base:10000,rate:5,bonus:500,total:10500}]}
+      },
+      { id:'ga-cvs', name:'超商儲值', status:'on',
+        channels: [{id:'ch-gash-cvs',name:'7-11即時儲',code:'GASH_711',status:'on',bound:true}],
+        billing: {id:'bp-ga-cvs',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:300,base:300,rate:3,bonus:9,total:309},{amount:500,base:500,rate:5,bonus:25,total:525}]}
+      }
+    ]
+  },
+  {
+    id:'ecpay0918', name:'0918綠界', code:'0918EC', status:'off',
+    methods: [
+      { id:'ec-mobile', name:'行動支付', status:'off',
+        channels: [{id:'ch-ec-lp',name:'0918 linepay',code:'CHANNEL_83DE0D1A',status:'off',bound:false},{id:'ch-ec-all',name:'0918全支付',code:'CHANNEL_81C410ED',status:'off',bound:true}],
+        billing: null
+      },
+      { id:'ec-bank', name:'銀行轉帳', status:'off',
+        channels: [{id:'ch-ec-bank',name:'0918銀行轉帳',code:'CHANNEL_9B4F3F8A',status:'off',bound:false}],
+        billing: null
+      },
+      { id:'ec-cc', name:'信用卡', status:'on',
+        channels: [{id:'ch-ec-cc',name:'0918信用卡',code:'0918_CC',status:'on',bound:true}],
+        billing: {id:'bp-ec-cc',status:'on',amounts:[{amount:300,base:300,rate:0,bonus:0,total:300},{amount:1000,base:1000,rate:5,bonus:50,total:1050}]}
+      }
+    ]
+  },
+  {
+    id:'startest', name:'星運測試商', code:'AB00888', status:'on',
+    methods: [
+      { id:'st-mobile', name:'行動支付', status:'on',
+        channels: [{id:'ch-st-lp',name:'LINE Pay',code:'STAR_LP',status:'on',bound:false}],
         billing: null
       }
     ]
   },
   {
-    id:'gash', name:'Gash', code:'GASH001', status:'on',
+    id:'rdtest', name:'RD 測試供應商', code:'AC9625BC', status:'off',
     methods: [
-      { id:'m4', name:'會員扣點', status:'on',
-        channels: [{id:'c5',name:'錢包扣點',code:'GASH_WALLET',status:'on'}],
-        billing: {id:'bp3',status:'on',amounts:[{amount:50,base:5000,rate:3,bonus:150,total:5150},{amount:100,base:10000,rate:5,bonus:500,total:10500},{amount:300,base:30000,rate:8,bonus:2400,total:32400}]}
-      }
-    ]
-  },
-  {
-    id:'linepay', name:'LINE Pay', code:'LINEPAY01', status:'on',
-    methods: [
-      { id:'m5', name:'行動支付', status:'on',
-        channels: [{id:'c6',name:'LINE Pay',code:'LINEPAY_STD',status:'on'}],
-        billing: {id:'bp4',status:'on',amounts:[{amount:100,base:100,rate:0,bonus:0,total:100},{amount:500,base:500,rate:5,bonus:25,total:525},{amount:1000,base:1000,rate:10,bonus:100,total:1100}]}
-      }
-    ]
-  },
-  {
-    id:'ecpay', name:'綠界科技', code:'ECPAY01', status:'on',
-    methods: [
-      { id:'m6', name:'信用卡', status:'on',
-        channels: [{id:'c7',name:'信用卡一次付',code:'ECPAY_CC',status:'on'}],
-        billing: null
-      },
-      { id:'m7', name:'ATM轉帳', status:'off',
-        channels: [{id:'c8',name:'ATM虛擬帳號',code:'ECPAY_ATM',status:'off'}],
-        billing: null
-      }
-    ]
-  },
-  {
-    id:'startest', name:'星運測試商', code:'AB00888', status:'off',
-    methods: [
-      { id:'m8', name:'測試支付', status:'off',
-        channels: [{id:'c9',name:'測試通道A',code:'TEST_A',status:'off'},{id:'c10',name:'測試通道B',code:'TEST_B',status:'off'}],
-        billing: {id:'bp5',status:'off',amounts:[{amount:10,base:10,rate:0,bonus:0,total:10},{amount:50,base:50,rate:3,bonus:1,total:51}]}
+      { id:'rd-test', name:'RD 測試支付方式', status:'off',
+        channels: [{id:'ch-rd1',name:'RD 測試003',code:'AC9625BC',status:'off',bound:true},{id:'ch-rd2',name:'test111',code:'test456',status:'off',bound:true}],
+        billing: {id:'bp-rd',status:'off',amounts:[{amount:10,base:10,rate:0,bonus:0,total:10},{amount:50,base:50,rate:3,bonus:1,total:51}]}
       }
     ]
   }
@@ -88,8 +120,9 @@ function renderMindMap() {
       html += '<div class="mm-children">';
       method.channels.forEach(function(ch) {
         const cTag = ch.status === 'on' ? '<span class="mm-tag mm-tag-on">啟用</span>' : '<span class="mm-tag mm-tag-off">停用</span>';
-        html += '<div class="mm-node mm-l3" data-id="' + ch.id + '">';
-        html += '<span>' + ch.name + '</span>' + cTag;
+        const boundTag = ch.bound ? '<span class="mm-tag mm-tag-bound">已綁定</span>' : '<span class="mm-tag mm-tag-free">可用</span>';
+        html += '<div class="mm-node mm-l3' + (ch.bound ? ' mm-bound' : '') + '" data-id="' + ch.id + '">';
+        html += '<span>' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cTag + boundTag;
         html += '</div>';
       });
 
