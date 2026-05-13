@@ -201,13 +201,8 @@ function renderProviders() {
     return '<div class="provider-card' + (isActive ? ' active' : '') + (p.status === 'off' ? ' disabled' : '') + '" onclick="selectProvider(\'' + p.id + '\')">' +
       '<div class="provider-header">' +
         '<div class="provider-logo">' + p.name.charAt(0) + '</div>' +
-        '<div><div class="provider-name">' + p.name + clockIcon + '</div><div class="provider-code">' + p.code + '</div></div>' +
-        '<span style="flex:1"></span>' +
+        '<div style="flex:1"><div class="provider-name">' + p.name + clockIcon + '</div><div class="provider-code">' + p.code + '<span style="margin-left:12px;font-size:12px;color:#6B7280">支付方式: ' + methodCount + '　通道: ' + channelCount + '</span></div></div>' +
         '<span class="status-badge ' + statusCls + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span>' +
-      '</div>' +
-      '<div class="provider-meta" style="text-align:right;margin-top:4px">' +
-        '<span class="count">支付方式: ' + methodCount + '</span>' +
-        '<span class="count">通道: ' + channelCount + '</span>' +
       '</div>' +
     '</div>';
   }).join('');
