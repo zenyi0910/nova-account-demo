@@ -324,16 +324,42 @@ function openBillingDetail(billingId) {
   document.getElementById('detailModal').classList.add('show');
 }
 
-// === Billing Edit Modal (編輯模式) ===
+// === Billing Edit Modal (編輯模式 - 對齊系統) ===
 function openBillingEdit(billingId) {
   const bp = billingPlans[billingId];
   if (!bp) return;
-  document.getElementById('detailTitle').textContent = '編輯儲值金額表 - ' + bp.name;
-  const rows = bp.amounts.map(function(a, i) {
-    return '<tr><td>' + (i+1) + '</td><td><input type="number" value="' + a.amount + '" class="bp-input"></td><td><input type="number" value="' + a.base + '" class="bp-input"></td><td><input type="number" value="' + a.rate + '" class="bp-input"></td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td></tr>';
-  }).join('');
+  // 找到對應的供應商/支付方式/通道
+  let provName='', methodName='', chName='';
+  treeData.forEach(function(p) {
+    p.methods.forEach(function(m) {
+      m.channels.forEach(function(ch) {
+        if (ch.billingId === billingId) { provName=p.name; methodName=m.name; chName=ch.name; }
+      });
+    });
+  });
 
-  document.getElementById('detailTable').innerHTML = '<div class="bp-info-card"><h5>編輯金額表</h5><table class="data-table"><thead><tr><th>順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  document.getElementById('detailTitle').textContent = '編輯儲值金額表';
+
+  let html = '<div class="bp-edit-form">';
+  html += '<div class="bp-form-row"><div class="bp-form-field"><label>供應商<span class="req">*</span></label><select class="bp-select"><option>' + provName + '</option></select></div>';
+  html += '<div class="bp-form-field"><label>支付方式<span class="req">*</span></label><select class="bp-select"><option>' + methodName + '</option></select></div></div>';
+  html += '<div class="bp-form-row"><div class="bp-form-field full"><label>付款通道<span class="req">*</span></label><select class="bp-select"><option>' + chName + '</option></select></div></div>';
+  html += '</div>';
+
+  // 金額表格
+  html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 ' + bp.amounts.length + ' 筆資料</span></h5>';
+  html += '<table class="data-table"><thead><tr><th>順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody>';
+  bp.amounts.forEach(function(a, i) {
+    html += '<tr><td>' + (i+1) + '</td><td><input type="number" value="' + a.amount + '" class="bp-input"></td><td><input type="number" value="' + a.base + '" class="bp-input"></td><td><input type="number" value="' + a.rate + '" class="bp-input"></td><td>' + a.bonus.toLocaleString() + '</td><td style="font-weight:600">' + a.total.toLocaleString() + '</td><td><button class="btn-del">刪除</button></td></tr>';
+  });
+  html += '</tbody></table>';
+  html += '<div class="bp-add-row" onclick="alert(\'新增金額列（Demo）\')">+ 新增</div>';
+  html += '</div>';
+
+  // 狀態 toggle
+  html += '<div class="bp-status-row"><span class="bp-label">狀態</span>' + makeToggle(bp.status === 'on', bp.id) + '<span class="bp-status-text ' + (bp.status === 'on' ? 'on' : '') + '">' + (bp.status === 'on' ? '啟用' : '停用') + '</span></div>';
+
+  document.getElementById('detailTable').innerHTML = html;
   document.getElementById('detailFooter').innerHTML = '<button class="btn-close-modal" onclick="closeDetailModal()">取消</button><button class="btn-edit-modal" onclick="alert(\'儲存成功（Demo）\');closeDetailModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存</button>';
   document.getElementById('detailModal').classList.add('show');
 }
