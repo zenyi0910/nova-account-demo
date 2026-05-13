@@ -77,9 +77,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-l2{background:#EEF2FF;border:1px solid #C7D2FE;color:#4338CA;font-weight:500;font-size:11px;padding:6px 10px;min-width:72px;max-width:140px}
 
 /* L3 儲值金額表 */
-.mm-l3{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;width:200px;min-width:200px;max-width:200px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s}
+.mm-l3{background:#FFFBEB;border:2px solid #FDE68A;color:#92400E;font-size:12px;width:240px;min-width:240px;max-width:240px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s;display:flex;align-items:center;gap:6px}
+.mm-l3 .mm-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mm-l3:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.mm-l3.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;width:200px;min-width:200px;max-width:200px;cursor:pointer}
+.mm-l3.empty{background:#F9FAFB;border:2px dashed #D1D5DB;color:#9CA3AF;width:240px;min-width:240px;max-width:240px;cursor:pointer}
 .mm-l3.empty:hover{border-color:#4338CA;color:#4338CA;background:#EEF2FF}
 
 /* L4 付款通道 */
