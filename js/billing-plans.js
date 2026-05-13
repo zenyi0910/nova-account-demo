@@ -113,6 +113,7 @@ const treeData = [
 // === SVG Icons ===
 const ICON = {
   edit: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
+  view: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
   add: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
   billing: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>'
 };
@@ -153,7 +154,8 @@ function renderMindMap() {
         html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
         html += makeToggle(bp.status === 'on', bp.id);
         html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
-        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')">' + ICON.edit + '</span>';
+        html += '<span class="mm-view-btn" onclick="event.stopPropagation();openBillingDetail(\'' + bp.id + '\')" title="檢視">' + ICON.view + '</span>';
+        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')" title="編輯">' + ICON.edit + '</span>';
         html += '</div>';
 
         // L4 付款通道
