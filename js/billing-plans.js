@@ -192,7 +192,7 @@ function renderMindMap() {
     html += '<div class="mm-provider-group" data-prov="' + prov.id + '">';
     html += '<div class="mm-row">';
     // L1 供應商
-    html += '<div class="mm-node mm-l1" data-id="' + prov.id + '">';
+    html += '<div class="mm-node mm-l1' + (prov.status !== 'on' ? ' is-off' : '') + '" data-id="' + prov.id + '">';
     html += '<span class="mm-name">' + prov.name + '</span><span class="mm-code">' + prov.code + '</span>' + provOffTag;
     html += '</div>';
 
@@ -206,7 +206,7 @@ function renderMindMap() {
       }
       const mOffTag = method.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
       html += '<div class="mm-method-group">';
-      html += '<div class="mm-node mm-l2" data-id="' + method.id + '">';
+      html += '<div class="mm-node mm-l2' + (method.status !== 'on' ? ' is-off' : '') + '" data-id="' + method.id + '">';
       html += '<span class="mm-name">' + method.name + '</span>' + mOffTag;
       html += '</div>';
 
@@ -234,7 +234,7 @@ function renderMindMap() {
           if (canUnlink) {
             html += '<div class="mm-link-zone"><span class="mm-unlink" onclick="event.stopPropagation();unlinkChannel(\'' + method.id + '\',\'' + ch.id + '\',\'' + bp.id + '\')" title="解開此通道">×</span></div>';
           }
-          html += '<div class="mm-node mm-l4" data-id="' + ch.id + '" data-method="' + method.id + '" data-billing="' + bp.id + '">';
+          html += '<div class="mm-node mm-l4' + (ch.status !== 'on' ? ' is-off' : '') + '" data-id="' + ch.id + '" data-method="' + method.id + '" data-billing="' + bp.id + '">';
           html += '<span class="mm-name">' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cOffTag;
           html += '</div>';
           html += '</div>';
@@ -354,11 +354,11 @@ function openNewBilling(methodId, prefillStr) {
 // === Draw SVG connecting lines ===
 function drawLines() {
   const svg = document.getElementById('mmLines');
-  const wrap = document.querySelector('.mindmap-wrap');
-  const wrapRect = wrap.getBoundingClientRect();
+  const inner = document.getElementById('mindmapInner');
+  const innerRect = inner.getBoundingClientRect();
+  const scale = currentZoom / 100;
 
   const mm = document.getElementById('mindmap');
-  const scale = currentZoom / 100;
   const w = mm.scrollWidth;
   const h = mm.scrollHeight;
   svg.style.width = w + 'px';
@@ -373,18 +373,18 @@ function drawLines() {
 
     methodGroups.forEach(function(mGroup) {
       const mNode = mGroup.querySelector('.mm-l2');
-      paths += connectNodes(provNode, mNode, wrapRect);
+      paths += connectNodes(provNode, mNode, innerRect);
 
       // L3 billing node
       const billingGroup = mGroup.querySelector('.mm-billing-group');
       if (billingGroup) {
         const bNode = billingGroup.querySelector('.mm-l3');
         if (bNode) {
-          paths += connectNodes(mNode, bNode, wrapRect);
+          paths += connectNodes(mNode, bNode, innerRect);
           // L4 channel nodes
           const l4Nodes = billingGroup.querySelectorAll(':scope > .mm-children > .mm-l4-row > .mm-l4, :scope > .mm-children > .mm-l4');
           l4Nodes.forEach(function(chNode) {
-            paths += connectNodes(bNode, chNode, wrapRect);
+            paths += connectNodes(bNode, chNode, innerRect);
           });
         }
       }
@@ -394,15 +394,15 @@ function drawLines() {
   svg.innerHTML = paths;
 }
 
-function connectNodes(from, to, wrapRect, dashed) {
+function connectNodes(from, to, innerRect, dashed) {
   const fRect = from.getBoundingClientRect();
   const tRect = to.getBoundingClientRect();
   const scale = currentZoom / 100;
 
-  const x1 = (fRect.right - wrapRect.left) / scale;
-  const y1 = (fRect.top + fRect.height / 2 - wrapRect.top) / scale;
-  const x2 = (tRect.left - wrapRect.left) / scale;
-  const y2 = (tRect.top + tRect.height / 2 - wrapRect.top) / scale;
+  const x1 = (fRect.right - innerRect.left) / scale;
+  const y1 = (fRect.top + fRect.height / 2 - innerRect.top) / scale;
+  const x2 = (tRect.left - innerRect.left) / scale;
+  const y2 = (tRect.top + tRect.height / 2 - innerRect.top) / scale;
 
   const midX = (x1 + x2) / 2;
   const style = dashed ? ' stroke-dasharray="4 3" stroke="#6366F1"' : '';
@@ -523,14 +523,11 @@ function setZoom(val) {
 function zoomIn() { setZoom(Math.min(150, currentZoom + 10)); }
 function zoomOut() { setZoom(Math.max(30, currentZoom - 10)); }
 function applyTransform() {
-  const mm = document.getElementById('mindmap');
-  const svg = document.getElementById('mmLines');
+  const inner = document.getElementById('mindmapInner');
   const scale = currentZoom / 100;
   const t = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
-  mm.style.transform = t;
-  mm.style.transformOrigin = '0 0';
-  svg.style.transform = t;
-  svg.style.transformOrigin = '0 0';
+  inner.style.transform = t;
+  requestAnimationFrame(drawLines);
 }
 
 (function initPan() {

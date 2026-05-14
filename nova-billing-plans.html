@@ -58,7 +58,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-avatar{width:36px;height:36px;border-radius:50%;background:#EEF2FF;display:flex;align-items:center;justify-content:center;font-weight:600;color:#4338CA;font-size:14px;cursor:pointer;margin-left:auto}
 
 /* Mind Map Tree */
-.mindmap-wrap{overflow:hidden;padding:20px;position:relative;cursor:grab}
+.mindmap-wrap{overflow:hidden;padding:20px;position:relative;cursor:grab;min-height:calc(100vh - 200px)}
+.mindmap-inner{position:relative;transform-origin:0 0;display:inline-block}
 .mindmap-wrap.dragging{cursor:grabbing}
 .mm-zoom-controls{position:fixed;right:32px;bottom:32px;display:flex;flex-direction:column;gap:4px;z-index:20;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.12);padding:6px}
 .mm-zoom-btn{width:32px;height:32px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:18px;color:#374151;font-weight:600}
@@ -98,6 +99,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-tag{font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500;position:absolute;top:-8px;right:-4px;white-space:nowrap;line-height:1.4}
 .mm-tag-on{background:#D1FAE5;color:#065F46}
 .mm-tag-off{background:#FEE2E2;color:#DC2626}
+.mm-node.is-off .mm-name{color:rgba(107,114,128,.5)}.mm-node.is-off .mm-code{color:rgba(107,114,128,.4)}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
 .mm-amounts{font-size:10px;color:#6B7280;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-unlink{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:700;color:#DC2626;cursor:pointer;line-height:1;z-index:5;background:#fff;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
@@ -240,8 +242,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
     <div class="mindmap-wrap" id="mindmapWrap">
-      <svg class="mm-lines" id="mmLines"></svg>
-      <div class="mindmap" id="mindmap"></div>
+      <div class="mindmap-inner" id="mindmapInner">
+        <svg class="mm-lines" id="mmLines"></svg>
+        <div class="mindmap" id="mindmap"></div>
+      </div>
     </div>
     <!-- Zoom Controls -->
     <div class="mm-zoom-controls">
