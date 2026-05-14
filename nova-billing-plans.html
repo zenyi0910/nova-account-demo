@@ -58,7 +58,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .user-avatar{width:36px;height:36px;border-radius:50%;background:#EEF2FF;display:flex;align-items:center;justify-content:center;font-weight:600;color:#4338CA;font-size:14px;cursor:pointer;margin-left:auto}
 
 /* Mind Map Tree */
-.mindmap-wrap{overflow-x:auto;padding:20px;position:relative}
+.mindmap-wrap{overflow:hidden;padding:20px;position:relative;cursor:grab}
+.mindmap-wrap.dragging{cursor:grabbing}
+.mm-zoom-controls{position:fixed;right:32px;bottom:32px;display:flex;flex-direction:column;gap:4px;z-index:20;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.12);padding:6px}
+.mm-zoom-btn{width:32px;height:32px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:18px;color:#374151;font-weight:600}
+.mm-zoom-btn:hover{background:#F3F4F6}
+.mm-zoom-range{writing-mode:vertical-lr;direction:rtl;width:32px;height:80px;margin:4px 0;cursor:pointer;accent-color:#4338CA}
 .mindmap{display:inline-flex;flex-direction:column;gap:24px;position:relative;z-index:1}
 .mm-provider-group{margin-bottom:8px}
 .mm-row{display:flex;align-items:center;gap:0}
@@ -170,10 +175,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .legend{display:flex;gap:16px;margin-bottom:12px;font-size:12px;color:#6B7280;flex-wrap:wrap}
 .legend-item{display:flex;align-items:center;gap:6px}
 .legend-dot{width:12px;height:12px;border-radius:4px}
-.mm-filter{margin-bottom:16px;border-top:1px solid #E5E7EB;padding-top:12px}
-.mm-filter-label{font-size:14px;font-weight:600;color:#111827;margin-bottom:8px}
+.mm-filter{margin-bottom:16px;background:rgba(99,102,241,.03);border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.mm-filter-label{font-size:12px;font-weight:500;color:#111827;margin-bottom:6px}
 .mm-filter-row{display:flex;align-items:center;gap:8px}
-.mm-filter-row select{padding:8px 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:13px;color:#6B7280;background:#F9FAFB;min-width:180px;appearance:auto}
+.mm-filter-row select{padding:8px 12px;border:none;border-radius:8px;font-size:13px;color:#6B7280;background:#fff;min-width:180px;appearance:auto;box-shadow:none}
 .mm-filter-actions{display:flex;gap:8px;margin-left:auto}
 .btn-search{padding:8px 16px;background:#111827;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px}
 .btn-search:hover{background:#374151}
@@ -229,9 +234,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
       </div>
     </div>
-    <div class="mindmap-wrap">
+    <div class="mindmap-wrap" id="mindmapWrap">
       <svg class="mm-lines" id="mmLines"></svg>
       <div class="mindmap" id="mindmap"></div>
+    </div>
+    <!-- Zoom Controls -->
+    <div class="mm-zoom-controls">
+      <button class="mm-zoom-btn" onclick="zoomIn()" title="放大">+</button>
+      <input type="range" class="mm-zoom-range" id="zoomRange" min="30" max="150" value="100" oninput="setZoom(this.value)">
+      <button class="mm-zoom-btn" onclick="zoomOut()" title="縮小">−</button>
     </div>
     <!-- Legend 右側居中 -->
     <div class="mm-legend-right">

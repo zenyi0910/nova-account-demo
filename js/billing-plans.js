@@ -120,7 +120,19 @@ const ICON = {
 
 function makeToggle(on, id) {
   const cls = on ? 'mm-toggle on' : 'mm-toggle';
-  return '<label class="' + cls + '" data-id="' + id + '"><span class="mm-toggle-track"><span class="mm-toggle-thumb"></span></span></label>';
+  return '<label class="' + cls + '" data-id="' + id + '" onclick="event.stopPropagation();toggleBillingStatus(\'' + id + '\')"><span class="mm-toggle-track"><span class="mm-toggle-thumb"></span></span></label>';
+}
+
+// === Toggle 確認彈窗 ===
+function toggleBillingStatus(bpId) {
+  const bp = billingPlans[bpId];
+  if (!bp) return;
+  const newStatus = bp.status === 'on' ? 'off' : 'on';
+  const msg = newStatus === 'on' ? '確定要啟用該張儲值金額表嗎？' : '確定要停用該張儲值金額表嗎？';
+  if (confirm(msg)) {
+    bp.status = newStatus;
+    renderMindMap();
+  }
 }
 
 // === 篩選儲值金額表狀態 ===
@@ -168,8 +180,8 @@ function renderMindMap() {
         html += makeToggle(bp.status === 'on', bp.id);
         html += '<span class="mm-toggle-text ' + (bp.status === 'on' ? 'on' : 'off') + '">' + (bp.status === 'on' ? '啟用' : '停用') + '</span>';
         html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
-        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')" title="編輯">' + ICON.edit + '</span>';
         html += '<span class="mm-view-btn" onclick="event.stopPropagation();openBillingDetail(\'' + bp.id + '\')" title="檢視">' + ICON.view + '</span>';
+        html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')" title="編輯">' + ICON.edit + '</span>';
         html += '</div>';
 
         // L4 付款通道
@@ -450,3 +462,53 @@ function closeDetailModal() {
 // === Init ===
 renderMindMap();
 window.addEventListener('resize', drawLines);
+
+// === Zoom & Pan ===
+var currentZoom = 100;
+var panX = 0, panY = 0;
+var isDragging = false, startX = 0, startY = 0;
+
+function setZoom(val) {
+  currentZoom = parseInt(val);
+  document.getElementById('zoomRange').value = currentZoom;
+  applyTransform();
+}
+function zoomIn() { setZoom(Math.min(150, currentZoom + 10)); }
+function zoomOut() { setZoom(Math.max(30, currentZoom - 10)); }
+function applyTransform() {
+  const mm = document.getElementById('mindmap');
+  const svg = document.getElementById('mmLines');
+  const scale = currentZoom / 100;
+  const t = 'translate(' + panX + 'px,' + panY + 'px) scale(' + scale + ')';
+  mm.style.transform = t;
+  mm.style.transformOrigin = '0 0';
+  svg.style.transform = t;
+  svg.style.transformOrigin = '0 0';
+}
+
+(function initPan() {
+  const wrap = document.getElementById('mindmapWrap');
+  wrap.addEventListener('mousedown', function(e) {
+    if (e.target.closest('.mm-node, .mm-toggle, .mm-unlink, .mm-edit-btn, .mm-view-btn, .mm-zoom-controls')) return;
+    isDragging = true;
+    startX = e.clientX - panX;
+    startY = e.clientY - panY;
+    wrap.classList.add('dragging');
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    panX = e.clientX - startX;
+    panY = e.clientY - startY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+    wrap.classList.remove('dragging');
+  });
+  wrap.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -5 : 5;
+    setZoom(Math.max(30, Math.min(150, currentZoom + delta)));
+  }, {passive: false});
+})();
