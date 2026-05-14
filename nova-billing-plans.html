@@ -99,7 +99,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-tag{font-size:9px;padding:1px 5px;border-radius:8px;font-weight:500;position:absolute;top:-8px;right:-4px;white-space:nowrap;line-height:1.4}
 .mm-tag-on{background:#D1FAE5;color:#065F46}
 .mm-tag-off{background:#FEE2E2;color:#DC2626}
-.mm-node.is-off .mm-name{color:rgba(107,114,128,.5)}.mm-node.is-off .mm-code{color:rgba(107,114,128,.4)}
+.mm-node.is-off .mm-name{color:rgba(107,114,128,.5)}.mm-l1.is-off .mm-name{color:#fff}.mm-node.is-off .mm-code{color:rgba(107,114,128,.4)}
 .mm-tag-shared{background:#E0E7FF;color:#3730A3}
 .mm-amounts{font-size:10px;color:#6B7280;padding:2px 6px;border-radius:8px;font-weight:500}
 .mm-unlink{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:700;color:#DC2626;cursor:pointer;line-height:1;z-index:5;background:#fff;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.2)}
@@ -191,7 +191,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
-.modal{background:#fff;border-radius:12px;width:100%;max-width:90vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:90vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15);transition:all .2s}
+.modal.fullscreen{max-width:100vw;max-height:100vh;width:100vw;height:100vh;border-radius:0}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #E5E7EB}
 .modal-header h3{font-size:16px;font-weight:600}
 .modal-header .close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px}
@@ -266,7 +267,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <!-- Detail Modal -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal">
-    <div class="modal-header"><h3 id="detailTitle">儲值金額表明細</h3><button class="close" onclick="closeDetailModal()">&times;</button></div>
+    <div class="modal-header"><h3 id="detailTitle">儲值金額表明細</h3><div style="display:flex;gap:8px;align-items:center"><button class="close" onclick="toggleDetailFullscreen()" title="展開">⛶</button><button class="close" onclick="closeDetailModal()">&times;</button></div></div>
     <div class="modal-body" id="detailTable"></div>
     <div class="modal-footer" id="detailFooter"></div>
   </div>

@@ -503,6 +503,10 @@ function openBillingEdit(billingId) {
 
 function closeDetailModal() {
   document.getElementById('detailModal').classList.remove('show');
+  document.querySelector('#detailModal .modal').classList.remove('fullscreen');
+}
+function toggleDetailFullscreen() {
+  document.querySelector('#detailModal .modal').classList.toggle('fullscreen');
 }
 
 // === Init ===
