@@ -153,7 +153,7 @@ function renderMindMap() {
     html += '<div class="mm-row">';
     // L1 供應商
     html += '<div class="mm-node mm-l1" data-id="' + prov.id + '">';
-    html += '<span class="mm-name">' + prov.name + '</span>' + provOffTag;
+    html += '<span class="mm-name">' + prov.name + '</span><span class="mm-code">' + prov.code + '</span>' + provOffTag;
     html += '</div>';
 
     // L2 支付方式
@@ -194,7 +194,7 @@ function renderMindMap() {
             html += '<div class="mm-link-zone"><span class="mm-unlink" onclick="event.stopPropagation();unlinkChannel(\'' + method.id + '\',\'' + ch.id + '\',\'' + bp.id + '\')" title="解開此通道">×</span></div>';
           }
           html += '<div class="mm-node mm-l4" data-id="' + ch.id + '" data-method="' + method.id + '" data-billing="' + bp.id + '">';
-          html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
+          html += '<span class="mm-name">' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cOffTag;
           html += '</div>';
           html += '</div>';
         });
@@ -212,7 +212,7 @@ function renderMindMap() {
         method.channels.forEach(function(ch) {
           const cOffTag = ch.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
           html += '<div class="mm-node mm-l4" data-id="' + ch.id + '">';
-          html += '<span class="mm-name">' + ch.name + '</span>' + cOffTag;
+          html += '<span class="mm-name">' + ch.name + '</span><span class="mm-code">' + ch.code + '</span>' + cOffTag;
           html += '</div>';
         });
         html += '</div>';
@@ -251,7 +251,6 @@ function unlinkChannel(methodId, channelId, billingId) {
         const chIdx = m.channels.findIndex(function(c) { return c.id === channelId; });
         if (chIdx === -1) return;
         const ch = m.channels.splice(chIdx, 1)[0];
-        // 在同一個支付方式下新增一個無金額表的 method clone，帶入原通道
         const newMethod = {
           id: m.id + '-unlinked-' + ch.id,
           name: m.name,
@@ -260,13 +259,15 @@ function unlinkChannel(methodId, channelId, billingId) {
           channels: [ch],
           _prefill: { billingId: billingId, channel: ch }
         };
-        // 插入到當前 method 後面
         const mIdx = p.methods.indexOf(m);
         p.methods.splice(mIdx + 1, 0, newMethod);
       }
     });
   });
   renderMindMap();
+  panX = 0; panY = 0; currentZoom = 100;
+  document.getElementById('zoomRange').value = 100;
+  applyTransform();
 }
 
 // 新增儲值金額表（帶入解開通道的原設定）
@@ -509,6 +510,19 @@ function applyTransform() {
   wrap.addEventListener('wheel', function(e) {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -5 : 5;
-    setZoom(Math.max(30, Math.min(150, currentZoom + delta)));
+    const newZoom = Math.max(30, Math.min(150, currentZoom + delta));
+    if (newZoom === currentZoom) return;
+    // 以鼠標位置為中心縮放
+    const wrapRect = wrap.getBoundingClientRect();
+    const mouseX = e.clientX - wrapRect.left;
+    const mouseY = e.clientY - wrapRect.top;
+    const oldScale = currentZoom / 100;
+    const newScale = newZoom / 100;
+    // 計算新的 pan 使鼠標位置不變
+    panX = mouseX - (mouseX - panX) * (newScale / oldScale);
+    panY = mouseY - (mouseY - panY) * (newScale / oldScale);
+    currentZoom = newZoom;
+    document.getElementById('zoomRange').value = currentZoom;
+    applyTransform();
   }, {passive: false});
 })();
