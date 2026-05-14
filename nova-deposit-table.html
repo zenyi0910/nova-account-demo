@@ -53,8 +53,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .toggle.on{background:#26A69A}.toggle.off{background:#D1D5DB}
 .toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .toggle.on::after{left:18px}.toggle.off::after{left:2px}
-.toggle-label{font-size:11px;margin-left:4px}
-.toggle-label.on{color:#0D9488}.toggle-label.off{color:#9CA3AF}
+.toggle-label{font-size:12px;margin-left:6px;font-weight:600}
+.toggle-label.on{color:#14b8a6}.toggle-label.off{color:rgba(107,114,128,.5)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:90vw;max-width:520px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E5E7EB}
+.modal-header h3{font-size:16px;font-weight:600;color:#111827}
+.modal-close{background:none;border:none;cursor:pointer;color:#6B7280;font-size:20px;padding:4px 8px;border-radius:4px}
+.modal-close:hover{background:#F3F4F6}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+.form-group .required{color:#EF4444;margin-left:2px}
+.form-select{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit;color:#374151;background:#fff}
+.form-input{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit;color:#374151}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;border-top:1px solid #E5E7EB}
+.btn-cancel{padding:8px 16px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;color:#374151;font-size:13px;cursor:pointer;font-family:inherit}
+.btn-submit{padding:8px 16px;border:none;border-radius:6px;background:#4338CA;color:#fff;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
+.btn-submit:hover{background:#3730A3}
 .btn-icon{background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;display:inline-flex;align-items:center}
 .btn-icon:hover{background:#F3F4F6}
 .channel-text{font-size:11px;color:#6B7280}
@@ -78,7 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       <h1>儲值金額表</h1>
       <span class="spacer"></span>
-      <button class="btn-add" onclick="alert('新增儲值金額表')">+ 新增儲值金額表</button>
+      <button class="btn-add" onclick="openAddModal()">+ 新增儲值金額表</button>
     </div>
 
     <div class="tips-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>該功能建立儲金幣類型。</div>
@@ -100,12 +117,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <tr><td style="font-weight:500">信用卡</td><td>MyCard</td><td class="channel-text">信用卡</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
         <tr><td style="font-weight:500">銀行轉帳</td><td>MyCard</td><td class="channel-text">銀行轉帳</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
         <tr><td style="font-weight:500">行動支付</td><td>MyCard</td><td class="channel-text">LINE Pay / 全盈付</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
-        <tr><td style="font-weight:500">免費扣幣</td><td>MyCard</td><td class="channel-text">免費扣幣</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
+        <tr><td style="font-weight:500">免費扣幣</td><td>MyCard</td><td class="channel-text">免費扣幣</td><td><button class="toggle off"></button><span class="toggle-label off">停用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
         <tr><td style="font-weight:500">點數卡</td><td>MyCard</td><td class="channel-text">序號儲值</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
         <tr><td style="font-weight:500">公會會長大禮包</td><td>MyCard</td><td class="channel-text">公會會長大禮包</td><td><button class="toggle on"></button><span class="toggle-label on">啟用</span></td><td><button class="btn-icon" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-icon" title="更多"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></td></tr>
       </tbody>
     </table>
   </div>
+</div>
+
+<!-- 新增儲值金額表 Modal -->
+<div class="modal-overlay" id="addModal">
+<div class="modal">
+  <div class="modal-header"><h3>新增儲值金額表</h3><button class="modal-close" onclick="closeAddModal()">✕</button></div>
+  <div class="modal-body">
+    <div class="form-group"><label>供應商<span class="required">*</span></label><select class="form-select"><option value="">請選擇供應商</option><option>Gash</option><option>MyCard</option></select></div>
+    <div class="form-group"><label>支付方式<span class="required">*</span></label><select class="form-select"><option value="">請選擇支付方式</option><option>超商儲值</option><option>會員扣點</option><option>點數卡</option><option>電信帳單</option><option>信用卡</option><option>銀行轉帳</option><option>行動支付</option><option>免費抵扣</option></select></div>
+    <div class="form-group"><label>付款通道<span class="required">*</span></label><select class="form-select"><option value="">請選擇付款通道</option><option>7-11即時儲</option><option>錢包扣點</option><option>點數卡</option><option>手機小額付款</option><option>信用卡</option><option>銀行轉帳</option><option>LINE Pay</option><option>序號儲值</option></select></div>
+    <div class="form-group"><label>儲值金額表</label>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;color:#6B7280">總共 0 筆資料</span><button style="background:#2563EB;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer">編輯排序</button></div>
+      <table class="data-table" style="font-size:12px"><thead><tr><th>順序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比（%）</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody id="amountBody"></tbody></table>
+      <div onclick="addAmountRow()" style="background:#F0F9FF;border:1px dashed #93C5FD;border-radius:4px;margin-top:-1px;color:#2563EB;font-size:13px;text-align:center;padding:10px;cursor:pointer">+ 新增</div>
+    </div>
+    <div class="form-group"><label>狀態</label><div style="display:flex;align-items:center;gap:6px"><button class="toggle on" id="modalToggle" onclick="toggleModalStatus()"></button><span class="toggle-label on" id="modalToggleLabel">啟用</span></div></div>
+  </div>
+  <div class="modal-footer"><button class="btn-cancel" onclick="closeAddModal()">取消</button><button class="btn-submit" onclick="closeAddModal()">確認新增</button></div>
+</div>
 </div>
 
 <script>
@@ -114,7 +150,7 @@ document.querySelector('.topbar-toggle')?.addEventListener('click', function(){
   else{document.body.classList.toggle('sidebar-collapsed');}
 });
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
-document.querySelectorAll('.toggle').forEach(t=>{
+document.querySelectorAll('.data-table .toggle').forEach(t=>{
   t.addEventListener('click',function(){
     this.classList.toggle('on');this.classList.toggle('off');
     const lbl=this.nextElementSibling;
@@ -122,6 +158,15 @@ document.querySelectorAll('.toggle').forEach(t=>{
     else{lbl.textContent='停用';lbl.className='toggle-label off';}
   });
 });
+function openAddModal(){document.getElementById('addModal').classList.add('show');}
+function closeAddModal(){document.getElementById('addModal').classList.remove('show');}
+function toggleModalStatus(){
+  const t=document.getElementById('modalToggle'),l=document.getElementById('modalToggleLabel');
+  t.classList.toggle('on');t.classList.toggle('off');
+  if(t.classList.contains('on')){l.textContent='啟用';l.className='toggle-label on';}
+  else{l.textContent='停用';l.className='toggle-label off';}
+}
+document.getElementById('addModal').addEventListener('click',function(e){if(e.target===this)closeAddModal();});
 </script>
 </body>
 </html>
