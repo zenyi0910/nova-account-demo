@@ -142,6 +142,9 @@ var currentProviderFilter = 'all';
 function applyFilter() {
   currentProviderFilter = document.getElementById('providerFilter').value;
   currentFilter = document.getElementById('billingFilter').value;
+  panX = 0; panY = 0; currentZoom = 100;
+  document.getElementById('zoomRange').value = 100;
+  applyTransform();
   renderMindMap();
 }
 function resetFilter() {
@@ -149,6 +152,9 @@ function resetFilter() {
   document.getElementById('billingFilter').value = 'all';
   currentProviderFilter = 'all';
   currentFilter = 'all';
+  panX = 0; panY = 0; currentZoom = 100;
+  document.getElementById('zoomRange').value = 100;
+  applyTransform();
   renderMindMap();
 }
 function filterBillingStatus(status) {
@@ -352,9 +358,12 @@ function drawLines() {
   const wrapRect = wrap.getBoundingClientRect();
 
   const mm = document.getElementById('mindmap');
-  svg.style.width = mm.scrollWidth + 'px';
-  svg.style.height = mm.scrollHeight + 'px';
-  svg.setAttribute('viewBox', '0 0 ' + mm.scrollWidth + ' ' + mm.scrollHeight);
+  const scale = currentZoom / 100;
+  const w = mm.scrollWidth;
+  const h = mm.scrollHeight;
+  svg.style.width = w + 'px';
+  svg.style.height = h + 'px';
+  svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
 
   let paths = '';
 
@@ -388,11 +397,12 @@ function drawLines() {
 function connectNodes(from, to, wrapRect, dashed) {
   const fRect = from.getBoundingClientRect();
   const tRect = to.getBoundingClientRect();
+  const scale = currentZoom / 100;
 
-  const x1 = fRect.right - wrapRect.left;
-  const y1 = fRect.top + fRect.height / 2 - wrapRect.top;
-  const x2 = tRect.left - wrapRect.left;
-  const y2 = tRect.top + tRect.height / 2 - wrapRect.top;
+  const x1 = (fRect.right - wrapRect.left) / scale;
+  const y1 = (fRect.top + fRect.height / 2 - wrapRect.top) / scale;
+  const x2 = (tRect.left - wrapRect.left) / scale;
+  const y2 = (tRect.top + tRect.height / 2 - wrapRect.top) / scale;
 
   const midX = (x1 + x2) / 2;
   const style = dashed ? ' stroke-dasharray="4 3" stroke="#6366F1"' : '';
