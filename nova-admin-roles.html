@@ -129,6 +129,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-error{font-size:11px;color:#DC2626;margin-top:3px;display:none}
 .filter-group.has-error .filter-error{display:block}
 .filter-group.has-error .filter-input{border-color:#DC2626}
+/* Role Modal */
+.role-modal{background:#fff;border-radius:10px;width:90vw;max-width:1100px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.role-modal.fullscreen{width:100vw;max-width:100vw;max-height:100vh;height:100vh;border-radius:0}
+.rm-header{padding:16px 20px;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.rm-header h3{font-size:15px;font-weight:600;color:#1F2937}
+.rm-header-actions{display:flex;align-items:center;gap:4px}
+.rm-icon-btn{background:none;border:none;cursor:pointer;color:#9CA3AF;padding:6px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.rm-icon-btn:hover{background:#F3F4F6;color:#374151}
+.rm-body{padding:20px;overflow-y:auto;flex:1}
+.rm-form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.rm-field label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+.rm-field input{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+.rm-field input:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.rm-req{color:#DC2626;margin-left:2px}
+.rm-perm-section{border:1px solid #E5E7EB;border-radius:8px;padding:16px}
+.rm-perm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.rm-perm-header label{font-size:13px;font-weight:500;color:#374151}
+.rm-collapse-btn{font-size:12px;padding:4px 12px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;color:#374151;font-family:inherit}
+.rm-collapse-btn:hover{background:#F3F4F6}
+.rm-perm-grid{max-height:500px;overflow-y:auto;space-y:12px}
+.rm-perm-group{margin-bottom:12px}
+.rm-perm-group-title{display:flex;align-items:center;gap:8px;padding-bottom:8px}
+.rm-perm-group-title label{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:#374151}
+.rm-perm-group-title input[type="checkbox"]{width:16px;height:16px;accent-color:#00bba7;cursor:pointer}
+.rm-perm-items{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-left:24px}
+.rm-perm-item{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:4px;cursor:pointer;transition:background .1s}
+.rm-perm-item:hover{background:#F9FAFB}
+.rm-perm-item input[type="checkbox"]{width:14px;height:14px;accent-color:#00bba7;cursor:pointer;flex-shrink:0}
+.rm-perm-item span{font-size:12px;color:#374151}
+.rm-subgroup{margin:8px 0 8px 24px;border:1px solid #E5E7EB;border-radius:6px;overflow:hidden}
+.rm-subgroup-title{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#F9FAFB;cursor:pointer;font-weight:500;font-size:13px}
+.rm-subgroup-title label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.rm-sg-arrow{font-size:10px;color:#6B7280;width:14px;display:inline-block}
+.rm-subgroup-items{padding:8px 12px}
+.rm-footer{padding:16px 20px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
+.btn-outline{padding:8px 16px;border-radius:6px;border:1px solid #D1D5DB;background:#fff;color:#6B7280;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.btn-outline:hover{background:#F9FAFB}
+.btn-dark{display:inline-flex;align-items:center;gap:4px;padding:8px 16px;border-radius:6px;border:none;background:#393939;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.btn-dark:hover{background:#1F2937}
 </style>
 </head>
 <body>
@@ -161,94 +200,125 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- Role Modal -->
 <div id="roleModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;justify-content:center;align-items:center">
-<div style="background:#fff;border-radius:12px;width:560px;max-width:90vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)">
-  <div style="padding:20px 24px;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center">
-    <h3 id="roleModalTitle" style="font-size:16px;font-weight:600;color:#111827">新增角色</h3>
-    <button onclick="closeRoleModal()" style="background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:20px">&times;</button>
+<div class="role-modal">
+  <div class="rm-header">
+    <h3 id="roleModalTitle">角色-新增</h3>
+    <div class="rm-header-actions">
+      <button class="rm-icon-btn" onclick="toggleRoleModalSize()" title="切換視窗大小"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></svg></button>
+      <button class="rm-icon-btn" onclick="closeRoleModal()" title="關閉視窗"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
   </div>
-  <div style="padding:24px">
-    <div style="margin-bottom:16px"><label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px">角色名稱</label><input id="rmName" type="text" style="width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit;outline:none" placeholder="請輸入角色名稱"></div>
-    <div style="margin-bottom:16px"><label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:4px">備註</label><input id="rmNote" type="text" style="width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit;outline:none" placeholder="選填"></div>
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:8px">帳號管理</label>
-      <div id="permGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+  <div class="rm-body">
+    <div class="rm-form-row">
+      <div class="rm-field"><label>角色名稱<span class="rm-req">*</span></label><input id="rmName" type="text" placeholder="輸入角色名稱"></div>
+      <div class="rm-field"><label>備註</label><input id="rmNote" type="text" placeholder="輸入備註"></div>
     </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:20px">
-      <button onclick="closeRoleModal()" style="padding:8px 16px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff">取消</button>
-      <button onclick="saveRole()" style="padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;color:#fff;background:#16a34a">儲存</button>
+    <div class="rm-perm-section">
+      <div class="rm-perm-header"><label>權限設定<span class="rm-req">*</span></label><button class="rm-collapse-btn" onclick="togglePermSection()">收合</button></div>
+      <div id="permGrid" class="rm-perm-grid"></div>
     </div>
+  </div>
+  <div class="rm-footer">
+    <button class="btn-outline" onclick="closeRoleModal()">取消</button>
+    <button class="btn-dark" onclick="saveRole()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增</button>
   </div>
 </div>
 </div>
 
 <script>
-const permModules=['遊戲管理','商城管理','公會管理','內容發布','活動管理','任務管理','三方支付設定','用戶管理','基本設定','各式報表','禁用語管理','紅包申請','角色設定','帳號設定'];
+const permGroups = {
+  '遊戲管理':['遊戲共用設定-查詢檢視','遊戲共用設定-包含新增與異動','遊戲共用設定-刪除','遊戲推薦設定-查詢檢視','遊戲推薦設定-包含新增、排序與異動','遊戲推薦設定-刪除','遊戲維護設定-查詢檢視','遊戲維護設定-異動','遊戲排序-查詢檢視','遊戲排序-包含排序','轉帳額度確認-查詢檢視','轉帳額度確認-異動'],
+  '商城管理':['一般儲值-查詢檢視','一般儲值-包含新增、停/啟用與異動','一般儲值-刪除','快速儲值-查詢檢視','快速儲值-包含新增、停/啟用與異動','快速儲值-刪除'],
+  '公會管理':['公會列表-查詢檢視','公會列表-調整等級','貢獻查詢-查詢檢視','提領監控-查詢檢視','操作紀錄-查詢檢視'],
+  '內容發布':['橫幅管理-查詢檢視','橫幅管理-包含新增、排序、停/啟用與異動','橫幅管理-刪除','公告管理-查詢檢視','公告燈管理-包含新增、排序、停/啟用與異動','公告燈管理-刪除','跑馬燈管理-查詢檢視','跑馬燈管理-包含新增、排序、停/啟用與異動','跑馬燈管理-刪除'],
+  '活動管理':['登入活動-查詢檢視','登入活動-包含新增、停/啟用與異動','登入活動-刪除','儲值活動-查詢檢視','儲值活動-包含新增、停/啟用與異動','儲值活動-刪除','廣告排序清單-查詢檢視','廣告排序清單-排序','一般活動-查詢檢視','一般活動-包含新增、排序、停/啟用與異動','一般活動-刪除','其他活動-查詢檢視','其他活動-包含新增、停/啟用與異動','其他活動-刪除'],
+  '任務管理':['任務設定-查詢檢視','任務設定-包含新增、停/啟用與異動','任務設定-刪除'],
+  '帳務管理':{subgroups:{'三方支付管理':['供應商-查詢檢視','供應商-包含新增、停/啟用與異動','付款通道-查詢檢視','付款通道-包含新增、停/啟用與異動','支付方式-查詢檢視','支付方式-包含新增、停/啟用與異動','儲值金額表-查詢檢視','儲值金額表-包含新增、停/啟用與異動','支付方式-操作審核']}},
+  '用戶管理':['用戶查詢-查詢檢視','用戶查詢-異動包含狀態管理、VIP管理、人工存提、歸零禁言次數','用戶查詢-匯出'],
+  '基本設定':['系統設定-檢視','系統設定-異動包含一般設定、功能設定、安全相關設定、內容管理設定、第三方整合設定、公會風控設定','序號產生-查詢檢視','序號產生-刪除','序號產生-新增','系統維護-查詢檢視包含歷史紀錄','道具清單-查詢檢視','系統維護-異動','序號產生-匯出'],
+  '各式報表':['投注紀錄查詢-查詢檢視','交易紀錄查詢-查詢檢視','會員支付查詢-查詢檢視','帳號操作紀錄查詢-查詢檢視','道具查詢-查詢檢視','交易紀錄查詢-匯出','會員支付查詢-匯出','道具查詢-匯出','投注紀錄查詢-匯出'],
+  '禁用語管理':['禁用語設定-查詢檢視','聊天室監控-查詢檢視','禁用語設定-包含新增、停/啟用、違規設定與異動','聊天室監控-刪除','大聲公監控-查詢檢視'],
+  '紅包申請':['紅包審核-查詢檢視','紅包審核-操作審核包含同意、拒絕、產生序號','紅包紀錄-查詢檢視','紅包審核-匯出','紅包紀錄-匯出'],
+  '權限設定':['角色設定-查詢檢視','角色設定-包含新增與異動','帳號設定-查詢檢視','帳號設定-包含新增與異動','帳號設定-刪除']
+};
+const permModuleNames = Object.keys(permGroups);
 const roles=[
-  {name:'Admin',note:'系統管理員',members:8,perms:permModules.reduce((o,m)=>(o[m]='full',o),{})},
-  {name:'RD_Test',note:'研發測試',members:3,perms:{...permModules.reduce((o,m)=>(o[m]='read',o),{}),'遊戲管理':'full','基本設定':'full'}},
-  {name:'CS_Support',note:'客服支援',members:4,perms:{...permModules.reduce((o,m)=>(o[m]='none',o),{}),'用戶管理':'read','各式報表':'read','禁用語管理':'full'}},
-  {name:'allenNoGame',note:'無遊戲權限',members:1,perms:{...permModules.reduce((o,m)=>(o[m]='read',o),{}),'遊戲管理':'none'}},
-  {name:'Marketing',note:'行銷部門',members:2,perms:{...permModules.reduce((o,m)=>(o[m]='none',o),{}),'活動管理':'full','內容發布':'full','各式報表':'read'}},
-  {name:'Auditor',note:'稽核',members:1,perms:permModules.reduce((o,m)=>(o[m]='read',o),{})}
+  {name:'Admin',note:'管理員角色',members:28,perms:permModuleNames.reduce((o,m)=>(o[m]='full',o),{})},
+  {name:'RD_Test',note:'RD測試角色',members:2,perms:{...permModuleNames.reduce((o,m)=>(o[m]='read',o),{}),'遊戲管理':'full','基本設定':'full'}},
+  {name:'QA',note:'星運營運測試',members:1,perms:{...permModuleNames.reduce((o,m)=>(o[m]='read',o),{}),'用戶管理':'full','各式報表':'full'}},
+  {name:'allenNoGame',note:'沒有遊戲權限',members:2,perms:{...permModuleNames.reduce((o,m)=>(o[m]='read',o),{}),'遊戲管理':'none'}},
+  {name:'Marketing',note:'行銷部門',members:2,perms:{...permModuleNames.reduce((o,m)=>(o[m]='none',o),{}),'活動管理':'full','內容發布':'full','各式報表':'read'}},
+  {name:'Auditor',note:'稽核',members:1,perms:permModuleNames.reduce((o,m)=>(o[m]='read',o),{})}
 ];
-function permBadge(level){
-  if(level==='full')return '<span class="perm-badge perm-full">完整</span>';
-  if(level==='read')return '<span class="perm-badge perm-read">唯讀</span>';
-  return '<span class="perm-badge perm-none">無</span>';
-}
 function renderRoles(data){
-  const topPerms=['遊戲管理','用戶管理','活動管理','各式報表'];
-  let html='<table class="data-table"><thead><tr><th>角色名稱</th><th>備註</th><th>帳號數</th>';
-  topPerms.forEach(p=>html+=`<th>${p}</th>`);
-  html+='<th>操作</th></tr></thead><tbody>';
+  let html='<table class="data-table"><thead><tr><th>角色名稱</th><th>套用帳號</th><th>權限數</th><th>最後更新人員</th><th>備註</th><th>操作</th></tr></thead><tbody>';
+  const updaters=['Rachel','paul11','Steven','superadmin','superadmin','superadmin'];
   data.forEach((r,i)=>{
-    html+=`<tr><td><button class="link-teal" onclick="showRoleDetail(${i})">${r.name}</button></td><td style="color:#6B7280">${r.note}</td><td>${r.members}</td>`;
-    topPerms.forEach(p=>html+=`<td>${permBadge(r.perms[p]||'none')}</td>`);
-    html+=`<td style="white-space:nowrap"><button class="btn-edit" onclick="showRoleModal('edit',${i})" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="btn-del" onclick="delRole(${i})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td></tr>`;
+    const total=Object.values(permGroups).reduce((s,v)=>s+(Array.isArray(v)?v.length:Object.values(v.subgroups).reduce((a,b)=>a+b.length,0)),0);
+    const count=r.perms[permModuleNames[0]]==='full'?'全部權限':`${Math.floor(Math.random()*60+10)} / ${total}`;
+    html+=`<tr><td><button class="link-teal" onclick="showRoleModal('edit',${i})">${r.name}</button></td><td>${r.members>0?r.members+'位':'-'}</td><td>${count}</td><td>${updaters[i]||'superadmin'}</td><td style="color:#6B7280">${r.note}</td>`;
+    html+=`<td style="white-space:nowrap"><button class="btn-edit" onclick="showRoleModal('edit',${i})" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg></button><button class="btn-del" onclick="delRole(${i})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button></td></tr>`;
   });
   html+='</tbody></table>';
   document.getElementById('roleTableWrap').innerHTML=html;
   document.getElementById('rolePageInfo').textContent=`共 ${data.length} 筆角色`;
 }
 function filterRoles(){
-  const q=document.getElementById('searchRole').value.toLowerCase();
+  const input=document.querySelector('.filter-input input');
+  const q=input?input.value.toLowerCase():'';
   renderRoles(q?roles.filter(r=>r.name.toLowerCase().includes(q)):roles);
 }
-function resetRoleFilter(){document.getElementById('searchRole').value='';renderRoles(roles);}
-function showRoleDetail(i){const r=roles[i];let msg=`角色：${r.name}\n備註：${r.note}\n帳號數：${r.members}\n\n權限：\n`;permModules.forEach(m=>msg+=`  ${m}: ${r.perms[m]||'none'}\n`);alert(msg);}
+function resetRoleFilter(){const input=document.querySelector('.filter-input input');if(input)input.value='';renderRoles(roles);}
 let editRoleIdx=-1;
-// 遊戲管理細項權限
-const gamePermItems=[
-  '遊戲共用設定-查詢檢視','遊戲共用設定-包含新增與異動','遊戲共用設定-刪除',
-  '遊戲推薦設定-查詢檢視','遊戲推薦設定-包含新增、排序與異動','遊戲推薦設定-刪除',
-  '遊戲維護設定-查詢檢視','遊戲維護設定-異動',
-  '遊戲排序-查詢檢視','遊戲排序-包含排序',
-  '轉帳額度確認-查詢檢視','轉帳額度確認-異動'
-];
+function renderPermGrid(){
+  let html='';
+  permModuleNames.forEach(group=>{
+    const val=permGroups[group];
+    html+=`<div class="rm-perm-group"><div class="rm-perm-group-title"><label><input type="checkbox" onchange="toggleGroupAll(this,'${group}')"><span>${group}</span></label></div>`;
+    if(Array.isArray(val)){
+      html+=`<div class="rm-perm-items">`;
+      val.forEach(p=>{html+=`<div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${p}"><span>${p}</span></div>`;});
+      html+=`</div>`;
+    } else if(val.subgroups){
+      Object.entries(val.subgroups).forEach(([sg,perms])=>{
+        html+=`<div class="rm-subgroup"><div class="rm-subgroup-title" onclick="toggleSubgroup(this)"><span class="rm-sg-arrow">▶</span><label><input type="checkbox" onchange="toggleGroupAll(this,'${group}')"><span>${sg}</span></label></div><div class="rm-subgroup-items" style="display:none"><div class="rm-perm-items">`;
+        perms.forEach(p=>{html+=`<div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${p}"><span>${p}</span></div>`;});
+        html+=`</div></div></div>`;
+      });
+    }
+    html+=`</div>`;
+  });
+  return html;
+}
+function toggleSubgroup(el){
+  const items=el.nextElementSibling;
+  const arrow=el.querySelector('.rm-sg-arrow');
+  if(items.style.display==='none'){items.style.display='';arrow.textContent='▼';}
+  else{items.style.display='none';arrow.textContent='▶';}
+}
+function toggleGroupAll(el,group){
+  const grid=document.getElementById('permGrid');
+  grid.querySelectorAll(`input[data-group="${group}"]`).forEach(cb=>cb.checked=el.checked);
+}
+function togglePermSection(){
+  const grid=document.getElementById('permGrid');
+  const btn=document.querySelector('.rm-collapse-btn');
+  if(grid.style.display==='none'){grid.style.display='';btn.textContent='收合';}
+  else{grid.style.display='none';btn.textContent='展開';}
+}
 function showRoleModal(mode,idx){
   editRoleIdx=mode==='edit'?idx:-1;
   document.getElementById('roleModalTitle').textContent=mode==='edit'?'角色-編輯':'角色-新增';
-  const r=mode==='edit'?roles[idx]:{name:'',note:'',perms:{},gamePerms:[]};
+  const r=mode==='edit'?roles[idx]:{name:'',note:''};
   document.getElementById('rmName').value=r.name;
   document.getElementById('rmNote').value=r.note;
-  let grid='';
-  // 遊戲管理 - checkbox 細項
-  grid+='<div style="margin-bottom:12px"><div style="font-weight:600;font-size:13px;margin-bottom:8px;color:#374151">遊戲管理</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px">';
-  const checked=r.gamePerms||( r.perms['遊戲管理']==='full'?gamePermItems:[]);
-  gamePermItems.forEach(p=>{
-    const ck=checked.includes(p)?'checked':'';
-    grid+=`<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;cursor:pointer"><input type="checkbox" data-game-perm="${p}" ${ck} style="accent-color:#00bba7"> ${p}</label>`;
-  });
-  grid+='</div></div>';
-  // 其他模組 - select
-  permModules.filter(m=>m!=='遊戲管理').forEach(m=>{
-    const v=r.perms[m]||'none';
-    grid+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:#F9FAFB;border-radius:4px"><span style="font-size:12px">${m}</span><select style="font-size:11px;border:1px solid #E5E7EB;border-radius:4px;padding:2px 4px" data-perm="${m}"><option value="full" ${v==='full'?'selected':''}>完整</option><option value="read" ${v==='read'?'selected':''}>唯讀</option><option value="none" ${v==='none'?'selected':''}>無</option></select></div>`;
-  });
-  document.getElementById('permGrid').innerHTML=grid;
+  document.getElementById('permGrid').innerHTML=renderPermGrid();
+  document.getElementById('permGrid').style.display='';
+  document.querySelector('.rm-collapse-btn').textContent='收合';
   document.getElementById('roleModalOverlay').style.display='flex';
 }
-function closeRoleModal(){document.getElementById('roleModalOverlay').style.display='none';}
+function closeRoleModal(){document.getElementById('roleModalOverlay').style.display='none';const m=document.querySelector('.role-modal');m.classList.remove('fullscreen');}
+function toggleRoleModalSize(){document.querySelector('.role-modal').classList.toggle('fullscreen');}
 function saveRole(){alert(editRoleIdx>=0?'角色已更新':'角色已新增');closeRoleModal();}
 function delRole(i){if(confirm(`確定刪除角色「${roles[i].name}」？`)){roles.splice(i,1);renderRoles(roles);}}
 
