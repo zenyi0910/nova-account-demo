@@ -135,11 +135,36 @@ function toggleBillingStatus(bpId) {
   }
 }
 
-// === 篩選儲值金額表狀態 ===
+// === 篩選功能 ===
 var currentFilter = 'all';
+var currentProviderFilter = 'all';
+
+function applyFilter() {
+  currentProviderFilter = document.getElementById('providerFilter').value;
+  currentFilter = document.getElementById('billingFilter').value;
+  renderMindMap();
+}
+function resetFilter() {
+  document.getElementById('providerFilter').value = 'all';
+  document.getElementById('billingFilter').value = 'all';
+  currentProviderFilter = 'all';
+  currentFilter = 'all';
+  renderMindMap();
+}
 function filterBillingStatus(status) {
   currentFilter = status;
   renderMindMap();
+}
+// 初始化供應商下拉
+function initProviderFilter() {
+  var sel = document.getElementById('providerFilter');
+  if (!sel) return;
+  treeData.forEach(function(prov) {
+    var opt = document.createElement('option');
+    opt.value = prov.id;
+    opt.textContent = prov.name;
+    sel.appendChild(opt);
+  });
 }
 
 // === Render Mind Map (4 layers: 供應商→支付方式→儲值金額表→付款通道) ===
@@ -148,6 +173,15 @@ function renderMindMap() {
   let html = '';
 
   treeData.forEach(function(prov) {
+    // 供應商篩選：隱藏整條分支
+    if (currentProviderFilter !== 'all' && prov.id !== currentProviderFilter) return;
+    // 狀態篩選：檢查該供應商下是否有符合狀態的儲值金額表
+    if (currentFilter !== 'all') {
+      var hasMatch = prov.methods.some(function(m) {
+        return m.billingId && billingPlans[m.billingId] && billingPlans[m.billingId].status === currentFilter;
+      });
+      if (!hasMatch) return;
+    }
     const provOffTag = prov.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
     html += '<div class="mm-provider-group" data-prov="' + prov.id + '">';
     html += '<div class="mm-row">';
@@ -159,6 +193,11 @@ function renderMindMap() {
     // L2 支付方式
     html += '<div class="mm-children">';
     prov.methods.forEach(function(method) {
+      // 狀態篩選：隱藏不符合的整條支付方式分支
+      if (currentFilter !== 'all') {
+        var bp = method.billingId && billingPlans[method.billingId];
+        if (!bp || bp.status !== currentFilter) return;
+      }
       const mOffTag = method.status !== 'on' ? '<span class="mm-tag mm-tag-off">停用</span>' : '';
       html += '<div class="mm-method-group">';
       html += '<div class="mm-node mm-l2" data-id="' + method.id + '">';
@@ -169,12 +208,6 @@ function renderMindMap() {
       html += '<div class="mm-children">';
       if (method.billingId && billingPlans[method.billingId]) {
         const bp = billingPlans[method.billingId];
-        // 篩選：如果不符合當前 filter 則隱藏整個 method
-        if (currentFilter !== 'all' && bp.status !== currentFilter) {
-          html += '</div>'; // L3 children
-          html += '</div>'; // method-group
-          return;
-        }
         html += '<div class="mm-billing-group">';
         html += '<div class="mm-node mm-l3" data-id="' + bp.id + '" data-billing="' + bp.id + '" onclick="openBillingDetail(\'' + bp.id + '\')">';
         html += makeToggle(bp.status === 'on', bp.id);
@@ -463,6 +496,7 @@ function closeDetailModal() {
 }
 
 // === Init ===
+initProviderFilter();
 renderMindMap();
 window.addEventListener('resize', drawLines);
 

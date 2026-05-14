@@ -222,16 +222,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <span>Tips</span> 該功能僅支援金幣類型。
     </div>
     <div class="mm-filter">
-      <div class="mm-filter-label">狀態</div>
+      <div class="mm-filter-label">供應商</div>
       <div class="mm-filter-row">
-        <select id="billingFilter" onchange="filterBillingStatus(this.value)">
+        <select id="providerFilter">
+          <option value="all">全部供應商</option>
+        </select>
+        <div class="mm-filter-label" style="margin-left:16px">狀態</div>
+        <select id="billingFilter">
           <option value="all">選擇啟用狀態</option>
           <option value="on">啟用中</option>
           <option value="off">停用中</option>
         </select>
         <div class="mm-filter-actions">
-          <button class="btn-search" onclick="filterBillingStatus(document.getElementById('billingFilter').value)">搜尋</button>
-          <button class="btn-reset" onclick="document.getElementById('billingFilter').value='all';filterBillingStatus('all')">重置</button>
+          <button class="btn-search" onclick="applyFilter()">搜尋</button>
+          <button class="btn-reset" onclick="resetFilter()">重置</button>
         </div>
       </div>
     </div>
