@@ -84,6 +84,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 /* L3 儲值金額表 */
 .mm-l3{background:#F9FAFB;border:2px solid #D1D5DB;color:#374151;font-size:12px;width:240px;min-width:240px;max-width:240px;padding:8px 14px;cursor:pointer;transition:box-shadow .15s;display:flex;align-items:center;gap:6px}
 .mm-l3 .mm-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mm-l3 .mm-actions{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0}
 .mm-l3:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
 .mm-l3.empty{background:#E6FFF9;border:2px dashed #00D5BE;color:#065F46;width:240px;min-width:240px;max-width:240px;cursor:pointer}
 .mm-l3.empty:hover{border-color:#059669;color:#059669;background:#D1FAE5}
@@ -108,7 +109,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .mm-legend-right{position:fixed;right:32px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:20}
 .mm-legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#6B7280}
 .mm-legend-dot{width:14px;height:14px;border-radius:4px;flex-shrink:0}
-.mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;display:block;margin-top:3px;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mm-code{font-size:9px;background:rgba(0,0,0,.06);color:#6B7280;padding:2px 4px;border-radius:3px;position:absolute;bottom:-14px;left:0;opacity:0;transition:opacity .2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .mm-node:hover .mm-code{opacity:1}
 .mm-name{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .mm-node:hover .mm-name{white-space:normal;overflow:visible;text-overflow:unset}

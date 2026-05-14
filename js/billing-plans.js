@@ -180,8 +180,10 @@ function renderMindMap() {
         html += makeToggle(bp.status === 'on', bp.id);
         html += '<span class="mm-toggle-text ' + (bp.status === 'on' ? 'on' : 'off') + '">' + (bp.status === 'on' ? '啟用' : '停用') + '</span>';
         html += '<span class="mm-amounts">' + bp.amounts.length + '筆</span>';
+        html += '<span class="mm-actions">';
         html += '<span class="mm-view-btn" onclick="event.stopPropagation();openBillingDetail(\'' + bp.id + '\')" title="檢視">' + ICON.view + '</span>';
         html += '<span class="mm-edit-btn" onclick="event.stopPropagation();openBillingEdit(\'' + bp.id + '\')" title="編輯">' + ICON.edit + '</span>';
+        html += '</span>';
         html += '</div>';
 
         // L4 付款通道
