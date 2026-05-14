@@ -161,6 +161,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .rm-expandable-item{flex-wrap:wrap;position:relative}
 .rm-expand-btn{font-size:10px;color:#6B7280;cursor:pointer;margin-left:6px;user-select:none}
 .rm-expand-children{width:100%;padding:4px 0 4px 20px;grid-column:1/-1}
+.rm-perm-items-expandable{grid-template-columns:1fr 1fr}
 .rm-child-item{display:flex;align-items:center;gap:6px;padding:4px 8px;font-size:12px;color:#374151}
 .rm-child-item input[type="checkbox"]{width:14px;height:14px;accent-color:#00bba7;cursor:pointer}
 .rm-footer{padding:16px 20px;border-top:1px solid #E5E7EB;display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
@@ -227,7 +228,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script>
 const permGroups = {
-  '遊戲管理':{items:['轉帳額度確認-查詢檢視','轉帳額度確認-異動'],expandable:{'遊戲設定-查詢檢視':['遊戲共用設定-查詢檢視','遊戲推薦設定-查詢檢視'],'遊戲設定-包含新增與異動':['遊戲共用設定-包含新增與異動','遊戲推薦設定-包含新增、排序與異動'],'遊戲設定-刪除':['遊戲共用設定-刪除','遊戲推薦設定-刪除'],'娛樂城管理-查詢檢視':['遊戲維護設定-查詢檢視','遊戲排序-查詢檢視'],'娛樂城管理-包含新增、排序與異動':['遊戲維護設定-異動','遊戲排序-包含排序'],'娛樂城管理-刪除':['遊戲維護設定-刪除']},order:['expandable','items']},
+  '遊戲管理':{items:['轉帳額度確認-查詢檢視','轉帳額度確認-異動'],expandable:{'遊戲設定-查詢檢視':['遊戲共用設定-查詢檢視','遊戲推薦設定-查詢檢視'],'遊戲設定-包含新增、排序與異動':['遊戲共用設定-包含新增與異動','遊戲推薦設定-包含新增、排序與異動'],'遊戲設定-刪除':['遊戲共用設定-刪除','遊戲推薦設定-刪除'],'娛樂城管理-查詢檢視':['遊戲維護設定-查詢檢視','遊戲排序-查詢檢視'],'娛樂城管理-包含新增、排序與異動':['遊戲維護設定-異動','遊戲排序-包含排序'],'娛樂城管理-刪除':['遊戲維護設定-刪除']},order:['expandable','items']},
   '商城管理':['一般儲值-查詢檢視','一般儲值-包含新增、停/啟用與異動','一般儲值-刪除','快速儲值-查詢檢視','快速儲值-包含新增、停/啟用與異動','快速儲值-刪除'],
   '公會管理':['公會列表-查詢檢視','公會列表-調整等級','貢獻查詢-查詢檢視','提領監控-查詢檢視','操作紀錄-查詢檢視'],
   '內容發布':['橫幅管理-查詢檢視','橫幅管理-包含新增、排序、停/啟用與異動','橫幅管理-刪除','公告管理-查詢檢視','公告燈管理-包含新增、排序、停/啟用與異動','公告燈管理-刪除','跑馬燈管理-查詢檢視','跑馬燈管理-包含新增、排序、停/啟用與異動','跑馬燈管理-刪除'],
@@ -289,13 +290,10 @@ function renderPermGrid(){
       };
       const renderExpandable = ()=>{
         if(val.expandable){
-          html+=`<div class="rm-perm-items">`;
+          html+=`<div class="rm-perm-items rm-perm-items-expandable">`;
           Object.entries(val.expandable).forEach(([label,children])=>{
             const id='exp_'+label.replace(/[^a-z0-9]/gi,'_');
             html+=`<div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${label}"><span>${label}</span><span class="rm-expand-btn" onclick="toggleExpand(event,'${id}')">▶</span></div>`;
-          });
-          Object.entries(val.expandable).forEach(([label,children])=>{
-            const id='exp_'+label.replace(/[^a-z0-9]/gi,'_');
             html+=`<div class="rm-expand-children" id="${id}" style="display:none">`;
             children.forEach(c=>{html+=`<div class="rm-child-item"><input type="checkbox" data-group="${group}" data-perm="${c}"><span>${c}</span></div>`;});
             html+=`</div>`;
