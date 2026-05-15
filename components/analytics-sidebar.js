@@ -85,7 +85,7 @@
     html += '<div style="font-weight:600;font-size:13px;color:#1E293B">superadmin</div>';
     html += '<div style="font-size:11px;color:#94A3B8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">superadmin@nova-analytics.com</div>';
     html += '</div>';
-    html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><polyline points="9 6 15 12 9 18"/></svg>';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg>';
     html += '</div>';
     html += '<div class="user-popover" id="userPopover">';
     html += '<div class="popover-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>通知設定</div>';

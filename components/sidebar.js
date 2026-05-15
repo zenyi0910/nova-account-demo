@@ -132,7 +132,7 @@
     html += `<div class="sidebar-user" onclick="toggleUserMenu()">
       <div class="user-avatar">C</div>
       <div class="user-info"><div class="user-name">Casper Admin</div><div class="user-role">casper</div></div>
-      <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      <svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="6" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="18" r="1.5"/></svg>
       <div class="user-popover" id="userPopover">
         <div class="user-popover-header">
           <div class="user-avatar">C</div>
