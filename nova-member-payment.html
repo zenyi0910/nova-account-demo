@@ -65,14 +65,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-input input{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;width:100%}
 .filter-input input::placeholder{color:#9CA3AF}
 .filter-input select{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;cursor:pointer;-webkit-appearance:none;width:100%}
-.btn-search{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;color:#fff;background:#1F2937}
-.btn-search:hover{background:#111827}
+.btn-search{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;color:#fff;background:#393939}
+.btn-search:hover{background:#1a1a1a}
 .btn-search svg{width:14px;height:14px}
-.btn-reset{padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff}
-.btn-reset:hover{background:#F3F4F6}
+.btn-reset{padding:8px 16px;border-radius:8px;border:1px solid oklch(0.809 0.105 251.813);cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;color:oklch(0.623 0.214 259.815);background:oklch(0.97 0.014 254.604)}
+.btn-reset:hover{background:oklch(0.94 0.02 254.604)}
 .data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden;display:block;overflow-x:auto}
-.data-table th{background:#F5F5F5;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB}
-.data-table td{padding:10px 14px;border-bottom:1px solid #F3F4F6;font-size:13px;vertical-align:middle}
+.data-table th{background:rgba(57,57,57,0.05);padding:12px;text-align:left;font-size:12px;font-weight:500;color:#393939;border-bottom:1px solid #E5E7EB}
+.data-table td{padding:12px;border-bottom:1px solid #F3F4F6;font-size:14px;vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover{background:#FAFAFA}
 .toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none}
@@ -96,8 +96,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-btn:hover{background:#F3F4F6}
 .page-btn.active{background:rgba(57,57,57,0.05);color:rgba(57,57,57,0.8);border-color:transparent}
 /* UX Enhancements */
-.page-header .btn-export{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff;margin-left:auto;position:relative}
-.page-header .btn-export:hover{background:#F3F4F6}
+.page-header .btn-export{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;border:1px solid oklch(0.922 0 0);cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;color:rgba(255,255,255,0.9);background:oklch(0.707 0.165 254.624);margin-left:auto;position:relative}
+.page-header .btn-export:hover{background:oklch(0.65 0.165 254.624)}
 .page-header .btn-export:disabled{opacity:.5;cursor:not-allowed}
 .page-header .btn-export .tooltip{display:none;position:absolute;top:calc(100% + 6px);right:0;background:#1F2937;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100}
 .page-header .btn-export:disabled:hover .tooltip{display:block}
