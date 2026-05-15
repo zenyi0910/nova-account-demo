@@ -219,7 +219,7 @@ function renderScheduleTab(id, h, filterValue) {
   if (expiredScheds.length > 0) {
     expanded += '<div style="margin-top:12px;text-align:center">' +
       '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
-      '<span>昨日已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
+      '<span>近一個月已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
       '</div>' +
       '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds, false) + '</div>';
   }
