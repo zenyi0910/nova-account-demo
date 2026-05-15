@@ -107,7 +107,9 @@ function renderScheduleList() {
 function renderSchedItem(s, idx, isActive, isExpired) {
   const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
-  const scopeBadge = s.scope === '星幣' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>` : `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
+  const scopeBadge = s.scope === '星幣'
+    ? `<span style="background:#DBEAFE;color:#1E40AF;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>`
+    : `<span style="background:#E5E7EB;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
   return `<div class="sched-item${cls}">
     ${clockIcon}
     ${scopeBadge}
@@ -147,28 +149,36 @@ function renderHistoryTable() {
   const items = maintHistory;
   const columns = [
     { label: '範圍', width: '60px' },
-    { label: '開始時間', width: '140px' },
-    { label: '結束時間', width: '140px' },
+    { label: '操作時間', width: '140px' },
+    { label: '維護時間', width: '240px' },
     { label: '公告內容' },
     { label: '備註' },
-    { label: '操作者', width: '70px' },
-    { label: '操作時間', width: '140px' },
-    { label: '狀態', width: '80px' },
-    { label: '異動者', width: '70px' }
+    { label: '操作者/異動者', width: '120px' },
+    { label: '狀態', width: '80px' }
   ];
-  const rows = items.map(r => ({
-    cells: [
-      `<span style="display:inline-block;background:#F3F4F6;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">${r.scope}</span>`,
-      `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)}</span>`,
-      `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.end)}</span>`,
-      r.content,
-      r.remark || '-',
-      r.operator || '-',
-      r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-      r.status === '已刪除' ? `<span class="status-badge status-offline" style="white-space:nowrap">已刪除</span>` : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`,
-      r.modifier || '-'
-    ]
-  }));
+  const rows = items.map(r => {
+    const scopeBadge = r.scope === '星幣'
+      ? `<span style="display:inline-block;background:#DBEAFE;color:#1E40AF;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>`
+      : `<span style="display:inline-block;background:#E5E7EB;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`;
+    const statusBadge = r.status === '已刪除'
+      ? `<span class="status-badge" style="background:#FEE2E2;color:#991B1B;white-space:nowrap">已刪除</span>`
+      : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`;
+    const modifier = (r.modifier && r.modifier !== '-') ? r.modifier : '-';
+    const personDisplay = r.status === '已刪除'
+      ? `${r.operator || '-'} / <span style="color:#DC2626;font-weight:500">${modifier}</span>`
+      : `${r.operator || '-'} / <span style="color:#9CA3AF">${modifier}</span>`;
+    return {
+      cells: [
+        scopeBadge,
+        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
+        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)} ~ ${fmtDT(r.end)}</span>`,
+        r.content,
+        r.remark || '-',
+        personDisplay,
+        statusBadge
+      ]
+    };
+  });
   let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
   html += UI.table.create(columns, rows);
   return html;
