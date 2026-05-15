@@ -150,9 +150,9 @@ function renderHistoryTable() {
     { label: '公告內容' },
     { label: '備註' },
     { label: '操作者', width: '70px' },
-    { label: '異動者', width: '70px' },
     { label: '操作時間', width: '140px' },
-    { label: '狀態', width: '80px' }
+    { label: '狀態', width: '80px' },
+    { label: '異動者', width: '70px' }
   ];
   const rows = items.map(r => ({
     cells: [
@@ -162,9 +162,9 @@ function renderHistoryTable() {
       r.content,
       r.remark || '-',
       r.operator || '-',
-      r.modifier || '-',
       r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-      r.status === '已刪除' ? `<span class="status-badge status-offline" style="white-space:nowrap">已刪除</span>` : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`
+      r.status === '已刪除' ? `<span class="status-badge status-offline" style="white-space:nowrap">已刪除</span>` : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`,
+      r.modifier || '-'
     ]
   }));
   let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">操作紀錄</span></div>`;
