@@ -92,6 +92,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-maint{background:#FEF3C7;color:#92400E}
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+.page-btn{border:1px solid #E5E7EB;background:#fff;border-radius:4px;padding:4px 10px;font-size:12px;cursor:pointer;color:#374151}
+.page-btn:hover{background:#F3F4F6}
+.page-btn.active{background:#4338CA;color:#fff;border-color:#4338CA}
 /* UX Enhancements */
 .page-header .btn-export{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff;margin-left:auto;position:relative}
 .page-header .btn-export:hover{background:#F3F4F6}
@@ -238,6 +241,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <tr class="data-row"><td class="td-id"><span class="id-block">019e1a8f-c3b2-7d01-a234-567890abcdef</span><span class="copy-tip">已複製</span></td><td>Kpw4521</td><td>小明測試</td><td>VIP 1</td><td>$500</td><td>50,000</td><td>2,500</td><td><span class="currency-coin star">⊙ 星幣</span></td><td style="color:#6B7280">2026-05-05 09:30:22</td><td style="color:#6B7280">2026-05-05 09:30:25</td><td>MyCard</td><td>手機小額付款</td><td><span class="status-badge" style="background:#D1FAE5;color:#065F46;white-space:nowrap">成功</span></td><td class="td-id"><span class="id-block">MFF260505093001111</span><span class="copy-tip">已複製</span></td></tr>
       <tr class="data-row"><td class="td-id"><span class="id-block">019e19e4-8a1f-7c03-b567-fedcba987654</span><span class="copy-tip">已複製</span></td><td>AbC1234</td><td>玩家8883456</td><td>VIP 2</td><td>$200</td><td>20,000</td><td>1,000</td><td><span class="currency-coin">⊙ 金幣</span></td><td style="color:#6B7280">2026-05-04 16:00:33</td><td style="color:#6B7280">2026-05-04 16:00:36</td><td>綠界科技</td><td>信用卡一次付</td><td><span class="status-badge" style="background:#D1FAE5;color:#065F46;white-space:nowrap">成功</span></td><td class="td-id"><span class="id-block">MFF260504160002222</span><span class="copy-tip">已複製</span></td></tr>
     </tbody></table>
+    <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><div style="display:flex;align-items:center;gap:12px"><div class="page-size-select">每頁顯示 <select id="pageSizeBottom"><option>20</option><option>50</option><option>100</option></select> 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">›</button></div></div></div>
   </div>
 </div>
 
