@@ -313,13 +313,13 @@ function renderSchedules() {
           var first = s.channels[0];
           var rest = s.channels.length - 1;
           var uid = 'ch_' + item.providerId + '_' + item.idx;
-          var badge = '<span class="ch-badge" data-uid="'+uid+'" style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
+          var badge = '<span class="ch-badge" data-uid="'+uid+'" style="background:#F3F4F6;color:#374151;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
           if (rest > 0) {
-            badge += '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
+            badge += '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;background:#9CA3AF;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
           }
           badge += '</span>';
           if (rest > 0) {
-            badge += '<span id="'+uid+'" class="ch-expanded" style="display:none">' + s.channels.map(function(c){return '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:4px">'+c+'</span>';}).join('') + '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;font-size:11px;color:#6B7280;margin-left:2px">收合</span></span>';
+            badge += '<span id="'+uid+'" class="ch-expanded" style="display:none">' + s.channels.map(function(c){return '<span style="background:#F3F4F6;color:#374151;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:4px">'+c+'</span>';}).join('') + '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;font-size:11px;color:#6B7280;margin-left:2px">收合</span></span>';
           }
           return badge;
         })() : '') +
