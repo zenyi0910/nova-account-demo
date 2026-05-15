@@ -35,11 +35,12 @@ function toggleHistory() {
 
 function fmtDT(dt) {
   const d = new Date(dt);
+  const yy = String(d.getFullYear()).slice(2);
   const mm = String(d.getMonth()+1).padStart(2,'0');
   const dd = String(d.getDate()).padStart(2,'0');
   const hh = String(d.getHours()).padStart(2,'0');
   const mi = String(d.getMinutes()).padStart(2,'0');
-  return `${mm}/${dd} ${hh}:${mi}`;
+  return `${yy}/${mm}/${dd} ${hh}:${mi}`;
 }
 function fmtDTLong(dt) {
   return new Date(dt).toLocaleString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
