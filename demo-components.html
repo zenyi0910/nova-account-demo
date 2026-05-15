@@ -55,10 +55,9 @@ h1{font-size:28px;font-weight:700;color:#111827;margin-bottom:8px}
 .seg-btn{padding:6px 16px;border:none;background:#fff;cursor:pointer;font-size:12px;font-family:inherit;color:#6B7280;border-right:1px solid #E5E7EB}
 .seg-btn:last-child{border-right:none}
 .seg-btn.active{background:#393939;color:#fff;font-weight:500}
-.tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#F0FDFA;border:1px solid #99F6E4;border-radius:8px;font-size:13px;color:#374151}
-.tips-box svg{color:#14B8A6;flex-shrink:0}
-.tips-box span{font-weight:600;color:#0D9488}
-.info-box{padding:10px 12px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.15);border-radius:6px;font-size:12px;color:#1E40AF}
+.tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.15);border-radius:8px;font-size:13px;color:#1E40AF}
+.tips-box svg{color:#2563EB;flex-shrink:0}
+.tips-box span{font-weight:600;color:#1E40AF}
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:12px;font-weight:500;color:#374151;margin-bottom:5px}
 .form-control{width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;font-family:inherit}
@@ -153,16 +152,12 @@ h1{font-size:28px;font-weight:700;color:#111827;margin-bottom:8px}
     <div class="demo-code">UI.segmented([<br>  {label: '金幣', active: true, onclick: 'switchCurr("gold")'},<br>  {label: '星幣', active: false, onclick: 'switchCurr("star")'}<br>])</div>
   </div>
 
-  <!-- Tips & Info Box -->
+  <!-- Tips Box -->
   <div class="demo-section">
     <div class="demo-title">提示框</div>
     <div class="demo-subtitle">Tips Box</div>
     <div class="demo-preview" id="tipsDemo"></div>
     <div class="demo-code">UI.tips('廳級設定優先覆蓋個別遊戲')</div>
-
-    <div class="demo-subtitle">Info Box</div>
-    <div class="demo-preview" id="infoDemo"></div>
-    <div class="demo-code">UI.infoBox('排程到達指定時間後自動執行開關動作')</div>
   </div>
 
   <!-- 表單 -->
@@ -265,7 +260,6 @@ document.getElementById('segmentedDemo').innerHTML = UI.segmented([
 ]);
 
 document.getElementById('tipsDemo').innerHTML = UI.tips('廳級設定優先覆蓋個別遊戲，取消覆蓋後遊戲恢復原始設定');
-document.getElementById('infoDemo').innerHTML = UI.infoBox('排程到達指定時間後自動執行開關動作，不需手動設定維護中即可快速關閉');
 
 document.getElementById('formSelectDemo').innerHTML = UI.form.select('hall', '娛樂廳', ['VA 娛樂廳', 'YGR 娛樂廳', 'JDB 娛樂廳'], {required: true});
 document.getElementById('formInputDemo').innerHTML = UI.form.input('name', '遊戲名稱', {placeholder: '請輸入遊戲名稱...', hint: '最多 20 字'});
