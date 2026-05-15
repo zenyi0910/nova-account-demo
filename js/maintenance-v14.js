@@ -191,12 +191,14 @@ function renderHistoryTable() {
   const items = maintHistory;
   const columns = [
     { label: '範圍', width: '60px' },
-    { label: '操作時間', width: '140px' },
-    { label: '維護時間', width: '240px' },
+    { label: '開始時間', width: '140px' },
+    { label: '結束時間', width: '140px' },
     { label: '公告內容' },
     { label: '備註' },
-    { label: '操作者/異動者', width: '120px' },
-    { label: '狀態', width: '80px' }
+    { label: '操作者', width: '70px' },
+    { label: '操作時間', width: '140px' },
+    { label: '狀態', width: '80px' },
+    { label: '異動者', width: '70px' }
   ];
   const rows = items.map(r => {
     const scopeBadge = r.scope === '星幣'
@@ -205,19 +207,17 @@ function renderHistoryTable() {
     const statusBadge = r.status === '已刪除'
       ? `<span class="status-badge" style="background:#FEE2E2;color:#991B1B;white-space:nowrap">已刪除</span>`
       : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`;
-    const modifier = (r.modifier && r.modifier !== '-') ? r.modifier : '-';
-    const personDisplay = r.status === '已刪除'
-      ? `${r.operator || '-'} / <span style="color:#DC2626;font-weight:500">${modifier}</span>`
-      : `${r.operator || '-'} / <span style="color:#9CA3AF">${modifier}</span>`;
     return {
       cells: [
         scopeBadge,
-        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)} ~ ${fmtDT(r.end)}</span>`,
+        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)}</span>`,
+        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.end)}</span>`,
         r.content,
         r.remark || '-',
-        personDisplay,
-        statusBadge
+        r.operator || '-',
+        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
+        statusBadge,
+        r.modifier || '-'
       ]
     };
   });
