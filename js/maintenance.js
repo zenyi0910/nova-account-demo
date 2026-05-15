@@ -1,10 +1,37 @@
 // Nova 系統維護 JS — 排程列表模式（類似三方支付維護排程）
+
+// 供應商資料
+const suppliers = [
+  {id:'mycard',name:'MyCard'},
+  {id:'gash',name:'Gash'},
+  {id:'linepay',name:'LINE Pay'},
+  {id:'ecpay',name:'綠界科技'},
+  {id:'esun',name:'玉山銀行'},
+  {id:'fetnet',name:'遠傳電信'},
+  {id:'startest',name:'星運測試商'}
+];
+
+// 付款通道資料
+const paymentChannels = [
+  {id:'c1',supplier:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05'},
+  {id:'c2',supplier:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004'},
+  {id:'c3',supplier:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B'},
+  {id:'c4',supplier:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01'},
+  {id:'c5',supplier:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09'},
+  {id:'c6',supplier:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001'},
+  {id:'c7',supplier:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01'},
+  {id:'c8',supplier:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01'},
+  {id:'c9',supplier:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A'},
+  {id:'c10',supplier:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B'}
+];
+
 const maintSchedules = [
   { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
   { id: 2, start: '2026-05-16T02:00', end: '2026-05-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper', scope: '全站' },
   { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
   { id: 4, start: '2026-05-17T01:00', end: '2026-05-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
   { id: 5, start: '2026-05-18T02:00', end: '2026-05-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
+  { id: 6, start: '2026-05-19T01:00', end: '2026-05-19T03:00', content: 'MyCard 付款通道維護', remark: '系統升級', operator: 'casper', scope: '付款通道', supplier: 'MyCard', channels: ['點數卡 (COPGAM05)', '手機小額付款 (HE0004)'] },
 ];
 
 const maintHistory = [
@@ -107,14 +134,29 @@ function renderScheduleList() {
 function renderSchedItem(s, idx, isActive, isExpired) {
   const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
-  const scopeBadge = s.scope === '星幣'
-    ? `<span style="background:#DBEAFE;color:#1E40AF;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>`
-    : `<span style="background:#E5E7EB;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
+  
+  let scopeBadge = '';
+  if (s.scope === '星幣') {
+    scopeBadge = `<span style="background:#DBEAFE;color:#1E40AF;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>`;
+  } else if (s.scope === '付款通道') {
+    scopeBadge = `<span style="background:#FEF3C7;color:#D97706;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">付款通道</span>`;
+  } else {
+    scopeBadge = `<span style="background:#E5E7EB;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
+  }
+  
+  let detailInfo = '';
+  if (s.scope === '付款通道' && s.supplier && s.channels) {
+    detailInfo = `<div style="margin-top:4px;font-size:11px;color:#6B7280">
+      <div>供應商：${s.supplier}</div>
+      <div>通道：${s.channels.join('、')}</div>
+    </div>`;
+  }
+  
   return `<div class="sched-item${cls}">
     ${clockIcon}
     ${scopeBadge}
     <span class="time">${fmtDTLong(s.start)} ~ ${fmtDTLong(s.end)}</span>
-    <span class="note">${s.content}</span>
+    <span class="note">${s.content}${detailInfo}</span>
     <span class="spacer"></span>
     <span style="color:#374151;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
     ${isExpired ? '' : `<button class="del-btn" onclick="delMaintSched(${idx})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`}
@@ -185,21 +227,97 @@ function renderHistoryTable() {
 }
 
 function openMaintSchedModal() {
+  // 初始化供應商下拉選單
+  const supplierSelect = document.getElementById('schedSupplier');
+  if (supplierSelect) {
+    supplierSelect.innerHTML = '<option value="">請選擇供應商</option>' +
+      suppliers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+  }
   UI.modal.open('maintSchedModal');
+}
+
+function togglePaymentFields() {
+  const scope = document.getElementById('schedScope').value;
+  const paymentFields = document.getElementById('paymentFields');
+  const contentField = document.getElementById('contentField');
+  
+  if (scope === '付款通道') {
+    paymentFields.style.display = '';
+    contentField.style.display = 'none';
+  } else {
+    paymentFields.style.display = 'none';
+    contentField.style.display = '';
+  }
+}
+
+function updateChannelOptions() {
+  const supplierId = document.getElementById('schedSupplier').value;
+  const channelList = document.getElementById('channelList');
+  const selectAll = document.getElementById('selectAllChannels');
+  
+  if (!supplierId) {
+    channelList.innerHTML = '';
+    selectAll.checked = false;
+    return;
+  }
+  
+  const channels = paymentChannels.filter(c => c.supplier === supplierId);
+  channelList.innerHTML = channels.map(c => 
+    `<label style="display:block;margin-bottom:4px;cursor:pointer">
+      <input type="checkbox" class="channel-checkbox" value="${c.id}" data-name="${c.name}" data-code="${c.code}" style="margin-right:6px">
+      ${c.name} (${c.code})
+    </label>`
+  ).join('');
+  selectAll.checked = false;
+}
+
+function toggleAllChannels() {
+  const selectAll = document.getElementById('selectAllChannels');
+  const checkboxes = document.querySelectorAll('.channel-checkbox');
+  checkboxes.forEach(cb => cb.checked = selectAll.checked);
+}
+
+function updateRemarkCount() {
+  const remark = document.getElementById('schedRemark').value;
+  const limit = document.getElementById('remarkLimit');
+  limit.textContent = `(${remark.length}/50)`;
 }
 
 function addMaintSched() {
   const rangeEl = document.getElementById('schedDateRange');
-  const content = document.getElementById('schedContent').value.trim();
-  const remark = document.getElementById('schedRemark').value.trim();
   const scopeEl = document.getElementById('schedScope');
   const scope = scopeEl ? scopeEl.value : '全站';
+  const remark = document.getElementById('schedRemark').value.trim();
 
   if (!rangeEl || !rangeEl.value) {
     UI.toast('請選擇維護時間', 'error'); return;
   }
-  if (!content) {
-    UI.toast('請填寫公告內容', 'error'); return;
+
+  let content = '';
+  let supplier = '';
+  let channels = [];
+
+  if (scope === '付款通道') {
+    const supplierEl = document.getElementById('schedSupplier');
+    const supplierId = supplierEl.value;
+    
+    if (!supplierId) {
+      UI.toast('請選擇供應商', 'error'); return;
+    }
+    
+    const checkedChannels = Array.from(document.querySelectorAll('.channel-checkbox:checked'));
+    if (checkedChannels.length === 0) {
+      UI.toast('請至少選擇一個付款通道', 'error'); return;
+    }
+    
+    supplier = suppliers.find(s => s.id === supplierId).name;
+    channels = checkedChannels.map(cb => `${cb.dataset.name} (${cb.dataset.code})`);
+    content = `${supplier} 付款通道維護`;
+  } else {
+    content = document.getElementById('schedContent').value.trim();
+    if (!content) {
+      UI.toast('請填寫公告內容', 'error'); return;
+    }
   }
 
   // Parse "2026-05-14 03:00:00 ~ 2026-05-14 05:00:59"
@@ -207,6 +325,7 @@ function addMaintSched() {
   if (parts.length !== 2) {
     UI.toast('時間格式錯誤', 'error'); return;
   }
+
   const start = parts[0].replace(' ', 'T').substring(0, 16);
   const end = parts[1].replace(' ', 'T').substring(0, 16);
 
@@ -217,15 +336,21 @@ function addMaintSched() {
     UI.toast('開始時間必須在當前時間 10 分鐘之後', 'error'); return;
   }
 
-  maintSchedules.push({
+  const newSched = {
     id: ++schedIdCounter, start, end, content, remark, operator: 'casper', scope
-  });
+  };
+  
+  if (scope === '付款通道') {
+    newSched.supplier = supplier;
+    newSched.channels = channels;
+  }
+  
+  maintSchedules.push(newSched);
 
   UI.modal.close('maintSchedModal');
   renderMaintenance();
   UI.toast('排程新增成功');
 }
-
 function delMaintSched(idx) {
   if (!confirm('確定刪除此排程？')) return;
   maintSchedules.splice(idx, 1);
