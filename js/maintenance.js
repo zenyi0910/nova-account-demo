@@ -15,8 +15,8 @@ const maintHistory = [
   { id: 201, start: '2026-05-11T23:00', end: '2026-05-12T00:30', content: '星幣結算異常修復', remark: '緊急處理', operator: 'admin', modifier: '-', opTime: '2026-05-11T22:50', scope: '星幣', status: '已完成' },
   { id: 202, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin', modifier: '-', opTime: '2026-04-20T02:45', scope: '星幣', status: '已完成' },
   { id: 203, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper', modifier: '-', opTime: '2026-03-28T01:50', scope: '星幣', status: '已完成' },
-  { id: 301, start: '2026-05-10T01:00', end: '2026-05-10T03:00', content: '星勢系統例行維護', remark: '排行榜重算', operator: 'admin', modifier: '-', opTime: '2026-05-10T00:50', scope: '星勢', status: '已完成' },
-  { id: 302, start: '2026-04-28T02:00', end: '2026-04-28T03:30', content: '星勢積分調整', remark: '規則變更', operator: 'casper', modifier: 'admin', opTime: '2026-04-28T04:00', scope: '星勢', status: '已刪除' },
+  { id: 301, start: '2026-05-10T01:00', end: '2026-05-10T03:00', content: '星幣系統例行維護', remark: '排行榜重算', operator: 'admin', modifier: '-', opTime: '2026-05-10T00:50', scope: '星幣', status: '已完成' },
+  { id: 302, start: '2026-04-28T02:00', end: '2026-04-28T03:30', content: '星幣積分調整', remark: '規則變更', operator: 'casper', modifier: 'admin', opTime: '2026-04-28T04:00', scope: '星幣', status: '已刪除' },
 ];
 
 let currentMaintTab = '全站';
@@ -105,7 +105,7 @@ function renderScheduleList() {
 function renderSchedItem(s, idx, isActive, isExpired) {
   const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
-  const scopeBadge = s.scope === '星幣' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>` : s.scope === '星勢' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星勢</span>` : `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
+  const scopeBadge = s.scope === '星幣' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>` : `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
   return `<div class="sched-item${cls}">
     ${clockIcon}
     ${scopeBadge}
