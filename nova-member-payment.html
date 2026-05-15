@@ -70,7 +70,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-search svg{width:14px;height:14px}
 .btn-reset{padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff}
 .btn-reset:hover{background:#F3F4F6}
-.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden;display:block;overflow-x:auto}
 .data-table th{background:#F5F5F5;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB}
 .data-table td{padding:10px 14px;border-bottom:1px solid #F3F4F6;font-size:13px;vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
@@ -110,8 +110,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .data-table th .sort-icon{display:inline-block;margin-left:4px;font-size:10px;color:#9CA3AF}
 .data-table th.sort-asc .sort-icon{color:#4338CA}
 .data-table th.sort-desc .sort-icon{color:#4338CA}
-.data-table td.td-id{cursor:pointer;position:relative}
-.data-table td.td-id span.id-block{display:inline-block;background:#F1F5F9;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:500;color:#334155;word-break:break-all;transition:background .15s}
+.data-table td.td-id{cursor:pointer;position:relative;min-width:160px}
+.data-table td.td-id span.id-block{display:inline-block;background:#F1F5F9;border-radius:10px;padding:4px 8px;font-size:12px;font-weight:500;color:#64748B;white-space:nowrap;transition:background .15s}
 .data-table td.td-id:hover span.id-block{background:#E2E8F0}
 .data-table td.td-id .copy-tip{display:none;position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;font-size:11px;padding:3px 8px;border-radius:4px;white-space:nowrap}
 .data-table td.td-id.copied .copy-tip{display:block}
