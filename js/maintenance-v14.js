@@ -31,7 +31,6 @@ const maintSchedules = [
   { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
   { id: 4, start: '2026-05-17T01:00', end: '2026-05-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
   { id: 5, start: '2026-05-18T02:00', end: '2026-05-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
-  { id: 6, start: '2026-05-19T01:00', end: '2026-05-19T03:00', content: 'MyCard 付款通道維護', remark: '系統升級', operator: 'casper', scope: '付款通道', supplier: 'MyCard', channels: ['點數卡 (COPGAM05)', '手機小額付款 (HE0004)'] },
 ];
 
 const maintHistory = [
