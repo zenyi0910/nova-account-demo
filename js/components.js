@@ -233,11 +233,11 @@ const UI = {
   // ═══ 幣別符號 ═══
   /** 金幣 */
   coinGold(text) {
-    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#F59E0B;font-size:12px;font-weight:500"><span style="font-size:14px">⊙</span>${text || '金幣'}</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#F59E0B;font-size:12px;font-weight:500"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border:1.5px solid #F59E0B;border-radius:50%;font-size:10px;font-weight:700">C</span>${text || '金幣'}</span>`;
   },
   /** 星幣 */
   coinStar(text) {
-    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#6366F1;font-size:12px;font-weight:500"><span style="font-size:14px">⊙</span>${text || '星幣'}</span>`;
+    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#6366F1;font-size:12px;font-weight:500"><span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border:1.5px solid #6366F1;border-radius:50%;font-size:10px;font-weight:700">C</span>${text || '星幣'}</span>`;
   },
 
   // ═══ Toggle 開關 ═══
