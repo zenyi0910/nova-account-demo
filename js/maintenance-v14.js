@@ -3,6 +3,8 @@ const maintSchedules = [
   { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
   { id: 2, start: '2026-05-16T02:00', end: '2026-05-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper', scope: '全站' },
   { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
+  { id: 4, start: '2026-05-17T01:00', end: '2026-05-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
+  { id: 5, start: '2026-05-18T02:00', end: '2026-05-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
 ];
 
 const maintHistory = [
@@ -55,11 +57,11 @@ function renderMaintenance() {
 
 function renderScheduleList() {
   const now = new Date();
-  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   const active = maintSchedules.filter(s => new Date(s.end) >= now);
-  const expired = maintHistory.filter(s => {
+  const expired = maintSchedules.filter(s => {
     const end = new Date(s.end);
-    return end < now && end >= yesterday;
+    return end < now && end >= oneMonthAgo;
   });
 
   let html = `<div class="sched-section">`;
@@ -89,7 +91,7 @@ function renderScheduleList() {
     active.forEach((s, i) => { expanded += renderSchedItem(s, i, true); });
     // Expired section
     if (expired.length > 0) {
-      expanded += `<div class="expired-toggle" onclick="toggleExpiredMaint()"><span>昨日已結束</span><svg id="expiredMaintArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>`;
+      expanded += `<div class="expired-toggle" onclick="toggleExpiredMaint()"><span>近一個月已結束</span><svg id="expiredMaintArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>`;
       expanded += `<div id="expiredMaintList" class="expired-list" style="display:none">`;
       expired.forEach((s, i) => { expanded += renderSchedItem(s, i, false, true); });
       expanded += `</div>`;
