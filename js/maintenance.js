@@ -148,13 +148,13 @@ function renderHistoryTable() {
   const rows = items.map(r => ({
     cells: [
       `<span style="display:inline-block;background:#F3F4F6;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">${r.scope}</span>`,
-      `<span style="color:#6B7280">${fmtDT(r.start)}</span>`,
-      `<span style="color:#6B7280">${fmtDT(r.end)}</span>`,
+      `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)}</span>`,
+      `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.end)}</span>`,
       r.content,
       r.remark || '-',
       r.operator || '-',
       r.modifier || '-',
-      r.opTime ? `<span style="color:#6B7280">${fmtDT(r.opTime)}</span>` : '-',
+      r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
       r.status === '已刪除' ? `<span class="status-badge status-offline" style="white-space:nowrap">已刪除</span>` : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`
     ]
   }));
