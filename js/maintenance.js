@@ -34,6 +34,14 @@ function toggleHistory() {
 }
 
 function fmtDT(dt) {
+  const d = new Date(dt);
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mi = String(d.getMinutes()).padStart(2,'0');
+  return `${mm}/${dd} ${hh}:${mi}`;
+}
+function fmtDTLong(dt) {
   return new Date(dt).toLocaleString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
@@ -100,7 +108,7 @@ function renderSchedItem(s, idx, isActive, isExpired) {
   return `<div class="sched-item${cls}">
     ${clockIcon}
     ${scopeBadge}
-    <span class="time">${fmtDT(s.start)} ~ ${fmtDT(s.end)}</span>
+    <span class="time">${fmtDTLong(s.start)} ~ ${fmtDTLong(s.end)}</span>
     <span class="note">${s.content}</span>
     <span class="spacer"></span>
     <span style="color:#374151;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
