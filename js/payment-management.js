@@ -373,9 +373,9 @@ function onSchedProviderChange() {
   group.style.display = '';
   display.textContent = '請選擇付款通道';
   panel.style.display = 'none';
-  var html = '<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer;justify-content:flex-start"><input type="checkbox" id="schedSelectAll" onchange="toggleSchedAllChannels(this)" style="width:auto;flex:none"><span style="font-weight:600">全選</span></label>';
+  var html = '<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer;justify-content:flex-start"><input type="checkbox" id="schedSelectAll" onchange="toggleSchedAllChannels(this)" style="width:auto!important;flex:none"><span style="font-weight:600">全選</span></label>';
   provChannels.forEach(function(ch) {
-    html += '<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;justify-content:flex-start"><input type="checkbox" class="sched-ch-cb" value="'+ch.code+'" data-name="'+ch.name+'" onchange="updateSchedChannelDisplay()" style="width:auto;flex:none"><span>'+ch.name+' ('+ch.code+')</span></label>';
+    html += '<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;justify-content:flex-start"><input type="checkbox" class="sched-ch-cb" value="'+ch.code+'" data-name="'+ch.name+'" onchange="updateSchedChannelDisplay()" style="width:auto!important;flex:none"><span>'+ch.name+' ('+ch.code+')</span></label>';
   });
   panel.innerHTML = html;
 }
