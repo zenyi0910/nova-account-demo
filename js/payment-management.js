@@ -1,8 +1,8 @@
 // === Data ===
 const providers = [
-  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護'},{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新'},{action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'}]},
-  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復'}]},
-  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級'}]},
+  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡 (COPGAM05)','手機小額付款 (HE0004)','信用卡3D (CHANNEL_1E8B)']},{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡 (COPGAM05)']},{action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'}]},
+  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡 (GASH_PNT01)','錢包扣點 (COPGAM09)']}]},
+  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay (LP_001)']}]},
   {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[]},
   {id:'esun',name:'玉山銀行',code:'70424393',status:'off',schedules:[]},
   {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[]},
@@ -365,21 +365,37 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 function onSchedProviderChange() {
   var providerId = document.getElementById('sProvider').value;
   var group = document.getElementById('schedChannelGroup');
-  var list = document.getElementById('schedChannelList');
+  var panel = document.getElementById('schedChannelPanel');
+  var display = document.getElementById('schedChannelDisplay');
   if (!providerId) { group.style.display = 'none'; return; }
   var provChannels = channels.filter(function(c){ return c.provider === providerId; });
   if (provChannels.length === 0) { group.style.display = 'none'; return; }
   group.style.display = '';
+  display.textContent = '請選擇付款通道';
+  panel.style.display = 'none';
   var html = '<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer"><input type="checkbox" id="schedSelectAll" onchange="toggleSchedAllChannels(this)"><strong>全選</strong></label>';
   provChannels.forEach(function(ch) {
-    html += '<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer"><input type="checkbox" class="sched-ch-cb" value="'+ch.code+'" data-name="'+ch.name+'"> '+ch.name+' ('+ch.code+')</label>';
+    html += '<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer"><input type="checkbox" class="sched-ch-cb" value="'+ch.code+'" data-name="'+ch.name+'" onchange="updateSchedChannelDisplay()"> '+ch.name+' ('+ch.code+')</label>';
   });
-  list.innerHTML = html;
+  panel.innerHTML = html;
+}
+
+function toggleSchedChannelPanel() {
+  var panel = document.getElementById('schedChannelPanel');
+  panel.style.display = panel.style.display === 'none' ? '' : 'none';
+}
+
+function updateSchedChannelDisplay() {
+  var cbs = document.querySelectorAll('.sched-ch-cb:checked');
+  var display = document.getElementById('schedChannelDisplay');
+  if (cbs.length === 0) { display.textContent = '請選擇付款通道'; }
+  else { display.textContent = '已選擇 ' + cbs.length + ' 個通道'; }
 }
 
 function toggleSchedAllChannels(el) {
   var cbs = document.querySelectorAll('.sched-ch-cb');
   cbs.forEach(function(cb){ cb.checked = el.checked; });
+  updateSchedChannelDisplay();
 }
 
 function toggleExpand(btn) {
