@@ -169,7 +169,7 @@ function renderHistoryTable() {
       r.modifier || '-'
     ]
   }));
-  let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">操作紀錄</span></div>`;
+  let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
   html += UI.table.create(columns, rows);
   return html;
 }
