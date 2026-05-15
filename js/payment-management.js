@@ -313,21 +313,23 @@ function renderSchedules() {
           var first = s.channels[0];
           var rest = s.channels.length - 1;
           var uid = 'ch_' + item.providerId + '_' + item.idx;
-          var badge = '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
+          var badge = '<span class="ch-badge" data-uid="'+uid+'" style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
           if (rest > 0) {
-            badge += '<span onclick="toggleChDropdown(event,\''+uid+'\')" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
+            badge += '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
           }
           badge += '</span>';
           if (rest > 0) {
-            badge += '<div id="'+uid+'" style="display:none;position:absolute;left:0;top:100%;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:6px 10px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:10;font-size:11px;margin-top:4px">' + s.channels.map(function(c){return '<div style="padding:2px 0">'+c+'</div>';}).join('') + '</div>';
+            badge += '<span id="'+uid+'" class="ch-expanded" style="display:none">' + s.channels.map(function(c){return '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:4px">'+c+'</span>';}).join('') + '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;font-size:11px;color:#6B7280;margin-left:2px">收合</span></span>';
           }
           return badge;
         })() : '') +
+        '<span class="ch-after" data-uid="ch_' + item.providerId + '_' + item.idx + '">' +
         '<span class="time">' + timeDisplay + '</span>' +
         (s.note ? '<span class="note">' + s.note + '</span>' : '') +
         '<span class="spacer"></span>' +
         '<span style="color:#374151;font-size:12px;margin-right:12px">操作者：' + (s.operator || 'casper') + '</span>' +
         (showDelete ? '<button class="del-btn" onclick="delSched(\'' + item.providerId + '\',' + item.idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' : '') +
+        '</span>' +
       '</div>';
     }).join('');
   }
@@ -458,14 +460,26 @@ function addSchedule() {
   renderSchedules();
 }
 
-function toggleChDropdown(e, uid) {
+function toggleChInline(e, uid) {
   e.stopPropagation();
-  var el = document.getElementById(uid);
-  if (!el) return;
-  var show = el.style.display === 'none';
-  // close all other dropdowns
-  document.querySelectorAll('[id^="ch_"]').forEach(function(d){ d.style.display = 'none'; });
-  if (show) el.style.display = 'block';
+  var expanded = document.getElementById(uid);
+  if (!expanded) return;
+  var item = expanded.closest('.sched-item');
+  var badge = item.querySelector('.ch-badge[data-uid="'+uid+'"]');
+  var after = item.querySelector('.ch-after[data-uid="'+uid+'"]');
+  var isOpen = expanded.style.display !== 'none';
+  if (isOpen) {
+    expanded.style.display = 'none';
+    if (badge) badge.style.display = 'inline-flex';
+    if (after) after.style.display = '';
+  } else {
+    expanded.style.display = 'inline-flex';
+    expanded.style.flexWrap = 'wrap';
+    expanded.style.gap = '4px';
+    expanded.style.alignItems = 'center';
+    if (badge) badge.style.display = 'none';
+    if (after) after.style.display = 'none';
+  }
 }
 function delSched(providerId, i) {
   var p = providers.find(function(x){ return x.id === providerId; });
