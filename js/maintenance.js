@@ -6,15 +6,17 @@ const maintSchedules = [
 ];
 
 const maintHistory = [
-  { id: 100, start: '2026-05-12T22:00', end: '2026-05-13T01:00', content: '緊急修補安全漏洞', remark: 'CVE-2026-1234', operator: 'admin', scope: '全站' },
-  { id: 101, start: '2026-05-11T22:00', end: '2026-05-12T01:00', content: '緊急熱修復', remark: '登入異常', operator: 'admin', scope: '全站' },
-  { id: 102, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper', scope: '全站' },
-  { id: 103, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin', scope: '全站' },
-  { id: 104, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper', scope: '全站' },
-  { id: 105, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin', scope: '全站' },
-  { id: 201, start: '2026-05-11T23:00', end: '2026-05-12T00:30', content: '星幣結算異常修復', remark: '緊急處理', operator: 'admin', scope: '星幣' },
-  { id: 202, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin', scope: '星幣' },
-  { id: 203, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper', scope: '星幣' },
+  { id: 100, start: '2026-05-12T22:00', end: '2026-05-13T01:00', content: '緊急修補安全漏洞', remark: 'CVE-2026-1234', operator: 'admin', modifier: '-', opTime: '2026-05-12T21:45', scope: '全站', status: '已完成' },
+  { id: 101, start: '2026-05-11T22:00', end: '2026-05-12T01:00', content: '緊急熱修復', remark: '登入異常', operator: 'admin', modifier: '-', opTime: '2026-05-11T21:30', scope: '全站', status: '已完成' },
+  { id: 102, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper', modifier: 'admin', opTime: '2026-04-23T15:00', scope: '全站', status: '已刪除' },
+  { id: 103, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin', modifier: '-', opTime: '2026-04-15T02:50', scope: '全站', status: '已完成' },
+  { id: 104, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper', modifier: '-', opTime: '2026-04-01T01:50', scope: '全站', status: '已完成' },
+  { id: 105, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin', modifier: '-', opTime: '2026-03-15T01:45', scope: '全站', status: '已完成' },
+  { id: 201, start: '2026-05-11T23:00', end: '2026-05-12T00:30', content: '星幣結算異常修復', remark: '緊急處理', operator: 'admin', modifier: '-', opTime: '2026-05-11T22:50', scope: '星幣', status: '已完成' },
+  { id: 202, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin', modifier: '-', opTime: '2026-04-20T02:45', scope: '星幣', status: '已完成' },
+  { id: 203, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper', modifier: '-', opTime: '2026-03-28T01:50', scope: '星幣', status: '已完成' },
+  { id: 301, start: '2026-05-10T01:00', end: '2026-05-10T03:00', content: '星勢系統例行維護', remark: '排行榜重算', operator: 'admin', modifier: '-', opTime: '2026-05-10T00:50', scope: '星勢', status: '已完成' },
+  { id: 302, start: '2026-04-28T02:00', end: '2026-04-28T03:30', content: '星勢積分調整', remark: '規則變更', operator: 'casper', modifier: 'admin', opTime: '2026-04-28T04:00', scope: '星勢', status: '已刪除' },
 ];
 
 let currentMaintTab = '全站';
@@ -94,7 +96,7 @@ function renderScheduleList() {
 function renderSchedItem(s, idx, isActive, isExpired) {
   const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
-  const scopeBadge = s.scope === '星幣' ? `<span style="background:#EDE9FE;color:#7C3AED;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>` : `<span style="background:#FEF3C7;color:#D97706;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
+  const scopeBadge = s.scope === '星幣' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>` : s.scope === '星勢' ? `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星勢</span>` : `<span style="background:#F3F4F6;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
   return `<div class="sched-item${cls}">
     ${clockIcon}
     ${scopeBadge}
@@ -134,22 +136,26 @@ function renderHistoryTable() {
   const items = maintHistory;
   const columns = [
     { label: '範圍', width: '60px' },
-    { label: '開始時間', width: '160px' },
-    { label: '結束時間', width: '160px' },
+    { label: '開始時間', width: '140px' },
+    { label: '結束時間', width: '140px' },
     { label: '公告內容' },
     { label: '備註' },
-    { label: '操作者', width: '80px' },
-    { label: '狀態', width: '90px' }
+    { label: '操作者', width: '70px' },
+    { label: '異動者', width: '70px' },
+    { label: '操作時間', width: '140px' },
+    { label: '狀態', width: '80px' }
   ];
   const rows = items.map(r => ({
     cells: [
-      r.scope === '星幣' ? `<span style="display:inline-block;background:#EDE9FE;color:#7C3AED;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>` : `<span style="display:inline-block;background:#FEF3C7;color:#D97706;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`,
+      `<span style="display:inline-block;background:#F3F4F6;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">${r.scope}</span>`,
       `<span style="color:#6B7280">${fmtDT(r.start)}</span>`,
       `<span style="color:#6B7280">${fmtDT(r.end)}</span>`,
       r.content,
       r.remark || '-',
-      r.operator,
-      `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`
+      r.operator || '-',
+      r.modifier || '-',
+      r.opTime ? `<span style="color:#6B7280">${fmtDT(r.opTime)}</span>` : '-',
+      r.status === '已刪除' ? `<span class="status-badge status-offline" style="white-space:nowrap">已刪除</span>` : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`
     ]
   }));
   let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">操作紀錄</span></div>`;
