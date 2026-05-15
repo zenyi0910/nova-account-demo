@@ -183,6 +183,13 @@ function addMaintSched() {
   const start = parts[0].replace(' ', 'T').substring(0, 16);
   const end = parts[1].replace(' ', 'T').substring(0, 16);
 
+  // 開始時間必須在當前時間 10 分鐘之後
+  const startDate = new Date(start);
+  const minStart = new Date(Date.now() + 10 * 60 * 1000);
+  if (startDate < minStart) {
+    UI.toast('開始時間必須在當前時間 10 分鐘之後', 'error'); return;
+  }
+
   maintSchedules.push({
     id: ++schedIdCounter, start, end, content, remark, operator: 'casper', scope
   });
