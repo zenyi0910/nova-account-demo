@@ -326,10 +326,10 @@ function renderSchedules() {
         '<span class="ch-after" data-uid="ch_' + item.providerId + '_' + item.idx + '">' +
         '<span class="time">' + timeDisplay + '</span>' +
         (s.note ? '<span class="note">' + s.note + '</span>' : '') +
+        '</span>' +
         '<span class="spacer"></span>' +
         '<span style="color:#374151;font-size:12px;margin-right:12px">操作者：' + (s.operator || 'casper') + '</span>' +
         (showDelete ? '<button class="del-btn" onclick="delSched(\'' + item.providerId + '\',' + item.idx + ')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' : '') +
-        '</span>' +
       '</div>';
     }).join('');
   }
