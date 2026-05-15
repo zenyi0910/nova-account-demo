@@ -315,11 +315,11 @@ function renderSchedules() {
           var uid = 'ch_' + item.providerId + '_' + item.idx;
           var badge = '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
           if (rest > 0) {
-            badge += '<span onclick="event.stopPropagation();var el=document.getElementById(\''+uid+'\');el.style.display=el.style.display===\'none\'?\'block\':\'none\'" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
+            badge += '<span onclick="toggleChDropdown(event,\''+uid+'\')" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
           }
           badge += '</span>';
           if (rest > 0) {
-            badge += '<div id="'+uid+'" style="display:none;position:absolute;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:6px 10px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:10;font-size:11px;margin-top:4px">' + s.channels.map(function(c){return '<div style="padding:2px 0">'+c+'</div>';}).join('') + '</div>';
+            badge += '<div id="'+uid+'" style="display:none;position:absolute;left:0;top:100%;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:6px 10px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:10;font-size:11px;margin-top:4px">' + s.channels.map(function(c){return '<div style="padding:2px 0">'+c+'</div>';}).join('') + '</div>';
           }
           return badge;
         })() : '') +
@@ -458,6 +458,15 @@ function addSchedule() {
   renderSchedules();
 }
 
+function toggleChDropdown(e, uid) {
+  e.stopPropagation();
+  var el = document.getElementById(uid);
+  if (!el) return;
+  var show = el.style.display === 'none';
+  // close all other dropdowns
+  document.querySelectorAll('[id^="ch_"]').forEach(function(d){ d.style.display = 'none'; });
+  if (show) el.style.display = 'block';
+}
 function delSched(providerId, i) {
   var p = providers.find(function(x){ return x.id === providerId; });
   p.schedules.splice(i, 1);
