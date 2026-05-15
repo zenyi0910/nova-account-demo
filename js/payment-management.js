@@ -309,6 +309,7 @@ function renderSchedules() {
       return '<div class="sched-item">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '<span style="font-weight:600;margin-right:6px">' + item.providerName + '</span>' +
+        (s.channels && s.channels.length ? '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px">' + s.channels.join(', ') + '</span>' : '') +
         '<span class="time">' + timeDisplay + '</span>' +
         (s.note ? '<span class="note">' + s.note + '</span>' : '') +
         '<span class="spacer"></span>' +
@@ -346,20 +347,40 @@ function renderSchedules() {
 }
 
 function openSchedModal() {
-  // Populate provider dropdown
   var sel = document.getElementById('sProvider');
   sel.innerHTML = '<option value="">請選擇</option>';
   providers.forEach(function(p) {
     sel.innerHTML += '<option value="'+p.id+'">'+p.name+'</option>';
   });
   if (currentProvider) sel.value = currentProvider;
-  // Reset date-picker
+  onSchedProviderChange();
   var dp = document.getElementById('schedDatePicker');
   if (dp._dpInstance) dp._dpInstance.reset();
   document.getElementById('schedNote').value = '';
+  document.getElementById('schedNoteCount').textContent = '(0/50)';
   document.getElementById('schedModal').classList.add('show');
 }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function onSchedProviderChange() {
+  var providerId = document.getElementById('sProvider').value;
+  var group = document.getElementById('schedChannelGroup');
+  var list = document.getElementById('schedChannelList');
+  if (!providerId) { group.style.display = 'none'; return; }
+  var provChannels = channels.filter(function(c){ return c.provider === providerId; });
+  if (provChannels.length === 0) { group.style.display = 'none'; return; }
+  group.style.display = '';
+  var html = '<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer"><input type="checkbox" id="schedSelectAll" onchange="toggleSchedAllChannels(this)"><strong>全選</strong></label>';
+  provChannels.forEach(function(ch) {
+    html += '<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer"><input type="checkbox" class="sched-ch-cb" value="'+ch.code+'" data-name="'+ch.name+'"> '+ch.name+' ('+ch.code+')</label>';
+  });
+  list.innerHTML = html;
+}
+
+function toggleSchedAllChannels(el) {
+  var cbs = document.querySelectorAll('.sched-ch-cb');
+  cbs.forEach(function(cb){ cb.checked = el.checked; });
+}
 
 function toggleExpand(btn) {
   var modal = btn.closest('.modal');
@@ -376,15 +397,34 @@ function addSchedule() {
   var providerId = document.getElementById('sProvider').value;
   if (!providerId) { alert('請選擇供應商'); return; }
   var p = providers.find(function(x){ return x.id === providerId; });
+
+  // 驗證付款通道
+  var checkedChs = Array.from(document.querySelectorAll('.sched-ch-cb:checked'));
+  var provChannels = channels.filter(function(c){ return c.provider === providerId; });
+  if (provChannels.length > 0 && checkedChs.length === 0) {
+    alert('請至少選擇一個付款通道'); return;
+  }
+
   var dp = document.getElementById('schedDatePicker');
   var startDate = dp._dpInstance ? dp._dpInstance.startDate : '';
   var endDate = dp._dpInstance ? dp._dpInstance.endDate : '';
   if (!startDate) { alert('請選擇維護時間'); return; }
   if (!endDate) endDate = startDate;
+
+  var startTime = dp._dpInstance ? (dp._dpInstance.startTime || '00:00') : '00:00';
+  var endTime = dp._dpInstance ? (dp._dpInstance.endTime || '23:59') : '23:59';
+  var start = startDate + 'T' + startTime;
+  var end = endDate + 'T' + endTime;
+
+  // 開始時間必須在當前時間 10 分鐘之後
+  var startDt = new Date(start);
+  var minStart = new Date(Date.now() + 10 * 60 * 1000);
+  if (startDt < minStart) { alert('開始時間必須在當前時間 10 分鐘之後'); return; }
+
   var note = document.getElementById('schedNote').value;
-  var start = startDate + 'T00:00';
-  var end = endDate + 'T23:59';
-  p.schedules.push({action:'off', start:start, end:end, note:note, repeat:'none'});
+  var channels = checkedChs.map(function(cb){ return cb.dataset.name + ' (' + cb.value + ')'; });
+
+  p.schedules.push({action:'off', start:start, end:end, note:note, repeat:'none', channels:channels});
   closeModal('schedModal');
   renderSchedules();
 }

@@ -389,13 +389,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal" style="max-width:420px">
     <div class="modal-header"><h3>新增維護排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="close" style="border:none;background:none;font-size:20px;cursor:pointer" onclick="closeModal('schedModal')">&times;</button></div>
     <div class="modal-body" style="overflow:visible">
-      <div class="form-group"><label>選擇供應商</label><select id="sProvider"><option value="">請選擇</option></select></div>
-      <div class="form-group"><label>維護時間</label>
+      <div class="form-group"><label>選擇供應商 <span class="required">*</span></label><select id="sProvider" onchange="onSchedProviderChange()"><option value="">請選擇</option></select></div>
+      <div class="form-group" id="schedChannelGroup" style="display:none"><label>選擇付款通道 <span class="required">*</span></label><div id="schedChannelList" style="max-height:160px;overflow-y:auto;border:1px solid #E5E7EB;border-radius:6px;padding:8px"></div></div>
+      <div class="form-group"><label>維護時間 <span class="required">*</span></label>
         <div class="date-picker-wrap" id="schedDatePicker">
           <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
         </div>
       </div>
-      <div class="form-group"><label>備註</label><input type="text" id="schedNote" placeholder="例：例行維護"></div>
+      <div class="form-group"><label>備註 <span style="color:#6B7280;font-weight:normal">(上限50字元)</span></label><input type="text" id="schedNote" maxlength="50" placeholder="例：例行維護" oninput="document.getElementById('schedNoteCount').textContent='('+this.value.length+'/50)'"><span id="schedNoteCount" style="font-size:11px;color:#6B7280">(0/50)</span></div>
     </div>
     <div class="modal-footer">
       <button class="btn-outline" onclick="closeModal('schedModal')">取消</button>
