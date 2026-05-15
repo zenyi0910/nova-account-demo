@@ -214,6 +214,22 @@ h1{font-size:28px;font-weight:700;color:#111827;margin-bottom:8px}
     </div>
     <div class="demo-code">UI.icon.clock<br>UI.icon.edit<br>UI.icon.search<br>UI.icon.sort<br>UI.icon.save<br>UI.icon.image<br>UI.icon.drag<br>UI.icon.bulb<br>UI.icon.monitor</div>
   </div>
+
+  <!-- 分頁 -->
+  <div class="demo-section">
+    <div class="demo-title">分頁 (UI.pagination)</div>
+    <div class="demo-subtitle">完整分頁（左側每頁筆數 + 右側頁碼）</div>
+    <div class="demo-preview">
+      <div id="paginationDemo"></div>
+    </div>
+    <div class="demo-code">UI.pagination({<br>  containerId: 'paginationDemo',<br>  currentPage: 2,<br>  totalPages: 5,<br>  onPageChange: 'goToPage',<br>  pageSize: 20,<br>  pageSizes: [20, 50, 100]<br>})</div>
+
+    <div class="demo-subtitle">純頁碼（無每頁筆數）</div>
+    <div class="demo-preview">
+      <div id="paginationDemo2"></div>
+    </div>
+    <div class="demo-code">UI.pagination({<br>  containerId: 'paginationDemo2',<br>  currentPage: 1,<br>  totalPages: 3,<br>  onPageChange: 'goToPage'<br>})</div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -279,6 +295,11 @@ document.getElementById('iconDemo').innerHTML =
   '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.drag + '<span style="font-size:10px;color:#9CA3AF">drag</span></div>' +
   '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.bulb + '<span style="font-size:10px;color:#9CA3AF">bulb</span></div>' +
   '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">' + UI.icon.monitor + '<span style="font-size:10px;color:#9CA3AF">monitor</span></div>';
+
+// 分頁 demo
+function goToPage(p) { alert('跳到第 ' + p + ' 頁'); }
+UI.pagination({ containerId: 'paginationDemo', currentPage: 2, totalPages: 5, onPageChange: 'goToPage', pageSize: 20, pageSizes: [20, 50, 100] });
+UI.pagination({ containerId: 'paginationDemo2', currentPage: 1, totalPages: 3, onPageChange: 'goToPage' });
 </script>
 </body>
 </html>

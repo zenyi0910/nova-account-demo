@@ -15,7 +15,14 @@
     '.seg-btn.active{background:#fff;color:#393939;font-weight:600;box-shadow:0 4px 10px rgba(0,0,0,0.2),0 1px 3px rgba(0,0,0,0.15);transform:translateY(-0.5px)}',
     '.seg-btn:hover:not(.active){background:rgba(255,255,255,0.5)}',
     '.btn-sort{background:rgb(144,161,185);color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}',
-    '.btn-sort:hover{background:rgb(130,147,170)}'
+    '.btn-sort:hover{background:rgb(130,147,170)}',
+    '.pagination-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:12px;color:#6B7280}',
+    '.page-btn{border:1px solid rgba(57,57,57,0.1);background:#fff;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;color:rgba(57,57,57,0.6);font-family:inherit}',
+    '.page-btn:hover{background:#F3F4F6}',
+    '.page-btn.active{background:rgba(57,57,57,0.05);color:rgba(57,57,57,0.8);border-color:transparent}',
+    '.page-btn:disabled{opacity:0.4;cursor:not-allowed}',
+    '.page-size-select{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}',
+    '.page-size-select select{border:1px solid rgba(57,57,57,0.1);border-radius:8px;padding:4px 8px;font-size:12px;font-family:inherit}'
   ].join('\n');
   document.head.appendChild(style);
 })();
@@ -261,37 +268,34 @@ function toggleExpand(btn) {
 }
 
 /**
- * 共用分頁元件：左側 pageJump dropdown + 右側 < 1 2 3 > 按鈕
- * @param {object} opts - { containerId, currentPage, totalPages, onPageChange }
- *   onPageChange: 字串，如 'goToPage' 或 'goStorePage'
+ * 共用分頁元件（對齊系統樣式）
+ * @param {object} opts - { containerId, currentPage, totalPages, onPageChange, pageSize, pageSizes }
  */
 UI.pagination = function(opts) {
-  const { containerId, currentPage, totalPages, onPageChange } = opts;
+  const { containerId, currentPage, totalPages, onPageChange, pageSize, pageSizes } = opts;
   const bar = document.getElementById(containerId);
   if (!bar) return;
-  if (totalPages <= 1) { bar.innerHTML = ''; return; }
-  // pageJump dropdown
-  let jumpOpts = '';
-  for (let i = 1; i <= totalPages; i++) {
-    jumpOpts += '<option value="' + i + '"' + (i === currentPage ? ' selected' : '') + '>第' + i + '頁</option>';
+  if (totalPages <= 1 && !pageSize) { bar.innerHTML = ''; return; }
+  bar.className = 'pagination-bar';
+  // Left: page size select
+  let leftHtml = '';
+  if (pageSize) {
+    const sizes = pageSizes || [20, 50, 100];
+    const sizeOpts = sizes.map(s => '<option value="' + s + '"' + (s === pageSize ? ' selected' : '') + '>' + s + '</option>').join('');
+    leftHtml = '<div class="page-size-select">每頁顯示 <select onchange="' + (opts.onPageSizeChange || onPageChange) + '(1,parseInt(this.value))">' + sizeOpts + '</select> 筆</div>';
   }
-  const jumpHtml = '<select onchange="' + onPageChange + '(parseInt(this.value))" style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px">' + jumpOpts + '</select>';
-  // page buttons
+  // Right: page buttons
   let pages = '';
-  pages += '<button class="page-arrow"' + (currentPage === 1 ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.max(1, currentPage - 1) + ')">&lt;</button>';
+  pages += '<button class="page-btn"' + (currentPage === 1 ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.max(1, currentPage - 1) + ')">‹</button>';
   const maxVisible = 7;
   let startP = Math.max(1, currentPage - 3);
   let endP = Math.min(totalPages, startP + maxVisible - 1);
   if (endP - startP < maxVisible - 1) startP = Math.max(1, endP - maxVisible + 1);
-  if (startP > 1) { pages += '<button onclick="' + onPageChange + '(1)">1</button>'; if (startP > 2) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; }
+  if (startP > 1) { pages += '<button class="page-btn" onclick="' + onPageChange + '(1)">1</button>'; if (startP > 2) pages += '<span style="padding:0 4px;color:#9CA3AF">…</span>'; }
   for (let i = startP; i <= endP; i++) {
-    pages += '<button class="' + (i === currentPage ? 'active' : '') + '" onclick="' + onPageChange + '(' + i + ')">' + i + '</button>';
+    pages += '<button class="page-btn' + (i === currentPage ? ' active' : '') + '" onclick="' + onPageChange + '(' + i + ')">' + i + '</button>';
   }
-  if (endP < totalPages) { if (endP < totalPages - 1) pages += '<span style="padding:0 2px;color:#9CA3AF">...</span>'; pages += '<button onclick="' + onPageChange + '(' + totalPages + ')">' + totalPages + '</button>'; }
-  pages += '<button class="page-arrow"' + (currentPage === totalPages ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.min(totalPages, currentPage + 1) + ')">&gt;</button>';
-  bar.innerHTML = jumpHtml + '<div class="pagination-pages">' + pages + '</div>';
-  bar.style.display = 'flex';
-  bar.style.justifyContent = 'space-between';
-  bar.style.alignItems = 'center';
-  bar.style.padding = '12px 0';
+  if (endP < totalPages) { if (endP < totalPages - 1) pages += '<span style="padding:0 4px;color:#9CA3AF">…</span>'; pages += '<button class="page-btn" onclick="' + onPageChange + '(' + totalPages + ')">' + totalPages + '</button>'; }
+  pages += '<button class="page-btn"' + (currentPage === totalPages ? ' disabled' : '') + ' onclick="' + onPageChange + '(' + Math.min(totalPages, currentPage + 1) + ')">›</button>';
+  bar.innerHTML = leftHtml + '<div style="display:flex;align-items:center;gap:4px">' + pages + '</div>';
 };
