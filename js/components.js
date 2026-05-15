@@ -16,6 +16,12 @@
     '.seg-btn:hover:not(.active){background:rgba(255,255,255,0.5)}',
     '.btn-sort{background:rgb(144,161,185);color:#fff;border:none;padding:6px 12px;font-size:12px;border-radius:6px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;font-weight:500;box-sizing:border-box}',
     '.btn-sort:hover{background:rgb(130,147,170)}',
+    '.btn-secondary{background:oklch(0.97 0.014 254.604);color:oklch(0.623 0.214 259.815);border:1px solid oklch(0.809 0.105 251.813);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:5px}',
+    '.btn-secondary:hover{background:oklch(0.94 0.02 254.604)}',
+    '.btn-icon-action{width:28px;height:28px;border-radius:6px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#6B7280}',
+    '.btn-icon-action:hover{background:rgba(57,57,57,0.06)}',
+    '.btn-icon-action.delete{color:#EF4444}',
+    '.btn-icon-action.delete:hover{background:#FEF2F2}',
     '.pagination-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:12px;color:#6B7280}',
     '.page-btn{border:1px solid rgba(57,57,57,0.1);background:#fff;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;color:rgba(57,57,57,0.6);font-family:inherit}',
     '.page-btn:hover{background:#F3F4F6}',
@@ -216,6 +222,22 @@ const UI = {
   statusBadge(status) {
     const map = { '使用中': 'on', '停用中': 'off', '維護中': 'maint', '即將上線': 'soon' };
     return this.badge(status, map[status] || '');
+  },
+
+  // ═══ 訂單編號 ═══
+  /** 訂單編號顯示（灰底圓角 inline block） */
+  orderId(id) {
+    return `<span style="display:inline-block;background:#F1F5F9;border-radius:10px;padding:4px 8px;font-size:12px;font-weight:500;color:#64748B;word-break:break-all">${id}</span>`;
+  },
+
+  // ═══ 幣別符號 ═══
+  /** 金幣 */
+  coinGold(text) {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#F59E0B;font-size:12px;font-weight:500"><span style="font-size:14px">⊙</span>${text || '金幣'}</span>`;
+  },
+  /** 星幣 */
+  coinStar(text) {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;color:#6366F1;font-size:12px;font-weight:500"><span style="font-size:14px">⊙</span>${text || '星幣'}</span>`;
   },
 
   // ═══ Toggle 開關 ═══
