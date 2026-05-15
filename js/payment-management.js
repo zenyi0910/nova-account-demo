@@ -1,8 +1,8 @@
 // === Data ===
 const providers = [
-  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡 (COPGAM05)','手機小額付款 (HE0004)','信用卡3D (CHANNEL_1E8B)']},{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡 (COPGAM05)']},{action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'}]},
-  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡 (GASH_PNT01)','錢包扣點 (COPGAM09)']}]},
-  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay (LP_001)']}]},
+  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡']},{action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'}]},
+  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']}]},
+  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay']}]},
   {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[]},
   {id:'esun',name:'玉山銀行',code:'70424393',status:'off',schedules:[]},
   {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[]},
@@ -309,7 +309,20 @@ function renderSchedules() {
       return '<div class="sched-item">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
         '<span style="font-weight:600;margin-right:6px">' + item.providerName + '</span>' +
-        (s.channels && s.channels.length ? '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px">' + s.channels.join(', ') + '</span>' : '') +
+        (s.channels && s.channels.length ? (function(){
+          var first = s.channels[0];
+          var rest = s.channels.length - 1;
+          var uid = 'ch_' + item.providerId + '_' + item.idx;
+          var badge = '<span style="background:#FEF3C7;color:#92400E;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
+          if (rest > 0) {
+            badge += '<span onclick="event.stopPropagation();var el=document.getElementById(\''+uid+'\');el.style.display=el.style.display===\'none\'?\'block\':\'none\'" style="cursor:pointer;background:#F59E0B;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
+          }
+          badge += '</span>';
+          if (rest > 0) {
+            badge += '<div id="'+uid+'" style="display:none;position:absolute;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:6px 10px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:10;font-size:11px;margin-top:4px">' + s.channels.map(function(c){return '<div style="padding:2px 0">'+c+'</div>';}).join('') + '</div>';
+          }
+          return badge;
+        })() : '') +
         '<span class="time">' + timeDisplay + '</span>' +
         (s.note ? '<span class="note">' + s.note + '</span>' : '') +
         '<span class="spacer"></span>' +
