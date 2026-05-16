@@ -27,7 +27,9 @@
 .btn-disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
 
 /* === Filter Bar === */
-.filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:4px}
+.filter-label{font-size:12px;font-weight:600;color:#64748B}
 .filter-input{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:14px;outline:none;transition:all .2s;min-width:200px;background:rgba(255,255,255,.8)}
 .filter-input:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
 .filter-select{padding:8px 14px;border:1px solid rgba(148,163,184,.2);border-radius:8px;font-size:14px;outline:none;background:rgba(255,255,255,.8);cursor:pointer;min-width:130px;transition:all .2s}
@@ -331,9 +333,9 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <div class="card">
 <div class="card-body">
 <div class="filter-bar" style="margin-bottom:0">
-<input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號名稱 / 暱稱..." oninput="filterTable()">
-<input type="text" class="filter-input" id="ipSearchInput" placeholder="搜尋最後登入 IP..." oninput="filterTable()" style="min-width:160px">
-<select class="filter-select" id="roleFilter" onchange="filterTable()">
+<div class="filter-group"><label class="filter-label">帳號搜尋</label><input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號名稱 / 暱稱..." oninput="filterTable()"></div>
+<div class="filter-group"><label class="filter-label">IP 搜尋</label><input type="text" class="filter-input" id="ipSearchInput" placeholder="搜尋最後登入 IP..." oninput="filterTable()" style="min-width:160px"></div>
+<div class="filter-group"><label class="filter-label">角色類型</label><select class="filter-select" id="roleFilter" onchange="filterTable()">
 <option value="">全部角色</option>
 <option value="超級管理員">超級管理員</option>
 <option value="營運主管">營運主管</option>
@@ -344,12 +346,12 @@ tr:hover td{background:rgba(59,130,246,.02)}
 <option value="技術">技術</option>
 <option value="數據分析師">數據分析師</option>
 <option value="唯讀">唯讀</option>
-</select>
-<select class="filter-select" id="statusFilter" onchange="filterTable()">
+</select></div>
+<div class="filter-group"><label class="filter-label">帳號狀態</label><select class="filter-select" id="statusFilter" onchange="filterTable()">
 <option value="">全部狀態</option>
 <option value="active">啟用</option>
 <option value="disabled">禁用</option>
-</select>
+</select></div>
 <button class="btn btn-primary" onclick="filterTable()" style="padding:8px 48px">查詢</button>
 <button class="btn btn-outline" onclick="resetFilter()" style="padding:8px 24px">重置</button>
 </div>
