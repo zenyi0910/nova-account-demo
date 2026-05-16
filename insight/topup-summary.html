@@ -15,18 +15,16 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/15 - 2026/05/15" readonly></div>
 <div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
 <div class="filter-group"><label class="filter-label">儲值方式</label><select class="filter-select"><option>全部方式</option></select></div>
+<div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="card"><div class="card-title">儲值趨勢</div><div class="card-desc">每日儲值金額與筆數走勢</div><div style="height:240px"><canvas id="chartTopup"></canvas></div></div>
-<div class="card"><div class="card-title">儲值總表</div><div class="card-desc">追蹤整體儲值表現與用戶付費行為。</div>
-<div class="table-wrap"><table><thead><tr><th>日期</th><th>總儲值金額</th><th>儲值人數</th><th>儲值次數</th><th>ARPU</th><th>ARPPU</th><th>首儲人數</th><th>首儲金額</th></tr></thead>
-<tbody><tr><td>2026/05/05</td><td>5,755</td><td>5</td><td>7</td><td>5.26</td><td>1,151.00</td><td>2</td><td>650</td></tr>
-<tr><td>2026/05/04</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
-<tr><td>2026/05/03</td><td>2,100</td><td>3</td><td>4</td><td>420.00</td><td>700.00</td><td>1</td><td>150</td></tr>
-<tr><td>2026/05/02</td><td>3,200</td><td>4</td><td>5</td><td>800.00</td><td>800.00</td><td>1</td><td>500</td></tr></tbody></table></div>
-<div class="pagination"><div>共 4 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">儲值總覽趨勢</div><div class="card-desc">每日儲值總額、贈禮總額與付費人數分析</div><div style="height:260px"><canvas id="chartTopup"></canvas></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px">
+<div class="card" style="padding:24px"><div class="card-title">儲值分佈</div><div class="card-desc">分析玩家儲值金額的區間與人數佔比。</div><div style="height:200px"><canvas id="chartDist"></canvas></div></div>
+<div class="card" style="padding:24px"><div class="card-title">渠道儲值佔比</div><div class="card-desc">分析各儲值管道的金額貢獻度與佔比。</div><div style="font-size:11px;color:#F59E0B;margin-bottom:8px">＊點擊區塊檢視明細</div><div style="height:200px"><canvas id="chartChannel"></canvas></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -39,11 +37,11 @@ const ctx = document.getElementById('chartTopup');
 new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
+    labels: ['05/15'],
     datasets: [
-      { label: '儲值總額', data: [8000,9500,7200,11000,9800,10500,8500], borderColor: '#3B82F6', backgroundColor: '#3B82F620', borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#3B82F6', yAxisID: 'y' },
-      { label: '贈禮總額', data: [2000,1800,2500,3000,2200,2800,1900], borderColor: '#10B981', backgroundColor: '#10B98120', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#10B981', yAxisID: 'y' },
-      { label: '付費人數', data: [12,15,10,18,14,16,12], borderColor: '#F59E0B', backgroundColor: '#F59E0B20', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 4, pointStyle: 'circle', pointBackgroundColor: '#F59E0B', yAxisID: 'y1' }
+      { label: '儲值總額', data: [0], borderColor: '#3B82F6', backgroundColor: '#3B82F620', borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#3B82F6', yAxisID: 'y' },
+      { label: '贈禮總額', data: [0], borderColor: '#10B981', backgroundColor: '#10B98120', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#10B981', yAxisID: 'y' },
+      { label: '付費人數', data: [0], borderColor: '#F59E0B', backgroundColor: '#F59E0B20', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 4, pointStyle: 'circle', pointBackgroundColor: '#F59E0B', yAxisID: 'y1' }
     ]
   },
   options: {
@@ -56,6 +54,18 @@ new Chart(ctx, {
       y1: { position: 'right', grid: { drawOnChartArea: false }, ticks: { font: { size: 11 }, color: '#94A3B8', callback: v => v + ' 人' }, title: { display: true, text: '付費人數（人）', font: { size: 11 }, color: '#64748B' } }
     }
   }
+});
+// 儲值分佈 bar chart
+new Chart(document.getElementById('chartDist'), {
+  type: 'bar',
+  data: { labels: ['0-100','101-500','501-1K','1K-5K','5K+'], datasets: [{ label: '人數', data: [0,0,0,0,0], backgroundColor: '#3B82F6' }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#F1F5F9' }, title: { display: true, text: '人數' } } } }
+});
+// 渠道佔比 doughnut
+new Chart(document.getElementById('chartChannel'), {
+  type: 'doughnut',
+  data: { labels: ['Apple Pay','Google Pay','信用卡','超商代碼','ATM'], datasets: [{ data: [0,0,0,0,0], backgroundColor: ['#3B82F6','#10B981','#F59E0B','#8B5CF6','#EC4899'] }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10 }, padding: 8 } } } }
 });
 </script>
 </body>

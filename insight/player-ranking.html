@@ -14,21 +14,14 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">時間範圍</label><select class="filter-select"><option>今日</option><option>本週</option><option>本月</option></select></div>
-<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/01 - 2026/05/16" readonly></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="rank-tabs">
-<div class="rank-tab active">贏分榜</div>
-<div class="rank-tab">投注榜</div>
-<div class="rank-tab">連勝榜</div></div>
-<div class="card"><div class="card-title">玩家排行榜</div><div class="card-desc">追蹤玩家的遊戲表現與活躍度。</div>
-<div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>玩家 ID</th><th>暱稱</th><th>VIP 等級</th><th>贏分</th><th>投注額</th><th>遊戲局數</th></tr></thead>
-<tbody><tr><td><div class="rank-badge gold">1</div></td><td>P00523</td><td>幸運星</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+125,800</td><td>580,000</td><td>1,245</td></tr>
-<tr><td><div class="rank-badge silver">2</div></td><td>P00891</td><td>贏家</td><td>VIP 4</td><td style="color:#10B981;font-weight:600">+98,500</td><td>420,000</td><td>980</td></tr>
-<tr><td><div class="rank-badge bronze">3</div></td><td>P01234</td><td>大富翁</td><td>VIP 6</td><td style="color:#10B981;font-weight:600">+87,200</td><td>650,000</td><td>1,580</td></tr>
-<tr><td><div class="rank-badge normal">4</div></td><td>P00456</td><td>好運來</td><td>VIP 3</td><td style="color:#10B981;font-weight:600">+65,400</td><td>280,000</td><td>720</td></tr>
-<tr><td><div class="rank-badge normal">5</div></td><td>P00789</td><td>發財哥</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+52,100</td><td>380,000</td><td>890</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">玩家贏分排行榜</div><div class="card-desc">分析排行期間內，玩家的輸贏表現、押注倍率與帳戶狀態。</div>
+<div class="table-wrap"><table><thead><tr><th>No.</th><th>帳號</th><th>玩家暱稱</th><th>贏分</th><th>押注</th><th>倍率</th><th>Net Win</th><th>餘額</th><th>儲值</th><th>贈禮</th><th>收禮</th></tr></thead>
+<tbody><tr><td colspan="11" style="text-align:center;padding:40px;color:#94A3B8"><h3 style="margin:0">暫無相關數據</h3><p style="margin:4px 0 0">請嘗試調整查詢條件</p></td></tr></tbody></table></div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:12px"><span style="font-size:13px;color:#64748B">顯示排名：</span><select class="filter-select" style="width:auto"><option>前 100 名</option></select></div>
+<div class="pagination"><div>共 0 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
 </div>
 </div>
 </div>

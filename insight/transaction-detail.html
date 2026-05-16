@@ -14,18 +14,18 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
-<div class="filter-group"><label class="filter-label">交易類型</label><select class="filter-select"><option>全部類型</option><option>儲值</option><option>提領</option><option>投注</option><option>派彩</option></select></div>
-<div class="filter-group"><label class="filter-label">玩家 ID</label><input type="text" class="filter-input" placeholder="輸入玩家 ID"></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/01 - 2026/05/16" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
+<div class="filter-group"><label class="filter-label">儲值方式</label><select class="filter-select"><option>全部方式</option></select></div>
+<div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option></select></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="card"><div class="card-title">交易明細</div><div class="card-desc">追蹤所有金流交易記錄與異常行為。</div>
-<div class="table-wrap"><table><thead><tr><th>交易時間</th><th>交易 ID</th><th>玩家 ID</th><th>交易類型</th><th>金額</th><th>餘額</th><th>IP 位址</th></tr></thead>
-<tbody><tr><td>2026/05/05 14:25:30</td><td>TX20260505142530001</td><td>P00523</td><td><span class="tx-type deposit">儲值</span></td><td style="color:#10B981;font-weight:600">+2,000</td><td>125,800</td><td>192.168.1.100</td></tr>
-<tr><td>2026/05/05 14:20:15</td><td>TX20260505142015002</td><td>P00523</td><td><span class="tx-type bet">投注</span></td><td style="color:#EF4444;font-weight:600">-500</td><td>123,800</td><td>192.168.1.100</td></tr>
-<tr><td>2026/05/05 14:18:45</td><td>TX20260505141845003</td><td>P00523</td><td><span class="tx-type win">派彩</span></td><td style="color:#10B981;font-weight:600">+1,200</td><td>124,300</td><td>192.168.1.100</td></tr>
-<tr><td>2026/05/05 13:55:20</td><td>TX20260505135520004</td><td>P00891</td><td><span class="tx-type deposit">儲值</span></td><td style="color:#10B981;font-weight:600">+1,000</td><td>98,500</td><td>192.168.2.50</td></tr>
-<tr><td>2026/05/05 13:50:10</td><td>TX20260505135010005</td><td>P01234</td><td><span class="tx-type bet">投注</span></td><td style="color:#EF4444;font-weight:600">-800</td><td>87,200</td><td>192.168.3.20</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">交易明細報表</div><div class="card-desc">監控每日儲值、贈禮流向及後台發幣等風險控制關鍵指標。</div>
+<button class="btn btn-outline" style="margin-bottom:16px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>匯出 CSV</button>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>儲值總額</th><th>贈禮總額</th><th>贈禮人數</th><th>收禮人數</th><th>後台發幣</th><th>系統補償</th><th>手續費總額</th></tr></thead>
+<tbody><tr><td colspan="8" style="text-align:center;padding:40px;color:#94A3B8"><h3 style="margin:0">暫無相關數據</h3><p style="margin:4px 0 0">請嘗試調整查詢條件</p></td></tr></tbody></table></div>
+<p style="font-size:13px;color:#64748B;margin-top:12px">* 贈禮與收禮人數為不重複用戶計算。</p>
+<div class="pagination"><div>共 0 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
 </div>
 </div>
 </div>
