@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>交易明細 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -19,7 +18,6 @@
 <div class="filter-group"><label class="filter-label">交易類型</label><select class="filter-select"><option>全部類型</option><option>儲值</option><option>提領</option><option>投注</option><option>派彩</option></select></div>
 <div class="filter-group"><label class="filter-label">玩家 ID</label><input type="text" class="filter-input" placeholder="輸入玩家 ID"></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="card"><div class="card-title">交易量趨勢</div><div class="card-desc">每日交易筆數走勢</div><div style="height:240px"><canvas id="chartTransaction"></canvas></div></div>
 <div class="card"><div class="card-title">交易明細</div><div class="card-desc">追蹤所有金流交易記錄與異常行為。</div>
 <div class="table-wrap"><table><thead><tr><th>交易時間</th><th>交易 ID</th><th>玩家 ID</th><th>交易類型</th><th>金額</th><th>餘額</th><th>IP 位址</th></tr></thead>
 <tbody><tr><td>2026/05/05 14:25:30</td><td>TX20260505142530001</td><td>P00523</td><td><span class="tx-type deposit">儲值</span></td><td style="color:#10B981;font-weight:600">+2,000</td><td>125,800</td><td>192.168.1.100</td></tr>
@@ -34,15 +32,5 @@
 <script>window.INSIGHT_PAGE = { group: '風控管理', title: '交易明細' };</script>
 <script src="components/sidebar.js"></script>
 <script src="components/header.js"></script>
-<script src="components/charts.js"></script>
-<script>
-createLineChart(document.getElementById('chartTransaction'), {
-  labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
-  yTitle: '筆數',
-  datasets: [
-    { label: '交易筆數', data: [350,420,380,450,410,480,400], color: '#3B82F6', fill: true }
-  ]
-});
-</script>
 </body>
 </html>

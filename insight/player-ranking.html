@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>玩家排行榜 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -22,7 +21,6 @@
 <div class="rank-tab active">贏分榜</div>
 <div class="rank-tab">投注榜</div>
 <div class="rank-tab">連勝榜</div></div>
-<div class="card"><div class="card-title">玩家活躍趨勢</div><div class="card-desc">高消費玩家近期活動走勢</div><div style="height:240px"><canvas id="chartPlayer"></canvas></div></div>
 <div class="card"><div class="card-title">玩家排行榜</div><div class="card-desc">追蹤玩家的遊戲表現與活躍度。</div>
 <div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>玩家 ID</th><th>暱稱</th><th>VIP 等級</th><th>贏分</th><th>投注額</th><th>遊戲局數</th></tr></thead>
 <tbody><tr><td><div class="rank-badge gold">1</div></td><td>P00523</td><td>幸運星</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+125,800</td><td>580,000</td><td>1,245</td></tr>
@@ -37,16 +35,5 @@
 <script>window.INSIGHT_PAGE = { group: '遊戲數據', title: '玩家排行榜' };</script>
 <script src="components/sidebar.js"></script>
 <script src="components/header.js"></script>
-<script src="components/charts.js"></script>
-<script>
-createLineChart(document.getElementById('chartPlayer'), {
-  labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
-  yTitle: '活躍度',
-  datasets: [
-    { label: 'Top 10', data: [85,90,82,95,88,92,90], color: '#8B5CF6' },
-    { label: '平均', data: [45,48,42,50,47,49,48], color: '#94A3B8' }
-  ]
-});
-</script>
 </body>
 </html>
