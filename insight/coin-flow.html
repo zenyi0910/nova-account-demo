@@ -15,19 +15,10 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
-<div class="filter-group"><label class="filter-label">幣種</label><select class="filter-select"><option>金幣</option><option>星幣</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/01 - 2026/05/15" readonly></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="flow-grid">
-<div class="flow-card"><h4>總產出</h4><div class="flow-val green">600,165</div></div>
-<div class="flow-card"><h4>總消耗</h4><div class="flow-val red">485,200</div></div></div>
-<div class="card"><div class="card-title">產出與消耗趨勢</div><div class="card-desc">近 7 日金幣產出與消耗走勢</div><div style="height:240px"><canvas id="chartFlow"></canvas></div></div>
-<div class="card"><div class="card-title">產出與消耗</div><div class="card-desc">追蹤金幣的產出來源與消耗去向。</div>
-<div class="table-wrap"><table><thead><tr><th>日期</th><th>產出金額</th><th>消耗金額</th><th>淨流量</th><th>產出來源</th></tr></thead>
-<tbody><tr><td>2026/05/05</td><td>600,165</td><td>485,200</td><td>+114,965</td><td>儲值轉換</td></tr>
-<tr><td>2026/05/04</td><td>0</td><td>12,500</td><td>-12,500</td><td>-</td></tr>
-<tr><td>2026/05/03</td><td>210,000</td><td>185,000</td><td>+25,000</td><td>儲值轉換</td></tr></tbody></table></div>
-<div class="pagination"><div>共 3 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">產出與消耗分析</div><div class="card-desc">系統貨幣流入與流出平衡監測</div><div style="height:320px"><canvas id="chartFlow"></canvas></div></div>
 </div>
 </div>
 </div>
@@ -37,22 +28,22 @@
 <script src="components/charts.js"></script>
 <script>
 createBarChart(document.getElementById('chartFlow'), {
-  labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
+  labels: ['05/01','05/03','05/05','05/07','05/09','05/11','05/13','05/15'],
   yTitle: '幣量',
   datasets: [
-    { label: '活動贈送', data: [50000,45000,60000,55000,48000,52000,200000000], color: '#10B981' },
-    { label: '遊戲贏分', data: [30000,28000,35000,32000,29000,31000,25000], color: '#34D399' },
-    { label: '營運免費幣', data: [15000,12000,18000,14000,13000,16000,12000], color: '#6EE7B7' },
-    { label: '後台發送', data: [8000,7000,9000,8500,7500,8000,7000], color: '#A7F3D0' },
-    { label: '收禮', data: [5000,4500,6000,5500,4800,5200,4000], color: '#86EFAC' },
-    { label: '序號', data: [2000,1800,2500,2200,1900,2100,1500], color: '#4ADE80' },
-    { label: '系統補償', data: [1000,800,1200,1100,900,1000,800], color: '#22C55E' },
-    { label: '保險箱轉入', data: [3000,2800,3500,3200,2900,3100,2500], color: '#16A34A' },
-    { label: '遊戲押注', data: [80000,75000,90000,85000,78000,82000,70000], color: '#EF4444' },
-    { label: '贈禮', data: [5000,4500,6000,5500,4800,5200,4000], color: '#F87171' },
-    { label: '後台扣除', data: [3000,2500,3500,3000,2800,3200,2500], color: '#FCA5A5' },
-    { label: '保險箱轉出', data: [3000,2800,3500,3200,2900,3100,2500], color: '#FECACA' },
-    { label: '淨趨勢線', data: [23000,11300,31700,18600,7900,15800,199918800], color: '#3B82F6', type: 'line' }
+    { label: '活動贈送', data: [50000,45000,60000,55000,48000,52000,58000,46000], color: '#10B981' },
+    { label: '遊戲贏分', data: [30000,28000,35000,32000,29000,31000,33000,27000], color: '#34D399' },
+    { label: '營運免費幣', data: [15000,12000,18000,14000,13000,16000,17000,11000], color: '#6EE7B7' },
+    { label: '後台發送', data: [8000,7000,9000,8500,7500,8000,9500,6500], color: '#A7F3D0' },
+    { label: '收禮', data: [5000,4500,6000,5500,4800,5200,5800,4200], color: '#86EFAC' },
+    { label: '序號', data: [2000,1800,2500,2200,1900,2100,2400,1600], color: '#4ADE80' },
+    { label: '系統補償', data: [1000,800,1200,1100,900,1000,1300,700], color: '#22C55E' },
+    { label: '保險箱轉入', data: [3000,2800,3500,3200,2900,3100,3400,2600], color: '#16A34A' },
+    { label: '遊戲押注', data: [-80000,-75000,-90000,-85000,-78000,-82000,-88000,-72000], color: '#EF4444' },
+    { label: '贈禮', data: [-5000,-4500,-6000,-5500,-4800,-5200,-5800,-4200], color: '#F87171' },
+    { label: '後台扣除', data: [-3000,-2500,-3500,-3000,-2800,-3200,-3600,-2300], color: '#FCA5A5' },
+    { label: '保險箱轉出', data: [-3000,-2800,-3500,-3200,-2900,-3100,-3400,-2600], color: '#FECACA' },
+    { label: '淨趨勢線', data: [23000,11300,31700,18600,7900,15800,25600,8500], color: '#1E40AF', type: 'line' }
   ]
 });
 </script>

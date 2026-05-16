@@ -15,23 +15,13 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">幣種</label><select class="filter-select"><option>金幣</option><option>星幣</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/15 - 2026/05/15" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="dist-grid">
-<div class="dist-item"><h4>0-100</h4><div class="val">523</div><div class="pct">47.8%</div></div>
-<div class="dist-item"><h4>101-1,000</h4><div class="val">285</div><div class="pct">26.1%</div></div>
-<div class="dist-item"><h4>1,001-10,000</h4><div class="val">178</div><div class="pct">16.3%</div></div>
-<div class="dist-item"><h4>10,001-100,000</h4><div class="val">82</div><div class="pct">7.5%</div></div>
-<div class="dist-item"><h4>100,000+</h4><div class="val">25</div><div class="pct">2.3%</div></div></div>
-<div class="card"><div class="card-title">餘額分佈趨勢</div><div class="card-desc">玩家金幣餘額區間分佈變化</div><div style="height:240px"><canvas id="chartBalance"></canvas></div></div>
-<div class="card"><div class="card-title">餘額分佈</div><div class="card-desc">分析玩家帳戶餘額的分佈情況。</div>
-<div class="table-wrap"><table><thead><tr><th>餘額區間</th><th>人數</th><th>佔比</th><th>總餘額</th><th>平均餘額</th></tr></thead>
-<tbody><tr><td>0 - 100</td><td>523</td><td>47.8%</td><td>12,450</td><td>23.8</td></tr>
-<tr><td>101 - 1,000</td><td>285</td><td>26.1%</td><td>142,500</td><td>500.0</td></tr>
-<tr><td>1,001 - 10,000</td><td>178</td><td>16.3%</td><td>890,000</td><td>5,000.0</td></tr>
-<tr><td>10,001 - 100,000</td><td>82</td><td>7.5%</td><td>2,460,000</td><td>30,000.0</td></tr>
-<tr><td>100,000+</td><td>25</td><td>2.3%</td><td>5,125,000</td><td>205,000.0</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">玩家持幣餘額分佈</div><div class="card-desc">分析各餘額區間內，星幣與金幣持有玩家的構成比例。</div>
+<div style="font-size:11px;color:#F59E0B;margin-bottom:12px">★ 點擊星幣、金幣及背景區塊檢視明細</div>
+<div style="height:300px"><canvas id="chartBalance"></canvas></div></div>
 </div>
 </div>
 </div>
