@@ -37,11 +37,11 @@ const ctx = document.getElementById('chartTopup');
 new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ['05/15'],
+    labels: ['05/09','05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
     datasets: [
-      { label: '儲值總額', data: [0], borderColor: '#3B82F6', backgroundColor: '#3B82F620', borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#3B82F6', yAxisID: 'y' },
-      { label: '贈禮總額', data: [0], borderColor: '#10B981', backgroundColor: '#10B98120', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#10B981', yAxisID: 'y' },
-      { label: '付費人數', data: [0], borderColor: '#F59E0B', backgroundColor: '#F59E0B20', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 4, pointStyle: 'circle', pointBackgroundColor: '#F59E0B', yAxisID: 'y1' }
+      { label: '儲值總額', data: [0,0,0,212000,0,0,0,641000], borderColor: '#3B82F6', backgroundColor: '#3B82F620', borderWidth: 2, fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#3B82F6', yAxisID: 'y' },
+      { label: '贈禮總額', data: [0,0,0,0,0,0,0,0], borderColor: '#10B981', backgroundColor: '#10B98120', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#10B981', yAxisID: 'y' },
+      { label: '付費人數', data: [0,0,0,1,0,0,0,3], borderColor: '#F59E0B', backgroundColor: '#F59E0B20', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 4, pointStyle: 'circle', pointBackgroundColor: '#F59E0B', yAxisID: 'y1' }
     ]
   },
   options: {
@@ -58,13 +58,13 @@ new Chart(ctx, {
 // 儲值分佈 bar chart
 new Chart(document.getElementById('chartDist'), {
   type: 'bar',
-  data: { labels: ['0-100','101-500','501-1K','1K-5K','5K+'], datasets: [{ label: '人數', data: [0,0,0,0,0], backgroundColor: '#3B82F6' }] },
+  data: { labels: ['0-100','101-500','501-1K','1K-5K','5K+'], datasets: [{ label: '人數', data: [2,0,0,1,1], backgroundColor: '#3B82F6' }] },
   options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { grid: { color: '#F1F5F9' }, title: { display: true, text: '人數' } } } }
 });
 // 渠道佔比 doughnut
 new Chart(document.getElementById('chartChannel'), {
   type: 'doughnut',
-  data: { labels: ['Apple Pay','Google Pay','信用卡','超商代碼','ATM'], datasets: [{ data: [0,0,0,0,0], backgroundColor: ['#3B82F6','#10B981','#F59E0B','#8B5CF6','#EC4899'] }] },
+  data: { labels: ['遠傳電信','線上轉點','手機小額','信用卡','超商代碼'], datasets: [{ data: [75,10,8,5,2], backgroundColor: ['#3B82F6','#10B981','#F59E0B','#8B5CF6','#EC4899'] }] },
   options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10 }, padding: 8 } } } }
 });
 </script>
