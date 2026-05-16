@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>留存率 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -15,40 +14,21 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
-<div class="filter-group"><label class="filter-label">用戶類型</label><select class="filter-select"><option>全部用戶</option><option>付費用戶</option><option>免費用戶</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/15 - 2026/05/15" readonly></div>
+<div class="filter-group"><label class="filter-label">玩家來源</label><select class="filter-select"><option>全部來源</option></select></div>
+<div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option></select></div>
+<div class="filter-group"><label class="filter-label">數據展示單位</label><button class="btn btn-primary" style="font-size:12px">百分比 (%)</button><button class="btn btn-outline" style="font-size:12px">實際數量 (人)</button></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="ret-grid">
-<div class="ret-card"><h4>次日留存</h4><div class="val">42.3%</div></div>
-<div class="ret-card"><h4>3日留存</h4><div class="val">28.7%</div></div>
-<div class="ret-card"><h4>7日留存</h4><div class="val">18.2%</div></div>
-<div class="ret-card"><h4>30日留存</h4><div class="val">8.5%</div></div></div>
-<div class="card"><div class="card-title">留存率趨勢</div><div class="card-desc">新用戶次日/7日/30日留存率走勢</div><div style="height:240px"><canvas id="chartRetention"></canvas></div></div>
-<div class="card"><div class="card-title">留存率</div><div class="card-desc">追蹤用戶在不同時間段的回訪比例。</div>
-<div class="table-wrap"><table><thead><tr><th>註冊日期</th><th>新增人數</th><th>次日</th><th>3日</th><th>7日</th><th>14日</th><th>30日</th></tr></thead>
-<tbody><tr><td>2026/05/05</td><td>1</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>2026/05/04</td><td>3</td><td>66.7%</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>2026/05/03</td><td>5</td><td>60.0%</td><td>40.0%</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>2026/05/02</td><td>4</td><td>50.0%</td><td>25.0%</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>2026/05/01</td><td>2</td><td>50.0%</td><td>50.0%</td><td>50.0%</td><td>-</td><td>-</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-title">留存率熱力圖報表</div><div class="card-desc">追蹤用戶留存表現及趨勢變化。當前展示： 百分比 (%)</div>
+<div class="table-wrap"><table><thead><tr><th>註冊日期</th><th>NU (新增)</th><th>Day +1 R1</th><th>Day +2 R2</th><th>Day +3 R3</th><th>Day +4 R4</th><th>Day +5 R5</th><th>Day +6 R6</th><th>Day +7 R7</th><th>Day +14 R14</th><th>Day +30 R30</th></tr></thead>
+<tbody><tr><td colspan="11" style="text-align:center;padding:40px;color:#94A3B8"><h3 style="margin:0">暫無相關數據</h3><p style="margin:4px 0 0">請嘗試調整查詢條件</p></td></tr></tbody></table></div>
+<div class="card-desc" style="margin-top:12px;color:#F59E0B">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</div>
+<div class="pagination"><div>共 0 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
 </div>
 </div>
 </div>
 <script>window.INSIGHT_PAGE = { group: '運營數據分析', title: '留存率' };</script>
 <script src="components/sidebar.js"></script>
 <script src="components/header.js"></script>
-<script src="components/charts.js"></script>
-<script>
-createLineChart(document.getElementById('chartRetention'), {
-  labels: ['05/01','05/03','05/05','05/07','05/09','05/11','05/13','05/15'],
-  yTitle: '留存率(%)',
-  datasets: [
-    { label: '次日留存', data: [45,42,48,44,46,43,47,45], color: '#3B82F6' },
-    { label: '7日留存', data: [25,23,27,24,26,22,28,25], color: '#10B981' },
-    { label: '30日留存', data: [12,10,14,11,13,10,15,12], color: '#F59E0B' }
-  ]
-});
-</script>
 </body>
 </html>

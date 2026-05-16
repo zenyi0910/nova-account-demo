@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>營收報表 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -15,35 +14,21 @@
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
 <div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
-<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/15 - 2026/05/15" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option></select></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button>
 </div></div>
-<div class="card"><div class="card-title">營收趨勢</div><div class="card-desc">平台每日營收走勢</div><div style="height:240px"><canvas id="chartRevPage"></canvas></div></div>
-<div class="card"><div class="card-title">營收報表</div><div class="card-desc">追蹤平台整體營收表現與趨勢分析。</div>
-<div class="table-wrap"><table><thead><tr><th>日期</th><th>總營收</th><th>儲值金額</th><th>遊戲消耗</th><th>淨利潤</th><th>利潤率(%)</th></tr></thead>
-<tbody><tr><td>2026/05/05</td><td>5,755</td><td>5,755</td><td>0</td><td>5,755</td><td>100.0</td></tr>
-<tr><td>2026/05/04</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
-<tr><td>2026/05/03</td><td>2,100</td><td>2,100</td><td>850</td><td>1,250</td><td>59.5</td></tr>
-<tr><td>2026/05/02</td><td>3,200</td><td>3,200</td><td>1,400</td><td>1,800</td><td>56.3</td></tr>
-<tr><td>2026/05/01</td><td>1,500</td><td>1,500</td><td>600</td><td>900</td><td>60.0</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+<div class="card"><div class="card-header"><div><div class="card-title">營收報表數據</div><div class="card-desc">分析不同日期與渠道的營收貢獻度。</div></div><button class="btn btn-outline" style="font-size:12px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> 下載</button></div>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>Revenue</th><th>PU</th><th>AU</th><th>NU</th><th>ARPPU</th><th>ARPU</th><th>Pay Rate</th><th>贈禮金額</th><th>贈禮人數</th><th>首儲人數</th><th>CCU</th><th>PGU</th></tr></thead>
+<tbody><tr><td>2026/05/15</td><td>0</td><td>0</td><td>16</td><td>0</td><td>0</td><td>0</td><td>0.00%</td><td>0</td><td>0</td><td>0</td><td>2</td><td>104</td></tr></tbody></table></div>
+<div class="card-desc" style="margin-top:12px;color:#F59E0B">* 指標定義：ARPPU = 營收/PU, ARPU = 營收/AU, 付費率 = (PU/AU) × 100%。</div>
+<div class="pagination"><div>共 1 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
 </div>
 </div>
 </div>
 <script>window.INSIGHT_PAGE = { group: '運營數據分析', title: '營收報表' };</script>
 <script src="components/sidebar.js"></script>
 <script src="components/header.js"></script>
-<script src="components/charts.js"></script>
-<script>
-createLineChart(document.getElementById('chartRevPage'), {
-  labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
-  yTitle: '營收',
-  datasets: [
-    { label: '每日營收', data: [5000,5500,4800,6200,5800,6500,5755], color: '#3B82F6', fill: true },
-    { label: '7日均線', data: [5200,5200,5200,5300,5400,5500,5600], color: '#F59E0B', dash: [5,5] }
-  ]
-});
-</script>
 </body>
 </html>

@@ -53,18 +53,18 @@ createLineChart(document.getElementById('chartLogin'), {
   labels: hours,
   yTitle: '人數',
   datasets: [
-    { label: '今日', data: [0,0,0,0,0,0,0,0,0], color: '#EC4899', dash: [5,5] },
-    { label: '7天前', data: [2,1,0,1,3,5,4,3,2], color: '#EF4444' },
-    { label: '30天前', data: [3,2,1,2,4,6,5,4,3], color: '#8B5CF6', dash: [5,5] }
+    { label: '今日', data: [0,0,0,0,0,0,0,0,0], color: '#EC4899', dash: [5,5], pointStyle: 'rect' },
+    { label: '7天前', data: [2,1,0,1,3,5,4,3,2], color: '#EF4444', dash: [5,5], pointStyle: 'rect' },
+    { label: '30天前', data: [3,2,1,2,4,6,5,4,3], color: '#8B5CF6', dash: [3,3], pointStyle: 'rect' }
   ]
 });
 createLineChart(document.getElementById('chartGame'), {
   labels: hours,
   yTitle: '人數',
   datasets: [
-    { label: '今日', data: [0,0,0,0,0,0,0,0,0], color: '#EC4899', dash: [5,5] },
-    { label: '7天前', data: [1,0,0,1,2,4,3,2,1], color: '#EF4444' },
-    { label: '30天前', data: [2,1,0,1,3,5,4,3,2], color: '#8B5CF6', dash: [5,5] }
+    { label: '今日', data: [0,0,0,0,0,0,0,0,0], color: '#EC4899', dash: [5,5], pointStyle: 'rect' },
+    { label: '7天前', data: [1,0,0,1,2,4,3,2,1], color: '#EF4444', dash: [5,5], pointStyle: 'rect' },
+    { label: '30天前', data: [2,1,0,1,3,5,4,3,2], color: '#8B5CF6', dash: [3,3], pointStyle: 'rect' }
   ]
 });
 </script>

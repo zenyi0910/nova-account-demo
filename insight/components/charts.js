@@ -93,6 +93,7 @@ function createLineChart(canvas, config) {
     fill: ds.fill || false,
     tension: 0.3,
     pointRadius: 3,
+    pointStyle: ds.pointStyle || 'circle',
     pointBackgroundColor: ds.color,
     pointBorderColor: '#fff',
     pointBorderWidth: 1,

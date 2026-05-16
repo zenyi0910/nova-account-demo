@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>遊戲明細 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="layout">
@@ -19,7 +18,6 @@
 <div class="filter-group"><label class="filter-label">遊戲名稱</label><select class="filter-select"><option>全部遊戲</option><option>金龍傳說</option><option>捕魚達人</option></select></div>
 <div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部類型</option><option>老虎機</option><option>捕魚</option><option>棋牌</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="card"><div class="card-title">遊戲數據趨勢</div><div class="card-desc">遊戲活躍人數與營收走勢</div><div style="height:240px"><canvas id="chartGameDetail"></canvas></div></div>
 <div class="card"><div class="card-title">遊戲明細</div><div class="card-desc">追蹤各遊戲的詳細數據與表現指標。</div>
 <div class="table-wrap"><table><thead><tr><th>日期</th><th>遊戲名稱</th><th>遊戲類型</th><th>遊戲人數</th><th>遊戲局數</th><th>投注額</th><th>派彩</th><th>營收</th><th>RTP(%)</th></tr></thead>
 <tbody><tr><td>2026/05/05</td><td>金龍傳說</td><td>老虎機</td><td>125</td><td>2,850</td><td>580,000</td><td>550,000</td><td>30,000</td><td>94.8</td></tr>
@@ -33,16 +31,5 @@
 <script>window.INSIGHT_PAGE = { group: '遊戲數據', title: '遊戲明細' };</script>
 <script src="components/sidebar.js"></script>
 <script src="components/header.js"></script>
-<script src="components/charts.js"></script>
-<script>
-createLineChart(document.getElementById('chartGameDetail'), {
-  labels: ['05/10','05/11','05/12','05/13','05/14','05/15','05/16'],
-  yTitle: '人數/金額',
-  datasets: [
-    { label: '活躍人數', data: [120,135,128,142,138,145,150], color: '#3B82F6' },
-    { label: '營收', data: [5000,5500,4800,6200,5800,6500,5755], color: '#10B981' }
-  ]
-});
-</script>
 </body>
 </html>
