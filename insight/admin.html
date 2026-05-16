@@ -863,12 +863,7 @@ function renderTable(){
         <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
       </svg>
     </button>`;
-    actions+=`<button class="btn btn-icon btn-sm" onclick="openResetPwModal(${gi})" title="重設密碼">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-      </svg>
-    </button>`;
+
     if(!a.isSuper){
       if(a.status==='active') actions+=`<button class="btn btn-icon btn-sm" onclick="openDisableModal(${gi})" title="禁用帳號">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC3545" stroke-width="2">
