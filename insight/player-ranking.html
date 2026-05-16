@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玩家排行榜 - Nova Analytics</title>
+<link rel="stylesheet" href="components/styles.css">
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="insightSidebar"></aside>
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="document.getElementById('insightSidebar').classList.remove('mobile-open');this.classList.remove('show')"></div>
+<div class="main">
+<header class="topbar" id="insightTopbar"></header>
+<div class="content">
+<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">時間範圍</label><select class="filter-select"><option>今日</option><option>本週</option><option>本月</option></select></div>
+<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="rank-tabs">
+<div class="rank-tab active">贏分榜</div>
+<div class="rank-tab">投注榜</div>
+<div class="rank-tab">連勝榜</div></div>
+<div class="card"><div class="card-title">玩家活躍趨勢</div><div class="card-desc">高消費玩家近期活動走勢</div><div style="height:200px;border-radius:8px;overflow:hidden;margin-top:16px"><svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 120 L50 100 L100 110 L150 85 L200 70 L250 65 L300 45 L350 40 L400 25" fill="none" stroke="#3B82F6" stroke-width="2.5"/><path d="M0 120 L50 100 L100 110 L150 85 L200 70 L250 65 L300 45 L350 40 L400 25 L400 150 L0 150Z" fill="url(#aBlue)" opacity=".15"/><defs><linearGradient id="aBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div></div>
+<div class="card"><div class="card-title">玩家排行榜</div><div class="card-desc">追蹤玩家的遊戲表現與活躍度。</div>
+<div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>玩家 ID</th><th>暱稱</th><th>VIP 等級</th><th>贏分</th><th>投注額</th><th>遊戲局數</th></tr></thead>
+<tbody><tr><td><div class="rank-badge gold">1</div></td><td>P00523</td><td>幸運星</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+125,800</td><td>580,000</td><td>1,245</td></tr>
+<tr><td><div class="rank-badge silver">2</div></td><td>P00891</td><td>贏家</td><td>VIP 4</td><td style="color:#10B981;font-weight:600">+98,500</td><td>420,000</td><td>980</td></tr>
+<tr><td><div class="rank-badge bronze">3</div></td><td>P01234</td><td>大富翁</td><td>VIP 6</td><td style="color:#10B981;font-weight:600">+87,200</td><td>650,000</td><td>1,580</td></tr>
+<tr><td><div class="rank-badge normal">4</div></td><td>P00456</td><td>好運來</td><td>VIP 3</td><td style="color:#10B981;font-weight:600">+65,400</td><td>280,000</td><td>720</td></tr>
+<tr><td><div class="rank-badge normal">5</div></td><td>P00789</td><td>發財哥</td><td>VIP 5</td><td style="color:#10B981;font-weight:600">+52,100</td><td>380,000</td><td>890</td></tr></tbody></table></div>
+<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div>
+</div>
+</div>
+</div>
+<script>window.INSIGHT_PAGE = { group: '遊戲數據', title: '玩家排行榜' };</script>
+<script src="components/sidebar.js"></script>
+<script src="components/header.js"></script>
+</body>
+</html>
