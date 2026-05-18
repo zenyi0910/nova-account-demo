@@ -18,7 +18,18 @@ const methods = [
   {id:'m6',provider:'linepay',name:'行動支付',logo:'https://placehold.co/80x80/DCFCE7/166534?text=行動',status:'on'},
   {id:'m7',provider:'ecpay',name:'信用卡',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=信用卡',status:'off'},
   {id:'m8',provider:'ecpay',name:'ATM轉帳',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'off'},
-  {id:'m9',provider:'startest',name:'測試支付',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試',status:'on'}
+  {id:'m9',provider:'startest',name:'測試支付',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試',status:'on'},
+  {id:'m10',provider:'mycard',name:'超商代碼',logo:'https://placehold.co/80x80/FEF3C7/92400E?text=超商',status:'on'},
+  {id:'m11',provider:'gash',name:'信用卡',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=信用卡',status:'on'},
+  {id:'m12',provider:'linepay',name:'LINE Points',logo:'https://placehold.co/80x80/DCFCE7/166534?text=Points',status:'off'},
+  {id:'m13',provider:'ecpay',name:'超商代碼',logo:'https://placehold.co/80x80/FEF3C7/92400E?text=超商',status:'on'},
+  {id:'m14',provider:'esun',name:'信用卡',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=信用卡',status:'on'},
+  {id:'m15',provider:'esun',name:'網路ATM',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'on'},
+  {id:'m16',provider:'fetnet',name:'電信小額',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=電信',status:'on'},
+  {id:'m17',provider:'fetnet',name:'遠傳幣',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=遠傳幣',status:'off'},
+  {id:'m18',provider:'startest',name:'免費抵扣',logo:'https://placehold.co/80x80/F3F4F6/374151?text=免費',status:'on'},
+  {id:'m19',provider:'mycard',name:'MyCard儲值',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=儲值',status:'on'},
+  {id:'m20',provider:'gash',name:'GASH樂點',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=樂點',status:'on'}
 ];
 
 const channels = [
@@ -31,13 +42,23 @@ const channels = [
   {id:'c7',provider:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=信用卡',status:'off'},
   {id:'c8',provider:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'off'},
   {id:'c9',provider:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試A',status:'on'},
-  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on'}
+  {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on'},
+  {id:'c11',provider:'mycard',method:'超商代碼',name:'超商代碼繳費',code:'MC_CVS01',logo:'https://placehold.co/80x80/FEF3C7/92400E?text=超商',status:'on'},
+  {id:'c12',provider:'gash',method:'信用卡',name:'信用卡分期',code:'GASH_CC01',logo:'https://placehold.co/80x80/FEE2E2/991B1B?text=分期',status:'on'},
+  {id:'c13',provider:'linepay',method:'LINE Points',name:'LINE Points兌換',code:'LP_PTS01',logo:'https://placehold.co/80x80/DCFCE7/166534?text=Points',status:'off'},
+  {id:'c14',provider:'ecpay',method:'超商代碼',name:'超商代碼',code:'EC_CVS01',logo:'https://placehold.co/80x80/FEF3C7/92400E?text=超商',status:'on'},
+  {id:'c15',provider:'esun',method:'信用卡',name:'玉山信用卡',code:'ESUN_CC01',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=玉山',status:'on'},
+  {id:'c16',provider:'esun',method:'網路ATM',name:'玉山網路ATM',code:'ESUN_ATM01',logo:'https://placehold.co/80x80/E0F2FE/0369A1?text=ATM',status:'on'},
+  {id:'c17',provider:'fetnet',method:'電信小額',name:'遠傳小額付款',code:'FET_SM01',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=小額',status:'on'},
+  {id:'c18',provider:'fetnet',method:'遠傳幣',name:'遠傳幣兌換',code:'FET_COIN01',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=遠傳幣',status:'off'},
+  {id:'c19',provider:'mycard',method:'MyCard儲值',name:'MyCard線上儲值',code:'MC_TOP01',logo:'https://placehold.co/80x80/EEF2FF/4338CA?text=儲值',status:'on'},
+  {id:'c20',provider:'gash',method:'GASH樂點',name:'GASH樂點卡',code:'GASH_LP01',logo:'https://placehold.co/80x80/F3E8FF/7C3AED?text=樂點',status:'on'}
 ];
 
 let currentProvider = '';  // empty = all
 let currentTab = 'methods';
 let currentPage = 1;
-let pageSize = 20;
+let pageSize = 10;
 
 // === Init ===
 function init() {
@@ -126,12 +147,6 @@ function renderTable() {
   }
   pageBtns += '<button class="page-arrow" onclick="goPage(' + Math.min(totalPages, currentPage + 1) + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '>&gt;</button>';
   document.getElementById('pageButtons').innerHTML = pageBtns;
-
-  var jumpOpts = '';
-  for (var j = 1; j <= totalPages; j++) {
-    jumpOpts += '<option value="' + j + '"' + (j === currentPage ? ' selected' : '') + '>第' + j + '頁</option>';
-  }
-  document.getElementById('pageJump').innerHTML = jumpOpts;
 }
 
 function renderStatusCell(status, onclick) {
