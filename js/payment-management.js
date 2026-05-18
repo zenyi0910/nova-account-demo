@@ -1,12 +1,41 @@
 // === Data ===
 const providers = [
-  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[{action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},{action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡']},{action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'}]},
-  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[{action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']}]},
-  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[{action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay']}]},
-  {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[]},
-  {id:'esun',name:'玉山銀行',code:'70424393',status:'off',schedules:[]},
-  {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[]},
-  {id:'startest',name:'星運測試商',code:'AB00888',status:'on',schedules:[]}
+  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[
+    {action:'off',start:'2026-05-20T02:00',end:'2026-05-20T06:00',note:'v3.2 版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
+    {action:'off',start:'2026-05-22T03:00',end:'2026-05-22T05:00',note:'例行維護',channels:['點數卡','電信帳單']},
+    {action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
+    {action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡']},
+    {action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'},
+    {action:'off',start:'2026-05-07T01:00',end:'2026-05-07T04:00',note:'資料庫遷移',channels:['點數卡','手機小額付款','線上轉點']},
+    {action:'off',start:'2026-04-30T02:00',end:'2026-04-30T05:00',note:'v3.1 版本更新',channels:['點數卡','信用卡3D','超商代碼']},
+    {action:'off',start:'2026-04-23T03:00',end:'2026-04-23T04:30',note:'SSL 憑證更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']}
+  ]},
+  {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[
+    {action:'off',start:'2026-05-21T22:00',end:'2026-05-22T02:00',note:'系統升級',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']},
+    {action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']},
+    {action:'off',start:'2026-05-03T01:00',end:'2026-05-03T03:00',note:'例行維護',channels:['點數卡','錢包扣點']},
+    {action:'off',start:'2026-04-26T02:00',end:'2026-04-26T04:00',note:'金流對帳修正',channels:['ATM轉帳','超商代碼']}
+  ]},
+  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[
+    {action:'off',start:'2026-05-19T01:00',end:'2026-05-19T03:00',note:'API 版本升級',channels:['LINE Pay']},
+    {action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay']},
+    {action:'off',start:'2026-05-08T02:00',end:'2026-05-08T04:00',note:'憑證更換',channels:['LINE Pay']},
+    {action:'off',start:'2026-04-28T01:00',end:'2026-04-28T02:30',note:'例行維護',channels:['LINE Pay']}
+  ]},
+  {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[
+    {action:'off',start:'2026-05-10T00:00',end:'2026-05-10T06:00',note:'停機維護（全通道）',channels:['信用卡','ATM','超商代碼','網路ATM']},
+    {action:'off',start:'2026-04-25T02:00',end:'2026-04-25T04:00',note:'系統更新',channels:['信用卡','超商代碼']}
+  ]},
+  {id:'esun',name:'玉山銀行',code:'70424393',status:'off',schedules:[
+    {action:'off',start:'2026-05-06T00:00',end:'2026-05-06T05:00',note:'核心系統升級',channels:['虛擬帳號','WebATM']},
+    {action:'off',start:'2026-04-22T01:00',end:'2026-04-22T03:00',note:'例行維護',channels:['虛擬帳號']}
+  ]},
+  {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[
+    {action:'off',start:'2026-05-09T03:00',end:'2026-05-09T05:00',note:'計費系統維護',channels:['小額付款','電信帳單']}
+  ]},
+  {id:'startest',name:'星運測試商',code:'AB00888',status:'on',schedules:[
+    {action:'off',start:'2026-05-25T02:00',end:'2026-05-25T04:00',note:'測試環境重建',channels:['測試通道A','測試通道B']}
+  ]}
 ];
 
 const methods = [
@@ -267,7 +296,7 @@ function toggleProvider() {
 // === Schedules ===
 function renderSchedules() {
   const now = new Date();
-  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   // Populate filter dropdown
   var filterSel = document.getElementById('schedProviderFilter');
   var currentFilter = filterSel ? filterSel.value : '';
@@ -288,7 +317,7 @@ function renderSchedules() {
   allScheds.forEach(function(item) {
     const endTime = item.sched.end ? new Date(item.sched.end) : null;
     if (endTime && endTime < now) {
-      if (endTime >= yesterday) expiredScheds.push(item);
+      if (endTime >= thirtyDaysAgo) expiredScheds.push(item);
     } else {
       activeScheds.push(item);
     }
