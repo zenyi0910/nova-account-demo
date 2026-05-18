@@ -113,11 +113,12 @@ function render() {
     const isOpen = expandedProvs[prov.id];
 
     // 供應商 header（不再用獨立 header row，改用 rowspan）
+    const provOffTag = prov.status !== 'on' ? ' <span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:4px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:500;margin-left:6px">停用</span>' : '';
     if (!isOpen) {
       // 收合狀態：section header
       html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
       html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_DOWN + '</span>';
-      html += '<span class="prov-name">' + prov.name + '</span></span>';
+      html += '<span class="prov-name">' + prov.name + '</span>' + provOffTag + '</span>';
       html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td></tr>';
       return;
     }
@@ -125,11 +126,12 @@ function render() {
     // 展開狀態：section header + data rows (no repeated column headers)
     html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
     html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_UP + '</span>';
-    html += '<span class="prov-name">' + prov.name + '</span></span></td></tr>';
+    html += '<span class="prov-name">' + prov.name + '</span>' + provOffTag + '</span></td></tr>';
 
     const len = filteredMethods.length;
     filteredMethods.forEach((method, mi) => {
       const bp = method.billingId ? billingPlans[method.billingId] : null;
+      const methodOffTag = method.status !== 'on' ? ' <span style="display:inline-flex;align-items:center;padding:2px 6px;border-radius:4px;background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:500;margin-left:6px">停用</span>' : '';
 
       // 付款通道
       let chHtml = '<div class="ch-list">';
@@ -159,7 +161,7 @@ function render() {
       }
 
       html += '<tr>';
-      html += '<td>' + method.name + '</td>';
+      html += '<td>' + method.name + methodOffTag + '</td>';
       html += '<td>' + chHtml + '</td>';
       html += '<td>' + statusHtml + '</td>';
       html += '<td>' + actHtml + '</td>';
