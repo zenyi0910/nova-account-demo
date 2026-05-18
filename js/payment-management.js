@@ -107,6 +107,7 @@ function init() {
   if (ps) ps.style.display = '';
   renderSectionTabs();
   renderProviders();
+  renderSchedules();
   renderDetail();
 }
 
@@ -264,7 +265,9 @@ function selectProvider(id) {
 function renderDetail() {
   var p = providers.find(function(x){ return x.id === currentProvider; });
   if (!p) return;
-  document.getElementById('detailPanel').style.display = '';
+  var dp = document.getElementById('detailPanel');
+  if (!dp) return;
+  dp.style.display = '';
   document.getElementById('detailName').textContent = p.name + ' (' + p.code + ')';
   var toggle = document.getElementById('detailToggle');
   toggle.className = 'toggle ' + p.status;
