@@ -92,10 +92,13 @@ function renderTable() {
       var prov = providers.find(function(x){ return x.id === m.provider; });
       var provName = prov ? prov.name : m.provider;
       var statusHtml = renderStatusCell(m.status, "toggleMethodStatus('" + m.id + "')");
-      return '<tr><td><span class="avatar-sm">' + m.name.charAt(0) + '</span></td><td>' + m.name + '</td><td>' + provName + '</td>' + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openMethodModal('" + m.id + "')", '編輯') + '</div></td></tr>';
+      var provCol = currentProvider ? '' : '<td>' + provName + '</td>';
+      return '<tr><td><img src="' + m.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover"></td><td>' + m.name + '</td>' + provCol + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openMethodModal('" + m.id + "')", '編輯') + '</div></td></tr>';
     }).join('');
-    if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
-    document.getElementById('tableContainer').innerHTML = '<table class="data-table"><thead><tr><th>Logo</th><th>支付方式</th><th>供應商</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    var colCount = currentProvider ? 4 : 5;
+    if (!rows) rows = '<tr><td colspan="'+colCount+'" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    var provTh = currentProvider ? '' : '<th>供應商</th>';
+    document.getElementById('tableContainer').innerHTML = '<table class="data-table"><thead><tr><th>Logo</th><th>支付方式</th>' + provTh + '<th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
   } else {
     var data = channels.filter(function(c) {
       if (currentProvider && c.provider !== currentProvider) return false;
@@ -111,7 +114,7 @@ function renderTable() {
 
     var rows = pageData.map(function(c) {
       var statusHtml = renderStatusCell(c.status, "toggleChannelStatus('" + c.id + "')");
-      return '<tr><td><span class="avatar-sm">' + c.name.charAt(0) + '</span></td><td>' + c.name + '</td><td>' + c.method + '</td><td style="font-family:monospace;font-size:11px;color:#6B7280">' + c.code + '</td>' + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openChannelModal('" + c.id + "')", '編輯') + '</div></td></tr>';
+      return '<tr><td><img src="' + c.logo + '" style="width:32px;height:32px;border-radius:6px;object-fit:cover"></td><td>' + c.name + '</td><td>' + c.method + '</td><td style="font-family:monospace;font-size:11px;color:#6B7280">' + c.code + '</td>' + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openChannelModal('" + c.id + "')", '編輯') + '</div></td></tr>';
     }).join('');
     if (!rows) rows = '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
     document.getElementById('tableContainer').innerHTML = '<table class="data-table"><thead><tr><th>Logo</th><th>通道名稱</th><th>支付方式</th><th>代碼</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';

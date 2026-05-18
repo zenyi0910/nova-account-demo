@@ -55,6 +55,7 @@ let gameCat = ''; // '', '電動', '街機', '棋牌'
 // === Hall Selector (vertical scrollable list) ===
 function initHallSelector() {
   const container = document.getElementById('hallCards');
+  if (!container) return;
   const listHtml = Object.entries(halls).map(([id, h]) => {
     const gc = games.filter(g => g.hall === id).length;
     const statusCls = h.status === 'on' ? 'on' : 'off';

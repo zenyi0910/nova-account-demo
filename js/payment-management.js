@@ -95,7 +95,7 @@ function changeBillingPageSize(val) {
 function init() {
   // 新增供應商按鈕移到供應商列表行
   var provBtn = document.getElementById('providerAddBtn');
-  if (provBtn) { provBtn.innerHTML = UI.btn.add('新增供應商', 'openProviderModal()'); }
+  if (provBtn) { provBtn.innerHTML = '<button class="btn-outline" onclick="openProviderModal()" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;font-size:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增供應商</button>'; }
   // 顯示 sectionTabs
   var st = document.getElementById('sectionTabs');
   if (st) st.style.display = '';
@@ -231,7 +231,11 @@ function renderProviders() {
     return true;
   });
   var total = filtered.length;
-  document.getElementById('providerPageInfo').innerHTML = '<span>第 1 頁，共 ' + total + ' 筆資料</span><div class="per-page-select">每頁顯示 <select style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px"><option>20</option></select> 筆</div>';
+  document.getElementById('providerPageInfo').innerHTML = '<span>第 1 頁，共 ' + total + ' 筆資料</span><div class="per-page-select">每頁顯示 <select onchange="changeProviderPageSize(this.value)" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px"><option>20</option></select> 筆</div>';
+  // Pagination buttons
+  var paginationHtml = '<div class="pagination" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0"><select style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px"><option>第1頁</option></select><div class="pagination-pages"><button class="page-arrow" disabled>&lt;</button><button class="active">1</button><button class="page-arrow" disabled>&gt;</button></div></div>';
+  var paginationEl = document.getElementById('providerPagination');
+  if (paginationEl) paginationEl.innerHTML = paginationHtml;
   var rows = filtered.map(function(p) {
     var statusHtml = '<td style="width:100px"><div class="switch-cell" onclick="toggleProviderStatus(\'' + p.id + '\')"><button class="toggle ' + p.status + '"></button><span class="status-label ' + p.status + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div></td>';
     return '<tr><td>' + p.name + '</td><td style="font-family:monospace;font-size:12px;color:#6B7280">' + p.code + '</td>' + statusHtml + '<td style="width:70px" class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openProviderModal('" + p.id + "')", '編輯') + '</div></td></tr>';
