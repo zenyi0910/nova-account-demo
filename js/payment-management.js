@@ -233,11 +233,11 @@ function renderProviders() {
   var total = filtered.length;
   document.getElementById('providerPageInfo').innerHTML = '<span>第 1 頁，共 ' + total + ' 筆資料</span><div class="per-page-select">每頁顯示 <select style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px"><option>20</option></select> 筆</div>';
   var rows = filtered.map(function(p) {
-    var statusHtml = '<td><div class="switch-cell" onclick="toggleProviderStatus(\'' + p.id + '\')"><button class="toggle ' + p.status + '"></button><span class="status-label ' + p.status + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div></td>';
-    return '<tr><td>' + p.name + '</td>' + statusHtml + '<td style="font-family:monospace;font-size:12px;color:#6B7280">' + p.code + '</td><td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openProviderModal('" + p.id + "')", '編輯') + '</div></td></tr>';
+    var statusHtml = '<td style="width:100px"><div class="switch-cell" onclick="toggleProviderStatus(\'' + p.id + '\')"><button class="toggle ' + p.status + '"></button><span class="status-label ' + p.status + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div></td>';
+    return '<tr><td>' + p.name + '</td><td style="font-family:monospace;font-size:12px;color:#6B7280">' + p.code + '</td>' + statusHtml + '<td style="width:70px" class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openProviderModal('" + p.id + "')", '編輯') + '</div></td></tr>';
   }).join('');
   if (!rows) rows = '<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
-  grid.innerHTML = '<table class="data-table"><thead><tr><th style="width:auto">名稱</th><th>狀態</th><th>供應商代碼</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  grid.innerHTML = '<table class="data-table"><thead><tr><th>名稱</th><th>供應商代碼</th><th style="width:100px">狀態</th><th style="width:70px">操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
 function filterProviders() { renderProviders(); }

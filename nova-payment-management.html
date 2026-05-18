@@ -211,8 +211,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .dropdown-menu button{display:flex;align-items:center;gap:6px;width:100%;text-align:left;padding:8px 12px;border:none;background:none;cursor:pointer;font-size:13px;color:#DC2626;border-radius:4px;font-family:inherit}
 .dropdown-menu button:hover{background:#FEF2F2}
 .avatar-sm{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;background:#EEF2FF;color:#4338CA;font-size:13px;font-weight:600}
-.data-table th:first-child,.data-table td:first-child{width:56px}
-.data-table th:last-child,.data-table td:last-child{width:90px}
+.data-table th:first-child,.data-table td:first-child{width:auto}
+.data-table th:last-child,.data-table td:last-child{width:70px}
 .vip-checkboxes{display:flex;flex-wrap:wrap;gap:8px}
 .vip-cb{display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer}
 .vip-cb input{width:14px;height:14px}
@@ -293,7 +293,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <!-- Provider List (table) -->
     <div style="display:flex;align-items:center;margin-bottom:8px;margin-top:24px">
-      <span style="font-size:13px;font-weight:600;color:#374151">供應商</span>
       <span style="flex:1"></span>
       <span id="providerAddBtn"></span>
     </div>
@@ -367,6 +366,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <!-- Schedule Modal -->
 <script src="js/components.js?v=11"></script>
 <script src="components/date-picker.js"></script>
-<script src="js/payment-management.js?v=70"></script>
+<script src="js/payment-management.js?v=71"></script>
 </body>
 </html>
