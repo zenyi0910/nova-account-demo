@@ -82,9 +82,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .prov-toggle{display:inline-flex;align-items:center;gap:8px}
 .prov-chevron{display:inline-flex;transition:transform .2s;color:#6B7280}
 .prov-chevron.open{transform:rotate(90deg)}
-.prov-name{font-size:14px}
-.prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:8px}
-.prov-count{font-size:12px;color:#6B7280;font-weight:400}
+.prov-name{font-size:13px;font-weight:600;color:#111827}
+.prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:6px}
+.prov-count{font-size:12px;color:#6B7280;font-weight:400;margin-left:12px}
+.prov-cell{vertical-align:middle;background:#FAFBFF;border-right:1px solid #E5E7EB;cursor:pointer;padding:12px 10px !important;text-align:center}
+.prov-cell:hover{background:#EEF2FF}
+.prov-cell .prov-name{display:block;font-size:13px}
+.prov-cell .prov-code{display:block;margin-left:0;margin-top:2px}
+.prov-cell .prov-chevron{margin-bottom:4px}
 
 /* Status */
 .status-on{color:#059669;font-size:12px;font-weight:500}
@@ -175,7 +180,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="tbl-info" id="tblInfo"></span>
       </div>
       <table class="flat-table">
-        <thead><tr><th style="width:20px"></th><th>供應商</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
+        <thead><tr><th style="width:20px"></th><th style="width:100px">供應商</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>

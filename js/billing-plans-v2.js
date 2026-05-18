@@ -104,15 +104,16 @@ function render() {
     const isOpen = expandedProvs[prov.id];
     const chevron = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
 
-    // 供應商 header
-    html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
-    html += '<td class="col-lines"></td>';
-    html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron' + (isOpen ? ' open' : '') + '">' + chevron + '</span>';
-    html += '<span class="prov-name">' + prov.name + '</span><span class="prov-code">' + prov.code + '</span></span>';
-    html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td>';
-    html += '<td></td></tr>';
-
-    if (!isOpen) return;
+    // 供應商 header（不再用獨立 header row，改用 rowspan）
+    if (!isOpen) {
+      // 收合狀態：只顯示一列 summary
+      html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
+      html += '<td class="col-lines"></td>';
+      html += '<td colspan="5"><span class="prov-toggle"><span class="prov-chevron">' + chevron + '</span>';
+      html += '<span class="prov-name">' + prov.name + '</span><span class="prov-code">' + prov.code + '</span></span>';
+      html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td></tr>';
+      return;
+    }
 
     const len = filteredMethods.length;
     filteredMethods.forEach((method, mi) => {
@@ -148,7 +149,15 @@ function render() {
 
       html += '<tr class="' + posClass + '">';
       html += '<td class="col-lines"><div class="line-prov"></div><div class="line-method"></div></td>';
-      html += '<td style="color:#6B7280">' + prov.name + '</td>';
+
+      // 供應商欄：第一列用 rowspan，其餘不輸出此 td
+      if (isFirst) {
+        html += '<td class="prov-cell" rowspan="' + len + '" onclick="toggleProv(\'' + prov.id + '\')">';
+        html += '<span class="prov-chevron open">' + chevron + '</span>';
+        html += '<span class="prov-name">' + prov.name + '</span>';
+        html += '<span class="prov-code">' + prov.code + '</span></td>';
+      }
+
       html += '<td>' + method.name + '</td>';
       html += '<td>' + chHtml + '</td>';
       html += '<td>' + statusHtml + '</td>';
