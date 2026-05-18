@@ -43,7 +43,7 @@ let pageSize = 20;
 function init() {
   var sel = document.getElementById('providerSelect');
   sel.innerHTML = '<option value="">全部供應商</option>' + providers.map(function(p) {
-    return '<option value="' + p.id + '">' + p.name + ' (' + p.code + ')' + (p.status === 'off' ? ' [停用]' : '') + '</option>';
+    return '<option value="' + p.id + '">' + p.name + (p.status === 'off' ? ' [停用]' : '') + '</option>';
   }).join('');
   renderTable();
 }
