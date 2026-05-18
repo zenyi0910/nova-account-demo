@@ -94,7 +94,7 @@ function renderTable() {
       '<td>' + provName + '</td>' +
       '<td><span class="code-text">-</span></td>' +
       '<td><div class="switch-cell" onclick="toggleStatus(\'method\',\'' + m.id + '\')"><button class="toggle ' + m.status + '"></button><span class="status-label ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
-      '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯 ' + m.name + '\')" title="編輯">' + editIcon + '</button></td>' +
+      '<td class="action-cell"><button class="btn-icon-sm" onclick="editMethod(\'' + m.id + '\')" title="編輯">' + editIcon + '</button></td>' +
       '</tr>';
 
     if (isOpen) {
@@ -108,10 +108,10 @@ function renderTable() {
           '<td>' + provName + '</td>' +
           '<td><span class="code-text">' + c.code + '</span></td>' +
           '<td><div class="switch-cell" onclick="toggleStatus(\'channel\',\'' + c.id + '\')"><button class="toggle ' + c.status + '"></button><span class="status-label ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
-          '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯通道 ' + c.name + '\')" title="編輯">' + editIcon + '</button></td>' +
+          '<td class="action-cell"><button class="btn-icon-sm" onclick="editChannel(\'' + c.id + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row"><td colspan="8"><span class="add-child-btn" onclick="alert(\'新增通道到 ' + m.name + '\')" style="margin-left:30px">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row"><td colspan="8"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')" style="margin-left:30px">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
@@ -135,6 +135,60 @@ function toggleStatus(type, id) {
     if (c) c.status = c.status === 'on' ? 'off' : 'on';
   }
   renderTable();
+}
+
+// === Modal ===
+function openModal(title, fields) {
+  var modal = document.getElementById('editModal');
+  document.getElementById('modalTitle').textContent = title;
+  var body = document.getElementById('modalBody');
+  body.innerHTML = fields.map(function(f) {
+    if (f.type === 'select') {
+      var opts = f.options.map(function(o) { return '<option value="' + o.value + '"' + (o.value === f.value ? ' selected' : '') + '>' + o.label + '</option>'; }).join('');
+      return '<div class="form-group"><label>' + f.label + '</label><select>' + opts + '</select></div>';
+    }
+    return '<div class="form-group"><label>' + f.label + '</label><input type="text" value="' + (f.value || '') + '" placeholder="' + (f.placeholder || '') + '"></div>';
+  }).join('');
+  modal.classList.add('show');
+}
+function closeModal() { document.getElementById('editModal').classList.remove('show'); }
+
+function openAddMethod() {
+  openModal('新增支付方式', [
+    {label:'供應商',type:'select',value:'',options:[{value:'',label:'請選擇'}].concat(providers.map(function(p){return {value:p.id,label:p.name};}))},
+    {label:'支付方式名稱',type:'text',placeholder:'輸入名稱'},
+    {label:'狀態',type:'select',value:'on',options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+  ]);
+}
+
+function editMethod(id) {
+  var m = methods.find(function(x) { return x.id === id; });
+  if (!m) return;
+  openModal('編輯支付方式 — ' + m.name, [
+    {label:'供應商',type:'select',value:m.provider,options:providers.map(function(p){return {value:p.id,label:p.name};})},
+    {label:'支付方式名稱',type:'text',value:m.name},
+    {label:'狀態',type:'select',value:m.status,options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+  ]);
+}
+
+function addChannel(methodId) {
+  var m = methods.find(function(x) { return x.id === methodId; });
+  expanded[methodId] = true;
+  openModal('新增付款通道 — ' + (m ? m.name : ''), [
+    {label:'通道名稱',type:'text',placeholder:'輸入通道名稱'},
+    {label:'通道代碼',type:'text',placeholder:'輸入代碼'},
+    {label:'狀態',type:'select',value:'on',options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+  ]);
+}
+
+function editChannel(id) {
+  var c = channels.find(function(x) { return x.id === id; });
+  if (!c) return;
+  openModal('編輯付款通道 — ' + c.name, [
+    {label:'通道名稱',type:'text',value:c.name},
+    {label:'通道代碼',type:'text',value:c.code},
+    {label:'狀態',type:'select',value:c.status,options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+  ]);
 }
 
 document.addEventListener('DOMContentLoaded', init);
