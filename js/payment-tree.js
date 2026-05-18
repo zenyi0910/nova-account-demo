@@ -45,26 +45,28 @@ function init() {
 }
 
 function resetFilter() {
-  document.getElementById('filterName').value = '';
+  document.getElementById('filterMethod').value = '';
+  document.getElementById('filterChannel').value = '';
   document.getElementById('filterProvider').value = '';
   document.getElementById('filterStatus').value = '';
   renderTable();
 }
 
 function renderTable() {
-  var q = (document.getElementById('filterName').value || '').toLowerCase();
+  var methodQ = (document.getElementById('filterMethod').value || '').toLowerCase();
+  var channelQ = (document.getElementById('filterChannel').value || '').toLowerCase();
   var prov = document.getElementById('filterProvider').value;
   var status = document.getElementById('filterStatus').value;
 
   var filtered = methods.filter(function(m) {
     if (prov && m.provider !== prov) return false;
     if (status && m.status !== status) return false;
-    if (q) {
-      var mMatch = m.name.toLowerCase().indexOf(q) >= 0;
-      var cMatch = channels.some(function(c) {
-        return c.method === m.id && (c.name.toLowerCase().indexOf(q) >= 0 || c.code.toLowerCase().indexOf(q) >= 0);
+    if (methodQ && m.name.toLowerCase().indexOf(methodQ) < 0) return false;
+    if (channelQ) {
+      var hasMatch = channels.some(function(c) {
+        return c.method === m.id && c.name.toLowerCase().indexOf(channelQ) >= 0;
       });
-      if (!mMatch && !cMatch) return false;
+      if (!hasMatch) return false;
     }
     return true;
   });
@@ -88,7 +90,7 @@ function renderTable() {
       '<td><div class="name-cell"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button><img src="' + m.logo + '"><span>' + m.name + '<span class="badge-count">' + mChannels.length + '</span></span></div></td>' +
       '<td>' + provName + '</td>' +
       '<td><span class="code-text">—</span></td>' +
-      '<td>' + statusBadge + '</td>' +
+      '<td><div class="switch-cell" onclick="toggleStatus(\'method\',\'' + m.id + '\')"><button class="toggle ' + m.status + '"></button><span class="status-label ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
       '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯 ' + m.name + '\')" title="編輯">' + editIcon + '</button></td>' +
       '</tr>';
 
@@ -99,7 +101,7 @@ function renderTable() {
           '<td><div class="name-cell" style="padding-left:28px"><span class="child-indent"></span><img src="' + c.logo + '"><span>' + c.name + '</span></div></td>' +
           '<td></td>' +
           '<td><span class="code-text">' + c.code + '</span></td>' +
-          '<td>' + cBadge + '</td>' +
+          '<td><div class="switch-cell" onclick="toggleStatus(\'channel\',\'' + c.id + '\')"><button class="toggle ' + c.status + '"></button><span class="status-label ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
           '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯通道 ' + c.name + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
