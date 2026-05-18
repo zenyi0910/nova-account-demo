@@ -147,7 +147,7 @@ function renderTable() {
           '<td class="action-cell"><button class="btn-icon-sm" onclick="editChannel(\'' + c.id + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row"><td colspan="8"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')" style="margin-left:30px">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row"><td colspan="8" style="text-align:center"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
