@@ -87,7 +87,9 @@ function renderTable() {
     var statusBadge = '<span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span>';
 
     rows += '<tr class="parent-row">' +
-      '<td><div class="name-cell"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button><img src="' + m.logo + '"><span>' + m.name + '<span class="badge-count">' + mChannels.length + '</span></span></div></td>' +
+      '<td><img src="' + m.logo + '"></td>' +
+      '<td><div class="name-cell"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button><span>' + m.name + '<span class="badge-count">' + mChannels.length + '</span></span></div></td>' +
+      '<td></td>' +
       '<td>' + provName + '</td>' +
       '<td><span class="code-text">—</span></td>' +
       '<td><div class="switch-cell" onclick="toggleStatus(\'method\',\'' + m.id + '\')"><button class="toggle ' + m.status + '"></button><span class="status-label ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
@@ -98,21 +100,23 @@ function renderTable() {
       mChannels.forEach(function(c) {
         var cBadge = '<span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span>';
         rows += '<tr class="child-row">' +
-          '<td><div class="name-cell" style="padding-left:28px"><span class="child-indent"></span><img src="' + c.logo + '"><span>' + c.name + '</span></div></td>' +
+          '<td><img src="' + c.logo + '"></td>' +
           '<td></td>' +
+          '<td><div class="name-cell"><span>' + c.name + '</span></div></td>' +
+          '<td>' + provName + '</td>' +
           '<td><span class="code-text">' + c.code + '</span></td>' +
           '<td><div class="switch-cell" onclick="toggleStatus(\'channel\',\'' + c.id + '\')"><button class="toggle ' + c.status + '"></button><span class="status-label ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
           '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯通道 ' + c.name + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row"><td colspan="5"><span class="add-child-btn" onclick="alert(\'新增通道到 ' + m.name + '\')" style="margin-left:56px">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row"><td colspan="7"><span class="add-child-btn" onclick="alert(\'新增通道到 ' + m.name + '\')" style="margin-left:12px">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
-  if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:32px">無符合條件的資料</td></tr>';
+  if (!rows) rows = '<tr><td colspan="7" style="text-align:center;color:#9CA3AF;padding:32px">無符合條件的資料</td></tr>';
 
   document.getElementById('tableWrap').innerHTML =
-    '<table class="tree-table"><thead><tr><th>名稱</th><th>供應商</th><th>代碼</th><th style="width:80px">狀態</th><th style="width:60px">操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    '<table class="tree-table"><thead><tr><th style="width:60px">Logo</th><th>支付方式</th><th>付款通道</th><th>供應商</th><th>代碼</th><th style="width:100px">狀態</th><th style="width:60px">操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
 function toggle(id) {

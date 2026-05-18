@@ -51,17 +51,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-outline{background:#fff;color:#6B7280;border:1px solid #D1D5DB;padding:8px 16px;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .btn-outline:hover{background:#F9FAFB}
 .toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
-.toggle.on{background:oklch(0.777 0.152 181.912)}
+.toggle.on{background:#4DD0C2}
 .toggle.off{background:#D1D5DB}
 .toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .toggle.on::after{left:18px}
 .toggle.off::after{left:2px}
 .status-label{font-size:12px;font-weight:500}
-.status-label.on{color:#166534}
+.status-label.on{color:#4DD0C2}
 .status-label.off{color:#6B7280}
 .tree-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
 .tree-table th{background:#F9FAFB;padding:10px 12px;text-align:left;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;white-space:nowrap}
 .tree-table td{padding:10px 12px;border-bottom:1px solid #F3F4F6;color:#374151;vertical-align:middle}
+.tree-table td img{width:28px;height:28px;border-radius:5px;object-fit:cover}
 .tree-table tr:last-child td{border-bottom:none}
 .tree-table tr:hover td{background:#FAFBFC}
 .tree-table tr.parent-row{background:#fff}
@@ -112,7 +113,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
       <h4>支付管理（樹狀表格）</h4>
       <span style="flex:1"></span>
-      <button class="btn-outline" onclick="alert('新增支付方式 Demo')" style="background:#393939;color:#fff;border-color:#393939"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增支付方式</button>
+      <button class="btn-outline" onclick="alert('新增支付方式 Demo')" style="background:#4DD0C2;color:#fff;border-color:#4DD0C2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增支付方式</button>
     </div>
 
     <div class="tips-box">
