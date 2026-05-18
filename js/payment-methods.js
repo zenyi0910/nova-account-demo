@@ -34,7 +34,7 @@ const channels = [
   {id:'c10',provider:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/80x80/F3F4F6/374151?text=測試B',status:'on'}
 ];
 
-let currentProvider = 'mycard';
+let currentProvider = '';  // empty = all
 let currentTab = 'methods';
 let currentPage = 1;
 let pageSize = 20;
@@ -42,8 +42,8 @@ let pageSize = 20;
 // === Init ===
 function init() {
   var sel = document.getElementById('providerSelect');
-  sel.innerHTML = providers.map(function(p) {
-    return '<option value="' + p.id + '"' + (p.id === currentProvider ? ' selected' : '') + '>' + p.name + ' (' + p.code + ')' + (p.status === 'off' ? ' [停用]' : '') + '</option>';
+  sel.innerHTML = '<option value="">全部供應商</option>' + providers.map(function(p) {
+    return '<option value="' + p.id + '">' + p.name + ' (' + p.code + ')' + (p.status === 'off' ? ' [停用]' : '') + '</option>';
   }).join('');
   renderTable();
 }
@@ -72,14 +72,12 @@ function switchTab(tab, el) {
 
 // === Table ===
 function renderTable() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
-  if (!p) return;
   var nameFilter = (document.getElementById('filterName') || {}).value || '';
   var statusFilter = (document.getElementById('filterStatus') || {}).value || '';
 
   if (currentTab === 'methods') {
     var data = methods.filter(function(m) {
-      if (m.provider !== currentProvider) return false;
+      if (currentProvider && m.provider !== currentProvider) return false;
       if (nameFilter && m.name.indexOf(nameFilter) < 0) return false;
       if (statusFilter && m.status !== statusFilter) return false;
       return true;
@@ -91,14 +89,16 @@ function renderTable() {
     var pageData = data.slice(start, start + pageSize);
 
     var rows = pageData.map(function(m) {
+      var prov = providers.find(function(x){ return x.id === m.provider; });
+      var provName = prov ? prov.name : m.provider;
       var statusHtml = renderStatusCell(m.status, "toggleMethodStatus('" + m.id + "')");
-      return '<tr><td><span class="avatar-sm">' + m.name.charAt(0) + '</span></td><td>' + m.name + '</td><td>' + p.name + '</td>' + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openMethodModal('" + m.id + "')", '編輯') + '</div></td></tr>';
+      return '<tr><td><span class="avatar-sm">' + m.name.charAt(0) + '</span></td><td>' + m.name + '</td><td>' + provName + '</td>' + statusHtml + '<td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openMethodModal('" + m.id + "')", '編輯') + '</div></td></tr>';
     }).join('');
     if (!rows) rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
     document.getElementById('tableContainer').innerHTML = '<table class="data-table"><thead><tr><th>Logo</th><th>支付方式</th><th>供應商</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
   } else {
     var data = channels.filter(function(c) {
-      if (c.provider !== currentProvider) return false;
+      if (currentProvider && c.provider !== currentProvider) return false;
       if (nameFilter && c.name.indexOf(nameFilter) < 0) return false;
       if (statusFilter && c.status !== statusFilter) return false;
       return true;
