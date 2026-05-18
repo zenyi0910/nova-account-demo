@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 後台 - 支付管理（樹狀表格）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#fff;border-right:1px solid oklch(0.922 0 0);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden}
+.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden}
+.sidebar-group{padding:4px 8px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:#374151;font-size:14px;transition:background .15s;text-decoration:none;min-height:38px}
+.sidebar-item:hover{background:#F3F4F6}
+.sidebar-item.active{background:#EEF2FF;font-weight:600;color:#4338CA}
+.sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
+.sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
+.sidebar-chevron.open{transform:rotate(90deg)}
+.sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
+.sidebar-sub.open{max-height:400px;opacity:1}
+.sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
+.sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.logo-text{display:flex;flex-direction:column}
+.logo-name{font-size:15px;font-weight:700;color:#111827}
+.logo-sub{font-size:10px;color:#9CA3AF;font-weight:500}
+.sidebar-group-label{font-size:11px;font-weight:600;color:#9CA3AF;padding:12px 12px 4px;text-transform:uppercase;letter-spacing:.5px}
+.sidebar-user{padding:12px 16px;border-top:1px solid #E5E7EB;display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;cursor:pointer}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:#E5E7EB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6B7280}
+.user-info .user-role{font-size:11px;color:#6B7280}
+.user-info .user-name{font-size:12px;font-weight:500;color:#374151}
+.user-chevron{width:14px;height:14px;color:#9CA3AF;margin-left:auto;flex-shrink:0;transition:transform .2s}
+.sidebar-user.open .user-chevron{transform:rotate(0deg);color:#4338CA}
+.user-popover{display:none;position:fixed;bottom:16px;left:258px;width:220px;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:12px;z-index:200;opacity:0;transform:translateX(-4px);transition:opacity .2s ease,transform .2s ease}
+.sidebar-user.open .user-popover{display:block;opacity:1;transform:translateX(0)}
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid oklch(0.922 0 0);padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7280}
+.breadcrumb a{color:#6B7280;text-decoration:none}
+.breadcrumb .sep{color:#D1D5DB}
+.breadcrumb .current{color:#374151;font-weight:500}
+.content{padding:24px;flex:1;max-width:1400px}
+.page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.page-header h4{font-size:18px;font-weight:600;color:#111827}
+.tips-box{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(37,99,235,0.04);border:1px solid rgba(37,99,235,0.15);border-radius:8px;font-size:13px;color:#1E40AF;margin-bottom:16px}
+.filter-bar{display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px;margin-bottom:16px;flex-wrap:wrap}
+.filter-bar select,.filter-bar input{padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff}
+.btn-search{background:#393939;color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:500}
+.btn-reset{background:#fff;color:#374151;border:1px solid #D1D5DB;padding:7px 16px;border-radius:6px;font-size:13px;cursor:pointer}
+.btn-outline{background:#fff;color:#6B7280;border:1px solid #D1D5DB;padding:8px 16px;border-radius:6px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.btn-outline:hover{background:#F9FAFB}
+.toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
+.toggle.on{background:oklch(0.777 0.152 181.912)}
+.toggle.off{background:#D1D5DB}
+.toggle::after{content:'';position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle.on::after{left:18px}
+.toggle.off::after{left:2px}
+.status-label{font-size:12px;font-weight:500}
+.status-label.on{color:#166534}
+.status-label.off{color:#6B7280}
+.tree-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
+.tree-table th{background:#F9FAFB;padding:10px 12px;text-align:left;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;white-space:nowrap}
+.tree-table td{padding:10px 12px;border-bottom:1px solid #F3F4F6;color:#374151;vertical-align:middle}
+.tree-table tr:last-child td{border-bottom:none}
+.tree-table tr:hover td{background:#FAFBFC}
+.tree-table tr.parent-row{background:#fff}
+.tree-table tr.parent-row td{font-weight:500;border-bottom:1px solid #E5E7EB}
+.tree-table tr.parent-row:hover td{background:#F9FAFB}
+.tree-table tr.child-row td{background:#FAFBFC;padding-left:12px}
+.tree-table tr.child-row:hover td{background:#F3F4F6}
+.tree-table tr.child-row td:first-child{padding-left:44px}
+.expand-btn{width:20px;height:20px;border:none;background:none;cursor:pointer;color:#9CA3AF;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;transition:all .15s;margin-right:8px;flex-shrink:0}
+.expand-btn:hover{background:#E5E7EB;color:#374151}
+.expand-btn.open{transform:rotate(90deg)}
+.name-cell{display:flex;align-items:center;gap:8px}
+.name-cell img{width:28px;height:28px;border-radius:5px;object-fit:cover}
+.switch-cell{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.action-cell{white-space:nowrap}
+.btn-icon-sm{width:26px;height:26px;border-radius:4px;border:none;background:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#64748b}
+.btn-icon-sm:hover{background:#F1F5F9}
+.btn-icon-sm.delete{color:#DC2626}
+.btn-icon-sm.delete:hover{background:#FEF2F2}
+.child-indent{display:inline-block;width:20px}
+.badge-count{font-size:11px;color:#6B7280;background:#F3F4F6;padding:1px 6px;border-radius:4px;margin-left:6px}
+.code-text{font-family:monospace;font-size:11px;color:#9CA3AF}
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:13px;color:#6B7280}
+.pagination-pages{display:flex;gap:4px}
+.pagination-pages button{min-width:28px;height:28px;border:1px solid oklch(0.922 0 0);border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#374151}
+.pagination-pages button.active{background:#1F2937;color:#fff;border-color:#1F2937}
+.pagination-pages button:disabled{opacity:0.4;cursor:not-allowed}
+.add-child-btn{font-size:11px;color:#6B7280;cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 6px;border-radius:4px}
+.add-child-btn:hover{background:#EEF2FF;color:#4338CA}
+</style>
+</head>
+<body>
+<nav class="sidebar" id="sidebar"></nav>
+<script src="components/sidebar.js?v=5"></script>
+
+<div class="main">
+  <div class="topbar">
+    <nav class="breadcrumb">
+      <a href="#">首頁</a><span class="sep">/</span>
+      <span class="current">支付管理（樹狀表格）</span>
+    </nav>
+  </div>
+  <div class="content">
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      <h4>支付管理（樹狀表格）</h4>
+      <span style="flex:1"></span>
+      <button class="btn-outline" onclick="alert('新增支付方式 Demo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增支付方式</button>
+    </div>
+
+    <div class="tips-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M12 2v5"/><path d="M14.829 15.998a3 3 0 1 1-5.658 0"/><path d="M20.92 14.606A1 1 0 0 1 20 16H4a1 1 0 0 1-.92-1.394l3-7A1 1 0 0 1 7 7h10a1 1 0 0 1 .92.606z"/></svg>
+      <div style="flex:1"><span style="font-weight:600">Tips</span> 點擊箭頭展開支付方式，查看底下的付款通道。</div>
+      <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;cursor:pointer;color:#1E40AF;padding:4px;font-size:16px">&times;</button>
+    </div>
+
+    <div class="filter-bar">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">搜尋</span>
+        <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="filterName" placeholder="名稱或代碼" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px" oninput="renderTable()">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">供應商</span>
+        <select id="filterProvider" onchange="renderTable()" style="min-width:130px"></select>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
+        <select id="filterStatus" onchange="renderTable()" style="min-width:100px">
+          <option value="">全部</option>
+          <option value="on">啟用</option>
+          <option value="off">停用</option>
+        </select>
+      </div>
+      <span style="flex:1"></span>
+      <button class="btn-reset" onclick="resetFilter()">重置</button>
+    </div>
+
+    <div id="tableWrap"></div>
+
+    <div class="pagination">
+      <span id="pageInfo"></span>
+      <div class="pagination-pages" id="pageButtons"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/components.js?v=11"></script>
+<script src="js/payment-tree.js?v=1"></script>
+</body>
+</html>
