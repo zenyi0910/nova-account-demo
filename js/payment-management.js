@@ -330,8 +330,9 @@ function renderSchedules() {
   function fmtDT(dt) {
     return new Date(dt).toLocaleString('zh-TW', {year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
   }
-  function renderItems(items, showDelete) {
+  function renderItems(items, showDelete, prefix) {
     if (showDelete === undefined) showDelete = true;
+    if (!prefix) prefix = '';
     return items.map(function(item) {
       const s = item.sched;
       const timeDisplay = fmtDT(s.start) + (s.end ? ' ~ ' + fmtDT(s.end) : ' (手動恢復)');
@@ -341,7 +342,7 @@ function renderSchedules() {
         (s.channels && s.channels.length ? (function(){
           var first = s.channels[0];
           var rest = s.channels.length - 1;
-          var uid = 'ch_' + item.providerId + '_' + item.idx;
+          var uid = prefix + 'ch_' + item.providerId + '_' + item.idx;
           var badge = '<span class="ch-badge" data-uid="'+uid+'" style="background:#F3F4F6;color:#374151;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
           if (rest > 0) {
             badge += '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;background:#9CA3AF;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
@@ -352,7 +353,7 @@ function renderSchedules() {
           }
           return badge;
         })() : '') +
-        '<span class="ch-after" data-uid="ch_' + item.providerId + '_' + item.idx + '">' +
+        '<span class="ch-after" data-uid="' + prefix + 'ch_' + item.providerId + '_' + item.idx + '">' +
         '<span class="time">' + timeDisplay + '</span>' +
         (s.note ? '<span class="note">' + s.note + '</span>' : '') +
         '</span>' +
@@ -368,23 +369,23 @@ function renderSchedules() {
     list.innerHTML = renderItems(activeScheds);
     return;
   }
-  collapsed += renderItems(activeScheds.slice(0, 1));
+  collapsed += renderItems(activeScheds.slice(0, 1), true, 'c_');
   if (activeScheds.length > 1) {
     collapsed += '<div style="position:relative;max-height:36px;overflow:hidden">' +
       '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,0.8) 50%,rgba(255,255,255,1));z-index:1;display:flex;align-items:center;justify-content:center">' +
       '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>' +
-      renderItems(activeScheds.slice(1, 2)) + '</div>';
+      renderItems(activeScheds.slice(1, 2), true, 'c_') + '</div>';
   } else if (expiredScheds.length > 0) {
     collapsed += '<div style="text-align:center;margin-top:6px">' +
       '<span onclick="expandSchedList()" style="cursor:pointer;font-size:12px;color:#9CA3AF;display:inline-flex;align-items:center;gap:4px;user-select:none">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>';
   }
-  expanded += renderItems(activeScheds);
+  expanded += renderItems(activeScheds, true, 'e_');
   if (expiredScheds.length > 0) {
     expanded += '<div style="margin-top:12px;text-align:center">' +
       '<div id="expiredSchedToggle" onclick="toggleExpiredSched()" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#9CA3AF;user-select:none">' +
       '<span>昨日已結束</span><svg id="expiredArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>' +
       '</div>' +
-      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds, false) + '</div>';
+      '<div id="expiredSchedList" style="display:none;margin-top:8px;opacity:0.7">' + renderItems(expiredScheds, false, 'x_') + '</div>';
   }
   list.innerHTML = '<div id="schedCollapsed">' + collapsed + '</div>' +
     '<div id="schedExpanded" style="display:none">' + expanded + '</div>';
