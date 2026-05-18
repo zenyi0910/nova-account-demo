@@ -90,9 +90,9 @@ function renderTable() {
       '<td style="width:30px;text-align:center"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button></td>' +
       '<td style="width:44px"><img src="' + m.logo + '"></td>' +
       '<td><span>' + m.name + '<span class="badge-count">' + mChannels.length + '</span></span></td>' +
-      '<td></td>' +
+      '<td>-</td>' +
       '<td>' + provName + '</td>' +
-      '<td><span class="code-text">—</span></td>' +
+      '<td><span class="code-text">-</span></td>' +
       '<td><div class="switch-cell" onclick="toggleStatus(\'method\',\'' + m.id + '\')"><button class="toggle ' + m.status + '"></button><span class="status-label ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></div></td>' +
       '<td class="action-cell"><button class="btn-icon-sm" onclick="alert(\'編輯 ' + m.name + '\')" title="編輯">' + editIcon + '</button></td>' +
       '</tr>';
@@ -103,7 +103,7 @@ function renderTable() {
         rows += '<tr class="child-row">' +
           '<td></td>' +
           '<td style="width:44px"><img src="' + c.logo + '"></td>' +
-          '<td></td>' +
+          '<td>-</td>' +
           '<td>' + c.name + '</td>' +
           '<td>' + provName + '</td>' +
           '<td><span class="code-text">' + c.code + '</span></td>' +
