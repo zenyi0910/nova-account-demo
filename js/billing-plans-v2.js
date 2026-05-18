@@ -70,13 +70,6 @@ const treeData = [
   }
 ];
 
-// === Icons ===
-const ICON = {
-  chevron: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>',
-  view: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
-  edit: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'
-};
-
 // === State ===
 const expandedProvs = {};
 
@@ -88,7 +81,7 @@ function initProviderFilter() {
 function applyFilter() { render(); }
 function resetFilter() { document.getElementById('providerFilter').value='all'; document.getElementById('billingFilter').value='all'; render(); }
 
-// === Render flat table with left-side indicators ===
+// === Render ===
 function render() {
   const provFilter = document.getElementById('providerFilter').value;
   const statusFilter = document.getElementById('billingFilter').value;
@@ -96,13 +89,9 @@ function render() {
   let html = '';
   let totalRows = 0;
 
-  // 供應商顏色
-  const provColors = ['#6366F1','#3B82F6','#10B981','#F59E0B','#EF4444'];
-
-  treeData.forEach((prov, pi) => {
+  treeData.forEach(prov => {
     if (provFilter !== 'all' && prov.id !== provFilter) return;
 
-    // 篩選：檢查是否有符合狀態的金額表
     let filteredMethods = prov.methods;
     if (statusFilter !== 'all') {
       filteredMethods = prov.methods.filter(m => {
@@ -112,25 +101,27 @@ function render() {
       if (filteredMethods.length === 0) return;
     }
 
-    const color = provColors[pi % provColors.length];
     const isOpen = expandedProvs[prov.id];
+    const chevron = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
 
-    // 供應商 header row
+    // 供應商 header
     html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
-    html += '<td class="col-indicator"><div class="indicator-bar prov" style="background:' + color + '"></div></td>';
-    html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron' + (isOpen ? ' open' : '') + '">' + ICON.chevron + '</span>';
+    html += '<td class="col-lines"></td>';
+    html += '<td colspan="3"><span class="prov-toggle"><span class="prov-chevron' + (isOpen ? ' open' : '') + '">' + chevron + '</span>';
     html += '<span class="prov-name">' + prov.name + '</span><span class="prov-code">' + prov.code + '</span></span>';
-    html += '<span class="prov-count" style="margin-left:12px">' + filteredMethods.length + ' 種支付方式</span></td>';
+    html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td>';
     html += '<td></td></tr>';
 
     if (!isOpen) return;
 
-    // 每個支付方式 = 一列（扁平，對齊系統）
+    const len = filteredMethods.length;
     filteredMethods.forEach((method, mi) => {
       const bp = method.billingId ? billingPlans[method.billingId] : null;
-      const isLast = mi === filteredMethods.length - 1;
+      const isFirst = mi === 0;
+      const isLast = mi === len - 1;
+      const posClass = len === 1 ? 'row-only' : (isFirst ? 'row-first' : (isLast ? 'row-last' : ''));
 
-      // 付款通道 badges
+      // 付款通道
       let chHtml = '<div class="ch-list">';
       method.channels.forEach(ch => {
         const cls = ch.status === 'on' ? 'ch-badge' : 'ch-badge off';
@@ -139,28 +130,24 @@ function render() {
       });
       chHtml += '</div>';
 
-      // 狀態 toggle
+      // 狀態（用共用元件 UI.toggle）
       let statusHtml = '';
       if (bp) {
-        const toggleCls = bp.status === 'on' ? 'toggle on' : 'toggle';
-        const label = bp.status === 'on' ? '<span class="status-on">啟用</span>' : '<span class="status-off">停用</span>';
-        statusHtml = '<span class="' + toggleCls + '" onclick="event.stopPropagation();toggleStatus(\'' + bp.id + '\')"><span class="toggle-track"><span class="toggle-thumb"></span></span></span> ' + label;
+        statusHtml = UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')");
       } else {
         statusHtml = '<span style="color:#9CA3AF;font-size:12px">未設定</span>';
       }
 
-      // 操作
+      // 操作（用共用元件 UI.btn.icon）
       let actHtml = '';
       if (bp) {
-        actHtml = '<button class="action-btn" onclick="event.stopPropagation();openDetail(\'' + bp.id + '\')" title="檢視">' + ICON.view + '</button>';
-        actHtml += '<button class="action-btn" onclick="event.stopPropagation();openEdit(\'' + bp.id + '\')" title="編輯">' + ICON.edit + '</button>';
+        actHtml = UI.btn.icon('view', "event.stopPropagation();openDetail('" + bp.id + "')", '檢視');
+        actHtml += UI.btn.icon('edit', "event.stopPropagation();openEdit('" + bp.id + "')", '編輯');
       }
 
-      html += '<tr>';
-      // 左側指示線：粗線=供應商色，細線=同支付方式
-      html += '<td class="col-indicator"><div class="indicator-bar prov" style="background:' + color + ';opacity:0.3"></div><div class="indicator-line" style="background:' + color + '"></div></td>';
+      html += '<tr class="' + posClass + '">';
+      html += '<td class="col-lines"><div class="line-prov"></div><div class="line-method"></div></td>';
       html += '<td>' + method.name + '</td>';
-      html += '<td style="color:#6B7280">' + prov.name + '</td>';
       html += '<td>' + chHtml + '</td>';
       html += '<td>' + statusHtml + '</td>';
       html += '<td>' + actHtml + '</td>';
@@ -189,7 +176,7 @@ function openDetail(bpId) {
   treeData.forEach(p => p.methods.forEach(m => {
     if (m.billingId === bpId) { provName=p.name; methodName=m.name; m.channels.forEach(ch => chNames.push(ch.name)); }
   }));
-  const statusHtml = bp.status === 'on' ? '<span class="status-on">✓ 啟用</span>' : '<span class="status-off">✗ 停用</span>';
+  const statusHtml = bp.status === 'on' ? UI.badge('啟用', 'on') : UI.badge('停用', 'off');
   let html = '<div class="bp-info-card"><h5>基本資訊</h5>';
   html += '<div class="bp-info-row"><span class="bp-label">金額表名稱</span><span>' + bp.name + '</span></div>';
   html += '<div class="bp-info-row"><span class="bp-label">供應商</span><span>' + provName + '</span></div>';
@@ -198,10 +185,14 @@ function openDetail(bpId) {
   html += '<div class="bp-info-row"><span class="bp-label">狀態</span>' + statusHtml + '</div></div>';
   const rows = bp.amounts.map((a,i) => '<tr><td>'+(i+1)+'</td><td>'+a.amount.toLocaleString()+'</td><td>'+a.base.toLocaleString()+'</td><td>'+a.rate+'%</td><td>'+a.bonus.toLocaleString()+'</td><td style="font-weight:600">'+a.total.toLocaleString()+'</td></tr>').join('');
   html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 '+bp.amounts.length+' 筆</span></h5>';
-  html += '<table class="data-table"><thead><tr><th>序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比%</th><th>贈點</th><th>實際點數</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  html += UI.table.create(
+    [{label:'序'},{label:'金額（台幣）'},{label:'基本點數'},{label:'贈比%'},{label:'贈點'},{label:'實際點數'}],
+    bp.amounts.map((a,i) => [{cells:[(i+1), a.amount.toLocaleString(), a.base.toLocaleString(), a.rate+'%', a.bonus.toLocaleString(), '<b>'+a.total.toLocaleString()+'</b>']}][0])
+  );
+  html += '</div>';
   document.getElementById('detailTitle').textContent = '儲值金額表詳細資訊';
   document.getElementById('detailBody').innerHTML = html;
-  document.getElementById('detailFooter').innerHTML = '<button class="btn-close-modal" onclick="closeModal()">關閉</button><button class="btn-edit-modal" onclick="closeModal();openEdit(\''+bpId+'\')">'+ICON.edit+' 編輯</button>';
+  document.getElementById('detailFooter').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">關閉</button>' + UI.btn.dark('編輯', "closeModal();openEdit('" + bpId + "')", {icon:'<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>'});
   document.getElementById('detailModal').classList.add('show');
 }
 
@@ -213,16 +204,21 @@ function openEdit(bpId) {
     if (m.billingId === bpId) { provName=p.name; methodName=m.name; m.channels.forEach(ch => chNames.push(ch.name)); }
   }));
   document.getElementById('detailTitle').textContent = '編輯儲值金額表';
-  let html = '<div style="margin-bottom:16px;display:flex;gap:16px">';
-  html += '<div style="flex:1"><label style="display:block;font-size:12px;color:#374151;margin-bottom:4px;font-weight:500">供應商</label><select style="width:100%;padding:8px 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:13px"><option>'+provName+'</option></select></div>';
-  html += '<div style="flex:1"><label style="display:block;font-size:12px;color:#374151;margin-bottom:4px;font-weight:500">支付方式</label><select style="width:100%;padding:8px 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:13px"><option>'+methodName+'</option></select></div></div>';
-  html += '<div style="margin-bottom:16px"><label style="display:block;font-size:12px;color:#374151;margin-bottom:4px;font-weight:500">付款通道</label><select style="width:100%;padding:8px 12px;border:1px solid #D1D5DB;border-radius:8px;font-size:13px"><option>'+chNames.join('、')+'</option></select></div>';
-  const rows = bp.amounts.map((a,i) => '<tr><td>'+(i+1)+'</td><td><input type="number" value="'+a.amount+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.base+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.rate+'" style="width:60px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td>'+a.bonus.toLocaleString()+'</td><td style="font-weight:600">'+a.total.toLocaleString()+'</td><td><button style="border:none;background:none;color:#DC2626;cursor:pointer;font-size:13px">刪除</button></td></tr>').join('');
+  let html = UI.form.row(
+    UI.form.select('edit-prov', '供應商', [{value:provName,label:provName,selected:true}], {required:true}),
+    UI.form.select('edit-method', '支付方式', [{value:methodName,label:methodName,selected:true}], {required:true})
+  );
+  html += UI.form.select('edit-ch', '付款通道', [{value:chNames.join('、'),label:chNames.join('、'),selected:true}], {required:true});
+
+  const rows = bp.amounts.map((a,i) =>
+    '<tr><td>'+(i+1)+'</td><td><input type="number" value="'+a.amount+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.base+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.rate+'" style="width:60px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td>'+a.bonus.toLocaleString()+'</td><td style="font-weight:600">'+a.total.toLocaleString()+'</td><td>'+UI.btn.icon('delete',"alert('刪除（Demo）')",'刪除')+'</td></tr>'
+  ).join('');
   html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 '+bp.amounts.length+' 筆</span></h5>';
   html += '<table class="data-table"><thead><tr><th>序</th><th>金額</th><th>基本點數</th><th>贈比%</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody></table>';
   html += '<div style="text-align:center;padding:10px;color:#6B7280;font-size:13px;cursor:pointer;border-top:1px solid #F3F4F6;margin-top:8px" onclick="alert(\'新增金額列（Demo）\')">+ 新增</div></div>';
+
   document.getElementById('detailBody').innerHTML = html;
-  document.getElementById('detailFooter').innerHTML = '<button class="btn-close-modal" onclick="closeModal()">取消</button><button class="btn-edit-modal" onclick="alert(\'儲存成功（Demo）\');closeModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存</button>';
+  document.getElementById('detailFooter').innerHTML = UI.btn.modalFooter('儲存', "alert('儲存成功（Demo）');closeModal()");
   document.getElementById('detailModal').classList.add('show');
 }
 
@@ -230,6 +226,5 @@ function closeModal() { document.getElementById('detailModal').classList.remove(
 
 // === Init ===
 initProviderFilter();
-// 預設全部展開
 treeData.forEach(p => { expandedProvs[p.id] = true; });
 render();

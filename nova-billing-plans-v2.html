@@ -66,11 +66,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .flat-table tr:last-child td{border-bottom:none}
 .flat-table tr:hover{background:#FAFBFF}
 
-/* Left border indicators */
-.flat-table td.col-indicator{padding:0;width:12px;position:relative}
-.indicator-bar{position:absolute;left:4px;top:0;bottom:0;width:4px;border-radius:2px}
-.indicator-bar.prov{background:#6366F1}
-.indicator-line{position:absolute;left:10px;top:0;bottom:0;width:2px;background:#C7D2FE}
+/* Left border indicators — clean grouped lines */
+.flat-table td.col-lines{padding:0;width:20px;position:relative}
+.line-prov{position:absolute;left:4px;top:0;bottom:0;width:3px;border-radius:1.5px;background:#E5E7EB}
+.line-method{position:absolute;left:11px;top:0;bottom:0;width:1.5px;background:#F3F4F6}
+/* First/last row rounding */
+.row-first .line-prov{top:50%;border-radius:1.5px 1.5px 0 0}
+.row-last .line-prov{bottom:50%;border-radius:0 0 1.5px 1.5px}
+.row-only .line-prov{top:50%;bottom:50%;height:auto;border-radius:1.5px}
 
 /* Provider group header */
 .prov-header{cursor:pointer;background:#FAFBFF}
@@ -167,7 +170,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="tbl-info" id="tblInfo"></span>
       </div>
       <table class="flat-table">
-        <thead><tr><th style="width:12px"></th><th>支付方式</th><th>供應商</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
+        <thead><tr><th style="width:20px"></th><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>
@@ -183,6 +186,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans-v2.js?v=2"></script>
+<script src="js/components.js?v=2"></script>
+<script src="js/billing-plans-v2.js?v=3"></script>
 </body>
 </html>
