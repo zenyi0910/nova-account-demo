@@ -122,10 +122,11 @@ function render() {
       return;
     }
 
-    // 展開狀態：section header + data rows
+    // 展開狀態：section header + column headers + data rows
     html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
     html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_UP + '</span>';
     html += '<span class="prov-name">' + prov.name + '</span></span></td></tr>';
+    html += '<tr class="sub-header"><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr>';
 
     const len = filteredMethods.length;
     filteredMethods.forEach((method, mi) => {

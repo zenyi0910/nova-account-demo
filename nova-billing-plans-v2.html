@@ -66,8 +66,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-primary:hover{background:#374151}
 .btn-secondary{padding:8px 16px;background:#F3F4F6;color:#111827;border:none;border-radius:8px;font-size:13px;cursor:pointer}
 .btn-secondary:hover{background:#E5E7EB}
-.btn-add{padding:8px 16px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
-.btn-add:hover{background:#047857}
+.btn-add{padding:8px 16px;background:#4DD0C2;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-add:hover{background:#3BBFB1}
 
 /* Table */
 .tbl-wrap{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
@@ -98,6 +98,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .prov-name{font-size:13px;font-weight:600;color:#111827}
 .prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:6px}
 .prov-count{font-size:12px;color:#6B7280;font-weight:400;margin-left:12px}
+.sub-header th{background:#F3F4F6;padding:6px 16px;font-size:11px;color:#9CA3AF;font-weight:500;border-bottom:1px solid #E5E7EB;text-align:left}
 .prov-cell{vertical-align:middle;background:#FAFBFF;border-right:1px solid #E5E7EB;cursor:pointer;padding:8px 10px !important;text-align:center;width:90px}
 .prov-cell:hover{background:#EEF2FF}
 .prov-cell .prov-name{display:block;font-size:12px;margin-top:4px}
@@ -196,7 +197,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="tbl-info" id="tblInfo"></span>
       </div>
       <table class="flat-table">
-        <thead><tr><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>
