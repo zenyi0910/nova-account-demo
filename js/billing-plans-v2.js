@@ -148,7 +148,7 @@ function render() {
           : '<span style="color:#9CA3AF;font-size:12px;margin-left:6px">停用</span>';
         statusHtml = '<span style="display:inline-flex;align-items:center">' + UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')") + label + '</span>';
       } else {
-        statusHtml = '<span style="display:inline-flex;align-items:center;gap:4px;color:#4338CA;font-size:12px;cursor:pointer" onclick="event.stopPropagation();openNewBilling(\'' + method.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>新增設定</span>';
+        statusHtml = '<span style="display:inline-flex;align-items:center;gap:4px;color:#4338CA;font-size:12px;cursor:pointer" onclick="event.stopPropagation();openNewBilling(\'' + method.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>新增儲值金額表</span>';
       }
 
       // 操作（用共用元件 UI.btn.icon，左右擺放）
