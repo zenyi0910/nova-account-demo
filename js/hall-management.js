@@ -52,25 +52,20 @@ let currentDetailId = null;
 let gameCurrency = 'gold'; // gold or star
 let gameCat = ''; // '', '電動', '街機', '棋牌'
 
-// === Hall Selector (now horizontal tabs with arrows) ===
+// === Hall Selector (vertical scrollable list) ===
 function initHallSelector() {
   const container = document.getElementById('hallCards');
-  const tabsHtml = Object.entries(halls).map(([id, h]) => {
+  const listHtml = Object.entries(halls).map(([id, h]) => {
     const gc = games.filter(g => g.hall === id).length;
-    const hasSched = h.schedules.length > 0;
-    const clockIcon = hasSched ? '<svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" width="14" height="14" style="margin-left:4px;vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' : '';
-    return '<div class="hall-tab' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
-      '<div class="ht-top"><div class="ht-name">' + h.name + clockIcon + '</div>' +
-      '<button class="ht-toggle ' + h.status + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button></div>' +
-      '<div class="ht-meta">' + gc + ' 款遊戲</div></div>';
+    const statusCls = h.status === 'on' ? 'on' : 'off';
+    const statusText = h.status === 'on' ? '啟用' : '停用';
+    return '<div class="hall-list-item' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
+      '<span class="hall-list-name">' + h.name + '</span>' +
+      '<span class="hall-list-count">' + gc + ' 款遊戲</span>' +
+      '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
+      '</div>';
   }).join('');
-  container.innerHTML = '<div class="hall-tabs-wrapper">' +
-    '<button class="hall-tabs-arrow arr-left" id="arrLeft" onclick="scrollTabs(-1)">&#8249;</button>' +
-    '<div class="hall-tabs-scroll-area" id="hallTabsArea">' +
-    '<div class="hall-tabs" id="hallTabsScroll">' + tabsHtml + '</div></div>' +
-    '<button class="hall-tabs-arrow arr-right" id="arrRight" onclick="scrollTabs(1)">&#8250;</button></div>';
-  // Update gradient state after render
-  setTimeout(updateScrollGradients, 50);
+  container.innerHTML = '<div class="hall-list-scroll">' + listHtml + '</div>';
 }
 
 function scrollTabs(dir) {
