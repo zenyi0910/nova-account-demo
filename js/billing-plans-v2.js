@@ -148,7 +148,7 @@ function render() {
           : '<span style="color:#9CA3AF;font-size:12px;margin-left:6px">停用</span>';
         statusHtml = '<span style="display:inline-flex;align-items:center">' + UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')") + label + '</span>';
       } else {
-        statusHtml = '<span style="color:#9CA3AF;font-size:12px">未設定</span>';
+        statusHtml = '<span style="display:inline-flex;align-items:center;gap:4px;color:#4338CA;font-size:12px;cursor:pointer" onclick="event.stopPropagation();openNewBilling(\'' + method.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>新增設定</span>';
       }
 
       // 操作（用共用元件 UI.btn.icon，左右擺放）
@@ -165,8 +165,7 @@ function render() {
       if (isFirst) {
         html += '<td class="prov-cell" rowspan="' + len + '" onclick="toggleProv(\'' + prov.id + '\')">';
         html += '<span class="prov-chevron open">' + CHEVRON_UP + '</span>';
-        html += '<span class="prov-name">' + prov.name + '</span>';
-        html += '<span class="prov-count">' + len + ' 種支付方式</span></td>';
+        html += '<span class="prov-name">' + prov.name + '</span></td>';
       }
 
       html += '<td>' + method.name + '</td>';
@@ -243,11 +242,17 @@ function openEdit(bpId) {
   document.getElementById('detailModal').classList.add('show');
 }
 
-function openNewBilling() {
+function openNewBilling(methodId) {
+  let provName='', methodName='';
+  if (methodId) {
+    treeData.forEach(p => p.methods.forEach(m => {
+      if (m.id === methodId) { provName=p.name; methodName=m.name; }
+    }));
+  }
   document.getElementById('detailTitle').textContent = '新增儲值金額表';
   let html = UI.form.row(
-    UI.form.select('new-prov', '供應商', [{value:'',label:'請選擇供應商'}], {required:true}),
-    UI.form.select('new-method', '支付方式', [{value:'',label:'請選擇支付方式'}], {required:true})
+    UI.form.select('new-prov', '供應商', provName ? [{value:provName,label:provName,selected:true}] : [{value:'',label:'請選擇供應商'}], {required:true}),
+    UI.form.select('new-method', '支付方式', methodName ? [{value:methodName,label:methodName,selected:true}] : [{value:'',label:'請選擇支付方式'}], {required:true})
   );
   html += UI.form.select('new-ch', '付款通道', [{value:'',label:'請選擇付款通道'}], {required:true});
   html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 0 筆資料</span></h5>';
