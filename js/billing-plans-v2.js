@@ -70,6 +70,10 @@ const treeData = [
   }
 ];
 
+// === Chevron icons ===
+const CHEVRON_DOWN = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+const CHEVRON_UP = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 15 12 9 18 15"/></svg>';
+
 // === State ===
 const expandedProvs = {};
 
@@ -80,6 +84,12 @@ function initProviderFilter() {
 }
 function applyFilter() { render(); }
 function resetFilter() { document.getElementById('providerFilter').value='all'; document.getElementById('billingFilter').value='all'; render(); }
+
+// === Init shared component buttons ===
+function initButtons() {
+  document.getElementById('btnAdd').innerHTML = UI.btn.add('新增儲值金額表', "openNewBilling()");
+  document.getElementById('filterBtns').innerHTML = UI.btn.search('搜尋', 'applyFilter()') + ' ' + UI.btn.outline('重置', 'resetFilter()');
+}
 
 // === Render ===
 function render() {
@@ -102,15 +112,14 @@ function render() {
     }
 
     const isOpen = expandedProvs[prov.id];
-    const chevron = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
 
     // 供應商 header（不再用獨立 header row，改用 rowspan）
     if (!isOpen) {
       // 收合狀態：只顯示一列 summary
       html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
       html += '<td class="col-lines"></td>';
-      html += '<td colspan="5"><span class="prov-toggle"><span class="prov-chevron">' + chevron + '</span>';
-      html += '<span class="prov-name">' + prov.name + '</span><span class="prov-code">' + prov.code + '</span></span>';
+      html += '<td colspan="5"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_DOWN + '</span>';
+      html += '<span class="prov-name">' + prov.name + '</span></span>';
       html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td></tr>';
       return;
     }
@@ -131,11 +140,13 @@ function render() {
       });
       chHtml += '</div>';
 
-      // 狀態（用共用元件 UI.toggle + 文字標籤）
+      // 狀態（用共用元件 UI.toggle + 文字標籤，水平對齊）
       let statusHtml = '';
       if (bp) {
-        const label = bp.status === 'on' ? '<span style="color:#059669;font-size:12px;margin-left:6px">啟用</span>' : '<span style="color:#DC2626;font-size:12px;margin-left:6px">停用</span>';
-        statusHtml = UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')") + label;
+        const label = bp.status === 'on'
+          ? '<span style="color:#059669;font-size:12px;margin-left:6px">啟用</span>'
+          : '<span style="color:#9CA3AF;font-size:12px;margin-left:6px">停用</span>';
+        statusHtml = '<span style="display:inline-flex;align-items:center">' + UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')") + label + '</span>';
       } else {
         statusHtml = '<span style="color:#9CA3AF;font-size:12px">未設定</span>';
       }
@@ -153,9 +164,9 @@ function render() {
       // 供應商欄：第一列用 rowspan，其餘不輸出此 td
       if (isFirst) {
         html += '<td class="prov-cell" rowspan="' + len + '" onclick="toggleProv(\'' + prov.id + '\')">';
-        html += '<span class="prov-chevron open">' + chevron + '</span>';
+        html += '<span class="prov-chevron open">' + CHEVRON_UP + '</span>';
         html += '<span class="prov-name">' + prov.name + '</span>';
-        html += '<span class="prov-code">' + prov.code + '</span></td>';
+        html += '<span class="prov-count">' + len + ' 種支付方式</span></td>';
       }
 
       html += '<td>' + method.name + '</td>';
@@ -180,14 +191,16 @@ function toggleStatus(bpId) {
   if (confirm(msg)) { bp.status = bp.status === 'on' ? 'off' : 'on'; render(); }
 }
 
-// === Modal: Detail ===
+// === Modal: reuse v1 style (openBillingDetail / openBillingEdit / openNewBilling) ===
 function openDetail(bpId) {
   const bp = billingPlans[bpId]; if (!bp) return;
   let provName='', methodName='', chNames=[];
   treeData.forEach(p => p.methods.forEach(m => {
     if (m.billingId === bpId) { provName=p.name; methodName=m.name; m.channels.forEach(ch => chNames.push(ch.name)); }
   }));
-  const statusHtml = bp.status === 'on' ? UI.badge('啟用', 'on') : UI.badge('停用', 'off');
+  const statusHtml = bp.status === 'on'
+    ? '<span class="badge badge-on">✓ 啟用</span>'
+    : '<span class="badge badge-off">停用</span>';
   let html = '<div class="bp-info-card"><h5>基本資訊</h5>';
   html += '<div class="bp-info-row"><span class="bp-label">金額表名稱</span><span>' + bp.name + '</span></div>';
   html += '<div class="bp-info-row"><span class="bp-label">供應商</span><span>' + provName + '</span></div>';
@@ -196,18 +209,13 @@ function openDetail(bpId) {
   html += '<div class="bp-info-row"><span class="bp-label">狀態</span>' + statusHtml + '</div></div>';
   const rows = bp.amounts.map((a,i) => '<tr><td>'+(i+1)+'</td><td>'+a.amount.toLocaleString()+'</td><td>'+a.base.toLocaleString()+'</td><td>'+a.rate+'%</td><td>'+a.bonus.toLocaleString()+'</td><td style="font-weight:600">'+a.total.toLocaleString()+'</td></tr>').join('');
   html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 '+bp.amounts.length+' 筆</span></h5>';
-  html += UI.table.create(
-    [{label:'序'},{label:'金額（台幣）'},{label:'基本點數'},{label:'贈比%'},{label:'贈點'},{label:'實際點數'}],
-    bp.amounts.map((a,i) => [{cells:[(i+1), a.amount.toLocaleString(), a.base.toLocaleString(), a.rate+'%', a.bonus.toLocaleString(), '<b>'+a.total.toLocaleString()+'</b>']}][0])
-  );
-  html += '</div>';
+  html += '<table class="data-table"><thead><tr><th>序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比%</th><th>贈點</th><th>實際點數</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
   document.getElementById('detailTitle').textContent = '儲值金額表詳細資訊';
   document.getElementById('detailBody').innerHTML = html;
   document.getElementById('detailFooter').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">關閉</button>' + UI.btn.dark('編輯', "closeModal();openEdit('" + bpId + "')", {icon:'<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/>'});
   document.getElementById('detailModal').classList.add('show');
 }
 
-// === Modal: Edit ===
 function openEdit(bpId) {
   const bp = billingPlans[bpId]; if (!bp) return;
   let provName='', methodName='', chNames=[];
@@ -220,16 +228,34 @@ function openEdit(bpId) {
     UI.form.select('edit-method', '支付方式', [{value:methodName,label:methodName,selected:true}], {required:true})
   );
   html += UI.form.select('edit-ch', '付款通道', [{value:chNames.join('、'),label:chNames.join('、'),selected:true}], {required:true});
-
   const rows = bp.amounts.map((a,i) =>
     '<tr><td>'+(i+1)+'</td><td><input type="number" value="'+a.amount+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.base+'" style="width:70px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td><input type="number" value="'+a.rate+'" style="width:60px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px;text-align:right"></td><td>'+a.bonus.toLocaleString()+'</td><td style="font-weight:600">'+a.total.toLocaleString()+'</td><td>'+UI.btn.icon('delete',"alert('刪除（Demo）')",'刪除')+'</td></tr>'
   ).join('');
   html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 '+bp.amounts.length+' 筆</span></h5>';
   html += '<table class="data-table"><thead><tr><th>序</th><th>金額</th><th>基本點數</th><th>贈比%</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody>'+rows+'</tbody></table>';
   html += '<div style="text-align:center;padding:10px;color:#6B7280;font-size:13px;cursor:pointer;border-top:1px solid #F3F4F6;margin-top:8px" onclick="alert(\'新增金額列（Demo）\')">+ 新增</div></div>';
-
+  // 狀態 toggle
+  const toggleCls = bp.status === 'on' ? 'on' : 'off';
+  const toggleLabel = bp.status === 'on' ? '<span style="color:#059669;font-size:12px;margin-left:6px">啟用</span>' : '<span style="color:#9CA3AF;font-size:12px;margin-left:6px">停用</span>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 0;border-top:1px solid #E5E7EB"><span class="bp-label">狀態</span>' + UI.toggle(toggleCls, "toggleStatus('" + bp.id + "')") + toggleLabel + '</div>';
   document.getElementById('detailBody').innerHTML = html;
   document.getElementById('detailFooter').innerHTML = UI.btn.modalFooter('儲存', "alert('儲存成功（Demo）');closeModal()");
+  document.getElementById('detailModal').classList.add('show');
+}
+
+function openNewBilling() {
+  document.getElementById('detailTitle').textContent = '新增儲值金額表';
+  let html = UI.form.row(
+    UI.form.select('new-prov', '供應商', [{value:'',label:'請選擇供應商'}], {required:true}),
+    UI.form.select('new-method', '支付方式', [{value:'',label:'請選擇支付方式'}], {required:true})
+  );
+  html += UI.form.select('new-ch', '付款通道', [{value:'',label:'請選擇付款通道'}], {required:true});
+  html += '<div class="bp-info-card"><h5>儲值金額表 <span style="font-weight:400;color:#6B7280;font-size:12px">總共 0 筆資料</span></h5>';
+  html += '<table class="data-table"><thead><tr><th>序</th><th>金額（台幣）</th><th>基本點數</th><th>贈比%</th><th>贈點</th><th>實際點數</th><th>操作</th></tr></thead><tbody></tbody></table>';
+  html += '<div style="text-align:center;padding:10px;color:#6B7280;font-size:13px;cursor:pointer;border-top:1px solid #F3F4F6;margin-top:8px" onclick="alert(\'新增金額列（Demo）\')">+ 新增</div></div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 0;border-top:1px solid #E5E7EB"><span class="bp-label">狀態</span>' + UI.toggle('on', '') + '<span style="color:#059669;font-size:12px;margin-left:6px">啟用</span></div>';
+  document.getElementById('detailBody').innerHTML = html;
+  document.getElementById('detailFooter').innerHTML = UI.btn.modalFooter('確認新增', "alert('新增成功（Demo）');closeModal()");
   document.getElementById('detailModal').classList.add('show');
 }
 
@@ -237,5 +263,6 @@ function closeModal() { document.getElementById('detailModal').classList.remove(
 
 // === Init ===
 initProviderFilter();
+initButtons();
 treeData.forEach(p => { expandedProvs[p.id] = true; });
 render();

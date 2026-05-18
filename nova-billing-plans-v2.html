@@ -98,11 +98,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .prov-name{font-size:13px;font-weight:600;color:#111827}
 .prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:6px}
 .prov-count{font-size:12px;color:#6B7280;font-weight:400;margin-left:12px}
-.prov-cell{vertical-align:middle;background:#FAFBFF;border-right:1px solid #E5E7EB;cursor:pointer;padding:12px 10px !important;text-align:center}
+.prov-cell{vertical-align:middle;background:#FAFBFF;border-right:1px solid #E5E7EB;cursor:pointer;padding:8px 10px !important;text-align:center;width:90px}
 .prov-cell:hover{background:#EEF2FF}
-.prov-cell .prov-name{display:block;font-size:13px}
+.prov-cell .prov-name{display:block;font-size:12px;margin-top:4px}
 .prov-cell .prov-code{display:block;margin-left:0;margin-top:2px}
-.prov-cell .prov-chevron{margin-bottom:4px}
+.prov-cell .prov-chevron{margin-bottom:2px}
+.prov-cell .prov-count{display:block;font-size:11px;color:#9CA3AF;margin-top:4px}
 
 /* Status */
 .status-on{color:#059669;font-size:12px;font-weight:500}
@@ -171,10 +172,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="page-header">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <h4>儲值金額表</h4>
-      <button class="btn-add" style="margin-left:auto" onclick="alert('新增儲值金額表（Demo）')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        新增儲值金額表
-      </button>
+      <span id="btnAdd" style="margin-left:auto"></span>
     </div>
     <div class="tips-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2v5"/><path d="M14.829 15.998a3 3 0 1 1-5.658 0"/><path d="M20.92 14.606A1 1 0 0 1 20 16H4a1 1 0 0 1-.92-1.394l3-7A1 1 0 0 1 7 7h10a1 1 0 0 1 .92.606z"/></svg>
@@ -183,10 +181,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="filter-bar">
       <div class="filter-field"><label>供應商</label><select id="providerFilter"><option value="all">全部供應商</option></select></div>
       <div class="filter-field"><label>狀態</label><select id="billingFilter"><option value="all">選擇啟用狀態</option><option value="on">啟用中</option><option value="off">停用中</option></select></div>
-      <div class="filter-actions">
-        <button class="btn-primary" onclick="applyFilter()">搜尋</button>
-        <button class="btn-secondary" onclick="resetFilter()">重置</button>
-      </div>
+      <div class="filter-actions" id="filterBtns"></div>
     </div>
     <div class="tbl-wrap">
       <div class="tbl-header">
