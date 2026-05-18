@@ -110,9 +110,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .ch-dot{width:6px;height:6px;border-radius:50%;background:#10B981}
 .ch-dot.off{background:#D1D5DB}
 
-/* Actions */
-.action-btn{padding:4px 6px;border:none;background:none;cursor:pointer;color:#6B7280;border-radius:4px;display:inline-flex;align-items:center}
-.action-btn:hover{background:#F3F4F6;color:#4338CA}
+/* Actions — spread left/right */
+.act-cell{display:flex;align-items:center;justify-content:space-between}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -176,7 +175,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="tbl-info" id="tblInfo"></span>
       </div>
       <table class="flat-table">
-        <thead><tr><th style="width:20px"></th><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
+        <thead><tr><th style="width:20px"></th><th>供應商</th><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>

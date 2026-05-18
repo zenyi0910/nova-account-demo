@@ -107,7 +107,7 @@ function render() {
     // 供應商 header
     html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
     html += '<td class="col-lines"></td>';
-    html += '<td colspan="3"><span class="prov-toggle"><span class="prov-chevron' + (isOpen ? ' open' : '') + '">' + chevron + '</span>';
+    html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron' + (isOpen ? ' open' : '') + '">' + chevron + '</span>';
     html += '<span class="prov-name">' + prov.name + '</span><span class="prov-code">' + prov.code + '</span></span>';
     html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td>';
     html += '<td></td></tr>';
@@ -130,23 +130,25 @@ function render() {
       });
       chHtml += '</div>';
 
-      // 狀態（用共用元件 UI.toggle）
+      // 狀態（用共用元件 UI.toggle + 文字標籤）
       let statusHtml = '';
       if (bp) {
-        statusHtml = UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')");
+        const label = bp.status === 'on' ? '<span style="color:#059669;font-size:12px;margin-left:6px">啟用</span>' : '<span style="color:#DC2626;font-size:12px;margin-left:6px">停用</span>';
+        statusHtml = UI.toggle(bp.status === 'on' ? 'on' : 'off', "event.stopPropagation();toggleStatus('" + bp.id + "')") + label;
       } else {
         statusHtml = '<span style="color:#9CA3AF;font-size:12px">未設定</span>';
       }
 
-      // 操作（用共用元件 UI.btn.icon）
+      // 操作（用共用元件 UI.btn.icon，左右擺放）
       let actHtml = '';
       if (bp) {
-        actHtml = UI.btn.icon('view', "event.stopPropagation();openDetail('" + bp.id + "')", '檢視');
-        actHtml += UI.btn.icon('edit', "event.stopPropagation();openEdit('" + bp.id + "')", '編輯');
+        actHtml = '<div class="act-cell">' + UI.btn.icon('view', "event.stopPropagation();openDetail('" + bp.id + "')", '檢視');
+        actHtml += UI.btn.icon('edit', "event.stopPropagation();openEdit('" + bp.id + "')", '編輯') + '</div>';
       }
 
       html += '<tr class="' + posClass + '">';
       html += '<td class="col-lines"><div class="line-prov"></div><div class="line-method"></div></td>';
+      html += '<td style="color:#6B7280">' + prov.name + '</td>';
       html += '<td>' + method.name + '</td>';
       html += '<td>' + chHtml + '</td>';
       html += '<td>' + statusHtml + '</td>';
