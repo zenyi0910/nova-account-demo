@@ -87,6 +87,7 @@ function renderList() {
         '<span class="method-provider">' + provName + '</span>' +
         '<span class="method-count">' + mChannels.length + ' 通道</span>' +
         '<span class="method-toggle" onclick="event.stopPropagation()"><button class="toggle ' + m.status + '" onclick="toggleMethodStatus(\'' + m.id + '\')"></button><span class="status-label ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span></span>' +
+        '<button class="btn-icon-sm" onclick="event.stopPropagation();editMethod(\'' + m.id + '\')" title="編輯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
         '<svg class="' + chevronCls + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>' +
       '</div>' +
       '<div class="' + channelListCls + '">';
@@ -139,6 +140,11 @@ function addChannel(methodId) {
 
 function openAddMethodModal() {
   alert('新增支付方式（Demo）— 實際會開啟 modal');
+}
+
+function editMethod(id) {
+  var m = methods.find(function(x) { return x.id === id; });
+  if (m) alert('編輯支付方式：' + m.name + '（Demo）');
 }
 
 // === Start ===
