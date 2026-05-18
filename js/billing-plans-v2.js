@@ -88,9 +88,8 @@ function resetFilter() { document.getElementById('providerFilter').value='all'; 
 // === Init shared component buttons ===
 function initButtons() {
   document.getElementById('btnAdd').innerHTML = UI.btn.add('新增儲值金額表', "openNewBilling()");
-  document.getElementById('filterBtns').innerHTML = UI.btn.search('搜尋', 'applyFilter()') + ' ' + UI.btn.outline('重置', 'resetFilter()');
+  document.getElementById('filterBtns').innerHTML = UI.btn.dark('搜尋', 'applyFilter()', {icon:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>'}) + ' ' + UI.btn.outline('重置', 'resetFilter()');
 }
-
 // === Render ===
 function render() {
   const provFilter = document.getElementById('providerFilter').value;
@@ -115,21 +114,22 @@ function render() {
 
     // 供應商 header（不再用獨立 header row，改用 rowspan）
     if (!isOpen) {
-      // 收合狀態：只顯示一列 summary
+      // 收合狀態：section header
       html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
-      html += '<td class="col-lines"></td>';
-      html += '<td colspan="5"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_DOWN + '</span>';
+      html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_DOWN + '</span>';
       html += '<span class="prov-name">' + prov.name + '</span></span>';
       html += '<span class="prov-count">' + filteredMethods.length + ' 種支付方式</span></td></tr>';
       return;
     }
 
+    // 展開狀態：section header + data rows
+    html += '<tr class="prov-header" onclick="toggleProv(\'' + prov.id + '\')">';
+    html += '<td colspan="4"><span class="prov-toggle"><span class="prov-chevron">' + CHEVRON_UP + '</span>';
+    html += '<span class="prov-name">' + prov.name + '</span></span></td></tr>';
+
     const len = filteredMethods.length;
     filteredMethods.forEach((method, mi) => {
       const bp = method.billingId ? billingPlans[method.billingId] : null;
-      const isFirst = mi === 0;
-      const isLast = mi === len - 1;
-      const posClass = len === 1 ? 'row-only' : (isFirst ? 'row-first' : (isLast ? 'row-last' : ''));
 
       // 付款通道
       let chHtml = '<div class="ch-list">';
@@ -158,16 +158,7 @@ function render() {
         actHtml += UI.btn.icon('edit', "event.stopPropagation();openEdit('" + bp.id + "')", '編輯') + '</div>';
       }
 
-      html += '<tr class="' + posClass + '">';
-      html += '<td class="col-lines"><div class="line-prov"></div><div class="line-method"></div></td>';
-
-      // 供應商欄：第一列用 rowspan，其餘不輸出此 td
-      if (isFirst) {
-        html += '<td class="prov-cell" rowspan="' + len + '" onclick="toggleProv(\'' + prov.id + '\')">';
-        html += '<span class="prov-chevron open">' + CHEVRON_UP + '</span>';
-        html += '<span class="prov-name">' + prov.name + '</span></td>';
-      }
-
+      html += '<tr>';
       html += '<td>' + method.name + '</td>';
       html += '<td>' + chHtml + '</td>';
       html += '<td>' + statusHtml + '</td>';
