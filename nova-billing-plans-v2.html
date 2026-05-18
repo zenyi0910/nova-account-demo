@@ -53,68 +53,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-primary:hover{background:#374151}
 .btn-secondary{padding:8px 16px;background:#F3F4F6;color:#111827;border:none;border-radius:8px;font-size:13px;cursor:pointer}
 .btn-secondary:hover{background:#E5E7EB}
+.btn-add{padding:8px 16px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-add:hover{background:#047857}
 
-/* Accordion Table */
-.acc-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.acc-table th{background:#F9FAFB;padding:10px 16px;text-align:left;font-weight:600;font-size:12px;color:#6B7280;border-bottom:1px solid #E5E7EB;text-transform:uppercase;letter-spacing:.3px}
-.acc-table td{padding:10px 16px;border-bottom:1px solid #F3F4F6;font-size:13px;color:#374151;vertical-align:middle}
-.acc-table tr:last-child td{border-bottom:none}
+/* Table */
+.tbl-wrap{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.tbl-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #E5E7EB}
+.tbl-info{font-size:13px;color:#6B7280}
+.flat-table{width:100%;border-collapse:collapse}
+.flat-table th{background:#F9FAFB;padding:10px 16px;text-align:left;font-weight:600;font-size:12px;color:#6B7280;border-bottom:1px solid #E5E7EB}
+.flat-table td{padding:10px 16px;border-bottom:1px solid #F3F4F6;font-size:13px;color:#374151;vertical-align:middle}
+.flat-table tr:last-child td{border-bottom:none}
+.flat-table tr:hover{background:#FAFBFF}
 
-/* L1 供應商 row */
-.row-l1{cursor:pointer;background:#FAFBFF}
-.row-l1:hover{background:#EEF2FF}
-.row-l1 td{font-weight:600;color:#111827;padding:12px 16px}
-.prov-badge{display:inline-flex;align-items:center;gap:8px}
-.prov-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#4338CA)}
-.prov-code{font-size:11px;color:#6B7280;font-weight:400;margin-left:6px}
+/* Left border indicators */
+.flat-table td.col-indicator{padding:0;width:12px;position:relative}
+.indicator-bar{position:absolute;left:4px;top:0;bottom:0;width:4px;border-radius:2px}
+.indicator-bar.prov{background:#6366F1}
+.indicator-line{position:absolute;left:10px;top:0;bottom:0;width:2px;background:#C7D2FE}
 
-/* L2 支付方式 row */
-.row-l2{cursor:pointer}
-.row-l2:hover{background:#F9FAFB}
-.row-l2 td{padding-left:40px}
-.method-icon{color:#6366F1;margin-right:6px}
+/* Provider group header */
+.prov-header{cursor:pointer;background:#FAFBFF}
+.prov-header:hover{background:#EEF2FF}
+.prov-header td{font-weight:600;color:#111827;padding:12px 16px}
+.prov-toggle{display:inline-flex;align-items:center;gap:8px}
+.prov-chevron{display:inline-flex;transition:transform .2s;color:#6B7280}
+.prov-chevron.open{transform:rotate(90deg)}
+.prov-name{font-size:14px}
+.prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:8px}
+.prov-count{font-size:12px;color:#6B7280;font-weight:400}
 
-/* L3 儲值金額表 row */
-.row-l3{background:#FAFFFE}
-.row-l3 td{padding-left:64px}
+/* Status */
+.status-on{color:#059669;font-size:12px;font-weight:500}
+.status-off{color:#DC2626;font-size:12px;font-weight:500}
 
-/* L4 付款通道 row */
-.row-l4 td{padding-left:88px;color:#6B7280;font-size:12px}
-.ch-dot{width:6px;height:6px;border-radius:50%;background:#3B82F6;display:inline-block;margin-right:6px}
-.ch-dot.off{background:#D1D5DB}
-
-/* Toggle */
+/* Toggle switch */
 .toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .toggle-track{width:28px;height:16px;border-radius:8px;background:#D1D5DB;position:relative;transition:background .2s}
 .toggle.on .toggle-track{background:#00D5BE}
 .toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 2px rgba(0,0,0,.15)}
 .toggle.on .toggle-thumb{left:14px}
-.toggle-label{font-size:11px;font-weight:500}
-.toggle-label.on{color:#059669}
-.toggle-label.off{color:#9CA3AF}
 
-/* Status badge */
-.status-on{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:#D1FAE5;color:#065F46;font-size:11px;font-weight:500}
-.status-off{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:#FEE2E2;color:#DC2626;font-size:11px;font-weight:500}
+/* Channel badges */
+.ch-list{display:flex;flex-wrap:wrap;gap:4px}
+.ch-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:11px;background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
+.ch-badge.off{background:#F9FAFB;color:#9CA3AF;border-color:#E5E7EB}
+.ch-dot{width:6px;height:6px;border-radius:50%;background:#10B981}
+.ch-dot.off{background:#D1D5DB}
 
 /* Actions */
 .action-btn{padding:4px 6px;border:none;background:none;cursor:pointer;color:#6B7280;border-radius:4px;display:inline-flex;align-items:center}
 .action-btn:hover{background:#F3F4F6;color:#4338CA}
 
-/* Chevron */
-.chevron{display:inline-flex;transition:transform .2s;color:#9CA3AF;margin-right:8px}
-.chevron.open{transform:rotate(90deg)}
-
-/* Hidden rows */
-.row-hidden{display:none}
-
-/* Amounts count */
-.amounts-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:#EEF2FF;color:#4338CA;font-size:11px;font-weight:500}
-
-/* Modal (reuse from v1) */
+/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.show{opacity:1;pointer-events:auto}
-.modal{background:#fff;border-radius:12px;width:100%;max-width:90vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #E5E7EB}
 .modal-header h3{font-size:16px;font-weight:600}
 .modal-header .close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px}
@@ -142,7 +136,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="topbar">
     <nav class="breadcrumb">
       <a href="#">首頁</a><span class="sep">/</span>
-      <a href="nova-payment-management.html">三方支付設定</a><span class="sep">/</span>
+      <a href="nova-payment-management.html">帳務管理</a><span class="sep">/</span>
       <span class="current">儲值金額表</span>
     </nav>
     <div class="user-avatar" style="margin-left:auto">C</div>
@@ -151,6 +145,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="page-header">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       <h4>儲值金額表</h4>
+      <button class="btn-add" style="margin-left:auto" onclick="alert('新增儲值金額表（Demo）')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        新增儲值金額表
+      </button>
     </div>
     <div class="tips-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2v5"/><path d="M14.829 15.998a3 3 0 1 1-5.658 0"/><path d="M20.92 14.606A1 1 0 0 1 20 16H4a1 1 0 0 1-.92-1.394l3-7A1 1 0 0 1 7 7h10a1 1 0 0 1 .92.606z"/></svg>
@@ -164,10 +162,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <button class="btn-secondary" onclick="resetFilter()">重置</button>
       </div>
     </div>
-    <table class="acc-table" id="accTable">
-      <thead><tr><th style="width:40px"></th><th>名稱</th><th>代碼</th><th>狀態</th><th>金額表</th><th style="width:80px">操作</th></tr></thead>
-      <tbody id="accBody"></tbody>
-    </table>
+    <div class="tbl-wrap">
+      <div class="tbl-header">
+        <span class="tbl-info" id="tblInfo"></span>
+      </div>
+      <table class="flat-table">
+        <thead><tr><th style="width:12px"></th><th>支付方式</th><th>供應商</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -180,6 +183,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
-<script src="js/billing-plans-v2.js?v=1"></script>
+<script src="js/billing-plans-v2.js?v=2"></script>
 </body>
 </html>
