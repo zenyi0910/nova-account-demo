@@ -145,9 +145,16 @@ function openModal(title, fields) {
   body.innerHTML = fields.map(function(f) {
     if (f.type === 'select') {
       var opts = f.options.map(function(o) { return '<option value="' + o.value + '"' + (o.value === f.value ? ' selected' : '') + '>' + o.label + '</option>'; }).join('');
-      return '<div class="form-group"><label>' + f.label + '</label><select>' + opts + '</select></div>';
+      return '<div class="form-group"><label>' + f.label + (f.required ? ' <span style="color:#EF4444">*</span>' : '') + '</label><select>' + opts + '</select></div>';
     }
-    return '<div class="form-group"><label>' + f.label + '</label><input type="text" value="' + (f.value || '') + '" placeholder="' + (f.placeholder || '') + '"></div>';
+    if (f.type === 'upload') {
+      return '<div class="form-group"><label>' + f.label + '</label><div style="width:80px;height:80px;border:2px dashed #E5E7EB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:#9CA3AF;font-size:11px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>上傳圖片</span></div></div>';
+    }
+    if (f.type === 'toggle') {
+      var cls = f.value === 'on' ? 'on' : 'off';
+      return '<div class="form-group"><label>' + f.label + '</label><div style="display:flex;align-items:center;gap:8px"><button class="toggle ' + cls + '" onclick="this.className=this.className.includes(\'on\')?\'toggle off\':\'toggle on\'"></button><span class="status-label ' + cls + '">' + (f.value === 'on' ? '啟用' : '停用') + '</span></div></div>';
+    }
+    return '<div class="form-group"><label>' + f.label + (f.required ? ' <span style="color:#EF4444">*</span>' : '') + '</label><input type="text" value="' + (f.value || '') + '" placeholder="' + (f.placeholder || '') + '"></div>';
   }).join('');
   modal.classList.add('show');
 }
@@ -155,9 +162,10 @@ function closeModal() { document.getElementById('editModal').classList.remove('s
 
 function openAddMethod() {
   openModal('新增支付方式', [
-    {label:'供應商',type:'select',value:'',options:[{value:'',label:'請選擇'}].concat(providers.map(function(p){return {value:p.id,label:p.name};}))},
-    {label:'支付方式名稱',type:'text',placeholder:'輸入名稱'},
-    {label:'狀態',type:'select',value:'on',options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+    {label:'供應商',type:'select',value:'',required:true,options:[{value:'',label:'請選擇'}].concat(providers.map(function(p){return {value:p.id,label:p.name};}))},
+    {label:'支付方式名稱',type:'text',placeholder:'輸入名稱',required:true},
+    {label:'Logo 圖片',type:'upload'},
+    {label:'狀態',type:'toggle',value:'on'}
   ]);
 }
 
@@ -165,9 +173,10 @@ function editMethod(id) {
   var m = methods.find(function(x) { return x.id === id; });
   if (!m) return;
   openModal('編輯支付方式 — ' + m.name, [
-    {label:'供應商',type:'select',value:m.provider,options:providers.map(function(p){return {value:p.id,label:p.name};})},
-    {label:'支付方式名稱',type:'text',value:m.name},
-    {label:'狀態',type:'select',value:m.status,options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+    {label:'供應商',type:'select',value:m.provider,required:true,options:providers.map(function(p){return {value:p.id,label:p.name};})},
+    {label:'支付方式名稱',type:'text',value:m.name,required:true},
+    {label:'Logo 圖片',type:'upload'},
+    {label:'狀態',type:'toggle',value:m.status}
   ]);
 }
 
@@ -175,9 +184,10 @@ function addChannel(methodId) {
   var m = methods.find(function(x) { return x.id === methodId; });
   expanded[methodId] = true;
   openModal('新增付款通道 — ' + (m ? m.name : ''), [
-    {label:'通道名稱',type:'text',placeholder:'輸入通道名稱'},
-    {label:'通道代碼',type:'text',placeholder:'輸入代碼'},
-    {label:'狀態',type:'select',value:'on',options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+    {label:'通道名稱',type:'text',placeholder:'輸入通道名稱',required:true},
+    {label:'通道代碼',type:'text',placeholder:'輸入代碼',required:true},
+    {label:'Logo 圖片',type:'upload'},
+    {label:'狀態',type:'toggle',value:'on'}
   ]);
 }
 
@@ -185,9 +195,10 @@ function editChannel(id) {
   var c = channels.find(function(x) { return x.id === id; });
   if (!c) return;
   openModal('編輯付款通道 — ' + c.name, [
-    {label:'通道名稱',type:'text',value:c.name},
-    {label:'通道代碼',type:'text',value:c.code},
-    {label:'狀態',type:'select',value:c.status,options:[{value:'on',label:'啟用'},{value:'off',label:'停用'}]}
+    {label:'通道名稱',type:'text',value:c.name,required:true},
+    {label:'通道代碼',type:'text',value:c.code,required:true},
+    {label:'Logo 圖片',type:'upload'},
+    {label:'狀態',type:'toggle',value:c.status}
   ]);
 }
 
