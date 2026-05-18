@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 後台 - 支付方式管理</title>
+<title>Nova 後台 - 支付通道</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
@@ -129,21 +129,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <body>
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar"></nav>
-<script src="components/sidebar.js?v=4"></script>
+<script src="components/sidebar.js?v=5"></script>
 
 <!-- Main -->
 <div class="main">
   <div class="topbar">
     <nav class="breadcrumb">
       <a href="#">首頁</a><span class="sep">/</span>
-      <span class="current">支付方式管理</span>
+      <span class="current">支付通道</span>
     </nav>
   </div>
   <div class="content">
     <!-- Page Header -->
     <div class="page-header">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      <h4>支付方式管理</h4>
+      <h4>支付通道</h4>
     </div>
 
     <!-- Provider Select -->
@@ -152,67 +152,52 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <select id="providerSelect" onchange="selectProvider(this.value)"></select>
     </div>
 
-    <!-- Detail Panel -->
-    <div class="detail-panel" id="detailPanel">
-      <div class="detail-header">
-        <span class="name" id="detailName"></span>
-        <span class="spacer"></span>
-        <button class="toggle on" id="detailToggle" onclick="toggleProvider()"></button>
-      </div>
-      <div class="detail-body">
-        <!-- Disabled Banner -->
-        <div id="disabledBanner" class="disabled-banner" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-          此供應商已停用，底下所有支付方式與通道均無法使用
-        </div>
-        <!-- Tabs -->
-        <div class="tab-bar" style="display:flex;align-items:center">
-          <button class="tab-btn active" data-tab="methods" onclick="switchTab('methods',this)">支付方式</button>
-          <button class="tab-btn" data-tab="channels" onclick="switchTab('channels',this)">付款通道</button>
-          <span style="flex:1"></span>
-          <button class="btn-add" id="addItemBtn" onclick="openAddModal()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            <span id="addItemLabel">新增支付方式</span>
-          </button>
-        </div>
+    <!-- Tabs -->
+    <div class="tab-bar" style="display:flex;align-items:center">
+      <button class="tab-btn active" data-tab="methods" onclick="switchTab('methods',this)">支付方式</button>
+      <button class="tab-btn" data-tab="channels" onclick="switchTab('channels',this)">付款通道</button>
+      <span style="flex:1"></span>
+      <button class="btn-add" id="addItemBtn" onclick="openAddModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span id="addItemLabel">新增支付方式</span>
+      </button>
+    </div>
 
-        <!-- Filter -->
-        <div class="filter-bar" style="display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <span style="font-size:11px;color:#374151;font-weight:500">支付方式</span>
-            <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="filterName" placeholder="搜尋支付方式" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
-            <select id="filterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
-              <option value="">選擇啟用狀態</option>
-              <option value="on">啟用</option>
-              <option value="off">停用</option>
-            </select>
-          </div>
-          <span style="flex:1"></span>
-          <button class="btn-search" onclick="applyFilter()">搜尋</button>
-          <button class="btn-reset" onclick="resetFilter()">重置</button>
-        </div>
-
-        <!-- Page Info -->
-        <div class="pagination-info" id="paginationInfo" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
-          <span id="pageInfo"></span>
-          <div class="per-page-select">每頁顯示 <select id="perPageSelect" onchange="changePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
-        </div>
-
-        <!-- Table -->
-        <div id="tableContainer"></div>
-
-        <!-- Pagination -->
-        <div class="pagination" style="display:flex;justify-content:space-between;align-items:center;padding:12px 0">
-          <select id="pageJump" onchange="goPage(parseInt(this.value))" style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px"></select>
-          <div class="pagination-pages" id="pageButtons"></div>
+    <!-- Filter -->
+    <div class="filter-bar" style="display:flex;align-items:flex-end;gap:16px;padding:12px 16px;background:#F5F5F5;border-radius:8px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">支付方式</span>
+        <div style="display:flex;align-items:center;background:#fff;border:1px solid #E5E7EB;border-radius:6px;padding:7px 12px;gap:6px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="filterName" placeholder="搜尋支付方式" style="border:none;outline:none;font-size:13px;background:transparent;padding:0;width:120px">
         </div>
       </div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font-size:11px;color:#374151;font-weight:500">狀態</span>
+        <select id="filterStatus" style="padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;background:#fff;min-width:130px">
+          <option value="">選擇啟用狀態</option>
+          <option value="on">啟用</option>
+          <option value="off">停用</option>
+        </select>
+      </div>
+      <span style="flex:1"></span>
+      <button class="btn-search" onclick="applyFilter()">搜尋</button>
+      <button class="btn-reset" onclick="resetFilter()">重置</button>
+    </div>
+
+    <!-- Page Info -->
+    <div class="pagination-info" id="paginationInfo" style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
+      <span id="pageInfo"></span>
+      <div class="per-page-select">每頁顯示 <select id="perPageSelect" onchange="changePageSize(this.value)"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option></select> 筆</div>
+    </div>
+
+    <!-- Table -->
+    <div id="tableContainer"></div>
+
+    <!-- Pagination -->
+    <div class="pagination" style="display:flex;justify-content:space-between;align-items:center;padding:12px 0">
+      <select id="pageJump" onchange="goPage(parseInt(this.value))" style="font-size:13px;padding:4px 8px;border:1px solid #D1D5DB;border-radius:6px"></select>
+      <div class="pagination-pages" id="pageButtons"></div>
     </div>
 
   </div>
@@ -275,6 +260,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script src="js/components.js?v=11"></script>
-<script src="js/payment-methods.js?v=1"></script>
+<script src="js/payment-methods.js?v=2"></script>
 </body>
 </html>

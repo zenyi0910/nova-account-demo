@@ -41,51 +41,23 @@ let pageSize = 20;
 
 // === Init ===
 function init() {
-  // Populate provider select
   var sel = document.getElementById('providerSelect');
   sel.innerHTML = providers.map(function(p) {
     return '<option value="' + p.id + '"' + (p.id === currentProvider ? ' selected' : '') + '>' + p.name + ' (' + p.code + ')' + (p.status === 'off' ? ' [停用]' : '') + '</option>';
   }).join('');
-  renderDetail();
+  renderTable();
 }
 
 function selectProvider(id) {
   currentProvider = id;
   currentPage = 1;
-  renderDetail();
+  renderTable();
 }
 
 function changePageSize(val) {
   pageSize = parseInt(val);
   currentPage = 1;
   renderTable();
-}
-
-// === Detail Panel ===
-function renderDetail() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
-  if (!p) return;
-  document.getElementById('detailName').textContent = p.name + ' (' + p.code + ')';
-  var toggle = document.getElementById('detailToggle');
-  toggle.className = 'toggle ' + p.status;
-  var banner = document.getElementById('disabledBanner');
-  if (banner) banner.style.display = p.status === 'off' ? '' : 'none';
-  renderTable();
-}
-
-function toggleProvider() {
-  var p = providers.find(function(x){ return x.id === currentProvider; });
-  if (!p) return;
-  var newStatus = p.status === 'on' ? 'off' : 'on';
-  var action = newStatus === 'off' ? '停用' : '啟用';
-  if (confirm('確定要' + action + '供應商「' + p.name + '」嗎？')) {
-    p.status = newStatus;
-    // Update select text
-    var sel = document.getElementById('providerSelect');
-    var opt = sel.querySelector('option[value="' + p.id + '"]');
-    if (opt) opt.textContent = p.name + ' (' + p.code + ')' + (p.status === 'off' ? ' [停用]' : '');
-    renderDetail();
-  }
 }
 
 // === Tabs ===
