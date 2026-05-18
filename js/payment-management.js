@@ -343,9 +343,9 @@ function renderSchedules() {
           var first = s.channels[0];
           var rest = s.channels.length - 1;
           var uid = prefix + 'ch_' + item.providerId + '_' + item.idx;
-          var badge = '<span class="ch-badge" data-uid="'+uid+'" style="background:#F3F4F6;color:#374151;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px">' + first;
+          var badge = '<span class="ch-badge" data-uid="'+uid+'" onclick="toggleChInline(event,\''+uid+'\')" style="background:#F3F4F6;color:#374151;font-size:11px;padding:2px 6px;border-radius:4px;margin-right:6px;display:inline-flex;align-items:center;gap:4px;cursor:pointer">' + first;
           if (rest > 0) {
-            badge += '<span onclick="toggleChInline(event,\''+uid+'\')" style="cursor:pointer;background:#9CA3AF;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
+            badge += '<span style="background:#9CA3AF;color:#fff;font-size:10px;padding:0 4px;border-radius:3px;margin-left:2px">+' + rest + '</span>';
           }
           badge += '</span>';
           if (rest > 0) {
