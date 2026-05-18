@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 後台 - 娛樂城管理</title>
+<title>Nova 後台 - 遊戲排序維護</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
@@ -431,98 +431,77 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </style>
 </head>
 <body>
+<!-- Sidebar -->
 <nav class="sidebar" id="sidebar"></nav>
-<script src="components/sidebar.js?v=11"></script>
+<script src="components/sidebar.js?v=5"></script>
+
+<!-- Main -->
 <div class="main">
   <div class="topbar">
-    <button class="topbar-toggle" onclick="toggleSidebarMobile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
-    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">遊戲管理</a><span class="sep">&gt;</span><span class="current">娛樂城管理</span></div>
+    <button class="topbar-toggle" onclick="document.body.classList.toggle('sidebar-collapsed')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+    <nav class="breadcrumb">
+      <a href="#">首頁</a><span class="sep">/</span>
+      <a href="nova-hall-management.html">遊戲管理</a><span class="sep">/</span>
+      <span class="current">遊戲排序維護</span>
+    </nav>
   </div>
   <div class="content">
     <div class="page-header">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      <h4>娛樂城管理</h4>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg>
+      <h4>遊戲排序維護</h4>
     </div>
-    <div class="tips-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2v5"/><path d="M14.829 15.998a3 3 0 1 1-5.658 0"/><path d="M20.92 14.606A1 1 0 0 1 20 16H4a1 1 0 0 1-.92-1.394l3-7A1 1 0 0 1 7 7h10a1 1 0 0 1 .92.606z"/></svg><span>Tips</span> 維護娛樂城將覆蓋底下所有遊戲設為維護中，重新啟用不影響個別遊戲設定</div>
-    <div id="hallCards"></div>
-    <div id="hallDetailSection"></div>
 
-    <!-- 遊戲排序區域 (已移至獨立頁面) -->
-  </div>
-</div>
-
-<!-- Modal: 幣種覆蓋設定 -->
-<div class="modal-overlay" id="currModal">
-  <div class="modal" style="max-width:560px">
-    <div class="modal-header"><h3 id="currModalTitle">幣種設定</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('currModal')">&times;</button></div>
-    <div class="modal-body">
-      <div class="info-box">廳級幣種設定會覆蓋該廳所有遊戲的投注範圍。取消覆蓋後，遊戲自動恢復各自原始設定。</div>
-      <div style="margin-bottom:16px">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div style="width:8px;height:8px;border-radius:50%;background:#D97706"></div><span style="font-size:13px;font-weight:600">金幣設定</span></div>
-        <div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="cGoldMin" placeholder="10"></div><div class="form-group"><label>最高投注</label><input type="number" id="cGoldMax" placeholder="100000"></div></div>
-        <div class="form-row"><div class="form-group"><label>兌換比率</label><input type="text" id="cGoldRate" placeholder="1:1"><div class="form-hint">金幣:遊戲幣</div></div><div class="form-group"><label>狀態</label><select id="cGoldStatus"><option value="on">啟用</option><option value="off">停用</option></select></div></div>
-      </div>
-      <div style="padding-top:14px;border-top:1px solid oklch(0.922 0 0)">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px"><div style="width:8px;height:8px;border-radius:50%;background:#7C3AED"></div><span style="font-size:13px;font-weight:600">星幣設定</span></div>
-        <div class="form-row"><div class="form-group"><label>最低投注</label><input type="number" id="cStarMin" placeholder="100"></div><div class="form-group"><label>最高投注</label><input type="number" id="cStarMax" placeholder="50000"></div></div>
-        <div class="form-row"><div class="form-group"><label>兌換比率</label><input type="text" id="cStarRate" placeholder="10:1"><div class="form-hint">星幣:遊戲幣</div></div><div class="form-group"><label>狀態</label><select id="cStarStatus"><option value="on">啟用</option><option value="off">停用</option></select></div></div>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('currModal')">取消</button><button class="btn btn-dark" onclick="saveCurr()">儲存設定</button></div>
-  </div>
-</div>
-<!-- Modal: 快速開關確認 -->
-<div class="modal-overlay" id="toggleConfirm">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-header"><h3>確認操作</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('toggleConfirm')">&times;</button></div>
-    <div class="modal-body"><p id="toggleMsg" style="font-size:13px;color:#374151;line-height:1.6"></p></div>
-    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('toggleConfirm')">取消</button><button class="btn btn-danger" id="toggleConfirmBtn" onclick="confirmToggle()">確認</button></div>
-  </div>
-</div>
-<!-- Modal: 遊戲詳情 -->
-<div class="modal-overlay" id="detailModal">
-  <div class="modal" style="max-width:720px">
-    <div class="modal-header"><h3 id="detailTitle">遊戲詳情</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('detailModal')">&times;</button></div>
-    <div class="modal-body" id="detailBody"></div>
-    <div class="modal-footer" id="detailFooter"><button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button><button class="btn btn-dark" onclick="openEditDetail(currentDetailId)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="margin-right:4px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>編輯</button></div>
-  </div>
-</div>
-<div class="toast" id="toast"></div>
-
-<!-- 排程 Modal -->
-<div class="modal-overlay" id="schedModal">
-  <div class="modal-box" style="width:420px;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.15)">
-    <div class="modal-header"><h3 id="schedModalTitle">新增維護排程</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal('schedModal')">&times;</button></div>
-    <div class="modal-body" style="overflow:visible">
-      <div class="form-group"><label>選擇娛樂城</label>
-        <select id="sHall" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
-          <option value="">請選擇娛樂城</option>
-          <option value="VA">VA 娛樂城</option>
-          <option value="YGR">YGR 娛樂城</option>
-          <option value="JDB">JDB 娛樂城</option>
-          <option value="PG">PG 娛樂城</option>
-          <option value="PP">PP 娛樂城</option>
-          <option value="CQ9">CQ9 娛樂城</option>
-          <option value="RSG">RSG 娛樂城</option>
-          <option value="FC">FC 娛樂城</option>
-        </select>
-      </div>
-      <div class="form-group"><label>維護時間</label>
-        <div class="date-picker-wrap" id="schedDatePicker">
-          <div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
+    <!-- 遊戲列表 -->
+    <div class="game-section">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="seg-control" id="currencySegment">
+          <button class="seg-btn active" onclick="switchGameCurrency('gold')">金幣</button>
+          <button class="seg-btn" onclick="switchGameCurrency('star')">星幣</button>
+        </div>
+        <div class="seg-control" id="catSegment">
+          <button class="seg-btn active" onclick="switchGameCat('')">全部</button>
+          <button class="seg-btn" onclick="switchGameCat('電動')">電動</button>
+          <button class="seg-btn" onclick="switchGameCat('街機')">街機</button>
+          <button class="seg-btn" onclick="switchGameCat('棋牌')">棋牌</button>
         </div>
       </div>
-      <div class="form-group"><label>備註</label>
-        <input type="text" id="sNote" placeholder="例：例行維護" style="width:100%;padding:7px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px">
+      <div class="filter-bar" style="margin-top:12px">
+        <div class="filter-group"><label>遊戲名稱</label><div class="filter-input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜尋遊戲名稱..." id="filterName"></div></div>
+        <div class="filter-group"><label>狀態</label><select id="filterStatus"><option value="">選擇狀態</option><option>使用中</option><option>停用中</option><option>維護中</option><option>即將上線</option></select></div>
+        <div class="filter-group"><label>娛樂城</label><select id="filterHallAdv"><option value="">選擇娛樂城</option></select></div>
+        <div class="filter-group"><label>標籤</label><select id="filterTagAdv"><option value="">選擇標籤</option><option value="-">無標籤</option><option>推薦</option><option>最新</option><option>熱門</option></select></div>
+        <div class="filter-group"><label>VIP 等級以上</label><select id="filterVipAdv"><option value="">所有等級</option><option>不限制</option><option>VIP1</option></select></div>
+        <span style="flex:1"></span>
+        <div class="filter-actions">
+          <button class="btn btn-search" onclick="filterGames()" style="padding:7px 16px;font-size:13px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 搜尋</button>
+          <button class="btn btn-outline" onclick="resetFilters()" style="padding:7px 16px;font-size:13px">重置</button>
+        </div>
       </div>
-      <div style="font-size:11px;color:#9CA3AF;margin-top:8px">該功能不區分幣別</div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('schedModal')">取消</button>
-      <button class="btn btn-dark" onclick="addSchedule()">確認新增</button>
+      <div class="table-info">
+        <span id="gameCount">總共 32 筆資料</span>
+        <span class="table-info-right">
+          <button class="btn btn-sort" id="sortModeBtn" onclick="toggleSortMode()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M3 12h12M3 18h6"/><path d="M17 14l3 3-3 3M20 17H14"/></svg> 編輯排序</button>
+          <button class="btn btn-sort-outline" id="cancelSortBtn" style="display:none" onclick="cancelSortMode()">取消</button>
+          <button class="btn btn-sort-fill" id="saveSortBtn" style="display:none" onclick="saveSortOrder()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存排序</button>
+        </span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead><tr><th>序號</th><th>標籤</th><th>娛樂城</th><th>種類</th><th>遊戲名稱</th><th>狀態</th><th>VIP 等級以上</th><th>操作</th><th>備註</th></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="pagination-bar" id="paginationBar" style="margin-top:12px;padding:8px 0"></div>
     </div>
   </div>
 </div>
+
+<!-- Dummy elements for shared JS compatibility -->
+<div id="hallCards" style="display:none"></div>
+<div id="hallDetailSection" style="display:none"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script src="components/date-picker.js"></script>
 <script src="js/components.js?v=11"></script>
