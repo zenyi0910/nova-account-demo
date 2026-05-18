@@ -74,10 +74,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .tbl-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #E5E7EB}
 .tbl-info{font-size:13px;color:#6B7280}
 .flat-table{width:100%;border-collapse:collapse}
-.flat-table th{background:#F9FAFB;padding:10px 16px;text-align:left;font-weight:600;font-size:12px;color:#6B7280;border-bottom:1px solid #E5E7EB}
-.flat-table td{padding:10px 16px;border-bottom:1px solid #F3F4F6;font-size:13px;color:#374151;vertical-align:middle}
+.flat-table th{background:#F9FAFB;padding:8px 16px;text-align:left;font-weight:600;font-size:12px;color:#6B7280;border-bottom:1px solid #E5E7EB}
+.flat-table td{padding:8px 16px;border-bottom:1px solid #F3F4F6;font-size:13px;color:#374151;vertical-align:middle}
 .flat-table tr:last-child td{border-bottom:none}
-.flat-table tr:hover{background:#FAFBFF}
+.flat-table tr:hover:not(.prov-header):not(.sub-header){background:#FAFBFF}
 
 /* Left border indicators — clean grouped lines */
 .flat-table td.col-lines{padding:0;width:20px;position:relative}
@@ -89,15 +89,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .row-only .line-prov{top:50%;bottom:50%;height:auto;border-radius:1.5px}
 
 /* Provider group header */
-.prov-header{cursor:pointer;background:#FAFBFF}
+.prov-header{cursor:pointer;background:#FAFBFF;border-left:4px solid #6366F1}
 .prov-header:hover{background:#EEF2FF}
-.prov-header td{font-weight:600;color:#111827;padding:12px 16px}
+.prov-header td{font-weight:600;color:#111827;padding:10px 16px}
 .prov-toggle{display:inline-flex;align-items:center;gap:8px}
 .prov-chevron{display:inline-flex;transition:transform .2s;color:#6B7280}
 .prov-chevron.open{transform:none}
-.prov-name{font-size:13px;font-weight:600;color:#111827}
+.prov-name{font-size:14px;font-weight:600;color:#111827}
 .prov-code{font-size:11px;color:#9CA3AF;font-weight:400;margin-left:6px}
-.prov-count{font-size:12px;color:#6B7280;font-weight:400;margin-left:12px}
+.prov-count{font-size:12px;color:#9CA3AF;font-weight:400;margin-left:12px}
 .sub-header th{background:#F3F4F6;padding:6px 16px;font-size:11px;color:#9CA3AF;font-weight:500;border-bottom:1px solid #E5E7EB;text-align:left}
 .prov-cell{vertical-align:middle;background:#FAFBFF;border-right:1px solid #E5E7EB;cursor:pointer;padding:8px 10px !important;text-align:center;width:90px}
 .prov-cell:hover{background:#EEF2FF}
@@ -131,7 +131,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .ch-dot.off{background:#D1D5DB}
 
 /* Actions — spread left/right */
-.act-cell{display:flex;align-items:center;justify-content:space-between}
+.act-cell{display:flex;align-items:center;gap:4px}
+.btn-icon-action{width:32px;height:32px}
+.btn-icon-action.view{color:#4DD0C2}
+.btn-icon-action.view:hover{background:rgba(77,208,194,0.08)}
 
 /* Modal — use shared component styles */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -197,6 +200,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <span class="tbl-info" id="tblInfo"></span>
       </div>
       <table class="flat-table">
+        <thead><tr><th>支付方式</th><th>付款通道</th><th>狀態</th><th style="width:80px">操作</th></tr></thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>
