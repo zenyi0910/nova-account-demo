@@ -220,7 +220,7 @@ function toggleBillingStatus(id) {
   renderBillingTable();
 }
 
-// === Provider Cards ===
+// === Provider Table ===
 function renderProviders() {
   const grid = document.getElementById('providerGrid');
   const nameFilter = (document.getElementById('providerSearchName') || {}).value || '';
@@ -230,21 +230,14 @@ function renderProviders() {
     if (statusFilter && p.status !== statusFilter) return false;
     return true;
   });
-  grid.innerHTML = filtered.map(function(p) {
-    const methodCount = methods.filter(function(m){ return m.provider === p.id; }).length;
-    const channelCount = channels.filter(function(c){ return c.provider === p.id; }).length;
-    const isActive = p.id === currentProvider;
-    const statusCls = p.status === 'on' ? 'on' : 'off';
-    const hasSchedule = p.schedules && p.schedules.length > 0;
-    const clockIcon = hasSchedule ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:inline-block;margin-left:6px;vertical-align:middle;color:#3B82F6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' : '';
-    return '<div class="provider-card' + (isActive ? ' active' : '') + (p.status === 'off' ? ' disabled' : '') + '" onclick="selectProvider(\'' + p.id + '\')">' +
-      '<div class="provider-header">' +
-        '<div class="provider-logo">' + p.name.charAt(0) + '</div>' +
-        '<div style="flex:1"><div class="provider-name">' + p.name + clockIcon + '</div><div style="font-size:12px;color:#9CA3AF;font-family:monospace">' + p.code + '</div></div>' +
-        '<button class="toggle ' + (p.status === 'on' ? 'on' : 'off') + '" onclick="event.stopPropagation();toggleProviderStatus(\'' + p.id + '\')"></button>' +
-      '</div>' +
-    '</div>';
+  var total = filtered.length;
+  document.getElementById('providerPageInfo').innerHTML = '<span>第 1 頁，共 ' + total + ' 筆資料</span><div class="per-page-select">每頁顯示 <select style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px"><option>20</option></select> 筆</div>';
+  var rows = filtered.map(function(p) {
+    var statusHtml = '<td><div class="switch-cell" onclick="toggleProviderStatus(\'' + p.id + '\')"><button class="toggle ' + p.status + '"></button><span class="status-label ' + p.status + '">' + (p.status === 'on' ? '啟用' : '停用') + '</span></div></td>';
+    return '<tr><td>' + p.name + '</td>' + statusHtml + '<td style="font-family:monospace;font-size:12px;color:#6B7280">' + p.code + '</td><td class="action-cell"><div class="action-inner">' + UI.btn.icon('edit', "openProviderModal('" + p.id + "')", '編輯') + '</div></td></tr>';
   }).join('');
+  if (!rows) rows = '<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+  grid.innerHTML = '<table class="data-table"><thead><tr><th style="width:auto">名稱</th><th>狀態</th><th>供應商代碼</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
 function filterProviders() { renderProviders(); }
