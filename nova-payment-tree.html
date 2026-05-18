@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 後台 - 支付管理（樹狀表格）</title>
+<title>Nova 後台 - 支付管理</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F8F9FB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
@@ -110,19 +110,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </head>
 <body>
 <nav class="sidebar" id="sidebar"></nav>
-<script src="components/sidebar.js?v=5"></script>
+<script src="components/sidebar.js?v=7"></script>
 
 <div class="main">
   <div class="topbar">
     <nav class="breadcrumb">
       <a href="#">首頁</a><span class="sep">/</span>
-      <span class="current">支付管理（樹狀表格）</span>
+      <span class="current">支付管理</span>
     </nav>
   </div>
   <div class="content">
     <div class="page-header">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      <h4>支付管理（樹狀表格）</h4>
+      <h4>支付管理</h4>
       <span style="flex:1"></span>
       <button class="btn-outline" onclick="openAddMethod()" style="background:#4DD0C2;color:#fff;border-color:#4DD0C2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>新增支付方式</button>
     </div>
@@ -167,15 +167,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
     <div id="tableWrap"></div>
 
-    <div class="pagination">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;color:#374151">
       <span id="pageInfo"></span>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7280">每頁顯示 <select id="perPageSelect" onchange="changePageSize(this.value)" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:13px"><option value="10" selected>10</option><option value="20">20</option><option value="50">50</option></select> 筆</div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;padding:4px 0">
       <div class="pagination-pages" id="pageButtons"></div>
     </div>
   </div>
 </div>
 
 <script src="js/components.js?v=11"></script>
-<script src="js/payment-tree.js?v=2"></script>
+<script src="js/payment-tree.js?v=3"></script>
 
 <!-- Modal -->
 <div class="modal-overlay" id="editModal">

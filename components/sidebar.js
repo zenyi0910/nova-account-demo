@@ -17,7 +17,7 @@
           children: [
             { name: '商城管理', href: 'nova-store-management.html' },
             { name: '供應商', href: 'nova-payment-management.html' },
-            { name: '支付管理', href: 'nova-payment-methods.html' },
+            { name: '支付管理', href: 'nova-payment-tree.html' },
             { name: '儲值金額表', href: 'nova-billing-plans-v2.html' }
           ]
         },
