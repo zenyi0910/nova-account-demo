@@ -62,7 +62,7 @@ function initHallSelector() {
   const hallKeys = Object.keys(halls);
   const firstLetters = new Set(hallKeys.map(k => k.charAt(0).toUpperCase()));
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const azHtml = '<div class="az-filter">' + alphabet.map(letter => {
+  const azHtml = '<div class="az-filter"><button class="az-filter-btn' + (azFilter === '' ? ' active' : '') + '" onclick="filterByLetter(\'\')">全部</button>' + alphabet.map(letter => {
     const has = firstLetters.has(letter);
     const cls = !has ? ' disabled' : (azFilter === letter ? ' active' : '');
     return '<button class="az-filter-btn' + cls + '"' + (has ? ' onclick="filterByLetter(\'' + letter + '\')"' : ' disabled') + '>' + letter + '</button>';
@@ -75,7 +75,7 @@ function initHallSelector() {
     const gc = games.filter(g => g.hall === id).length;
     const statusCls = h.status === 'on' ? 'on' : 'off';
     const statusText = h.status === 'on' ? '啟用' : '停用';
-    return '<div class="hall-list-item' + (id === currentHall ? ' active' : '') + '" onclick="selectHall(\'' + id + '\')">' +
+    return '<div class="hall-list-item" onclick="selectHall(\'' + id + '\')">' +
       '<span class="hall-list-name">' + h.name + '</span>' +
       '<span class="hall-list-count">' + gc + ' 款遊戲</span>' +
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
