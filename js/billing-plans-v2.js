@@ -159,7 +159,7 @@ function render() {
         actHtml = '<div class="act-cell">' + UI.btn.icon('view', "event.stopPropagation();openDetail('" + bp.id + "')", '檢視');
         actHtml += UI.btn.icon('edit', "event.stopPropagation();openEdit('" + bp.id + "')", '編輯') + '</div>';
       } else {
-        actHtml = '<div class="act-cell"><span style="display:inline-flex;align-items:center;gap:4px;color:#6B7280;font-size:12px;cursor:pointer;white-space:nowrap" onclick="event.stopPropagation();openNewBilling(\'' + method.id + '\')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>新增</span></div>';
+        actHtml = '<div class="act-cell"><span style="display:inline-flex;align-items:center;gap:4px;color:#6B7280;font-size:12px;cursor:pointer;white-space:nowrap" onclick="event.stopPropagation();openNewBilling(\'' + method.id + '\')"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>新增</span></div>';
       }
 
       html += '<tr>';
