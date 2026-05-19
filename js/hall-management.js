@@ -75,8 +75,11 @@ function initHallSelector() {
     const gc = games.filter(g => g.hall === id).length;
     const statusCls = h.status === 'on' ? 'on' : 'off';
     const statusText = h.status === 'on' ? '啟用' : '停用';
+    const now = new Date();
+    const hasSchedule = (h.schedules || []).some(s => !s.end || new Date(s.end) > now);
+    const clockIcon = hasSchedule ? '<svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14" style="margin-left:6px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' : '';
     return '<div class="hall-list-item" onclick="selectHall(\'' + id + '\')">' +
-      '<span class="hall-list-name">' + h.name + '</span>' +
+      '<span class="hall-list-name">' + h.name + clockIcon + '</span>' +
       '<span class="hall-list-count">' + gc + ' 款遊戲</span>' +
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
       '</div>';
