@@ -191,8 +191,43 @@ function toggleStatus(type, id) {
   renderTable();
 }
 
+function closeModal() {
+  document.getElementById('editModal').classList.remove('show');
+}
+
+function openAddMethod() {
+  openModal('新增支付方式', [
+    {label:'供應商',type:'select',value:'',options:providers.map(function(x) { return {value:x.id,label:x.name}; }),required:true},
+    {label:'支付方式名稱',type:'text',placeholder:'輸入支付方式名稱',required:true},
+    {label:'Logo 圖片',type:'upload'},
+    {label:'狀態',type:'toggle',value:'on'}
+  ]);
+}
+
 function openModal(title, fields) {
-  console.log('Modal:', title, fields);
+  document.getElementById('modalTitle').textContent = title;
+  var html = '';
+  fields.forEach(function(f) {
+    html += '<div style="margin-bottom:16px">';
+    html += '<label style="display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px">' + f.label + (f.required ? ' <span style="color:#EF4444">*</span>' : '') + '</label>';
+    if (f.type === 'text') {
+      html += '<input type="text" value="' + (f.value || '') + '" placeholder="' + (f.placeholder || '') + '" style="width:100%;padding:8px 12px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px">';
+    } else if (f.type === 'select') {
+      html += '<select style="width:100%;padding:8px 12px;border:1px solid #D1D5DB;border-radius:6px;font-size:13px">';
+      (f.options || []).forEach(function(o) {
+        html += '<option value="' + o.value + '"' + (o.value === f.value ? ' selected' : '') + '>' + o.label + '</option>';
+      });
+      html += '</select>';
+    } else if (f.type === 'upload') {
+      html += '<div style="border:2px dashed #D1D5DB;border-radius:8px;padding:20px;text-align:center;color:#9CA3AF;font-size:12px;cursor:pointer">點擊或拖曳上傳圖片</div>';
+    } else if (f.type === 'toggle') {
+      var on = f.value === 'on';
+      html += '<div style="display:flex;align-items:center;gap:8px"><button class="toggle ' + (on ? 'on' : 'off') + '" style="width:36px;height:20px;border-radius:10px;border:none;position:relative;cursor:pointer;background:' + (on ? '#4DD0C2' : '#D1D5DB') + '"><span style="position:absolute;top:2px;' + (on ? 'left:18px' : 'left:2px') + ';width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15)"></span></button><span style="font-size:13px;color:' + (on ? '#4DD0C2' : '#6B7280') + '">' + (on ? '啟用' : '停用') + '</span></div>';
+    }
+    html += '</div>';
+  });
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('editModal').classList.add('show');
 }
 
 function editMethod(id) {
