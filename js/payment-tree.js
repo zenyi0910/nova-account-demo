@@ -1,3 +1,4 @@
+const provColors = {'p1':'#6366F1','p2':'#F59E0B','p3':'#10B981','p4':'#EF4444','p5':'#3B82F6','p6':'#8B5CF6','p7':'#EC4899'};
 const providers = [
   {id:'p1',name:'MyCard'},
   {id:'p2',name:'Gash'},
@@ -140,7 +141,8 @@ function renderTable() {
     var chevCls = isOpen ? 'expand-btn open' : 'expand-btn';
     var statusBadge = '<span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span>';
 
-    rows += '<tr class="parent-row">' +
+    var pColor = provColors[m.provider] || '#6366F1';
+    rows += '<tr class="parent-row" style="border-left:4px solid ' + pColor + '">' +
       '<td style="width:30px;text-align:center"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button></td>' +
       '<td style="width:44px"><img src="' + m.logo + '"></td>' +
       '<td><span>' + m.name + '</span></td>' +
@@ -153,7 +155,7 @@ function renderTable() {
 
     if (isOpen) {
       mChannels.forEach(function(c) {
-        rows += '<tr class="child-row">' +
+        rows += '<tr class="child-row" style="border-left:4px solid ' + pColor + '">' +
           '<td></td>' +
           '<td style="width:44px"><img src="' + c.logo + '"></td>' +
           '<td><span class="code-text">-</span></td>' +
@@ -164,7 +166,7 @@ function renderTable() {
           '<td class="action-cell"><button class="btn-icon-sm" onclick="editChannel(\'' + c.id + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row"><td colspan="8" style="text-align:center"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row" style="border-left:4px solid ' + pColor + '"><td colspan="8" style="text-align:center"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
