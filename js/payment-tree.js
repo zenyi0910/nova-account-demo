@@ -156,7 +156,7 @@ function renderTable() {
     if (isOpen) {
       mChannels.forEach(function(c) {
         rows += '<tr class="child-row">' +
-          '<td style="border-left:4px solid ' + pColor + '"></td>' +
+          '<td></td>' +
           '<td style="width:44px"><img src="' + c.logo + '"></td>' +
           '<td><span class="code-text">-</span></td>' +
           '<td>' + c.name + '</td>' +
@@ -166,7 +166,7 @@ function renderTable() {
           '<td class="action-cell"><button class="btn-icon-sm" onclick="editChannel(\'' + c.id + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row"><td style="border-left:4px solid ' + pColor + '" colspan="8"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row"><td colspan="8" style="text-align:center"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
