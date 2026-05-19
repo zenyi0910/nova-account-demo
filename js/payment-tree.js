@@ -1,63 +1,62 @@
-// === Data ===
 const providers = [
-  {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on'},
-  {id:'gash',name:'Gash',code:'GASH001',status:'on'},
-  {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on'},
-  {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off'},
-  {id:'esun',name:'玉山銀行',code:'70424393',status:'off'},
-  {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off'},
-  {id:'startest',name:'星運測試商',code:'AB00888',status:'on'}
+  {id:'p1',name:'MyCard'},
+  {id:'p2',name:'Gash'},
+  {id:'p3',name:'LINE Pay'},
+  {id:'p4',name:'綠界科技'},
+  {id:'p5',name:'玉山銀行'},
+  {id:'p6',name:'遠傳電信'},
+  {id:'p7',name:'星運測試商'}
 ];
 
 const methods = [
-  {id:'m1',provider:'mycard',name:'點數卡',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=點數卡',status:'on'},
-  {id:'m2',provider:'mycard',name:'電信帳單',logo:'https://placehold.co/56x56/FEF3C7/D97706?text=電信',status:'on'},
-  {id:'m3',provider:'mycard',name:'線上轉點',logo:'https://placehold.co/56x56/DCFCE7/166534?text=轉點',status:'off'},
-  {id:'m4',provider:'gash',name:'點數卡',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=點數卡',status:'on'},
-  {id:'m5',provider:'gash',name:'會員扣點',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=扣點',status:'on'},
-  {id:'m6',provider:'linepay',name:'行動支付',logo:'https://placehold.co/56x56/DCFCE7/166534?text=行動',status:'on'},
-  {id:'m7',provider:'ecpay',name:'信用卡',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=信用卡',status:'off'},
-  {id:'m8',provider:'ecpay',name:'ATM轉帳',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=ATM',status:'off'},
-  {id:'m9',provider:'startest',name:'測試支付',logo:'https://placehold.co/56x56/F3F4F6/374151?text=測試',status:'on'},
-  {id:'m10',provider:'mycard',name:'超商代碼',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=超商',status:'on'},
-  {id:'m11',provider:'gash',name:'信用卡',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=信用卡',status:'on'},
-  {id:'m12',provider:'linepay',name:'LINE Points',logo:'https://placehold.co/56x56/DCFCE7/166534?text=Points',status:'off'},
-  {id:'m13',provider:'ecpay',name:'超商代碼',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=超商',status:'on'},
-  {id:'m14',provider:'esun',name:'信用卡',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=信用卡',status:'on'},
-  {id:'m15',provider:'esun',name:'網路ATM',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=ATM',status:'on'},
-  {id:'m16',provider:'fetnet',name:'電信小額',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=電信',status:'on'},
-  {id:'m17',provider:'fetnet',name:'遠傳幣',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=遠傳幣',status:'off'},
-  {id:'m18',provider:'startest',name:'免費抵扣',logo:'https://placehold.co/56x56/F3F4F6/374151?text=免費',status:'on'},
-  {id:'m19',provider:'mycard',name:'MyCard儲值',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=儲值',status:'on'},
-  {id:'m20',provider:'gash',name:'GASH樂點',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=樂點',status:'on'}
+  {id:'m1',name:'點數卡',provider:'p1',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=點數卡',status:'on'},
+  {id:'m2',name:'電信帳單',provider:'p1',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=電信',status:'on'},
+  {id:'m3',name:'線上轉點',provider:'p1',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=轉點',status:'off'},
+  {id:'m4',name:'點數卡',provider:'p2',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=點數卡',status:'on'},
+  {id:'m5',name:'會員扣點',provider:'p2',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=扣點',status:'on'},
+  {id:'m6',name:'行動支付',provider:'p3',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=行動',status:'on'},
+  {id:'m7',name:'信用卡',provider:'p4',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=信用卡',status:'off'},
+  {id:'m8',name:'ATM轉帳',provider:'p4',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=ATM',status:'off'},
+  {id:'m9',name:'測試支付',provider:'p7',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=測試',status:'on'},
+  {id:'m10',name:'超商代碼',provider:'p1',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=超商',status:'on'},
+  {id:'m11',name:'銀行轉帳',provider:'p5',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=銀行',status:'on'},
+  {id:'m12',name:'電子錢包',provider:'p3',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=錢包',status:'on'},
+  {id:'m13',name:'虛擬帳號',provider:'p4',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=虛擬',status:'on'},
+  {id:'m14',name:'QR Code',provider:'p3',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=QR',status:'on'},
+  {id:'m15',name:'快速支付',provider:'p2',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=快付',status:'off'},
+  {id:'m16',name:'代收代付',provider:'p6',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=代收',status:'on'},
+  {id:'m17',name:'第三方支付',provider:'p4',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=第三方',status:'on'},
+  {id:'m18',name:'區塊鏈支付',provider:'p7',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=區塊鏈',status:'off'},
+  {id:'m19',name:'預付卡',provider:'p1',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=預付',status:'on'},
+  {id:'m20',name:'樂點卡',provider:'p2',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=樂點',status:'on'}
 ];
 
 const channels = [
-  {id:'c1',method:'m1',name:'點數卡',code:'COPGAM05',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=點數',status:'on'},
-  {id:'c2',method:'m2',name:'手機小額付款',code:'HE0004',logo:'https://placehold.co/56x56/FEF3C7/D97706?text=手機',status:'off'},
-  {id:'c3',method:'m3',name:'信用卡3D',code:'CHANNEL_1E8B',logo:'https://placehold.co/56x56/DCFCE7/166534?text=3D',status:'off'},
-  {id:'c4',method:'m4',name:'點數卡',code:'GASH_PNT01',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=點數',status:'on'},
-  {id:'c5',method:'m5',name:'錢包扣點',code:'COPGAM09',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=錢包',status:'on'},
-  {id:'c6',method:'m6',name:'LINE Pay',code:'LP_001',logo:'https://placehold.co/56x56/DCFCE7/166534?text=LINE',status:'on'},
-  {id:'c7',method:'m7',name:'信用卡一次付',code:'EC_CC01',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=信用',status:'off'},
-  {id:'c8',method:'m8',name:'ATM虛擬帳號',code:'EC_ATM01',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=ATM',status:'off'},
-  {id:'c9',method:'m9',name:'測試通道A',code:'TEST_A',logo:'https://placehold.co/56x56/F3F4F6/374151?text=A',status:'on'},
-  {id:'c10',method:'m9',name:'測試通道B',code:'TEST_B',logo:'https://placehold.co/56x56/F3F4F6/374151?text=B',status:'on'},
-  {id:'c11',method:'m10',name:'超商代碼繳費',code:'MC_CVS01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=超商',status:'on'},
-  {id:'c12',method:'m11',name:'信用卡分期',code:'GASH_CC01',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=分期',status:'on'},
-  {id:'c13',method:'m12',name:'LINE Points兌換',code:'LP_PTS01',logo:'https://placehold.co/56x56/DCFCE7/166534?text=Points',status:'off'},
-  {id:'c14',method:'m13',name:'超商代碼',code:'EC_CVS01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=超商',status:'on'},
-  {id:'c15',method:'m14',name:'玉山信用卡',code:'ESUN_CC01',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=玉山',status:'on'},
-  {id:'c16',method:'m15',name:'玉山網路ATM',code:'ESUN_ATM01',logo:'https://placehold.co/56x56/E0F2FE/0369A1?text=ATM',status:'on'},
-  {id:'c17',method:'m16',name:'遠傳小額付款',code:'FET_SM01',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=小額',status:'on'},
-  {id:'c18',method:'m17',name:'遠傳幣兌換',code:'FET_COIN01',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=遠傳幣',status:'off'},
-  {id:'c19',method:'m19',name:'MyCard線上儲值',code:'MC_TOP01',logo:'https://placehold.co/56x56/EEF2FF/4338CA?text=儲值',status:'on'},
+  {id:'c1',method:'m1',name:'點數卡',code:'COPGAM05',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=點數卡',status:'on'},
+  {id:'c2',method:'m2',name:'手機小額付款',code:'TEL_PAY01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=小額',status:'on'},
+  {id:'c3',method:'m2',name:'遠傳電信',code:'FET_01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=遠傳',status:'on'},
+  {id:'c4',method:'m3',name:'信用卡3D',code:'CC3D_01',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=3D',status:'off'},
+  {id:'c5',method:'m3',name:'線上轉點',code:'ONLINE_01',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=轉點',status:'off'},
+  {id:'c6',method:'m4',name:'點數卡',code:'GASH_01',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=點數卡',status:'on'},
+  {id:'c7',method:'m5',name:'錢包扣點',code:'WALLET_01',logo:'https://placehold.co/56x56/FEE2E2/991B1B?text=錢包',status:'on'},
+  {id:'c8',method:'m6',name:'LINE Pay',code:'LINEPAY_01',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=LINE',status:'on'},
+  {id:'c9',method:'m6',name:'全支付',code:'ALLPAY_01',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=全支付',status:'on'},
+  {id:'c10',method:'m7',name:'信用卡',code:'ECPAY_CC01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=信用卡',status:'off'},
+  {id:'c11',method:'m8',name:'ATM轉帳',code:'ECPAY_ATM01',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=ATM',status:'off'},
+  {id:'c12',method:'m9',name:'測試通道A',code:'TEST_A01',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=A',status:'on'},
+  {id:'c13',method:'m9',name:'測試通道B',code:'TEST_B01',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=B',status:'on'},
+  {id:'c14',method:'m10',name:'7-11即時儲',code:'711_01',logo:'https://placehold.co/56x56/DBEAFE/1E40AF?text=711',status:'on'},
+  {id:'c15',method:'m11',name:'銀行轉帳',code:'BANK_01',logo:'https://placehold.co/56x56/FEF3C7/92400E?text=銀行',status:'on'},
+  {id:'c16',method:'m12',name:'電子錢包',code:'EWALLET_01',logo:'https://placehold.co/56x56/D1FAE5/065F46?text=錢包',status:'on'},
+  {id:'c17',method:'m13',name:'虛擬帳號',code:'VACCOUNT_01',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=虛擬',status:'on'},
+  {id:'c18',method:'m14',name:'QR Code',code:'QR_01',logo:'https://placehold.co/56x56/F3E8FF/6B21A8?text=QR',status:'on'},
+  {id:'c19',method:'m19',name:'預付卡',code:'PREPAID_01',logo:'https://placehold.co/56x56/E0E7FF/3730A3?text=預付',status:'on'},
   {id:'c20',method:'m20',name:'GASH樂點卡',code:'GASH_LP01',logo:'https://placehold.co/56x56/F3E8FF/7C3AED?text=樂點',status:'on'}
 ];
 
 let expanded = {};
 let currentPage = 1;
-let pageSize = 10;
+let pageSize = 20;
 
 function changePageSize(val) {
   pageSize = parseInt(val);
@@ -67,25 +66,28 @@ function changePageSize(val) {
 
 function goPage(p) { currentPage = p; renderTable(); }
 
-function init() {
-  var sel = document.getElementById('filterProvider');
-  sel.innerHTML = '<option value="">全部供應商</option>' + providers.map(function(p) {
-    return '<option value="' + p.id + '">' + p.name + '</option>';
-  }).join('');
-  renderTable();
-}
-
 function resetFilter() {
   document.getElementById('filterMethod').value = '';
   document.getElementById('filterChannel').value = '';
   document.getElementById('filterProvider').value = '';
   document.getElementById('filterStatus').value = '';
+  document.getElementById('globalSearch').value = '';
+  currentPage = 1;
+  renderTable();
+}
+
+function init() {
+  var provSel = document.getElementById('filterProvider');
+  provSel.innerHTML = '<option value="">全部供應商</option>' + providers.map(function(p) {
+    return '<option value="' + p.id + '">' + p.name + '</option>';
+  }).join('');
   renderTable();
 }
 
 function renderTable() {
   var methodQ = (document.getElementById('filterMethod').value || '').toLowerCase();
   var channelQ = (document.getElementById('filterChannel').value || '').toLowerCase();
+  var globalQ = (document.getElementById('globalSearch').value || '').toLowerCase();
   var prov = document.getElementById('filterProvider').value;
   var status = document.getElementById('filterStatus').value;
 
@@ -99,15 +101,31 @@ function renderTable() {
       });
       if (!hasMatch) return false;
     }
+    if (globalQ) {
+      var matchMethod = m.name.toLowerCase().indexOf(globalQ) >= 0;
+      var matchChannel = channels.some(function(c) {
+        return c.method === m.id && c.name.toLowerCase().indexOf(globalQ) >= 0;
+      });
+      if (!matchMethod && !matchChannel) return false;
+    }
     return true;
   });
-
-  document.getElementById('pageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + filtered.length + ' 筆資料';
 
   var totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   if (currentPage > totalPages) currentPage = totalPages;
   var start = (currentPage - 1) * pageSize;
   var pageData = filtered.slice(start, start + pageSize);
+
+  // Update page info
+  document.getElementById('pageInfo').textContent = '第 ' + currentPage + ' 頁，共 ' + filtered.length + ' 筆資料';
+
+  // Update page dropdown
+  document.getElementById('currentPageLabel').textContent = '第 ' + currentPage + ' 頁';
+  var dropdownHtml = '';
+  for (var i = 1; i <= totalPages; i++) {
+    dropdownHtml += '<div onclick="goPage(' + i + ');togglePageDropdown()" style="padding:8px 12px;cursor:pointer;font-size:13px;color:#374151' + (i === currentPage ? ';background:#F3F4F6;font-weight:600' : '') + '" onmouseover="this.style.background=\'#F9FAFB\'" onmouseout="this.style.background=\'' + (i === currentPage ? '#F3F4F6' : 'transparent') + '\'">第 ' + i + ' 頁</div>';
+  }
+  document.getElementById('pageDropdown').innerHTML = dropdownHtml;
 
   var editIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
   var chevronIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="9 18 15 12 9 6"/></svg>';
@@ -135,11 +153,10 @@ function renderTable() {
 
     if (isOpen) {
       mChannels.forEach(function(c) {
-        var cBadge = '<span class="status-badge ' + c.status + '">' + (c.status === 'on' ? '啟用' : '停用') + '</span>';
         rows += '<tr class="child-row">' +
           '<td></td>' +
           '<td style="width:44px"><img src="' + c.logo + '"></td>' +
-          '<td>-</td>' +
+          '<td><span class="code-text">-</span></td>' +
           '<td>' + c.name + '</td>' +
           '<td>' + provName + '</td>' +
           '<td><span class="code-text">' + c.code + '</span></td>' +
@@ -181,46 +198,18 @@ function toggleStatus(type, id) {
   renderTable();
 }
 
-// === Modal ===
 function openModal(title, fields) {
-  var modal = document.getElementById('editModal');
-  document.getElementById('modalTitle').textContent = title;
-  var body = document.getElementById('modalBody');
-  body.innerHTML = fields.map(function(f) {
-    if (f.type === 'select') {
-      var opts = f.options.map(function(o) { return '<option value="' + o.value + '"' + (o.value === f.value ? ' selected' : '') + '>' + o.label + '</option>'; }).join('');
-      return '<div class="form-group"><label>' + f.label + (f.required ? ' <span style="color:#EF4444">*</span>' : '') + '</label><select>' + opts + '</select></div>';
-    }
-    if (f.type === 'upload') {
-      return '<div class="form-group"><label>' + f.label + '</label><div style="width:80px;height:80px;border:2px dashed #E5E7EB;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:#9CA3AF;font-size:11px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>上傳圖片</span></div></div>';
-    }
-    if (f.type === 'toggle') {
-      var cls = f.value === 'on' ? 'on' : 'off';
-      return '<div class="form-group"><label>' + f.label + '</label><div style="display:flex;align-items:center;gap:8px"><button class="toggle ' + cls + '" onclick="this.className=this.className.includes(\'on\')?\'toggle off\':\'toggle on\'"></button><span class="status-label ' + cls + '">' + (f.value === 'on' ? '啟用' : '停用') + '</span></div></div>';
-    }
-    return '<div class="form-group"><label>' + f.label + (f.required ? ' <span style="color:#EF4444">*</span>' : '') + '</label><input type="text" value="' + (f.value || '') + '" placeholder="' + (f.placeholder || '') + '"></div>';
-  }).join('');
-  modal.classList.add('show');
-}
-function closeModal() { document.getElementById('editModal').classList.remove('show'); }
-
-function openAddMethod() {
-  openModal('新增支付方式', [
-    {label:'供應商',type:'select',value:'',required:true,options:[{value:'',label:'請選擇'}].concat(providers.map(function(p){return {value:p.id,label:p.name};}))},
-    {label:'支付方式名稱',type:'text',placeholder:'輸入名稱',required:true},
-    {label:'Logo 圖片',type:'upload'},
-    {label:'狀態',type:'toggle',value:'on'}
-  ]);
+  console.log('Modal:', title, fields);
 }
 
 function editMethod(id) {
   var m = methods.find(function(x) { return x.id === id; });
   if (!m) return;
+  var p = providers.find(function(x) { return x.id === m.provider; });
   openModal('編輯支付方式 — ' + m.name, [
-    {label:'供應商',type:'select',value:m.provider,required:true,options:providers.map(function(p){return {value:p.id,label:p.name};})},
+    {label:'供應商',type:'select',value:m.provider,options:providers.map(function(x) { return {value:x.id,label:x.name}; })},
     {label:'支付方式名稱',type:'text',value:m.name,required:true},
-    {label:'Logo 圖片',type:'upload'},
-    {label:'狀態',type:'toggle',value:m.status}
+    {label:'Logo 圖片',type:'upload'}
   ]);
 }
 
@@ -245,5 +234,18 @@ function editChannel(id) {
     {label:'狀態',type:'toggle',value:c.status}
   ]);
 }
+
+function togglePageDropdown() {
+  var dropdown = document.getElementById('pageDropdown');
+  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+document.addEventListener('click', function(e) {
+  var dropdown = document.getElementById('pageDropdown');
+  var btn = document.getElementById('pageDropdownBtn');
+  if (dropdown && btn && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+    dropdown.style.display = 'none';
+  }
+});
 
 document.addEventListener('DOMContentLoaded', init);

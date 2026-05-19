@@ -81,7 +81,7 @@ function initHallSelector() {
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
       '</div>';
   }).join('');
-  container.innerHTML = azHtml + '<div class="hall-list-scroll">' + listHtml + '</div>';
+  container.innerHTML = azHtml + '<div class="hall-list-header"><span class="hall-list-header-name">娛樂城</span><span class="hall-list-header-count">遊戲數</span><span class="hall-list-header-status">狀態</span></div><div class="hall-list-scroll">' + listHtml + '</div>';
 }
 
 function filterByLetter(letter) {

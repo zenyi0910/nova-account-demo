@@ -177,11 +177,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .hall-list-scroll{margin-top:16px}
 .hall-list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid oklch(0.95 0 0);cursor:pointer;transition:background .15s}
 .hall-list-item:last-child{border-bottom:none}
-.az-filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;padding:8px 0}
-.az-filter-btn{width:28px;height:28px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#374151;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.az-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding:8px 0}
+.az-filter-btn{min-width:36px;height:36px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#374151;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0 12px}
 .az-filter-btn:hover:not(.disabled):not(.active){background:#F3F4F6;border-color:#9CA3AF}
 .az-filter-btn.active{background:#1F2937;color:#fff;border-color:#1F2937}
 .az-filter-btn.disabled{color:#D1D5DB;border-color:#F3F4F6;cursor:not-allowed;background:#FAFAFA}
+.hall-list-header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;font-weight:600;color:#6B7280}
+.hall-list-header-name{min-width:120px}
+.hall-list-header-count{flex:1}
+.hall-list-header-status{width:120px;text-align:right}
 .hall-list-name{font-size:13px;font-weight:600;color:#111827;min-width:120px}
 .hall-list-count{font-size:12px;color:#6B7280;flex:1}
 .hall-list-status{display:flex;align-items:center;gap:8px}
@@ -538,7 +542,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script src="components/date-picker.js"></script>
 <script src="js/components.js?v=11"></script>
-<script src="js/hall-management.js?v=47"></script>
+<script src="js/hall-management.js?v=48"></script>
 <script src="js/hall-management-additions.js?v=17"></script>
 </body>
 </html>
