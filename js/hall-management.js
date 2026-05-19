@@ -85,7 +85,7 @@ function initHallSelector() {
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
       '</div>';
   }).join('');
-  container.innerHTML = azHtml + '<div class="hall-list-header"><span class="hall-list-header-name">娛樂城</span><span class="hall-list-header-schedule">維護排程</span><span class="hall-list-header-count">遊戲數</span><span class="hall-list-header-status">狀態</span></div><div class="hall-list-scroll">' + listHtml + '</div>';
+  container.innerHTML = azHtml + '<div class="hall-list-header"><span class="hall-list-header-name">娛樂城</span><span class="hall-list-header-schedule">維護排程 <span class="hall-schedule-tip" title="娛樂城有進行中、尚未開始的維護排程"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span></span><span class="hall-list-header-count">遊戲數</span><span class="hall-list-header-status">狀態</span></div><div class="hall-list-scroll">' + listHtml + '</div>';
 }
 
 function filterByLetter(letter) {
