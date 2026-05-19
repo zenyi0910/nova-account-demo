@@ -279,13 +279,13 @@ function renderPermGrid(){
     html+=`<div class="rm-perm-group"><div class="rm-perm-group-title"><label><input type="checkbox" onchange="toggleGroupAll(this,'${group}')"><span>${group}</span></label></div>`;
     if(Array.isArray(val)){
       html+=`<div class="rm-perm-items">`;
-      val.forEach(p=>{html+=`<div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${p}"><span>${p}</span></div>`;});
+      val.forEach(p=>{html+=`<div class="rm-perm-item" onclick="togglePermClick(event)"><input type="checkbox" data-group="${group}" data-perm="${p}" onchange="handlePermDep(this)"><span>${p}</span></div>`;});
       html+=`</div>`;
     } else if(val.expandable || val.items){
       const renderItems = ()=>{
         if(val.items){
           html+=`<div class="rm-perm-items">`;
-          val.items.forEach(p=>{html+=`<div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${p}"><span>${p}</span></div>`;});
+          val.items.forEach(p=>{html+=`<div class="rm-perm-item" onclick="togglePermClick(event)"><input type="checkbox" data-group="${group}" data-perm="${p}" onchange="handlePermDep(this)"><span>${p}</span></div>`;});
           html+=`</div>`;
         }
       };
@@ -295,9 +295,9 @@ function renderPermGrid(){
           html+=`<div class="rm-perm-items-expandable">`;
           entries.forEach(([label,children])=>{
             const id='exp_'+label.replace(/[^a-z0-9]/gi,'_');
-            html+=`<div class="rm-exp-col"><div class="rm-perm-item"><input type="checkbox" data-group="${group}" data-perm="${label}"><span>${label}</span><span class="rm-expand-btn" onclick="toggleExpand(event,'${id}')">▶</span></div>`;
+            html+=`<div class="rm-exp-col"><div class="rm-perm-item" onclick="togglePermClick(event)"><input type="checkbox" data-group="${group}" data-perm="${label}" onchange="handlePermDep(this)"><span>${label}</span><span class="rm-expand-btn" onclick="toggleExpand(event,'${id}')">▶</span></div>`;
             html+=`<div class="rm-expand-children" id="${id}" style="display:none">`;
-            children.forEach(c=>{html+=`<div class="rm-child-item"><input type="checkbox" data-group="${group}" data-perm="${c}"><span>${c}</span></div>`;});
+            children.forEach(c=>{html+=`<div class="rm-child-item" onclick="togglePermClick(event)"><input type="checkbox" data-group="${group}" data-perm="${c}" onchange="handlePermDep(this)"><span>${c}</span></div>`;});
             html+=`</div></div>`;
           });
           html+=`</div>`;
@@ -316,6 +316,28 @@ function toggleExpand(e,id){
   const btn=e.target;
   if(el.style.display==='none'){el.style.display='';btn.textContent='▼';}
   else{el.style.display='none';btn.textContent='▶';}
+}
+function togglePermClick(e){
+  if(e.target.tagName==='INPUT'||e.target.classList.contains('rm-expand-btn'))return;
+  const cb=e.currentTarget.querySelector('input[type="checkbox"]');
+  if(cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'));}
+}
+function handlePermDep(cb){
+  const perm=cb.dataset.perm;
+  const group=cb.dataset.group;
+  const grid=document.getElementById('permGrid');
+  // 勾異動時自動勾查詢檢視
+  if(cb.checked&&perm.endsWith('-異動')){
+    const prefix=perm.replace('-異動','');
+    const viewCb=grid.querySelector(`input[data-perm="${prefix}-查詢檢視"]`);
+    if(viewCb)viewCb.checked=true;
+  }
+  // 取消查詢檢視時自動取消異動
+  if(!cb.checked&&perm.endsWith('-查詢檢視')){
+    const prefix=perm.replace('-查詢檢視','');
+    const mutCb=grid.querySelector(`input[data-perm="${prefix}-異動"]`);
+    if(mutCb)mutCb.checked=false;
+  }
 }
 function toggleGroupAll(el,group){
   const grid=document.getElementById('permGrid');
