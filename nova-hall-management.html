@@ -186,6 +186,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .hall-list-header-name{min-width:120px}
 .hall-list-header-schedule{width:70px;text-align:center}
 .hall-schedule-tip{display:inline-flex;align-items:center;cursor:help;color:#9CA3AF;position:relative}
+.hall-schedule-tip-text{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1F2937;color:#fff;font-size:11px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:20;pointer-events:none}
+.hall-schedule-tip:hover .hall-schedule-tip-text{display:block}
 .hall-list-header-count{flex:1}
 .hall-list-header-status{width:120px;text-align:right}
 .hall-list-name{font-size:13px;font-weight:600;color:#111827;min-width:120px}
@@ -545,7 +547,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script src="components/date-picker.js"></script>
 <script src="js/components.js?v=11"></script>
-<script src="js/hall-management.js?v=51"></script>
+<script src="js/hall-management.js?v=52"></script>
 <script src="js/hall-management-additions.js?v=17"></script>
 </body>
 </html>
