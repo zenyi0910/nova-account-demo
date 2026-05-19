@@ -1,4 +1,4 @@
-const provColors = {'p1':'#6366F1','p2':'#F59E0B','p3':'#10B981','p4':'#EF4444','p5':'#3B82F6','p6':'#8B5CF6','p7':'#EC4899'};
+const provColors = {'p1':'#6366F1','p2':'#6366F1','p3':'#6366F1','p4':'#6366F1','p5':'#6366F1','p6':'#6366F1','p7':'#6366F1'};
 const providers = [
   {id:'p1',name:'MyCard'},
   {id:'p2',name:'Gash'},
