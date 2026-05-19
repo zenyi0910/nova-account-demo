@@ -206,6 +206,8 @@ function openAddMethod() {
 
 function openModal(title, fields) {
   document.getElementById('modalTitle').textContent = title;
+  var isEdit = title.indexOf('編輯') === 0;
+  document.getElementById('modalSubmitBtn').textContent = isEdit ? '儲存' : '+ 新增';
   var html = '';
   fields.forEach(function(f) {
     html += '<div style="margin-bottom:16px">';
@@ -219,7 +221,12 @@ function openModal(title, fields) {
       });
       html += '</select>';
     } else if (f.type === 'upload') {
-      html += '<div style="border:2px dashed #D1D5DB;border-radius:8px;padding:20px;text-align:center;color:#9CA3AF;font-size:12px;cursor:pointer">點擊或拖曳上傳圖片</div>';
+      html += '<div style="border:2px dashed #D1D5DB;border-radius:8px;padding:24px;text-align:center;color:#9CA3AF;font-size:12px;cursor:pointer;background:#FAFAFA">';
+      html += '<div style="margin-bottom:8px"><svg width="32" height="32" fill="none" stroke="#4DD0C2" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>';
+      html += '<div style="color:#374151;font-size:13px;margin-bottom:4px">點擊或拖放圖片至此處</div>';
+      html += '<div style="font-size:11px;color:#9CA3AF;margin-bottom:8px">支援 JPG、PNG、GIF、WEBP 格式，最大 10MB</div>';
+      html += '<button type="button" style="padding:4px 12px;border:1px solid #D1D5DB;border-radius:4px;background:#fff;font-size:12px;cursor:pointer">選擇圖片</button>';
+      html += '</div>';
     } else if (f.type === 'toggle') {
       var on = f.value === 'on';
       html += '<div style="display:flex;align-items:center;gap:8px"><button class="toggle ' + (on ? 'on' : 'off') + '" style="width:36px;height:20px;border-radius:10px;border:none;position:relative;cursor:pointer;background:' + (on ? '#4DD0C2' : '#D1D5DB') + '"><span style="position:absolute;top:2px;' + (on ? 'left:18px' : 'left:2px') + ';width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.15)"></span></button><span style="font-size:13px;color:' + (on ? '#4DD0C2' : '#6B7280') + '">' + (on ? '啟用' : '停用') + '</span></div>';
@@ -244,11 +251,13 @@ function editMethod(id) {
 function addChannel(methodId) {
   var m = methods.find(function(x) { return x.id === methodId; });
   expanded[methodId] = true;
-  openModal('新增付款通道 — ' + (m ? m.name : ''), [
-    {label:'通道名稱',type:'text',placeholder:'輸入通道名稱',required:true},
-    {label:'通道代碼',type:'text',placeholder:'輸入代碼',required:true},
+  openModal('新增付款通道', [
+    {label:'供應商',type:'select',value:m?m.provider:'',options:providers.map(function(x){return{value:x.id,label:x.name};}),required:true},
+    {label:'支付方式',type:'select',value:methodId,options:methods.filter(function(x){return m&&x.provider===m.provider;}).map(function(x){return{value:x.id,label:x.name};}),required:true},
+    {label:'付款通道名稱',type:'text',placeholder:'請輸入付款通道名稱',required:true},
     {label:'Logo 圖片',type:'upload'},
-    {label:'狀態',type:'toggle',value:'on'}
+    {label:'狀態',type:'toggle',value:'on'},
+    {label:'付款通道代碼',type:'text',placeholder:'請輸入付款通道代碼'}
   ]);
 }
 
