@@ -142,8 +142,8 @@ function renderTable() {
     var statusBadge = '<span class="status-badge ' + m.status + '">' + (m.status === 'on' ? '啟用' : '停用') + '</span>';
 
     var pColor = provColors[m.provider] || '#6366F1';
-    rows += '<tr class="parent-row" style="border-left:4px solid ' + pColor + '">' +
-      '<td style="width:30px;text-align:center"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button></td>' +
+    rows += '<tr class="parent-row">' +
+      '<td style="width:30px;text-align:center;border-left:4px solid ' + pColor + '"><button class="' + chevCls + '" onclick="toggle(\'' + m.id + '\')">' + chevronIcon + '</button></td>' +
       '<td style="width:44px"><img src="' + m.logo + '"></td>' +
       '<td><span>' + m.name + '</span></td>' +
       '<td><span class="badge-count">' + mChannels.length + ' 個通道</span></td>' +
@@ -155,8 +155,8 @@ function renderTable() {
 
     if (isOpen) {
       mChannels.forEach(function(c) {
-        rows += '<tr class="child-row" style="border-left:4px solid ' + pColor + '">' +
-          '<td></td>' +
+        rows += '<tr class="child-row">' +
+          '<td style="border-left:4px solid ' + pColor + '"></td>' +
           '<td style="width:44px"><img src="' + c.logo + '"></td>' +
           '<td><span class="code-text">-</span></td>' +
           '<td>' + c.name + '</td>' +
@@ -166,7 +166,7 @@ function renderTable() {
           '<td class="action-cell"><button class="btn-icon-sm" onclick="editChannel(\'' + c.id + '\')" title="編輯">' + editIcon + '</button></td>' +
           '</tr>';
       });
-      rows += '<tr class="child-row" style="border-left:4px solid ' + pColor + '"><td colspan="8" style="text-align:center"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
+      rows += '<tr class="child-row"><td style="border-left:4px solid ' + pColor + '" colspan="8"><span class="add-child-btn" onclick="addChannel(\'' + m.id + '\')">' + addIcon + ' 新增付款通道</span></td></tr>';
     }
   });
 
