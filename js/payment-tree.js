@@ -72,7 +72,6 @@ function resetFilter() {
   document.getElementById('filterChannel').value = '';
   document.getElementById('filterProvider').value = '';
   document.getElementById('filterStatus').value = '';
-  document.getElementById('globalSearch').value = '';
   currentPage = 1;
   renderTable();
 }
@@ -88,7 +87,6 @@ function init() {
 function renderTable() {
   var methodQ = (document.getElementById('filterMethod').value || '').toLowerCase();
   var channelQ = (document.getElementById('filterChannel').value || '').toLowerCase();
-  var globalQ = (document.getElementById('globalSearch').value || '').toLowerCase();
   var prov = document.getElementById('filterProvider').value;
   var status = document.getElementById('filterStatus').value;
 
@@ -101,13 +99,6 @@ function renderTable() {
         return c.method === m.id && c.name.toLowerCase().indexOf(channelQ) >= 0;
       });
       if (!hasMatch) return false;
-    }
-    if (globalQ) {
-      var matchMethod = m.name.toLowerCase().indexOf(globalQ) >= 0;
-      var matchChannel = channels.some(function(c) {
-        return c.method === m.id && c.name.toLowerCase().indexOf(globalQ) >= 0;
-      });
-      if (!matchMethod && !matchChannel) return false;
     }
     return true;
   });
