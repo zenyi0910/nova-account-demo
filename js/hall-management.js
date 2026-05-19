@@ -53,10 +53,25 @@ let gameCurrency = 'gold'; // gold or star
 let gameCat = ''; // '', '電動', '街機', '棋牌'
 
 // === Hall Selector (vertical scrollable list) ===
+let azFilter = '';
 function initHallSelector() {
   const container = document.getElementById('hallCards');
   if (!container) return;
-  const listHtml = Object.entries(halls).map(([id, h]) => {
+
+  // Build A~Z filter
+  const hallKeys = Object.keys(halls);
+  const firstLetters = new Set(hallKeys.map(k => k.charAt(0).toUpperCase()));
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const azHtml = '<div class="az-filter">' + alphabet.map(letter => {
+    const has = firstLetters.has(letter);
+    const cls = !has ? ' disabled' : (azFilter === letter ? ' active' : '');
+    return '<button class="az-filter-btn' + cls + '"' + (has ? ' onclick="filterByLetter(\'' + letter + '\')"' : ' disabled') + '>' + letter + '</button>';
+  }).join('') + '</div>';
+
+  // Filter halls by letter
+  const filtered = azFilter ? Object.entries(halls).filter(([id]) => id.charAt(0).toUpperCase() === azFilter) : Object.entries(halls);
+
+  const listHtml = filtered.map(([id, h]) => {
     const gc = games.filter(g => g.hall === id).length;
     const statusCls = h.status === 'on' ? 'on' : 'off';
     const statusText = h.status === 'on' ? '啟用' : '停用';
@@ -66,7 +81,12 @@ function initHallSelector() {
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
       '</div>';
   }).join('');
-  container.innerHTML = '<div class="hall-list-scroll">' + listHtml + '</div>';
+  container.innerHTML = azHtml + '<div class="hall-list-scroll">' + listHtml + '</div>';
+}
+
+function filterByLetter(letter) {
+  azFilter = azFilter === letter ? '' : letter;
+  initHallSelector();
 }
 
 function scrollTabs(dir) {
