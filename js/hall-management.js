@@ -674,7 +674,10 @@ function toggleMoreMenu(event, gameId) {
   if (!g) return;
   const menu = document.createElement('div');
   menu.className = 'more-menu';
-  menu.innerHTML = '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'使用中\')">設為使用中</div>' +
+  menu.innerHTML = '<div class="more-menu-header">操作功能</div>' +
+    '<div class="more-menu-divider"></div>' +
+    '<div class="more-item" onclick="openDetail(' + gameId + ')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> 檢視詳情</div>' +
+    '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'使用中\')">設為使用中</div>' +
     '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'停用中\')">設為停用中</div>' +
     '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'維護中\')">設為維護中</div>' +
     '<div class="more-item" onclick="changeGameStatus(' + gameId + ',\'即將上線\')">設為即將上線</div>';
