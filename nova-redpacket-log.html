@@ -146,22 +146,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h1>紅包紀錄</h1></div>
     <div class="filter-card">
-      <div class="filter-group"><label>領取狀態</label><div class="filter-input"><select><option value="">全部</option><option value="已領取">已領取</option><option value="未領取">未領取</option><option value="已過期">已過期</option></select></div></div>
-      <div class="filter-group filter-wide" data-rule="order"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋紅包訂單編號"></div><div class="filter-error"></div></div>
-      <div class="filter-group" data-rule="keyword"><label>申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div><div class="filter-error"></div></div>
-      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
+      <div class="filter-group" data-rule="keyword"><label>公會名稱</label><div class="filter-input"><input type="text" id="rlGuildFilter" placeholder="搜尋公會名稱"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="keyword"><label>序號</label><div class="filter-input"><input type="text" id="rlSnFilter" placeholder="搜尋序號"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="keyword"><label>會長帳號</label><div class="filter-input"><input type="text" id="rlLeaderFilter" placeholder="搜尋會長帳號"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>狀態</label><div class="filter-input"><select id="rlStatusFilter"><option value="">全部</option><option value="active">進行中</option><option value="done">已用完</option><option value="expired">已過期</option></select></div></div>
+      <div class="filter-actions"><button class="btn-search" onclick="rlSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset" onclick="rlReset()">重置</button></div>
     </div>
-    <div class="pagination-bar"><span>共 89 筆紅包紀錄</span></div>
-    <table class="data-table"><thead><tr><th>紅包編號</th><th>公會</th><th>發起人</th><th>總金額</th><th>已領取</th><th>剩餘</th><th>發放時間</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">202605051234</td><td>皇家俱樂部</td><td>Wnp9012</td><td>$100,000</td><td>185/200</td><td>$7,500</td><td style="color:#6B7280">2026-05-05 08:30</td></tr>
-      <tr><td style="font-weight:500">202605045678</td><td>龍之谷</td><td>Abk7382</td><td>$30,000</td><td>80/80</td><td>$0</td><td style="color:#6B7280">2026-05-04 20:00</td></tr>
-      <tr><td style="font-weight:500">202605039012</td><td>星辰戰隊</td><td>Mhx6677</td><td>$15,000</td><td>50/50</td><td>$0</td><td style="color:#6B7280">2026-05-03 18:00</td></tr>
-    </tbody></table>
+    <div id="rlTableWrap"></div>
   </div>
 </div>
 
+<script src="js/components.js?v=11"></script>
+<script src="js/redpacket-log.js?v=1"></script>
 <script>
-
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   const isMobile=window.innerWidth<=768;
   if(isMobile){
@@ -173,67 +170,9 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
     document.body.classList.toggle('sidebar-collapsed');
   }
 });
-
 function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
 document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
-
-// Field validation
-document.querySelector('.btn-search')?.addEventListener('click', function(e) {
-  let valid = true;
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-  document.querySelectorAll('.filter-group[data-rule]').forEach(group => {
-    const rule = group.dataset.rule;
-    const input = group.querySelector('input');
-    if (!input) return;
-    const val = input.value.trim();
-    if (!val) return;
-    let errorMsg = '';
-    switch(rule) {
-      case 'account':
-        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
-        for (const acc of accounts) {
-          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
-        }
-        break;
-      case 'nickname':
-        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
-        break;
-      case 'order':
-        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
-        break;
-      case 'phone':
-        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
-        break;
-      case 'date':
-        if (val.includes('~')) {
-          const parts = val.split('~').map(s => s.trim());
-          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
-        } else {
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-        }
-        break;
-      case 'keyword':
-        if (val.length < 1) errorMsg = '請輸入搜尋內容';
-        break;
-      case 'amount':
-        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
-        break;
-    }
-    if (errorMsg) {
-      valid = false;
-      const errEl = group.querySelector('.filter-error');
-      if (errEl) errEl.textContent = errorMsg;
-    }
-  });
-});
-document.querySelector('.btn-reset')?.addEventListener('click', function() {
-  document.querySelectorAll('.filter-group input').forEach(i => i.value = '');
-  document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-});
 </script>
 </body>
 </html>
