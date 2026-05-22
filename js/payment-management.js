@@ -1,8 +1,9 @@
 // === Data ===
 const providers = [
   {id:'mycard',name:'MyCard',code:'MYCARD01',status:'on',schedules:[
-    {action:'off',start:'2026-05-20T02:00',end:'2026-05-20T06:00',note:'v3.2 版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
-    {action:'off',start:'2026-05-22T03:00',end:'2026-05-22T05:00',note:'例行維護',channels:['點數卡','電信帳單']},
+    {action:'off',start:'2026-05-25T02:00',end:'2026-05-25T06:00',note:'v3.2 版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
+    {action:'off',start:'2026-05-28T03:00',end:'2026-05-28T05:00',note:'例行維護',channels:['點數卡','電信帳單']},
+    {action:'off',start:'2026-06-01T02:00',end:'2026-06-01T04:00',note:'版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
     {action:'off',start:'2026-05-16T02:00',end:'2026-05-16T04:00',note:'版本更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']},
     {action:'off',start:'2026-05-14T03:00',end:'2026-05-14T05:00',note:'例行維護',channels:['點數卡']},
     {action:'off',start:'2026-05-12T22:00',end:'2026-05-13T01:00',note:'緊急安全修補'},
@@ -11,18 +12,21 @@ const providers = [
     {action:'off',start:'2026-04-23T03:00',end:'2026-04-23T04:30',note:'SSL 憑證更新',channels:['點數卡','手機小額付款','信用卡3D','電信帳單','線上轉點','超商代碼']}
   ]},
   {id:'gash',name:'Gash',code:'GASH001',status:'on',schedules:[
-    {action:'off',start:'2026-05-21T22:00',end:'2026-05-22T02:00',note:'系統升級',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']},
+    {action:'off',start:'2026-05-26T22:00',end:'2026-05-27T02:00',note:'系統升級',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']},
+    {action:'off',start:'2026-05-30T01:00',end:'2026-05-30T03:00',note:'例行維護',channels:['點數卡','錢包扣點']},
     {action:'off',start:'2026-05-11T22:00',end:'2026-05-12T02:00',note:'緊急修復',channels:['點數卡','錢包扣點','信用卡','ATM轉帳','超商代碼']},
     {action:'off',start:'2026-05-03T01:00',end:'2026-05-03T03:00',note:'例行維護',channels:['點數卡','錢包扣點']},
     {action:'off',start:'2026-04-26T02:00',end:'2026-04-26T04:00',note:'金流對帳修正',channels:['ATM轉帳','超商代碼']}
   ]},
   {id:'linepay',name:'LINE Pay',code:'LINEPAY01',status:'on',schedules:[
-    {action:'off',start:'2026-05-19T01:00',end:'2026-05-19T03:00',note:'API 版本升級',channels:['LINE Pay']},
+    {action:'off',start:'2026-05-27T01:00',end:'2026-05-27T03:00',note:'API 版本升級',channels:['LINE Pay']},
+    {action:'off',start:'2026-06-03T01:00',end:'2026-06-03T03:00',note:'系統升級',channels:['LINE Pay']},
     {action:'off',start:'2026-05-15T01:00',end:'2026-05-15T03:00',note:'系統升級',channels:['LINE Pay']},
     {action:'off',start:'2026-05-08T02:00',end:'2026-05-08T04:00',note:'憑證更換',channels:['LINE Pay']},
     {action:'off',start:'2026-04-28T01:00',end:'2026-04-28T02:30',note:'例行維護',channels:['LINE Pay']}
   ]},
   {id:'ecpay',name:'綠界科技',code:'ECPAY01',status:'off',schedules:[
+    {action:'off',start:'2026-05-29T00:00',end:'2026-05-29T06:00',note:'停機維護（全通道）',channels:['信用卡','ATM','超商代碼','網路ATM']},
     {action:'off',start:'2026-05-10T00:00',end:'2026-05-10T06:00',note:'停機維護（全通道）',channels:['信用卡','ATM','超商代碼','網路ATM']},
     {action:'off',start:'2026-04-25T02:00',end:'2026-04-25T04:00',note:'系統更新',channels:['信用卡','超商代碼']}
   ]},
@@ -31,10 +35,12 @@ const providers = [
     {action:'off',start:'2026-04-22T01:00',end:'2026-04-22T03:00',note:'例行維護',channels:['虛擬帳號']}
   ]},
   {id:'fetnet',name:'遠傳電信',code:'93E5B061',status:'off',schedules:[
+    {action:'off',start:'2026-05-24T03:00',end:'2026-05-24T05:00',note:'計費系統維護',channels:['小額付款','電信帳單']},
     {action:'off',start:'2026-05-09T03:00',end:'2026-05-09T05:00',note:'計費系統維護',channels:['小額付款','電信帳單']}
   ]},
   {id:'startest',name:'星運測試商',code:'AB00888',status:'on',schedules:[
-    {action:'off',start:'2026-05-25T02:00',end:'2026-05-25T04:00',note:'測試環境重建',channels:['測試通道A','測試通道B']}
+    {action:'off',start:'2026-05-25T02:00',end:'2026-05-25T04:00',note:'測試環境重建',channels:['測試通道A','測試通道B']},
+    {action:'off',start:'2026-06-02T02:00',end:'2026-06-02T04:00',note:'壓力測試',channels:['測試通道A','測試通道B','測試通道C']}
   ]}
 ];
 
