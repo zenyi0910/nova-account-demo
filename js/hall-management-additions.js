@@ -260,3 +260,152 @@ function submitAddIcon() {
   closeModal('addIconModal');
   showToast('Icon 新增成功', 'success');
 }
+
+// === 歷史記錄 Modal ===
+var historyPage = 1;
+var historyPageSize = 10;
+var historyFilterHall = '';
+var historyFilterStart = '';
+var historyFilterEnd = '';
+
+function getHistoryData() {
+  const now = new Date();
+  let expired = [];
+  Object.entries(halls).forEach(([hid, hall]) => {
+    hall.schedules.forEach((s, i) => {
+      const endTime = s.end ? new Date(s.end) : null;
+      if (endTime && endTime < now) {
+        expired.push({hallId: hid, hallName: hall.name, sched: s, idx: i});
+      }
+    });
+  });
+  // Add mock history data for demo
+  const mockHistory = [
+    {hallId:'VA',hallName:'VA 娛樂城',sched:{start:'2025-04-20 02:00',end:'2025-04-20 06:00',note:'例行維護',operator:'admin'},idx:99},
+    {hallId:'YGR',hallName:'YGR 娛樂城',sched:{start:'2025-04-18 03:00',end:'2025-04-18 05:00',note:'緊急修復',operator:'casper'},idx:99},
+    {hallId:'JDB',hallName:'JDB 娛樂城',sched:{start:'2025-04-15 01:00',end:'2025-04-15 04:00',note:'版本更新',operator:'admin'},idx:99},
+    {hallId:'PG',hallName:'PG 娛樂城',sched:{start:'2025-04-12 02:00',end:'2025-04-12 06:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'VA',hallName:'VA 娛樂城',sched:{start:'2025-04-10 00:00',end:'2025-04-10 03:00',note:'資料庫遷移',operator:'admin'},idx:99},
+    {hallId:'PP',hallName:'PP 娛樂城',sched:{start:'2025-04-08 02:00',end:'2025-04-08 05:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'CQ9',hallName:'CQ9 娛樂城',sched:{start:'2025-04-05 01:00',end:'2025-04-05 04:00',note:'供應商維護',operator:'admin'},idx:99},
+    {hallId:'RSG',hallName:'RSG 娛樂城',sched:{start:'2025-04-02 03:00',end:'2025-04-02 06:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'FC',hallName:'FC 娛樂城',sched:{start:'2025-03-30 02:00',end:'2025-03-30 05:00',note:'版本更新',operator:'admin'},idx:99},
+    {hallId:'VA',hallName:'VA 娛樂城',sched:{start:'2025-03-28 01:00',end:'2025-03-28 04:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'YGR',hallName:'YGR 娛樂城',sched:{start:'2025-03-25 02:00',end:'2025-03-25 06:00',note:'緊急修復',operator:'admin'},idx:99},
+    {hallId:'JDB',hallName:'JDB 娛樂城',sched:{start:'2025-03-22 03:00',end:'2025-03-22 05:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'PG',hallName:'PG 娛樂城',sched:{start:'2025-03-20 00:00',end:'2025-03-20 04:00',note:'供應商維護',operator:'admin'},idx:99},
+    {hallId:'PP',hallName:'PP 娛樂城',sched:{start:'2025-03-18 02:00',end:'2025-03-18 05:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'CQ9',hallName:'CQ9 娛樂城',sched:{start:'2025-03-15 01:00',end:'2025-03-15 03:00',note:'版本更新',operator:'admin'},idx:99},
+    {hallId:'RSG',hallName:'RSG 娛樂城',sched:{start:'2025-03-12 02:00',end:'2025-03-12 06:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'VA',hallName:'VA 娛樂城',sched:{start:'2025-03-10 03:00',end:'2025-03-10 05:00',note:'緊急修復',operator:'admin'},idx:99},
+    {hallId:'FC',hallName:'FC 娛樂城',sched:{start:'2025-03-08 02:00',end:'2025-03-08 04:00',note:'例行維護',operator:'casper'},idx:99},
+    {hallId:'YGR',hallName:'YGR 娛樂城',sched:{start:'2025-03-05 01:00',end:'2025-03-05 05:00',note:'供應商維護',operator:'admin'},idx:99},
+    {hallId:'JDB',hallName:'JDB 娛樂城',sched:{start:'2025-03-02 02:00',end:'2025-03-02 06:00',note:'例行維護',operator:'casper'},idx:99},
+  ];
+  expired = expired.concat(mockHistory);
+  // Apply filters
+  if (historyFilterHall) {
+    expired = expired.filter(item => item.hallId === historyFilterHall);
+  }
+  if (historyFilterStart) {
+    expired = expired.filter(item => item.sched.start >= historyFilterStart);
+  }
+  if (historyFilterEnd) {
+    expired = expired.filter(item => item.sched.end <= historyFilterEnd + ' 23:59');
+  }
+  // Sort by end time desc
+  expired.sort((a, b) => (b.sched.end || '').localeCompare(a.sched.end || ''));
+  return expired;
+}
+
+function openHistoryModal() {
+  historyPage = 1;
+  historyFilterHall = '';
+  historyFilterStart = '';
+  historyFilterEnd = '';
+  let modal = document.getElementById('historyModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'historyModal';
+    modal.innerHTML =
+      '<div class="modal" style="max-width:750px">' +
+        '<div class="modal-header"><h3>歷史記錄</h3><button class="modal-expand" onclick="toggleExpand(this)">⤢</button><button class="modal-close" onclick="closeModal(\'historyModal\')">&times;</button></div>' +
+        '<div class="modal-body" style="padding:16px 20px">' +
+          '<div style="display:flex;gap:10px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap">' +
+            '<div class="filter-group"><label>娛樂城</label><select id="histHallFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;min-width:130px"><option value="">全部</option><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="JDB">JDB 娛樂城</option><option value="PG">PG 娛樂城</option><option value="PP">PP 娛樂城</option><option value="CQ9">CQ9 娛樂城</option><option value="RSG">RSG 娛樂城</option><option value="FC">FC 娛樂城</option></select></div>' +
+            '<div class="filter-group"><label>開始時間</label><input type="date" id="histStartFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"></div>' +
+            '<div class="filter-group"><label>結束時間</label><input type="date" id="histEndFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"></div>' +
+            '<button class="btn btn-outline" onclick="resetHistoryFilter()" style="padding:6px 12px;font-size:12px">重置</button>' +
+          '</div>' +
+          '<div id="historyTableWrap"></div>' +
+          '<div id="historyPagination" style="margin-top:12px"></div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+  }
+  modal.classList.add('show');
+  renderHistoryTable();
+}
+
+function filterHistory() {
+  historyFilterHall = document.getElementById('histHallFilter').value;
+  historyFilterStart = document.getElementById('histStartFilter').value;
+  historyFilterEnd = document.getElementById('histEndFilter').value;
+  historyPage = 1;
+  renderHistoryTable();
+}
+
+function resetHistoryFilter() {
+  document.getElementById('histHallFilter').value = '';
+  document.getElementById('histStartFilter').value = '';
+  document.getElementById('histEndFilter').value = '';
+  historyFilterHall = '';
+  historyFilterStart = '';
+  historyFilterEnd = '';
+  historyPage = 1;
+  renderHistoryTable();
+}
+
+function renderHistoryTable() {
+  const data = getHistoryData();
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total / historyPageSize));
+  if (historyPage > totalPages) historyPage = totalPages;
+  const start = (historyPage - 1) * historyPageSize;
+  const pageData = data.slice(start, start + historyPageSize);
+
+  let rows = '';
+  if (pageData.length === 0) {
+    rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無歷史記錄</td></tr>';
+  } else {
+    pageData.forEach(item => {
+      const s = item.sched;
+      rows += '<tr>' +
+        '<td>' + item.hallName + '</td>' +
+        '<td>' + fmtDT(s.start) + '</td>' +
+        '<td>' + fmtDT(s.end) + '</td>' +
+        '<td>' + (s.note || '-') + '</td>' +
+        '<td>' + (s.operator || 'casper') + '</td></tr>';
+    });
+  }
+
+  document.getElementById('historyTableWrap').innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;color:#6B7280">' +
+      '<span>第 ' + historyPage + ' 頁，共 ' + total + ' 筆資料</span>' +
+      '<div>每頁 <select onchange="historyPageSize=+this.value;historyPage=1;renderHistoryTable()" style="padding:2px 6px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px">' +
+        '<option value="10"' + (historyPageSize===10?' selected':'') + '>10</option>' +
+        '<option value="20"' + (historyPageSize===20?' selected':'') + '>20</option>' +
+        '<option value="50"' + (historyPageSize===50?' selected':'') + '>50</option></select> 筆</div></div>' +
+    '<table class="data-table"><thead><tr><th>娛樂城</th><th>開始時間</th><th>結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>';
+
+  // Pagination buttons
+  let pgHtml = '<div style="display:flex;justify-content:flex-end"><div class="pagination-pages">';
+  pgHtml += '<button ' + (historyPage<=1?'disabled':'') + ' onclick="historyPage--;renderHistoryTable()">&lt;</button>';
+  for (var i = 1; i <= totalPages; i++) {
+    pgHtml += '<button class="' + (i===historyPage?'active':'') + '" onclick="historyPage='+i+';renderHistoryTable()">' + i + '</button>';
+  }
+  pgHtml += '<button ' + (historyPage>=totalPages?'disabled':'') + ' onclick="historyPage++;renderHistoryTable()">&gt;</button>';
+  pgHtml += '</div></div>';
+  document.getElementById('historyPagination').innerHTML = pgHtml;
+}
