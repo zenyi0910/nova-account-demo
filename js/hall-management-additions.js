@@ -420,11 +420,11 @@ function renderHistoryTable() {
         '<option value="50"' + (historyPageSize===50?' selected':'') + '>50</option></select> 筆</div></div>' +
     '<table class="data-table"><thead><tr><th>娛樂城</th><th>結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
-  // Pagination - page jump dropdown
-  let pgHtml = '<div style="display:flex;justify-content:flex-end;align-items:center;gap:8px">';
-  pgHtml += '<button class="pg-btn" ' + (historyPage<=1?'disabled':'') + ' onclick="historyPage--;renderHistoryTable()">&lt;</button>';
+  // Pagination - system standard: left page dropdown + right page buttons
+  let pgHtml = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
+  // Left: page jump dropdown
   pgHtml += '<div style="position:relative;display:inline-block" id="histPageDropWrap">';
-  pgHtml += '<button class="pg-btn" onclick="toggleHistPageDrop()" style="min-width:60px;gap:4px">第'+historyPage+'頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg></button>';
+  pgHtml += '<button class="pg-btn" onclick="toggleHistPageDrop()" style="min-width:60px;gap:4px;display:inline-flex;align-items:center">第'+historyPage+'頁 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg></button>';
   pgHtml += '<div id="histPageDrop" style="display:none;position:absolute;bottom:calc(100% + 4px);left:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);padding:8px;min-width:120px;z-index:100">';
   pgHtml += '<div style="display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid #E5E7EB;border-radius:6px;margin-bottom:6px"><svg viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" width="14" height="14"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="histPageSearch" oninput="filterHistPages()" style="border:none;outline:none;font-size:12px;width:60px" placeholder=""></div>';
   pgHtml += '<div id="histPageList" style="max-height:150px;overflow-y:auto">';
@@ -432,8 +432,28 @@ function renderHistoryTable() {
     pgHtml += '<div class="hist-page-opt" onclick="historyPage='+i+';renderHistoryTable()" style="padding:5px 10px;font-size:12px;cursor:pointer;border-radius:4px;color:'+(i===historyPage?'#fff':'#374151')+';background:'+(i===historyPage?'#1F2937':'transparent')+'">第'+i+'頁</div>';
   }
   pgHtml += '</div></div></div>';
-  pgHtml += '<button class="pg-btn" ' + (historyPage>=totalPages?'disabled':'') + ' onclick="historyPage++;renderHistoryTable()">&gt;</button>';
-  pgHtml += '</div>';
+  // Right: page buttons
+  pgHtml += '<div class="pagination-pages">';
+  pgHtml += '<button ' + (historyPage<=1?'disabled':'') + ' onclick="historyPage--;renderHistoryTable()">&lt;</button>';
+  if (totalPages <= 7) {
+    for (var i = 1; i <= totalPages; i++) {
+      pgHtml += '<button class="' + (i===historyPage?'active':'') + '" onclick="historyPage='+i+';renderHistoryTable()">' + i + '</button>';
+    }
+  } else {
+    // Show: 1 2 3 ... last
+    var pages = [];
+    pages.push(1);
+    if (historyPage > 3) pages.push('...');
+    for (var i = Math.max(2, historyPage-1); i <= Math.min(totalPages-1, historyPage+1); i++) pages.push(i);
+    if (historyPage < totalPages-2) pages.push('...');
+    pages.push(totalPages);
+    pages.forEach(function(p) {
+      if (p === '...') { pgHtml += '<span class="pg-dots">...</span>'; }
+      else { pgHtml += '<button class="' + (p===historyPage?'active':'') + '" onclick="historyPage='+p+';renderHistoryTable()">' + p + '</button>'; }
+    });
+  }
+  pgHtml += '<button ' + (historyPage>=totalPages?'disabled':'') + ' onclick="historyPage++;renderHistoryTable()">&gt;</button>';
+  pgHtml += '</div></div>';
   document.getElementById('historyPagination').innerHTML = pgHtml;
 }
 
