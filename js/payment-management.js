@@ -1179,8 +1179,8 @@ function openPayHistoryModal() {
         '<div class="modal-header"><h3>歷史記錄</h3><button class="modal-close" onclick="closePayHistModal()">&times;</button></div>' +
         '<div class="modal-body" style="padding:16px 20px">' +
           '<div style="display:flex;gap:10px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap">' +
-            '<div class="filter-group"><label>供應商</label><select id="payHistProvFilter" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;min-width:120px"><option value="">全部</option><option value="綠界科技">綠界科技</option><option value="藍新金流">藍新金流</option><option value="歐付寶">歐付寶</option><option value="LINE Pay">LINE Pay</option></select></div>' +
-            '<div class="filter-group"><label>結束時間</label><div class="date-picker-wrap" id="payHistDatePicker"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div></div>' +
+            '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#6B7280">供應商</label><select id="payHistProvFilter" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;min-width:120px"><option value="">全部</option><option value="綠界科技">綠界科技</option><option value="藍新金流">藍新金流</option><option value="歐付寶">歐付寶</option><option value="LINE Pay">LINE Pay</option></select></div>' +
+            '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#6B7280">結束時間</label><div class="date-picker-wrap" id="payHistDatePicker"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div></div>' +
             '<div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end">' +
               '<button class="btn btn-dark" onclick="filterPayHist()" style="padding:6px 14px;font-size:12px">搜尋</button>' +
               '<button class="btn btn-outline" onclick="resetPayHist()" style="padding:6px 14px;font-size:12px">重置</button>' +
@@ -1251,19 +1251,27 @@ function renderPayHistTable() {
     });
   }
 
-  var paginationHtml = '';
-  if (totalPages > 1) {
-    paginationHtml = '<div style="display:flex;justify-content:flex-end;padding:8px 0;gap:4px">';
-    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px" onclick="payHistGoPage(' + (payHistPage-1) + ')"' + (payHistPage===1?' disabled style="opacity:.4;cursor:not-allowed;padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;font-size:12px"':'') + '>&lt;</button>';
-    for (var i = 1; i <= totalPages; i++) {
-      paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px;cursor:pointer;' + (i===payHistPage?'background:#1F2937;color:#fff;border-color:#1F2937':'background:#fff') + '" onclick="payHistGoPage(' + i + ')">' + i + '</button>';
-    }
-    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px" onclick="payHistGoPage(' + (payHistPage+1) + ')"' + (payHistPage===totalPages?' disabled style="opacity:.4;cursor:not-allowed;padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;font-size:12px"':'') + '>&gt;</button>';
-    paginationHtml += '</div>';
+  var paginationHtml = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
+  // Left: page selector
+  paginationHtml += '<div style="display:flex;align-items:center;gap:6px"><select onchange="payHistGoPage(+this.value)" style="padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px">';
+  for (var p = 1; p <= totalPages; p++) {
+    paginationHtml += '<option value="' + p + '"' + (p===payHistPage?' selected':'') + '>第' + p + '頁</option>';
   }
+  paginationHtml += '</select>';
+  paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===1?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage-1) + ')"' + (payHistPage===1?' disabled':'') + '>&lt;</button>';
+  for (var i = 1; i <= totalPages; i++) {
+    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px;cursor:pointer;' + (i===payHistPage?'background:#1F2937;color:#fff;border-color:#1F2937':'background:#fff') + '" onclick="payHistGoPage(' + i + ')">' + i + '</button>';
+  }
+  paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===totalPages?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage+1) + ')"' + (payHistPage===totalPages?' disabled':'') + '>&gt;</button>';
+  paginationHtml += '</div>';
+  // Right: per-page selector
+  paginationHtml += '<div style="font-size:12px;color:#6B7280;display:flex;align-items:center;gap:4px">每頁顯示 <select onchange="payHistPageSize=+this.value;payHistPage=1;renderPayHistTable()" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
+  [10,20,50].forEach(function(n){ paginationHtml += '<option value="' + n + '"' + (n===payHistPageSize?' selected':'') + '>' + n + '</option>'; });
+  paginationHtml += '</select> 筆</div>';
+  paginationHtml += '</div>';
 
   document.getElementById('payHistTableWrap').innerHTML =
-    '<div style="font-size:12px;color:#6B7280;margin-bottom:6px">第 ' + payHistPage + ' 頁，共 ' + total + ' 筆資料</div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;color:#6B7280"><span>第 ' + payHistPage + ' 頁，共 ' + total + ' 筆資料</span></div>' +
     '<table class="data-table" style="font-size:12px"><thead><tr><th>供應商</th><th>維護開始時間</th><th>維護結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     paginationHtml;
 }
