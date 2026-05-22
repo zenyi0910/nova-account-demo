@@ -143,7 +143,7 @@ function renderHallDetail() {
   Object.entries(halls).forEach(([hid, hall]) => {
     hallFilterOptions += '<option value="'+hid+'">'+hall.name+'</option>';
   });
-  section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden">' +
+  section.innerHTML = '<div style="margin:16px 0;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden;background:#F8FAFC">' +
     '<div style="padding:10px 16px;background:#F9FAFB;font-size:13px;font-weight:600;color:#374151;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:space-between">' +
       '<div style="display:flex;align-items:center;gap:8px">' +
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' +
