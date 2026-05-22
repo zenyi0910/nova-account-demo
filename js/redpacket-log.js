@@ -80,7 +80,7 @@ function renderRlTable() {
   } else {
     pageData.forEach(function(item) {
       rows += '<tr>' +
-        '<td style="font-family:monospace;font-size:11px;color:#2563EB;cursor:pointer" onclick="navigator.clipboard.writeText(\'' + item.sn + '\');alert(\'已複製\')">' + item.sn + ' 📋</td>' +
+        '<td style="font-family:monospace;font-size:11px;color:#2563EB;cursor:pointer" onclick="navigator.clipboard.writeText(\'' + item.sn + '\')">' + item.sn + '</td>' +
         '<td style="font-size:11px;color:#6B7280">' + item.orderId + '</td>' +
         '<td style="font-weight:500">' + item.guild + '</td>' +
         '<td>' + item.leader + '</td>' +

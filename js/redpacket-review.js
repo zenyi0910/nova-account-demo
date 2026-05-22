@@ -218,7 +218,7 @@ function rpDetail(id) {
       var total = 10;
       var remain = total - used;
       var sn = item.id.replace('RP','SN') + '-' + String(i+1).padStart(3,'0');
-      html += '<tr><td style="font-family:monospace;font-size:11px;color:#2563EB;cursor:pointer" onclick="navigator.clipboard.writeText(\'' + sn + '\');alert(\'已複製\')">' + sn + ' 📋</td><td>' + used + '/' + total + '</td><td>' + remain + '</td><td>' + (remain===0?'<span style="color:#9CA3AF">已用完</span>':'<span style="color:#059669">進行中</span>') + '</td></tr>';
+      html += '<tr><td style="font-family:monospace;font-size:11px;color:#2563EB;cursor:pointer" onclick="navigator.clipboard.writeText(\'' + sn + '\');alert(\'已複製\')">' + sn + '</td><td>' + used + '/' + total + '</td><td>' + remain + '</td><td>' + (remain===0?'<span style="color:#9CA3AF">已用完</span>':'<span style="color:#059669">進行中</span>') + '</td></tr>';
     }
     html += '</tbody></table>';
   }
