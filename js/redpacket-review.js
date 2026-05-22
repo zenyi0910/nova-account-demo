@@ -63,7 +63,7 @@ function renderRpTable() {
 
   var rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    rows = '<tr><td colspan="9" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item) {
       var ops = '';
@@ -73,7 +73,7 @@ function renderRpTable() {
       } else {
         ops = '<button class="btn-icon-action" onclick="rpDetail(\'' + item.id + '\')" title="詳情" style="color:#4DD0C2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>';
       }
-      rows += '<tr><td style="font-weight:500">' + item.guild + '</td><td>' + item.leader + '</td><td>' + item.mode + '</td><td>' + item.groups + ' 組</td><td style="color:#DC2626;font-weight:600">$' + item.amount.toLocaleString() + '</td><td style="color:#6B7280">' + item.time + '</td><td>' + statusBadge(item.status) + (item.isWhitelist ? ' <span style="font-size:10px;color:#2563EB;background:#EFF6FF;padding:1px 4px;border-radius:3px">白名單</span>' : '') + '</td><td style="display:flex;gap:4px">' + ops + '</td></tr>';
+      rows += '<tr><td style="font-weight:500">' + item.guild + '</td><td>' + item.leader + '</td><td>' + item.mode + '</td><td>' + item.groups + ' 組</td><td style="font-weight:600">$' + item.amount.toLocaleString() + '</td><td style="color:#6B7280">' + item.time + '</td><td>' + statusBadge(item.status) + '</td><td>' + (item.isWhitelist ? '<span style="font-size:11px;color:#2563EB;background:#EFF6FF;padding:2px 6px;border-radius:4px">是</span>' : '<span style="font-size:11px;color:#9CA3AF">否</span>') + '</td><td style="display:flex;gap:4px">' + ops + '</td></tr>';
     });
   }
 
@@ -100,7 +100,7 @@ function renderRpTable() {
   bottomBar += '</div></div>';
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
-    '<table class="data-table"><thead><tr><th>公會</th><th>會長帳號</th><th>申請模式</th><th>紅包組數</th><th>總金額</th><th>申請時間</th><th>狀態</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<table class="data-table"><thead><tr><th>公會</th><th>會長帳號</th><th>申請模式</th><th>紅包組數</th><th>總金額</th><th>申請時間</th><th>狀態</th><th>白名單</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     bottomBar;
 }
 
