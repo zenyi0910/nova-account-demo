@@ -1126,3 +1126,152 @@ function saveBillingPlan() {
 function openBillingAddModal() {
   openBillingModal(null, false);
 }
+
+// === 支付管理歷史記錄 Modal ===
+var payHistPage = 1;
+var payHistPageSize = 10;
+var payHistFilterProvider = '';
+var payHistFilterStart = '';
+var payHistFilterEnd = '';
+
+var payHistoryData = [
+  {provider:'綠界科技',start:'2026-04-20 02:00',end:'2026-04-20 06:00',note:'例行維護',operator:'admin'},
+  {provider:'藍新金流',start:'2026-04-18 03:00',end:'2026-04-18 05:00',note:'緊急修復',operator:'casper'},
+  {provider:'歐付寶',start:'2026-04-15 01:00',end:'2026-04-15 04:00',note:'版本更新',operator:'admin'},
+  {provider:'LINE Pay',start:'2026-04-12 02:00',end:'2026-04-12 06:00',note:'例行維護',operator:'casper'},
+  {provider:'綠界科技',start:'2026-04-05 03:00',end:'2026-04-05 05:00',note:'供應商維護',operator:'admin'},
+  {provider:'藍新金流',start:'2026-03-28 01:00',end:'2026-03-28 04:00',note:'系統升級',operator:'casper'},
+  {provider:'歐付寶',start:'2026-03-20 02:00',end:'2026-03-20 06:00',note:'例行維護',operator:'admin'},
+  {provider:'LINE Pay',start:'2026-03-15 03:00',end:'2026-03-15 05:00',note:'緊急修復',operator:'casper'},
+  {provider:'綠界科技',start:'2026-03-10 01:00',end:'2026-03-10 04:00',note:'版本更新',operator:'admin'},
+  {provider:'藍新金流',start:'2026-03-05 02:00',end:'2026-03-05 06:00',note:'供應商維護',operator:'admin'},
+  {provider:'歐付寶',start:'2026-02-28 03:00',end:'2026-02-28 05:00',note:'例行維護',operator:'casper'},
+  {provider:'LINE Pay',start:'2026-02-20 01:00',end:'2026-02-20 04:00',note:'系統升級',operator:'admin'},
+];
+
+function getPayHistFiltered() {
+  var data = payHistoryData.slice();
+  if (payHistFilterProvider) {
+    data = data.filter(function(d){ return d.provider === payHistFilterProvider; });
+  }
+  if (payHistFilterStart) {
+    data = data.filter(function(d){ return d.end >= payHistFilterStart; });
+  }
+  if (payHistFilterEnd) {
+    data = data.filter(function(d){ return d.end <= payHistFilterEnd + ' 23:59'; });
+  }
+  data.sort(function(a,b){ return b.end.localeCompare(a.end); });
+  return data;
+}
+
+function openPayHistoryModal() {
+  payHistPage = 1;
+  payHistFilterProvider = '';
+  payHistFilterStart = '';
+  payHistFilterEnd = '';
+  var modal = document.getElementById('payHistModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'payHistModal';
+    modal.innerHTML =
+      '<div class="modal" style="max-width:750px">' +
+        '<div class="modal-header"><h3>歷史記錄</h3><button class="modal-close" onclick="closePayHistModal()">&times;</button></div>' +
+        '<div class="modal-body" style="padding:16px 20px">' +
+          '<div style="display:flex;gap:10px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap">' +
+            '<div class="filter-group"><label>供應商</label><select id="payHistProvFilter" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;min-width:120px"><option value="">全部</option><option value="綠界科技">綠界科技</option><option value="藍新金流">藍新金流</option><option value="歐付寶">歐付寶</option><option value="LINE Pay">LINE Pay</option></select></div>' +
+            '<div class="filter-group"><label>結束時間</label><div class="date-picker-wrap" id="payHistDatePicker"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div></div>' +
+            '<div style="margin-left:auto;display:flex;gap:6px;align-items:flex-end">' +
+              '<button class="btn btn-dark" onclick="filterPayHist()" style="padding:6px 14px;font-size:12px">搜尋</button>' +
+              '<button class="btn btn-outline" onclick="resetPayHist()" style="padding:6px 14px;font-size:12px">重置</button>' +
+            '</div>' +
+          '</div>' +
+          '<div id="payHistTableWrap"></div>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(modal);
+    setTimeout(function() {
+      var wrap = document.getElementById('payHistDatePicker');
+      if (wrap && !wrap._dpInstance && window.NovaDatePicker) {
+        window.NovaDatePicker.init(wrap);
+      }
+    }, 100);
+  }
+  modal.classList.add('show');
+  renderPayHistTable();
+}
+
+function closePayHistModal() {
+  var modal = document.getElementById('payHistModal');
+  if (modal) modal.classList.remove('show');
+}
+
+function filterPayHist() {
+  payHistFilterProvider = document.getElementById('payHistProvFilter').value;
+  var dp = document.querySelector('#payHistDatePicker .date-display');
+  if (dp && dp.textContent && dp.textContent !== '選擇日期範圍') {
+    var parts = dp.textContent.split(' ~ ');
+    if (parts.length === 2) {
+      payHistFilterStart = parts[0].trim().split(' ')[0];
+      payHistFilterEnd = parts[1].trim().split(' ')[0];
+    }
+  } else {
+    payHistFilterStart = '';
+    payHistFilterEnd = '';
+  }
+  payHistPage = 1;
+  renderPayHistTable();
+}
+
+function resetPayHist() {
+  document.getElementById('payHistProvFilter').value = '';
+  var dp = document.querySelector('#payHistDatePicker .date-display');
+  if (dp) dp.textContent = '選擇日期範圍';
+  payHistFilterProvider = '';
+  payHistFilterStart = '';
+  payHistFilterEnd = '';
+  payHistPage = 1;
+  renderPayHistTable();
+}
+
+function renderPayHistTable() {
+  var data = getPayHistFiltered();
+  var total = data.length;
+  var totalPages = Math.max(1, Math.ceil(total / payHistPageSize));
+  if (payHistPage > totalPages) payHistPage = totalPages;
+  var start = (payHistPage - 1) * payHistPageSize;
+  var pageData = data.slice(start, start + payHistPageSize);
+
+  var rows = '';
+  if (pageData.length === 0) {
+    rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無歷史記錄</td></tr>';
+  } else {
+    pageData.forEach(function(item) {
+      rows += '<tr><td>' + item.provider + '</td><td>' + item.start + '</td><td>' + item.end + '</td><td>' + (item.note||'-') + '</td><td>' + item.operator + '</td></tr>';
+    });
+  }
+
+  var paginationHtml = '';
+  if (totalPages > 1) {
+    paginationHtml = '<div style="display:flex;justify-content:flex-end;padding:8px 0;gap:4px">';
+    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px" onclick="payHistGoPage(' + (payHistPage-1) + ')"' + (payHistPage===1?' disabled style="opacity:.4;cursor:not-allowed;padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;font-size:12px"':'') + '>&lt;</button>';
+    for (var i = 1; i <= totalPages; i++) {
+      paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px;cursor:pointer;' + (i===payHistPage?'background:#1F2937;color:#fff;border-color:#1F2937':'background:#fff') + '" onclick="payHistGoPage(' + i + ')">' + i + '</button>';
+    }
+    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px" onclick="payHistGoPage(' + (payHistPage+1) + ')"' + (payHistPage===totalPages?' disabled style="opacity:.4;cursor:not-allowed;padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;font-size:12px"':'') + '>&gt;</button>';
+    paginationHtml += '</div>';
+  }
+
+  document.getElementById('payHistTableWrap').innerHTML =
+    '<div style="font-size:12px;color:#6B7280;margin-bottom:6px">第 ' + payHistPage + ' 頁，共 ' + total + ' 筆資料</div>' +
+    '<table class="data-table" style="font-size:12px"><thead><tr><th>供應商</th><th>維護開始時間</th><th>維護結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    paginationHtml;
+}
+
+function payHistGoPage(p) {
+  var data = getPayHistFiltered();
+  var totalPages = Math.max(1, Math.ceil(data.length / payHistPageSize));
+  if (p < 1 || p > totalPages) return;
+  payHistPage = p;
+  renderPayHistTable();
+}
