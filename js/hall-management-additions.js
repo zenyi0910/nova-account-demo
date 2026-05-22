@@ -399,12 +399,13 @@ function renderHistoryTable() {
 
   let rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:24px">無歷史記錄</td></tr>';
+    rows = '<tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">無歷史記錄</td></tr>';
   } else {
     pageData.forEach(item => {
       const s = item.sched;
       rows += '<tr>' +
         '<td>' + item.hallName + '</td>' +
+        '<td>' + fmtDT(s.start) + '</td>' +
         '<td>' + fmtDT(s.end) + '</td>' +
         '<td>' + (s.note || '-') + '</td>' +
         '<td>' + (s.operator || 'casper') + '</td></tr>';
@@ -418,7 +419,7 @@ function renderHistoryTable() {
         '<option value="10"' + (historyPageSize===10?' selected':'') + '>10</option>' +
         '<option value="20"' + (historyPageSize===20?' selected':'') + '>20</option>' +
         '<option value="50"' + (historyPageSize===50?' selected':'') + '>50</option></select> 筆</div></div>' +
-    '<table class="data-table"><thead><tr><th>娛樂城</th><th>結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    '<table class="data-table"><thead><tr><th>娛樂城</th><th>維護開始時間</th><th>維護結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>';
 
   // Pagination - system standard: left page dropdown + right page buttons
   let pgHtml = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
