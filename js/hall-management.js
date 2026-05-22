@@ -72,7 +72,9 @@ function initHallSelector() {
   const filtered = azFilter ? Object.entries(halls).filter(([id]) => id.charAt(0).toUpperCase() === azFilter) : Object.entries(halls);
 
   const listHtml = filtered.map(([id, h]) => {
-    const gc = games.filter(g => g.hall === id).length;
+    const goldGc = games.filter(g => g.hall === id && g.goldMax > 0).length;
+    const starGc = games.filter(g => g.hall === id && g.starMax > 0).length;
+    const gcText = '金幣' + goldGc + '款 / 星幣' + starGc + '款';
     const statusCls = h.status === 'on' ? 'on' : 'off';
     const statusText = h.status === 'on' ? '啟用' : '停用';
     const now = new Date();
@@ -81,7 +83,7 @@ function initHallSelector() {
     return '<div class="hall-list-item" onclick="selectHall(\'' + id + '\')">' +
       '<span class="hall-list-name">' + h.name + '</span>' +
       '<span class="hall-list-schedule">' + clockIcon + '</span>' +
-      '<span class="hall-list-count">' + gc + ' 款遊戲</span>' +
+      '<span class="hall-list-count">' + gcText + '</span>' +
       '<span class="hall-list-status"><button class="toggle ' + statusCls + '" onclick="event.stopPropagation();requestToggle(\'' + id + '\')"></button><span class="status-label ' + statusCls + '">' + statusText + '</span></span>' +
       '</div>';
   }).join('');
@@ -807,9 +809,10 @@ function requestToggle(id) {
   const h = halls[id];
   const ns = h.status === 'on' ? 'off' : 'on';
   const act = ns === 'off' ? '關閉' : '開啟';
-  const gc = games.filter(g => g.hall === id).length;
+  const goldGc = games.filter(g => g.hall === id && g.goldMax > 0).length;
+  const starGc = games.filter(g => g.hall === id && g.starMax > 0).length;
   pendingToggle = { id, newState: ns };
-  document.getElementById('toggleMsg').innerHTML = '確定要<strong>維護 ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>' + gc + '</strong> 款遊戲。';
+  document.getElementById('toggleMsg').innerHTML = '確定要<strong>維護 ' + h.name + '</strong>？<br><br>此操作將影響該廳下 <strong>金幣' + goldGc + '款遊戲 / 星幣' + starGc + '款遊戲</strong>。';
   document.getElementById('toggleConfirmBtn').textContent = '確認' + act;
   document.getElementById('toggleConfirmBtn').className = ns === 'off' ? 'btn btn-danger' : 'btn btn-dark';
   document.getElementById('toggleConfirm').classList.add('show');
