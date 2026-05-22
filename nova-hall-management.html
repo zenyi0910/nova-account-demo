@@ -177,7 +177,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .hall-list-scroll{margin-top:16px}
 .hall-list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid oklch(0.95 0 0);cursor:pointer;transition:background .15s}
 .hall-list-item:last-child{border-bottom:none}
-.az-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;padding:8px 0}
+.az-filter{display:flex;gap:6px;margin-bottom:16px;padding:8px 0;flex-wrap:nowrap;overflow:hidden}
+.az-filter-wrap{position:relative;display:flex;align-items:center;gap:0;margin-bottom:16px}
+.az-filter-scroll{overflow-x:auto;overflow-y:hidden;flex:1;scroll-behavior:smooth;-ms-overflow-style:none;scrollbar-width:none}
+.az-filter-scroll::-webkit-scrollbar{display:none}
+.az-filter-arrow{width:28px;height:36px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#374151;flex-shrink:0;font-size:14px;transition:all .15s;z-index:2}
+.az-filter-arrow:hover{background:#F3F4F6;border-color:#9CA3AF}
+.az-filter-arrow:disabled{opacity:.3;cursor:not-allowed}
 .az-filter-btn{min-width:36px;height:36px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:#374151;display:flex;align-items:center;justify-content:center;transition:all .15s;padding:0 12px}
 .az-filter-btn:hover:not(.disabled):not(.active){background:#F3F4F6;border-color:#9CA3AF}
 .az-filter-btn.active{background:#1F2937;color:#fff;border-color:#1F2937}
@@ -547,7 +553,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <script src="components/date-picker.js?v=4"></script>
 <script src="js/components.js?v=11"></script>
-<script src="js/hall-management.js?v=53"></script>
+<script src="js/hall-management.js?v=54"></script>
 <script src="js/hall-management-additions.js?v=23"></script>
 </body>
 </html>

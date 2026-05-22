@@ -62,11 +62,11 @@ function initHallSelector() {
   const hallKeys = Object.keys(halls);
   const firstLetters = new Set(hallKeys.map(k => k.charAt(0).toUpperCase()));
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  const azHtml = '<div class="az-filter"><button class="az-filter-btn' + (azFilter === '' ? ' active' : '') + '" onclick="filterByLetter(\'\')">全部</button>' + alphabet.map(letter => {
+  const azHtml = '<div class="az-filter-wrap"><button class="az-filter-arrow az-arr-left" onclick="scrollAzFilter(-1)">&lt;</button><div class="az-filter-scroll"><div class="az-filter"><button class="az-filter-btn' + (azFilter === '' ? ' active' : '') + '" onclick="filterByLetter(\'\')">全部</button>' + alphabet.map(letter => {
     const has = firstLetters.has(letter);
     const cls = !has ? ' disabled' : (azFilter === letter ? ' active' : '');
     return '<button class="az-filter-btn' + cls + '"' + (has ? ' onclick="filterByLetter(\'' + letter + '\')"' : ' disabled') + '>' + letter + '</button>';
-  }).join('') + '</div>';
+  }).join('') + '</div></div><button class="az-filter-arrow az-arr-right" onclick="scrollAzFilter(1)">&gt;</button></div>';
 
   // Filter halls by letter
   const filtered = azFilter ? Object.entries(halls).filter(([id]) => id.charAt(0).toUpperCase() === azFilter) : Object.entries(halls);
@@ -91,6 +91,11 @@ function initHallSelector() {
 function filterByLetter(letter) {
   azFilter = azFilter === letter ? '' : letter;
   initHallSelector();
+}
+
+function scrollAzFilter(dir) {
+  var scroll = document.querySelector('.az-filter-scroll');
+  if (scroll) scroll.scrollBy({left: dir * 150, behavior: 'smooth'});
 }
 
 function scrollTabs(dir) {
