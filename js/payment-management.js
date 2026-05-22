@@ -1251,29 +1251,32 @@ function renderPayHistTable() {
     });
   }
 
-  var paginationHtml = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
-  // Left: page selector
-  paginationHtml += '<div style="display:flex;align-items:center;gap:6px"><select onchange="payHistGoPage(+this.value)" style="padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px">';
+  // Top bar: left=總筆數, right=每頁筆數
+  var topBar = '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;color:#6B7280">';
+  topBar += '<span>第 ' + payHistPage + ' 頁，共 ' + total + ' 筆資料</span>';
+  topBar += '<div style="display:flex;align-items:center;gap:4px">每頁顯示 <select onchange="payHistPageSize=+this.value;payHistPage=1;renderPayHistTable()" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
+  [10,20,50].forEach(function(n){ topBar += '<option value="' + n + '"' + (n===payHistPageSize?' selected':'') + '>' + n + '</option>'; });
+  topBar += '</select> 筆</div></div>';
+
+  // Bottom bar: left=頁碼選擇器, right=頁碼按鈕
+  var bottomBar = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
+  bottomBar += '<select onchange="payHistGoPage(+this.value)" style="padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px">';
   for (var p = 1; p <= totalPages; p++) {
-    paginationHtml += '<option value="' + p + '"' + (p===payHistPage?' selected':'') + '>第' + p + '頁</option>';
+    bottomBar += '<option value="' + p + '"' + (p===payHistPage?' selected':'') + '>第' + p + '頁</option>';
   }
-  paginationHtml += '</select>';
-  paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===1?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage-1) + ')"' + (payHistPage===1?' disabled':'') + '>&lt;</button>';
+  bottomBar += '</select>';
+  bottomBar += '<div style="display:flex;align-items:center;gap:4px">';
+  bottomBar += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===1?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage-1) + ')"' + (payHistPage===1?' disabled':'') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
-    paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px;cursor:pointer;' + (i===payHistPage?'background:#1F2937;color:#fff;border-color:#1F2937':'background:#fff') + '" onclick="payHistGoPage(' + i + ')">' + i + '</button>';
+    bottomBar += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px;cursor:pointer;' + (i===payHistPage?'background:#1F2937;color:#fff;border-color:#1F2937':'background:#fff') + '" onclick="payHistGoPage(' + i + ')">' + i + '</button>';
   }
-  paginationHtml += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===totalPages?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage+1) + ')"' + (payHistPage===totalPages?' disabled':'') + '>&gt;</button>';
-  paginationHtml += '</div>';
-  // Right: per-page selector
-  paginationHtml += '<div style="font-size:12px;color:#6B7280;display:flex;align-items:center;gap:4px">每頁顯示 <select onchange="payHistPageSize=+this.value;payHistPage=1;renderPayHistTable()" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
-  [10,20,50].forEach(function(n){ paginationHtml += '<option value="' + n + '"' + (n===payHistPageSize?' selected':'') + '>' + n + '</option>'; });
-  paginationHtml += '</select> 筆</div>';
-  paginationHtml += '</div>';
+  bottomBar += '<button style="padding:4px 8px;border:1px solid #E5E7EB;border-radius:4px;background:#fff;cursor:pointer;font-size:12px' + (payHistPage===totalPages?';opacity:.4;cursor:not-allowed':'') + '" onclick="payHistGoPage(' + (payHistPage+1) + ')"' + (payHistPage===totalPages?' disabled':'') + '>&gt;</button>';
+  bottomBar += '</div></div>';
 
   document.getElementById('payHistTableWrap').innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;color:#6B7280"><span>第 ' + payHistPage + ' 頁，共 ' + total + ' 筆資料</span></div>' +
+    topBar +
     '<table class="data-table" style="font-size:12px"><thead><tr><th>供應商</th><th>維護開始時間</th><th>維護結束時間</th><th>備註</th><th>操作者</th></tr></thead><tbody>' + rows + '</tbody></table>' +
-    paginationHtml;
+    bottomBar;
 }
 
 function payHistGoPage(p) {
