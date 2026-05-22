@@ -4,20 +4,21 @@ var rpPageSize = 10;
 var rpFilterStatus = '';
 var rpFilterGuild = '';
 var rpFilterOrder = '';
+var rpFilterLeader = '';
 
 var rpData = [
-  {id:'RP20260520001',guild:'龍之谷',leader:'Abk7382',mode:'一組',groups:1,amount:50000,perPack:500,qty:100,times:1,target:'全部會員',time:'2026-05-20 09:30',status:'pending',reviewer:'',reviewTime:'',reason:''},
-  {id:'RP20260519002',guild:'皇家俱樂部',leader:'Wnp9012',mode:'多組',groups:3,amount:150000,perPack:0,qty:0,times:0,target:'全部會員',time:'2026-05-19 14:20',status:'approved',reviewer:'admin',reviewTime:'2026-05-19 15:00',reason:'',detail:[{qty:5,perPack:10000,times:2,target:'全部會員'},{qty:3,perPack:5000,times:3,target:'副會長'},{qty:2,perPack:2500,times:5,target:'指定帳號'}]},
-  {id:'RP20260518003',guild:'星辰戰隊',leader:'Mhx6677',mode:'一組',groups:1,amount:20000,perPack:400,qty:50,times:1,target:'會員',time:'2026-05-18 22:00',status:'rejected',reviewer:'casper',reviewTime:'2026-05-19 09:00',reason:'金額異常，請確認後重新申請'},
-  {id:'RP20260517004',guild:'龍之谷',leader:'Abk7382',mode:'上傳',groups:8,amount:80000,perPack:0,qty:0,times:0,target:'指定帳號',time:'2026-05-17 11:00',status:'approved',reviewer:'admin',reviewTime:'2026-05-17 11:30',reason:'',isWhitelist:true},
-  {id:'RP20260516005',guild:'黃金獵人',leader:'Gld1234',mode:'一組',groups:1,amount:30000,perPack:600,qty:50,times:1,target:'全部會員',time:'2026-05-16 08:45',status:'pending',reviewer:'',reviewTime:'',reason:''},
-  {id:'RP20260515006',guild:'皇家俱樂部',leader:'Wnp9012',mode:'多組',groups:2,amount:60000,perPack:0,qty:0,times:0,target:'副會長',time:'2026-05-15 16:30',status:'approved',reviewer:'casper',reviewTime:'2026-05-15 17:00',reason:'',detail:[{qty:10,perPack:3000,times:1,target:'副會長'},{qty:5,perPack:6000,times:1,target:'全部會員'}]},
-  {id:'RP20260514007',guild:'星辰戰隊',leader:'Mhx6677',mode:'一組',groups:1,amount:10000,perPack:200,qty:50,times:1,target:'全部會員',time:'2026-05-14 20:15',status:'approved',reviewer:'admin',reviewTime:'2026-05-14 20:30',reason:''},
-  {id:'RP20260513008',guild:'黃金獵人',leader:'Gld1234',mode:'上傳',groups:5,amount:45000,perPack:0,qty:0,times:0,target:'指定帳號',time:'2026-05-13 10:00',status:'rejected',reviewer:'casper',reviewTime:'2026-05-13 14:00',reason:'CSV格式錯誤，第3行缺少領取次數'},
-  {id:'RP20260512009',guild:'龍之谷',leader:'Abk7382',mode:'一組',groups:1,amount:25000,perPack:500,qty:50,times:1,target:'會員',time:'2026-05-12 09:00',status:'approved',reviewer:'admin',reviewTime:'2026-05-12 09:15',reason:'',isWhitelist:true},
-  {id:'RP20260511010',guild:'皇家俱樂部',leader:'Wnp9012',mode:'多組',groups:4,amount:200000,perPack:0,qty:0,times:0,target:'全部會員',time:'2026-05-11 13:00',status:'pending',reviewer:'',reviewTime:'',reason:'',detail:[{qty:10,perPack:5000,times:2,target:'全部會員'},{qty:5,perPack:10000,times:1,target:'副會長'},{qty:3,perPack:5000,times:3,target:'會員'},{qty:2,perPack:2500,times:5,target:'指定帳號'}]},
-  {id:'RP20260510011',guild:'星辰戰隊',leader:'Mhx6677',mode:'一組',groups:1,amount:15000,perPack:300,qty:50,times:1,target:'全部會員',time:'2026-05-10 18:30',status:'approved',reviewer:'admin',reviewTime:'2026-05-10 19:00',reason:''},
-  {id:'RP20260509012',guild:'黃金獵人',leader:'Gld1234',mode:'一組',groups:1,amount:40000,perPack:800,qty:50,times:1,target:'會長',time:'2026-05-09 07:00',status:'rejected',reviewer:'casper',reviewTime:'2026-05-09 10:00',reason:'可領取對象不可為會長本人'},
+  {id:'RP20260520001',guild:'龍之谷',guildLv:5,leader:'Abk7382',amount:50000,time:'2026-05-20 09:30:15',status:'pending',reviewer:'',reviewTime:'',reason:''},
+  {id:'RP20260519002',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',amount:150000,time:'2026-05-19 14:20:33',status:'approved',reviewer:'superadmin',reviewTime:'2026-05-19 15:00:12',reason:''},
+  {id:'RP20260518003',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',amount:20000,time:'2026-05-18 22:00:45',status:'rejected',reviewer:'casper',reviewTime:'2026-05-19 09:00:00',reason:'金額異常，請確認後重新申請'},
+  {id:'RP20260517004',guild:'龍之谷',guildLv:5,leader:'Abk7382',amount:80000,time:'2026-05-17 11:00:22',status:'approved',reviewer:'superadmin',reviewTime:'2026-05-17 11:30:00',reason:''},
+  {id:'RP20260516005',guild:'黃金獵人',guildLv:8,leader:'Gld1234',amount:30000,time:'2026-05-16 08:45:10',status:'pending',reviewer:'',reviewTime:'',reason:''},
+  {id:'RP20260515006',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',amount:60000,time:'2026-05-15 16:30:55',status:'approved',reviewer:'casper',reviewTime:'2026-05-15 17:00:30',reason:''},
+  {id:'RP20260514007',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',amount:10000,time:'2026-05-14 20:15:00',status:'approved',reviewer:'superadmin',reviewTime:'2026-05-14 20:30:00',reason:''},
+  {id:'RP20260513008',guild:'黃金獵人',guildLv:8,leader:'Gld1234',amount:45000,time:'2026-05-13 10:00:18',status:'rejected',reviewer:'casper',reviewTime:'2026-05-13 14:00:00',reason:'CSV格式錯誤，第3行缺少領取次數'},
+  {id:'RP20260512009',guild:'龍之谷',guildLv:5,leader:'Abk7382',amount:25000,time:'2026-05-12 09:00:00',status:'approved',reviewer:'superadmin',reviewTime:'2026-05-12 09:15:00',reason:''},
+  {id:'RP20260511010',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',amount:200000,time:'2026-05-11 13:00:44',status:'pending',reviewer:'',reviewTime:'',reason:''},
+  {id:'RP20260510011',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',amount:15000,time:'2026-05-10 18:30:00',status:'approved',reviewer:'superadmin',reviewTime:'2026-05-10 19:00:00',reason:''},
+  {id:'RP20260509012',guild:'黃金獵人',guildLv:8,leader:'Gld1234',amount:40000,time:'2026-05-09 07:00:00',status:'rejected',reviewer:'casper',reviewTime:'2026-05-09 10:00:00',reason:'可領取對象不可為會長本人'},
 ];
 
 function getRpFiltered() {
@@ -25,32 +26,42 @@ function getRpFiltered() {
   if (rpFilterStatus) data = data.filter(function(d){ return d.status === rpFilterStatus; });
   if (rpFilterGuild) data = data.filter(function(d){ return d.guild.indexOf(rpFilterGuild) >= 0; });
   if (rpFilterOrder) data = data.filter(function(d){ return d.id.indexOf(rpFilterOrder) >= 0; });
+  if (rpFilterLeader) data = data.filter(function(d){ return d.leader.indexOf(rpFilterLeader) >= 0; });
   return data;
 }
 
 function rpSearch() {
-  rpFilterStatus = document.getElementById('rpStatusFilter').value;
+  rpFilterLeader = document.getElementById('rpLeaderFilter').value.trim();
   rpFilterGuild = document.getElementById('rpGuildFilter').value.trim();
+  rpFilterStatus = document.getElementById('rpStatusFilter').value;
   rpFilterOrder = document.getElementById('rpOrderFilter').value.trim();
   rpPage = 1;
   renderRpTable();
 }
 
 function rpReset() {
-  document.getElementById('rpStatusFilter').value = '';
+  document.getElementById('rpLeaderFilter').value = '';
   document.getElementById('rpGuildFilter').value = '';
+  document.getElementById('rpStatusFilter').value = '';
   document.getElementById('rpOrderFilter').value = '';
+  document.getElementById('rpReviewerFilter') && (document.getElementById('rpReviewerFilter').value = '');
   rpFilterStatus = '';
   rpFilterGuild = '';
   rpFilterOrder = '';
+  rpFilterLeader = '';
   rpPage = 1;
   renderRpTable();
 }
 
 function statusBadge(s) {
-  var map = {pending:'待審核',approved:'已通過',rejected:'已駁回'};
-  var cls = {pending:'status-maint',approved:'status-online',rejected:'status-offline'};
-  return '<span class="status-badge ' + cls[s] + '">' + map[s] + '</span>';
+  if (s === 'approved') return '<span style="color:#059669">已審核 <a href="javascript:void(0)" style="color:#7C3AED;font-size:11px;margin-left:4px">檢視詳情</a></span>';
+  if (s === 'rejected') return '<span style="color:#DC2626">已拒絕</span>';
+  return '<span style="color:#6B7280">待審核中</span>';
+}
+
+function guildLvBadge(lv) {
+  var color = lv >= 10 ? '#7C3AED' : lv >= 5 ? '#059669' : '#6B7280';
+  return '<span style="background:' + color + ';color:#fff;padding:2px 8px;border-radius:10px;font-size:11px">Lv.' + lv + '</span>';
 }
 
 function renderRpTable() {
@@ -66,41 +77,47 @@ function renderRpTable() {
     rows = '<tr><td colspan="9" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item) {
-      var ops = '';
+      var ops = '-';
       if (item.status === 'pending') {
-        ops = '<button class="btn-icon-action" onclick="rpApprove(\'' + item.id + '\')" title="通過" style="color:#059669"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg></button>' +
-              '<button class="btn-icon-action delete" onclick="rpReject(\'' + item.id + '\')" title="駁回"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
-      } else {
-        ops = '<button class="btn-icon-action" onclick="rpDetail(\'' + item.id + '\')" title="詳情" style="color:#4DD0C2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>';
+        ops = '<div style="display:flex;flex-direction:column;gap:4px">' +
+          '<button class="btn btn-sm" style="background:#059669;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpApprove(\'' + item.id + '\')">&#10003; 同意</button>' +
+          '<button class="btn btn-sm" style="background:#DC2626;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpReject(\'' + item.id + '\')">&#10005; 拒絕</button>' +
+          '<button class="btn btn-sm" style="background:#D97706;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpGenSerial(\'' + item.id + '\')">+ 產生序號</button>' +
+          '</div>';
       }
-      rows += '<tr><td style="font-weight:500">' + item.guild + '</td><td>' + item.leader + '</td><td>' + item.mode + '</td><td>' + item.groups + ' 組</td><td style="font-weight:600">$' + item.amount.toLocaleString() + '</td><td style="color:#6B7280">' + item.time + '</td><td>' + statusBadge(item.status) + '</td><td>' + (item.isWhitelist ? '<span style="font-size:11px;color:#2563EB;background:#EFF6FF;padding:2px 6px;border-radius:4px">是</span>' : '<span style="font-size:11px;color:#9CA3AF">否</span>') + '</td><td style="display:flex;gap:4px">' + ops + '</td></tr>';
+      rows += '<tr>' +
+        '<td>' + item.guild + '</td>' +
+        '<td>' + guildLvBadge(item.guildLv) + '</td>' +
+        '<td>' + item.leader + '</td>' +
+        '<td>' + item.time + '</td>' +
+        '<td style="font-weight:600">' + item.amount.toLocaleString() + '</td>' +
+        '<td>' + statusBadge(item.status) + '</td>' +
+        '<td>' + (item.reviewer || '-') + '</td>' +
+        '<td>' + (item.reviewTime || '-') + '</td>' +
+        '<td>' + ops + '</td>' +
+        '</tr>';
     });
   }
 
-  // Top bar
-  var topBar = '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px;color:#6B7280">';
-  topBar += '<span>第 ' + rpPage + ' 頁，共 ' + total + ' 筆資料</span>';
-  topBar += '<div style="display:flex;align-items:center;gap:4px">每頁顯示 <select onchange="rpPageSize=+this.value;rpPage=1;renderRpTable()" style="padding:2px 6px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
-  [10,20,50].forEach(function(n){ topBar += '<option value="' + n + '"' + (n===rpPageSize?' selected':'') + '>' + n + '</option>'; });
-  topBar += '</select> 筆</div></div>';
+  // Total count
+  var topBar = '<div style="padding:8px 0;font-size:13px;color:#374151">總共 ' + total + ' 筆資料</div>';
 
-  // Bottom bar
-  var bottomBar = '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">';
-  bottomBar += '<select onchange="rpGoPage(+this.value)" style="padding:3px 8px;border:1px solid #E5E7EB;border-radius:4px;font-size:12px">';
-  for (var p = 1; p <= totalPages; p++) {
-    bottomBar += '<option value="' + p + '"' + (p===rpPage?' selected':'') + '>第' + p + '頁</option>';
-  }
-  bottomBar += '</select>';
-  bottomBar += '<div style="display:flex;align-items:center;gap:4px">';
+  // Bottom pagination
+  var bottomBar = '<div style="display:flex;justify-content:flex-end;align-items:center;padding:12px 0;gap:8px">';
+  bottomBar += '<span style="font-size:12px;color:#6B7280">第 ' + rpPage + ' / ' + totalPages + ' 頁</span>';
+  bottomBar += '<button class="page-btn" onclick="rpGoPage(1)"' + (rpPage===1?' disabled':'') + '>&laquo;</button>';
   bottomBar += '<button class="page-btn" onclick="rpGoPage(' + (rpPage-1) + ')"' + (rpPage===1?' disabled':'') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
     bottomBar += '<button class="page-btn' + (i===rpPage?' active':'') + '" onclick="rpGoPage(' + i + ')">' + i + '</button>';
   }
   bottomBar += '<button class="page-btn" onclick="rpGoPage(' + (rpPage+1) + ')"' + (rpPage===totalPages?' disabled':'') + '>&gt;</button>';
-  bottomBar += '</div></div>';
+  bottomBar += '<button class="page-btn" onclick="rpGoPage(' + totalPages + ')"' + (rpPage===totalPages?' disabled':'') + '>&raquo;</button>';
+  bottomBar += '<select onchange="rpPageSize=+this.value;rpPage=1;renderRpTable()" style="padding:3px 8px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
+  [10,20,50].forEach(function(n){ bottomBar += '<option value="' + n + '"' + (n===rpPageSize?' selected':'') + '>' + n + ' 筆/頁</option>'; });
+  bottomBar += '</select></div>';
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
-    '<table class="data-table"><thead><tr><th>公會</th><th>會長帳號</th><th>申請模式</th><th>紅包組數</th><th>總金額</th><th>申請時間</th><th>狀態</th><th>白名單</th><th>操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<table class="data-table"><thead><tr><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請日期</th><th>申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     bottomBar;
 }
 
@@ -116,12 +133,20 @@ function rpGoPage(p) {
 function rpApprove(id) {
   var item = rpData.find(function(d){ return d.id === id; });
   if (!item) return;
-  if (confirm('確定通過「' + item.guild + '」的紅包申請（$' + item.amount.toLocaleString() + '）？')) {
+  if (confirm('確定通過「' + item.guild + '」的紅包申請（' + item.amount.toLocaleString() + '）？')) {
     item.status = 'approved';
     item.reviewer = 'casper';
-    item.reviewTime = new Date().toISOString().slice(0,16).replace('T',' ');
+    item.reviewTime = new Date().toISOString().slice(0,19).replace('T',' ');
     renderRpTable();
   }
+}
+
+// === 產生序號 ===
+function rpGenSerial(id) {
+  var item = rpData.find(function(d){ return d.id === id; });
+  if (!item) return;
+  var serial = 'SN' + Date.now().toString().slice(-10) + Math.floor(Math.random()*100).toString().padStart(2,'0');
+  alert('已產生序號：' + serial + '\n\n紅包訂單：' + item.id + '\n公會：' + item.guild + '\n金額：' + item.amount.toLocaleString());
 }
 
 // === 駁回 Modal ===
@@ -133,13 +158,13 @@ function rpReject(id) {
     modal.id = 'rpRejectModal';
     modal.innerHTML =
       '<div class="modal" style="max-width:420px">' +
-        '<div class="modal-header"><h3>駁回紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
+        '<div class="modal-header"><h3>拒絕紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
         '<div class="modal-body">' +
-          '<div class="form-group"><label>駁回原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea></div>' +
+          '<div class="form-group"><label>拒絕原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入拒絕原因"></textarea></div>' +
         '</div>' +
         '<div class="modal-footer">' +
           '<button class="btn btn-outline" onclick="closeRpModal(\'rpRejectModal\')">取消</button>' +
-          '<button class="btn btn-danger" onclick="confirmReject()">確認駁回</button>' +
+          '<button class="btn btn-danger" onclick="confirmReject()">確認拒絕</button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(modal);
@@ -152,13 +177,13 @@ function rpReject(id) {
 function confirmReject() {
   var modal = document.getElementById('rpRejectModal');
   var reason = document.getElementById('rpRejectReason').value.trim();
-  if (!reason) { alert('請輸入駁回原因'); return; }
+  if (!reason) { alert('請輸入拒絕原因'); return; }
   var id = modal.dataset.targetId;
   var item = rpData.find(function(d){ return d.id === id; });
   if (item) {
     item.status = 'rejected';
     item.reviewer = 'casper';
-    item.reviewTime = new Date().toISOString().slice(0,16).replace('T',' ');
+    item.reviewTime = new Date().toISOString().slice(0,19).replace('T',' ');
     item.reason = reason;
   }
   modal.classList.remove('show');
@@ -174,54 +199,25 @@ function rpDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:700px"><div class="modal-header"><h3>紅包申請詳情</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:600px"><div class="modal-header"><h3>紅包申請詳情</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
     document.body.appendChild(modal);
   }
 
-  var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:13px;margin-bottom:16px">';
-  html += '<div><span style="color:#6B7280">公會：</span><strong>' + item.guild + '</strong></div>';
-  html += '<div><span style="color:#6B7280">會長：</span>' + item.leader + '</div>';
-  html += '<div><span style="color:#6B7280">申請時間：</span>' + item.time + '</div>';
-  html += '<div><span style="color:#6B7280">申請模式：</span>' + item.mode + '</div>';
-  html += '<div><span style="color:#6B7280">總金額：</span><strong style="color:#DC2626">$' + item.amount.toLocaleString() + '</strong></div>';
-  html += '<div><span style="color:#6B7280">狀態：</span>' + statusBadge(item.status) + '</div>';
+  var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;font-size:13px">';
+  html += '<div><span style="color:#6B7280">公會名稱：</span><strong>' + item.guild + '</strong></div>';
+  html += '<div><span style="color:#6B7280">公會等級：</span>' + guildLvBadge(item.guildLv) + '</div>';
+  html += '<div><span style="color:#6B7280">會長帳號：</span>' + item.leader + '</div>';
+  html += '<div><span style="color:#6B7280">申請金額：</span><strong>' + item.amount.toLocaleString() + '</strong></div>';
+  html += '<div><span style="color:#6B7280">申請日期：</span>' + item.time + '</div>';
+  html += '<div><span style="color:#6B7280">審核狀態：</span>' + statusBadge(item.status) + '</div>';
   if (item.reviewer) {
-    html += '<div><span style="color:#6B7280">審核人：</span>' + item.reviewer + '</div>';
-    html += '<div><span style="color:#6B7280">審核時間：</span>' + item.reviewTime + '</div>';
+    html += '<div><span style="color:#6B7280">審核人員：</span>' + item.reviewer + '</div>';
+    html += '<div><span style="color:#6B7280">審核日期：</span>' + item.reviewTime + '</div>';
   }
   if (item.reason) {
-    html += '<div style="grid-column:1/-1"><span style="color:#6B7280">駁回原因：</span><span style="color:#DC2626">' + item.reason + '</span></div>';
+    html += '<div style="grid-column:1/-1"><span style="color:#6B7280">拒絕原因：</span><span style="color:#DC2626">' + item.reason + '</span></div>';
   }
   html += '</div>';
-
-  // 明細表格
-  html += '<div style="font-size:13px;font-weight:600;margin-bottom:8px">紅包明細</div>';
-  html += '<table class="data-table" style="font-size:12px"><thead><tr><th>組別</th><th>數量</th><th>每包點數</th><th>領取次數</th><th>可領取對象</th><th>小計</th></tr></thead><tbody>';
-  if (item.detail && item.detail.length) {
-    item.detail.forEach(function(d, i) {
-      var subtotal = d.qty * d.perPack * d.times;
-      html += '<tr><td>' + (i+1) + '</td><td>' + d.qty + '</td><td>' + d.perPack.toLocaleString() + '</td><td>' + d.times + '</td><td>' + d.target + '</td><td>$' + subtotal.toLocaleString() + '</td></tr>';
-    });
-  } else {
-    var subtotal = item.qty * item.perPack * item.times;
-    html += '<tr><td>1</td><td>' + item.qty + '</td><td>' + item.perPack.toLocaleString() + '</td><td>' + item.times + '</td><td>' + item.target + '</td><td>$' + subtotal.toLocaleString() + '</td></tr>';
-  }
-  html += '</tbody></table>';
-
-  // 序號列表（已通過才有）
-  if (item.status === 'approved') {
-    html += '<div style="font-size:13px;font-weight:600;margin:16px 0 8px">紅包序號</div>';
-    html += '<table class="data-table" style="font-size:12px"><thead><tr><th>序號</th><th>已領取/總份數</th><th>剩餘次數</th><th>狀態</th></tr></thead><tbody>';
-    var totalQty = item.detail ? item.detail.reduce(function(s,d){return s+d.qty;},0) : item.groups;
-    for (var i = 0; i < Math.min(totalQty, 5); i++) {
-      var used = Math.floor(Math.random() * 10);
-      var total = 10;
-      var remain = total - used;
-      var sn = item.id.replace('RP','SN') + '-' + String(i+1).padStart(3,'0');
-      html += '<tr><td style="font-family:monospace;font-size:11px;color:#2563EB;cursor:pointer" onclick="navigator.clipboard.writeText(\'' + sn + '\');alert(\'已複製\')">' + sn + '</td><td>' + used + '/' + total + '</td><td>' + remain + '</td><td>' + (remain===0?'<span style="color:#9CA3AF">已用完</span>':'<span style="color:#059669">進行中</span>') + '</td></tr>';
-    }
-    html += '</tbody></table>';
-  }
 
   document.getElementById('rpDetailBody').innerHTML = html;
   modal.classList.add('show');
