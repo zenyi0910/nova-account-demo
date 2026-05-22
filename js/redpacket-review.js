@@ -87,7 +87,7 @@ function renderRpTable() {
       }
       rows += '<tr>' +
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
-        '<td><a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:#2563EB;text-decoration:none">' + item.id + '</a> <span style="cursor:pointer;color:#9CA3AF" onclick="navigator.clipboard.writeText(\'' + item.id + '\')">📋</span></td>' +
+        '<td><a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:#2563EB;text-decoration:none">' + item.id + '</a> <svg onclick="navigator.clipboard.writeText(\'' + item.id + '\')" style="cursor:pointer;vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></td>' +
         '<td>' + item.guild + '</td>' +
         '<td>' + guildLvBadge(item.guildLv) + '</td>' +
         '<td>' + item.leader + '</td>' +
