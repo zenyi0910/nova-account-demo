@@ -74,18 +74,20 @@ function renderRpTable() {
 
   var rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="9" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    rows = '<tr><td colspan="11" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
-    pageData.forEach(function(item) {
+    pageData.forEach(function(item, idx) {
       var ops = '-';
       if (item.status === 'pending') {
-        ops = '<div style="display:flex;flex-direction:column;gap:4px">' +
-          '<button class="btn btn-sm" style="background:#059669;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpApprove(\'' + item.id + '\')">&#10003; 同意</button>' +
-          '<button class="btn btn-sm" style="background:#DC2626;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpReject(\'' + item.id + '\')">&#10005; 拒絕</button>' +
-          '<button class="btn btn-sm" style="background:#D97706;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpGenSerial(\'' + item.id + '\')">+ 產生序號</button>' +
+        ops = '<div style="display:flex;gap:4px;flex-wrap:wrap">' +
+          '<button style="background:#059669;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpApprove(\'' + item.id + '\')">同意</button>' +
+          '<button style="background:#DC2626;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpReject(\'' + item.id + '\')">拒絕</button>' +
+          '<button style="background:#D97706;color:#fff;border:none;border-radius:4px;padding:3px 10px;font-size:12px;cursor:pointer" onclick="rpGenSerial(\'' + item.id + '\')">產生序號</button>' +
           '</div>';
       }
       rows += '<tr>' +
+        '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
+        '<td><a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:#2563EB;text-decoration:none">' + item.id + '</a> <span style="cursor:pointer;color:#9CA3AF" onclick="navigator.clipboard.writeText(\'' + item.id + '\')">📋</span></td>' +
         '<td>' + item.guild + '</td>' +
         '<td>' + guildLvBadge(item.guildLv) + '</td>' +
         '<td>' + item.leader + '</td>' +
@@ -117,7 +119,7 @@ function renderRpTable() {
   bottomBar += '</select></div>';
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
-    '<table class="data-table"><thead><tr><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請日期</th><th>申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<table class="data-table"><thead><tr><th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請日期</th><th>申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     bottomBar;
 }
 
