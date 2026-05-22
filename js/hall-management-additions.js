@@ -334,8 +334,7 @@ function openHistoryModal() {
         '<div class="modal-body" style="padding:16px 20px">' +
           '<div style="display:flex;gap:10px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap">' +
             '<div class="filter-group"><label>娛樂城</label><select id="histHallFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;min-width:130px"><option value="">全部</option><option value="VA">VA 娛樂城</option><option value="YGR">YGR 娛樂城</option><option value="JDB">JDB 娛樂城</option><option value="PG">PG 娛樂城</option><option value="PP">PP 娛樂城</option><option value="CQ9">CQ9 娛樂城</option><option value="RSG">RSG 娛樂城</option><option value="FC">FC 娛樂城</option></select></div>' +
-            '<div class="filter-group"><label>開始時間</label><input type="date" id="histStartFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"></div>' +
-            '<div class="filter-group"><label>結束時間</label><input type="date" id="histEndFilter" onchange="filterHistory()" style="padding:6px 10px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px"></div>' +
+            '<div class="filter-group"><label>時間範圍</label><div class="date-picker-wrap" id="histDatePicker"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div></div>' +
             '<button class="btn btn-outline" onclick="resetHistoryFilter()" style="padding:6px 12px;font-size:12px">重置</button>' +
           '</div>' +
           '<div id="historyTableWrap"></div>' +
@@ -343,6 +342,19 @@ function openHistoryModal() {
         '</div>' +
       '</div>';
     document.body.appendChild(modal);
+    // Init date picker for history modal
+    setTimeout(function() {
+      var wrap = document.getElementById('histDatePicker');
+      if (wrap && !wrap._dpInstance && window.NovaDatePicker) {
+        window.NovaDatePicker.init(wrap);
+      }
+      // Watch for date selection changes
+      var display = wrap && wrap.querySelector('.date-display');
+      if (display) {
+        var obs = new MutationObserver(function() { filterHistory(); });
+        obs.observe(display, {childList:true, characterData:true, subtree:true});
+      }
+    }, 100);
   }
   modal.classList.add('show');
   renderHistoryTable();
@@ -350,16 +362,26 @@ function openHistoryModal() {
 
 function filterHistory() {
   historyFilterHall = document.getElementById('histHallFilter').value;
-  historyFilterStart = document.getElementById('histStartFilter').value;
-  historyFilterEnd = document.getElementById('histEndFilter').value;
+  // Read from date-picker display
+  var dp = document.querySelector('#histDatePicker .date-display');
+  if (dp && dp.textContent && dp.textContent !== '選擇日期範圍') {
+    var parts = dp.textContent.split(' ~ ');
+    if (parts.length === 2) {
+      historyFilterStart = parts[0].trim().replace(/\//g, '-');
+      historyFilterEnd = parts[1].trim().replace(/\//g, '-');
+    }
+  } else {
+    historyFilterStart = '';
+    historyFilterEnd = '';
+  }
   historyPage = 1;
   renderHistoryTable();
 }
 
 function resetHistoryFilter() {
   document.getElementById('histHallFilter').value = '';
-  document.getElementById('histStartFilter').value = '';
-  document.getElementById('histEndFilter').value = '';
+  var dp = document.querySelector('#histDatePicker .date-display');
+  if (dp) dp.textContent = '選擇日期範圍';
   historyFilterHall = '';
   historyFilterStart = '';
   historyFilterEnd = '';
