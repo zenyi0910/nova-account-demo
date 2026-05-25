@@ -59,8 +59,11 @@ function rpModeText(m) {
 }
 
 function rpStatusText(s) {
-  var map = {pending:'待審核中',approved:'已通過',rejected:'已駁回',expired:'已失效',done:'已領完'};
-  return map[s] || s;
+  if (s === 'approved') return '<span style="color:#00bba7;white-space:nowrap">已審核</span>';
+  if (s === 'rejected') return '<span style="color:#e7000b;white-space:nowrap">已拒絕</span>';
+  if (s === 'expired') return '<span style="color:#6B7280;white-space:nowrap">已失效</span>';
+  if (s === 'done') return '<span style="color:#2563EB;white-space:nowrap">已領完</span>';
+  return '<span style="color:#D97706;white-space:nowrap">待審核中</span>';
 }
 
 // 系統風格按鈕：pill shape, icon + text
@@ -119,7 +122,7 @@ function renderRpTable() {
   bottomBar += '</div></div>';
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
-    '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
+    '<div style="overflow-x:auto"><table class="data-table" style="white-space:nowrap"><thead><tr>' +
     '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請模式</th><th>申請日期</th><th style="text-align:right">申請金額</th><th style="text-align:right">扣除凍結</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
@@ -132,16 +135,59 @@ function rpGoPage(p) {
   renderRpTable();
 }
 
-// === 通過 ===
+// === 通過 → 產生序號畫面 ===
 function rpApprove(id) {
   var item = rpData.find(function(d){ return d.id === id; });
   if (!item) return;
-  if (confirm('確定通過「' + item.guild + '」的紅包申請（' + item.totalAmount.toLocaleString() + '）？\n通過後將自動產生紅包序號。')) {
+  var modal = document.getElementById('rpApproveModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'rpApproveModal';
+    modal.innerHTML =
+      '<div class="modal" style="max-width:600px">' +
+        '<div class="modal-header"><h3>審核通過 - 產生紅包序號</h3><button class="modal-close" onclick="closeRpModal(\'rpApproveModal\')">&times;</button></div>' +
+        '<div class="modal-body" id="rpApproveBody"></div>' +
+        '<div class="modal-footer" id="rpApproveFooter"></div>' +
+      '</div>';
+    document.body.appendChild(modal);
+  }
+  // 顯示申請摘要 + 即將產生的序號預覽
+  var html = '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:16px">';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280;width:30%">申請單號</td><td style="padding:6px 10px;font-weight:500">' + item.id + '</td></tr>';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280">公會 / 會長</td><td style="padding:6px 10px">' + item.guild + ' / ' + item.leader + '</td></tr>';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280">申請模式</td><td style="padding:6px 10px">' + rpModeText(item.mode) + '</td></tr>';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280">申請總金額</td><td style="padding:6px 10px;font-weight:600">' + item.totalAmount.toLocaleString() + '</td></tr>';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280">扣除凍結金幣</td><td style="padding:6px 10px">' + item.frozenDeduct.toLocaleString() + '</td></tr>';
+  html += '</table>';
+  html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
+  html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
+  html += '<table style="width:100%;font-size:11px;border-collapse:collapse">';
+  html += '<tr style="color:#6B7280"><td style="padding:4px 8px">序號</td><td style="padding:4px 8px">份數</td><td style="padding:4px 8px">每包點數</td><td style="padding:4px 8px">有效期限</td></tr>';
+  var baseDate = new Date();
+  baseDate.setDate(baseDate.getDate() + 3);
+  var expStr = baseDate.toISOString().slice(0,10) + ' 23:59:59';
+  for (var i = 0; i < 3; i++) {
+    var sn = 'SN' + item.id.replace('RP','') + String(i+1).padStart(3,'0');
+    html += '<tr><td style="padding:4px 8px;font-family:monospace">' + sn + '</td><td style="padding:4px 8px">5</td><td style="padding:4px 8px">1,000</td><td style="padding:4px 8px">' + expStr + '</td></tr>';
+  }
+  html += '</table></div>';
+  document.getElementById('rpApproveBody').innerHTML = html;
+  document.getElementById('rpApproveFooter').innerHTML =
+    '<button class="btn btn-outline" onclick="closeRpModal(\'rpApproveModal\')">取消</button>' +
+    '<button class="btn btn-dark" style="background:#00bba7;border-color:#00bba7" onclick="confirmApprove(\'' + item.id + '\')">確認通過並產生序號</button>';
+  modal.classList.add('show');
+}
+
+function confirmApprove(id) {
+  var item = rpData.find(function(d){ return d.id === id; });
+  if (item) {
     item.status = 'approved';
     item.reviewer = 'casper';
     item.reviewTime = new Date().toISOString().slice(0,19).replace('T',' ');
-    renderRpTable();
   }
+  closeRpModal('rpApproveModal');
+  renderRpTable();
 }
 
 // === 駁回 Modal ===
