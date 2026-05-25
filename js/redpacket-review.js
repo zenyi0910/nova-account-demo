@@ -61,9 +61,9 @@ function rpModeText(m) {
 function rpStatusText(s) {
   if (s === 'approved') return '<span style="color:#00bba7;white-space:nowrap">已審核</span>';
   if (s === 'rejected') return '<span style="color:#e7000b;white-space:nowrap">已拒絕</span>';
-  if (s === 'expired') return '<span style="color:#6B7280;white-space:nowrap">已失效</span>';
-  if (s === 'done') return '<span style="color:#2563EB;white-space:nowrap">已領完</span>';
-  return '<span style="color:#D97706;white-space:nowrap">待審核中</span>';
+  if (s === 'expired') return '<span style="color:#6a7282;white-space:nowrap">已失效</span>';
+  if (s === 'done') return '<span style="color:#6a7282;white-space:nowrap">已領完</span>';
+  return '<span style="color:#6a7282;white-space:nowrap">待審核中</span>';
 }
 
 // 系統風格按鈕：pill shape, icon + text
@@ -97,7 +97,7 @@ function renderRpTable() {
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
         '<td>' + item.id + '</td>' +
         '<td>' + item.guild + '</td>' +
-        '<td>Lv.' + item.guildLv + '</td>' +
+        '<td><span style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;color:#7C3AED;font-size:11px;font-weight:500;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><rect x="9" y="13" width="6" height="8"/></svg>Lv.' + item.guildLv + '</span></td>' +
         '<td>' + item.leader + '</td>' +
         '<td>' + rpModeText(item.mode) + '</td>' +
         '<td>' + item.time + '</td>' +
@@ -162,16 +162,15 @@ function rpApprove(id) {
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
-  html += '<table style="width:100%;font-size:11px;border-collapse:collapse">';
-  html += '<tr style="color:#6B7280"><td style="padding:4px 8px">序號</td><td style="padding:4px 8px">份數</td><td style="padding:4px 8px">每包點數</td><td style="padding:4px 8px">有效期限</td></tr>';
+  html += '<table class="data-table" style="font-size:11px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
   var baseDate = new Date();
   baseDate.setDate(baseDate.getDate() + 3);
   var expStr = baseDate.toISOString().slice(0,10) + ' 23:59:59';
   for (var i = 0; i < 3; i++) {
     var sn = 'SN' + item.id.replace('RP','') + String(i+1).padStart(3,'0');
-    html += '<tr><td style="padding:4px 8px;font-family:monospace">' + sn + '</td><td style="padding:4px 8px">5</td><td style="padding:4px 8px">1,000</td><td style="padding:4px 8px">' + expStr + '</td></tr>';
+    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td style="font-family:monospace">' + sn + '</td><td>' + expStr + '</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td>-</td></tr>';
   }
-  html += '</table></div>';
+  html += '</tbody></table></div>';
   document.getElementById('rpApproveBody').innerHTML = html;
   document.getElementById('rpApproveFooter').innerHTML =
     '<button class="btn btn-outline" onclick="closeRpModal(\'rpApproveModal\')">取消</button>' +
@@ -272,25 +271,13 @@ function rpDetail(id) {
   // 序號列表（已通過才顯示）
   if (item.status === 'approved' || item.status === 'done') {
     html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">紅包序號</h4>';
-    html += '<table class="data-table" style="margin-bottom:20px"><thead><tr><th>序號</th><th>紅包份數</th><th>每包點數</th><th>已領取</th><th>剩餘</th><th>狀態</th><th>有效期限</th></tr></thead><tbody>';
+    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
     for (var s = 0; s < 3; s++) {
       var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
-      var claimed = Math.min(5, Math.floor(Math.random() * 6));
-      var total = 5;
-      var snStatus = claimed >= total ? '已領完' : '可領取';
-      if (item.status === 'expired') snStatus = '已失效';
-      html += '<tr><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>' + total + '</td><td>1,000</td><td>' + claimed + '</td><td>' + (total - claimed) + '</td><td>' + snStatus + '</td><td>2026-05-' + (23+s) + ' 09:30:15</td></tr>';
+      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>2026-05-' + (23+s) + ' 09:30:15</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td><a href="javascript:void(0)" style="color:#00bba7;font-size:12px">停用</a></td></tr>';
     }
     html += '</tbody></table>';
-
-    // 領取紀錄
-    html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">領取紀錄</h4>';
-    html += '<table class="data-table"><thead><tr><th>序號</th><th>領取會員</th><th>領取金額</th><th>領取時間</th></tr></thead><tbody>';
-    var members = ['player001','lucky_cat','gamer2026','star_king','moon_walker'];
-    for (var c = 0; c < 5; c++) {
-      html += '<tr><td style="font-family:monospace;font-size:11px">SN' + item.id.replace('RP','') + '001</td><td>' + members[c] + '</td><td>1,000</td><td>2026-05-' + (20-c) + ' ' + (10+c) + ':' + String(15+c*3).padStart(2,'0') + ':00</td></tr>';
-    }
-    html += '</tbody></table>';
+    html += '<div style="text-align:right"><a href="nova-redpacket-log.html" style="color:#00bba7;font-size:12px;font-weight:500">查看紅包紀錄 &rarr;</a></div>';
   }
 
   document.getElementById('rpDetailBody').innerHTML = html;
