@@ -1,4 +1,4 @@
-// === 紅包審核 JS (v5 - 對齊系統+需求) ===
+// === 紅包審核 JS (v6 - 對齊系統按鈕+子頁面) ===
 var rpPage = 1;
 var rpPageSize = 10;
 var rpFilterStatus = '';
@@ -63,6 +63,14 @@ function rpStatusText(s) {
   return map[s] || s;
 }
 
+// 系統風格按鈕：pill shape, icon + text
+function rpBtnApprove(id) {
+  return '<button onclick="rpApprove(\'' + id + '\')" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:9999px;border:none;background:#4CAF50;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>同意</button>';
+}
+function rpBtnReject(id) {
+  return '<button onclick="rpReject(\'' + id + '\')" style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:9999px;border:none;background:#9E9E9E;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>拒絕</button>';
+}
+
 function renderRpTable() {
   var data = getRpFiltered();
   var total = data.length;
@@ -78,13 +86,8 @@ function renderRpTable() {
     pageData.forEach(function(item, idx) {
       var ops = '';
       if (item.status === 'pending') {
-        ops = UI.btn.dark('通過', "rpApprove('" + item.id + "')", {sm:true}) + ' ' +
-              UI.btn.outline('駁回', "rpReject('" + item.id + "')", {sm:true});
-      } else if (item.status === 'approved') {
-        ops = '<a href="javascript:void(0)" onclick="rpViewSerial(\'' + item.id + '\')" style="color:oklch(0.777 0.152 181.912);font-size:12px;margin-right:8px">查看序號</a>' +
-              '<a href="javascript:void(0)" onclick="rpViewClaims(\'' + item.id + '\')" style="color:oklch(0.777 0.152 181.912);font-size:12px;margin-right:8px">領取名單</a>' +
-              '<a href="javascript:void(0)" onclick="rpDisable(\'' + item.id + '\')" style="color:#6B7280;font-size:12px">停用</a>';
-      } else if (item.status === 'rejected' || item.status === 'expired' || item.status === 'done') {
+        ops = '<div style="display:flex;gap:6px;flex-wrap:wrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
+      } else {
         ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:oklch(0.777 0.152 181.912);font-size:12px">檢視詳情</a>';
       }
       rows += '<tr>' +
@@ -129,6 +132,7 @@ function rpGoPage(p) {
   renderRpTable();
 }
 
+// === 通過 ===
 function rpApprove(id) {
   var item = rpData.find(function(d){ return d.id === id; });
   if (!item) return;
@@ -140,6 +144,7 @@ function rpApprove(id) {
   }
 }
 
+// === 駁回 Modal ===
 function rpReject(id) {
   var modal = document.getElementById('rpRejectModal');
   if (!modal) {
@@ -148,12 +153,15 @@ function rpReject(id) {
     modal.id = 'rpRejectModal';
     modal.innerHTML =
       '<div class="modal" style="max-width:420px">' +
-        '<div class="modal-header"><h3>駁回紅包申請</h3>' + UI.modal.close("closeRpModal('rpRejectModal')") + '</div>' +
+        '<div class="modal-header"><h3>駁回紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
         '<div class="modal-body">' +
           '<p style="font-size:12px;color:#6B7280;margin-bottom:12px">駁回後將退回會長身上金幣並恢復凍結金幣數值。</p>' +
-          UI.form.row('駁回原因 <span style="color:#DC2626">*</span>', '<textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea>') +
+          '<div class="form-group"><label>駁回原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea></div>' +
         '</div>' +
-        '<div class="modal-footer">' + UI.btn.modalFooter("closeRpModal('rpRejectModal')", 'confirmReject()') + '</div>' +
+        '<div class="modal-footer">' +
+          '<button class="btn btn-outline" onclick="closeRpModal(\'rpRejectModal\')">取消</button>' +
+          '<button class="btn btn-dark" onclick="confirmReject()">確認駁回</button>' +
+        '</div>' +
       '</div>';
     document.body.appendChild(modal);
   }
@@ -178,6 +186,7 @@ function confirmReject() {
   renderRpTable();
 }
 
+// === 詳情子頁面 (Modal) ===
 function rpDetail(id) {
   var item = rpData.find(function(d){ return d.id === id; });
   if (!item) return;
@@ -186,10 +195,13 @@ function rpDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:600px"><div class="modal-header"><h3>紅包申請詳情</h3>' + UI.modal.close("closeRpModal('rpDetailModal')") + '</div><div class="modal-body" id="rpDetailBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包申請詳情</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
     document.body.appendChild(modal);
   }
-  var html = '<table style="width:100%;font-size:13px;border-collapse:collapse">';
+
+  // 基本資訊表格
+  var html = '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">申請資訊</h4>';
+  html += '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:20px">';
   var fields = [
     ['申請單號', item.id], ['公會名稱', item.guild],
     ['公會等級', 'Lv.' + item.guildLv], ['會長帳號', item.leader],
@@ -201,70 +213,42 @@ function rpDetail(id) {
     fields.push(['審核人員', item.reviewer]);
     fields.push(['審核時間', item.reviewTime]);
   }
-  if (item.reason) fields.push(['駁回原因', item.reason]);
+  if (item.reason) fields.push(['駁回原因', '<span style="color:#DC2626">' + item.reason + '</span>']);
   for (var i = 0; i < fields.length; i += 2) {
     html += '<tr>';
-    html += '<td style="padding:8px 12px;color:#6B7280;width:25%">' + fields[i][0] + '</td><td style="padding:8px 12px;font-weight:500">' + fields[i][1] + '</td>';
-    if (fields[i+1]) html += '<td style="padding:8px 12px;color:#6B7280;width:25%">' + fields[i+1][0] + '</td><td style="padding:8px 12px;font-weight:500">' + fields[i+1][1] + '</td>';
+    html += '<td style="padding:8px 12px;color:#6B7280;width:20%;border-bottom:1px solid #F3F4F6">' + fields[i][0] + '</td><td style="padding:8px 12px;border-bottom:1px solid #F3F4F6">' + fields[i][1] + '</td>';
+    if (fields[i+1]) html += '<td style="padding:8px 12px;color:#6B7280;width:20%;border-bottom:1px solid #F3F4F6">' + fields[i+1][0] + '</td><td style="padding:8px 12px;border-bottom:1px solid #F3F4F6">' + fields[i+1][1] + '</td>';
     else html += '<td></td><td></td>';
     html += '</tr>';
   }
   html += '</table>';
+
+  // 序號列表（已通過才顯示）
+  if (item.status === 'approved' || item.status === 'done') {
+    html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">紅包序號</h4>';
+    html += '<table class="data-table" style="margin-bottom:20px"><thead><tr><th>序號</th><th>紅包份數</th><th>每包點數</th><th>已領取</th><th>剩餘</th><th>狀態</th><th>有效期限</th></tr></thead><tbody>';
+    for (var s = 0; s < 3; s++) {
+      var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
+      var claimed = Math.min(5, Math.floor(Math.random() * 6));
+      var total = 5;
+      var snStatus = claimed >= total ? '已領完' : '可領取';
+      if (item.status === 'expired') snStatus = '已失效';
+      html += '<tr><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>' + total + '</td><td>1,000</td><td>' + claimed + '</td><td>' + (total - claimed) + '</td><td>' + snStatus + '</td><td>2026-05-' + (23+s) + ' 09:30:15</td></tr>';
+    }
+    html += '</tbody></table>';
+
+    // 領取紀錄
+    html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">領取紀錄</h4>';
+    html += '<table class="data-table"><thead><tr><th>序號</th><th>領取會員</th><th>領取金額</th><th>領取時間</th></tr></thead><tbody>';
+    var members = ['player001','lucky_cat','gamer2026','star_king','moon_walker'];
+    for (var c = 0; c < 5; c++) {
+      html += '<tr><td style="font-family:monospace;font-size:11px">SN' + item.id.replace('RP','') + '001</td><td>' + members[c] + '</td><td>1,000</td><td>2026-05-' + (20-c) + ' ' + (10+c) + ':' + String(15+c*3).padStart(2,'0') + ':00</td></tr>';
+    }
+    html += '</tbody></table>';
+  }
+
   document.getElementById('rpDetailBody').innerHTML = html;
   modal.classList.add('show');
-}
-
-function rpViewSerial(id) {
-  var item = rpData.find(function(d){ return d.id === id; });
-  if (!item) return;
-  var modal = document.getElementById('rpSerialModal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'rpSerialModal';
-    modal.innerHTML = '<div class="modal" style="max-width:700px"><div class="modal-header"><h3>紅包序號</h3>' + UI.modal.close("closeRpModal('rpSerialModal')") + '</div><div class="modal-body" id="rpSerialBody"></div></div>';
-    document.body.appendChild(modal);
-  }
-  var html = '<table class="data-table"><thead><tr><th>序號</th><th>紅包份數</th><th>每包點數</th><th>已領取</th><th>剩餘</th><th>狀態</th><th>有效期限</th></tr></thead><tbody>';
-  for (var i = 0; i < 3; i++) {
-    var sn = 'SN' + item.id.replace('RP','') + String(i+1).padStart(3,'0');
-    var claimed = Math.floor(Math.random() * 5);
-    var total = 5;
-    html += '<tr><td style="font-family:monospace;font-size:12px">' + sn + '</td><td>' + total + '</td><td>1,000</td><td>' + claimed + '</td><td>' + (total-claimed) + '</td><td>' + (claimed>=total?'已領完':'可領取') + '</td><td>2026-05-' + (23+i) + ' 09:30:15</td></tr>';
-  }
-  html += '</tbody></table>';
-  document.getElementById('rpSerialBody').innerHTML = html;
-  modal.classList.add('show');
-}
-
-function rpViewClaims(id) {
-  var item = rpData.find(function(d){ return d.id === id; });
-  if (!item) return;
-  var modal = document.getElementById('rpClaimsModal');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.id = 'rpClaimsModal';
-    modal.innerHTML = '<div class="modal" style="max-width:600px"><div class="modal-header"><h3>領取紀錄</h3>' + UI.modal.close("closeRpModal('rpClaimsModal')") + '</div><div class="modal-body" id="rpClaimsBody"></div></div>';
-    document.body.appendChild(modal);
-  }
-  var members = ['player001','lucky_cat','gamer2026','star_king','moon_walker'];
-  var html = '<table class="data-table"><thead><tr><th>序號</th><th>領取會員</th><th>領取金額</th><th>領取時間</th></tr></thead><tbody>';
-  for (var i = 0; i < 5; i++) {
-    html += '<tr><td style="font-family:monospace;font-size:12px">SN' + item.id.replace('RP','') + '001</td><td>' + members[i] + '</td><td>1,000</td><td>2026-05-' + (19-i) + ' ' + (10+i) + ':' + (15+i*3) + ':00</td></tr>';
-  }
-  html += '</tbody></table>';
-  document.getElementById('rpClaimsBody').innerHTML = html;
-  modal.classList.add('show');
-}
-
-function rpDisable(id) {
-  var item = rpData.find(function(d){ return d.id === id; });
-  if (!item) return;
-  if (confirm('確定停用「' + item.id + '」的所有紅包序號？停用後會員將無法再領取。')) {
-    item.status = 'expired';
-    renderRpTable();
-  }
 }
 
 function closeRpModal(id) {
