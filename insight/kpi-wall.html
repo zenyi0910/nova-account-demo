@@ -31,7 +31,8 @@
 
 .mini-card{padding:16px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .mini-card .mc-label{font-size:11px;color:#64748B;font-weight:600;text-transform:uppercase}
-.mini-card .mc-row{display:flex;align-items:baseline;gap:10px;margin-top:4px}
+.mini-card .mc-row{display:flex;align-items:flex-start;gap:10px;margin-top:4px}
+.mini-card .mc-badge{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .mini-card .mc-value{font-size:24px;font-weight:700;color:#2563EB}
 .mini-card .mc-change{font-size:12px;color:#10B981;font-weight:600;background:#ECFDF5;border-radius:12px;padding:2px 8px}
 .mini-card .mc-vs{font-size:11px;color:#94A3B8}
@@ -73,7 +74,7 @@
 <div class="row1">
 <div class="revenue-card">
 <div class="label">Revenue 營收 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div style="display:flex;align-items:baseline"><span class="value">1,286<span style="font-size:18px;font-weight:600">萬</span></span><span class="change">↑ 18%</span><span class="sub" style="margin-left:8px">較昨日</span></div>
+<div style="display:flex;align-items:flex-start"><span class="value">1,286<span style="font-size:18px;font-weight:600">萬</span></span><div style="margin-left:12px;text-align:center"><span class="change">↑ 18%</span><div class="sub" style="margin-top:2px">較昨日</div></div></div>
 <div class="sub">今日累積儲值 12,860,000</div>
 <div style="font-size:11px;color:#64748B;font-weight:600;margin-top:12px">平台組成（佔比）</div>
 <div class="stacked-bar"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
@@ -82,32 +83,32 @@
 <div class="right-grid">
 <div class="mini-card">
 <div class="mc-label">GGR</div>
-<div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">押碼量 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div class="mc-row"><span class="mc-value" style="color:#F59E0B">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value" style="color:#F59E0B">1,328</span><div class="mc-badge"><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">RTP <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><span class="mc-change" style="color:#EF4444;background:#FEF2F2">↓ 0.8%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><div class="mc-badge"><span class="mc-change" style="color:#EF4444;background:#FEF2F2">↓ 0.8%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">PU 付費用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div class="mc-row"><span class="mc-value" style="color:#1E293B">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">1,328</span><div class="mc-badge"><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">DAU 登入用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div class="mc-row"><span class="mc-value" style="color:#1E293B">8,650</span><span class="mc-change">↑ 15%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">8,650</span><div class="mc-badge"><span class="mc-change">↑ 15%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">NU 新註冊用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
-<div class="mc-row"><span class="mc-value" style="color:#1E293B">356</span><span class="mc-change">↑ 6%</span><span class="mc-vs">較昨日</span></div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">356</span><div class="mc-badge"><span class="mc-change">↑ 6%</span><span class="mc-vs">較昨日</span></div></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
 </div>
@@ -117,7 +118,7 @@
 <div class="row3">
 <div class="gf-card">
 <div class="gf-title">GF 贈禮走向</div>
-<div style="display:flex;align-items:baseline"><span class="gf-value">$124,800</span><span class="gf-change">↑ 12.4%</span><span style="font-size:11px;color:#94A3B8;margin-left:6px">較昨日</span></div>
+<div style="display:flex;align-items:flex-start"><span class="gf-value">$124,800</span><div style="margin-left:10px"><span class="gf-change">↑ 12.4%</span><div style="font-size:11px;color:#94A3B8;margin-top:2px">較昨日</div></div></div>
 <div style="margin-top:16px">
 <div class="gf-bar"><span class="bar-label">P→P</span><div class="bar" style="width:46.6%;background:#3B82F6;flex-shrink:0"></div><span class="bar-val">$58,200 (46.6%)</span></div>
 <div class="gf-bar"><span class="bar-label">P→G</span><div class="bar" style="width:33.1%;background:#22C55E;flex-shrink:0"></div><span class="bar-val">$41,300 (33.1%)</span></div>
