@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2026-05-25T06:26:00.000Z" agent="Hermes" version="24.0.0" type="device">
+  <diagram id="redpacket-flow" name="公會紅包申請流程">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="2400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Swimlane: 會長(前端) -->
+        <mxCell id="lane1" value="會長 (前端)" style="shape=mxgraph.bpmn.pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;swimlaneHead=0;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1500" height="300" as="geometry" />
+        </mxCell>
+
+        <!-- 開始事件 -->
+        <mxCell id="start1" value="開始" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=general;isLooping=0;isSequential=0;isCompensation=0;isCall=0;isInstantiating=0;isInterrupting=1;fillColor=#67AB9F;strokeColor=#005700;fontColor=#333333;" vertex="1" parent="lane1">
+          <mxGeometry x="30" y="120" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 選擇申請模式 -->
+        <mxCell id="task1" value="點擊紅包申請&#xa;選擇模式&#xa;(一組/多組/上傳)" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="110" y="105" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 設定參數 -->
+        <mxCell id="task2" value="設定紅包參數&#xa;(數量/每包點數/領取次數)" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="300" y="105" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 選擇可領取對象 -->
+        <mxCell id="task3" value="選擇可領取對象&#xa;(公會成員/公會範圍)" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="500" y="105" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 提交申請 -->
+        <mxCell id="task4" value="提交紅包申請" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="700" y="105" width="120" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 收到序號 -->
+        <mxCell id="task_receive" value="收到紅包序號&#xa;(可複製分享)" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="1300" y="105" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- 申請失敗通知 -->
+        <mxCell id="end_fail" value="申請失敗&#xa;(金幣不足)" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;whiteSpace=wrap;" vertex="1" parent="lane1">
+          <mxGeometry x="930" y="210" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 連線 -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="start1" target="task1" parent="lane1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task1" target="task2" parent="lane1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task2" target="task3" parent="lane1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task3" target="task4" parent="lane1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Swimlane: 系統 -->
+        <mxCell id="lane2" value="系統" style="shape=mxgraph.bpmn.pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;swimlaneHead=0;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="1500" height="320" as="geometry" />
+        </mxCell>
+
+        <!-- 閘道：金幣是否足夠 -->
+        <mxCell id="gw1" value="金幣&#xa;足夠?" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;symbol=exclusiveGw;isMarkerVisible=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="880" y="80" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 扣除金幣 -->
+        <mxCell id="task5" value="扣除會長身上金幣" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane2">
+          <mxGeometry x="970" y="70" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 扣除凍結 -->
+        <mxCell id="task6" value="同步扣除凍結金幣&#xa;= min(申請金額, 凍結餘額)" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane2">
+          <mxGeometry x="970" y="150" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 建立申請單 -->
+        <mxCell id="task7" value="建立紅包申請單" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane2">
+          <mxGeometry x="1000" y="230" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 閘道：白名單 -->
+        <mxCell id="gw2" value="白名單&#xa;公會?" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;symbol=exclusiveGw;isMarkerVisible=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="lane2">
+          <mxGeometry x="1190" y="235" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 自動通過 -->
+        <mxCell id="task8" value="自動審核通過&#xa;產生紅包序號" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane2">
+          <mxGeometry x="1290" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 進入人工審核 -->
+        <mxCell id="task9" value="狀態: 待審核&#xa;等待後台人工審核" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#f5f5f5;strokeColor=#666;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane2">
+          <mxGeometry x="1290" y="240" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 系統內連線 -->
+        <mxCell id="e5_1" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw1" target="task5" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+          <Array as="points" />
+        </mxCell>
+        <mxCell id="e5_1_label" value="是" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e5_1">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task5" target="task6" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task6" target="task7" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task7" target="gw2" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw2" target="task8" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+          <Array as="points"><mxPoint x="1215" y="210" /><mxPoint x="1360" y="210" /></Array>
+        </mxCell>
+        <mxCell id="e9_label" value="是" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e9">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw2" target="task9" parent="lane2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10_label" value="否" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e10">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Swimlane: 後台管理員 -->
+        <mxCell id="lane3" value="後台管理員" style="shape=mxgraph.bpmn.pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;swimlaneHead=0;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="1500" height="280" as="geometry" />
+        </mxCell>
+
+        <!-- 查看申請 -->
+        <mxCell id="task10" value="查看紅包申請列表" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane3">
+          <mxGeometry x="200" y="100" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 閘道：審核決定 -->
+        <mxCell id="gw3" value="審核&#xa;決定" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;symbol=exclusiveGw;isMarkerVisible=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="lane3">
+          <mxGeometry x="400" y="105" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 通過 -->
+        <mxCell id="task11" value="審核通過&#xa;產生紅包序號" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane3">
+          <mxGeometry x="520" y="50" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 駁回 -->
+        <mxCell id="task12" value="駁回申請&#xa;填寫駁回原因" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane3">
+          <mxGeometry x="520" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 退回金幣 -->
+        <mxCell id="task13" value="退回會長金幣&#xa;恢復凍結金幣數值" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane3">
+          <mxGeometry x="720" y="150" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 查看序號/領取名單/停用 -->
+        <mxCell id="task14" value="查看序號 / 領取名單&#xa;停用序號 / 匯出紀錄" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane3">
+          <mxGeometry x="720" y="50" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 結束 -->
+        <mxCell id="end_approve" value="" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane3">
+          <mxGeometry x="930" y="60" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="end_reject" value="" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="lane3">
+          <mxGeometry x="930" y="160" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 後台連線 -->
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task10" target="gw3" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw3" target="task11" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12_label" value="通過" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e12">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw3" target="task12" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13_label" value="駁回" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e13">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task11" target="task14" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task12" target="task13" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task14" target="end_approve" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task13" target="end_reject" parent="lane3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Swimlane: 會員 -->
+        <mxCell id="lane4" value="會員" style="shape=mxgraph.bpmn.pool;startSize=30;horizontal=1;childLayout=stackLayout;horizontalStack=0;resizeParent=1;resizeParentMax=0;collapsible=0;marginBottom=0;swimlaneHead=0;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1000" width="1500" height="260" as="geometry" />
+        </mxCell>
+
+        <!-- 輸入序號 -->
+        <mxCell id="task20" value="輸入/點擊&#xa;紅包序號" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane4">
+          <mxGeometry x="100" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 閘道：驗證 -->
+        <mxCell id="gw4" value="驗證&#xa;通過?" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.rhombusPerimeter;symbol=exclusiveGw;isMarkerVisible=1;fillColor=#f5f5f5;strokeColor=#666;fontSize=10;" vertex="1" parent="lane4">
+          <mxGeometry x="280" y="95" width="50" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 驗證項目說明 -->
+        <mxCell id="note1" value="驗證項目:&#xa;1. 序號是否存在&#xa;2. 序號是否有效&#xa;3. 是否超過有效期限(3日)&#xa;4. 剩餘份數 > 0&#xa;5. 是否重複領取&#xa;6. 是否符合公會範圍" style="shape=note;size=14;fillColor=#ffffcc;strokeColor=#d6d600;fontSize=10;align=left;whiteSpace=wrap;" vertex="1" parent="lane4">
+          <mxGeometry x="260" y="160" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- 領取成功 -->
+        <mxCell id="task21" value="領取成功&#xa;金幣入帳" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane4">
+          <mxGeometry x="420" y="90" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 更新進度 -->
+        <mxCell id="task22" value="已領取份數+1&#xa;剩餘份數-1&#xa;建立領取紀錄" style="shape=mxgraph.bpmn.task;isLooping=0;isSequential=0;isCompensation=0;isCall=0;taskMarker=abstract;fillColor=#fff;strokeColor=#333;fontSize=11;whiteSpace=wrap;" vertex="1" parent="lane4">
+          <mxGeometry x="590" y="90" width="130" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- 領取失敗 -->
+        <mxCell id="end_claim_fail" value="領取失敗" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="lane4">
+          <mxGeometry x="420" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 結束 -->
+        <mxCell id="end_claim" value="" style="shape=mxgraph.bpmn.shape;perimeter=mxPerimeter.ellipsePerimeter;symbol=terminate;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="lane4">
+          <mxGeometry x="770" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- 會員連線 -->
+        <mxCell id="e20" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task20" target="gw4" parent="lane4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw4" target="task21" parent="lane4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e21_label" value="通過" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e21">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e22" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="gw4" target="end_claim_fail" parent="lane4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e22_label" value="失敗" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="e22">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task21" target="task22" parent="lane4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e24" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="task22" target="end_claim" parent="lane4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 跨泳道連線 (parent=1) -->
+        <!-- 會長提交 -> 系統檢查金幣 -->
+        <mxCell id="cross1" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#666;" edge="1" source="task4" target="gw1" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- 系統金幣不足 -> 會長收到失敗 -->
+        <mxCell id="cross2" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#b85450;" edge="1" source="gw1" target="end_fail" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cross2_label" value="否" style="edgeLabel;fontSize=10;fillColor=none;" vertex="1" connectable="0" parent="cross2">
+          <mxGeometry x="-0.3" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+        <!-- 系統自動通過 -> 會長收到序號 -->
+        <mxCell id="cross3" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#82b366;" edge="1" source="task8" target="task_receive" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- 系統待審核 -> 後台查看 -->
+        <mxCell id="cross4" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#9673a6;" edge="1" source="task9" target="task10" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
