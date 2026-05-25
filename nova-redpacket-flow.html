@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>公會紅包申請 - 流程圖</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif;background:#F9FAFB;padding:24px;color:#1F2937}
+h1{font-size:20px;margin-bottom:8px}
+h2{font-size:16px;color:#6B7280;margin-bottom:24px;font-weight:400}
+.chart-wrap{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px}
+.chart-wrap h3{font-size:15px;font-weight:600;margin-bottom:16px;color:#111827}
+</style>
+</head>
+<body>
+<h1>公會紅包申請功能 - 流程圖</h1>
+<h2>ClickUp Task: 86exg8m7n</h2>
+
+<div class="chart-wrap">
+<h3>一、紅包申請主流程</h3>
+<pre class="mermaid">
+flowchart TD
+    A[會長點擊「紅包申請」] --> B{選擇申請模式}
+    B -->|一組| C1[輸入：紅包數量/每包點數/領取次數]
+    B -->|多組| C2[輸入多組資料<br/>最多30組]
+    B -->|上傳| C3[上傳CSV<br/>最多100組]
+    C1 --> D[系統計算申請總金額<br/>= 數量 × 點數 × 次數]
+    C2 --> D
+    C3 --> D
+    D --> E[選擇可領取對象<br/>公會成員/公會範圍]
+    E --> F[會長提交申請]
+    F --> G{檢查身上金幣 ≥ 總金額?}
+    G -->|不足| H[❌ 申請失敗<br/>提示金幣不足]
+    G -->|足夠| I[扣除會長身上金幣]
+    I --> J[同步扣除凍結金幣<br/>= min&#40;總金額, 目前凍結&#41;]
+    J --> K[建立紅包申請單]
+    K --> L{公會是否為白名單?}
+    L -->|是| M[自動審核通過]
+    L -->|否| N[狀態：待審核<br/>等待官方後台人工審核]
+    M --> O[產生紅包序號]
+    O --> P[前端顯示序號<br/>後台產生紀錄]
+</pre>
+</div>
+
+<div class="chart-wrap">
+<h3>二、後台審核流程</h3>
+<pre class="mermaid">
+flowchart TD
+    A[後台管理員查看申請列表] --> B{審核決定}
+    B -->|通過| C[產生紅包序號]
+    C --> D[狀態改為「已通過」]
+    D --> E[記錄審核人員/時間]
+    B -->|駁回| F[填寫駁回原因]
+    F --> G[退回會長身上金幣]
+    G --> H[恢復凍結金幣數值]
+    H --> I[狀態改為「已駁回」]
+    I --> J[記錄審核人員/時間/原因]
+</pre>
+</div>
+
+<div class="chart-wrap">
+<h3>三、會員領取紅包流程</h3>
+<pre class="mermaid">
+flowchart TD
+    A[會員輸入/點擊紅包序號] --> B{序號是否存在?}
+    B -->|否| Z1[❌ 序號錯誤]
+    B -->|是| C{序號是否有效?}
+    C -->|已失效| Z2[❌ 不可領取]
+    C -->|有效| D{是否超過有效期限 3日?}
+    D -->|是| Z3[❌ 已過期]
+    D -->|否| E{剩餘份數 > 0?}
+    E -->|否| Z4[❌ 已領完]
+    E -->|是| F{同一會員是否已領過?}
+    F -->|是| Z5[❌ 重複領取]
+    F -->|否| G{會員是否在指定公會範圍?}
+    G -->|否| Z6[❌ 不符合公會範圍]
+    G -->|是| H[✅ 領取成功]
+    H --> I[會員金幣 + 每包點數]
+    I --> J[已領取份數 +1 / 剩餘份數 -1]
+    J --> K[建立領取紀錄]
+</pre>
+</div>
+
+<div class="chart-wrap">
+<h3>四、申請狀態流轉</h3>
+<pre class="mermaid">
+stateDiagram-v2
+    [*] --> 待審核: 非白名單提交
+    [*] --> 已通過: 白名單自動通過
+    待審核 --> 已通過: 官方審核通過
+    待審核 --> 已駁回: 官方駁回
+    已通過 --> 已領完: 所有份數領取完畢
+    已通過 --> 已失效: 超過有效期/手動失效
+</pre>
+</div>
+
+<script>mermaid.initialize({startOnLoad:true,theme:'neutral',flowchart:{curve:'basis'}});</script>
+</body>
+</html>
