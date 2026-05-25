@@ -58,6 +58,19 @@ function rpModeText(m) {
   return map[m] || m;
 }
 
+// 產生6碼隨機序號（大小寫英數混合）
+function rpGenCode() {
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var code = '';
+  for (var i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+  return code;
+}
+
+function rpRandomSerial() {
+  var input = document.getElementById('rpNewSerial');
+  if (input) input.value = rpGenCode();
+}
+
 function rpStatusText(s) {
   if (s === 'approved') return '<span style="color:#00bba7;white-space:nowrap">已審核</span>';
   if (s === 'rejected') return '<span style="color:#e7000b;white-space:nowrap">已拒絕</span>';
@@ -167,10 +180,12 @@ function rpApprove(id) {
   baseDate.setDate(baseDate.getDate() + 3);
   var expStr = baseDate.toISOString().slice(0,10) + ' 23:59:59';
   for (var i = 0; i < 3; i++) {
-    var sn = 'SN' + item.id.replace('RP','') + String(i+1).padStart(3,'0');
+    var sn = rpGenCode();
     html += '<tr><td style="text-align:center">' + (i+1) + '</td><td style="font-family:monospace">' + sn + '</td><td>' + expStr + '</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td>-</td></tr>';
   }
-  html += '</tbody></table></div>';
+  html += '</tbody></table>';
+  html += '<div style="display:flex;align-items:center;gap:8px;margin-top:12px"><button class="btn btn-dark" style="background:#00bba7;border-color:#00bba7;font-size:12px" onclick="rpRandomSerial(this)">隨機產出序號</button><input type="text" id="rpNewSerial" class="form-control" style="width:140px;font-family:monospace;font-size:13px" value="' + rpGenCode() + '" readonly></div>';
+  html += '</div>';
   document.getElementById('rpApproveBody').innerHTML = html;
   document.getElementById('rpApproveFooter').innerHTML =
     '<button class="btn btn-outline" onclick="closeRpModal(\'rpApproveModal\')">取消</button>' +
