@@ -1,32 +1,32 @@
-// === 紅包紀錄 JS (v3 - 對齊需求：序號領取紀錄) ===
+// === 紅包紀錄 JS (v4 - 對齊系統結構+需求) ===
 var rlPage = 1;
 var rlPageSize = 10;
 var rlFilterStatus = '';
 var rlFilterSn = '';
 var rlFilterLeader = '';
-var rlFilterMember = '';
 
-// 需求十四：紅包紀錄 = 序號維度的紀錄（含領取進度）
+// 系統欄位：順序/紅包訂單編號/申請日期/紅包總金額/領取狀態/申請人帳號
+// 需求新增：領取進度/有效期限
 var rlData = [
-  {sn:'SN2026052000101',orderId:'RP20260520001',guild:'龍之谷',leader:'Abk7382',mode:'single',qty:3,perAmount:1000,times:5,totalAmount:15000,status:'active',claimed:8,total:15,createTime:'2026-05-20 09:30:15',expireTime:'2026-05-23 09:30:15'},
-  {sn:'SN2026052000102',orderId:'RP20260520001',guild:'龍之谷',leader:'Abk7382',mode:'single',qty:3,perAmount:1000,times:5,totalAmount:15000,status:'active',claimed:5,total:15,createTime:'2026-05-20 09:30:15',expireTime:'2026-05-23 09:30:15'},
-  {sn:'SN2026052000103',orderId:'RP20260520001',guild:'龍之谷',leader:'Abk7382',mode:'single',qty:3,perAmount:1000,times:5,totalAmount:15000,status:'active',claimed:2,total:15,createTime:'2026-05-20 09:30:15',expireTime:'2026-05-23 09:30:15'},
-  {sn:'SN2026051900201',orderId:'RP20260519002',guild:'皇家俱樂部',leader:'Wnp9012',mode:'multi',qty:5,perAmount:2000,times:3,totalAmount:30000,status:'done',claimed:15,total:15,createTime:'2026-05-19 15:00:12',expireTime:'2026-05-22 15:00:12'},
-  {sn:'SN2026051900202',orderId:'RP20260519002',guild:'皇家俱樂部',leader:'Wnp9012',mode:'multi',qty:5,perAmount:2000,times:3,totalAmount:30000,status:'done',claimed:15,total:15,createTime:'2026-05-19 15:00:12',expireTime:'2026-05-22 15:00:12'},
-  {sn:'SN2026051900203',orderId:'RP20260519002',guild:'皇家俱樂部',leader:'Wnp9012',mode:'multi',qty:5,perAmount:2000,times:3,totalAmount:30000,status:'active',claimed:10,total:15,createTime:'2026-05-19 15:00:12',expireTime:'2026-05-22 15:00:12'},
-  {sn:'SN2026051700401',orderId:'RP20260517004',guild:'龍之谷',leader:'Abk7382',mode:'upload',qty:10,perAmount:1000,times:8,totalAmount:80000,status:'expired',claimed:60,total:80,createTime:'2026-05-17 11:30:00',expireTime:'2026-05-20 11:30:00'},
-  {sn:'SN2026051500601',orderId:'RP20260515006',guild:'皇家俱樂部',leader:'Wnp9012',mode:'single',qty:6,perAmount:10000,times:1,totalAmount:60000,status:'done',claimed:6,total:6,createTime:'2026-05-15 16:30:55',expireTime:'2026-05-18 16:30:55'},
-  {sn:'SN2026051400701',orderId:'RP20260514007',guild:'星辰戰隊',leader:'Mhx6677',mode:'single',qty:1,perAmount:10000,times:1,totalAmount:10000,status:'expired',claimed:0,total:1,createTime:'2026-05-14 20:30:00',expireTime:'2026-05-17 20:30:00'},
-  {sn:'SN2026051200901',orderId:'RP20260512009',guild:'龍之谷',leader:'Abk7382',mode:'multi',qty:5,perAmount:1000,times:5,totalAmount:25000,status:'done',claimed:25,total:25,createTime:'2026-05-12 09:15:00',expireTime:'2026-05-15 09:15:00'},
-  {sn:'SN2026051200902',orderId:'RP20260512009',guild:'龍之谷',leader:'Abk7382',mode:'multi',qty:5,perAmount:1000,times:5,totalAmount:25000,status:'done',claimed:25,total:25,createTime:'2026-05-12 09:15:00',expireTime:'2026-05-15 09:15:00'},
-  {sn:'SN2026051001101',orderId:'RP20260510011',guild:'星辰戰隊',leader:'Mhx6677',mode:'single',qty:3,perAmount:5000,times:1,totalAmount:15000,status:'done',claimed:3,total:3,createTime:'2026-05-10 19:00:00',expireTime:'2026-05-13 19:00:00'},
+  {id:'202605200001',account:'Abk7382',time:'2026-05-20 09:30:15',amount:15000,status:'active',claimed:8,total:15,expire:'2026-05-23 09:30:15'},
+  {id:'202605190002',account:'Wnp9012',time:'2026-05-19 14:20:33',amount:30000,status:'done',claimed:15,total:15,expire:'2026-05-22 14:20:33'},
+  {id:'202605170004',account:'Abk7382',time:'2026-05-17 11:00:22',amount:80000,status:'expired',claimed:60,total:80,expire:'2026-05-20 11:00:22'},
+  {id:'202605150006',account:'Wnp9012',time:'2026-05-15 16:30:55',amount:60000,status:'done',claimed:6,total:6,expire:'2026-05-18 16:30:55'},
+  {id:'202605140007',account:'Mhx6677',time:'2026-05-14 20:15:00',amount:10000,status:'expired',claimed:0,total:1,expire:'2026-05-17 20:15:00'},
+  {id:'202605120009',account:'Abk7382',time:'2026-05-12 09:00:00',amount:25000,status:'done',claimed:25,total:25,expire:'2026-05-15 09:00:00'},
+  {id:'202605100011',account:'Mhx6677',time:'2026-05-10 18:30:00',amount:15000,status:'done',claimed:3,total:3,expire:'2026-05-13 18:30:00'},
+  {id:'202605080013',account:'Gld1234',time:'2026-05-08 10:00:00',amount:20000,status:'expired',claimed:12,total:20,expire:'2026-05-11 10:00:00'},
+  {id:'202605050014',account:'Wnp9012',time:'2026-05-05 14:00:00',amount:50000,status:'done',claimed:50,total:50,expire:'2026-05-08 14:00:00'},
+  {id:'202605030015',account:'Abk7382',time:'2026-05-03 08:30:00',amount:8000,status:'done',claimed:8,total:8,expire:'2026-05-06 08:30:00'},
+  {id:'202604280016',account:'Mhx6677',time:'2026-04-28 16:00:00',amount:12000,status:'expired',claimed:4,total:12,expire:'2026-05-01 16:00:00'},
+  {id:'202604250017',account:'Gld1234',time:'2026-04-25 11:30:00',amount:35000,status:'done',claimed:35,total:35,expire:'2026-04-28 11:30:00'},
 ];
 
 function getRlFiltered() {
   var data = rlData.slice();
-  if (rlFilterLeader) data = data.filter(function(d){ return d.leader.indexOf(rlFilterLeader) >= 0; });
+  if (rlFilterLeader) data = data.filter(function(d){ return d.account.indexOf(rlFilterLeader) >= 0; });
   if (rlFilterStatus) data = data.filter(function(d){ return d.status === rlFilterStatus; });
-  if (rlFilterSn) data = data.filter(function(d){ return d.sn.indexOf(rlFilterSn) >= 0 || d.orderId.indexOf(rlFilterSn) >= 0; });
+  if (rlFilterSn) data = data.filter(function(d){ return d.id.indexOf(rlFilterSn) >= 0; });
   return data;
 }
 
@@ -49,18 +49,9 @@ function rlReset() {
   renderRlTable();
 }
 
-function rlStatusBadge(s) {
-  var map = {
-    active: '<span style="color:#D97706;font-weight:500">領取中</span>',
-    done: '<span style="color:#059669;font-weight:500">已領完</span>',
-    expired: '<span style="color:#6B7280;font-weight:500">已失效</span>'
-  };
+function rlStatusText(s) {
+  var map = {active:'領取中',done:'已領完',expired:'已逾期'};
   return map[s] || s;
-}
-
-function rlModeText(m) {
-  var map = {single:'一組',multi:'多組',upload:'上傳'};
-  return map[m] || m;
 }
 
 function renderRlTable() {
@@ -73,43 +64,36 @@ function renderRlTable() {
 
   var rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="11" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item, idx) {
-      var progress = item.claimed + '/' + item.total;
-      var pct = Math.round(item.claimed / item.total * 100);
-      var progressBar = '<div style="display:flex;align-items:center;gap:6px"><div style="width:60px;height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:' + (pct>=100?'#059669':'#D97706') + ';border-radius:3px"></div></div><span style="font-size:11px;color:#6B7280">' + progress + '</span></div>';
+      var progress = item.claimed + ' / ' + item.total;
       rows += '<tr>' +
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
-        '<td style="font-family:monospace;font-size:12px">' + item.sn + '</td>' +
-        '<td><a href="javascript:void(0)" style="color:#2563EB;text-decoration:none;font-size:12px">' + item.orderId + '</a></td>' +
-        '<td>' + item.guild + '</td>' +
-        '<td>' + item.leader + '</td>' +
-        '<td>' + rlModeText(item.mode) + '</td>' +
-        '<td style="text-align:right">' + item.perAmount.toLocaleString() + '</td>' +
-        '<td>' + progressBar + '</td>' +
-        '<td>' + rlStatusBadge(item.status) + '</td>' +
-        '<td>' + item.createTime + '</td>' +
-        '<td>' + item.expireTime + '</td>' +
+        '<td>' + item.id + '</td>' +
+        '<td>' + item.time + '</td>' +
+        '<td style="text-align:right">' + item.amount.toLocaleString() + '</td>' +
+        '<td>' + progress + '</td>' +
+        '<td>' + rlStatusText(item.status) + '</td>' +
+        '<td>' + item.account + '</td>' +
+        '<td>' + item.expire + '</td>' +
         '</tr>';
     });
   }
 
-  var topBar = '<div style="padding:8px 0;font-size:13px;color:#374151">總共 ' + total + ' 筆資料</div>';
-  var bottomBar = '<div style="display:flex;justify-content:flex-end;align-items:center;padding:12px 0;gap:8px">';
-  bottomBar += '<span style="font-size:12px;color:#6B7280">第 ' + rlPage + ' / ' + totalPages + ' 頁</span>';
+  var topBar = '<div class="pagination-bar"><span>總共 ' + total + ' 筆資料</span><div class="page-size-select">每頁顯示 <select onchange="rlPageSize=+this.value;rlPage=1;renderRlTable()"><option value="10"' + (rlPageSize===10?' selected':'') + '>10</option><option value="20"' + (rlPageSize===20?' selected':'') + '>20</option><option value="50"' + (rlPageSize===50?' selected':'') + '>50</option></select> 筆</div></div>';
+
+  var bottomBar = '<div class="pagination-bar"><div></div><div style="display:flex;gap:4px;align-items:center">';
   bottomBar += '<button class="page-btn" onclick="rlGoPage(' + (rlPage-1) + ')"' + (rlPage===1?' disabled':'') + '>&lt;</button>';
   for (var i = 1; i <= totalPages; i++) {
     bottomBar += '<button class="page-btn' + (i===rlPage?' active':'') + '" onclick="rlGoPage(' + i + ')">' + i + '</button>';
   }
   bottomBar += '<button class="page-btn" onclick="rlGoPage(' + (rlPage+1) + ')"' + (rlPage===totalPages?' disabled':'') + '>&gt;</button>';
-  bottomBar += '<select onchange="rlPageSize=+this.value;rlPage=1;renderRlTable()" style="padding:3px 8px;border:1px solid #D1D5DB;border-radius:4px;font-size:12px">';
-  [10,20,50].forEach(function(n){ bottomBar += '<option value="' + n + '"' + (n===rlPageSize?' selected':'') + '>' + n + ' 筆/頁</option>'; });
-  bottomBar += '</select></div>';
+  bottomBar += '</div></div>';
 
   document.getElementById('rlTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
-    '<th style="text-align:center">序</th><th>紅包序號</th><th>申請單號</th><th>公會名稱</th><th>會長帳號</th><th>申請模式</th><th style="text-align:right">每包點數</th><th>領取進度</th><th>狀態</th><th>建立時間</th><th>有效期限</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>申請日期</th><th style="text-align:right">紅包總金額</th><th>領取進度</th><th>領取狀態</th><th>申請人帳號</th><th>有效期限</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
@@ -121,7 +105,6 @@ function rlGoPage(p) {
   renderRlTable();
 }
 
-// Init
 document.addEventListener('DOMContentLoaded', function() {
   renderRlTable();
 });
