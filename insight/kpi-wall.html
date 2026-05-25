@@ -14,7 +14,7 @@
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .kpi-header .time{font-size:20px;font-weight:700;color:#1E293B}
 
-.row1{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.row1{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:20px;margin-bottom:20px}
 .revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .revenue-card .label{font-size:12px;color:#64748B;font-weight:600;margin-bottom:4px}
 .revenue-card .value{font-size:36px;font-weight:700;color:#1E293B}
@@ -26,7 +26,6 @@
 .bar-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:#64748B}
 .bar-legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
 
-.right-cards{display:grid;grid-template-rows:1fr 1fr 1fr;gap:12px}
 .mini-card{padding:16px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .mini-card .mc-label{font-size:11px;color:#64748B;font-weight:600;text-transform:uppercase}
 .mini-card .mc-row{display:flex;align-items:baseline;gap:10px;margin-top:4px}
@@ -67,36 +66,35 @@
 
 <!-- KPI Header -->
 <div class="kpi-header">
-<div class="date-range">2026/05/25 00:00 - 23:59</div>
-<div class="refresh"><span class="dot"></span> 自動刷新 每 60 秒</div>
-<div class="time" id="kpiTime">08:28</div>
+<div class="date-range">資料日期：2026/05/25 00:00 - 23:59</div>
+<div style="display:flex;align-items:center;gap:12px"><span style="font-size:12px;color:#64748B">自動刷新</span><span class="time" id="kpiTime">08:28</span></div>
 </div>
 
-<!-- Row 1: Revenue (big left) + 3 small right -->
+<!-- Row 1: Revenue (wide) + GGR + 押碼量 + RTP -->
 <div class="row1">
 <div class="revenue-card">
 <div class="label">Revenue 營收</div>
-<div style="display:flex;align-items:baseline"><span class="value">1,286<span style="font-size:18px;font-weight:600">萬</span></span><span class="change">↑ 18%</span></div>
-<div class="sub">較昨日 ｜ 今日累積 12,860,000</div>
+<div style="display:flex;align-items:baseline"><span class="value">1,286<span style="font-size:18px;font-weight:600">萬</span></span><span class="change">↑ 18%</span><span class="sub" style="margin-left:8px">較昨日</span></div>
+<div class="sub">今日累積儲值 12,860,000</div>
 <div class="stacked-bar"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
 <div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
-<div class="right-cards">
 <div class="mini-card">
 <div class="mc-label">GGR</div>
 <div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
 <div class="stacked-bar" style="height:16px;margin-top:8px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend" style="margin-top:6px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68%</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32%</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">押碼量</div>
 <div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
 <div class="stacked-bar" style="height:16px;margin-top:8px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend" style="margin-top:6px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68%</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32%</span></div>
 </div>
 <div class="mini-card">
 <div class="mc-label">RTP</div>
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><span class="mc-change">↑ 0.8%</span><span class="mc-vs">較昨日</span></div>
 <div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
-</div>
 </div>
 </div>
 
