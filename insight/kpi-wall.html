@@ -6,6 +6,56 @@
 <title>即時 KPI 牆 - Nova Analytics</title>
 <link rel="stylesheet" href="components/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+.kpi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:12px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi-header .date-range{font-size:13px;color:#475569}
+.kpi-header .refresh{display:flex;align-items:center;gap:8px;font-size:12px;color:#64748B}
+.kpi-header .refresh .dot{width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.kpi-header .time{font-size:20px;font-weight:700;color:#1E293B}
+
+.row1{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.revenue-card .label{font-size:12px;color:#64748B;font-weight:600;margin-bottom:4px}
+.revenue-card .value{font-size:36px;font-weight:700;color:#1E293B}
+.revenue-card .change{font-size:13px;color:#10B981;font-weight:600;margin-left:12px}
+.revenue-card .sub{font-size:12px;color:#94A3B8;margin-top:4px}
+.stacked-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;margin-top:12px}
+.stacked-bar .seg-blue{background:#3B82F6}
+.stacked-bar .seg-orange{background:#F59E0B}
+.bar-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:#64748B}
+.bar-legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+
+.right-cards{display:grid;grid-template-rows:1fr 1fr 1fr;gap:12px}
+.mini-card{padding:16px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.mini-card .mc-label{font-size:11px;color:#64748B;font-weight:600;text-transform:uppercase}
+.mini-card .mc-row{display:flex;align-items:baseline;gap:10px;margin-top:4px}
+.mini-card .mc-value{font-size:24px;font-weight:700;color:#2563EB}
+.mini-card .mc-change{font-size:12px;color:#10B981;font-weight:600}
+.mini-card .mc-vs{font-size:11px;color:#94A3B8}
+.sparkline-wrap{height:32px;margin-top:8px}
+
+.row2{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.metric-card{padding:20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.metric-card .mc-label{font-size:11px;color:#64748B;font-weight:600}
+.metric-card .mc-row{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.metric-card .mc-value{font-size:26px;font-weight:700;color:#2563EB}
+.metric-card .mc-change{font-size:12px;color:#10B981;font-weight:600}
+.metric-card .mc-vs{font-size:11px;color:#94A3B8}
+
+.row3{display:grid;grid-template-columns:1fr 1.5fr;gap:20px}
+.gf-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.gf-card .gf-title{font-size:12px;color:#64748B;font-weight:600}
+.gf-card .gf-value{font-size:28px;font-weight:700;margin-top:4px}
+.gf-card .gf-change{font-size:12px;color:#10B981;font-weight:600;margin-left:10px}
+.gf-bar{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px}
+.gf-bar .bar{height:20px;border-radius:4px}
+.gf-bar .bar-label{min-width:32px;font-weight:600;color:#374151}
+.gf-bar .bar-val{color:#64748B}
+
+.hourly-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.hourly-card h3{font-size:13px;font-weight:600;color:#374151;margin:0 0 12px}
+</style>
 </head>
 <body>
 <div class="layout">
@@ -14,57 +64,83 @@
 <div class="main">
 <header class="topbar" id="insightTopbar"></header>
 <div class="content">
-<!-- Row 1: GGR + GIFT (2 col with charts) -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px">
-<div class="card" style="padding:24px">
-<div style="display:flex;justify-content:space-between;align-items:flex-start">
-<div><h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0">GGR</h3>
-<div style="display:flex;align-items:baseline;gap:12px;margin-top:8px"><span style="font-size:32px;font-weight:700">4,281,160</span><span style="font-size:12px;color:#10B981;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:20px;padding:2px 10px">+12.3%</span></div></div>
-<div style="display:flex;gap:8px;font-size:11px;background:#F8FAFC;border-radius:12px;padding:4px 8px"><span style="color:#64748B">金幣 <b>78%</b></span><span style="color:#64748B">星幣 <b>22%</b></span></div>
+
+<!-- KPI Header -->
+<div class="kpi-header">
+<div class="date-range">2026/05/25 00:00 - 23:59</div>
+<div class="refresh"><span class="dot"></span> 自動刷新 每 60 秒</div>
+<div class="time" id="kpiTime">08:28</div>
 </div>
-<div style="height:180px;margin-top:16px"><canvas id="chartGgr"></canvas></div>
+
+<!-- Row 1: Revenue (big left) + 3 small right -->
+<div class="row1">
+<div class="revenue-card">
+<div class="label">Revenue 營收</div>
+<div style="display:flex;align-items:baseline"><span class="value">1,286<span style="font-size:18px;font-weight:600">萬</span></span><span class="change">↑ 18%</span></div>
+<div class="sub">較昨日 ｜ 今日累積 12,860,000</div>
+<div class="stacked-bar"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
-<div class="card" style="padding:24px">
-<div style="display:flex;justify-content:space-between;align-items:flex-start">
-<div><h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0">GIFT</h3>
-<div style="display:flex;align-items:baseline;gap:12px;margin-top:8px"><span style="font-size:32px;font-weight:700">156,800</span><span style="font-size:12px;color:#10B981;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:20px;padding:2px 10px">+5.7%</span></div></div>
-<div style="display:flex;gap:8px;font-size:11px;background:#F8FAFC;border-radius:12px;padding:4px 8px"><span style="color:#64748B">金幣 <b>72%</b></span><span style="color:#64748B">星幣 <b>28%</b></span></div>
+<div class="right-cards">
+<div class="mini-card">
+<div class="mc-label">GGR</div>
+<div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="stacked-bar" style="height:16px;margin-top:8px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
 </div>
-<div style="height:180px;margin-top:16px"><canvas id="chartGift"></canvas></div>
+<div class="mini-card">
+<div class="mc-label">押碼量</div>
+<div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="stacked-bar" style="height:16px;margin-top:8px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
 </div>
-</div>
-<!-- Row 2: REVENUE full-width (bar+line mixed) -->
-<div class="card" style="padding:24px;margin-bottom:24px">
-<div style="display:flex;justify-content:space-between;align-items:flex-start">
-<div><h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0">REVENUE 營收</h3>
-<div style="display:flex;align-items:baseline;gap:12px;margin-top:8px"><span style="font-size:32px;font-weight:700">641,000</span><span style="font-size:12px;color:#10B981;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:20px;padding:2px 10px">+8.5%</span></div></div>
-<div style="display:flex;gap:8px;font-size:11px;background:#F8FAFC;border-radius:12px;padding:4px 8px"><span style="color:#64748B">金幣 <b>65%</b></span><span style="color:#64748B">星幣 <b>35%</b></span></div>
-</div>
-<div style="height:220px;margin-top:16px"><canvas id="chartRevenue"></canvas></div>
-</div>
-<!-- Row 3: 4 mini cards (no charts) -->
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
-<div class="card" style="padding:20px">
-<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0 0 8px">RTP 殺率</h3>
-<div style="font-size:28px;font-weight:700">92.5%</div>
-<div style="margin-top:8px"><span style="font-size:12px;color:#EF4444;font-weight:600">↓ 7.5%</span></div>
-</div>
-<div class="card" style="padding:20px">
-<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0 0 8px">PU 付費用戶</h3>
-<div style="font-size:28px;font-weight:700">3</div>
-<div style="margin-top:8px"><span style="font-size:12px;color:#10B981;font-weight:600">+50%</span></div>
-</div>
-<div class="card" style="padding:20px">
-<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0 0 8px">NU 新註冊</h3>
-<div style="font-size:28px;font-weight:700">2</div>
-<div style="margin-top:8px"><span style="font-size:12px;color:#10B981;font-weight:600">+100%</span></div>
-</div>
-<div class="card" style="padding:20px">
-<h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748B;margin:0 0 8px">LU 登入用戶</h3>
-<div style="font-size:28px;font-weight:700">16</div>
-<div style="margin-top:8px"><span style="font-size:12px;color:#10B981;font-weight:600">+14%</span></div>
+<div class="mini-card">
+<div class="mc-label">RTP</div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><span class="mc-change">↑ 0.8%</span><span class="mc-vs">較昨日</span></div>
+<div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
 </div>
 </div>
+</div>
+
+<!-- Row 2: PU / DAU / NU -->
+<div class="row2">
+<div class="metric-card">
+<div class="mc-label">PU 付費用戶</div>
+<div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
+<div class="stacked-bar" style="height:16px;margin-top:10px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68%</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32%</span></div>
+</div>
+<div class="metric-card">
+<div class="mc-label">DAU 登入用戶</div>
+<div class="mc-row"><span class="mc-value">8,650</span><span class="mc-change">↑ 15%</span><span class="mc-vs">較昨日</span></div>
+<div class="stacked-bar" style="height:16px;margin-top:10px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68%</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32%</span></div>
+</div>
+<div class="metric-card">
+<div class="mc-label">NU 新註冊用戶</div>
+<div class="mc-row"><span class="mc-value">356</span><span class="mc-change">↑ 6%</span><span class="mc-vs">較昨日</span></div>
+<div class="stacked-bar" style="height:16px;margin-top:10px"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68%</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32%</span></div>
+</div>
+</div>
+
+<!-- Row 3: GF + Hourly chart -->
+<div class="row3">
+<div class="gf-card">
+<div class="gf-title">GF 贈禮流向</div>
+<div style="display:flex;align-items:baseline"><span class="gf-value">$124,800</span><span class="gf-change">↑ 12.4%</span></div>
+<div style="font-size:11px;color:#94A3B8;margin-top:2px">較昨日</div>
+<div style="margin-top:16px">
+<div class="gf-bar"><span class="bar-label">P→P</span><div class="bar" style="width:46.6%;background:#3B82F6;flex-shrink:0"></div><span class="bar-val">$58,200 (46.6%)</span></div>
+<div class="gf-bar"><span class="bar-label">P→G</span><div class="bar" style="width:33.1%;background:#22C55E;flex-shrink:0"></div><span class="bar-val">$41,300 (33.1%)</span></div>
+<div class="gf-bar"><span class="bar-label">G→P</span><div class="bar" style="width:15.1%;background:#F97316;flex-shrink:0"></div><span class="bar-val">$18,900 (15.1%)</span></div>
+<div class="gf-bar"><span class="bar-label">G→G</span><div class="bar" style="width:5.1%;background:#6366F1;flex-shrink:0"></div><span class="bar-val">$6,400 (5.1%)</span></div>
+</div>
+</div>
+<div class="hourly-card">
+<h3>每小時遊戲人數</h3>
+<div style="height:220px"><canvas id="chartHourly"></canvas></div>
+</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -73,57 +149,23 @@
 <script src="components/header.js"></script>
 <script src="components/charts.js"></script>
 <script>
-const h = Array.from({length:12}, (_,i) => (i*2));
-const lineOpts = (yTitle) => ({
-  responsive: true, maintainAspectRatio: false,
-  interaction: { mode: 'index', intersect: false },
-  plugins: { legend: { position: 'top', align: 'start', labels: { usePointStyle: true, pointStyle: 'circle', padding: 12, font: { size: 10 } } }, tooltip: TOOLTIP_STYLE },
-  scales: { x: { display: true, title: { display: true, text: '時', font: { size: 10 }, color: '#94A3B8' }, grid: { display: false }, ticks: { font: { size: 9 }, color: '#94A3B8' } }, y: { display: true, title: { display: true, text: yTitle, font: { size: 10 }, color: '#94A3B8' }, grid: { color: '#F1F5F9' }, ticks: { font: { size: 9 }, color: '#94A3B8' } } }
-});
-function kpiLine(id, datasets, yTitle='幣量') {
-  new Chart(document.getElementById(id), {
-    type: 'line',
-    data: { labels: h, datasets: datasets.map(ds => ({
-      label: ds.label, data: ds.data, borderColor: ds.color, backgroundColor: ds.color+'20',
-      borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: ds.color, tension: 0.3, fill: false
-    }))},
-    options: lineOpts(yTitle)
-  });
-}
-// GGR + GIFT: 3 lines each
-const ggrGold = [120,95,60,45,80,150,210,280,350,420,380,310];
-const ggrStar = [30,25,15,10,20,40,55,70,90,105,95,80];
-const ggrAll = ggrGold.map((v,i) => v + ggrStar[i]);
-kpiLine('chartGgr', [
-  { label: '金幣', data: ggrGold, color: '#10B981' },
-  { label: '星幣', data: ggrStar, color: '#3B82F6' },
-  { label: 'ALL', data: ggrAll, color: '#8B5CF6' }
-]);
-const giftGold = [5,3,2,1,4,8,12,15,18,20,16,13];
-const giftStar = [2,1,0,1,2,3,5,6,8,9,7,5];
-const giftAll = giftGold.map((v,i) => v + giftStar[i]);
-kpiLine('chartGift', [
-  { label: '金幣', data: giftGold, color: '#10B981' },
-  { label: '星幣', data: giftStar, color: '#3B82F6' },
-  { label: 'ALL', data: giftAll, color: '#8B5CF6' }
-]);
-// REVENUE: bar (platforms) + line (total)
-new Chart(document.getElementById('chartRevenue'), {
-  type: 'bar',
-  data: { labels: h.map(v => v+':00'), datasets: [
-    { label: 'Android', data: [0,0,0,0,0,5,12,18,25,30,22,15], backgroundColor: '#EC4899', order: 2 },
-    { label: 'iOS', data: [0,0,0,0,2,8,15,22,30,35,28,18], backgroundColor: '#86EFAC', order: 2 },
-    { label: 'PC', data: [0,0,0,0,1,3,6,8,12,15,10,7], backgroundColor: '#A78BFA', order: 2 },
-    { label: 'Other', data: [0,0,0,0,0,1,2,3,4,5,3,2], backgroundColor: '#CBD5E1', order: 2 },
-    { label: '總計', data: [0,0,0,0,3,17,35,51,71,85,63,42], type: 'line', borderColor: '#10B981', backgroundColor: 'transparent', borderWidth: 2, pointRadius: 2, order: 1 }
-  ]},
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
-    plugins: { legend: { position: 'top', align: 'start', labels: { usePointStyle: true, padding: 12, font: { size: 10 } } }, tooltip: TOOLTIP_STYLE },
-    scales: { x: { stacked: true, grid: { display: false }, ticks: { font: { size: 9 }, color: '#94A3B8' } }, y: { stacked: true, grid: { color: '#F1F5F9' }, ticks: { font: { size: 9 }, color: '#94A3B8' } } }
-  }
-});
+// Clock
+function updateClock(){document.getElementById('kpiTime').textContent=new Date().toTimeString().slice(0,5)}
+setInterval(updateClock,60000);
+
+// RTP Sparkline
+new Chart(document.getElementById('sparkRtp'),{type:'line',data:{labels:['','','','','','','',''],datasets:[{data:[97.8,98.0,97.9,98.1,98.3,98.2,98.4,98.42],borderColor:'#10B981',borderWidth:1.5,pointRadius:0,tension:.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+
+// Hourly line chart
+var hours = Array.from({length:25},(_,i)=>i);
+var total = [20,15,10,8,12,30,80,190,130,218,130,280,420,580,780,650,520,380,290,210,150,100,70,45,30];
+var star = [12,9,6,5,8,20,55,130,90,150,90,190,290,400,540,450,360,260,200,145,100,68,48,30,20];
+var gold = total.map((v,i)=>v-star[i]);
+new Chart(document.getElementById('chartHourly'),{type:'line',data:{labels:hours.map(h=>h+':00'),datasets:[
+{label:'總計',data:total,borderColor:'#1E40AF',backgroundColor:'#1E40AF20',borderWidth:2,pointRadius:2,tension:.3,fill:false},
+{label:'星幣用戶',data:star,borderColor:'#8B5CF6',backgroundColor:'#8B5CF620',borderWidth:1.5,pointRadius:1.5,tension:.3,fill:false,borderDash:[4,3]},
+{label:'金幣用戶',data:gold,borderColor:'#F59E0B',backgroundColor:'#F59E0B20',borderWidth:1.5,pointRadius:1.5,tension:.3,fill:false,borderDash:[4,3]}
+]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'end',labels:{usePointStyle:true,pointStyle:'circle',padding:12,font:{size:11}}},tooltip:typeof TOOLTIP_STYLE!=='undefined'?TOOLTIP_STYLE:{}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94A3B8',maxTicksLimit:13}},y:{grid:{color:'#F1F5F9'},ticks:{font:{size:9},color:'#94A3B8'},title:{display:true,text:'人數',font:{size:10},color:'#94A3B8'}}}}});
 </script>
 </body>
 </html>
