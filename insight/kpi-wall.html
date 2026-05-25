@@ -164,7 +164,7 @@ new Chart(document.getElementById('chartHourly'),{type:'line',data:{labels:hours
 {label:'總計',data:total,borderColor:'#1E40AF',backgroundColor:'#1E40AF',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1E40AF',tension:.3,fill:false},
 {label:'星幣用戶',data:star,borderColor:'#8B5CF6',backgroundColor:'#8B5CF6',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#8B5CF6',tension:.3,fill:false},
 {label:'金幣用戶',data:gold,borderColor:'#F59E0B',backgroundColor:'#F59E0B',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#F59E0B',tension:.3,fill:false}
-]},plugins:[datalabelsPlugin],options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'start',labels:{usePointStyle:true,pointStyle:'line',pointStyleWidth:20,padding:12,font:{size:11}}},tooltip:typeof TOOLTIP_STYLE!=='undefined'?TOOLTIP_STYLE:{}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94A3B8',maxTicksLimit:13}},y:{grid:{color:'#F1F5F9'},ticks:{font:{size:9},color:'#94A3B8',callback:function(v){return v===1000?'人次':v}},max:1000,title:{display:false}}}}});
+]},plugins:[datalabelsPlugin],options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'start',labels:{usePointStyle:true,pointStyle:'line',pointStyleWidth:20,padding:12,font:{size:11}}},tooltip:typeof TOOLTIP_STYLE!=='undefined'?TOOLTIP_STYLE:{}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94A3B8',maxTicksLimit:13}},y:{grid:{color:'#F1F5F9'},ticks:{font:{size:9},color:'#94A3B8',stepSize:250,callback:function(v){return v===1000?'人次':v}},max:1000,title:{display:false}}}}});
 </script>
 </body>
 </html>
