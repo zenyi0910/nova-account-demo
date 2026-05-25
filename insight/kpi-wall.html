@@ -14,7 +14,9 @@
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .kpi-header .time{font-size:20px;font-weight:700;color:#1E293B}
 
-.row1{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:20px;margin-bottom:20px;align-items:stretch}
+.row1{display:grid;grid-template-columns:1fr 3fr;gap:20px;margin-bottom:20px}
+.row1 .revenue-card{grid-row:1/2}
+.row1 .right-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:16px}
 .revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .revenue-card .label{font-size:12px;color:#64748B;font-weight:600;margin-bottom:4px}
 .revenue-card .value{font-size:36px;font-weight:700;color:#1E293B;white-space:nowrap}
@@ -69,7 +71,7 @@
 <div class="date-range">資料日期：2026/05/25 00:00 - 23:59</div>
 </div>
 
-<!-- Row 1: Revenue (wide) + GGR + 押碼量 + RTP -->
+<!-- Row 1: Revenue (left, spans 2 rows) + right grid (3x2) -->
 <div class="row1">
 <div class="revenue-card">
 <div class="label">Revenue 營收 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
@@ -79,6 +81,7 @@
 <div class="stacked-bar"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
 <div class="bar-legend"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
+<div class="right-grid">
 <div class="mini-card">
 <div class="mc-label">GGR</div>
 <div class="mc-row"><span class="mc-value">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
@@ -94,24 +97,21 @@
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><span class="mc-change" style="color:#EF4444">↓ 0.8%</span><span class="mc-vs">較昨日</span></div>
 <div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
 </div>
-</div>
-
-<!-- Row 2: PU / DAU / NU -->
-<div class="row2">
-<div class="metric-card">
+<div class="mini-card">
 <div class="mc-label">PU 付費用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">1,328</span><span class="mc-change">↑ 30%</span><span class="mc-vs">較昨日</span></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
-<div class="metric-card">
+<div class="mini-card">
 <div class="mc-label">DAU 登入用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">8,650</span><span class="mc-change">↑ 15%</span><span class="mc-vs">較昨日</span></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
 </div>
-<div class="metric-card">
+<div class="mini-card">
 <div class="mc-label">NU 新註冊用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">356</span><span class="mc-change">↑ 6%</span><span class="mc-vs">較昨日</span></div>
 <div class="bar-legend" style="margin-top:8px"><span><span class="dot" style="background:#3B82F6"></span>星幣 68% — 8,744,800</span><span><span class="dot" style="background:#F59E0B"></span>金幣 32% — 4,115,200</span></div>
+</div>
 </div>
 </div>
 
