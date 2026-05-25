@@ -24,6 +24,11 @@
 
     // Right actions
     html += '<div class="topbar-right">';
+    // Auto-refresh pill (only on KPI wall)
+    if (page.title === '即時 KPI 牆') {
+      var now = new Date(); var hh = String(now.getHours()).padStart(2,'0'); var mm = String(now.getMinutes()).padStart(2,'0');
+      html += '<div style="display:inline-flex;align-items:center;gap:6px;border:1px solid #E0E0E0;border-radius:9999px;padding:4px 12px;font-size:12px"><span style="color:#333">自動刷新</span><span id="kpiTime" style="color:#10B981;font-weight:600">' + hh + ':' + mm + '</span></div>';
+    }
     html += '<div class="topbar-icon-btn" title="深色模式"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>';
     html += '<div class="topbar-icon-btn" title="通知"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>';
     html += '</div>';
