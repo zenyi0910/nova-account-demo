@@ -18,7 +18,8 @@
 .row1 .revenue-card{grid-row:1/2}
 .row1 .right-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:12px;align-content:stretch}
 .row1 .right-grid .mini-card{min-width:0;overflow:hidden}
-.revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.revenue-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .revenue-card .label{font-size:14px;color:#64748B;font-weight:600;margin-bottom:4px}
 .revenue-card .value{font-size:52px;font-weight:700;color:#1E293B;white-space:nowrap}
 .revenue-card .change{font-size:13px;color:#10B981;font-weight:600;margin-left:12px;background:#ECFDF5;border-radius:12px;padding:2px 8px}
@@ -36,7 +37,8 @@
 .coin-leg .coin-info span:last-child{color:#94A3B8}
 .mini-card .coin-legends{position:absolute;bottom:14px;left:20px;right:20px}
 
-.mini-card{padding:12px 16px 36px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative}
+.mini-card{padding:12px 16px 36px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative;transition:all .3s;cursor:default}
+.mini-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .mini-card .mc-label{font-size:14px;color:#64748B;font-weight:600;text-transform:uppercase}
 .mini-card .mc-row{margin-top:4px}
 .mini-card .mc-badge{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
@@ -53,7 +55,8 @@
 .metric-card .mc-vs{font-size:11px;color:#94A3B8}
 
 .row3{display:grid;grid-template-columns:1fr 2fr;gap:20px}
-.gf-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.gf-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.gf-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .gf-card .gf-title{font-size:14px;color:#64748B;font-weight:600}
 .gf-card .gf-value{font-size:32px;font-weight:700;margin-top:4px}
 .gf-card .gf-change{font-size:12px;color:#10B981;font-weight:600;margin-left:10px;background:#ECFDF5;border-radius:12px;padding:2px 8px}
@@ -65,7 +68,8 @@
 .gf-bar .bar-val{text-align:right;color:#374151;font-weight:500;white-space:nowrap}
 .gf-bar .bar-pct{text-align:right;color:#94A3B8;white-space:nowrap}
 
-.hourly-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.hourly-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.hourly-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
 .hourly-card h3{font-size:14px;font-weight:600;color:#374151;margin:0 0 12px}
 </style>
 </head>
@@ -85,7 +89,7 @@
 
 <!-- Row 1: Revenue (left, spans 2 rows) + right grid (3x2) -->
 <div class="row1">
-<div class="revenue-card">
+<div class="revenue-card" title="Revenue 營收：統計今日所有玩家的儲值總額（含星幣與金幣）">
 <div class="label">Revenue 營收 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div style="display:flex;align-items:flex-start;position:relative"><span class="value">1,286<span style="font-size:22px;font-weight:600">萬</span></span><div style="position:absolute;top:0;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sub">較昨日</div><span class="change">↑ 18%</span></div></div>
 <div class="sub">今日累積儲值 12,860,000</div>
@@ -94,32 +98,32 @@
 <div class="coin-legends" style="margin-top:8px"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
 <div class="right-grid">
-<div class="mini-card">
+<div class="mini-card" title="GGR：毛收入，玩家總投注額減去總派彩額">
 <div class="mc-label">GGR</div>
 <div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
 <div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="mini-card">
+<div class="mini-card" title="押碼量：玩家在所有遊戲中的總投注金額">
 <div class="mc-label">押碼量 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
 <div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="mini-card">
+<div class="mini-card" title="RTP：Return to Player，玩家投注的回報率">
 <div class="mc-label">RTP <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change" style="color:#EF4444;background:#FEF2F2">↓ 0.8%</span></div></div>
 <div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
 </div>
-<div class="mini-card">
+<div class="mini-card" title="PU 付費用戶：統計今日至少有一筆儲值的不重複玩家數">
 <div class="mc-label">PU 付費用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
 <div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="mini-card">
+<div class="mini-card" title="DAU 登入用戶：統計今日至少登入一次的不重複玩家數">
 <div class="mc-label">DAU 登入用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value">8,650</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 15%</span></div></div>
 <div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="mini-card">
+<div class="mini-card" title="NU 新註冊用戶：統計今日完成註冊的新玩家數">
 <div class="mc-label">NU 新註冊用戶 <svg style="vertical-align:middle;margin-left:4px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
 <div class="mc-row"><span class="mc-value">356</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 6%</span></div></div>
 <div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
@@ -140,7 +144,7 @@
 <div class="gf-bar"><span class="bar-label" style="background:rgba(99,102,241,.2);padding:2px 8px;border-radius:4px">G→G</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:#6366F1"></div></div><span class="bar-val">$6,400</span><span class="bar-pct">5.1%</span></div>
 </div>
 </div>
-<div class="hourly-card">
+<div class="hourly-card" title="每小時遊戲人數：統計每小時內至少有過一次投注行為的不重複玩家">
 <h3>每小時遊戲人數</h3>
 <div style="height:220px"><canvas id="chartHourly"></canvas></div>
 </div>
