@@ -6,6 +6,13 @@
 <title>星運娛樂城 - 公會紅包申請</title>
 <link rel="stylesheet" href="css/frontend.css?v=e5b9c11">
 <style>
+/* Phone frame wrapper */
+body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.phone-frame{position:relative;width:385px;height:780px;border-radius:50px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 80px rgba(0,0,0,0.6);overflow:hidden}
+.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
+.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
+.phone-frame .mobile-frame{max-width:none;height:100%;overflow-y:auto;scrollbar-width:none}
+.phone-frame .mobile-frame::-webkit-scrollbar{display:none}
 .rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-width:393px;max-height:85dvh;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 .rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
@@ -68,6 +75,7 @@
 </style>
 </head>
 <body>
+<div class="phone-frame">
 <div class="mobile-frame">
 <header class="header">
 <div class="header-left">
@@ -88,7 +96,7 @@
 <div class="main-wrap" style="padding-top:50px">
 <!-- 紅包申請彈窗 (模擬為全頁展示) -->
 <div class="rp-overlay" style="position:relative;background:none;align-items:flex-start">
-<div class="rp-dialog" style="border-radius:20px;margin:12px;max-height:none">
+<div class="rp-dialog" style="border-radius:20px;margin:0;max-height:none">
   <div class="rp-header">
     <h2>公會紅包申請</h2>
   </div>
@@ -227,5 +235,7 @@ function submitRP(){
   alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+Math.min(total,800000).toLocaleString()+'\n\n⏳ 非白名單公會，需等待官方審核');
 }
 </script>
+</div>
+</div>
 </body>
 </html>
