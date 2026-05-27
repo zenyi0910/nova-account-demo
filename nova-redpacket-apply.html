@@ -13,6 +13,27 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
 .phone-frame .mobile-frame{max-width:none;height:100%;overflow-y:auto;scrollbar-width:none}
 .phone-frame .mobile-frame::-webkit-scrollbar{display:none}
+/* Guild page styles */
+.guild-page{padding:60px 16px 80px;min-height:100%}
+.guild-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);border-radius:16px;padding:20px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden}
+.guild-banner::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;background:rgba(245,166,35,.15);border-radius:50%}
+.guild-banner .guild-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.guild-banner .guild-role{font-size:12px;color:rgba(255,255,255,.7);background:rgba(245,166,35,.3);display:inline-block;padding:2px 8px;border-radius:8px;margin-bottom:10px}
+.guild-banner .guild-stats{display:flex;gap:16px;font-size:12px;color:rgba(255,255,255,.8)}
+.guild-banner .guild-stats span{display:flex;align-items:center;gap:4px}
+.guild-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.guild-action-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;cursor:pointer;transition:all .2s}
+.guild-action-btn:hover{border-color:#f59e0b;box-shadow:0 2px 8px rgba(245,166,35,.15)}
+.guild-action-btn.highlight{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(217,119,6,.05));border-color:rgba(245,166,35,.3)}
+.guild-action-btn svg{width:28px;height:28px}
+.guild-action-btn .action-label{font-size:12px;font-weight:500;color:#452201}
+.guild-members-section{background:#fff;border-radius:14px;padding:14px 16px;border:1px solid rgba(0,0,0,.06)}
+.guild-members-section h3{font-size:14px;font-weight:600;color:#452201;margin-bottom:10px}
+.guild-member-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+.guild-member-row:last-child{border:none}
+.guild-member-row .avatar-sm{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600}
+.guild-member-row .member-name{flex:1;font-size:13px;color:#452201}
+.guild-member-row .member-role{font-size:11px;color:rgba(69,34,1,.4)}
 .rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-width:393px;max-height:85dvh;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 .rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
@@ -93,12 +114,52 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 </div>
 </header>
 
-<div class="main-wrap" style="padding-top:50px">
-<!-- 紅包申請彈窗 (模擬為全頁展示) -->
-<div class="rp-overlay" style="position:relative;background:none;align-items:flex-start">
-<div class="rp-dialog" style="border-radius:20px;margin:0;max-height:none">
+<!-- 公會主頁 -->
+<div class="guild-page" id="guildPage">
+  <div class="guild-banner">
+    <div class="guild-role">👑 會長</div>
+    <div class="guild-title">龍之谷</div>
+    <div class="guild-stats">
+      <span>👥 成員 128</span>
+      <span>💰 公會資金 5,800,000</span>
+    </div>
+  </div>
+
+  <div class="guild-actions">
+    <div class="guild-action-btn highlight" onclick="openRP()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8V3M7 8l5-5 5 5"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9" y1="14.5" x2="15" y2="14.5"/></svg>
+      <span class="action-label">紅包申請</span>
+    </div>
+    <div class="guild-action-btn" onclick="alert('（Demo）公會成員管理')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      <span class="action-label">成員管理</span>
+    </div>
+    <div class="guild-action-btn" onclick="alert('（Demo）貢獻排行')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+      <span class="action-label">貢獻排行</span>
+    </div>
+    <div class="guild-action-btn" onclick="alert('（Demo）公會設定')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15 1.65 1.65 0 003 14.08V14a2 2 0 014 0v.09"/></svg>
+      <span class="action-label">公會設定</span>
+    </div>
+  </div>
+
+  <div class="guild-members-section">
+    <h3>公會成員</h3>
+    <div class="guild-member-row"><div class="avatar-sm">M</div><div class="member-name">GuildMaster</div><div class="member-role">會長</div></div>
+    <div class="guild-member-row"><div class="avatar-sm">V</div><div class="member-name">ViceLeader01</div><div class="member-role">副會長</div></div>
+    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_A</div><div class="member-role">成員</div></div>
+    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_B</div><div class="member-role">成員</div></div>
+    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_C</div><div class="member-role">成員</div></div>
+  </div>
+</div>
+
+<!-- 紅包申請彈窗 -->
+<div class="rp-overlay" id="rpOverlay" style="display:none">
+<div class="rp-dialog">
   <div class="rp-header">
     <h2>公會紅包申請</h2>
+    <div class="rp-close" onclick="closeRP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
   </div>
 
   <div class="rp-tabs">
@@ -178,14 +239,14 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
         <li>非白名單公會需經官方審核通過後方可產生序號</li>
       </ol>
     </div>
+    </div>
   </div>
-</div>
-</div>
-</div>
 </div>
 
 <script>
 var BAL=1250000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
+function openRP(){document.getElementById('rpOverlay').style.display='flex';}
+function closeRP(){document.getElementById('rpOverlay').style.display='none';}
 function rpSwitchTab(t){
   document.querySelectorAll('.rp-tabs button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
   document.getElementById('tabSingle').style.display=t==='single'?'':'none';
