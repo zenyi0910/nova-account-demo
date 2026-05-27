@@ -173,15 +173,15 @@ function rpApprove(id) {
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
-  html += '<table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th>順序</th><th>序號</th><th>序號有效日期</th></tr></thead><tbody>';
-  var baseDate = new Date();
-  baseDate.setDate(baseDate.getDate() + 3);
-  var expStr = baseDate.toISOString().slice(0,10);
+  html += '<table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
   for (var i = 0; i < 3; i++) {
     var rowId = 'rpSn_' + i;
     html += '<tr><td style="text-align:center;width:60px">' + (i+1) + '</td>';
     html += '<td><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-dark" style="background:#00bba7;border-color:#00bba7;font-size:12px;white-space:nowrap;padding:6px 12px" onclick="document.getElementById(\'' + rowId + '\').value=rpGenCode()">隨機產出序號</button><input type="text" id="' + rowId + '" class="form-control" style="width:100px;font-family:monospace;font-size:13px;padding:6px 10px" value="' + rpGenCode() + '" readonly></div></td>';
-    html += '<td><div style="display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' + expStr + '</div></td>';
+    html += '<td>不限期</td>';
+    html += '<td style="text-align:center">5</td>';
+    html += '<td style="text-align:right">1,000</td>';
+    html += '<td>-</td>';
     html += '</tr>';
   }
   html += '</tbody></table>';
@@ -286,10 +286,10 @@ function rpDetail(id) {
   // 序號列表（已通過才顯示）
   if (item.status === 'approved' || item.status === 'done') {
     html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">紅包序號</h4>';
-    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
+    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
     for (var s = 0; s < 3; s++) {
       var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
-      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>2026-05-' + (23+s) + ' 09:30:15</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td><a href="javascript:void(0)" style="color:#00bba7;font-size:12px">停用</a></td></tr>';
+      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td><a href="javascript:void(0)" style="color:#00bba7;font-size:12px">停用</a></td></tr>';
     }
     html += '</tbody></table>';
     html += '<div style="text-align:right"><a href="nova-redpacket-log.html" style="color:#00bba7;font-size:12px;font-weight:500">查看紅包紀錄 &rarr;</a></div>';
