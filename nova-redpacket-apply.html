@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 前台 - 公會紅包申請</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#1a1a2e;color:#fff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
+.container{width:100%;max-width:520px;background:#2d2d44;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden}
+.header{background:linear-gradient(135deg,#4DD0C2,#26A69A);padding:20px 24px;display:flex;align-items:center;gap:12px}
+.header svg{width:24px;height:24px;color:#fff}
+.header h1{font-size:18px;font-weight:600;color:#fff}
+.header .balance{margin-left:auto;text-align:right}
+.header .balance-label{font-size:11px;color:rgba(255,255,255,.7)}
+.header .balance-value{font-size:16px;font-weight:700;color:#fff}
+.tabs{display:flex;border-bottom:1px solid #3d3d5c;background:#252540}
+.tab{flex:1;padding:12px;text-align:center;font-size:13px;font-weight:500;color:#9CA3AF;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:#4DD0C2;border-bottom-color:#4DD0C2;background:rgba(77,208,194,.05)}
+.tab:hover:not(.active){color:#fff;background:rgba(255,255,255,.03)}
+.body{padding:20px 24px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;font-weight:500;color:#9CA3AF;margin-bottom:5px}
+.form-input{width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #3d3d5c;border-radius:8px;color:#fff;font-size:14px;font-family:inherit}
+.form-input:focus{outline:none;border-color:#4DD0C2}
+.form-input::placeholder{color:#6B7280}
+.form-input:disabled{opacity:.5;cursor:not-allowed}
+select.form-input{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.calc-box{background:#1a1a2e;border:1px solid #3d3d5c;border-radius:8px;padding:12px 16px;margin-bottom:14px}
+.calc-row{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.calc-row .label{color:#9CA3AF}
+.calc-row .value{font-size:18px;font-weight:700;color:#4DD0C2}
+.guild-select-btn{width:100%;padding:10px 14px;background:#1a1a2e;border:1px solid #3d3d5c;border-radius:8px;color:#9CA3AF;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:border-color .2s}
+.guild-select-btn:hover{border-color:#4DD0C2}
+.guild-select-btn svg{width:16px;height:16px;color:#4DD0C2}
+.guild-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.guild-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(77,208,194,.1);border:1px solid rgba(77,208,194,.3);border-radius:16px;font-size:11px;color:#4DD0C2}
+.guild-tag .remove{cursor:pointer;opacity:.7}
+.guild-tag .remove:hover{opacity:1}
+.submit-btn{width:100%;padding:12px;background:linear-gradient(135deg,#4DD0C2,#26A69A);border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s}
+.submit-btn:hover{opacity:.9}
+.submit-btn:disabled{opacity:.4;cursor:not-allowed}
+.notes{padding:16px 24px;border-top:1px solid #3d3d5c;background:#252540}
+.notes h4{font-size:12px;font-weight:600;color:#F59E0B;margin-bottom:8px}
+.notes ol{padding-left:18px;font-size:11px;color:#9CA3AF;line-height:1.8}
+.notes ol li::marker{color:#F59E0B}
+/* Multi mode table */
+.multi-table{width:100%;border-collapse:collapse;margin-bottom:12px}
+.multi-table th{font-size:11px;color:#9CA3AF;padding:6px 8px;text-align:left;border-bottom:1px solid #3d3d5c}
+.multi-table td{padding:6px 8px;font-size:12px;color:#fff;border-bottom:1px solid #3d3d5c}
+.multi-table input{width:80px;padding:6px 8px;background:#1a1a2e;border:1px solid #3d3d5c;border-radius:4px;color:#fff;font-size:12px;font-family:inherit}
+.multi-table input:focus{outline:none;border-color:#4DD0C2}
+.add-row-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(77,208,194,.1);border:1px solid rgba(77,208,194,.3);border-radius:6px;color:#4DD0C2;font-size:12px;cursor:pointer;transition:background .2s}
+.add-row-btn:hover{background:rgba(77,208,194,.2)}
+.del-btn{background:none;border:none;color:#EF4444;cursor:pointer;font-size:14px;padding:4px}
+.del-btn:hover{color:#DC2626}
+/* Upload mode */
+.upload-zone{border:2px dashed #3d3d5c;border-radius:8px;padding:30px;text-align:center;cursor:pointer;transition:border-color .2s}
+.upload-zone:hover{border-color:#4DD0C2}
+.upload-zone svg{width:32px;height:32px;color:#6B7280;margin-bottom:8px}
+.upload-zone p{font-size:13px;color:#9CA3AF}
+.upload-zone .hint{font-size:11px;color:#6B7280;margin-top:4px}
+.file-info{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#1a1a2e;border:1px solid #3d3d5c;border-radius:8px;margin-top:10px}
+.file-info .name{flex:1;font-size:12px;color:#fff;overflow:hidden;text-overflow:ellipsis}
+.file-info .size{font-size:11px;color:#6B7280}
+.file-info .remove-file{background:none;border:none;color:#EF4444;cursor:pointer;font-size:16px}
+.error-msg{font-size:11px;color:#EF4444;margin-top:4px;display:none}
+.error-msg.show{display:block}
+.limit-info{display:flex;justify-content:space-between;font-size:11px;color:#6B7280;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+    <h1>公會紅包申請</h1>
+    <div class="balance">
+      <div class="balance-label">可用餘額</div>
+      <div class="balance-value" id="balanceDisplay">1,250,000</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('single')">一組</div>
+    <div class="tab" onclick="switchTab('multi')">多組</div>
+    <div class="tab" onclick="switchTab('upload')">上傳</div>
+  </div>
+
+  <div class="body">
+    <div class="form-group">
+      <label>選擇可領取紅包公會</label>
+      <button class="guild-select-btn" onclick="openGuildSelect()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><rect x="9" y="13" width="6" height="8"/></svg>
+        點擊選擇公會（可多選）
+      </button>
+      <div class="guild-tags" id="guildTags">
+        <span class="guild-tag">龍之谷 <span class="remove" onclick="removeGuild(this)">✕</span></span>
+        <span class="guild-tag">皇家俱樂部 <span class="remove" onclick="removeGuild(this)">✕</span></span>
+      </div>
+    </div>
+
+    <div class="limit-info">
+      <span>今日已申請：<strong style="color:#fff">3</strong> / 10 次</span>
+      <span>餘額保留門檻：30,000</span>
+    </div>
+
+    <!-- Single Mode -->
+    <div id="tabSingle">
+      <div class="form-group">
+        <label>紅包數量</label>
+        <input type="number" class="form-input" id="singleQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcSingle()">
+      </div>
+      <div class="form-group">
+        <label>每包點數</label>
+        <input type="number" class="form-input" id="singleAmount" placeholder="每包 1,000 ~ 1,000,000 金幣" min="1000" max="1000000" oninput="calcSingle()">
+        <div class="error-msg" id="singleAmountErr">每包金額需介於 1,000 ~ 1,000,000</div>
+      </div>
+      <div class="form-group">
+        <label>領取次數</label>
+        <input type="number" class="form-input" id="singleTimes" placeholder="每組序號可領取次數" min="1" oninput="calcSingle()">
+      </div>
+      <div class="calc-box">
+        <div class="calc-row">
+          <span class="label">紅包申請總金額</span>
+          <span class="value" id="singleTotal">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi Mode -->
+    <div id="tabMulti" style="display:none">
+      <table class="multi-table">
+        <thead><tr><th>組別</th><th>數量</th><th>金額</th><th>次數</th><th>小計</th><th></th></tr></thead>
+        <tbody id="multiBody">
+          <tr><td>1</td><td><input type="number" value="5" min="1" onchange="calcMulti()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcMulti()"></td><td><input type="number" value="3" min="1" onchange="calcMulti()"></td><td class="subtotal">15,000</td><td><button class="del-btn" onclick="delMultiRow(this)">✕</button></td></tr>
+          <tr><td>2</td><td><input type="number" value="10" min="1" onchange="calcMulti()"></td><td><input type="number" value="5000" min="1000" max="1000000" onchange="calcMulti()"></td><td><input type="number" value="1" min="1" onchange="calcMulti()"></td><td class="subtotal">50,000</td><td><button class="del-btn" onclick="delMultiRow(this)">✕</button></td></tr>
+        </tbody>
+      </table>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <button class="add-row-btn" onclick="addMultiRow()">＋ 新增一組</button>
+        <span style="font-size:11px;color:#6B7280" id="multiCount">2 / 30 組</span>
+      </div>
+      <div class="calc-box" style="margin-top:12px">
+        <div class="calc-row">
+          <span class="label">多組申請總金額</span>
+          <span class="value" id="multiTotal">65,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Mode -->
+    <div id="tabUpload" style="display:none">
+      <div class="upload-zone" onclick="document.getElementById('csvFile').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>點擊上傳 CSV 檔案</p>
+        <div class="hint">格式：每列一包點數，僅需「獎品」欄位，上限 100 筆，檔案 ≤ 1KB</div>
+      </div>
+      <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
+      <div id="csvFileInfo" style="display:none"></div>
+      <div class="error-msg" id="csvError"></div>
+      <div class="calc-box" style="margin-top:12px">
+        <div class="calc-row">
+          <span class="label">CSV 申請總金額</span>
+          <span class="value" id="uploadTotal">0</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="submitApplication()">提交紅包申請</button>
+  </div>
+
+  <div class="notes">
+    <h4>⚠ 注意事項</h4>
+    <ol>
+      <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
+      <li>每日最高申請 10 次</li>
+      <li>多組模式每次最多 30 組，CSV 上傳最多 100 組</li>
+      <li>申請時直接扣除身上金幣，同步扣除凍結金幣</li>
+      <li>會長餘額最低需保留 30,000 金幣</li>
+      <li>紅包序號不限期，不受一般贈禮規範限制</li>
+      <li>非白名單公會需經官方審核通過後方可產生序號</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+var BALANCE = 1250000;
+var RESERVE = 30000;
+var MIN_AMOUNT = 1000;
+var MAX_AMOUNT = 1000000;
+var MAX_MULTI = 30;
+var MAX_CSV = 100;
+var DAILY_LIMIT = 10;
+var dailyUsed = 3;
+
+function switchTab(mode) {
+  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active', ['single','multi','upload'][i]===mode); });
+  document.getElementById('tabSingle').style.display = mode==='single'?'':'none';
+  document.getElementById('tabMulti').style.display = mode==='multi'?'':'none';
+  document.getElementById('tabUpload').style.display = mode==='upload'?'':'none';
+}
+
+function calcSingle() {
+  var qty = parseInt(document.getElementById('singleQty').value) || 0;
+  var amt = parseInt(document.getElementById('singleAmount').value) || 0;
+  var times = parseInt(document.getElementById('singleTimes').value) || 0;
+  var err = document.getElementById('singleAmountErr');
+  if (amt > 0 && (amt < MIN_AMOUNT || amt > MAX_AMOUNT)) { err.classList.add('show'); } else { err.classList.remove('show'); }
+  var total = qty * amt * times;
+  document.getElementById('singleTotal').textContent = total.toLocaleString();
+}
+
+function calcMulti() {
+  var rows = document.querySelectorAll('#multiBody tr');
+  var grand = 0;
+  rows.forEach(function(tr, i) {
+    var inputs = tr.querySelectorAll('input');
+    var q = parseInt(inputs[0].value) || 0;
+    var a = parseInt(inputs[1].value) || 0;
+    var t = parseInt(inputs[2].value) || 0;
+    var sub = q * a * t;
+    grand += sub;
+    tr.querySelector('.subtotal').textContent = sub.toLocaleString();
+    tr.querySelector('td:first-child').textContent = i + 1;
+  });
+  document.getElementById('multiTotal').textContent = grand.toLocaleString();
+  document.getElementById('multiCount').textContent = rows.length + ' / ' + MAX_MULTI + ' 組';
+}
+
+function addMultiRow() {
+  var tbody = document.getElementById('multiBody');
+  if (tbody.rows.length >= MAX_MULTI) { alert('已達上限 ' + MAX_MULTI + ' 組'); return; }
+  var n = tbody.rows.length + 1;
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td>' + n + '</td><td><input type="number" value="1" min="1" onchange="calcMulti()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcMulti()"></td><td><input type="number" value="1" min="1" onchange="calcMulti()"></td><td class="subtotal">1,000</td><td><button class="del-btn" onclick="delMultiRow(this)">✕</button></td>';
+  tbody.appendChild(tr);
+  calcMulti();
+}
+
+function delMultiRow(btn) {
+  var tbody = document.getElementById('multiBody');
+  if (tbody.rows.length <= 1) return;
+  btn.closest('tr').remove();
+  calcMulti();
+}
+
+function handleCSV(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var errEl = document.getElementById('csvError');
+  errEl.classList.remove('show');
+  if (file.size > 1024) { errEl.textContent = '檔案超過 1KB 限制'; errEl.classList.add('show'); input.value=''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var lines = e.target.result.trim().split('\n').filter(function(l){return l.trim();});
+    if (lines.length > MAX_CSV) { errEl.textContent = '超過 ' + MAX_CSV + ' 筆上限（目前 ' + lines.length + ' 筆）'; errEl.classList.add('show'); input.value=''; return; }
+    var total = 0; var invalid = false;
+    for (var i = 0; i < lines.length; i++) {
+      var v = parseInt(lines[i].trim());
+      if (isNaN(v) || v < MIN_AMOUNT || v > MAX_AMOUNT) { invalid = true; errEl.textContent = '第 ' + (i+1) + ' 行金額不合法（需 1,000~1,000,000）'; errEl.classList.add('show'); break; }
+      total += v;
+    }
+    if (!invalid) {
+      document.getElementById('uploadTotal').textContent = total.toLocaleString();
+      var info = document.getElementById('csvFileInfo');
+      info.style.display = '';
+      info.innerHTML = '<div class="file-info"><span class="name">' + file.name + '</span><span class="size">' + lines.length + ' 筆 / ' + (file.size/1024).toFixed(2) + 'KB</span><button class="remove-file" onclick="clearCSV()">✕</button></div>';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function clearCSV() {
+  document.getElementById('csvFile').value = '';
+  document.getElementById('csvFileInfo').style.display = 'none';
+  document.getElementById('uploadTotal').textContent = '0';
+}
+
+function openGuildSelect() { alert('（Demo）公會多選彈窗 - 可勾選多個公會作為紅包領取範圍'); }
+function removeGuild(el) { el.parentElement.remove(); }
+
+function submitApplication() {
+  if (dailyUsed >= DAILY_LIMIT) { alert('今日申請次數已達上限（' + DAILY_LIMIT + ' 次）'); return; }
+  var activeTab = document.querySelector('.tab.active').textContent.trim();
+  var total = 0;
+  if (activeTab === '一組') total = parseInt(document.getElementById('singleTotal').textContent.replace(/,/g,'')) || 0;
+  else if (activeTab === '多組') total = parseInt(document.getElementById('multiTotal').textContent.replace(/,/g,'')) || 0;
+  else total = parseInt(document.getElementById('uploadTotal').textContent.replace(/,/g,'')) || 0;
+  if (total === 0) { alert('請填寫紅包資訊'); return; }
+  if (total + RESERVE > BALANCE) { alert('餘額不足！需保留 30,000 金幣\n可用額度：' + (BALANCE - RESERVE).toLocaleString()); return; }
+  alert('✅ 紅包申請已提交！\n\n申請總金額：' + total.toLocaleString() + ' 金幣\n凍結金幣扣除：' + Math.min(total, 800000).toLocaleString() + '\n\n' + (true ? '⏳ 非白名單公會，需等待官方審核' : '✓ 白名單公會，自動通過'));
+}
+</script>
+</body>
+</html>

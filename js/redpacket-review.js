@@ -1,4 +1,4 @@
-// === 紅包審核 JS (v6 - 對齊系統按鈕+子頁面) ===
+// === 紅包審核 JS (v7 - 對齊開發文件：申請模式/凍結扣除/領取名單/公會範圍) ===
 var rpPage = 1;
 var rpPageSize = 10;
 var rpFilterStatus = '';
@@ -7,18 +7,18 @@ var rpFilterOrder = '';
 var rpFilterLeader = '';
 
 var rpData = [
-  {id:'RP20260520001',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'single',totalAmount:15000,frozenDeduct:15000,status:'pending',whitelist:false,time:'2026-05-20 09:30:15',reviewer:'',reviewTime:'',reason:''},
-  {id:'RP20260519002',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'multi',totalAmount:30000,frozenDeduct:30000,status:'approved',whitelist:true,time:'2026-05-19 14:20:33',reviewer:'superadmin',reviewTime:'2026-05-19 15:00:12',reason:''},
-  {id:'RP20260518003',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:20000,frozenDeduct:20000,status:'rejected',whitelist:false,time:'2026-05-18 22:00:45',reviewer:'casper',reviewTime:'2026-05-19 09:00:00',reason:'金額異常，請確認後重新申請'},
-  {id:'RP20260517004',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'upload',totalAmount:80000,frozenDeduct:80000,status:'approved',whitelist:false,time:'2026-05-17 11:00:22',reviewer:'superadmin',reviewTime:'2026-05-17 11:30:00',reason:''},
-  {id:'RP20260516005',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'multi',totalAmount:30000,frozenDeduct:25000,status:'pending',whitelist:false,time:'2026-05-16 08:45:10',reviewer:'',reviewTime:'',reason:''},
-  {id:'RP20260515006',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:60000,frozenDeduct:50000,status:'approved',whitelist:true,time:'2026-05-15 16:30:55',reviewer:'(自動)',reviewTime:'2026-05-15 16:30:55',reason:''},
-  {id:'RP20260514007',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:10000,frozenDeduct:10000,status:'expired',whitelist:false,time:'2026-05-14 20:15:00',reviewer:'superadmin',reviewTime:'2026-05-14 20:30:00',reason:''},
-  {id:'RP20260513008',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'upload',totalAmount:45000,frozenDeduct:45000,status:'rejected',whitelist:false,time:'2026-05-13 10:00:18',reviewer:'casper',reviewTime:'2026-05-13 14:00:00',reason:'CSV格式錯誤，第3行缺少領取次數'},
-  {id:'RP20260512009',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'multi',totalAmount:25000,frozenDeduct:25000,status:'done',whitelist:false,time:'2026-05-12 09:00:00',reviewer:'superadmin',reviewTime:'2026-05-12 09:15:00',reason:''},
-  {id:'RP20260511010',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:200000,frozenDeduct:150000,status:'pending',whitelist:true,time:'2026-05-11 13:00:44',reviewer:'',reviewTime:'',reason:''},
-  {id:'RP20260510011',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:15000,frozenDeduct:15000,status:'approved',whitelist:false,time:'2026-05-10 18:30:00',reviewer:'superadmin',reviewTime:'2026-05-10 19:00:00',reason:''},
-  {id:'RP20260509012',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'multi',totalAmount:40000,frozenDeduct:30000,status:'rejected',whitelist:false,time:'2026-05-09 07:00:00',reviewer:'casper',reviewTime:'2026-05-09 10:00:00',reason:'可領取對象不可為會長本人'},
+  {id:'RP20260520001',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'single',totalAmount:15000,frozenDeduct:15000,status:'pending',whitelist:false,time:'2026-05-20 09:30:15',reviewer:'',reviewTime:'',reason:'',guildScope:['龍之谷','星辰戰隊']},
+  {id:'RP20260519002',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'multi',totalAmount:30000,frozenDeduct:30000,status:'approved',whitelist:true,time:'2026-05-19 14:20:33',reviewer:'superadmin',reviewTime:'2026-05-19 15:00:12',reason:'',guildScope:['皇家俱樂部']},
+  {id:'RP20260518003',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:20000,frozenDeduct:20000,status:'rejected',whitelist:false,time:'2026-05-18 22:00:45',reviewer:'casper',reviewTime:'2026-05-19 09:00:00',reason:'金額異常，請確認後重新申請',guildScope:['星辰戰隊']},
+  {id:'RP20260517004',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'upload',totalAmount:80000,frozenDeduct:80000,status:'approved',whitelist:false,time:'2026-05-17 11:00:22',reviewer:'superadmin',reviewTime:'2026-05-17 11:30:00',reason:'',guildScope:['龍之谷','黃金獵人','星辰戰隊']},
+  {id:'RP20260516005',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'multi',totalAmount:30000,frozenDeduct:25000,status:'pending',whitelist:false,time:'2026-05-16 08:45:10',reviewer:'',reviewTime:'',reason:'',guildScope:['黃金獵人']},
+  {id:'RP20260515006',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:60000,frozenDeduct:50000,status:'approved',whitelist:true,time:'2026-05-15 16:30:55',reviewer:'(自動)',reviewTime:'2026-05-15 16:30:55',reason:'',guildScope:['皇家俱樂部','龍之谷']},
+  {id:'RP20260514007',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:10000,frozenDeduct:10000,status:'expired',whitelist:false,time:'2026-05-14 20:15:00',reviewer:'superadmin',reviewTime:'2026-05-14 20:30:00',reason:'',guildScope:['星辰戰隊']},
+  {id:'RP20260513008',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'upload',totalAmount:45000,frozenDeduct:45000,status:'rejected',whitelist:false,time:'2026-05-13 10:00:18',reviewer:'casper',reviewTime:'2026-05-13 14:00:00',reason:'CSV格式錯誤，第3行缺少領取次數',guildScope:['黃金獵人']},
+  {id:'RP20260512009',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'multi',totalAmount:25000,frozenDeduct:25000,status:'done',whitelist:false,time:'2026-05-12 09:00:00',reviewer:'superadmin',reviewTime:'2026-05-12 09:15:00',reason:'',guildScope:['龍之谷']},
+  {id:'RP20260511010',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:200000,frozenDeduct:150000,status:'pending',whitelist:true,time:'2026-05-11 13:00:44',reviewer:'',reviewTime:'',reason:'',guildScope:['皇家俱樂部','龍之谷','黃金獵人']},
+  {id:'RP20260510011',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:15000,frozenDeduct:15000,status:'approved',whitelist:false,time:'2026-05-10 18:30:00',reviewer:'superadmin',reviewTime:'2026-05-10 19:00:00',reason:'',guildScope:['星辰戰隊']},
+  {id:'RP20260509012',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'multi',totalAmount:40000,frozenDeduct:30000,status:'rejected',whitelist:false,time:'2026-05-09 07:00:00',reviewer:'casper',reviewTime:'2026-05-09 10:00:00',reason:'可領取對象不可為會長本人',guildScope:['黃金獵人','星辰戰隊']},
 ];
 
 function getRpFiltered() {
@@ -97,7 +97,7 @@ function renderRpTable() {
 
   var rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="11" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    rows = '<tr><td colspan="13" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item, idx) {
       var ops = '';
@@ -112,8 +112,10 @@ function renderRpTable() {
         '<td>' + item.guild + '</td>' +
         '<td><span style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;color:#7C3AED;font-size:11px;font-weight:500;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><rect x="9" y="13" width="6" height="8"/></svg>Lv.' + item.guildLv + '</span></td>' +
         '<td>' + item.leader + '</td>' +
+        '<td>' + rpModeText(item.mode) + '</td>' +
         '<td>' + item.time + '</td>' +
         '<td style="text-align:right">' + item.totalAmount.toLocaleString() + '</td>' +
+        '<td style="text-align:right">' + item.frozenDeduct.toLocaleString() + '</td>' +
         '<td>' + rpStatusText(item.status) + '</td>' +
         '<td>' + (item.reviewer || '-') + '</td>' +
         '<td>' + (item.reviewTime || '-') + '</td>' +
@@ -134,7 +136,7 @@ function renderRpTable() {
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table" style="white-space:nowrap"><thead><tr>' +
-    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請日期</th><th style="text-align:right">申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請模式</th><th>申請日期</th><th style="text-align:right">申請金額</th><th style="text-align:right">凍結扣除</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
@@ -267,7 +269,8 @@ function rpDetail(id) {
     ['公會等級', 'Lv.' + item.guildLv], ['會長帳號', item.leader],
     ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '是' : '否'],
     ['申請總金額', item.totalAmount.toLocaleString()], ['扣除凍結金幣', item.frozenDeduct.toLocaleString()],
-    ['審核狀態', rpStatusText(item.status)], ['申請時間', item.time]
+    ['審核狀態', rpStatusText(item.status)], ['申請時間', item.time],
+    ['可領取公會', (item.guildScope||[]).join('、')]
   ];
   if (item.reviewer) {
     fields.push(['審核人員', item.reviewer]);
@@ -286,13 +289,15 @@ function rpDetail(id) {
   // 序號列表（已通過才顯示）
   if (item.status === 'approved' || item.status === 'done') {
     html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">紅包序號</h4>';
-    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
+    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>剩餘/總次數</th><th>序號金幣</th><th>狀態</th><th>操作</th></tr></thead><tbody>';
     for (var s = 0; s < 3; s++) {
       var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
-      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">5</td><td style="text-align:right">1,000</td><td><a href="javascript:void(0)" style="color:#00bba7;font-size:12px">停用</a></td></tr>';
+      var remaining = item.status === 'done' ? 0 : (5 - Math.floor(Math.random()*3));
+      var snStatus = remaining === 0 ? '<span style="color:#6a7282">已領完</span>' : '<span style="color:#00bba7">使用中</span>';
+      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">' + remaining + ' / 5</td><td style="text-align:right">1,000</td><td>' + snStatus + '</td><td><a href="javascript:void(0)" onclick="rpShowRedemptions(\'' + sn + '\')" style="color:#00bba7;font-size:12px;margin-right:8px">領取名單</a><a href="javascript:void(0)" style="color:#EF4444;font-size:12px">停用</a></td></tr>';
     }
     html += '</tbody></table>';
-    html += '<div style="text-align:right"><a href="nova-redpacket-log.html" style="color:#00bba7;font-size:12px;font-weight:500">查看紅包紀錄 &rarr;</a></div>';
+    html += '</div>';
   }
 
   document.getElementById('rpDetailBody').innerHTML = html;
@@ -302,6 +307,32 @@ function rpDetail(id) {
 function closeRpModal(id) {
   var m = document.getElementById(id);
   if (m) m.classList.remove('show');
+}
+
+// === 領取名單 Modal ===
+function rpShowRedemptions(sn) {
+  var modal = document.getElementById('rpRedemptionModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.id = 'rpRedemptionModal';
+    modal.innerHTML = '<div class="modal" style="max-width:600px"><div class="modal-header"><h3>領取名單</h3><button class="modal-close" onclick="closeRpModal(\'rpRedemptionModal\')">&times;</button></div><div class="modal-body" id="rpRedemptionBody"></div></div>';
+    document.body.appendChild(modal);
+  }
+  // Mock redemption data
+  var mockMembers = ['Player_A01','Lucky777','GoldKing99','StarFish22','MoonWalk88'];
+  var mockGuilds = ['龍之谷','皇家俱樂部','星辰戰隊','黃金獵人'];
+  var html = '<p style="font-size:12px;color:#6B7280;margin-bottom:12px">序號：<strong style="color:#374151">' + sn + '</strong></p>';
+  html += '<table class="data-table"><thead><tr><th>順序</th><th>領取會員</th><th>所屬公會</th><th>領取時間</th><th>領取金幣</th></tr></thead><tbody>';
+  var count = 2 + Math.floor(Math.random() * 3);
+  for (var i = 0; i < count; i++) {
+    var d = new Date(2026, 4, 20 - i, 10 + i, Math.floor(Math.random()*60));
+    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + mockMembers[i % mockMembers.length] + '</td><td>' + mockGuilds[i % mockGuilds.length] + '</td><td>' + d.toISOString().slice(0,19).replace('T',' ') + '</td><td style="text-align:right">1,000</td></tr>';
+  }
+  html += '</tbody></table>';
+  html += '<p style="font-size:11px;color:#9CA3AF;margin-top:10px">※ 同一會員對同一序號僅限領取一次</p>';
+  document.getElementById('rpRedemptionBody').innerHTML = html;
+  modal.classList.add('show');
 }
 
 document.addEventListener('DOMContentLoaded', function() {

@@ -48,6 +48,7 @@
             { name: '提領監控', href: 'nova-guild-withdraw.html' },
             { name: '操作記錄', href: 'nova-guild-log.html' },
             { name: '貢獻查詢', href: 'nova-guild-contribution.html' },
+            { name: '紅包申請(前端)', href: 'nova-redpacket-apply.html' },
             { name: '紅包審核', href: 'nova-redpacket-review.html' },
             { name: '紅包紀錄', href: 'nova-redpacket-log.html' }
           ]
