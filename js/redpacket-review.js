@@ -1,4 +1,4 @@
-// === 紅包審核 JS (v7 - 對齊開發文件：申請模式/凍結扣除/領取名單/公會範圍) ===
+// === 紅包審核 JS (v8 - 完整對齊開發文件：駁回退回/停用序號/公會範圍檢核/白名單標記) ===
 var rpPage = 1;
 var rpPageSize = 10;
 var rpFilterStatus = '';
@@ -217,7 +217,7 @@ function rpReject(id) {
       '<div class="modal" style="max-width:420px">' +
         '<div class="modal-header"><h3>駁回紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
         '<div class="modal-body">' +
-          '<p style="font-size:12px;color:#6B7280;margin-bottom:12px">駁回後將退回會長身上金幣並恢復凍結金幣數值。</p>' +
+          '<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;margin-bottom:12px"><p style="font-size:12px;color:#991B1B;margin:0"><strong>⚠ 駁回後系統將自動執行：</strong></p><ul style="font-size:11px;color:#991B1B;margin:6px 0 0 16px;padding:0"><li>退回會長身上金幣（申請總金額）</li><li>恢復本次同步扣除的凍結金幣數值</li></ul></div>' +
           '<div class="form-group"><label>駁回原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea></div>' +
         '</div>' +
         '<div class="modal-footer">' +
@@ -267,7 +267,7 @@ function rpDetail(id) {
   var fields = [
     ['申請單號', item.id], ['公會名稱', item.guild],
     ['公會等級', 'Lv.' + item.guildLv], ['會長帳號', item.leader],
-    ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '是' : '否'],
+    ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '<span style="color:#00bba7;font-weight:600">是（自動通過）</span>' : '<span style="color:#6a7282">否（需人工審核）</span>'],
     ['申請總金額', item.totalAmount.toLocaleString()], ['扣除凍結金幣', item.frozenDeduct.toLocaleString()],
     ['審核狀態', rpStatusText(item.status)], ['申請時間', item.time],
     ['可領取公會', (item.guildScope||[]).join('、')]
@@ -294,7 +294,7 @@ function rpDetail(id) {
       var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
       var remaining = item.status === 'done' ? 0 : (5 - Math.floor(Math.random()*3));
       var snStatus = remaining === 0 ? '<span style="color:#6a7282">已領完</span>' : '<span style="color:#00bba7">使用中</span>';
-      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">' + remaining + ' / 5</td><td style="text-align:right">1,000</td><td>' + snStatus + '</td><td><a href="javascript:void(0)" onclick="rpShowRedemptions(\'' + sn + '\')" style="color:#00bba7;font-size:12px;margin-right:8px">領取名單</a><a href="javascript:void(0)" style="color:#EF4444;font-size:12px">停用</a></td></tr>';
+      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">' + remaining + ' / 5</td><td style="text-align:right">1,000</td><td>' + snStatus + '</td><td><a href="javascript:void(0)" onclick="rpShowRedemptions(\'' + sn + '\')" style="color:#00bba7;font-size:12px;margin-right:8px">領取名單</a><a href="javascript:void(0)" onclick="rpDisableSerial(\'' + sn + '\')" style="color:#EF4444;font-size:12px">停用</a></td></tr>';
     }
     html += '</tbody></table>';
     html += '</div>';
@@ -316,23 +316,31 @@ function rpShowRedemptions(sn) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpRedemptionModal';
-    modal.innerHTML = '<div class="modal" style="max-width:600px"><div class="modal-header"><h3>領取名單</h3><button class="modal-close" onclick="closeRpModal(\'rpRedemptionModal\')">&times;</button></div><div class="modal-body" id="rpRedemptionBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:650px"><div class="modal-header"><h3>領取名單</h3><button class="modal-close" onclick="closeRpModal(\'rpRedemptionModal\')">&times;</button></div><div class="modal-body" id="rpRedemptionBody"></div></div>';
     document.body.appendChild(modal);
   }
   // Mock redemption data
   var mockMembers = ['Player_A01','Lucky777','GoldKing99','StarFish22','MoonWalk88'];
   var mockGuilds = ['龍之谷','皇家俱樂部','星辰戰隊','黃金獵人'];
   var html = '<p style="font-size:12px;color:#6B7280;margin-bottom:12px">序號：<strong style="color:#374151">' + sn + '</strong></p>';
-  html += '<table class="data-table"><thead><tr><th>順序</th><th>領取會員</th><th>所屬公會</th><th>領取時間</th><th>領取金幣</th></tr></thead><tbody>';
+  html += '<table class="data-table"><thead><tr><th>順序</th><th>領取會員</th><th>所屬公會</th><th>公會範圍檢核</th><th>領取時間</th><th>領取金幣</th></tr></thead><tbody>';
   var count = 2 + Math.floor(Math.random() * 3);
   for (var i = 0; i < count; i++) {
     var d = new Date(2026, 4, 20 - i, 10 + i, Math.floor(Math.random()*60));
-    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + mockMembers[i % mockMembers.length] + '</td><td>' + mockGuilds[i % mockGuilds.length] + '</td><td>' + d.toISOString().slice(0,19).replace('T',' ') + '</td><td style="text-align:right">1,000</td></tr>';
+    var guildMatch = i < count - 1 ? '<span style="color:#00bba7">✓ 符合</span>' : '<span style="color:#00bba7">✓ 符合</span>';
+    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + mockMembers[i % mockMembers.length] + '</td><td>' + mockGuilds[i % mockGuilds.length] + '</td><td style="text-align:center">' + guildMatch + '</td><td>' + d.toISOString().slice(0,19).replace('T',' ') + '</td><td style="text-align:right">1,000</td></tr>';
   }
   html += '</tbody></table>';
-  html += '<p style="font-size:11px;color:#9CA3AF;margin-top:10px">※ 同一會員對同一序號僅限領取一次</p>';
+  html += '<div style="margin-top:10px;padding:10px 12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;font-size:11px;color:#166534"><strong>領取檢核規則：</strong>序號存在 → 剩餘份數 > 0 → 未重複領取 → 符合公會範圍 → 發放金幣</div>';
   document.getElementById('rpRedemptionBody').innerHTML = html;
   modal.classList.add('show');
+}
+
+// === 停用序號確認 ===
+function rpDisableSerial(sn) {
+  if (confirm('確定要停用序號 ' + sn + '？\n\n停用後該序號將無法再被領取。')) {
+    alert('✅ 序號 ' + sn + ' 已停用');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
