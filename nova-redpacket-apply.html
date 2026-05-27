@@ -4,58 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>星運娛樂城 - 公會紅包申請</title>
-<link rel="stylesheet" href="css/frontend.css?v=e5b9c11">
 <style>
-/* Phone frame wrapper */
-body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 .phone-frame{position:relative;width:385px;height:780px;border-radius:50px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 80px rgba(0,0,0,0.6);overflow:hidden}
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
-.phone-frame .mobile-frame{max-width:none;height:100%;overflow-y:auto;scrollbar-width:none}
-.phone-frame .mobile-frame::-webkit-scrollbar{display:none}
-/* Guild page styles */
-.guild-page{padding:60px 16px 80px;min-height:100%}
-.guild-banner{background:linear-gradient(135deg,#991b1b,#7f1d1d);border-radius:16px;padding:20px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden}
-.guild-banner::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;background:rgba(245,166,35,.15);border-radius:50%}
-.guild-banner .guild-title{font-size:20px;font-weight:700;margin-bottom:4px}
-.guild-banner .guild-role{font-size:12px;color:rgba(255,255,255,.7);background:rgba(245,166,35,.3);display:inline-block;padding:2px 8px;border-radius:8px;margin-bottom:10px}
-.guild-banner .guild-stats{display:flex;gap:16px;font-size:12px;color:rgba(255,255,255,.8)}
-.guild-banner .guild-stats span{display:flex;align-items:center;gap:4px}
-.guild-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.guild-action-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;cursor:pointer;transition:all .2s}
-.guild-action-btn:hover{border-color:#f59e0b;box-shadow:0 2px 8px rgba(245,166,35,.15)}
-.guild-action-btn.highlight{background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(217,119,6,.05));border-color:rgba(245,166,35,.3)}
-.guild-action-btn svg{width:28px;height:28px}
-.guild-action-btn .action-label{font-size:12px;font-weight:500;color:#452201}
-.guild-members-section{background:#fff;border-radius:14px;padding:14px 16px;border:1px solid rgba(0,0,0,.06)}
-.guild-members-section h3{font-size:14px;font-weight:600;color:#452201;margin-bottom:10px}
-.guild-member-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04)}
-.guild-member-row:last-child{border:none}
-.guild-member-row .avatar-sm{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600}
-.guild-member-row .member-name{flex:1;font-size:13px;color:#452201}
-.guild-member-row .member-role{font-size:11px;color:rgba(69,34,1,.4)}
-.rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:flex-end;justify-content:center}
-.rp-dialog{width:100%;max-width:393px;max-height:85dvh;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
+.screen{width:100%;height:100%;overflow-y:auto;background:#4a0e0e;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.guild-tabs{display:flex;background:linear-gradient(180deg,#f5c842 0%,#e8a020 100%);border-radius:0 0 16px 16px;padding:50px 8px 10px;gap:4px;position:sticky;top:0;z-index:50}
+.guild-tabs button{flex:1;padding:8px 4px;font-size:13px;font-weight:600;border:none;border-radius:20px;cursor:pointer;background:transparent;color:#7a4a00}
+.guild-tabs button.active{background:#fff;color:#d97706;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.guild-profile{display:flex;align-items:center;padding:16px;gap:12px}
+.guild-emblem{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#d4a017);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.guild-emblem .lv-num{font-size:24px;font-weight:900;color:#fff}
+.guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:1px}
+.guild-meta{flex:1}
+.guild-meta .name{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
+.guild-meta .level{font-size:12px;color:#f5c842}
+.guild-btns{display:flex;gap:8px;padding:0 16px 12px}
+.guild-btns button{flex:1;padding:8px 0;border:none;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-community{background:linear-gradient(135deg,#f5a623,#e8960c);color:#fff}
+.btn-settings{background:#4dd0c2;color:#fff}
+.guild-desc{margin:0 16px 12px;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;color:rgba(255,255,255,.6);font-size:12px;line-height:1.6}
+.gold-section{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:16px;text-align:center}
+.gold-section .icon-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
+.gold-section .icon-circle{width:32px;height:32px;border-radius:50%;background:#4caf50;display:flex;align-items:center;justify-content:center;font-size:16px}
+.gold-section .gold-label{font-size:13px;color:#f5c842;font-weight:600}
+.gold-section .gold-value{font-size:28px;font-weight:900;color:#fff;margin:4px 0}
+.gold-section .chevrons{color:#f5c842;font-size:18px;margin:6px 0}
+.gold-section .treasury{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.gold-section .treasury-val{font-size:20px;font-weight:700;color:#fff;margin-bottom:12px}
+.gold-actions{display:flex;gap:8px;justify-content:center}
+.gold-actions button{padding:10px 20px;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-withdraw{background:#4dd0c2;color:#fff}
+.btn-redpacket{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;box-shadow:0 2px 8px rgba(244,67,54,.4)}
+.officers{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:14px 16px}
+.officers h3{font-size:13px;color:#f5c842;font-weight:600;margin-bottom:10px}
+.officer-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
+.officer-row:last-child{border:none}
+.officer-row .role{color:rgba(255,255,255,.5)}
+.officer-row .name{color:#fff;font-weight:500}
+.bottom-deco{height:60px;background:linear-gradient(0deg,rgba(245,166,35,.2),transparent);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:20px;letter-spacing:4px}
+.rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
 .rp-header h2{color:#452201;font-size:18px;font-weight:700}
 .rp-close{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .rp-close svg{width:16px;height:16px;color:#452201}
-.rp-tabs{display:flex;gap:4px;background:linear-gradient(135deg,#F5A623,#E8960C);border-radius:9999px;margin:12px 16px;padding:3px}
-.rp-tabs button{flex:1;padding:8px 0;font-size:14px;font-weight:500;color:#fff;background:none;border:none;cursor:pointer;transition:all .2s;border-radius:9999px}
-.rp-tabs button.active{color:#452201;background:#fff;font-weight:700}
+.rp-tabs-inner{display:flex;gap:4px;background:linear-gradient(135deg,#F5A623,#E8960C);border-radius:9999px;margin:12px 16px;padding:3px}
+.rp-tabs-inner button{flex:1;padding:8px 0;font-size:14px;font-weight:500;color:#fff;background:none;border:none;cursor:pointer;border-radius:9999px}
+.rp-tabs-inner button.active{color:#452201;background:#fff;font-weight:700}
 .rp-body{padding:0 16px}
 .rp-balance{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px 16px;margin-bottom:12px}
 .rp-balance .label{font-size:12px;color:rgba(69,34,1,.5)}
 .rp-balance .value{font-size:18px;font-weight:700;color:#452201}
-.rp-balance .coin-icon{width:20px;height:20px;margin-right:6px}
 .rp-limit{display:flex;justify-content:space-between;font-size:11px;color:rgba(69,34,1,.5);margin-bottom:12px;padding:0 4px}
-.rp-guild-btn{width:100%;padding:12px 16px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;color:#452201;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:8px;transition:border-color .2s}
-.rp-guild-btn:hover{border-color:#f59e0b}
-.rp-guild-btn svg{width:18px;height:18px;color:#d97706}
-.rp-guild-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:0 4px}
-.rp-guild-tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:linear-gradient(135deg,rgba(245,166,35,.1),rgba(217,119,6,.1));border:1px solid rgba(245,166,35,.3);border-radius:16px;font-size:11px;color:#d97706;font-weight:500}
-.rp-guild-tag .remove{cursor:pointer;opacity:.7;font-size:12px}
-.rp-guild-tag .remove:hover{opacity:1}
 .rp-form-group{margin-bottom:12px}
 .rp-form-group label{display:block;font-size:12px;font-weight:500;color:rgba(69,34,1,.6);margin-bottom:5px;padding-left:4px}
 .rp-input{width:100%;padding:10px 14px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;color:#452201;font-size:14px;font-family:inherit}
@@ -65,129 +70,84 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .rp-calc .row{display:flex;justify-content:space-between;align-items:center}
 .rp-calc .label{font-size:12px;color:rgba(69,34,1,.5)}
 .rp-calc .value{font-size:20px;font-weight:700;color:#991b1b}
-.rp-submit{width:100%;padding:12px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(217,119,6,.3);transition:opacity .2s}
-.rp-submit:hover{opacity:.9}
+.rp-submit{width:100%;padding:12px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(217,119,6,.3)}
 .rp-submit:disabled{opacity:.4;cursor:not-allowed}
 .rp-error{font-size:11px;color:#dc2626;margin-top:4px;padding-left:4px;display:none}
 .rp-error.show{display:block}
 .rp-notes{margin:16px 0 0;padding:14px 16px;background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:12px}
-.rp-notes h4{font-size:12px;font-weight:600;color:#d97706;margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.rp-notes h4{font-size:12px;font-weight:600;color:#d97706;margin-bottom:8px}
 .rp-notes ol{padding-left:16px;font-size:11px;color:rgba(69,34,1,.6);line-height:1.9}
-/* Multi table */
 .rp-multi-table{width:100%;border-collapse:collapse;margin-bottom:10px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
 .rp-multi-table th{font-size:11px;color:rgba(69,34,1,.5);padding:8px 6px;text-align:center;background:rgba(245,166,35,.05);border-bottom:1px solid rgba(0,0,0,.06)}
 .rp-multi-table td{padding:6px;text-align:center;font-size:12px;color:#452201;border-bottom:1px solid rgba(0,0,0,.04)}
-.rp-multi-table input{width:70px;padding:6px 8px;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:6px;color:#452201;font-size:12px;font-family:inherit;text-align:center}
+.rp-multi-table input{width:60px;padding:6px;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:6px;color:#452201;font-size:12px;text-align:center}
 .rp-multi-table input:focus{outline:none;border-color:#f59e0b}
-.rp-add-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;color:#d97706;font-size:12px;font-weight:500;cursor:pointer;transition:background .2s}
-.rp-add-btn:hover{background:rgba(245,166,35,.15)}
-.rp-del{background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;padding:4px 6px;border-radius:4px}
-.rp-del:hover{background:rgba(220,38,38,.05)}
-/* Upload */
-.rp-upload{border:2px dashed rgba(245,166,35,.4);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:border-color .2s;background:rgba(245,166,35,.02)}
+.rp-add-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;color:#d97706;font-size:12px;font-weight:500;cursor:pointer}
+.rp-del{background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;padding:4px 6px}
+.rp-upload{border:2px dashed rgba(245,166,35,.4);border-radius:12px;padding:28px;text-align:center;cursor:pointer;background:rgba(245,166,35,.02)}
 .rp-upload:hover{border-color:#f59e0b}
 .rp-upload svg{width:32px;height:32px;color:#d97706;margin-bottom:8px}
 .rp-upload p{font-size:13px;color:#452201}
 .rp-upload .hint{font-size:11px;color:rgba(69,34,1,.4);margin-top:4px}
 .rp-file-info{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;margin-top:10px}
-.rp-file-info .name{flex:1;font-size:12px;color:#452201;overflow:hidden;text-overflow:ellipsis}
+.rp-file-info .name{flex:1;font-size:12px;color:#452201}
 .rp-file-info .size{font-size:11px;color:rgba(69,34,1,.4)}
 .rp-file-info .remove-file{background:none;border:none;color:#dc2626;cursor:pointer;font-size:16px}
 </style>
 </head>
 <body>
 <div class="phone-frame">
-<div class="mobile-frame">
-<header class="header">
-<div class="header-left">
-<div class="avatar"><img src="assets/user_avatar.png" alt="avatar"></div>
-<div class="user-info">
-<span class="username">GuildMaster</span>
-<div class="user-badges">
-<span class="badge-vip">會長</span>
-</div></div></div>
-<div class="header-right">
-<div class="coin-display">
-<div class="coin-icon"><img src="assets/icon_coin_gold.png" alt="coin"></div>
-<div class="coin-amount"><span id="headerBalance">1,250,000</span></div>
+<div class="screen">
+<div class="guild-tabs">
+  <button class="active">我的公會</button>
+  <button onclick="alert('Demo')">所有公會</button>
+  <button onclick="alert('Demo')">公會說明</button>
 </div>
+<div class="guild-profile">
+  <div class="guild-emblem"><span class="lv-num">0</span><span class="lv-label">LEVEL</span></div>
+  <div class="guild-meta"><div class="name">龍之谷</div><div class="level">Lv.0</div></div>
 </div>
-</header>
-
-<!-- 公會主頁 -->
-<div class="guild-page" id="guildPage">
-  <div class="guild-banner">
-    <div class="guild-role">👑 會長</div>
-    <div class="guild-title">龍之谷</div>
-    <div class="guild-stats">
-      <span>👥 成員 128</span>
-      <span>💰 公會資金 5,800,000</span>
-    </div>
-  </div>
-
-  <div class="guild-actions">
-    <div class="guild-action-btn highlight" onclick="openRP()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8V3M7 8l5-5 5 5"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9" y1="14.5" x2="15" y2="14.5"/></svg>
-      <span class="action-label">紅包申請</span>
-    </div>
-    <div class="guild-action-btn" onclick="alert('（Demo）公會成員管理')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      <span class="action-label">成員管理</span>
-    </div>
-    <div class="guild-action-btn" onclick="alert('（Demo）貢獻排行')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
-      <span class="action-label">貢獻排行</span>
-    </div>
-    <div class="guild-action-btn" onclick="alert('（Demo）公會設定')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#452201" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15 1.65 1.65 0 003 14.08V14a2 2 0 014 0v.09"/></svg>
-      <span class="action-label">公會設定</span>
-    </div>
-  </div>
-
-  <div class="guild-members-section">
-    <h3>公會成員</h3>
-    <div class="guild-member-row"><div class="avatar-sm">M</div><div class="member-name">GuildMaster</div><div class="member-role">會長</div></div>
-    <div class="guild-member-row"><div class="avatar-sm">V</div><div class="member-name">ViceLeader01</div><div class="member-role">副會長</div></div>
-    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_A</div><div class="member-role">成員</div></div>
-    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_B</div><div class="member-role">成員</div></div>
-    <div class="guild-member-row"><div class="avatar-sm">P</div><div class="member-name">Player_C</div><div class="member-role">成員</div></div>
+<div class="guild-btns">
+  <button class="btn-community">進入社群</button>
+  <button class="btn-settings">⚙ 設定</button>
+</div>
+<div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
+<div class="gold-section">
+  <div class="icon-row"><div class="icon-circle">🍀</div><span class="gold-label">公會累積金幣</span></div>
+  <div class="gold-value">1,250,000</div>
+  <div class="chevrons">▲▲</div>
+  <div class="treasury">金庫餘額</div>
+  <div class="treasury-val">850,000</div>
+  <div class="gold-actions">
+    <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
+    <button class="btn-redpacket" onclick="openRP()">🧧 紅包申請</button>
   </div>
 </div>
+<div class="officers">
+  <h3>公會幹部</h3>
+  <div class="officer-row"><span class="role">會長</span><span class="name">GuildMaster</span></div>
+  <div class="officer-row"><span class="role">副會長</span><span class="name">ViceLeader01</span></div>
+  <div class="officer-row"><span class="role">創會會長</span><span class="name">GuildMaster</span></div>
+</div>
+<div class="bottom-deco">💰🪙💎💵🪙💰</div>
+</div>
+</div>
 
-<!-- 紅包申請彈窗 -->
-<div class="rp-overlay" id="rpOverlay" style="display:none">
+<!-- Red packet overlay -->
+<div class="rp-overlay" id="rpOverlay">
 <div class="rp-dialog">
   <div class="rp-header">
     <h2>公會紅包申請</h2>
     <div class="rp-close" onclick="closeRP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
   </div>
-
-  <div class="rp-tabs">
-    <button class="active" onclick="rpSwitchTab('single')">一組</button>
-    <button onclick="rpSwitchTab('multi')">多組</button>
-    <button onclick="rpSwitchTab('upload')">上傳</button>
+  <div class="rp-tabs-inner">
+    <button class="active" onclick="rpTab('single')">一組</button>
+    <button onclick="rpTab('multi')">多組</button>
+    <button onclick="rpTab('upload')">上傳</button>
   </div>
-
   <div class="rp-body">
-    <div class="rp-balance">
-      <div><span class="label">可用餘額</span></div>
-      <div style="display:flex;align-items:center"><img src="assets/icon_coin_gold.png" class="coin-icon"><span class="value" id="balanceVal">1,250,000</span></div>
-    </div>
-
-    <div class="rp-limit">
-      <span>今日已申請：<strong style="color:#452201">3</strong> / 10 次</span>
-      <span>保留門檻：30,000</span>
-    </div>
-
-    <button class="rp-guild-btn" onclick="alert('（Demo）公會多選彈窗')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><rect x="9" y="13" width="6" height="8"/></svg>
-      選擇可領取紅包公會（可多選）
-    </button>
-    <div class="rp-guild-tags" id="guildTags">
-      <span class="rp-guild-tag">龍之谷 <span class="remove" onclick="this.parentElement.remove()">✕</span></span>
-      <span class="rp-guild-tag">皇家俱樂部 <span class="remove" onclick="this.parentElement.remove()">✕</span></span>
-    </div>
-
+    <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value" id="balVal">1,250,000</span></div></div>
+    <div class="rp-limit"><span>今日已申請：<strong style="color:#452201">3</strong> / 10 次</span><span>保留門檻：30,000</span></div>
     <!-- Single -->
     <div id="tabSingle">
       <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
@@ -195,99 +155,75 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
       <div class="rp-form-group"><label>領取次數</label><input type="number" class="rp-input" id="sTimes" placeholder="每組序號可領取次數" min="1" oninput="calcS()"></div>
       <div class="rp-calc"><div class="row"><span class="label">紅包申請總金額</span><span class="value" id="sTotal">0</span></div></div>
     </div>
-
     <!-- Multi -->
     <div id="tabMulti" style="display:none">
-      <table class="rp-multi-table">
-        <thead><tr><th>組</th><th>數量</th><th>金額</th><th>次數</th><th>小計</th><th></th></tr></thead>
-        <tbody id="mBody">
-          <tr><td>1</td><td><input type="number" value="5" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="3" min="1" onchange="calcM()"></td><td class="sub">15,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr>
-          <tr><td>2</td><td><input type="number" value="10" min="1" onchange="calcM()"></td><td><input type="number" value="5000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">50,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr>
-        </tbody>
-      </table>
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <button class="rp-add-btn" onclick="addM()">＋ 新增一組</button>
-        <span style="font-size:11px;color:rgba(69,34,1,.4)" id="mCount">2 / 30 組</span>
-      </div>
+      <table class="rp-multi-table"><thead><tr><th>組</th><th>數量</th><th>金額</th><th>次數</th><th>小計</th><th></th></tr></thead>
+      <tbody id="mBody"><tr><td>1</td><td><input type="number" value="5" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="3" min="1" onchange="calcM()"></td><td class="sub">15,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr>
+      <tr><td>2</td><td><input type="number" value="10" min="1" onchange="calcM()"></td><td><input type="number" value="5000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">50,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr></tbody></table>
+      <div style="display:flex;justify-content:space-between;align-items:center"><button class="rp-add-btn" onclick="addM()">＋ 新增一組</button><span style="font-size:11px;color:rgba(69,34,1,.4)" id="mCount">2 / 30 組</span></div>
       <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">多組申請總金額</span><span class="value" id="mTotal">65,000</span></div></div>
     </div>
-
     <!-- Upload -->
     <div id="tabUpload" style="display:none">
-      <div class="rp-upload" onclick="document.getElementById('csvFile').click()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-        <p>點擊上傳 CSV 檔案</p>
-        <div class="hint">格式：每列一包點數，僅需「獎品」欄位，上限 100 筆，≤ 1KB</div>
-      </div>
+      <div class="rp-upload" onclick="document.getElementById('csvFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p>點擊上傳 CSV 檔案</p><div class="hint">格式：每列一包點數，上限 100 筆，≤ 1KB</div></div>
       <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
       <div id="csvInfo" style="display:none"></div>
       <div class="rp-error" id="csvErr"></div>
       <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">CSV 申請總金額</span><span class="value" id="uTotal">0</span></div></div>
     </div>
-
     <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
-
-    <div class="rp-notes">
-      <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>注意事項</h4>
-      <ol>
-        <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
-        <li>每日最高申請 10 次</li>
-        <li>多組模式每次最多 30 組，CSV 上傳最多 100 組</li>
-        <li>申請時直接扣除身上金幣，同步扣除凍結金幣</li>
-        <li>會長餘額最低需保留 30,000 金幣</li>
-        <li>紅包序號不限期，不受一般贈禮規範限制</li>
-        <li>非白名單公會需經官方審核通過後方可產生序號</li>
-      </ol>
-    </div>
-    </div>
+    <div class="rp-notes"><h4>⚠ 注意事項</h4><ol>
+      <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
+      <li>每日最高申請 10 次</li>
+      <li>多組模式每次最多 30 組，CSV 上傳最多 100 組</li>
+      <li>申請時直接扣除身上金幣，同步扣除凍結金幣</li>
+      <li>會長餘額最低需保留 30,000 金幣</li>
+      <li>紅包序號不限期，不受一般贈禮規範限制</li>
+      <li>非白名單公會需經官方審核通過後方可產生序號</li>
+    </ol></div>
   </div>
+</div>
 </div>
 
 <script>
 var BAL=1250000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
 function openRP(){document.getElementById('rpOverlay').style.display='flex';}
 function closeRP(){document.getElementById('rpOverlay').style.display='none';}
-function rpSwitchTab(t){
-  document.querySelectorAll('.rp-tabs button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
+function rpTab(t){
+  document.querySelectorAll('.rp-tabs-inner button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
   document.getElementById('tabSingle').style.display=t==='single'?'':'none';
   document.getElementById('tabMulti').style.display=t==='multi'?'':'none';
   document.getElementById('tabUpload').style.display=t==='upload'?'':'none';
 }
 function calcS(){
-  var q=parseInt(document.getElementById('sQty').value)||0;
-  var a=parseInt(document.getElementById('sAmt').value)||0;
-  var t=parseInt(document.getElementById('sTimes').value)||0;
+  var q=parseInt(document.getElementById('sQty').value)||0,a=parseInt(document.getElementById('sAmt').value)||0,t=parseInt(document.getElementById('sTimes').value)||0;
   var err=document.getElementById('sAmtErr');
-  if(a>0&&(a<MIN||a>MAX)){err.classList.add('show');}else{err.classList.remove('show');}
+  if(a>0&&(a<MIN||a>MAX))err.classList.add('show');else err.classList.remove('show');
   document.getElementById('sTotal').textContent=(q*a*t).toLocaleString();
 }
 function calcM(){
-  var rows=document.querySelectorAll('#mBody tr');var g=0;
+  var rows=document.querySelectorAll('#mBody tr'),g=0;
   rows.forEach(function(tr,i){var inp=tr.querySelectorAll('input');var s=(parseInt(inp[0].value)||0)*(parseInt(inp[1].value)||0)*(parseInt(inp[2].value)||0);g+=s;tr.querySelector('.sub').textContent=s.toLocaleString();tr.querySelector('td:first-child').textContent=i+1;});
   document.getElementById('mTotal').textContent=g.toLocaleString();
   document.getElementById('mCount').textContent=rows.length+' / '+MAXM+' 組';
 }
-function addM(){
-  var tb=document.getElementById('mBody');if(tb.rows.length>=MAXM){alert('已達上限 '+MAXM+' 組');return;}
-  var tr=document.createElement('tr');tr.innerHTML='<td>'+(tb.rows.length+1)+'</td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">1,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td>';
-  tb.appendChild(tr);calcM();
-}
+function addM(){var tb=document.getElementById('mBody');if(tb.rows.length>=MAXM){alert('已達上限');return;}var tr=document.createElement('tr');tr.innerHTML='<td>'+(tb.rows.length+1)+'</td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">1,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td>';tb.appendChild(tr);calcM();}
 function delM(btn){var tb=document.getElementById('mBody');if(tb.rows.length<=1)return;btn.closest('tr').remove();calcM();}
 function handleCSV(input){
   var f=input.files[0];if(!f)return;var err=document.getElementById('csvErr');err.classList.remove('show');
   if(f.size>1024){err.textContent='檔案超過 1KB 限制';err.classList.add('show');input.value='';return;}
   var r=new FileReader();r.onload=function(e){
     var lines=e.target.result.trim().split('\n').filter(function(l){return l.trim();});
-    if(lines.length>MAXCSV){err.textContent='超過 '+MAXCSV+' 筆上限（目前 '+lines.length+' 筆）';err.classList.add('show');input.value='';return;}
+    if(lines.length>MAXCSV){err.textContent='超過 '+MAXCSV+' 筆上限';err.classList.add('show');input.value='';return;}
     var total=0,bad=false;
     for(var i=0;i<lines.length;i++){var v=parseInt(lines[i].trim());if(isNaN(v)||v<MIN||v>MAX){bad=true;err.textContent='第 '+(i+1)+' 行金額不合法';err.classList.add('show');break;}total+=v;}
-    if(!bad){document.getElementById('uTotal').textContent=total.toLocaleString();var info=document.getElementById('csvInfo');info.style.display='';info.innerHTML='<div class="rp-file-info"><span class="name">'+f.name+'</span><span class="size">'+lines.length+' 筆</span><button class="remove-file" onclick="clearCSV()">✕</button></div>';}
+    if(!bad){document.getElementById('uTotal').textContent=total.toLocaleString();document.getElementById('csvInfo').style.display='';document.getElementById('csvInfo').innerHTML='<div class="rp-file-info"><span class="name">'+f.name+'</span><span class="size">'+lines.length+' 筆</span><button class="remove-file" onclick="clearCSV()">✕</button></div>';}
   };r.readAsText(f);
 }
 function clearCSV(){document.getElementById('csvFile').value='';document.getElementById('csvInfo').style.display='none';document.getElementById('uTotal').textContent='0';}
 function submitRP(){
   if(used>=DAILY){alert('今日申請次數已達上限');return;}
-  var tab=document.querySelector('.rp-tabs button.active').textContent.trim();var total=0;
+  var tab=document.querySelector('.rp-tabs-inner button.active').textContent.trim(),total=0;
   if(tab==='一組')total=parseInt((document.getElementById('sTotal').textContent||'0').replace(/,/g,''));
   else if(tab==='多組')total=parseInt((document.getElementById('mTotal').textContent||'0').replace(/,/g,''));
   else total=parseInt((document.getElementById('uTotal').textContent||'0').replace(/,/g,''));
@@ -296,7 +232,5 @@ function submitRP(){
   alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+Math.min(total,800000).toLocaleString()+'\n\n⏳ 非白名單公會，需等待官方審核');
 }
 </script>
-</div>
-</div>
 </body>
 </html>
