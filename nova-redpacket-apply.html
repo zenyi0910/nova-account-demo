@@ -12,20 +12,23 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
 .screen{width:100%;height:100%;overflow-y:auto;background:#4a0e0e;scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
-.guild-tabs{display:flex;background:linear-gradient(180deg,#f5c842 0%,#e8a020 100%);border-radius:0 0 16px 16px;padding:50px 8px 10px;gap:4px;position:sticky;top:0;z-index:50}
-.guild-tabs button{flex:1;padding:8px 4px;font-size:13px;font-weight:600;border:none;border-radius:20px;cursor:pointer;background:transparent;color:#7a4a00}
-.guild-tabs button.active{background:#fff;color:#d97706;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.guild-tabs{display:flex;background:transparent;padding:50px 56px 10px;gap:8px;position:sticky;top:0;z-index:50}
+.guild-tabs button{padding:0 12px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff}
+.guild-tabs button.active{background:rgba(69,34,1,.2);color:#fff}
 .guild-profile{display:flex;align-items:center;padding:16px;gap:12px}
 .guild-emblem{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#d4a017);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .guild-emblem .lv-num{font-size:24px;font-weight:900;color:#fff}
 .guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:1px}
 .guild-meta{flex:1}
-.guild-meta .name{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
-.guild-meta .level{font-size:12px;color:#f5c842}
+.guild-meta .name{font-size:18px;font-weight:700;color:#452201;margin-bottom:2px}
+.guild-meta .level{font-size:14px;color:rgba(69,34,1,.5)}
 .guild-btns{display:flex;gap:8px;padding:0 16px 12px}
 .guild-btns button{flex:1;padding:8px 0;border:none;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer}
 .btn-community{background:linear-gradient(135deg,#f5a623,#e8960c);color:#fff}
-.btn-settings{background:#4dd0c2;color:#fff}
+.guild-func-list{margin:0 16px 12px;display:flex;flex-direction:column;gap:8px}
+.guild-func-item{width:100%;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:16px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.guild-func-item:hover{background:rgba(255,255,255,.15)}
+.guild-func-item.dissolve{background:rgba(220,38,38,.15);border-color:rgba(220,38,38,.3);color:#fca5a5}
 .guild-desc{margin:0 16px 12px;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;color:rgba(255,255,255,.6);font-size:12px;line-height:1.6}
 .gold-section{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:16px;text-align:center}
 .gold-section .icon-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
@@ -38,14 +41,12 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .gold-actions{display:flex;gap:8px;justify-content:center}
 .gold-actions button{padding:10px 20px;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
 .btn-withdraw{background:#4dd0c2;color:#fff}
-.btn-redpacket{background:linear-gradient(135deg,#f44336,#d32f2f);color:#fff;box-shadow:0 2px 8px rgba(244,67,54,.4)}
 .officers{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:14px 16px}
 .officers h3{font-size:13px;color:#f5c842;font-weight:600;margin-bottom:10px}
 .officer-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
 .officer-row:last-child{border:none}
 .officer-row .role{color:rgba(255,255,255,.5)}
 .officer-row .name{color:#fff;font-weight:500}
-.bottom-deco{height:60px;background:linear-gradient(0deg,rgba(245,166,35,.2),transparent);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:20px;letter-spacing:4px}
 .rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -109,7 +110,6 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 </div>
 <div class="guild-btns">
   <button class="btn-community">進入社群</button>
-  <button class="btn-settings">⚙ 設定</button>
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
@@ -120,7 +120,6 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
   <div class="treasury-val">850,000</div>
   <div class="gold-actions">
     <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
-    <button class="btn-redpacket" onclick="openRP()">🧧 紅包申請</button>
   </div>
 </div>
 <div class="officers">
@@ -128,8 +127,18 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
   <div class="officer-row"><span class="role">會長</span><span class="name">GuildMaster</span></div>
   <div class="officer-row"><span class="role">副會長</span><span class="name">ViceLeader01</span></div>
   <div class="officer-row"><span class="role">創會會長</span><span class="name">GuildMaster</span></div>
+  <div class="officer-row"><span class="role">公會人數</span><span class="name">5 / 30</span></div>
 </div>
-<div class="bottom-deco">💰🪙💎💵🪙💰</div>
+<div class="guild-func-list">
+  <div class="guild-func-item" onclick="openRP()">紅包申請</div>
+  <div class="guild-func-item" onclick="alert('Demo')">會員列表</div>
+  <div class="guild-func-item" onclick="alert('Demo')">會員管理</div>
+  <div class="guild-func-item" onclick="alert('Demo')">紅包審核紀錄</div>
+  <div class="guild-func-item" onclick="alert('Demo')">紅包紀錄</div>
+  <div class="guild-func-item" onclick="alert('Demo')">入會審核</div>
+  <div class="guild-func-item" onclick="alert('Demo')">操作日誌</div>
+  <div class="guild-func-item dissolve" onclick="alert('Demo')">解散公會</div>
+</div>
 </div>
 </div>
 
