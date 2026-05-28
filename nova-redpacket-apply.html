@@ -6,48 +6,60 @@
 <title>星運娛樂城 - 公會紅包申請</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 16px}
-.guild-tabs{width:100%;max-width:358px;height:72px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:12px;flex-shrink:0}
-.guild-tabs button{padding:0 14px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.6)}
+body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.phone-frame{position:relative;width:393px;height:852px;border-radius:55px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 20px 60px rgba(0,0,0,.5);overflow:hidden}
+.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;background:#1a1a1a;border-radius:20px;z-index:200;pointer-events:none}
+.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:140px;height:5px;background:rgba(255,255,255,.25);border-radius:3px;z-index:200}
+.screen{position:relative;width:100%;height:100%;overflow:hidden}
+.homepage{width:100%;height:100%;background:linear-gradient(180deg,#1a0a2e 0%,#2d1b4e 50%,#1a0a2e 100%);display:flex;flex-direction:column;align-items:center;padding-top:60px}
+.homepage .logo{font-size:24px;font-weight:700;color:#f5c842;margin-bottom:8px}
+.homepage .subtitle{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:30px}
+.homepage .game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px;width:100%;opacity:.3}
+.homepage .game-item{aspect-ratio:1;background:linear-gradient(135deg,#2a1a4a,#3d2b6b);border-radius:12px}
+.homepage .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:space-around;padding:0 20px}
+.homepage .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,.5);font-size:10px}
+.homepage .nav-item.active{color:#f5c842}
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 16px;transition:opacity .3s}
+.modal-overlay.hidden{opacity:0;pointer-events:none}
+.guild-tabs{width:100%;max-width:358px;height:60px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:10px;flex-shrink:0}
+.guild-tabs button{padding:0 14px;height:28px;font-size:13px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)}
 .guild-tabs button.active{background:rgba(120,60,20,.4);color:#fff}
-.guild-content{position:relative;width:100%;max-width:358px;flex:1;min-height:0;overflow-y:auto;background:#fafafa;border:6px solid #f4b63f;border-radius:24px;padding:24px 8px 85px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.guild-content{position:relative;width:100%;max-width:358px;height:calc(100% - 140px);overflow-y:auto;background:#fafafa;border:6px solid #f4b63f;border-radius:24px;padding:20px 8px 20px;box-shadow:0 4px 20px rgba(0,0,0,.3);scrollbar-width:none}
 .guild-content::-webkit-scrollbar{display:none}
-.guild-inner{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
 .guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
-.guild-emblem{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#2d5a3a,#1a3d28);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #f5c842;flex-shrink:0}
-.guild-emblem .lv-num{font-size:24px;font-weight:900;color:#f5c842}
-.guild-emblem .lv-label{font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px}
+.guild-emblem{width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,#2d5a3a,#1a3d28);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #f5c842;flex-shrink:0}
+.guild-emblem .lv-num{font-size:20px;font-weight:900;color:#f5c842}
+.guild-emblem .lv-label{font-size:6px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px}
 .guild-meta{flex:1}
-.guild-meta .name{font-size:16px;font-weight:700;color:#452201}
-.guild-meta .level{font-size:13px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
+.guild-meta .name{font-size:15px;font-weight:700;color:#452201}
+.guild-meta .level{font-size:12px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
 .guild-btns{display:flex;gap:6px;width:100%;padding:0 8px}
-.guild-btns button{border:none;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;height:36px;padding:0 14px;color:#fff}
+.guild-btns button{border:none;border-radius:9999px;font-size:11px;font-weight:600;cursor:pointer;height:32px;padding:0 12px;color:#fff}
 .btn-community{background:#00dda4}
 .btn-settings{background:#e0e0e0;color:#452201 !important}
-.guild-desc{width:100%;background:rgba(69,34,1,.13);border-radius:16px;padding:10px 12px;color:#452201;font-size:13px;line-height:1.5;font-weight:500;box-shadow:inset 1px 1px 4px rgba(0,0,0,.2),inset -1px -1px 3px rgba(255,255,255,.2)}
-.gold-section{width:100%;background:#fafafa;border-radius:16px;padding:14px 12px;text-align:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.gold-section .gold-label{font-size:13px;color:#fbc323;font-weight:500}
-.gold-section .gold-value{font-size:20px;font-weight:700;color:#452201;margin:4px 0}
-.gold-section .divider{width:80%;height:1px;background:rgba(69,34,1,.1);margin:8px auto}
-.gold-section .treasury-row{display:flex;align-items:center;justify-content:space-between;padding:0 8px}
-.gold-section .treasury-label{font-size:13px;color:#fbc323}
-.gold-section .treasury-val{font-size:16px;font-weight:700;color:#452201}
-.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
-.officers{width:100%;background:rgba(69,34,1,.13);border-radius:16px;padding:12px;box-shadow:inset 1px 1px 4px rgba(0,0,0,.2),inset -1px -1px 3px rgba(255,255,255,.2)}
-.officer-row{display:flex;justify-content:space-between;padding:8px 4px;font-size:13px;color:#452201}
+.guild-desc{width:100%;background:rgba(69,34,1,.1);border-radius:14px;padding:8px 10px;color:#452201;font-size:12px;line-height:1.4;font-weight:500;box-shadow:inset 1px 1px 3px rgba(0,0,0,.15),inset -1px -1px 2px rgba(255,255,255,.15)}
+.gold-section{width:100%;background:#fafafa;border-radius:14px;padding:12px 10px;text-align:center;box-shadow:0 3px 6px 0 rgba(174,108,108,.4),inset -2px -3px 2px 0 rgba(210,184,184,.8),inset 0 2px 1px 0 rgba(255,253,247,.4)}
+.gold-section .gold-label{font-size:12px;color:#fbc323;font-weight:500}
+.gold-section .gold-value{font-size:18px;font-weight:700;color:#452201;margin:2px 0}
+.gold-section .divider{width:80%;height:1px;background:rgba(69,34,1,.08);margin:6px auto}
+.gold-section .treasury-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
+.gold-section .treasury-label{font-size:12px;color:#fbc323}
+.gold-section .treasury-val{font-size:14px;font-weight:700;color:#452201}
+.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer}
+.officers{width:100%;background:rgba(69,34,1,.1);border-radius:14px;padding:10px;box-shadow:inset 1px 1px 3px rgba(0,0,0,.15),inset -1px -1px 2px rgba(255,255,255,.15)}
+.officer-row{display:flex;justify-content:space-between;padding:6px 4px;font-size:12px;color:#452201}
 .officer-row .role{font-weight:600}
 .officer-row .val{font-weight:400;color:#5c3d2e}
-.guild-func-list{width:100%;display:flex;flex-direction:column;gap:8px}
-.guild-func-item{width:100%;height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 16px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;gap:12px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.guild-func-item svg{width:20px;height:20px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.guild-func-list{width:100%;display:flex;flex-direction:column;gap:6px}
+.guild-func-item{width:100%;height:48px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 12px;background:#fafafa;border:none;border-radius:14px;color:#452201;font-size:12px;font-weight:500;cursor:pointer;gap:10px;box-shadow:0 3px 6px 0 rgba(174,108,108,.4),inset -2px -3px 2px 0 rgba(210,184,184,.8),inset 0 2px 1px 0 rgba(255,253,247,.4)}
+.guild-func-item svg{width:18px;height:18px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .guild-func-item .chevron{stroke-width:3}
-.guild-func-item.dissolve{display:flex;justify-content:center;height:44px;width:180px;margin:8px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none}
+.guild-func-item.dissolve{display:flex;justify-content:center;height:40px;width:160px;margin:6px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none;font-size:12px}
 .guild-func-item.dissolve svg{display:none}
-.footer-deco{position:fixed;bottom:0;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center/contain;z-index:60;pointer-events:none}
-.close-btn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#fff;font-size:20px;backdrop-filter:blur(4px)}
-</style>
-.rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.footer-deco{position:absolute;bottom:0;left:0;right:0;height:70px;background:url('assets/dialog_footer.png') repeat-x center/contain;z-index:60;pointer-events:none}
+.close-btn{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#fff;font-size:18px}
+.rp-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
@@ -97,6 +109,23 @@ body{background:#111;display:flex;justify-content:center;align-items:center;min-
 </style>
 </head>
 <body>
+<div class="phone-frame">
+<div class="screen">
+<div class="homepage">
+  <div class="logo">⭐ 星運娛樂城</div>
+  <div class="subtitle">歡迎回來，QAtest6</div>
+  <div class="game-grid">
+    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
+    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
+    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item">🏠 首頁</div>
+    <div class="nav-item">🎰 遊戲</div>
+    <div class="nav-item active" onclick="document.querySelector('.modal-overlay').classList.remove('hidden')">🏛 公會</div>
+    <div class="nav-item">👤 我的</div>
+  </div>
+</div>
 <div class="modal-overlay">
 <div class="guild-tabs">
   <button class="active">我的公會</button>
@@ -143,7 +172,7 @@ body{background:#111;display:flex;justify-content:center;align-items:center;min-
 </div>
 </div>
 <div class="footer-deco"></div>
-<div class="close-btn">✕</div>
+<div class="close-btn" onclick="document.querySelector('.modal-overlay').classList.add('hidden')">✕</div>
 </div>
 
 <!-- Red packet overlay -->
@@ -245,5 +274,7 @@ function submitRP(){
   alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+Math.min(total,800000).toLocaleString()+'\n\n⏳ 非白名單公會，需等待官方審核');
 }
 </script>
+</div>
+</div>
 </body>
 </html>
