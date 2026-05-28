@@ -47,7 +47,10 @@
             { name: '公會列表', href: 'nova-guild-list.html' },
             { name: '提領監控', href: 'nova-guild-withdraw.html' },
             { name: '操作記錄', href: 'nova-guild-log.html' },
-            { name: '貢獻查詢', href: 'nova-guild-contribution.html' }
+            { name: '貢獻查詢', href: 'nova-guild-contribution.html' },
+            { name: '推廣設定', href: 'nova-guild-promotion.html' },
+            { name: '紅包審核', href: 'nova-guild-redpacket.html' },
+            { name: '紅包紀錄', href: 'nova-guild-redpacket-records.html' }
           ]
         },
         { name: '紅包管理', id: 'redpacketSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>',
