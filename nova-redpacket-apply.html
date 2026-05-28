@@ -11,7 +11,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
 .phone-frame iframe{width:100%;height:100%;border:none;border-radius:38px;display:block}
-.modal-overlay{position:absolute;inset:0;border-radius:38px;background:oklab(0 0 0 / 0.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;z-index:50;padding:44px 0 0;transition:opacity .3s;overflow:hidden}
+.modal-overlay{position:absolute;inset:0;border-radius:38px;background:oklab(0 0 0 / 0.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;z-index:50;padding:44px 0 38px;transition:opacity .3s;overflow:hidden}
 .modal-overlay.hidden{opacity:0;pointer-events:none}
 .guild-wrapper{position:relative;width:100%;max-width:400px;padding:0 16px;display:flex;flex-direction:column;align-items:center;flex:1;min-height:0}
 .guild-header-wrap{position:relative;width:100%;max-width:400px;min-width:300px;display:flex;justify-content:center;flex-shrink:0}
@@ -62,7 +62,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .guild-func-item .chevron{stroke-width:4}
 .guild-func-item.dissolve{display:flex;justify-content:center;height:56px;width:200px;margin:8px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgb(230,80,0),inset 0 2px 1px rgba(255,253,247,.48);font-size:14px;font-weight:500}
 .guild-func-item.dissolve svg{display:none}
-.footer-deco{position:absolute;z-index:40;bottom:0;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center bottom/contain;pointer-events:none}
+.footer-deco{position:absolute;z-index:40;bottom:38px;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center bottom/contain;pointer-events:none}
 .close-btn{position:absolute;z-index:50;top:50%;left:50%;transform:translate(-50%,-75%);display:flex;justify-content:center;align-items:center;width:72px;height:72px;border-radius:9999px;background:transparent;border:none;cursor:pointer;pointer-events:auto}
 .rp-overlay{position:absolute;inset:0;background:oklab(0 0 0 / 0.8);border-radius:38px;z-index:200;display:none;align-items:center;justify-content:center;overflow:hidden}
 .rp-dialog{position:relative;width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;padding:40px 16px}
