@@ -3,7 +3,7 @@
 ## 前台（Mobile）共用元件
 
 ### 1. 功能按鈕列表項 (FuncListItem)
-- **樣式**: `bg-[#fafafa]`, `rounded-2xl`, `h-64px`, grid `[auto_1fr_auto]`, `gap-16px`, `px-24px`
+- **樣式**: `bg-[#fafafa]`, `rounded-2xl`, `h-72px`, grid `[auto_1fr_auto]`, `gap-16px`, `px-24px`
 - **陰影**: `0 4px 8px 0 rgba(174,108,108,.48), inset -2px -4px 2px 0 rgba(210,184,184,1), inset 0 2px 1px 0 rgba(255,253,247,.48)`
 - **圖標**: Lucide SVG 24×24, stroke `#452201`, stroke-width 2
 - **箭頭**: Lucide chevron-right, stroke-width 4
@@ -30,10 +30,10 @@
   - `nova-redpacket-apply.html` — 進入社群、設定、金幣提領、解散公會
 
 ### 4. Tab 導航 (GuildTabs)
-- **容器**: 金色漸層 `linear-gradient(180deg, #f5c842, #e8a020)`, `rounded-b-2xl`
-- **Tab 按鈕**: `h-28px`, `px-14px`, `text-sm`, `font-medium`, `rounded-full`
-- **Active**: `bg-rgba(180,40,40,.8)`, `color: #fff`
-- **Inactive**: `bg-transparent`, `color: #5c3d2e`
+- **容器**: 金色漸層 `linear-gradient(135deg, #f5a623, #e8960c)`, `rounded-full`, absolute z-70 top-[80%]
+- **Tab 按鈕**: `h-28px`, `flex-1`, `text-sm`, `font-semibold`, `rounded-full`, `color: #fff`, `text-shadow`, `letter-spacing .5px`
+- **Active**: `bg-rgba(120,80,40,.2)` + `inset-shadow 1px 1px 1px #11111136, -1px -1px 1px #fff`
+- **Inactive**: `bg-transparent`, hover `bg-rgba(120,80,40,.3)`
 - **出現位置**:
   - `nova-redpacket-apply.html` — 我的公會/所有公會/公會說明
 
