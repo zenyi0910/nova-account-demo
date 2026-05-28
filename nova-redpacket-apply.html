@@ -6,49 +6,47 @@
 <title>星運娛樂城 - 公會紅包申請</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-.phone-frame{position:relative;width:385px;height:780px;border-radius:50px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 80px rgba(0,0,0,0.6);overflow:hidden}
-.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
-.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
-.screen{width:100%;height:100%;overflow-y:auto;background:#fefce8;scrollbar-width:none}
-.screen::-webkit-scrollbar{display:none}
-.guild-tabs{display:flex;background:linear-gradient(180deg,#f5c842,#e8a020);border-radius:0 0 16px 16px;padding:50px 24px 10px;gap:6px;position:sticky;top:0;z-index:50;justify-content:center}
-.guild-tabs button{padding:0 14px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#5c3d2e}
-.guild-tabs button.active{background:rgba(200,60,30,.85);color:#fff}
-.guild-profile{display:flex;align-items:center;padding:16px;gap:12px}
-.guild-emblem{width:70px;height:70px;border-radius:50%;background:linear-gradient(180deg,#2d5a3a,#1a3d28);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #f5c842;box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.guild-emblem .lv-num{font-size:28px;font-weight:900;color:#f5c842}
-.guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px}
+body{background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 16px}
+.guild-tabs{width:100%;max-width:358px;height:72px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:12px;flex-shrink:0}
+.guild-tabs button{padding:0 14px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.6)}
+.guild-tabs button.active{background:rgba(120,60,20,.4);color:#fff}
+.guild-content{position:relative;width:100%;max-width:358px;flex:1;min-height:0;overflow-y:auto;background:#fafafa;border:6px solid #f4b63f;border-radius:24px;padding:24px 8px 85px;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.guild-content::-webkit-scrollbar{display:none}
+.guild-inner{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
+.guild-emblem{width:64px;height:64px;border-radius:50%;background:linear-gradient(180deg,#2d5a3a,#1a3d28);display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #f5c842;flex-shrink:0}
+.guild-emblem .lv-num{font-size:24px;font-weight:900;color:#f5c842}
+.guild-emblem .lv-label{font-size:7px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px}
 .guild-meta{flex:1}
-.guild-meta .name{font-size:18px;font-weight:700;color:#452201;margin-bottom:2px}
-.guild-meta .level{font-size:14px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
-.guild-btns{display:flex;gap:6px;padding:0 16px 12px}
-.guild-btns button{border:none;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;height:40px;padding:0 16px;color:#fff}
-.btn-community{background:#ff842f}
-.btn-settings{background:#e0e0e0;color:#452201}
-.btn-withdraw{background:#00dda4}
-.guild-func-list{margin:0 16px 16px;display:flex;flex-direction:column;gap:8px}
-.guild-func-item{width:100%;height:64px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 24px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s;gap:16px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.guild-func-item:hover{background:#f0f0f0}
-.guild-func-item svg{width:24px;height:24px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.guild-func-item .chevron{stroke-width:4}
-.guild-func-item.dissolve{display:flex;justify-content:center;height:48px;width:200px;margin:12px auto;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none}
+.guild-meta .name{font-size:16px;font-weight:700;color:#452201}
+.guild-meta .level{font-size:13px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
+.guild-btns{display:flex;gap:6px;width:100%;padding:0 8px}
+.guild-btns button{border:none;border-radius:9999px;font-size:12px;font-weight:600;cursor:pointer;height:36px;padding:0 14px;color:#fff}
+.btn-community{background:#00dda4}
+.btn-settings{background:#e0e0e0;color:#452201 !important}
+.guild-desc{width:100%;background:rgba(69,34,1,.13);border-radius:16px;padding:10px 12px;color:#452201;font-size:13px;line-height:1.5;font-weight:500;box-shadow:inset 1px 1px 4px rgba(0,0,0,.2),inset -1px -1px 3px rgba(255,255,255,.2)}
+.gold-section{width:100%;background:#fafafa;border-radius:16px;padding:14px 12px;text-align:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.gold-section .gold-label{font-size:13px;color:#fbc323;font-weight:500}
+.gold-section .gold-value{font-size:20px;font-weight:700;color:#452201;margin:4px 0}
+.gold-section .divider{width:80%;height:1px;background:rgba(69,34,1,.1);margin:8px auto}
+.gold-section .treasury-row{display:flex;align-items:center;justify-content:space-between;padding:0 8px}
+.gold-section .treasury-label{font-size:13px;color:#fbc323}
+.gold-section .treasury-val{font-size:16px;font-weight:700;color:#452201}
+.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer}
+.officers{width:100%;background:rgba(69,34,1,.13);border-radius:16px;padding:12px;box-shadow:inset 1px 1px 4px rgba(0,0,0,.2),inset -1px -1px 3px rgba(255,255,255,.2)}
+.officer-row{display:flex;justify-content:space-between;padding:8px 4px;font-size:13px;color:#452201}
+.officer-row .role{font-weight:600}
+.officer-row .val{font-weight:400;color:#5c3d2e}
+.guild-func-list{width:100%;display:flex;flex-direction:column;gap:8px}
+.guild-func-item{width:100%;height:56px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 16px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;gap:12px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.guild-func-item svg{width:20px;height:20px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.guild-func-item .chevron{stroke-width:3}
+.guild-func-item.dissolve{display:flex;justify-content:center;height:44px;width:180px;margin:8px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none}
 .guild-func-item.dissolve svg{display:none}
-.guild-desc{margin:0 16px 12px;background:rgba(69,34,1,.2);border-radius:16px;padding:8px 12px;color:#452201;font-size:14px;line-height:1.6;font-weight:600;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
-.gold-section{margin:0 16px 12px;background:#fafafa;border-radius:16px;padding:16px;text-align:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.gold-section .gold-label{font-size:14px;color:#fbc323;font-weight:500}
-.gold-section .gold-value{font-size:22px;font-weight:700;color:#452201;margin:4px 0}
-.gold-section .chevrons{color:#fbc323;font-size:16px;margin:6px 0}
-.gold-section .treasury{font-size:14px;color:#fbc323;margin-bottom:4px}
-.gold-section .treasury-val{font-size:20px;font-weight:700;color:#452201;margin-bottom:12px}
-.gold-actions{display:flex;gap:8px;justify-content:center}
-.gold-actions button{padding:10px 24px;border:none;border-radius:9999px;font-size:13px;font-weight:600;cursor:pointer}
-.officers{margin:0 16px 12px;background:rgba(69,34,1,.2);border-radius:16px;padding:14px 16px;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
-.officers h3{font-size:13px;color:#452201;font-weight:600;margin-bottom:10px}
-.officer-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:14px}
-.officer-row:last-child{border:none}
-.officer-row .role{color:#333;font-weight:600}
-.officer-row .name{color:#666;font-weight:400}
+.footer-deco{position:fixed;bottom:0;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center/contain;z-index:60;pointer-events:none}
+.close-btn{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#fff;font-size:20px;backdrop-filter:blur(4px)}
+</style>
 .rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -99,16 +97,17 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 </style>
 </head>
 <body>
-<div class="phone-frame">
-<div class="screen">
+<div class="modal-overlay">
 <div class="guild-tabs">
   <button class="active">我的公會</button>
   <button onclick="alert('Demo')">所有公會</button>
   <button onclick="alert('Demo')">公會說明</button>
 </div>
+<div class="guild-content">
+<div class="guild-inner">
 <div class="guild-profile">
   <div class="guild-emblem"><span class="lv-num">0</span><span class="lv-label">LEVEL</span></div>
-<div class="guild-meta"><div class="name">窩要煙牌 ↗</div><div class="level">Lv.0</div></div>
+  <div class="guild-meta"><div class="name">窩要煙牌 ↗</div><div class="level">Lv.0</div></div>
 </div>
 <div class="guild-btns">
   <button class="btn-community">進入社群</button>
@@ -118,19 +117,18 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 <div class="gold-section">
   <span class="gold-label">公會累積金幣</span>
   <div class="gold-value">0</div>
-  <div class="chevrons">▲▲</div>
-  <div class="treasury">金庫餘額</div>
-  <div class="treasury-val">0</div>
-  <div class="gold-actions">
+  <div class="divider"></div>
+  <div class="treasury-row">
+    <span class="treasury-label">金庫餘額</span>
+    <span class="treasury-val">0</span>
     <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
   </div>
 </div>
 <div class="officers">
-  <h3>公會幹部</h3>
-  <div class="officer-row"><span class="role">會長</span><span class="name">QAtest6改改</span></div>
-  <div class="officer-row"><span class="role">副會長</span><span class="name">--</span></div>
-  <div class="officer-row"><span class="role">創會會長</span><span class="name">QAtest6改改</span></div>
-  <div class="officer-row"><span class="role">公會人數</span><span class="name">5 / 30</span></div>
+  <div class="officer-row"><span class="role">會長</span><span class="val">QAtest6改改</span></div>
+  <div class="officer-row"><span class="role">副會長</span><span class="val">--</span></div>
+  <div class="officer-row"><span class="role">創會會長</span><span class="val">QAtest6改改</span></div>
+  <div class="officer-row"><span class="role">公會人數</span><span class="val">5 / 30</span></div>
 </div>
 <div class="guild-func-list">
   <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
@@ -143,6 +141,9 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
   <div class="guild-func-item dissolve" onclick="alert('Demo')">解散公會</div>
 </div>
 </div>
+</div>
+<div class="footer-deco"></div>
+<div class="close-btn">✕</div>
 </div>
 
 <!-- Red packet overlay -->
