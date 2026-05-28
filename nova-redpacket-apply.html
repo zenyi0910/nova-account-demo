@@ -11,50 +11,52 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
 .phone-frame iframe{width:100%;height:100%;border:none;border-radius:38px;display:block}
-.modal-overlay{position:absolute;inset:0;border-radius:38px;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;padding:0;transition:opacity .3s;overflow:hidden}
+.modal-overlay{position:absolute;inset:0;border-radius:38px;background:oklab(0 0 0 / 0.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;padding:0;transition:opacity .3s;overflow:hidden}
 .modal-overlay.hidden{opacity:0;pointer-events:none}
 .guild-wrapper{position:relative;width:100%;max-width:400px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 16px;padding-top:44px}
 .guild-header-wrap{position:relative;width:100%;max-width:400px;min-width:300px;display:flex;justify-content:center;flex-shrink:0}
 .guild-header-img{position:relative;bottom:-8px;z-index:40;width:100%;height:72px;object-fit:contain}
-.guild-tabs-wrap{position:absolute;z-index:70;top:80%;left:50%;transform:translate(-50%,-50%);width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:0 56px;height:32px;background:linear-gradient(135deg,#f5a623,#e8960c);border-radius:9999px}
-.guild-tabs-wrap button{flex:1;padding:0 8px;height:28px;font-size:12px;font-weight:600;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);letter-spacing:.5px;transition:background .2s}
-.guild-tabs-wrap button.active{background:rgba(120,80,40,.2);color:#fff;box-shadow:inset 1px 1px 1px rgba(17,17,17,.21),inset -1px -1px 1px rgba(255,255,255,1)}
-.guild-tabs-wrap button:hover:not(.active){background:rgba(120,80,40,.3)}
+.guild-tabs-wrap{position:absolute;z-index:70;top:80%;left:50%;transform:translate(-50%,-50%);width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:0 56px;height:28px;background:transparent;border-radius:8px}
+.guild-tabs-wrap button{flex:1;padding:0 12px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff;transition:background .2s}
+.guild-tabs-wrap button.active{background:rgba(69,34,1,.2);color:#fff;box-shadow:inset 1px 1px 1px rgba(17,17,17,.21),inset -1px -1px 1px rgb(255,255,255)}
+.guild-tabs-wrap button:hover:not(.active){background:rgba(69,34,1,.1)}
 .guild-content{position:relative;z-index:20;width:100%;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;scrollbar-width:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 .guild-content::-webkit-scrollbar{display:none}
-.guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
+.guild-inner{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .guild-profile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;width:100%;padding:0 8px}
-.guild-emblem{width:96px;height:96px;border-radius:50%;background:linear-gradient(to top,#d4a574,#f5c842);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset -4px -6px 6px rgba(0,0,0,.3),inset 1px 2px 1px rgba(255,255,255,.6);flex-shrink:0}
+.guild-emblem{width:96px;height:96px;border-radius:50%;background:linear-gradient(to top,oklch(0.945 0.129 101.54),oklch(0.852 0.199 91.936));display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.guild-emblem::before{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.1);box-shadow:inset -4px -6px 6px rgba(0,0,0,.3)}
+.guild-emblem img{position:absolute;z-index:1;width:96px;height:96px;object-fit:cover;border-radius:50%;box-shadow:2px 2px 3px rgba(100,80,60,.3)}
 .guild-emblem .lv-num{font-size:28px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4)}
 .guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:1px}
 .guild-meta{display:flex;flex-direction:column;gap:4px}
 .guild-meta .name-row{display:flex;align-items:center;gap:4px}
 .guild-meta .name{font-size:16px;font-weight:700;color:#452201}
-.guild-meta .share-btn{width:32px;height:32px;border-radius:50%;background:#fafafa;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.guild-meta .level{font-size:12px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
-.guild-btns{display:flex;gap:6px}
-.guild-btns button{border:none;border-radius:9999px;font-size:11px;font-weight:600;cursor:pointer;height:32px;padding:0 12px;color:#fff}
-.btn-community{background:#ff842f;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgba(200,80,0,.72),inset 0 2px 1px rgba(255,253,247,.48)}
-.btn-settings{background:#3b82f6 !important;color:#fff !important;box-shadow:2px 2px 4px rgba(0,0,180,.4),inset -2px -4px 2px rgba(0,0,100,.3),inset 0 2px 1px rgba(255,253,247,.48)}
-.guild-desc{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px 10px;color:#452201;font-size:12px;line-height:1.4;font-weight:500;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
-.gold-section{width:100%;background:#fafafa;border-radius:14px;padding:16px 12px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-.gold-top{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;padding:0 12px}
+.guild-meta .level{font-size:14px;color:#452201;font-weight:400;margin-left:4px}
+.guild-btns{display:flex;gap:4px}
+.guild-btns button{border:none;border-radius:9999px;font-size:14px;font-weight:500;cursor:pointer;height:40px;padding:0 14px;color:#fff}
+.btn-community{background:#ff842f;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgba(230,80,0,1),inset 0 2px 1px rgba(255,253,247,.48)}
+.btn-settings{background:oklch(0.623 0.214 259.815) !important;color:#fff !important;box-shadow:2px 2px 4px rgba(0,0,180,.4),inset -2px -4px 2px rgba(0,0,100,.3),inset 0 2px 1px rgba(255,253,247,.48)}
+.guild-desc{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px 10px;color:#452201;font-size:14px;line-height:1.4;font-weight:600;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3);display:grid;grid-template-columns:1fr auto;min-height:80px}
+.gold-section{width:100%;background:#fafafa;border-radius:16px;padding:4px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.gold-section-inner{width:100%;height:100%;display:grid;grid-template-columns:1fr;padding:24px 0;gap:12px;background:#fafafa;border-radius:16px}
+.gold-top{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;padding:0 24px}
 .gold-top .coin-icon{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#e8a020);display:flex;align-items:center;justify-content:center}
 .gold-top .coin-icon svg{width:28px;height:28px}
 .gold-section .gold-label{font-size:12px;color:#fbc323;font-weight:500}
 .gold-section .gold-value{font-size:18px;font-weight:700;color:#452201;margin:2px 0}
-.gold-divider{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;padding:0 16px}
+.gold-divider{display:flex;align-items:center;justify-content:space-evenly;gap:12px;padding:0 16px}
 .gold-divider span{flex:1;height:1px;background:rgba(100,80,60,.15)}
-.gold-bottom{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:0 12px}
+.gold-bottom{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;padding:0 24px}
 .gold-section .treasury-label{font-size:12px;color:#fbc323}
 .gold-section .treasury-val{font-size:16px;font-weight:700;color:#452201}
 .gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 16px rgba(3,165,123,.48),inset -2px -4px 2px rgba(3,165,123,1),inset 0 2px 1px rgba(255,253,247,.48)}
-.officers{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:10px;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
-.officer-row{display:flex;justify-content:space-between;padding:6px 4px;font-size:12px;color:#452201}
+.officers{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:16px;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
+.officer-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:#452201}
 .officer-row .role{font-weight:600}
 .officer-row .val{font-weight:400;color:#5c3d2e}
 .guild-func-list{width:100%;display:flex;flex-direction:column;align-items:center;gap:0}
-.guild-func-item{width:100%;height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 24px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;gap:16px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48);transition:background .2s}
+.guild-func-item{width:100%;height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 24px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:14px;font-weight:500;cursor:pointer;gap:16px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48);transition:background .2s}
 .guild-func-item:hover{background:#f5f5f5}
 .guild-func-item svg{width:24px;height:24px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .guild-func-item .chevron{stroke-width:4}
@@ -129,18 +131,18 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 <div class="guild-content">
 <div class="guild-inner">
 <div class="guild-profile">
-  <div class="guild-emblem"><span class="lv-num">0</span><span class="lv-label">LEVEL</span></div>
+  <div class="guild-emblem"><img src="https://www.kcfgmtb.com/assets/guild0-CaC3thGC.png" alt="guild"></div>
   <div class="guild-meta">
-    <div class="name-row"><span class="name">窩要煙牌</span><button class="share-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#452201" stroke-width="3"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
-    <div class="level">Lv.0</div>
+    <div class="name-row"><span class="name">窩要煙牌</span><span class="level">Lv.0</span></div>
     <div class="guild-btns">
       <button class="btn-community">進入社群</button>
-      <button class="btn-settings"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> 設定</button>
+      <button class="btn-settings">設定</button>
     </div>
   </div>
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
+  <div class="gold-section-inner">
   <div class="gold-top">
     <div class="coin-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
     <div><span class="gold-label">公會累積金幣</span><div class="gold-value">0</div></div>
@@ -150,12 +152,13 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     <div><span class="treasury-label">金庫餘額</span><div class="treasury-val">0</div></div>
     <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
   </div>
+  </div>
 </div>
 <div class="officers">
   <div class="officer-row"><span class="role">會長</span><span class="val">QAtest6改改</span></div>
   <div class="officer-row"><span class="role">副會長</span><span class="val">--</span></div>
   <div class="officer-row"><span class="role">創會會長</span><span class="val">QAtest6改改</span></div>
-  <div class="officer-row"><span class="role">公會人數</span><span class="val">5 / 30</span></div>
+  <div class="officer-row"><span class="role">公會人數</span><span class="val">6 / 30</span></div>
 </div>
 <div class="guild-func-list">
   <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
