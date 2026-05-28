@@ -22,14 +22,16 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .guild-content{position:relative;z-index:20;width:100%;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;scrollbar-width:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 .guild-content::-webkit-scrollbar{display:none}
 .guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
-.guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
-.guild-emblem{width:96px;height:96px;border-radius:50%;background:linear-gradient(to bottom,#d4a574,#8b6914,#a0722c);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset -4px -6px 6px rgba(0,0,0,.3),inset 1px 2px 1px rgba(255,255,255,.6);flex-shrink:0;border:3px solid #c8a84b}
+.guild-profile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;width:100%;padding:0 8px}
+.guild-emblem{width:96px;height:96px;border-radius:50%;background:linear-gradient(to top,#d4a574,#f5c842);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset -4px -6px 6px rgba(0,0,0,.3),inset 1px 2px 1px rgba(255,255,255,.6);flex-shrink:0}
 .guild-emblem .lv-num{font-size:28px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4)}
 .guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:1px}
-.guild-meta{flex:1}
-.guild-meta .name{font-size:15px;font-weight:700;color:#452201}
+.guild-meta{display:flex;flex-direction:column;gap:4px}
+.guild-meta .name-row{display:flex;align-items:center;gap:4px}
+.guild-meta .name{font-size:16px;font-weight:700;color:#452201}
+.guild-meta .share-btn{width:32px;height:32px;border-radius:50%;background:#fafafa;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
 .guild-meta .level{font-size:12px;color:transparent;background:linear-gradient(to right,#a0522d,#d4a017,#f5c842);-webkit-background-clip:text;background-clip:text;font-weight:600}
-.guild-btns{display:flex;gap:6px;width:100%;padding:0 8px}
+.guild-btns{display:flex;gap:6px}
 .guild-btns button{border:none;border-radius:9999px;font-size:11px;font-weight:600;cursor:pointer;height:32px;padding:0 12px;color:#fff}
 .btn-community{background:#ff842f;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgba(200,80,0,.72),inset 0 2px 1px rgba(255,253,247,.48)}
 .btn-settings{background:#3b82f6 !important;color:#fff !important;box-shadow:2px 2px 4px rgba(0,0,180,.4),inset -2px -4px 2px rgba(0,0,100,.3),inset 0 2px 1px rgba(255,253,247,.48)}
@@ -124,11 +126,14 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 <div class="guild-inner">
 <div class="guild-profile">
   <div class="guild-emblem"><span class="lv-num">0</span><span class="lv-label">LEVEL</span></div>
-  <div class="guild-meta"><div class="name">窩要煙牌 ↗</div><div class="level">Lv.0</div></div>
-</div>
-<div class="guild-btns">
-  <button class="btn-community">進入社群</button>
-  <button class="btn-settings"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> 設定</button>
+  <div class="guild-meta">
+    <div class="name-row"><span class="name">窩要煙牌</span><button class="share-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#452201" stroke-width="3"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button></div>
+    <div class="level">Lv.0</div>
+    <div class="guild-btns">
+      <button class="btn-community">進入社群</button>
+      <button class="btn-settings"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> 設定</button>
+    </div>
+  </div>
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
@@ -163,10 +168,6 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 <div class="footer-deco">
 <div class="close-btn" onclick="window.location.href='nova-frontend-demo.html'"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
 </div>
-</div>
-</div>
-</div>
-
 <!-- Sub page overlay -->
 <div id="subOverlay" style="display:none;position:absolute;inset:0;background:rgb(250,250,250);border-radius:24px;z-index:80;flex-direction:column;overflow-y:auto">
 <div style="display:flex;align-items:center;padding:12px 8px;border-bottom:1px solid rgba(0,0,0,.06)">
@@ -174,7 +175,8 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 </div>
 <div id="subContent"></div>
 </div>
-
+</div>
+</div>
 <!-- Red packet overlay -->
 <div class="rp-overlay" id="rpOverlay">
 <div class="rp-dialog">
