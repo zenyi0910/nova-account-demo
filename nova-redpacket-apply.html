@@ -3,28 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>星運娛樂城 - 公會紅包申請</title>
+<title>星運娛樂城 - 公會</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-.phone-frame{position:relative;width:393px;height:852px;border-radius:55px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 20px 60px rgba(0,0,0,.5);overflow:hidden}
-.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:37px;background:#1a1a1a;border-radius:20px;z-index:200;pointer-events:none}
-.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:140px;height:5px;background:rgba(255,255,255,.25);border-radius:3px;z-index:200}
-.screen{position:relative;width:100%;height:100%;overflow:hidden}
-.homepage{width:100%;height:100%;background:linear-gradient(180deg,#1a0a2e 0%,#2d1b4e 50%,#1a0a2e 100%);display:flex;flex-direction:column;align-items:center;padding-top:60px}
-.homepage .logo{font-size:24px;font-weight:700;color:#f5c842;margin-bottom:8px}
-.homepage .subtitle{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:30px}
-.homepage .game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px;width:100%;opacity:.3}
-.homepage .game-item{aspect-ratio:1;background:linear-gradient(135deg,#2a1a4a,#3d2b6b);border-radius:12px}
-.homepage .bottom-nav{position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:space-around;padding:0 20px}
-.homepage .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,.5);font-size:10px}
-.homepage .nav-item.active{color:#f5c842}
-.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 16px;transition:opacity .3s}
+body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;overflow:hidden;background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center}
+.phone-frame{position:relative;width:385px;height:780px;border-radius:50px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 80px rgba(0,0,0,.6);overflow:hidden}
+.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
+.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
+.phone-frame iframe{width:100%;height:100%;border:none;border-radius:38px;display:block}
+.modal-overlay{position:absolute;inset:0;border-radius:38px;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 12px;transition:opacity .3s}
 .modal-overlay.hidden{opacity:0;pointer-events:none}
-.guild-tabs{width:100%;max-width:358px;height:60px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:10px;flex-shrink:0}
-.guild-tabs button{padding:0 14px;height:28px;font-size:13px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)}
+.guild-tabs{width:100%;max-width:340px;height:54px;display:flex;align-items:flex-end;justify-content:center;gap:6px;padding-bottom:8px;flex-shrink:0}
+.guild-tabs button{padding:0 12px;height:26px;font-size:12px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)}
 .guild-tabs button.active{background:rgba(120,60,20,.4);color:#fff}
-.guild-content{position:relative;width:100%;max-width:358px;height:calc(100% - 140px);overflow-y:auto;background:#fafafa;border:6px solid #f4b63f;border-radius:24px;padding:20px 8px 20px;box-shadow:0 4px 20px rgba(0,0,0,.3);scrollbar-width:none}
+.guild-content{position:relative;width:100%;max-width:340px;height:calc(100% - 130px);overflow-y:auto;background:#fafafa;border:5px solid #f4b63f;border-radius:20px;padding:16px 8px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);scrollbar-width:none}
 .guild-content::-webkit-scrollbar{display:none}
 .guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
 .guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
@@ -110,22 +102,7 @@ body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;m
 </head>
 <body>
 <div class="phone-frame">
-<div class="screen">
-<div class="homepage">
-  <div class="logo">⭐ 星運娛樂城</div>
-  <div class="subtitle">歡迎回來，QAtest6</div>
-  <div class="game-grid">
-    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
-    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
-    <div class="game-item"></div><div class="game-item"></div><div class="game-item"></div>
-  </div>
-  <div class="bottom-nav">
-    <div class="nav-item">🏠 首頁</div>
-    <div class="nav-item">🎰 遊戲</div>
-    <div class="nav-item active" onclick="document.querySelector('.modal-overlay').classList.remove('hidden')">🏛 公會</div>
-    <div class="nav-item">👤 我的</div>
-  </div>
-</div>
+<iframe src="nova-lobby.html"></iframe>
 <div class="modal-overlay">
 <div class="guild-tabs">
   <button class="active">我的公會</button>
@@ -140,7 +117,7 @@ body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;m
 </div>
 <div class="guild-btns">
   <button class="btn-community">進入社群</button>
-  <button class="btn-settings">⚙ 設定</button>
+  <button class="btn-settings"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> 設定</button>
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
@@ -172,7 +149,8 @@ body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;m
 </div>
 </div>
 <div class="footer-deco"></div>
-<div class="close-btn" onclick="document.querySelector('.modal-overlay').classList.add('hidden')">✕</div>
+<div class="close-btn" onclick="document.querySelector('.modal-overlay').classList.add('hidden')"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+</div>
 </div>
 
 <!-- Red packet overlay -->
@@ -274,7 +252,6 @@ function submitRP(){
   alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+Math.min(total,800000).toLocaleString()+'\n\n⏳ 非白名單公會，需等待官方審核');
 }
 </script>
-</div>
 </div>
 </body>
 </html>
