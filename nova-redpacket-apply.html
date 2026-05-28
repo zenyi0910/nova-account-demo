@@ -10,7 +10,7 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .phone-frame{position:relative;width:385px;height:780px;border-radius:50px;border:12px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 80px rgba(0,0,0,0.6);overflow:hidden}
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:rgba(255,255,255,.3);border-radius:2px;z-index:100}
-.screen{width:100%;height:100%;overflow-y:auto;background:#4a0e0e;scrollbar-width:none}
+.screen{width:100%;height:100%;overflow-y:auto;background:rgba(0,0,0,.8);scrollbar-width:none}
 .screen::-webkit-scrollbar{display:none}
 .guild-tabs{display:flex;background:transparent;padding:50px 56px 10px;gap:8px;position:sticky;top:0;z-index:50}
 .guild-tabs button{padding:0 12px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff}
@@ -22,31 +22,31 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 .guild-meta{flex:1}
 .guild-meta .name{font-size:18px;font-weight:700;color:#452201;margin-bottom:2px}
 .guild-meta .level{font-size:14px;color:rgba(69,34,1,.5)}
-.guild-btns{display:flex;gap:8px;padding:0 16px 12px}
-.guild-btns button{flex:1;padding:8px 0;border:none;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer}
+.guild-btns{display:flex;gap:4px;padding:0 16px 12px}
+.guild-btns button{padding:10px 20px;border:none;border-radius:9999px;font-size:14px;font-weight:500;cursor:pointer;height:48px}
 .btn-community{background:linear-gradient(135deg,#f5a623,#e8960c);color:#fff}
 .guild-func-list{margin:0 16px 12px;display:flex;flex-direction:column;gap:8px}
-.guild-func-item{width:100%;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:16px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
+.guild-func-item{width:100%;height:72px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:16px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
 .guild-func-item:hover{background:rgba(255,255,255,.15)}
 .guild-func-item.dissolve{background:rgba(220,38,38,.15);border-color:rgba(220,38,38,.3);color:#fca5a5}
-.guild-desc{margin:0 16px 12px;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;color:rgba(255,255,255,.6);font-size:12px;line-height:1.6}
-.gold-section{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:16px;text-align:center}
+.guild-desc{margin:0 16px 12px;background:transparent;border-radius:0;padding:0 16px;color:#452201;font-size:16px;line-height:1.6}
+.gold-section{margin:0 16px 12px;background:transparent;border-radius:0;padding:0 16px;text-align:center}
 .gold-section .icon-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px}
 .gold-section .icon-circle{width:32px;height:32px;border-radius:50%;background:#4caf50;display:flex;align-items:center;justify-content:center;font-size:16px}
 .gold-section .gold-label{font-size:13px;color:#f5c842;font-weight:600}
-.gold-section .gold-value{font-size:28px;font-weight:900;color:#fff;margin:4px 0}
+.gold-section .gold-value{font-size:18px;font-weight:600;color:#452201;margin:4px 0}
 .gold-section .chevrons{color:#f5c842;font-size:18px;margin:6px 0}
-.gold-section .treasury{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
-.gold-section .treasury-val{font-size:20px;font-weight:700;color:#fff;margin-bottom:12px}
+.gold-section .treasury{font-size:12px;color:#452201;margin-bottom:4px}
+.gold-section .treasury-val{font-size:16px;font-weight:600;color:#452201;margin-bottom:12px}
 .gold-actions{display:flex;gap:8px;justify-content:center}
 .gold-actions button{padding:10px 20px;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer}
 .btn-withdraw{background:#4dd0c2;color:#fff}
-.officers{margin:0 16px 12px;background:rgba(255,255,255,.05);border-radius:14px;padding:14px 16px}
-.officers h3{font-size:13px;color:#f5c842;font-weight:600;margin-bottom:10px}
-.officer-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px}
+.officers{margin:0 16px 12px;background:transparent;border-radius:0;padding:0 16px}
+.officers h3{font-size:13px;color:#452201;font-weight:600;margin-bottom:10px}
+.officer-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(69,34,1,.1);font-size:13px}
 .officer-row:last-child{border:none}
-.officer-row .role{color:rgba(255,255,255,.5)}
-.officer-row .name{color:#fff;font-weight:500}
+.officer-row .role{color:rgba(69,34,1,.5)}
+.officer-row .name{color:#452201;font-weight:500}
 .rp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -110,6 +110,7 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
 </div>
 <div class="guild-btns">
   <button class="btn-community">進入社群</button>
+  <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
@@ -118,9 +119,6 @@ body{background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 
   <div class="chevrons">▲▲</div>
   <div class="treasury">金庫餘額</div>
   <div class="treasury-val">850,000</div>
-  <div class="gold-actions">
-    <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
-  </div>
 </div>
 <div class="officers">
   <h3>公會幹部</h3>
