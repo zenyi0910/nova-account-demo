@@ -11,12 +11,12 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
 .phone-frame iframe{width:100%;height:100%;border:none;border-radius:38px;display:block}
-.modal-overlay{position:absolute;inset:0;border-radius:38px;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;z-index:50;padding:0 12px;transition:opacity .3s}
+.modal-overlay{position:absolute;inset:0;border-radius:38px;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;padding:0;transition:opacity .3s}
 .modal-overlay.hidden{opacity:0;pointer-events:none}
-.guild-tabs{width:100%;max-width:340px;height:54px;display:flex;align-items:flex-end;justify-content:center;gap:6px;padding-bottom:8px;flex-shrink:0}
-.guild-tabs button{padding:0 12px;height:26px;font-size:12px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)}
-.guild-tabs button.active{background:rgba(120,60,20,.4);color:#fff}
-.guild-content{position:relative;width:100%;max-width:340px;height:calc(100% - 130px);overflow-y:auto;background:#fafafa;border:5px solid #f4b63f;border-radius:20px;padding:16px 8px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);scrollbar-width:none}
+.guild-tabs{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0;flex-shrink:0}
+.guild-tabs button{padding:0 12px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff}
+.guild-tabs button.active{background:rgba(120,60,20,.2)}
+.guild-content{position:relative;width:358px;max-height:600px;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;scrollbar-width:none}
 .guild-content::-webkit-scrollbar{display:none}
 .guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
 .guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
@@ -49,8 +49,8 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .guild-func-item .chevron{stroke-width:3}
 .guild-func-item.dissolve{display:flex;justify-content:center;height:40px;width:160px;margin:6px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none;font-size:12px}
 .guild-func-item.dissolve svg{display:none}
-.footer-deco{position:absolute;bottom:0;left:0;right:0;height:70px;background:url('assets/dialog_footer.png') repeat-x center/contain;z-index:60;pointer-events:none}
-.close-btn{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#fff;font-size:18px}
+.footer-deco{position:absolute;bottom:0;left:0;right:0;height:72px;pointer-events:none}
+.close-btn{position:relative;width:40px;height:40px;border-radius:9999px;background:rgb(250,250,250);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#452201;font-size:18px;margin-top:8px;flex-shrink:0}
 .rp-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -148,7 +148,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 </div>
 </div>
 </div>
-<div class="footer-deco"></div>
+<div class="footer-deco"><img src="assets/dialog_footer.png" style="width:100%;height:72px;object-fit:cover"></div>
 <div class="close-btn" onclick="window.location.href='nova-frontend-demo.html'"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
 </div>
 </div>
