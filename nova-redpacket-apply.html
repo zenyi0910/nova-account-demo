@@ -14,12 +14,12 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .modal-overlay{position:absolute;inset:0;border-radius:38px;background:rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:50;padding:0;transition:opacity .3s}
 .modal-overlay.hidden{opacity:0;pointer-events:none}
 .guild-wrapper{position:relative;width:100%;max-width:400px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 16px}
-.guild-header-wrap{position:relative;width:358px;flex-shrink:0}
-.guild-header-img{width:358px;height:72px;object-fit:cover;display:block}
-.guild-tabs-wrap{position:absolute;z-index:70;bottom:0;left:50%;transform:translateX(-50%);width:100%;display:flex;justify-content:center;align-items:center;gap:4px;padding:0 40px;height:32px;background:linear-gradient(135deg,#f5a623,#e8960c);border-radius:9999px;margin:0 auto;max-width:280px}
+.guild-header-wrap{position:relative;width:100%;max-width:400px;min-width:300px;display:flex;justify-content:center;flex-shrink:0}
+.guild-header-img{position:relative;bottom:-8px;z-index:40;width:100%;height:72px;object-fit:contain}
+.guild-tabs-wrap{position:absolute;z-index:70;top:80%;left:50%;transform:translate(-50%,-50%);width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:0 56px;height:32px;background:linear-gradient(135deg,#f5a623,#e8960c);border-radius:9999px}
 .guild-tabs-wrap button{flex:1;padding:0 8px;height:26px;font-size:12px;font-weight:600;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:rgba(255,255,255,.8)}
 .guild-tabs-wrap button.active{background:#fff;color:#452201;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.guild-content{position:relative;width:358px;max-height:calc(100% - 120px);overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;scrollbar-width:none;flex-shrink:0}
+.guild-content{position:relative;z-index:20;width:100%;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;scrollbar-width:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
 .guild-content::-webkit-scrollbar{display:none}
 .guild-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%}
 .guild-profile{display:flex;align-items:center;gap:12px;width:100%;padding:0 8px}
@@ -34,14 +34,18 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .btn-community{background:#ff842f;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgba(200,80,0,.72),inset 0 2px 1px rgba(255,253,247,.48)}
 .btn-settings{background:#3b82f6 !important;color:#fff !important;box-shadow:2px 2px 4px rgba(0,0,180,.4),inset -2px -4px 2px rgba(0,0,100,.3),inset 0 2px 1px rgba(255,253,247,.48)}
 .guild-desc{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px 10px;color:#452201;font-size:12px;line-height:1.4;font-weight:500;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
-.gold-section{width:100%;background:#fafafa;border-radius:14px;padding:12px 10px;text-align:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.gold-section{width:100%;background:#fafafa;border-radius:14px;padding:16px 12px;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
+.gold-top{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;padding:0 12px}
+.gold-top .coin-icon{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#e8a020);display:flex;align-items:center;justify-content:center}
+.gold-top .coin-icon svg{width:28px;height:28px}
 .gold-section .gold-label{font-size:12px;color:#fbc323;font-weight:500}
 .gold-section .gold-value{font-size:18px;font-weight:700;color:#452201;margin:2px 0}
-.gold-section .divider{width:80%;height:1px;background:rgba(69,34,1,.08);margin:6px auto}
-.gold-section .treasury-row{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
+.gold-divider{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;padding:0 16px}
+.gold-divider span{flex:1;height:1px;background:rgba(100,80,60,.15)}
+.gold-bottom{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:0 12px}
 .gold-section .treasury-label{font-size:12px;color:#fbc323}
-.gold-section .treasury-val{font-size:14px;font-weight:700;color:#452201}
-.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer}
+.gold-section .treasury-val{font-size:16px;font-weight:700;color:#452201}
+.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 16px rgba(3,165,123,.48),inset -2px -4px 2px rgba(3,165,123,1),inset 0 2px 1px rgba(255,253,247,.48)}
 .officers{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:10px;box-shadow:inset 1px 1px 6px rgba(0,0,0,.4),inset -1px -1px 5px rgba(255,255,255,.3)}
 .officer-row{display:flex;justify-content:space-between;padding:6px 4px;font-size:12px;color:#452201}
 .officer-row .role{font-weight:600}
@@ -52,8 +56,8 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .guild-func-item .chevron{stroke-width:3}
 .guild-func-item.dissolve{display:flex;justify-content:center;height:40px;width:160px;margin:6px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:none;font-size:12px}
 .guild-func-item.dissolve svg{display:none}
-.footer-deco{position:absolute;bottom:0;left:0;right:0;height:72px;pointer-events:none}
-.close-btn{position:relative;width:40px;height:40px;border-radius:9999px;background:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:70;color:#000;font-size:18px;margin-top:8px;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.footer-deco{position:absolute;z-index:40;bottom:0;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center/contain;pointer-events:none}
+.close-btn{position:absolute;z-index:50;bottom:40px;left:50%;transform:translate(-50%,75%);width:56px;height:56px;border-radius:9999px;background:#fafafa;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#452201;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
 .rp-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .rp-dialog{width:100%;max-height:85%;background:#fafafa;border-radius:20px 20px 0 0;overflow-y:auto;position:relative;animation:slideUp .3s ease;padding-bottom:20px}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
@@ -128,12 +132,13 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 </div>
 <div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
 <div class="gold-section">
-  <span class="gold-label">公會累積金幣</span>
-  <div class="gold-value">0</div>
-  <div class="divider" style="display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0"><span style="width:40%;height:1px;background:rgba(69,34,1,.15)"></span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#eab308" stroke-width="2.5"><path d="m17 11-5-5-5 5"/><path d="m17 18-5-5-5 5"/></svg><span style="width:40%;height:1px;background:rgba(69,34,1,.15)"></span></div>
-  <div class="treasury-row">
-    <span class="treasury-label">金庫餘額</span>
-    <span class="treasury-val">0</span>
+  <div class="gold-top">
+    <div class="coin-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
+    <div><span class="gold-label">公會累積金幣</span><div class="gold-value">0</div></div>
+  </div>
+  <div class="gold-divider"><span></span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#eab308" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m17 11-5-5-5 5"/><path d="m17 18-5-5-5 5"/></svg><span></span></div>
+  <div class="gold-bottom">
+    <div><span class="treasury-label">金庫餘額</span><div class="treasury-val">0</div></div>
     <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
   </div>
 </div>
@@ -141,6 +146,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
   <div class="officer-row"><span class="role">會長</span><span class="val">QAtest6改改</span></div>
   <div class="officer-row"><span class="role">副會長</span><span class="val">--</span></div>
   <div class="officer-row"><span class="role">創會會長</span><span class="val">QAtest6改改</span></div>
+  <div class="officer-row"><span class="role">公會人數</span><span class="val">5 / 30</span></div>
 </div>
 <div class="guild-func-list">
   <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
@@ -154,8 +160,9 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 </div>
 </div>
 </div>
-<div class="footer-deco"><img src="assets/dialog_footer.png" style="width:100%;height:72px;object-fit:cover"></div>
-<div class="close-btn" onclick="window.location.href='nova-frontend-demo.html'"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+<div class="footer-deco">
+<div class="close-btn" onclick="window.location.href='nova-frontend-demo.html'"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+</div>
 </div>
 </div>
 </div>
