@@ -162,6 +162,10 @@
 <script>
 function closeDrawer(e){const el=document.getElementById('drawer-overlay');el.style.display='none';el.classList.remove('profile-mode');}
 function showSubpage(page){
+  if(page==='guild'){
+    window.parent.location.href='nova-redpacket-apply.html';
+    return;
+  }
   const el=document.getElementById('drawer-overlay');
   const content=document.getElementById('drawer-content');
   el.classList.remove('profile-mode');
