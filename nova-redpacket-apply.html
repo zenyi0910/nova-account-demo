@@ -243,8 +243,19 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     </div>
     <!-- Upload -->
     <div id="tabUpload" style="display:none">
+      <div style="font-size:13px;color:#452201;line-height:1.6;margin-bottom:12px">
+        <p style="font-weight:600;margin-bottom:6px">請上傳符合下列格式的 CSV 檔：</p>
+        <p style="font-size:12px;color:rgba(69,34,1,.7)">檔案僅需「獎品欄位」，一個獎品就是一包點數紅包，且每一列資料不可空白，檔案大小不可超過 1KB。</p>
+      </div>
+      <div style="margin-bottom:12px">
+        <p style="font-size:12px;color:#452201;font-weight:600;margin-bottom:4px">範例：</p>
+        <table style="border-collapse:collapse;font-size:12px;width:auto">
+          <thead><tr><th style="border:1px solid #ddd;padding:4px 16px;background:#f5f5f5;color:#452201">獎品</th></tr></thead>
+          <tbody><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">1000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">2000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">3000</td></tr></tbody>
+        </table>
+      </div>
       <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="alert('（Demo）下載 CSV 範本')" style="background:none;border:1px solid #d97706;border-radius:8px;padding:6px 12px;font-size:12px;color:#d97706;cursor:pointer;font-weight:500">下載範本</button></div>
-      <div class="rp-upload" onclick="document.getElementById('csvFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p>點擊上傳 CSV 檔案</p><div class="hint">格式：每列一包點數，上限 100 筆，≤ 1KB</div></div>
+      <div class="rp-upload" onclick="document.getElementById('csvFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p>上傳 CSV</p></div>
       <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
       <div id="csvInfo" style="display:none"></div>
       <div class="rp-error" id="csvErr"></div>
