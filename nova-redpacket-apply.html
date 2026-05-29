@@ -211,6 +211,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
   <div class="rp-body">
     <!-- Step 1: 選擇公會 + 注意事項 -->
     <div id="rpStep1">
+    <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value">1,250,000</span></div></div>
     <button onclick="rpSelectGuild()" style="width:100%;padding:12px 16px;margin-bottom:12px;background:#fff;border:1px solid #e0e0e0;border-radius:9999px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.08)">選擇可領取紅包公會 ＞</button>
     <div class="rp-notes" style="margin:0"><ol>
       <li>每包金額最低 1,000 起。</li>
@@ -224,7 +225,6 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     </div>
     <!-- Step 2: 表單（選好公會後顯示） -->
     <div id="rpStep2" style="display:none">
-    <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value" id="balVal">1,250,000</span></div></div>
     <div style="background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:#452201;cursor:pointer" onclick="rpEditGuild()">已選公會：<strong id="rpSelectedGuilds">2 個</strong> <span style="float:right;color:#d97706">編輯 ＞</span></div>
     <!-- Single -->
     <div id="tabSingle">
@@ -247,19 +247,20 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
         <p style="font-weight:600;margin-bottom:6px">請上傳符合下列格式的 CSV 檔：</p>
         <p style="font-size:12px;color:rgba(69,34,1,.7)">檔案僅需「獎品欄位」，一個獎品就是一包點數紅包，且每一列資料不可空白，檔案大小不可超過 1KB。</p>
       </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <p style="font-size:12px;color:#452201;font-weight:600;margin:0">範例：</p>
+        <button onclick="alert('（Demo）下載 CSV 範本')" style="background:none;border:1px solid #d97706;border-radius:8px;padding:6px 12px;font-size:12px;color:#d97706;cursor:pointer;font-weight:500">下載範本</button>
+      </div>
       <div style="margin-bottom:12px">
-        <p style="font-size:12px;color:#452201;font-weight:600;margin-bottom:4px">範例：</p>
         <table style="border-collapse:collapse;font-size:12px;width:auto">
           <thead><tr><th style="border:1px solid #ddd;padding:4px 16px;background:#f5f5f5;color:#452201">獎品</th></tr></thead>
           <tbody><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">1000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">2000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">3000</td></tr></tbody>
         </table>
       </div>
-      <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button onclick="alert('（Demo）下載 CSV 範本')" style="background:none;border:1px solid #d97706;border-radius:8px;padding:6px 12px;font-size:12px;color:#d97706;cursor:pointer;font-weight:500">下載範本</button></div>
       <div class="rp-upload" onclick="document.getElementById('csvFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p>上傳 CSV</p></div>
       <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
       <div id="csvInfo" style="display:none"></div>
       <div class="rp-error" id="csvErr"></div>
-      <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">CSV 申請總金額</span><span class="value" id="uTotal">0</span></div></div>
     </div>
     <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
     </div>
@@ -317,14 +318,14 @@ function handleCSV(input){
 }
 function clearCSV(){document.getElementById('csvFile').value='';document.getElementById('csvInfo').style.display='none';document.getElementById('uTotal').textContent='0';}
 function submitRP(){
-  if(used>=DAILY){alert('今日申請次數已達上限');return;}
   var tab=document.querySelector('.rp-tabs-inner button.active').textContent.trim(),total=0;
   if(tab==='一組')total=parseInt((document.getElementById('sTotal').textContent||'0').replace(/,/g,''));
   else if(tab==='多組')total=parseInt((document.getElementById('mTotal').textContent||'0').replace(/,/g,''));
-  else total=parseInt((document.getElementById('uTotal').textContent||'0').replace(/,/g,''));
+  else total=parseInt((document.getElementById('uTotal')?document.getElementById('uTotal').textContent:'0').replace(/,/g,''));
   if(!total){alert('請填寫紅包資訊');return;}
   if(total+RES>BAL){alert('餘額不足！需保留 30,000 金幣\n可用額度：'+(BAL-RES).toLocaleString());return;}
-  alert('紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n\n非白名單公會，需等待官方審核');
+  if(!confirm('紅包申請總金額：'+total.toLocaleString()+' 金幣\n\n一旦送出無法取消，確定提交？'))return;
+  alert('紅包申請已提交！\n\n非白名單公會，需等待官方審核');
 }
 var subPages={
   members:'<div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%"><div style="display:flex;justify-content:flex-start;align-items:center;gap:8px;width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px;overflow-x:auto"><button style="background:oklch(0.623 0.214 259.815);color:#fff;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">最後登入</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">今日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">昨日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本月</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上月</button></div><table style="width:100%;border-collapse:collapse;font-size:12px;color:#452201"><thead><tr><th style="padding:10px 4px;text-align:left;font-weight:700;background:#fff;height:40px">人員</th><th style="padding:10px 4px;text-align:right;font-weight:700;background:#fff;height:40px">最後登入時間</th></tr></thead><tbody><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest6改改</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:56</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest5</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:39</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User298225</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 12:00</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User646941</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:53</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User973087</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:50</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User112233</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/26 09:30</td></tr></tbody></table></div>',
