@@ -16,11 +16,11 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .guild-wrapper{position:relative;width:100%;max-width:400px;padding:0 16px;display:flex;flex-direction:column;align-items:center;flex:1;min-height:0}
 .guild-header-wrap{position:relative;width:100%;max-width:400px;min-width:300px;display:flex;justify-content:center;flex-shrink:0}
 .guild-header-img{position:relative;bottom:0;z-index:40;width:100%;height:72px;object-fit:contain}
-.guild-tabs-wrap{position:absolute;z-index:70;top:85%;left:50%;transform:translate(-50%,-50%);width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding:0 56px;height:28px;background:transparent;border-radius:8px}
-.guild-tabs-wrap button{padding:0 12px;height:28px;font-size:14px;font-weight:500;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#fff;transition:background .2s;white-space:nowrap}
-.guild-tabs-wrap button.active{background:rgba(69,34,1,.2);color:#fff;box-shadow:inset 1px 1px 1px rgba(17,17,17,.21),inset -1px -1px 1px rgb(255,255,255)}
-.guild-tabs-wrap button:hover:not(.active){background:rgba(69,34,1,.1)}
-.guild-content{position:relative;z-index:20;width:100%;max-width:400px;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;margin-top:0;scrollbar-width:none;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.guild-tabs-wrap{position:absolute;z-index:70;top:45%;left:50%;transform:translate(-50%,-50%);width:80%;display:flex;justify-content:center;align-items:center;gap:4px;padding:4px 6px;height:36px;background:transparent;border-radius:9999px}
+.guild-tabs-wrap button{padding:0 14px;height:28px;font-size:13px;font-weight:700;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#5c3a00;transition:all .2s;white-space:nowrap}
+.guild-tabs-wrap button.active{background:linear-gradient(180deg,#f5a623 0%,#d4780a 100%);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.guild-tabs-wrap button:hover:not(.active){background:rgba(255,255,255,.15)}
+.guild-content{position:relative;z-index:20;width:100%;max-width:400px;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;margin-top:-24px;scrollbar-width:none;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
 .guild-content::-webkit-scrollbar{display:none}
 .guild-inner{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
 .guild-profile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;width:100%;padding:0 8px}
