@@ -227,7 +227,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value" id="balVal">1,250,000</span></div></div>
     <div class="rp-balance" style="margin-top:-4px"><div><span class="label">凍結金幣</span></div><div style="display:flex;align-items:center"><span class="value" style="color:#dc2626;font-size:16px" id="frozenVal">800,000</span></div></div>
     <div class="rp-limit"><span>今日已申請：<strong style="color:#452201">3</strong> / 10 次</span><span>保留門檻：30,000</span></div>
-    <div style="background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:#452201">已選公會：<strong id="rpSelectedGuilds">窩要煙牌、星運一族</strong></div>
+    <div style="background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:#452201;cursor:pointer" onclick="rpEditGuild()">已選公會：<strong id="rpSelectedGuilds">2 個</strong> <span style="float:right;color:#d97706">編輯 ＞</span></div>
     <!-- Single -->
     <div id="tabSingle">
       <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
@@ -269,6 +269,10 @@ function closeRP(){document.getElementById('rpOverlay').style.display='none';}
 function rpSelectGuild(){
   var sel=confirm('選擇可領取紅包的公會：\n\n☑ 窩要煙牌\n☑ 星運一族\n☐ 黃金戰隊\n\n確定選擇？');
   if(sel){document.getElementById('rpStep1').style.display='none';document.getElementById('rpStep2').style.display='';}
+}
+function rpEditGuild(){
+  var sel=confirm('編輯可領取紅包的公會：\n\n☑ 窩要煙牌\n☑ 星運一族\n☐ 黃金戰隊\n\n確定修改？');
+  if(sel){document.getElementById('rpSelectedGuilds').textContent='2 個';}
 }
 function rpTab(t){
   document.querySelectorAll('.rp-tabs-inner button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
