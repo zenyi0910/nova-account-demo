@@ -209,10 +209,25 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     <button onclick="rpTab('upload')">上傳</button>
   </div>
   <div class="rp-body">
+    <!-- Step 1: 選擇公會 + 注意事項 -->
+    <div id="rpStep1">
+    <button onclick="rpSelectGuild()" style="width:100%;padding:12px;margin-bottom:12px;background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left">選擇可領取的公會(可多選) ＞</button>
+    <div class="rp-notes" style="margin:0"><h4>注意事項</h4><ol>
+      <li>每包金額最低 1,000 起。</li>
+      <li>多組每次最多申請 30 組。</li>
+      <li>上傳 CSV 紅包每次最多申請 100 組。</li>
+      <li>會長身上餘額最低需保留 30,000。</li>
+      <li>申請次數每次最高申請 10 次。</li>
+      <li>申請次數為當次申請每包金額與數量需重複申請次數。<br>EX：一組 3 包 1000 金幣申請 3 次，<br>最終為 3 組兌換碼，每組內皆有 3 包 1000 金幣。</li>
+      <li>請確認資料填寫正確，申請後會先扣除金幣；<br>若申請未通過，系統將退回本次申請扣除之金幣。</li>
+    </ol></div>
+    </div>
+    <!-- Step 2: 表單（選好公會後顯示） -->
+    <div id="rpStep2" style="display:none">
     <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value" id="balVal">1,250,000</span></div></div>
     <div class="rp-balance" style="margin-top:-4px"><div><span class="label">凍結金幣</span></div><div style="display:flex;align-items:center"><span class="value" style="color:#dc2626;font-size:16px" id="frozenVal">800,000</span></div></div>
     <div class="rp-limit"><span>今日已申請：<strong style="color:#452201">3</strong> / 10 次</span><span>保留門檻：30,000</span></div>
-    <button onclick="alert('（Demo）選擇可領取紅包的公會範圍：\n☑ 窩要煙牌\n☑ 星運一族\n☐ 黃金戰隊')" style="width:100%;padding:10px;margin-bottom:12px;background:#fff;border:1px solid rgba(245,166,35,.4);border-radius:10px;color:#d97706;font-size:13px;font-weight:500;cursor:pointer;text-align:left">選擇可領取紅包公會（已選 2 個）</button>
+    <div style="background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:#452201">已選公會：<strong id="rpSelectedGuilds">窩要煙牌、星運一族</strong></div>
     <!-- Single -->
     <div id="tabSingle">
       <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
@@ -237,7 +252,8 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
       <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">CSV 申請總金額</span><span class="value" id="uTotal">0</span></div></div>
     </div>
     <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
-    <div class="rp-notes"><h4>⚠ 注意事項</h4><ol>
+    </div>
+    <div class="rp-notes" id="rpNotes2" style="display:none;margin:16px 0 0"><h4>⚠ 注意事項</h4><ol>
       <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
       <li>每日最高申請 10 次</li>
       <li>多組模式每次最多 30 組，CSV 上傳最多 100 筆</li>
@@ -256,8 +272,12 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 
 <script>
 var BAL=1250000,FROZEN=800000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
-function openRP(){document.getElementById('rpOverlay').style.display='flex';}
+function openRP(){document.getElementById('rpOverlay').style.display='flex';document.getElementById('rpStep1').style.display='';document.getElementById('rpStep2').style.display='none';document.getElementById('rpNotes2').style.display='none';}
 function closeRP(){document.getElementById('rpOverlay').style.display='none';}
+function rpSelectGuild(){
+  var sel=confirm('選擇可領取紅包的公會：\n\n☑ 窩要煙牌\n☑ 星運一族\n☐ 黃金戰隊\n\n確定選擇？');
+  if(sel){document.getElementById('rpStep1').style.display='none';document.getElementById('rpStep2').style.display='';document.getElementById('rpNotes2').style.display='';}
+}
 function rpTab(t){
   document.querySelectorAll('.rp-tabs-inner button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
   document.getElementById('tabSingle').style.display=t==='single'?'':'none';
