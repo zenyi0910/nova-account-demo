@@ -212,7 +212,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     <!-- Step 1: 選擇公會 + 注意事項 -->
     <div id="rpStep1">
     <button onclick="rpSelectGuild()" style="width:100%;padding:12px;margin-bottom:12px;background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left">選擇可領取的公會(可多選) ＞</button>
-    <div class="rp-notes" style="margin:0"><h4>注意事項</h4><ol>
+    <div class="rp-notes" style="margin:0"><ol>
       <li>每包金額最低 1,000 起。</li>
       <li>多組每次最多申請 30 組。</li>
       <li>上傳 CSV 紅包每次最多申請 100 組。</li>
@@ -253,15 +253,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     </div>
     <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
     </div>
-    <div class="rp-notes" id="rpNotes2" style="display:none;margin:16px 0 0"><h4>⚠ 注意事項</h4><ol>
-      <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
-      <li>每日最高申請 10 次</li>
-      <li>多組模式每次最多 30 組，CSV 上傳最多 100 筆</li>
-      <li>申請時直接扣除身上金幣，並同步扣除相對應凍結金幣</li>
-      <li>會長餘額最低需保留 30,000 金幣</li>
-      <li>紅包序號無期限限制，不受一般贈禮規範（8日凍結、次數/金額限制）約束</li>
-      <li>非白名單公會需經官方審核通過後方可產生序號</li>
-    </ol></div>
+  </div>
   </div>
   </div>
   <button class="rp-dialog-close" onclick="closeRP()"><div class="rp-dialog-close-inner"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#452201" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></button>
@@ -272,11 +264,11 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 
 <script>
 var BAL=1250000,FROZEN=800000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
-function openRP(){document.getElementById('rpOverlay').style.display='flex';document.getElementById('rpStep1').style.display='';document.getElementById('rpStep2').style.display='none';document.getElementById('rpNotes2').style.display='none';}
+function openRP(){document.getElementById('rpOverlay').style.display='flex';document.getElementById('rpStep1').style.display='';document.getElementById('rpStep2').style.display='none';}
 function closeRP(){document.getElementById('rpOverlay').style.display='none';}
 function rpSelectGuild(){
   var sel=confirm('選擇可領取紅包的公會：\n\n☑ 窩要煙牌\n☑ 星運一族\n☐ 黃金戰隊\n\n確定選擇？');
-  if(sel){document.getElementById('rpStep1').style.display='none';document.getElementById('rpStep2').style.display='';document.getElementById('rpNotes2').style.display='';}
+  if(sel){document.getElementById('rpStep1').style.display='none';document.getElementById('rpStep2').style.display='';}
 }
 function rpTab(t){
   document.querySelectorAll('.rp-tabs-inner button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
