@@ -68,22 +68,22 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 .footer-deco{position:absolute;z-index:40;bottom:38px;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center bottom/contain;pointer-events:none}
 .close-btn{position:absolute;z-index:50;top:50%;left:50%;transform:translate(-50%,-75%);display:flex;justify-content:center;align-items:center;width:72px;height:72px;border-radius:9999px;background:transparent;border:none;cursor:pointer;pointer-events:auto}
 .rp-overlay{position:absolute;inset:0;background:oklab(0 0 0 / 0.8);border-radius:38px;z-index:200;display:none;align-items:center;justify-content:center;overflow:hidden}
-.rp-dialog{position:relative;width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;padding:40px 16px}
+.rp-dialog{position:relative;width:100%;max-width:360px;height:100%;display:flex;flex-direction:column;align-items:center;padding:60px 16px 16px;overflow:hidden}
 .rp-dialog-header{position:relative;width:100%;min-width:300px}
 .rp-dialog-header img{position:absolute;top:-8px;z-index:40;width:100%;height:72px;object-fit:contain}
 .rp-dialog-title{position:absolute;z-index:50;top:16px;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);white-space:nowrap}
-.rp-dialog-card{width:100%;max-height:500px;overflow-y:auto;margin-top:32px;padding:32px 8px 20px;background:#fafafa;border:8px solid rgb(244,182,63);border-radius:24px;scrollbar-width:none}
+.rp-dialog-card{width:100%;flex:1;min-height:0;overflow-y:auto;margin-top:32px;padding:32px 8px 20px;background:#fafafa;border:8px solid rgb(244,182,63);border-radius:24px;scrollbar-width:none}
 .rp-dialog-card::-webkit-scrollbar{display:none}
-.rp-dialog-close{margin-top:16px;width:72px;height:72px;border-radius:9999px;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px}
+.rp-dialog-close{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:72px;height:72px;border-radius:9999px;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px;z-index:10}
 .rp-dialog-close-inner{width:64px;height:64px;border-radius:9999px;background:#fafafa;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
 .rp-header h2{color:#452201;font-size:18px;font-weight:700}
 .rp-close{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;cursor:pointer}
 .rp-close svg{width:16px;height:16px;color:#452201}
-.rp-tabs-inner{display:flex;gap:4px;background:#e8e8e8;border-radius:9999px;margin:12px 16px;padding:3px}
-.rp-tabs-inner button{flex:1;padding:8px 0;font-size:14px;font-weight:500;color:#666;background:none;border:2px solid transparent;cursor:pointer;border-radius:9999px}
-.rp-tabs-inner button.active{color:#1a73e8;background:#fff;border:2px solid #1a73e8;font-weight:700}
+.rp-tabs-inner{display:flex;gap:4px;background:#f0f0f0;border-radius:9999px;margin:12px 16px;padding:3px}
+.rp-tabs-inner button{flex:1;padding:8px 0;font-size:14px;font-weight:500;color:#999;background:none;border:none;cursor:pointer;border-radius:9999px}
+.rp-tabs-inner button.active{color:#fff;background:#2d2d2d;font-weight:700}
 .rp-body{padding:0 16px}
 .rp-balance{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px 16px;margin-bottom:12px}
 .rp-balance .label{font-size:12px;color:rgba(69,34,1,.5)}
@@ -169,9 +169,9 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
   <div class="officer-row"><span class="role">公會人數</span><span class="val">6 / 30</span></div>
 </div>
 <div class="guild-func-list">
-  <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('members')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>會員列表</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="guild-func-item" onclick="showSub('members')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>會員活躍度</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
   <div class="guild-func-item" onclick="showSub('manage')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M18.5 3.5l3 3"/><path d="M20 6l-7.5 7.5"/></svg><span>會員管理</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
+  <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
   <div class="guild-func-item" onclick="showSub('rpAudit')"><svg viewBox="0 0 24 24"><path d="M9 5H2v7l6.29 6.29a1 1 0 0 0 1.42 0l5.58-5.58a1 1 0 0 0 0-1.42Z"/><circle cx="6" cy="9" r="1"/></svg><span>紅包審核紀錄</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
   <div class="guild-func-item" onclick="showSub('rpRecord')"><svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m19.07 4.93-14.14 14.14"/></svg><span>紅包紀錄</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
   <div class="guild-func-item" onclick="showSub('joinAudit')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span>入會審核</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
@@ -211,7 +211,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
   <div class="rp-body">
     <!-- Step 1: 選擇公會 + 注意事項 -->
     <div id="rpStep1">
-    <button onclick="rpSelectGuild()" style="width:100%;padding:12px;margin-bottom:12px;background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left">選擇可領取的公會(可多選) ＞</button>
+    <button onclick="rpSelectGuild()" style="width:100%;padding:12px 16px;margin-bottom:12px;background:#fff;border:1px solid #e0e0e0;border-radius:9999px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.08)">選擇可領取紅包公會 ＞</button>
     <div class="rp-notes" style="margin:0"><ol>
       <li>每包金額最低 1,000 起。</li>
       <li>多組每次最多申請 30 組。</li>
