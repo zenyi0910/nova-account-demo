@@ -210,12 +210,14 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
   </div>
   <div class="rp-body">
     <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value" id="balVal">1,250,000</span></div></div>
+    <div class="rp-balance" style="margin-top:-4px"><div><span class="label">凍結金幣</span></div><div style="display:flex;align-items:center"><span class="value" style="color:#dc2626;font-size:16px" id="frozenVal">800,000</span></div></div>
     <div class="rp-limit"><span>今日已申請：<strong style="color:#452201">3</strong> / 10 次</span><span>保留門檻：30,000</span></div>
+    <button onclick="alert('（Demo）選擇可領取紅包的公會範圍：\\n☑ 窩要煙牌\\n☑ 星運一族\\n☐ 黃金戰隊')" style="width:100%;padding:10px;margin-bottom:12px;background:#fff;border:1px solid rgba(245,166,35,.4);border-radius:10px;color:#d97706;font-size:13px;font-weight:500;cursor:pointer;text-align:left">📋 選擇可領取紅包公會（已選 2 個）</button>
     <!-- Single -->
     <div id="tabSingle">
       <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
       <div class="rp-form-group"><label>每包點數</label><input type="number" class="rp-input" id="sAmt" placeholder="每包 1,000 ~ 1,000,000 金幣" min="1000" max="1000000" oninput="calcS()"><div class="rp-error" id="sAmtErr">每包金額需介於 1,000 ~ 1,000,000</div></div>
-      <div class="rp-form-group"><label>領取次數</label><input type="number" class="rp-input" id="sTimes" placeholder="每組序號可領取次數" min="1" oninput="calcS()"></div>
+      <div class="rp-form-group"><label>申請次數</label><input type="number" class="rp-input" id="sTimes" placeholder="每組序號可領取次數" min="1" oninput="calcS()"></div>
       <div class="rp-calc"><div class="row"><span class="label">紅包申請總金額</span><span class="value" id="sTotal">0</span></div></div>
     </div>
     <!-- Multi -->
@@ -238,10 +240,10 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
     <div class="rp-notes"><h4>⚠ 注意事項</h4><ol>
       <li>每包金額限制：1,000 ~ 1,000,000 金幣</li>
       <li>每日最高申請 10 次</li>
-      <li>多組模式每次最多 30 組，CSV 上傳最多 100 組</li>
-      <li>申請時直接扣除身上金幣，同步扣除凍結金幣</li>
+      <li>多組模式每次最多 30 組，CSV 上傳最多 100 筆</li>
+      <li>申請時直接扣除身上金幣，並同步扣除相對應凍結金幣</li>
       <li>會長餘額最低需保留 30,000 金幣</li>
-      <li>紅包序號不限期，不受一般贈禮規範限制</li>
+      <li>紅包序號無期限限制，不受一般贈禮規範（8日凍結、次數/金額限制）約束</li>
       <li>非白名單公會需經官方審核通過後方可產生序號</li>
     </ol></div>
   </div>
@@ -253,7 +255,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
 </div>
 
 <script>
-var BAL=1250000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
+var BAL=1250000,FROZEN=800000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
 function openRP(){document.getElementById('rpOverlay').style.display='flex';}
 function closeRP(){document.getElementById('rpOverlay').style.display='none';}
 function rpTab(t){
@@ -296,7 +298,8 @@ function submitRP(){
   else total=parseInt((document.getElementById('uTotal').textContent||'0').replace(/,/g,''));
   if(!total){alert('請填寫紅包資訊');return;}
   if(total+RES>BAL){alert('餘額不足！需保留 30,000 金幣\n可用額度：'+(BAL-RES).toLocaleString());return;}
-  alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+Math.min(total,800000).toLocaleString()+'\n\n⏳ 非白名單公會，需等待官方審核');
+  var frozenDeduct=Math.min(total,FROZEN);
+  alert('✅ 紅包申請已提交！\n\n申請總金額：'+total.toLocaleString()+' 金幣\n凍結金幣扣除：'+frozenDeduct.toLocaleString()+'\n（公式：min(申請金額, 目前凍結金幣)）\n\n⏳ 非白名單公會，需等待官方審核');
 }
 var subPages={
   members:'<div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%"><div style="display:flex;justify-content:flex-start;align-items:center;gap:8px;width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px;overflow-x:auto"><button style="background:oklch(0.623 0.214 259.815);color:#fff;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">最後登入</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">今日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">昨日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本月</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上月</button></div><table style="width:100%;border-collapse:collapse;font-size:12px;color:#452201"><thead><tr><th style="padding:10px 4px;text-align:left;font-weight:700;background:#fff;height:40px">人員</th><th style="padding:10px 4px;text-align:right;font-weight:700;background:#fff;height:40px">最後登入時間</th></tr></thead><tbody><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest6改改</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:56</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest5</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:39</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User298225</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 12:00</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User646941</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:53</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User973087</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:50</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User112233</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/26 09:30</td></tr></tbody></table></div>',
