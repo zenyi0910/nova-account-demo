@@ -171,7 +171,7 @@ function rpApprove(id) {
     modal.id = 'rpApproveModal';
     modal.innerHTML =
       '<div class="modal" style="max-width:750px">' +
-        '<div class="modal-header"><h3>審核通過 - 產生紅包序號</h3><button class="modal-close" onclick="closeRpModal(\'rpApproveModal\')">&times;</button></div>' +
+        '<div class="modal-header"><h3>審核通過 - 產生紅包序號</h3><button style="background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;margin-right:4px" onclick="var m=this.closest(\'.modal\');if(m.style.maxWidth===\'100%\'){m.style.maxWidth=\'750px\';m.style.width=\'90%\';m.style.height=\'\';m.style.maxHeight=\'85vh\';m.style.borderRadius=\'12px\'}else{m.style.maxWidth=\'100%\';m.style.width=\'100%\';m.style.height=\'100vh\';m.style.maxHeight=\'100vh\';m.style.borderRadius=\'0\'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button><button class="modal-close" onclick="closeRpModal(\'rpApproveModal\')">&times;</button></div>' +
         '<div class="modal-body" id="rpApproveBody"></div>' +
         '<div class="modal-footer" id="rpApproveFooter"></div>' +
       '</div>';
@@ -227,7 +227,7 @@ function rpReject(id) {
     modal.id = 'rpRejectModal';
     modal.innerHTML =
       '<div class="modal" style="max-width:420px">' +
-        '<div class="modal-header"><h3>駁回紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
+        '<div class="modal-header"><h3>駁回紅包申請</h3><button style="background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;margin-right:4px" onclick="var m=this.closest(\'.modal\');if(m.style.maxWidth===\'100%\'){m.style.maxWidth=\'420px\';m.style.width=\'90%\';m.style.height=\'\';m.style.maxHeight=\'85vh\';m.style.borderRadius=\'12px\'}else{m.style.maxWidth=\'100%\';m.style.width=\'100%\';m.style.height=\'100vh\';m.style.maxHeight=\'100vh\';m.style.borderRadius=\'0\'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
         '<div class="modal-body">' +
           '<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;margin-bottom:12px"><p style="font-size:12px;color:#991B1B;margin:0">駁回後系統將自動退回會長身上金幣（申請金額）</p></div>' +
           '<div class="form-group"><label>駁回原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea></div>' +
@@ -269,7 +269,7 @@ function rpDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包審核詳細</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeRpModal(\'rpDetailModal\')">關閉</button></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:750px;transition:all .3s"><div class="modal-header"><h3>紅包審核詳細</h3><button style="background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;margin-right:4px" onclick="var m=this.closest(\'.modal\');if(m.style.maxWidth===\'100%\'){m.style.maxWidth=\'750px\';m.style.width=\'90%\';m.style.height=\'\';m.style.maxHeight=\'85vh\';m.style.borderRadius=\'12px\'}else{m.style.maxWidth=\'100%\';m.style.width=\'100%\';m.style.height=\'100vh\';m.style.maxHeight=\'100vh\';m.style.borderRadius=\'0\'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeRpModal(\'rpDetailModal\')">關閉</button></div></div>';
     document.body.appendChild(modal);
   }
 
@@ -318,7 +318,7 @@ function rpShowRedemptions(sn) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpRedemptionModal';
-    modal.innerHTML = '<div class="modal" style="max-width:650px"><div class="modal-header"><h3>領取名單</h3><button class="modal-close" onclick="closeRpModal(\'rpRedemptionModal\')">&times;</button></div><div class="modal-body" id="rpRedemptionBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:650px;transition:all .3s"><div class="modal-header"><h3>領取名單</h3><button style="background:none;border:none;cursor:pointer;color:#6B7280;padding:4px;margin-right:4px" onclick="var m=this.closest(\'.modal\');if(m.style.maxWidth===\'100%\'){m.style.maxWidth=\'650px\';m.style.width=\'90%\';m.style.height=\'\';m.style.maxHeight=\'85vh\';m.style.borderRadius=\'12px\'}else{m.style.maxWidth=\'100%\';m.style.width=\'100%\';m.style.height=\'100vh\';m.style.maxHeight=\'100vh\';m.style.borderRadius=\'0\'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button><button class="modal-close" onclick="closeRpModal(\'rpRedemptionModal\')">&times;</button></div><div class="modal-body" id="rpRedemptionBody"></div></div>';
     document.body.appendChild(modal);
   }
   // Mock redemption data
