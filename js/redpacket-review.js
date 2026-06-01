@@ -58,6 +58,16 @@ function rpModeText(m) {
   return map[m] || m;
 }
 
+function rpScopeHtml(guildScope) {
+  if (!guildScope || guildScope.length === 0) return '-';
+  var visible = guildScope.slice(0, 2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
+  if (guildScope.length > 2) {
+    var hidden = guildScope.slice(2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
+    visible += '<a href="javascript:void(0)" style="font-size:11px;color:#6366F1" onclick="var el=this.nextElementSibling;el.style.display=el.style.display===\'none\'?\'inline\':\'none\';this.textContent=el.style.display===\'none\'?\'及其他' + (guildScope.length-2) + '個 ▸\':\'收合 ▴\'">及其他' + (guildScope.length-2) + '個 ▸</a><span style="display:none">' + hidden + '</span>';
+  }
+  return visible;
+}
+
 // 產生6碼隨機序號（大小寫英數混合）
 function rpGenCode() {
   var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -104,7 +114,7 @@ function renderRpTable() {
       if (item.status === 'pending') {
         ops = '<div style="display:flex;gap:6px;flex-wrap:nowrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
       } else {
-        ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:oklch(0.777 0.152 181.912);font-size:12px">檢視詳情</a>';
+        ops = '<button onclick="rpDetail(\'' + item.id + '\')" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#333;background:#fff;border:1px solid #d9d9d9;border-radius:4px;padding:4px 8px;cursor:pointer;font-family:inherit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>檢視詳情</button>';
       }
       rows += '<tr>' +
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
@@ -170,17 +180,7 @@ function rpApprove(id) {
   html += '<tr><td style="padding:6px 10px;color:#6B7280">公會 / 會長</td><td style="padding:6px 10px">' + item.guild + ' / ' + item.leader + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請模式</td><td style="padding:6px 10px">' + rpModeText(item.mode) + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請總金額</td><td style="padding:6px 10px;font-weight:600">' + item.totalAmount.toLocaleString() + '</td></tr>';
-  // 可領取公會
-  var scopeHtml = '';
-  if (item.guildScope && item.guildScope.length > 0) {
-    var visible = item.guildScope.slice(0, 2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
-    if (item.guildScope.length > 2) {
-      var hidden = item.guildScope.slice(2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
-      visible += '<a href="javascript:void(0)" style="font-size:11px;color:#6366F1" onclick="var el=this.nextElementSibling;el.style.display=el.style.display===\'none\'?\'inline\':\'none\';this.textContent=el.style.display===\'none\'?\'及其他' + (item.guildScope.length-2) + '個 ▸\':\'收合 ▴\'">及其他' + (item.guildScope.length-2) + '個 ▸</a><span style="display:none">' + hidden + '</span>';
-    }
-    scopeHtml = visible;
-  }
-  html += '<tr><td style="padding:6px 10px;color:#6B7280;vertical-align:top">可領取公會</td><td style="padding:6px 10px">' + scopeHtml + '</td></tr>';
+  html += '<tr><td style="padding:6px 10px;color:#6B7280;vertical-align:top">可領取公會</td><td style="padding:6px 10px">' + rpScopeHtml(item.guildScope) + '</td></tr>';
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
@@ -267,7 +267,7 @@ function rpDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包申請詳情</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包審核詳細</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
     document.body.appendChild(modal);
   }
 
@@ -280,7 +280,7 @@ function rpDetail(id) {
     ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '<span style="color:#00bba7;font-weight:600">是（自動通過）</span>' : '<span style="color:#6a7282">否（需人工審核）</span>'],
     ['申請總金額', item.totalAmount.toLocaleString()], ['審核狀態', rpStatusText(item.status)],
     ['申請時間', item.time],
-    ['可領取公會', (item.guildScope||[]).join('、')]
+    ['可領取公會', rpScopeHtml(item.guildScope)]
   ];
   if (item.reviewer) {
     fields.push(['審核人員', item.reviewer]);
