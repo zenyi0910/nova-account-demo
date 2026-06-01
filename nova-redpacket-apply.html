@@ -378,25 +378,22 @@ function showAuditDetail(btn){
 }
 function showRpDetail(btn){
   _subHistory='rpRecord';
-  var tr=btn.closest?btn.closest('tr'):btn.parentElement.closest('tr');
-  var cells=tr.querySelectorAll('td');
-  var code=cells[0].textContent,points=cells[1].textContent,times=cells[2].textContent,claimed=cells[3].textContent,remain=cells[4].textContent,status=cells[5].textContent;
-  var html='<div style="padding:12px"><div style="display:flex;flex-direction:column;gap:10px">';
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#452201">';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px;grid-column:span 2"><div style="color:#99724a;font-size:11px;margin-bottom:4px">紅包序號</div><div style="font-weight:600;font-size:16px;color:#d97706;letter-spacing:1px">'+code+'</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">每包點數</div><div style="font-weight:600">'+points+' 金幣</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">可領取次數</div><div style="font-weight:600">'+times+' 次</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">已領取</div><div style="font-weight:600">'+claimed+'</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">剩餘份數</div><div style="font-weight:600">'+remain+'</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">狀態</div><div style="font-weight:600">'+status+'</div></div>';
-  html+='<div style="background:#fff8e4;border-radius:10px;padding:10px"><div style="color:#99724a;font-size:11px;margin-bottom:4px">可領取公會</div><div style="font-weight:600">窩要煙牌</div></div>';
-  html+='</div>';
-  html+='<div style="margin-top:8px"><div style="font-size:12px;font-weight:600;color:#452201;margin-bottom:6px">領取明細</div><div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 4px">領取人</th><th style="padding:6px 4px">領取金額</th><th style="padding:6px 4px">領取時間</th></tr></thead><tbody><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 4px;text-align:center">Player002</td><td style="padding:6px 4px;text-align:center">'+points+'</td><td style="padding:6px 4px;text-align:center">2026/01/16 12:30</td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 4px;text-align:center">Player003</td><td style="padding:6px 4px;text-align:center">'+points+'</td><td style="padding:6px 4px;text-align:center">2026/01/16 14:05</td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 4px;text-align:center">User298225</td><td style="padding:6px 4px;text-align:center">'+points+'</td><td style="padding:6px 4px;text-align:center">2026/01/17 09:22</td></tr></tbody></table></div></div>';
-  html+='</div></div>';
-  document.getElementById('subTitle').textContent='紅包詳情';
+  var html='<div style="padding:8px">';
+  html+='<div style="font-size:13px;color:#452201;margin-bottom:8px"><strong>可領取次數</strong> <span style="color:#d97706;font-weight:700">2/100</span></div>';
+  html+='<div style="font-size:13px;color:#452201;margin-bottom:12px"><strong>可領取公會</strong> <span>窩要煙牌</span></div>';
+  html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201;white-space:nowrap"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 8px;font-weight:600">領取時間</th><th style="padding:6px 8px;font-weight:600">序號</th><th style="padding:6px 8px;font-weight:600">領取金額</th><th style="padding:6px 8px;font-weight:600">領取人</th></tr></thead>';
+  html+='<tbody>';
+  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center">2026/01/16 11:31:13</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">cas0</td></tr>';
+  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center">2026/01/16 11:28:42</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">c1</td></tr>';
+  var i;for(i=0;i<8;i++){
+  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center;color:#991b1b">尚未領取</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">無</td></tr>';
+  }
+  html+='</tbody></table></div></div>';
+  document.getElementById('subTitle').textContent='';
   document.getElementById('subContent').innerHTML=html;
   document.getElementById('subOverlay').style.display='flex';
 }
+
 function showSub(page){
   var el=document.getElementById('subOverlay');
   var titles={members:'會員列表',manage:'會員管理',rpAudit:'紅包申請記錄',rpRecord:'紅包紀錄',joinAudit:'入會審核',log:'操作日誌',dissolve:'解散公會'};
