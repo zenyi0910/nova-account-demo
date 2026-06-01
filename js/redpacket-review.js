@@ -112,9 +112,9 @@ function renderRpTable() {
     pageData.forEach(function(item, idx) {
       var ops = '';
       if (item.status === 'pending') {
-        ops = '<div style="display:flex;flex-direction:column;gap:6px">' +
-          '<button onclick="rpApprove(\'' + item.id + '\')" style="padding:6px 12px;border-radius:4px;border:none;background:#00bba7;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;min-width:60px">✓ 同意</button>' +
-          '<button onclick="rpReject(\'' + item.id + '\')" style="padding:6px 12px;border-radius:4px;border:none;background:#EF4444;color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;min-width:60px">✕ 拒絕</button>' +
+        ops = '<div style="display:flex;flex-direction:column;gap:6px;align-items:center">' +
+          '<button onclick="rpApprove(\'' + item.id + '\')" style="padding:4px;border-radius:8px;border:1px solid #00bba7;background:#00bba7;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;width:55px;height:26px">同意</button>' +
+          '<button onclick="rpReject(\'' + item.id + '\')" style="padding:4px;border-radius:8px;border:1px solid #EF4444;background:#EF4444;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;width:55px;height:26px">拒絕</button>' +
           '</div>';
       } else {
         ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" title="檢視詳情" style="display:inline-flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>';
