@@ -157,7 +157,7 @@ function rpApprove(id) {
     modal.className = 'modal-overlay';
     modal.id = 'rpApproveModal';
     modal.innerHTML =
-      '<div class="modal" style="max-width:600px">' +
+      '<div class="modal" style="max-width:750px">' +
         '<div class="modal-header"><h3>審核通過 - 產生紅包序號</h3><button class="modal-close" onclick="closeRpModal(\'rpApproveModal\')">&times;</button></div>' +
         '<div class="modal-body" id="rpApproveBody"></div>' +
         '<div class="modal-footer" id="rpApproveFooter"></div>' +
@@ -173,7 +173,7 @@ function rpApprove(id) {
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
-  html += '<table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
+  html += '<div style="overflow-x:auto"><table class="data-table" style="font-size:12px;white-space:nowrap"><thead><tr style="color:#00897B"><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
   for (var i = 0; i < 3; i++) {
     var rowId = 'rpSn_' + i;
     html += '<tr><td style="text-align:center;width:60px">' + (i+1) + '</td>';
@@ -184,7 +184,7 @@ function rpApprove(id) {
     html += '<td>-</td>';
     html += '</tr>';
   }
-  html += '</tbody></table>';
+  html += '</tbody></table></div>';
   html += '</div>';
   document.getElementById('rpApproveBody').innerHTML = html;
   document.getElementById('rpApproveFooter').innerHTML =
