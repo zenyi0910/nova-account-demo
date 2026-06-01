@@ -67,13 +67,13 @@ function renderRlTable() {
     rows = '<tr><td colspan="8" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item, idx) {
-      var progress = item.claimed + ' / ' + item.total;
+      var remaining = item.total - item.claimed;
       rows += '<tr>' +
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +
         '<td>' + item.id + '</td>' +
         '<td>' + item.time + '</td>' +
         '<td style="text-align:right">' + item.amount.toLocaleString() + '</td>' +
-        '<td>' + progress + '</td>' +
+        '<td style="text-align:center">' + remaining + '</td>' +
         '<td>' + rlStatusText(item.status) + '</td>' +
         '<td>' + item.account + '</td>' +
         '<td>' + item.expire + '</td>' +
@@ -93,7 +93,7 @@ function renderRlTable() {
 
   document.getElementById('rlTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
-    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>申請日期</th><th style="text-align:right">紅包總金額</th><th>領取進度</th><th>領取狀態</th><th>申請人帳號</th><th>有效期限</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>申請日期</th><th style="text-align:right">紅包總金額</th><th style="text-align:center">剩餘數量</th><th>領取狀態</th><th>申請人帳號</th><th>有效期限</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
