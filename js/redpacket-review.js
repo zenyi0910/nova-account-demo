@@ -112,7 +112,6 @@ function renderRpTable() {
         '<td>' + item.guild + '</td>' +
         '<td><span style="display:inline-flex;align-items:center;gap:4px;padding:2px 10px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;color:#7C3AED;font-size:11px;font-weight:500;white-space:nowrap"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><rect x="9" y="13" width="6" height="8"/></svg>Lv.' + item.guildLv + '</span></td>' +
         '<td>' + item.leader + '</td>' +
-        '<td>' + rpModeText(item.mode) + '</td>' +
         '<td>' + item.time + '</td>' +
         '<td style="text-align:right">' + item.totalAmount.toLocaleString() + '</td>' +
 
@@ -136,7 +135,7 @@ function renderRpTable() {
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table" style="white-space:nowrap"><thead><tr>' +
-    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請模式</th><th>申請日期</th><th style="text-align:right">申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th style="min-width:140px">審核操作</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請日期</th><th style="text-align:right">申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th style="min-width:140px">審核操作</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
