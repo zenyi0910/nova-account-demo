@@ -123,7 +123,21 @@ function rlShowDetail(id) {
     document.body.appendChild(modal);
   }
   
-  var html = '<table class="data-table" style="font-size:12px"><thead><tr><th>順序</th><th>領取時間</th><th>序號</th><th>領取金額</th><th>成員</th></tr></thead><tbody>';
+  // 摘要區塊
+  var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px">';
+  html += '<span style="color:#6B7280">可領取次數</span><strong>' + item.claimed + '/' + item.total + '</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">可領取公會</span>';
+  if (item.guildScope && item.guildScope.length > 0) {
+    var visible = item.guildScope.slice(0, 2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">' + g + '</span>'; }).join('');
+    html += visible;
+    if (item.guildScope.length > 2) {
+      var hidden = item.guildScope.slice(2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">' + g + '</span>'; }).join('');
+      html += '<a href="javascript:void(0)" style="font-size:11px;color:#6366F1" onclick="var el=this.nextElementSibling;el.style.display=el.style.display===\'none\'?\'inline\':\'none\';this.textContent=el.style.display===\'none\'?\'展開('+( item.guildScope.length-2)+')▸\':\'收合▴\'">展開(' + (item.guildScope.length-2) + ')▸</a><span style="display:none">' + hidden + '</span>';
+    }
+  }
+  html += '</div>';
+  // 表格
+  html += '<table class="data-table" style="font-size:12px"><thead><tr><th>順序</th><th>領取時間</th><th>序號</th><th>領取金額</th><th>成員</th></tr></thead><tbody>';
   var perAmount = Math.floor(item.amount / item.total);
   var genCode = (typeof rpGenCode === 'function') ? rpGenCode : function(){ return Math.random().toString(36).substring(2,8); };
   var codes = [];
