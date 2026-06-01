@@ -130,6 +130,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded',function(){
 var mockData=[
   {time:'2026/05/31 14:30',user:'QAtest6改改',order:'RP202605310001',type:'一組',amount:'15,000',status:'pending'},
   {time:'2026/05/31 11:20',user:'QAtest6改改',order:'RP202605310002',type:'多組',amount:'65,000',status:'approved'},
@@ -161,6 +162,7 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   var isMobile=window.innerWidth<=768;
   if(isMobile){document.querySelector('.sidebar').classList.toggle('show');}
   else{document.body.classList.toggle('sidebar-collapsed');}
+});
 });
 </script>
 </body>
