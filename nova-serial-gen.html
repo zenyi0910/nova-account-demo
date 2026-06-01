@@ -263,19 +263,17 @@ var serialData = [
 function viewDetail(idx) {
   var d = serialData[idx];
   var html = '';
+  // 摘要區塊（同領取明細風格）
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px;flex-wrap:wrap">';
   if (d.type === '推廣序號') {
-    // 推廣序號：VIP 限制、序號申請原因、序號設定表格
-    html += '<div class="modal-section"><h4>基本資訊</h4><div class="modal-info">';
-    html += '<div class="item"><span class="label">VIP 限制</span><span class="val">'+d.vip+'</span></div>';
-    html += '<div class="item"><span class="label">序號申請原因</span><span class="val">'+d.reason+'</span></div>';
-    html += '</div></div>';
+    html += '<span style="color:#6B7280">VIP 限制</span><strong>'+d.vip+'</strong>';
+    html += '<span style="color:#6B7280;margin-left:12px">序號申請原因</span><strong>'+d.reason+'</strong>';
   } else {
-    // 紅包序號：公會範圍、紅包編號
-    html += '<div class="modal-section"><h4>基本資訊</h4><div class="modal-info">';
-    html += '<div class="item"><span class="label">公會範圍</span><span class="val">'+(d.guildScope||[]).join('、')+'</span></div>';
-    html += '<div class="item"><span class="label">紅包編號</span><span class="val">'+d.orderNo+'</span></div>';
-    html += '</div></div>';
+    html += '<span style="color:#6B7280">紅包編號</span><strong>'+d.orderNo+'</strong>';
+    html += '<span style="color:#6B7280;margin-left:12px">可領取公會</span>';
+    (d.guildScope||[]).forEach(function(g){ html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">'+g+'</span>'; });
   }
+  html += '</div>';
   // 序號設定表格
   html += '<div class="modal-section"><h4>序號設定</h4><p style="font-size:12px;color:#6B7280;margin-bottom:8px">總共 '+d.serials.length+' 筆資料</p><table class="serial-table"><thead><tr><th>順序</th><th>序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th></tr></thead><tbody>';
   d.serials.forEach(function(s){
