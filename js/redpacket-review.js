@@ -170,6 +170,17 @@ function rpApprove(id) {
   html += '<tr><td style="padding:6px 10px;color:#6B7280">公會 / 會長</td><td style="padding:6px 10px">' + item.guild + ' / ' + item.leader + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請模式</td><td style="padding:6px 10px">' + rpModeText(item.mode) + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請總金額</td><td style="padding:6px 10px;font-weight:600">' + item.totalAmount.toLocaleString() + '</td></tr>';
+  // 可領取公會
+  var scopeHtml = '';
+  if (item.guildScope && item.guildScope.length > 0) {
+    var visible = item.guildScope.slice(0, 2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
+    if (item.guildScope.length > 2) {
+      var hidden = item.guildScope.slice(2).map(function(g){ return '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>'; }).join('');
+      visible += '<a href="javascript:void(0)" style="font-size:11px;color:#6366F1" onclick="var el=this.nextElementSibling;el.style.display=el.style.display===\'none\'?\'inline\':\'none\';this.textContent=el.style.display===\'none\'?\'及其他' + (item.guildScope.length-2) + '個 ▸\':\'收合 ▴\'">及其他' + (item.guildScope.length-2) + '個 ▸</a><span style="display:none">' + hidden + '</span>';
+    }
+    scopeHtml = visible;
+  }
+  html += '<tr><td style="padding:6px 10px;color:#6B7280;vertical-align:top">可領取公會</td><td style="padding:6px 10px">' + scopeHtml + '</td></tr>';
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
