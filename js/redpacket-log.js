@@ -76,8 +76,7 @@ function renderRlTable() {
         '<td>' + rlStatusText(item.status) + '</td>' +
         '<td style="text-align:center">' + remaining + '</td>' +
         '<td>' + item.account + '</td>' +
-        '<td>' + item.expire + '</td>' +
-        '<td><a href="javascript:void(0)" onclick="rlShowDetail(\'' + item.id + '\')" style="color:#00bba7;font-size:12px">領取明細</a></td>' +
+        '<td style="text-align:center"><a href="javascript:void(0)" onclick="rlShowDetail(\'' + item.id + '\')" title="領取明細"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6B7280" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a></td>' +
         '</tr>';
     });
   }
@@ -94,7 +93,7 @@ function renderRlTable() {
 
   document.getElementById('rlTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table"><thead><tr>' +
-    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>申請日期</th><th style="text-align:right">紅包總金額</th><th>領取狀態</th><th style="text-align:center">剩餘數量</th><th>申請人帳號</th><th>有效期限</th><th>操作</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>申請日期</th><th style="text-align:right">紅包總金額</th><th>領取狀態</th><th style="text-align:center">剩餘數量</th><th>申請人帳號</th><th>操作</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
@@ -120,7 +119,7 @@ function rlShowDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rlDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:650px"><div class="modal-header"><h3>紅包領取明細</h3><button class="modal-close" onclick="closeRlModal()">&times;</button></div><div class="modal-body" id="rlDetailBody"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeRlModal()">關閉</button></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:650px"><div class="modal-header"><h3>紅包紀錄 - 領取明細</h3><button class="modal-close" onclick="closeRlModal()">&times;</button></div><div class="modal-body" id="rlDetailBody"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeRlModal()">關閉</button></div></div>';
     document.body.appendChild(modal);
   }
   
