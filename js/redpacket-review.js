@@ -112,7 +112,10 @@ function renderRpTable() {
     pageData.forEach(function(item, idx) {
       var ops = '';
       if (item.status === 'pending') {
-        ops = '<div style="display:flex;gap:6px;flex-wrap:nowrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
+        ops = '<div style="display:flex;flex-direction:column;gap:4px">' +
+          '<button onclick="rpApprove(\'' + item.id + '\')" style="padding:4px 10px;border-radius:4px;border:none;background:#00bba7;color:#fff;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap">✓ 同意</button>' +
+          '<button onclick="rpReject(\'' + item.id + '\')" style="padding:4px 10px;border-radius:4px;border:none;background:#1F2937;color:#fff;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap">✕ 拒絕</button>' +
+          '</div>';
       } else {
         ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" title="檢視詳情" style="display:inline-flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>';
       }
