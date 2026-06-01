@@ -9,7 +9,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F9FAFB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
 .sidebar{width:250px;background:#fff;border-right:1px solid #E5E7EB;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden}
 .sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;flex-shrink:0}
-.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#f5c842,#e8a020);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
 .logo-text .logo-name{font-size:15px;font-weight:700;color:#111827}
 .logo-text .logo-sub{font-size:11px;color:#6B7280}
 .sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden}
@@ -55,7 +55,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-header svg{width:20px;height:20px;color:#6B7280}
 .page-header h1{font-size:18px;font-weight:600;color:#111827}
 .page-header .spacer{flex:1}
-.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.btn-export{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .15s;background:#1F2937;color:#fff;border:1px solid #1F2937}
+.btn-export:hover{background:#374151}
+.btn-export svg{width:14px;height:14px}
+.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .filter-actions{order:999;margin-left:auto;display:flex;gap:8px;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:200px}
 .filter-group.filter-wide{min-width:280px;max-width:360px}
@@ -65,16 +68,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-input input{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;width:100%}
 .filter-input input::placeholder{color:#9CA3AF}
 .filter-input select{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;cursor:pointer;-webkit-appearance:none;width:100%}
-.btn-search{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:500;font-family:inherit;color:#fff;background:#393939}
+.btn-search{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;color:#fff;background:#1F2937}
 .btn-search:hover{background:#111827}
 .btn-search svg{width:14px;height:14px}
 .btn-reset{padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff}
 .btn-reset:hover{background:#F3F4F6}
-.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow-x:auto;display:block}
-.data-table thead,.data-table tbody{display:table;width:100%}
-.data-table tr{display:table-row}
-.data-table th{background:#F5F5F5;padding:10px 10px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB;white-space:nowrap}
-.data-table td{padding:10px 10px;border-bottom:1px solid #F3F4F6;font-size:13px;vertical-align:middle;white-space:nowrap}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
+.data-table th{background:#F5F5F5;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB}
+.data-table td{padding:10px 14px;border-bottom:1px solid #F3F4F6;font-size:12px;vertical-align:middle;color:#6a7282}
 .data-table tr:last-child td{border-bottom:none}
 .data-table tr:hover{background:#FAFAFA}
 .toggle{position:relative;width:36px;height:20px;border-radius:10px;cursor:pointer;transition:background .2s;border:none}
@@ -132,6 +133,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-error{font-size:11px;color:#DC2626;margin-top:3px;display:none}
 .filter-group.has-error .filter-error{display:block}
 .filter-group.has-error .filter-input{border-color:#DC2626}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:90%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-header{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid #E5E7EB}
+.modal-header h3{font-size:15px;font-weight:600;color:#111827;flex:1}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px;border-radius:4px}
+.modal-close:hover{background:#F3F4F6}
+.modal-body{padding:16px 20px;overflow-y:auto;flex:1}
 </style>
 </head>
 <body>
@@ -146,28 +155,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><h1>紅包紀錄</h1><div class="spacer"></div><button class="btn-search" style="background:#2563EB">匯出報表</button></div>
-    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#166534">💡 該功能僅支援金幣類型。</div>
-    <div class="filter-card" style="flex-wrap:wrap">
-      <div class="filter-group"><label>公會名稱</label><div class="filter-input"><input type="text" placeholder="搜尋公會名稱"></div></div>
-      <div class="filter-group"><label>領取人帳號</label><div class="filter-input"><input type="text" placeholder="搜尋領取人帳號"></div></div>
-      <div class="filter-group"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋紅包訂單編號"></div></div>
-      <div class="filter-group"><label>領取時間</label><div class="filter-input"><input type="text" placeholder="選擇時間日期"></div></div>
-      <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button>
-      <button class="btn-reset">重置</button></div>
+    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h1>紅包紀錄</h1><div class="spacer"></div><button class="btn-export"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出報表</button></div>
+    <div style="background:#E8F7FE;border-radius:6px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span style="font-size:13px"><strong style="color:#0369A1">Tips</strong> <span style="color:#0369A1">該功能僅支援金幣類型。</span></span></div>
+    <div class="filter-card" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px 16px;align-items:end">
+      <div class="filter-group"><label>申請人帳號</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="rlLeaderFilter" placeholder="搜尋帳號"></div></div>
+      <div class="filter-group"><label>紅包訂單編號</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="rlSnFilter" placeholder="搜尋紅包訂單編號"></div></div>
+      <div class="filter-group"><label>領取狀態</label><div class="filter-input"><select id="rlStatusFilter"><option value="">選擇領取狀態</option><option value="active">領取中</option><option value="done">已領完</option><option value="expired">已逾期</option></select></div></div>
+      <div class="filter-group"><label>申請日期</label><div class="filter-input"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><input type="text" id="rlDateFilter" placeholder="選擇時間日期"></div></div>
+      <div class="filter-actions" style="grid-column:4;display:flex;gap:8px;align-items:flex-end;justify-content:flex-end"><button class="btn-search" onclick="rlSearch()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset" onclick="rlReset()">重置</button></div>
     </div>
-    <div class="pagination-bar"><span>總共 156 筆資料</span></div>
-    <table class="data-table"><thead><tr><th>順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>領取人帳號</th><th>領取人暱稱</th><th>領取金額</th><th>領取時間</th><th>序號</th></tr></thead><tbody>
-      <tr><td>1</td><td style="color:#2563EB">202505270001</td><td>vera+家++</td><td>user001</td><td>小明</td><td style="font-weight:600">5,000</td><td>2025-05-27 15:30:00</td><td>A001-001</td></tr>
-      <tr><td>2</td><td style="color:#2563EB">202505270001</td><td>vera+家++</td><td>user002</td><td>小華</td><td style="font-weight:600">5,000</td><td>2025-05-27 15:31:22</td><td>A001-002</td></tr>
-      <tr><td>3</td><td style="color:#2563EB">202505270002</td><td>蛋捲公會</td><td>user003</td><td>阿強</td><td style="font-weight:600">10,000</td><td>2025-05-27 16:45:10</td><td>B002-001</td></tr>
-      <tr><td>4</td><td style="color:#2563EB">202505260003</td><td>Mao公會</td><td>user004</td><td>小美</td><td style="font-weight:600">2,000</td><td>2025-05-26 10:12:33</td><td>C003-001</td></tr>
-    </tbody></table>
+    <div id="rlTableWrap"></div>
   </div>
 </div>
 
+<script src="js/components.js?v=11"></script>
+<script src="js/redpacket-log.js?v=4"></script>
 <script>
-
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   const isMobile=window.innerWidth<=768;
   if(isMobile){
@@ -179,67 +182,9 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
     document.body.classList.toggle('sidebar-collapsed');
   }
 });
-
 function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
 document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
-
-// Field validation
-document.querySelector('.btn-search')?.addEventListener('click', function(e) {
-  let valid = true;
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-  document.querySelectorAll('.filter-group[data-rule]').forEach(group => {
-    const rule = group.dataset.rule;
-    const input = group.querySelector('input');
-    if (!input) return;
-    const val = input.value.trim();
-    if (!val) return;
-    let errorMsg = '';
-    switch(rule) {
-      case 'account':
-        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
-        for (const acc of accounts) {
-          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
-        }
-        break;
-      case 'nickname':
-        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
-        break;
-      case 'order':
-        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
-        break;
-      case 'phone':
-        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
-        break;
-      case 'date':
-        if (val.includes('~')) {
-          const parts = val.split('~').map(s => s.trim());
-          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
-        } else {
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-        }
-        break;
-      case 'keyword':
-        if (val.length < 1) errorMsg = '請輸入搜尋內容';
-        break;
-      case 'amount':
-        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
-        break;
-    }
-    if (errorMsg) {
-      valid = false;
-      const errEl = group.querySelector('.filter-error');
-      if (errEl) errEl.textContent = errorMsg;
-    }
-  });
-});
-document.querySelector('.btn-reset')?.addEventListener('click', function() {
-  document.querySelectorAll('.filter-group input').forEach(i => i.value = '');
-  document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-});
 </script>
 </body>
 </html>
