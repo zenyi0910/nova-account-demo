@@ -152,9 +152,12 @@ var statusMap={pending:'<span class="status-pending">待審核</span>',approved:
 function renderTable(){
   var html='';
   mockData.forEach(function(r){
-    html+='<tr><td>'+r.time+'</td><td>'+r.user+'</td><td>'+r.order+'</td><td>'+r.type+'</td><td>'+r.amount+'</td><td>'+statusMap[r.status]+'</td><td><button class="btn-detail" onclick="alert('（Demo）查看詳情：'+r.order+'')">詳情</button></td></tr>';
+    html+='<tr><td>'+r.time+'</td><td>'+r.user+'</td><td>'+r.order+'</td><td>'+r.type+'</td><td>'+r.amount+'</td><td>'+statusMap[r.status]+'</td><td><button class="btn-detail" data-order="'+r.order+'">詳情</button></td></tr>';
   });
   document.getElementById('tableBody').innerHTML=html;
+  document.querySelectorAll('.btn-detail').forEach(function(btn){
+    btn.addEventListener('click',function(){alert('（Demo）查看詳情：'+this.dataset.order);});
+  });
 }
 renderTable();
 
