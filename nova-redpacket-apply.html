@@ -365,6 +365,7 @@ function showAuditDetail(btn){
   var cells=tr.querySelectorAll('td');
   var time=cells[0].textContent,user=cells[1].textContent,orderId=cells[2].textContent,type=cells[3].textContent,amount=cells[4].textContent,status=cells[5].textContent;
   var html='<div style="padding:8px">';
+  html+='<div style="font-size:13px;color:#452201;margin-bottom:12px"><strong>可領取公會</strong> <span>窩要煙牌</span></div>';
   html+='<div style="font-size:12px;font-weight:600;color:#452201;margin-bottom:8px">序號設定</div>';
   html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201;white-space:nowrap"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 8px;font-weight:600">序號</th><th style="padding:6px 8px;font-weight:600">有效日期</th><th style="padding:6px 8px;font-weight:600">可使用次數</th><th style="padding:6px 8px;font-weight:600">金額</th></tr></thead>';
   html+='<tbody>';
