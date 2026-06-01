@@ -290,12 +290,30 @@ function viewDetail(idx) {
 }
 
 function openClaimDetail(orderNo) {
-  var names=['Player002','Player003','User298225','User646941','User973087'];
-  var html = '<div class="modal-section"><h4>領取明細 - '+orderNo+'</h4><table class="serial-table"><thead><tr><th>領取時間</th><th>會員帳號</th><th>序號</th><th>領取金額</th></tr></thead><tbody>';
-  for(var i=0;i<3;i++){
-    html += '<tr><td>2026-05-'+(20+i)+' '+(10+i)+':30</td><td>'+names[i]+'</td><td style="color:#2563EB">XYRP-A3K9M</td><td>1,000</td></tr>';
+  var idx = serialData.findIndex(function(d){ return d.orderNo === orderNo; });
+  var d = idx >= 0 ? serialData[idx] : serialData[0];
+  var totalTimes = 0; d.serials.forEach(function(s){ totalTimes += s.times; });
+  var claimed = Math.min(3, totalTimes);
+  // 摘要區塊
+  var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px">';
+  html += '<span style="color:#6B7280">可領取次數</span><strong>' + claimed + '/' + totalTimes + '</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">可領取公會</span>';
+  if (d.guildScope && d.guildScope.length > 0) {
+    d.guildScope.forEach(function(g){ html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">' + g + '</span>'; });
   }
-  html += '</tbody></table></div>';
+  html += '</div>';
+  // 表格
+  html += '<table class="serial-table"><thead><tr><th>順序</th><th>領取時間</th><th>序號</th><th>領取金額</th><th>成員</th></tr></thead><tbody>';
+  var members = ['測起來001','測起來002','測起來003','測起來004','測起來005'];
+  for (var i = 0; i < totalTimes; i++) {
+    var isClaimed = i < claimed;
+    var code = d.serials[i % d.serials.length].code;
+    var coins = d.serials[i % d.serials.length].coins;
+    var claimTime = isClaimed ? '2026-05-' + String(20-i).padStart(2,'0') + ' ' + (10+i) + ':30:00' : '-';
+    var member = isClaimed ? members[i % members.length] : '';
+    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + claimTime + '</td><td style="font-family:monospace;color:#2563EB">' + code + '</td><td style="text-align:center">' + coins + '</td><td>' + member + '</td></tr>';
+  }
+  html += '</tbody></table>';
   showModal('紅包紀錄 - 領取明細', html);
 }
 
