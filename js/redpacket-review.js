@@ -114,7 +114,7 @@ function renderRpTable() {
       if (item.status === 'pending') {
         ops = '<div style="display:flex;gap:6px;flex-wrap:nowrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
       } else {
-        ops = '<button onclick="rpDetail(\'' + item.id + '\')" style="display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#333;background:#fff;border:1px solid #d9d9d9;border-radius:4px;padding:4px 8px;cursor:pointer;font-family:inherit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>檢視詳情</button>';
+        ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" title="檢視詳情" style="display:inline-flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>';
       }
       rows += '<tr>' +
         '<td style="text-align:center">' + (start + idx + 1) + '</td>' +

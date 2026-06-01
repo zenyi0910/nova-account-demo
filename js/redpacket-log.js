@@ -76,7 +76,7 @@ function renderRlTable() {
         '<td>' + rlStatusText(item.status) + '</td>' +
         '<td style="text-align:center">' + remaining + '</td>' +
         '<td>' + item.account + '</td>' +
-        '<td style="text-align:center"><a href="javascript:void(0)" onclick="rlShowDetail(\'' + item.id + '\')" title="領取明細"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6B7280" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a></td>' +
+        '<td style="text-align:center"><a href="javascript:void(0)" onclick="rlShowDetail(\'' + item.id + '\')" title="領取明細"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a></td>' +
         '</tr>';
     });
   }
