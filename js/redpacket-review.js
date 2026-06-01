@@ -267,26 +267,17 @@ function rpDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rpDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包審核詳細</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:750px"><div class="modal-header"><h3>紅包審核詳細</h3><button class="modal-close" onclick="closeRpModal(\'rpDetailModal\')">&times;</button></div><div class="modal-body" id="rpDetailBody"></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeRpModal(\'rpDetailModal\')">關閉</button></div></div>';
     document.body.appendChild(modal);
   }
 
-  // 基本資訊表格
-  var html = '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">申請資訊</h4>';
-  html += '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:20px">';
+  // 基本資訊表格（對齊實際系統）
+  var html = '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:20px">';
   var fields = [
-    ['申請單號', item.id], ['公會名稱', item.guild],
-    ['公會等級', 'Lv.' + item.guildLv], ['會長帳號', item.leader],
-    ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '<span style="color:#00bba7;font-weight:600">是（自動通過）</span>' : '<span style="color:#6a7282">否（需人工審核）</span>'],
-    ['申請總金額', item.totalAmount.toLocaleString()], ['審核狀態', rpStatusText(item.status)],
-    ['申請時間', item.time],
-    ['可領取公會', rpScopeHtml(item.guildScope)]
+    ['序號申請原因', item.leader], ['使用金額總計', item.totalAmount.toLocaleString()],
+    ['紅包訂單編號', item.id], ['序號狀態', rpStatusText(item.status)],
+    ['申請模式', rpModeText(item.mode)], ['可領取公會', rpScopeHtml(item.guildScope)]
   ];
-  if (item.reviewer) {
-    fields.push(['審核人員', item.reviewer]);
-    fields.push(['審核時間', item.reviewTime]);
-  }
-  if (item.reason) fields.push(['駁回原因', '<span style="color:#DC2626">' + item.reason + '</span>']);
   for (var i = 0; i < fields.length; i += 2) {
     html += '<tr>';
     html += '<td style="padding:8px 12px;color:#6B7280;width:20%;border-bottom:1px solid #F3F4F6">' + fields[i][0] + '</td><td style="padding:8px 12px;border-bottom:1px solid #F3F4F6">' + fields[i][1] + '</td>';
@@ -296,19 +287,18 @@ function rpDetail(id) {
   }
   html += '</table>';
 
-  // 序號列表（已通過才顯示）
-  if (item.status === 'approved' || item.status === 'done') {
-    html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">紅包序號</h4>';
-    html += '<table class="data-table" style="margin-bottom:16px"><thead><tr><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>剩餘/總次數</th><th>序號金幣</th><th>狀態</th><th>操作</th></tr></thead><tbody>';
-    for (var s = 0; s < 3; s++) {
-      var sn = 'SN' + item.id.replace('RP','') + String(s+1).padStart(3,'0');
-      var remaining = item.status === 'done' ? 0 : (5 - Math.floor(Math.random()*3));
-      var snStatus = remaining === 0 ? '<span style="color:#6a7282">已領完</span>' : '<span style="color:#00bba7">使用中</span>';
-      html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace;font-size:11px">' + sn + '</td><td>不限期</td><td style="text-align:center">' + remaining + ' / 5</td><td style="text-align:right">1,000</td><td>' + snStatus + '</td><td><a href="javascript:void(0)" onclick="rpShowRedemptions(\'' + sn + '\')" style="color:#00bba7;font-size:12px;margin-right:8px">領取名單</a><a href="javascript:void(0)" onclick="rpDisableSerial(\'' + sn + '\')" style="color:#EF4444;font-size:12px">停用</a></td></tr>';
-    }
-    html += '</tbody></table>';
-    html += '</div>';
+  // 序號設定
+  var snCount = item.mode === 'single' ? 1 : item.mode === 'multi' ? 3 : 5;
+  html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:6px;color:#374151">序號設定</h4>';
+  html += '<p style="font-size:12px;color:#6B7280;margin-bottom:10px">總共 ' + snCount + ' 筆資料</p>';
+  html += '<table class="data-table" style="margin-bottom:16px;white-space:nowrap"><thead><tr><th>順序</th><th>序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th></tr></thead><tbody>';
+  for (var s = 0; s < snCount; s++) {
+    var sn = rpGenCode();
+    var uses = Math.floor(Math.random()*5) + 1;
+    var coins = [20, 50, 100, 200, 500][Math.floor(Math.random()*5)];
+    html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace">' + sn + '</td><td>' + item.time.split(' ')[0] + '</td><td style="text-align:center">' + uses + '</td><td style="text-align:right">' + coins + '</td></tr>';
   }
+  html += '</tbody></table>';
 
   document.getElementById('rpDetailBody').innerHTML = html;
   modal.classList.add('show');
