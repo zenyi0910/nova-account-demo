@@ -119,7 +119,7 @@ function rlShowDetail(id) {
     modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.id = 'rlDetailModal';
-    modal.innerHTML = '<div class="modal" style="max-width:500px"><div class="modal-header"><h3>紅包紀錄 - 領取明細</h3><button class="modal-close" onclick="closeRlModal()">&times;</button></div><div class="modal-body" id="rlDetailBody" style="padding:16px 20px"></div><div class="modal-footer" style="justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid #E5E7EB"><button class="btn-search" onclick="closeRlModal()" style="background:#1F2937">關閉</button></div></div>';
+    modal.innerHTML = '<div class="modal" style="max-width:500px"><div class="modal-header"><h3>紅包紀錄 - 領取明細</h3><button class="modal-close" onclick="closeRlModal()">&times;</button></div><div class="modal-body" id="rlDetailBody" style="padding:16px 20px"></div><div class="modal-footer" style="display:flex;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid #E5E7EB"><button class="btn-search" onclick="closeRlModal()" style="background:#1F2937">關閉</button></div></div>';
     document.body.appendChild(modal);
   }
   
