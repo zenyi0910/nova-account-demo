@@ -123,25 +123,16 @@ function rlShowDetail(id) {
     document.body.appendChild(modal);
   }
   
-  var html = '<table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:16px">';
-  html += '<tr><td style="padding:8px 12px;color:#6B7280;width:30%">紅包訂單編號</td><td style="padding:8px 12px">' + item.id + '</td></tr>';
-  html += '<tr><td style="padding:8px 12px;color:#6B7280">申請人帳號</td><td style="padding:8px 12px">' + item.account + '</td></tr>';
-  html += '<tr><td style="padding:8px 12px;color:#6B7280">紅包總金額</td><td style="padding:8px 12px">' + item.amount.toLocaleString() + '</td></tr>';
-  html += '<tr><td style="padding:8px 12px;color:#6B7280">領取狀態</td><td style="padding:8px 12px">' + rlStatusText(item.status) + '</td></tr>';
-  html += '<tr><td style="padding:8px 12px;color:#6B7280;vertical-align:top">可領取公會</td><td style="padding:8px 12px">';
-  if (item.guildScope && item.guildScope.length > 0) {
-    item.guildScope.forEach(function(g) {
-      html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:2px 4px 2px 0">' + g + '</span>';
-    });
-  }
-  html += '</td></tr>';
-  html += '</table>';
-  
-  html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:10px;color:#374151">領取紀錄</h4>';
-  html += '<p style="font-size:12px;color:#6B7280;margin-bottom:10px">總共 ' + item.claimed + ' 筆領取</p>';
-  html += '<table class="data-table"><thead><tr><th>順序</th><th>領取帳號</th><th>領取時間</th><th>領取金額</th></tr></thead><tbody>';
-  for (var i = 0; i < Math.min(item.claimed, 5); i++) {
-    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>User' + (Math.floor(Math.random()*9000)+1000) + '</td><td>2026-05-' + (20-i) + ' ' + (10+i) + ':30:00</td><td style="text-align:right">' + Math.floor(item.amount/item.total) + '</td></tr>';
+  var html = '<table class="data-table" style="font-size:12px"><thead><tr><th>順序</th><th>領取時間</th><th>序號</th><th>領取金額</th><th>成員</th></tr></thead><tbody>';
+  var perAmount = Math.floor(item.amount / item.total);
+  var codes = [];
+  for (var c = 0; c < Math.min(3, item.total); c++) codes.push(rpGenCode ? rpGenCode() : (Math.random().toString(36).substring(2,8)));
+  for (var i = 0; i < item.total; i++) {
+    var isClaimed = i < item.claimed;
+    var code = codes[i % codes.length];
+    var claimTime = isClaimed ? '2026-05-' + String(20 - Math.floor(i/3)).padStart(2,'0') + ' ' + (10 + i % 12) + ':' + String(Math.floor(Math.random()*59)).padStart(2,'0') + ':' + String(Math.floor(Math.random()*59)).padStart(2,'0') : '-';
+    var member = isClaimed ? '測起來' + String(i+1).padStart(3,'0') : '';
+    html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + claimTime + '</td><td style="font-family:monospace">' + code + '</td><td style="text-align:center">' + perAmount + '</td><td>' + member + '</td></tr>';
   }
   html += '</tbody></table>';
   
