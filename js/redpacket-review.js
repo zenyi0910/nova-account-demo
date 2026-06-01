@@ -173,7 +173,7 @@ function rpApprove(id) {
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
-  html += '<div style="overflow-x:auto"><table class="data-table" style="font-size:12px;white-space:nowrap"><thead><tr style="color:#00897B"><th>順序</th><th>紅包序號</th><th>序號有效期限</th><th>可使用次數</th><th>序號金幣</th><th>操作</th></tr></thead><tbody>';
+  html += '<div style="overflow-x:auto"><table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th style="white-space:nowrap">順序</th><th style="white-space:nowrap">紅包序號</th><th style="white-space:nowrap">序號有效期限</th><th style="white-space:nowrap">可使用次數</th><th style="white-space:nowrap">序號金幣</th><th style="white-space:nowrap">操作</th></tr></thead><tbody>';
   for (var i = 0; i < 3; i++) {
     var rowId = 'rpSn_' + i;
     html += '<tr><td style="text-align:center;width:60px">' + (i+1) + '</td>';
@@ -181,7 +181,7 @@ function rpApprove(id) {
     html += '<td>不限期</td>';
     html += '<td style="text-align:center">5</td>';
     html += '<td style="text-align:right">1,000</td>';
-    html += '<td>-</td>';
+    html += '<td style="white-space:nowrap"><button class="btn btn-dark" style="background:#00bba7;border-color:#00bba7;font-size:11px;padding:4px 10px" onclick="document.getElementById(\'' + rowId + '\').value=rpGenCode()">重新產生</button></td>';
     html += '</tr>';
   }
   html += '</tbody></table></div>';
