@@ -125,8 +125,9 @@ function rlShowDetail(id) {
   
   var html = '<table class="data-table" style="font-size:12px"><thead><tr><th>順序</th><th>領取時間</th><th>序號</th><th>領取金額</th><th>成員</th></tr></thead><tbody>';
   var perAmount = Math.floor(item.amount / item.total);
+  var genCode = (typeof rpGenCode === 'function') ? rpGenCode : function(){ return Math.random().toString(36).substring(2,8); };
   var codes = [];
-  for (var c = 0; c < Math.min(3, item.total); c++) codes.push(rpGenCode ? rpGenCode() : (Math.random().toString(36).substring(2,8)));
+  for (var c = 0; c < Math.min(3, item.total); c++) codes.push(genCode());
   for (var i = 0; i < item.total; i++) {
     var isClaimed = i < item.claimed;
     var code = codes[i % codes.length];
