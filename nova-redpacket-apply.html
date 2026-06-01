@@ -2,411 +2,204 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>星運娛樂城 - 公會</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova 後台 - 紅包申請</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;overflow:hidden;background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);display:flex;justify-content:center;align-items:center}
-.phone-frame{position:relative;width:440px;height:90vh;max-height:900px;border-radius:40px;border:10px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 60px rgba(0,0,0,.5);overflow:hidden}
-@media(max-width:500px){.phone-frame{width:100vw;height:100vh;max-height:none;border-radius:0;border:none;box-shadow:none}.phone-frame::before,.phone-frame::after{display:none}.phone-frame iframe{border-radius:0}}
-.phone-frame::before{content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);width:80px;height:22px;background:#1a1a1a;border-radius:12px;z-index:100;pointer-events:none}
-.phone-frame::after{content:'';position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
-.phone-frame iframe{width:100%;height:100%;border:none;border-radius:30px;display:block}
-.modal-overlay{position:absolute;inset:0;border-radius:0;background:oklab(0 0 0 / 0.8);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;z-index:50;padding:62px 0 38px;transition:opacity .3s;overflow:hidden}
-.modal-overlay.hidden{opacity:0;pointer-events:none}
-.guild-wrapper{position:relative;width:100%;max-width:400px;padding:0 16px;display:flex;flex-direction:column;align-items:center;flex:1;min-height:0}
-.guild-header-wrap{position:relative;width:100%;max-width:400px;min-width:300px;display:flex;justify-content:center;flex-shrink:0}
-.guild-header-img{position:relative;bottom:0;z-index:40;width:100%;height:72px;object-fit:contain}
-.guild-tabs-wrap{position:absolute;z-index:70;top:30%;left:50%;transform:translate(-50%,-50%);width:80%;display:flex;justify-content:center;align-items:center;gap:4px;padding:4px 6px;height:36px;background:transparent;border-radius:9999px}
-.guild-tabs-wrap button{padding:0 14px;height:28px;font-size:13px;font-weight:700;border:none;border-radius:9999px;cursor:pointer;background:transparent;color:#5c3a00;transition:all .2s;white-space:nowrap}
-.guild-tabs-wrap button.active{background:linear-gradient(180deg,#f5a623 0%,#d4780a 100%);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.guild-tabs-wrap button:hover:not(.active){background:rgba(255,255,255,.15)}
-.guild-content{position:relative;z-index:20;width:100%;max-width:400px;flex:1;min-height:0;overflow-y:auto;background:rgb(250,250,250);border:6px solid rgb(244,182,63);border-radius:24px;padding:24px 8px 85px;margin-top:-24px;scrollbar-width:none;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
-.guild-content::-webkit-scrollbar{display:none}
-.guild-inner{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
-.guild-profile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px;width:100%;padding:0 8px}
-.guild-emblem{width:96px;height:96px;border-radius:50%;background:linear-gradient(to top,oklch(0.945 0.129 101.54),oklch(0.852 0.199 91.936));display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;flex-shrink:0}
-.guild-emblem::before{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.1);box-shadow:inset -4px -6px 6px rgba(0,0,0,.3)}
-.guild-emblem img{position:absolute;z-index:1;width:96px;height:96px;object-fit:cover;border-radius:50%;box-shadow:2px 2px 3px rgba(100,80,60,.3)}
-.guild-emblem .lv-num{font-size:28px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4)}
-.guild-emblem .lv-label{font-size:8px;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:1px}
-.guild-meta{display:flex;flex-direction:column;gap:4px}
-.guild-meta .name-row{display:flex;align-items:center;gap:4px}
-.guild-meta .name{font-size:16px;font-weight:700;color:#452201}
-.guild-meta .level{font-size:14px;color:#452201;font-weight:400;margin-left:4px}
-.guild-btns{display:flex;gap:4px}
-.guild-btns button{border:none;border-radius:9999px;font-size:14px;font-weight:500;cursor:pointer;height:40px;padding:0 14px;color:#fff}
-.btn-community{background:#ff842f;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgb(230,80,0),inset 0 2px 1px rgba(255,253,247,.48)}
-.btn-settings{background:oklch(0.623 0.214 259.815);color:#fff;box-shadow:0 8px 16px rgba(0,0,180,.4),inset -2px -4px 2px rgba(0,0,100,.3),inset 0 2px 1px rgba(255,253,247,.48)}
-.guild-desc{width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px 10px;color:#452201;font-size:14px;line-height:1.4;font-weight:600;min-height:80px}
-.gold-section{width:100%;background:transparent;border-radius:16px;padding:4px}
-.gold-section-inner{width:100%;height:100%;display:grid;grid-template-columns:1fr;padding:24px 0;gap:12px;background:#fafafa;border-radius:16px}
-.gold-top{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:16px;padding:0 24px}
-.gold-top .coin-icon{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#e8a020);display:flex;align-items:center;justify-content:center}
-.gold-top .coin-icon svg{width:28px;height:28px}
-.gold-section .gold-label{font-size:12px;color:#fbc323;font-weight:500}
-.gold-section .gold-value{font-size:18px;font-weight:700;color:#452201;margin:2px 0}
-.gold-divider{display:flex;align-items:center;justify-content:space-evenly;gap:12px;padding:0 16px}
-.gold-divider span{flex:1;height:1px;background:rgba(100,80,60,.15)}
-.gold-bottom{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;padding:0 24px}
-.gold-section .treasury-label{font-size:12px;color:#fbc323}
-.gold-section .treasury-val{font-size:16px;font-weight:700;color:#452201}
-.gold-section .btn-withdraw{background:#00dda4;color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 16px rgba(3,165,123,.48),inset -2px -4px 2px rgba(3,165,123,1),inset 0 2px 1px rgba(255,253,247,.48)}
-.officers{width:100%;padding:16px 0;display:flex;flex-direction:column;gap:16px;font-size:14px}
-.officer-row{display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:#452201}
-.officer-row .role{font-weight:600}
-.officer-row .val{font-weight:400;color:#5c3d2e}
-.guild-func-list{width:100%;display:flex;flex-direction:column;align-items:center;gap:0}
-.guild-func-item{width:100%;height:72px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 20px;background:#fafafa;border:none;border-radius:16px;color:#452201;font-size:14px;font-weight:500;cursor:pointer;gap:16px;margin:4px 0;transition:background .2s}
-.guild-func-item span{padding:0}
-.guild-func-item svg{}
-.guild-func-item .chevron{}
-.guild-func-item:hover{background:#f5f5f5}
-.guild-func-item svg{width:24px;height:24px;stroke:#452201;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.guild-func-item .chevron{stroke-width:4}
-.guild-func-item.dissolve{display:flex;justify-content:center;height:56px;width:200px;margin:8px auto 0;background:#ff842f;color:#fff;border-radius:9999px;padding:0;box-shadow:0 8px 16px rgba(230,60,0,.48),inset -2px -4px 2px rgb(230,80,0),inset 0 2px 1px rgba(255,253,247,.48);font-size:14px;font-weight:500}
-.guild-func-item.dissolve svg{display:none}
-.footer-deco{position:absolute;z-index:40;bottom:38px;left:0;right:0;height:80px;background:url('assets/dialog_footer.png') repeat-x center bottom/contain;pointer-events:none}
-.close-btn{position:absolute;z-index:50;top:50%;left:50%;transform:translate(-50%,-75%);display:flex;justify-content:center;align-items:center;width:72px;height:72px;border-radius:9999px;background:transparent;border:none;cursor:pointer;pointer-events:auto}
-.rp-overlay{position:absolute;inset:0;background:oklab(0 0 0 / 0.8);border-radius:38px;z-index:200;display:none;align-items:center;justify-content:center;overflow:hidden}
-.rp-dialog{position:relative;width:100%;max-width:360px;height:100%;display:flex;flex-direction:column;align-items:center;padding:60px 16px 16px;overflow:hidden}
-.rp-dialog-header{position:relative;width:100%;min-width:300px}
-.rp-dialog-header img{position:absolute;top:-8px;z-index:40;width:100%;height:72px;object-fit:contain}
-.rp-dialog-title{position:absolute;z-index:50;top:16px;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);white-space:nowrap}
-.rp-dialog-card{width:100%;flex:1;min-height:0;overflow-y:auto;margin-top:32px;padding:32px 8px 20px;background:#fafafa;border:8px solid rgb(244,182,63);border-radius:24px;scrollbar-width:none}
-.rp-dialog-card::-webkit-scrollbar{display:none}
-.rp-dialog-close{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:72px;height:72px;border-radius:9999px;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px;z-index:10}
-.rp-dialog-close-inner{width:64px;height:64px;border-radius:9999px;background:#fafafa;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.rp-header{position:sticky;top:0;z-index:10;padding:16px 20px 12px;display:flex;align-items:center;justify-content:center;background:#fafafa;border-bottom:1px solid rgba(0,0,0,.06)}
-.rp-header h2{color:#452201;font-size:18px;font-weight:700}
-.rp-close{position:absolute;right:16px;top:16px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.rp-close svg{width:16px;height:16px;color:#452201}
-.rp-tabs-inner{display:flex;gap:4px;background:#f0f0f0;border-radius:9999px;margin:12px 16px;padding:3px}
-.rp-tabs-inner button{flex:1;padding:8px 0;font-size:14px;font-weight:500;color:#999;background:none;border:none;cursor:pointer;border-radius:9999px}
-.rp-tabs-inner button.active{color:#fff;background:#2d2d2d;font-weight:700}
-.rp-body{padding:0 16px}
-.rp-balance{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px 16px;margin-bottom:12px}
-.rp-balance .label{font-size:12px;color:rgba(69,34,1,.5)}
-.rp-balance .value{font-size:18px;font-weight:700;color:#452201}
-.rp-limit{display:flex;justify-content:space-between;font-size:11px;color:rgba(69,34,1,.5);margin-bottom:12px;padding:0 4px}
-.rp-form-group{margin-bottom:12px}
-.rp-form-group label{display:block;font-size:12px;font-weight:500;color:rgba(69,34,1,.6);margin-bottom:5px;padding-left:4px}
-.rp-input{width:100%;padding:10px 14px;background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;color:#452201;font-size:14px;font-family:inherit}
-.rp-input:focus{outline:none;border-color:#f59e0b}
-.rp-input::placeholder{color:#ccc}
-.rp-calc{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px 16px;margin-bottom:14px}
-.rp-calc .row{display:flex;justify-content:space-between;align-items:center}
-.rp-calc .label{font-size:12px;color:rgba(69,34,1,.5)}
-.rp-calc .value{font-size:20px;font-weight:700;color:#991b1b}
-.rp-submit{width:100%;padding:12px;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(217,119,6,.3)}
-.rp-submit:disabled{opacity:.4;cursor:not-allowed}
-.rp-error{font-size:11px;color:#dc2626;margin-top:4px;padding-left:4px;display:none}
-.rp-error.show{display:block}
-.rp-notes{margin:16px 0 0;padding:14px 16px;background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:12px}
-.rp-notes h4{font-size:12px;font-weight:600;color:#d97706;margin-bottom:8px}
-.rp-notes ol{padding-left:16px;font-size:11px;color:rgba(69,34,1,.6);line-height:1.9}
-.rp-multi-table{width:100%;border-collapse:collapse;margin-bottom:10px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
-.rp-multi-table th{font-size:11px;color:rgba(69,34,1,.5);padding:8px 6px;text-align:center;background:rgba(245,166,35,.05);border-bottom:1px solid rgba(0,0,0,.06)}
-.rp-multi-table td{padding:6px;text-align:center;font-size:12px;color:#452201;border-bottom:1px solid rgba(0,0,0,.04)}
-.rp-multi-table input{width:60px;padding:6px;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:6px;color:#452201;font-size:12px;text-align:center}
-.rp-multi-table input:focus{outline:none;border-color:#f59e0b}
-.rp-add-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.3);border-radius:8px;color:#d97706;font-size:12px;font-weight:500;cursor:pointer}
-.rp-del{background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;padding:4px 6px}
-.rp-upload{border:2px dashed rgba(245,166,35,.4);border-radius:12px;padding:28px;text-align:center;cursor:pointer;background:rgba(245,166,35,.02)}
-.rp-upload:hover{border-color:#f59e0b}
-.rp-upload svg{width:32px;height:32px;color:#d97706;margin-bottom:8px}
-.rp-upload p{font-size:13px;color:#452201}
-.rp-upload .hint{font-size:11px;color:rgba(69,34,1,.4);margin-top:4px}
-.rp-file-info{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;margin-top:10px}
-.rp-file-info .name{flex:1;font-size:12px;color:#452201}
-.rp-file-info .size{font-size:11px;color:rgba(69,34,1,.4)}
-.rp-file-info .remove-file{background:none;border:none;color:#dc2626;cursor:pointer;font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F9FAFB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
+.sidebar{width:250px;background:#fff;border-right:1px solid #E5E7EB;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;overflow:hidden}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:16px 16px 12px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.logo-text .logo-name{font-size:15px;font-weight:700;color:#111827}
+.logo-text .logo-sub{font-size:11px;color:#6B7280}
+.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden}
+.sidebar-group{padding:4px 8px}
+.sidebar-group-label{font-size:11px;font-weight:600;color:#9CA3AF;padding:16px 10px 6px;letter-spacing:.5px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:#374151;font-size:14px;transition:background .15s;text-decoration:none;min-height:38px}
+.sidebar-item:hover{background:#F3F4F6}
+.sidebar-item.active{background:#EEF2FF;font-weight:600;color:#4338CA}
+.sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
+.sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
+.sidebar-chevron.open{transform:rotate(90deg)}
+.sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
+.sidebar-sub.open{max-height:400px;opacity:1;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
+.sidebar-sub .sidebar-item{transform:translateY(-4px);opacity:0;transition:transform .3s cubic-bezier(.25,.1,.25,1),opacity .25s ease}
+.sidebar-sub.open .sidebar-item{transform:translateY(0);opacity:1}
+.sidebar-sub.open .sidebar-item:nth-child(1){transition-delay:0.03s}
+.sidebar-sub.open .sidebar-item:nth-child(2){transition-delay:0.06s}
+.sidebar-sub.open .sidebar-item:nth-child(3){transition-delay:0.09s}
+.sidebar-sub.open .sidebar-item:nth-child(4){transition-delay:0.12s}
+.sidebar-sub.open .sidebar-item:nth-child(5){transition-delay:0.15s}
+.sidebar-sub.open .sidebar-item:nth-child(6){transition-delay:0.18s}
+.sidebar-sub.open .sidebar-item:nth-child(7){transition-delay:0.21s}
+.sidebar-sub .sidebar-item{font-size:14px;padding:10px 12px;min-height:38px;color:#4B5563}
+.sidebar-sub .sidebar-item:hover{color:#111827}
+.sidebar-sub .sidebar-item.active{background:#EEF2FF;color:#4338CA;font-weight:600}
+.sidebar-user{padding:12px 16px;border-top:1px solid #E5E7EB;display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative;cursor:pointer}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:#E5E7EB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6B7280}
+.user-info .user-role{font-size:11px;color:#6B7280}
+.user-info .user-name{font-size:12px;font-weight:500;color:#374151}
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;border-bottom:1px solid #E5E7EB;padding:0 24px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:30}
+.topbar-toggle{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
+.topbar-toggle svg{width:20px;height:20px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#6B7280}
+.breadcrumb a{color:#6B7280;text-decoration:none}
+.breadcrumb .sep{color:#D1D5DB}
+.breadcrumb .current{color:#374151;font-weight:500}
+.topbar-warning{margin-left:auto;display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #F59E0B;border-radius:6px;background:#FFFBEB;font-size:12px;color:#92400E}
+.topbar-warning svg{width:14px;height:14px;color:#F59E0B}
+.content{padding:24px;flex:1}
+.page-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.page-header svg{width:20px;height:20px;color:#6B7280}
+.page-header h1{font-size:18px;font-weight:600;color:#111827}
+.page-header .spacer{flex:1}
+.filter-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.filter-actions{order:999;margin-left:auto;display:flex;gap:8px;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;max-width:200px}
+.filter-group label{font-size:11px;font-weight:500;color:#6B7280}
+.filter-input{display:flex;align-items:center;gap:6px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:7px 10px;font-size:13px;color:#374151;min-width:130px}
+.filter-input input{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;width:100%}
+.filter-input input::placeholder{color:#9CA3AF}
+.filter-input select{border:none;background:none;outline:none;font-size:13px;color:#374151;font-family:inherit;cursor:pointer;-webkit-appearance:none;width:100%}
+.btn-search{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;color:#fff;background:#1F2937}
+.btn-search:hover{background:#111827}
+.btn-search svg{width:14px;height:14px}
+.btn-reset{padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;cursor:pointer;font-size:13px;font-family:inherit;color:#374151;background:#fff}
+.btn-reset:hover{background:#F3F4F6}
+.data-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E5E7EB;border-radius:10px;overflow:hidden}
+.data-table th{background:#F5F5F5;padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6B7280;border-bottom:1px solid #E5E7EB}
+.data-table td{padding:10px 14px;border-bottom:1px solid #F3F4F6;font-size:13px;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover{background:#FAFAFA}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:500}
+.status-online{background:#DCFCE7;color:#166534}
+.status-pending{background:#FEF3C7;color:#92400E}
+.status-offline{background:#FEE2E2;color:#991B1B}
+.pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:12px;width:90%;max-width:720px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E5E7EB}
+.modal-header h3{font-size:16px;font-weight:600;color:#111827}
+.modal-close{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
+.modal-close:hover{color:#111827}
+.modal-body{padding:20px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;padding:12px 20px;border-top:1px solid #E5E7EB}
+.btn-action{background:none;border:1px solid #E5E7EB;border-radius:4px;padding:6px 14px;font-size:12px;cursor:pointer;color:#374151;font-family:inherit}
+.btn-action:hover{background:#F3F4F6}
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%);position:fixed;z-index:100;transition:transform .3s}
+.sidebar.show{transform:translateX(0)}
+.main{margin-left:0}
+.content{padding:12px}
+.filter-card{flex-direction:column}
+.filter-group{max-width:100%;width:100%}
+.data-table{display:block;overflow-x:auto;white-space:nowrap}
+}
 </style>
 </head>
 <body>
-<div class="phone-frame">
-<iframe src="nova-lobby.html"></iframe>
-<div class="modal-overlay">
-<div class="guild-wrapper">
-<div class="guild-header-wrap">
-<img class="guild-header-img" src="assets/dialog_header.png" alt="">
-<div class="guild-tabs-wrap">
-  <button class="active">我的公會</button>
-  <button onclick="alert('Demo')">所有公會</button>
-  <button onclick="alert('Demo')">公會說明</button>
-</div>
-</div>
-<div class="guild-content">
-<div class="guild-inner">
-<div class="guild-profile">
-  <div class="guild-emblem"><img src="assets/guild0.png" alt="guild"></div>
-  <div class="guild-meta">
-    <div class="name-row"><span class="name">窩要煙牌</span><span class="level">Lv.0</span></div>
-    <div class="guild-btns">
-      <button class="btn-community">進入社群</button>
-      <button class="btn-settings">設定</button>
+
+<nav class="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon">N</div><div class="logo-text"><div class="logo-name">Nova</div><div class="logo-sub">測試後台</div></div></div>
+  <div class="sidebar-nav" id="sidebarNav"></div>
+  <div class="sidebar-user" onclick="this.classList.toggle('open')"><div class="user-avatar">C</div><div class="user-info"><div class="user-role">Casper Admin</div><div class="user-name">casper</div></div><svg class="user-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <button class="topbar-toggle" onclick="document.body.classList.toggle('sidebar-collapsed')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">公會管理</a><span class="sep">&gt;</span><span class="current">紅包申請</span></div>
+    <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
+  </div>
+
+  <div class="content">
+    <div class="page-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 2v4"/><path d="M8 2v4"/><rect x="14" y="10" width="8" height="8" rx="1"/><path d="M18 12v4"/><path d="M16 14h4"/></svg>
+      <h1>紅包申請</h1>
     </div>
-  </div>
-</div>
-<div class="guild-desc">這個公會很懶，沒有留下任何介紹^^"</div>
-<div class="gold-section">
-  <div class="gold-section-inner">
-  <div class="gold-top">
-    <div class="coin-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
-    <div><span class="gold-label">公會累積金幣</span><div class="gold-value">0</div></div>
-  </div>
-  <div class="gold-divider"><span></span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#eab308" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m17 11-5-5-5 5"/><path d="m17 18-5-5-5 5"/></svg><span></span></div>
-  <div class="gold-bottom">
-    <div><span class="treasury-label">金庫餘額</span><div class="treasury-val">0</div></div>
-    <button class="btn-withdraw" onclick="alert('（Demo）金幣提領')">金幣提領</button>
-  </div>
-  </div>
-</div>
-<div class="officers">
-  <div class="officer-row"><span class="role">會長</span><span class="val">QAtest6改改</span></div>
-  <div class="officer-row"><span class="role">副會長</span><span class="val">--</span></div>
-  <div class="officer-row"><span class="role">創會會長</span><span class="val">QAtest6改改</span></div>
-  <div class="officer-row"><span class="role">公會人數</span><span class="val">6 / 30</span></div>
-</div>
-<div class="guild-func-list">
-  <div class="guild-func-item" onclick="showSub('members')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>會員活躍度</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('manage')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M18.5 3.5l3 3"/><path d="M20 6l-7.5 7.5"/></svg><span>會員管理</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="openRP()"><svg viewBox="0 0 24 24"><path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M16 12H3"/><path d="m12 8 4 4-4 4"/></svg><span>紅包申請</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('rpAudit')"><svg viewBox="0 0 24 24"><path d="M9 5H2v7l6.29 6.29a1 1 0 0 0 1.42 0l5.58-5.58a1 1 0 0 0 0-1.42Z"/><circle cx="6" cy="9" r="1"/></svg><span>紅包申請記錄</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('rpRecord')"><svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m19.07 4.93-14.14 14.14"/></svg><span>紅包紀錄</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('joinAudit')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span>入會審核</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item" onclick="showSub('log')"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>操作日誌</span><svg class="chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></div>
-  <div class="guild-func-item dissolve" onclick="showSub('dissolve')">解散公會</div>
-</div>
-</div>
-</div>
-</div>
-<div class="footer-deco"><div class="close-btn" onclick="window.location.href='nova-frontend-demo.html'" style="flex-shrink:0"><div style="width:64px;height:64px;border-radius:9999px;background:#fafafa;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#452201" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></div></div>
-</div>
-<!-- Sub page overlay (inside modal-overlay, outside guild-wrapper) -->
-<div id="subOverlay" style="display:none;position:absolute;inset:0;background:oklab(0 0 0 / 0.8);border-radius:0;z-index:80;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden">
-<div style="position:relative;width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;padding:40px 16px;flex:1;min-height:0">
-<div style="position:relative;width:100%;min-width:300px;flex-shrink:0">
-<img src="assets/dialog_header.png" alt="" style="position:absolute;top:-8px;z-index:40;width:100%;height:72px;object-fit:contain">
-<span id="subTitle" style="position:absolute;z-index:50;top:16px;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);white-space:nowrap"></span>
-</div>
-<div id="subCard" style="width:100%;flex:1;min-height:0;overflow-y:auto;margin-top:32px;padding:32px 8px 20px;background:#fafafa;border:8px solid rgb(244,182,63);border-radius:24px;scrollbar-width:none">
-<div id="subContent" style="padding:0 8px"></div>
-</div>
-<button onclick="closeSub()" style="margin-top:16px;width:72px;height:72px;border-radius:9999px;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px;flex-shrink:0"><div style="width:64px;height:64px;border-radius:9999px;background:#fafafa;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 8px 0 rgba(174,108,108,.48),inset -2px -4px 2px 0 rgba(210,184,184,1),inset 0 2px 1px 0 rgba(255,253,247,.48)"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#452201" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></button>
-</div>
-</div>
-<div class="rp-overlay" id="rpOverlay">
-<div class="rp-dialog">
-  <div class="rp-dialog-header">
-    <img src="assets/dialog_header.png" alt="">
-    <span class="rp-dialog-title">公會紅包申請</span>
-  </div>
-  <div class="rp-dialog-card">
-  <div class="rp-tabs-inner">
-    <button class="active" onclick="rpTab('single')">一組</button>
-    <button onclick="rpTab('multi')">多組</button>
-    <button onclick="rpTab('upload')">上傳</button>
-  </div>
-  <div class="rp-body">
-    <!-- Step 1: 選擇公會 + 注意事項 -->
-    <div id="rpStep1">
-    <div class="rp-balance"><div><span class="label">可用餘額</span></div><div style="display:flex;align-items:center"><span class="value">1,250,000</span></div></div>
-    <button onclick="rpSelectGuild()" style="width:100%;padding:12px 16px;margin-bottom:12px;background:#fff;border:1px solid #e0e0e0;border-radius:9999px;color:#452201;font-size:13px;font-weight:500;cursor:pointer;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.08)">選擇可領取紅包公會 ＞</button>
-    <div class="rp-notes" style="margin:0"><ol>
-      <li>每包金額最低 1,000 起。</li>
-      <li>多組每次最多申請 30 組。</li>
-      <li>上傳 CSV 紅包每次最多申請 100 組。</li>
-      <li>會長身上餘額最低需保留 30,000。</li>
-      <li>申請次數每次最高申請 10 次。</li>
-      <li>申請次數為當次申請每包金額與數量需重複申請次數。<br>EX：一組 3 包 1000 金幣申請 3 次，<br>最終為 3 組兌換碼，每組內皆有 3 包 1000 金幣。</li>
-      <li>請確認資料填寫正確，申請後會先扣除金幣；<br>若申請未通過，系統將退回本次申請扣除之金幣。</li>
-    </ol></div>
-    </div>
-    <!-- Step 2: 表單（選好公會後顯示） -->
-    <div id="rpStep2" style="display:none">
-    <div style="background:#fff8e4;border:1px solid #cdc2a2;border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:#452201;cursor:pointer" onclick="rpEditGuild()">已選公會：<strong id="rpSelectedGuilds">2 個</strong> <span style="float:right;color:#d97706">編輯 ＞</span></div>
-    <!-- Single -->
-    <div id="tabSingle">
-      <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
-      <div class="rp-form-group"><label>每包點數</label><input type="number" class="rp-input" id="sAmt" placeholder="每包 1,000 ~ 1,000,000 金幣" min="1000" max="1000000" oninput="calcS()"><div class="rp-error" id="sAmtErr">每包金額需介於 1,000 ~ 1,000,000</div></div>
-      <div class="rp-form-group"><label>申請次數</label><input type="number" class="rp-input" id="sTimes" placeholder="每組序號可領取次數" min="1" oninput="calcS()"></div>
-      <div class="rp-calc"><div class="row"><span class="label">紅包申請總金額</span><span class="value" id="sTotal">0</span></div></div>
-    </div>
-    <!-- Multi -->
-    <div id="tabMulti" style="display:none">
-      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-      <table class="rp-multi-table"><thead><tr><th>組</th><th>數量</th><th>金額</th><th>次數</th><th>小計</th><th></th></tr></thead>
-      <tbody id="mBody"><tr><td>1</td><td><input type="number" value="5" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="3" min="1" onchange="calcM()"></td><td class="sub">15,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr>
-      <tr><td>2</td><td><input type="number" value="10" min="1" onchange="calcM()"></td><td><input type="number" value="5000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">50,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr></tbody></table>
+
+    <div class="filter-card">
+      <div class="filter-group"><label>申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div></div>
+      <div class="filter-group"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋訂單編號"></div></div>
+      <div class="filter-group"><label>紅包類型</label><div class="filter-input"><select><option value="">選擇類型</option><option>一組</option><option>多組</option><option>上傳</option></select></div></div>
+      <div class="filter-group"><label>紅包狀態</label><div class="filter-input"><select><option value="">選擇狀態</option><option>待審核</option><option>已通過</option><option>已駁回</option></select></div></div>
+      <div class="filter-actions">
+        <button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>搜尋</button>
+        <button class="btn-reset">重置</button>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center"><button class="rp-add-btn" onclick="addM()">＋ 新增一組</button><span style="font-size:11px;color:rgba(69,34,1,.4)" id="mCount">2 / 30 組</span></div>
-      <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">多組申請總金額</span><span class="value" id="mTotal">65,000</span></div></div>
     </div>
-    <!-- Upload -->
-    <div id="tabUpload" style="display:none">
-      <div style="font-size:13px;color:#452201;line-height:1.6;margin-bottom:12px">
-        <p style="font-weight:600;margin-bottom:6px">請上傳符合下列格式的 CSV 檔：</p>
-        <p style="font-size:12px;color:rgba(69,34,1,.7)">檔案僅需「獎品欄位」，一個獎品就是一包點數紅包，且每一列資料不可空白，檔案大小不可超過 1KB。</p>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <p style="font-size:12px;color:#452201;font-weight:600;margin:0">範例：</p>
-        <button onclick="alert('（Demo）下載 CSV 範本')" style="background:none;border:1px solid #d97706;border-radius:8px;padding:6px 12px;font-size:12px;color:#d97706;cursor:pointer;font-weight:500">下載範本</button>
-      </div>
-      <div style="margin-bottom:12px">
-        <table style="border-collapse:collapse;font-size:12px;width:auto">
-          <thead><tr><th style="border:1px solid #ddd;padding:4px 16px;background:#f5f5f5;color:#452201">獎品</th></tr></thead>
-          <tbody><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">1000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">2000</td></tr><tr><td style="border:1px solid #ddd;padding:4px 16px;text-align:center">3000</td></tr></tbody>
-        </table>
-      </div>
-      <div class="rp-upload" onclick="document.getElementById('csvFile').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p>上傳 CSV</p></div>
-      <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
-      <div id="csvInfo" style="display:none"></div>
-      <div class="rp-error" id="csvErr"></div>
-    </div>
-    <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
-    </div>
+
+    <div class="pagination-bar"><span>第 1 頁，共 8 筆資料</span><span>每頁顯示 20 筆</span></div>
+
+    <table class="data-table">
+      <thead><tr>
+        <th>申請時間</th><th>申請人</th><th>紅包訂單編號</th><th>類型</th><th>申請金幣</th><th>紅包狀態</th><th>操作</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>2026-05-30 14:22</td><td>maomao1</td><td>202605303891</td><td>一組</td><td>5,000</td><td><span class="status-badge status-pending">待審核</span></td><td><button class="btn-action" onclick="viewDetail(0)">詳情</button></td></tr>
+        <tr><td>2026-05-28 09:15</td><td>superadmin</td><td>202605282744</td><td>多組</td><td>15,000</td><td><span class="status-badge status-online">已通過</span></td><td><button class="btn-action" onclick="viewDetail(1)">詳情</button></td></tr>
+        <tr><td>2026-05-26 10:21</td><td>maomao1</td><td>202605063525</td><td>一組</td><td>5,000</td><td><span class="status-badge status-online">已通過</span></td><td><button class="btn-action" onclick="viewDetail(2)">詳情</button></td></tr>
+        <tr><td>2026-05-22 16:40</td><td>paul11</td><td>202605228812</td><td>上傳</td><td>20,000</td><td><span class="status-badge status-offline">已駁回</span></td><td><button class="btn-action" onclick="viewDetail(3)">詳情</button></td></tr>
+        <tr><td>2026-05-18 11:05</td><td>casper</td><td>202605185566</td><td>多組</td><td>10,000</td><td><span class="status-badge status-online">已通過</span></td><td><button class="btn-action" onclick="viewDetail(4)">詳情</button></td></tr>
+        <tr><td>2026-05-13 13:20</td><td>superadmin</td><td>202605132927</td><td>一組</td><td>8,000</td><td><span class="status-badge status-online">已通過</span></td><td><button class="btn-action" onclick="viewDetail(5)">詳情</button></td></tr>
+        <tr><td>2026-05-07 15:16</td><td>henry1</td><td>202605071234</td><td>上傳</td><td>12,000</td><td><span class="status-badge status-pending">待審核</span></td><td><button class="btn-action" onclick="viewDetail(6)">詳情</button></td></tr>
+        <tr><td>2026-05-04 11:05</td><td>maomao1</td><td>202604217712</td><td>多組</td><td>15,000</td><td><span class="status-badge status-online">已通過</span></td><td><button class="btn-action" onclick="viewDetail(7)">詳情</button></td></tr>
+      </tbody>
+    </table>
   </div>
-  </div>
-  </div>
-  <button class="rp-dialog-close" onclick="closeRP()"><div class="rp-dialog-close-inner"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#452201" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></button>
-</div>
-</div>
-</div>
 </div>
 
 <script>
-var BAL=1250000,RES=30000,MIN=1000,MAX=1000000,MAXM=30,MAXCSV=100,DAILY=10,used=3;
-function openRP(){document.getElementById('rpOverlay').style.display='flex';document.getElementById('rpStep1').style.display='';document.getElementById('rpStep2').style.display='none';}
-function closeRP(){document.getElementById('rpOverlay').style.display='none';}
-function rpSelectGuild(){
-  var el=document.getElementById('guildSelectModal');
-  if(!el){
-    var div=document.createElement('div');
-    div.id='guildSelectModal';
-    div.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center';
-    div.innerHTML='<div style="background:#fff;border-radius:16px;padding:20px;width:300px;max-width:90vw"><div style="font-size:14px;font-weight:600;color:#452201;margin-bottom:8px">選擇可領取紅包的公會</div><div style="font-size:11px;color:#ef4444;margin-bottom:8px">必須至少選擇一個公會</div><input id="guildSearch" type="text" placeholder="搜尋公會名稱..." oninput="filterGuilds()" style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;margin-bottom:10px;outline:none"><div id="guildList"><label class="guild-item" style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee;cursor:pointer"><input type="checkbox" checked data-guild="窩要煙牌" style="width:18px;height:18px;accent-color:#d97706"><span style="font-size:13px;color:#452201">窩要煙牌（我的公會）</span></label><label class="guild-item" style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee;cursor:pointer"><input type="checkbox" data-guild="星運一族" style="width:18px;height:18px;accent-color:#d97706"><span style="font-size:13px;color:#452201">星運一族</span></label><label class="guild-item" style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee;cursor:pointer"><input type="checkbox" data-guild="黃金戰隊" style="width:18px;height:18px;accent-color:#d97706"><span style="font-size:13px;color:#452201">黃金戰隊</span></label><label class="guild-item" style="display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee;cursor:pointer"><input type="checkbox" data-guild="龍之谷" style="width:18px;height:18px;accent-color:#d97706"><span style="font-size:13px;color:#452201">龍之谷</span></label><label class="guild-item" style="display:flex;align-items:center;gap:8px;padding:10px 0;cursor:pointer"><input type="checkbox" data-guild="皇家騎士團" style="width:18px;height:18px;accent-color:#d97706"><span style="font-size:13px;color:#452201">皇家騎士團</span></label></div><div style="display:flex;gap:8px;margin-top:16px"><button onclick="cancelGuildSelect()" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#452201;font-size:13px;cursor:pointer">取消</button><button onclick="confirmGuildSelect()" style="flex:1;padding:8px;border:none;border-radius:8px;background:#d97706;color:#fff;font-size:13px;cursor:pointer">確定</button></div></div>';
-    document.body.appendChild(div);
-  } else { el.style.display='flex'; }
-}
-function filterGuilds(){
-  var q=document.getElementById('guildSearch').value.toLowerCase();
-  document.querySelectorAll('#guildList .guild-item').forEach(function(el){
-    var name=el.querySelector('span').textContent.toLowerCase();
-    el.style.display=name.includes(q)?'flex':'none';
-  });
-}
-function cancelGuildSelect(){document.getElementById('guildSelectModal').style.display='none';}
-function confirmGuildSelect(){
-  var checks=document.querySelectorAll('#guildSelectModal input[type=checkbox]:checked');
-  if(checks.length===0){alert('必須至少選擇一個公會');return;}
-  var names=[];checks.forEach(function(c){names.push(c.dataset.guild);});
-  document.getElementById('guildSelectModal').style.display='none';
-  document.getElementById('rpSelectedGuilds').textContent=names.length+' 個';
-  document.getElementById('rpStep1').style.display='none';document.getElementById('rpStep2').style.display='';
-}
-function rpEditGuild(){rpSelectGuild();}
-function rpTab(t){
-  document.querySelectorAll('.rp-tabs-inner button').forEach(function(b,i){b.classList.toggle('active',['single','multi','upload'][i]===t);});
-  document.getElementById('tabSingle').style.display=t==='single'?'':'none';
-  document.getElementById('tabMulti').style.display=t==='multi'?'':'none';
-  document.getElementById('tabUpload').style.display=t==='upload'?'':'none';
-}
-function calcS(){
-  var q=parseInt(document.getElementById('sQty').value)||0,a=parseInt(document.getElementById('sAmt').value)||0,t=parseInt(document.getElementById('sTimes').value)||0;
-  var err=document.getElementById('sAmtErr');
-  if(a>0&&(a<MIN||a>MAX))err.classList.add('show');else err.classList.remove('show');
-  document.getElementById('sTotal').textContent=(q*a*t).toLocaleString();
-}
-function calcM(){
-  var rows=document.querySelectorAll('#mBody tr'),g=0;
-  rows.forEach(function(tr,i){var inp=tr.querySelectorAll('input');var s=(parseInt(inp[0].value)||0)*(parseInt(inp[1].value)||0)*(parseInt(inp[2].value)||0);g+=s;tr.querySelector('.sub').textContent=s.toLocaleString();tr.querySelector('td:first-child').textContent=i+1;});
-  document.getElementById('mTotal').textContent=g.toLocaleString();
-  document.getElementById('mCount').textContent=rows.length+' / '+MAXM+' 組';
-}
-function addM(){var tb=document.getElementById('mBody');if(tb.rows.length>=MAXM){alert('已達上限');return;}var tr=document.createElement('tr');tr.innerHTML='<td>'+(tb.rows.length+1)+'</td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">1,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td>';tb.appendChild(tr);calcM();}
-function delM(btn){var tb=document.getElementById('mBody');if(tb.rows.length<=1)return;btn.closest('tr').remove();calcM();}
-function handleCSV(input){
-  var f=input.files[0];if(!f)return;var err=document.getElementById('csvErr');err.classList.remove('show');
-  if(f.size>1024){err.textContent='檔案超過 1KB 限制';err.classList.add('show');input.value='';return;}
-  var r=new FileReader();r.onload=function(e){
-    var lines=e.target.result.trim().split('\n').filter(function(l){return l.trim();});
-    if(lines.length>MAXCSV){err.textContent='超過 '+MAXCSV+' 筆上限';err.classList.add('show');input.value='';return;}
-    var total=0,bad=false;
-    for(var i=0;i<lines.length;i++){var v=parseInt(lines[i].trim());if(isNaN(v)||v<MIN||v>MAX){bad=true;err.textContent='第 '+(i+1)+' 行金額不合法';err.classList.add('show');break;}total+=v;}
-    if(!bad){document.getElementById('uTotal').textContent=total.toLocaleString();document.getElementById('csvInfo').style.display='';document.getElementById('csvInfo').innerHTML='<div class="rp-file-info"><span class="name">'+f.name+'</span><span class="size">'+lines.length+' 筆</span><button class="remove-file" onclick="clearCSV()">✕</button></div>';}
-  };r.readAsText(f);
-}
-function clearCSV(){document.getElementById('csvFile').value='';document.getElementById('csvInfo').style.display='none';document.getElementById('uTotal').textContent='0';}
-function submitRP(){
-  var tab=document.querySelector('.rp-tabs-inner button.active').textContent.trim(),total=0;
-  if(tab==='一組')total=parseInt((document.getElementById('sTotal').textContent||'0').replace(/,/g,''));
-  else if(tab==='多組')total=parseInt((document.getElementById('mTotal').textContent||'0').replace(/,/g,''));
-  else total=parseInt((document.getElementById('uTotal')?document.getElementById('uTotal').textContent:'0').replace(/,/g,''));
-  if(!total){alert('請填寫紅包資訊');return;}
-  if(total+RES>BAL){alert('餘額不足！需保留 30,000 金幣\n可用額度：'+(BAL-RES).toLocaleString());return;}
-  if(!confirm('紅包申請總金額：'+total.toLocaleString()+' 金幣\n\n一旦送出無法取消，確定提交？'))return;
-  alert('紅包申請已提交！\n\n非白名單公會，需等待官方審核');
-}
-var subPages={
-  members:'<div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%"><div style="display:flex;justify-content:flex-start;align-items:center;gap:8px;width:100%;background:rgba(69,34,1,.2);border-radius:16px;padding:8px;overflow-x:auto"><button style="background:oklch(0.623 0.214 259.815);color:#fff;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">最後登入</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">今日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">昨日</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上週</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">本月</button><button style="background:transparent;color:#452201;border:none;border-radius:9999px;padding:0 12px;height:24px;font-size:14px;font-weight:600;white-space:nowrap">上月</button></div><table style="width:100%;border-collapse:collapse;font-size:12px;color:#452201"><thead><tr><th style="padding:10px 4px;text-align:left;font-weight:700;background:#fff;height:40px">人員</th><th style="padding:10px 4px;text-align:right;font-weight:700;background:#fff;height:40px">最後登入時間</th></tr></thead><tbody><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest6改改</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:56</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">QAtest5</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/28 14:39</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User298225</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 12:00</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User646941</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:53</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User973087</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/27 11:50</td></tr><tr><td style="padding:16px 4px;background:#fff;height:65px">User112233</td><td style="padding:16px 4px;text-align:right;background:#fff;height:65px">2026/05/26 09:30</td></tr></tbody></table></div>',
-  manage:'<div style="padding:8px"><div style="display:flex;flex-direction:column;gap:0"><div style="background:#fff8e4;border-radius:14px;padding:12px 8px;margin:6px 0;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f5c842,#e8a020);display:flex;align-items:center;justify-content:center"><span style="font-size:12px;color:#fff;font-weight:700">會長</span></div><div style="font-size:13px;font-weight:600;color:#452201">QAtest6改改</div></div><div style="background:#fff8e4;border-radius:14px;padding:12px 8px;margin:6px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px"><div style="width:40px;height:40px;border-radius:50%;background:#ddd"></div><div style="font-size:13px;font-weight:600;color:#452201">Player002</div><button style="background:oklch(0.704 0.14 182.503);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px">踢出</button></div><div style="background:#fff8e4;border-radius:14px;padding:12px 8px;margin:6px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px"><div style="width:40px;height:40px;border-radius:50%;background:#ddd"></div><div style="font-size:13px;font-weight:600;color:#452201">Player003</div><button style="background:oklch(0.704 0.14 182.503);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:11px">踢出</button></div></div></div>',
-  rpAudit:'<div style="padding:8px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:12px"><div style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5)"><input type="text" placeholder="紅包訂單編號" style="background:transparent;border:none;outline:none;width:100%;font-size:14px;color:#452201"></div><div style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5)"><input type="text" placeholder="申請人" style="background:transparent;border:none;outline:none;width:100%;font-size:14px;color:#452201"></div><button style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5);text-align:left">申請時間(起訖)</button><button style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5);text-align:left">紅包狀態</button><button style="background:oklch(0.623 0.214 259.815);color:#fff;border:none;border-radius:24px;padding:8px 0;font-size:14px;font-weight:500">查詢</button><button style="background:#fafafa;color:#452201;border:none;border-radius:24px;padding:8px 0;font-size:14px;font-weight:500;box-shadow:0 2px 4px rgba(0,0,0,.1)">清除</button></div><div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:100%;width:100%;border-collapse:collapse;font-size:10px;color:#452201"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請時間</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請人</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">訂單編號</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請模式</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請金幣</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">狀態</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">操作</th></tr></thead><tbody><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/31 14:30</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706">RP2026053101</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">一組</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">15,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;font-weight:600">待審核</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><span style="color:#d97706;text-decoration:underline;cursor:pointer" onclick="showAuditDetail(this)">詳情</span></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/31 11:20</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706">RP2026053102</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">多組</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">65,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#16a34a;font-weight:600">已通過</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><span style="color:#d97706;text-decoration:underline;cursor:pointer" onclick="showAuditDetail(this)">詳情</span></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/30 16:45</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">Player002</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706">RP2026053001</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">上傳</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">120,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#16a34a;font-weight:600">已通過</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><span style="color:#d97706;text-decoration:underline;cursor:pointer" onclick="showAuditDetail(this)">詳情</span></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/30 09:10</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706">RP2026053002</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">一組</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">10,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#dc2626;font-weight:600">已拒絕</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><span style="color:#d97706;text-decoration:underline;cursor:pointer" onclick="showAuditDetail(this)">詳情</span></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/29 20:30</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">GuildMaster01</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706">RP2026052901</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">多組</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">200,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;font-weight:600">待審核</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><span style="color:#d97706;text-decoration:underline;cursor:pointer" onclick="showAuditDetail(this)">詳情</span></td></tr></tbody></table></div>',
-  rpRecord:'<div style="padding:8px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:12px"><div style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5)"><input type="text" placeholder="紅包訂單編號" style="background:transparent;border:none;outline:none;width:100%;font-size:14px;color:#452201"></div><div style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5)"><input type="text" placeholder="申請人" style="background:transparent;border:none;outline:none;width:100%;font-size:14px;color:#452201"></div><button style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5);text-align:left">申請時間(起訖)</button><button style="background:rgb(255,248,228);border:1px solid rgb(205,194,162);border-radius:10px;padding:8px 12px;font-size:14px;color:rgba(69,34,1,.5);text-align:left">紅包狀態</button><button style="background:oklch(0.623 0.214 259.815);color:#fff;border:none;border-radius:24px;padding:8px 0;font-size:14px;font-weight:500">查詢</button><button style="background:#fafafa;color:#452201;border:none;border-radius:24px;padding:8px 0;font-size:14px;font-weight:500;box-shadow:0 2px 4px rgba(0,0,0,.1)">清除</button></div><div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:100%;width:100%;border-collapse:collapse;font-size:11px;color:#452201"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:4px 2px;font-weight:600;white-space:nowrap">紅包訂單編號</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請日期</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">紅包總金額</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">領取狀態</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">剩餘數量</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">申請人</th><th style="padding:4px 2px;font-weight:600;white-space:nowrap">匯出</th></tr></thead><tbody><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;cursor:pointer" onclick="showRpDetail(this)">RP2026053101</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/31 14:30</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">15,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#16a34a;font-weight:600">已領完</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">0</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><button onclick="alert(&apos;（Demo）匯出紅包領取明細 CSV&apos;)" style="background:#ddd3c5;border:none;cursor:pointer;border-radius:50%;width:24px;height:24px;display:inline-block;text-align:center;line-height:24px;box-shadow:0 1px 3px rgba(0,0,0,.15)" title="匯出CSV"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#452201" stroke-width="2" style="vertical-align:middle"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></button></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;cursor:pointer" onclick="showRpDetail(this)">RP2026053102</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/31 11:20</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">65,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;font-weight:600">領取中</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">32</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><button onclick="alert(&apos;（Demo）匯出紅包領取明細 CSV&apos;)" style="background:#ddd3c5;border:none;cursor:pointer;border-radius:50%;width:24px;height:24px;display:inline-block;text-align:center;line-height:24px;box-shadow:0 1px 3px rgba(0,0,0,.15)" title="匯出CSV"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#452201" stroke-width="2" style="vertical-align:middle"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></button></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;cursor:pointer" onclick="showRpDetail(this)">RP2026053001</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/30 16:45</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">120,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#6a7282;font-weight:600">未領取</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">100</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">Player002</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><button onclick="alert(&apos;（Demo）匯出紅包領取明細 CSV&apos;)" style="background:#ddd3c5;border:none;cursor:pointer;border-radius:50%;width:24px;height:24px;display:inline-block;text-align:center;line-height:24px;box-shadow:0 1px 3px rgba(0,0,0,.15)" title="匯出CSV"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#452201" stroke-width="2" style="vertical-align:middle"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></button></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;cursor:pointer" onclick="showRpDetail(this)">RP2026053002</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/30 09:10</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">10,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#dc2626;font-weight:600">已作廢</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">-</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">QAtest6改改</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><button onclick="alert(&apos;（Demo）匯出紅包領取明細 CSV&apos;)" style="background:#ddd3c5;border:none;cursor:pointer;border-radius:50%;width:24px;height:24px;display:inline-block;text-align:center;line-height:24px;box-shadow:0 1px 3px rgba(0,0,0,.15)" title="匯出CSV"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#452201" stroke-width="2" style="vertical-align:middle"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></button></td></tr><tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;cursor:pointer" onclick="showRpDetail(this)">RP2026052901</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">05/29 20:30</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">200,000</td><td style="padding:5px 2px;text-align:center;white-space:nowrap" style="padding:5px 2px;text-align:center;white-space:nowrap;color:#d97706;font-weight:600">領取中</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">58</td><td style="padding:5px 2px;text-align:center;white-space:nowrap">GuildMaster01</td><td style="padding:5px 2px;text-align:center;white-space:nowrap"><button onclick="alert(&apos;（Demo）匯出紅包領取明細 CSV&apos;)" style="background:#ddd3c5;border:none;cursor:pointer;border-radius:50%;width:24px;height:24px;display:inline-block;text-align:center;line-height:24px;box-shadow:0 1px 3px rgba(0,0,0,.15)" title="匯出CSV"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#452201" stroke-width="2" style="vertical-align:middle"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></button></td></tr></tbody></table></div><div style="padding:8px 0;text-align:center"><button style="background:linear-gradient(180deg,#f5a623,#d4780a);color:#fff;border:none;border-radius:9999px;padding:10px 24px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)" onclick="alert(&apos;（Demo）匯出紅包記錄表格 CSV&apos;)"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>數據下載</button></div></div>',
-  joinAudit:'<div style="padding:12px 16px"><div style="text-align:center;padding:60px 20px;color:#99724a;font-size:13px">目前無待審核申請</div></div>',
-  log:'<div style="padding:12px 16px"><div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fff;border-radius:12px;padding:10px 12px;border:1px solid rgba(0,0,0,.06)"><span style="font-size:11px;color:#99724a">05/28 10:30</span> <span style="font-size:12px;color:#452201">QAtest6改改 修改公會介紹</span></div><div style="background:#fff;border-radius:12px;padding:10px 12px;border:1px solid rgba(0,0,0,.06)"><span style="font-size:11px;color:#99724a">05/27 14:20</span> <span style="font-size:12px;color:#452201">QAtest6改改 審核通過 Player005 入會</span></div><div style="background:#fff;border-radius:12px;padding:10px 12px;border:1px solid rgba(0,0,0,.06)"><span style="font-size:11px;color:#99724a">05/25 09:15</span> <span style="font-size:12px;color:#452201">QAtest6改改 建立公會</span></div></div></div>',
-  dissolve:'<div style="padding:24px;text-align:center"><div style="font-size:14px;color:#452201;font-weight:600;margin-bottom:12px">確定要解散公會嗎？</div><div style="font-size:12px;color:#99724a;margin-bottom:16px">解散後所有成員將被移出，此操作無法復原。</div><button onclick="closeSub()" style="background:#e0e0e0;color:#452201;border:none;border-radius:9999px;padding:8px 20px;font-size:12px;margin-right:8px">取消</button><button onclick="alert(\'已提交解散申請\')" style="background:#ef4444;color:#fff;border:none;border-radius:9999px;padding:8px 20px;font-size:12px">確認解散</button></div>'
-};
-var _subHistory=null;
-function showAuditDetail(btn){
-  _subHistory='rpAudit';
-  var tr=btn.closest?btn.closest('tr'):btn.parentElement.closest('tr');
-  var cells=tr.querySelectorAll('td');
-  var time=cells[0].textContent,user=cells[1].textContent,orderId=cells[2].textContent,type=cells[3].textContent,amount=cells[4].textContent,status=cells[5].textContent;
-  var html='<div style="padding:8px">';
-  html+='<div style="font-size:13px;color:#452201;margin-bottom:12px"><strong>可領取公會</strong> <span>窩要煙牌</span></div>';
-  
-  html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201;white-space:nowrap"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 8px;font-weight:600">序號</th><th style="padding:6px 8px;font-weight:600">可使用次數</th><th style="padding:6px 8px;font-weight:600">金額</th></tr></thead>';
-  html+='<tbody>';
-  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">100</td><td style="padding:6px 8px;text-align:center">10</td></tr>';
-  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">N2kABy<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">4</td><td style="padding:6px 8px;text-align:center">50</td></tr>';
-  html+='<tr><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">MAh8qq<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">5</td><td style="padding:6px 8px;text-align:center">20</td></tr>';
-  html+='</tbody></table></div></div>';
-  document.getElementById('subTitle').textContent='紅包申請記錄 - 詳情';
-  document.getElementById('subContent').innerHTML=html;
-  document.getElementById('subOverlay').style.display='flex';
-}
-function showRpDetail(btn){
-  _subHistory='rpRecord';
-  var html='<div style="padding:8px">';
-  html+='<div style="font-size:13px;color:#452201;margin-bottom:8px"><strong>可領取次數</strong> <span style="color:#d97706;font-weight:700">2/100</span></div>';
-  html+='<div style="font-size:13px;color:#452201;margin-bottom:12px"><strong>可領取公會</strong> <span>窩要煙牌</span></div>';
-  html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201;white-space:nowrap"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 8px;font-weight:600">領取時間</th><th style="padding:6px 8px;font-weight:600">序號</th><th style="padding:6px 8px;font-weight:600">領取金額</th><th style="padding:6px 8px;font-weight:600">領取人</th></tr></thead>';
-  html+='<tbody>';
-  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center">2026/01/16 11:31:13</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">cas0</td></tr>';
-  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center">2026/01/16 11:28:42</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">c1</td></tr>';
-  var i;for(i=0;i<8;i++){
-  html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center;color:#991b1b">尚未領取</td><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">10</td><td style="padding:6px 8px;text-align:center;color:#2563eb">無</td></tr>';
-  }
-  html+='</tbody></table></div></div>';
-  document.getElementById('subTitle').textContent='紅包領取明細';
-  document.getElementById('subContent').innerHTML=html;
-  document.getElementById('subOverlay').style.display='flex';
+var applyData = [
+  {time:'2026-05-30 14:22',user:'maomao1',orderNo:'202605303891',type:'一組',coins:5000,status:'待審核',guild:'窩要煙牌',scope:['窩要煙牌'],remark:'活動獎勵'},
+  {time:'2026-05-28 09:15',user:'superadmin',orderNo:'202605282744',type:'多組',coins:15000,status:'已通過',guild:'龍之谷',scope:['龍之谷','星辰戰隊'],remark:'公會福利'},
+  {time:'2026-05-26 10:21',user:'maomao1',orderNo:'202605063525',type:'一組',coins:5000,status:'已通過',guild:'窩要煙牌',scope:['窩要煙牌'],remark:'測試領取'},
+  {time:'2026-05-22 16:40',user:'paul11',orderNo:'202605228812',type:'上傳',coins:20000,status:'已駁回',guild:'蛋捲公會',scope:['蛋捲公會'],remark:'批次發放'},
+  {time:'2026-05-18 11:05',user:'casper',orderNo:'202605185566',type:'多組',coins:10000,status:'已通過',guild:'窩要煙牌',scope:['窩要煙牌','蛋捲公會'],remark:'週年慶'},
+  {time:'2026-05-13 13:20',user:'superadmin',orderNo:'202605132927',type:'一組',coins:8000,status:'已通過',guild:'龍之谷',scope:['龍之谷'],remark:'新人禮包'},
+  {time:'2026-05-07 15:16',user:'henry1',orderNo:'202605071234',type:'上傳',coins:12000,status:'待審核',guild:'星辰戰隊',scope:['星辰戰隊'],remark:'活動補償'},
+  {time:'2026-05-04 11:05',user:'maomao1',orderNo:'202604217712',type:'多組',coins:15000,status:'已通過',guild:'窩要煙牌',scope:['窩要煙牌','龍之谷'],remark:'端午節活動'}
+];
+
+function viewDetail(idx) {
+  var d = applyData[idx];
+  var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px;flex-wrap:wrap">';
+  html += '<span style="color:#6B7280">申請人</span><strong>'+d.user+'</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">所屬公會</span><strong>'+d.guild+'</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">類型</span><strong>'+d.type+'</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">申請金幣</span><strong>'+d.coins.toLocaleString()+'</strong>';
+  html += '</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px;flex-wrap:wrap">';
+  html += '<span style="color:#6B7280">訂單編號</span><strong>'+d.orderNo+'</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">申請時間</span><strong>'+d.time+'</strong>';
+  html += '<span style="color:#6B7280;margin-left:12px">備註</span><strong>'+d.remark+'</strong>';
+  html += '</div>';
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px;flex-wrap:wrap">';
+  html += '<span style="color:#6B7280">可領取公會</span>';
+  d.scope.forEach(function(g){ html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">'+g+'</span>'; });
+  html += '</div>';
+  showModal('紅包申請詳情', html);
 }
 
-function showSub(page){
-  var el=document.getElementById('subOverlay');
-  var titles={members:'會員列表',manage:'會員管理',rpAudit:'紅包申請記錄',rpRecord:'紅包紀錄',joinAudit:'入會審核',log:'操作日誌',dissolve:'解散公會'};
-  document.getElementById('subTitle').textContent=titles[page]||'';
-  document.getElementById('subContent').innerHTML=subPages[page]||'';
-  el.style.display='flex';
+function showModal(title, body) {
+  var m = document.getElementById('detailModal');
+  m.querySelector('.modal-header h3').textContent = title;
+  m.querySelector('.modal-body').innerHTML = body;
+  m.classList.add('show');
 }
-function closeSub(){
-  if(_subHistory){var page=_subHistory;_subHistory=null;showSub(page);return;}
-  document.getElementById('subOverlay').style.display='none';
-}
+function closeModal() { document.getElementById('detailModal').classList.remove('show'); }
 </script>
+<script src="components/sidebar.js"></script>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detailModal">
+<div class="modal-box">
+  <div class="modal-header"><h3></h3><button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+  <div class="modal-body"></div>
+  <div class="modal-footer"><button class="btn-action" onclick="closeModal()">關閉</button></div>
+</div>
 </div>
 </body>
 </html>

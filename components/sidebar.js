@@ -49,6 +49,7 @@
             { name: '操作記錄', href: 'nova-guild-log.html' },
             { name: '貢獻查詢', href: 'nova-guild-contribution.html' },
             { name: '推廣設定', href: 'nova-guild-promotion.html' },
+            { name: '紅包申請', href: 'nova-redpacket-apply.html' },
             { name: '紅包審核', href: 'nova-guild-redpacket.html' },
             { name: '紅包紀錄', href: 'nova-guild-redpacket-records.html' }
           ]
