@@ -12,7 +12,7 @@ var rpData = [
   {id:'RP20260518003',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:20000,frozenDeduct:20000,status:'rejected',whitelist:false,time:'2026-05-18 22:00:45',reviewer:'casper',reviewTime:'2026-05-19 09:00:00',reason:'金額異常，請確認後重新申請',guildScope:['星辰戰隊']},
   {id:'RP20260517004',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'upload',totalAmount:80000,frozenDeduct:80000,status:'approved',whitelist:false,time:'2026-05-17 11:00:22',reviewer:'superadmin',reviewTime:'2026-05-17 11:30:00',reason:'',guildScope:['龍之谷','黃金獵人','星辰戰隊']},
   {id:'RP20260516005',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'multi',totalAmount:30000,frozenDeduct:25000,status:'pending',whitelist:false,time:'2026-05-16 08:45:10',reviewer:'',reviewTime:'',reason:'',guildScope:['黃金獵人']},
-  {id:'RP20260515006',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:60000,frozenDeduct:50000,status:'approved',whitelist:true,time:'2026-05-15 16:30:55',reviewer:'(自動)',reviewTime:'2026-05-15 16:30:55',reason:'',guildScope:['皇家俱樂部','龍之谷']},
+  {id:'RP20260515006',guild:'皇家俱樂部',guildLv:10,leader:'Wnp9012',mode:'single',totalAmount:60000,frozenDeduct:50000,status:'approved',whitelist:true,time:'2026-05-15 16:30:55',reviewer:'系統',reviewTime:'2026-05-15 16:30:55',reason:'',guildScope:['皇家俱樂部','龍之谷']},
   {id:'RP20260514007',guild:'星辰戰隊',guildLv:3,leader:'Mhx6677',mode:'single',totalAmount:10000,frozenDeduct:10000,status:'expired',whitelist:false,time:'2026-05-14 20:15:00',reviewer:'superadmin',reviewTime:'2026-05-14 20:30:00',reason:'',guildScope:['星辰戰隊']},
   {id:'RP20260513008',guild:'黃金獵人',guildLv:8,leader:'Gld1234',mode:'upload',totalAmount:45000,frozenDeduct:45000,status:'rejected',whitelist:false,time:'2026-05-13 10:00:18',reviewer:'casper',reviewTime:'2026-05-13 14:00:00',reason:'CSV格式錯誤，第3行缺少領取次數',guildScope:['黃金獵人']},
   {id:'RP20260512009',guild:'龍之谷',guildLv:5,leader:'Abk7382',mode:'multi',totalAmount:25000,frozenDeduct:25000,status:'done',whitelist:false,time:'2026-05-12 09:00:00',reviewer:'superadmin',reviewTime:'2026-05-12 09:15:00',reason:'',guildScope:['龍之谷']},
@@ -227,7 +227,7 @@ function rpReject(id) {
       '<div class="modal" style="max-width:420px">' +
         '<div class="modal-header"><h3>駁回紅包申請</h3><button class="modal-close" onclick="closeRpModal(\'rpRejectModal\')">&times;</button></div>' +
         '<div class="modal-body">' +
-          '<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;margin-bottom:12px"><p style="font-size:12px;color:#991B1B;margin:0"><strong>⚠ 駁回後系統將自動執行：</strong></p><ul style="font-size:11px;color:#991B1B;margin:6px 0 0 16px;padding:0"><li>退回會長身上金幣（申請總金額）</li><li>恢復本次同步扣除的凍結金幣數值</li></ul></div>' +
+          '<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:12px 16px;margin-bottom:12px"><p style="font-size:12px;color:#991B1B;margin:0">駁回後系統將自動退回會長身上金幣（申請金額）</p></div>' +
           '<div class="form-group"><label>駁回原因 <span style="color:#DC2626">*</span></label><textarea id="rpRejectReason" class="form-control" rows="3" placeholder="請輸入駁回原因"></textarea></div>' +
         '</div>' +
         '<div class="modal-footer">' +
