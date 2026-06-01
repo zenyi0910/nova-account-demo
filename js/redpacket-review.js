@@ -184,13 +184,12 @@ function rpApprove(id) {
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
-  html += '<div style="overflow-x:auto"><table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th style="white-space:nowrap">順序</th><th style="white-space:nowrap">紅包序號</th><th style="white-space:nowrap">序號有效期限</th><th style="white-space:nowrap">可使用次數</th><th style="white-space:nowrap">序號金幣</th><th style="white-space:nowrap">操作</th></tr></thead><tbody>';
+  html += '<div style="overflow-x:auto"><table class="data-table" style="font-size:12px"><thead><tr style="color:#00897B"><th style="white-space:nowrap">順序</th><th style="white-space:nowrap">紅包序號</th><th style="white-space:nowrap">可使用次數</th><th style="white-space:nowrap">序號金幣</th><th style="white-space:nowrap">操作</th></tr></thead><tbody>';
   var snCount = item.mode === 'single' ? 1 : item.mode === 'multi' ? 3 : 5;
   for (var i = 0; i < snCount; i++) {
     var rowId = 'rpSn_' + i;
     html += '<tr><td style="text-align:center;width:60px">' + (i+1) + '</td>';
     html += '<td><input type="text" id="' + rowId + '" class="form-control" style="width:110px;font-family:monospace;font-size:13px;padding:6px 10px" value="' + rpGenCode() + '" readonly></td>';
-    html += '<td>不限期</td>';
     html += '<td style="text-align:center">5</td>';
     html += '<td style="text-align:right">1,000</td>';
     html += '<td style="white-space:nowrap"><button class="btn btn-dark" style="background:#00bba7;border-color:#00bba7;font-size:11px;padding:4px 10px" onclick="document.getElementById(\'' + rowId + '\').value=rpGenCode()">重新產生</button></td>';
@@ -291,12 +290,12 @@ function rpDetail(id) {
   var snCount = item.mode === 'single' ? 1 : item.mode === 'multi' ? 3 : 5;
   html += '<h4 style="font-size:13px;font-weight:600;margin-bottom:6px;color:#374151">序號設定</h4>';
   html += '<p style="font-size:12px;color:#6B7280;margin-bottom:10px">總共 ' + snCount + ' 筆資料</p>';
-  html += '<table class="data-table" style="margin-bottom:16px;white-space:nowrap"><thead><tr><th>順序</th><th>序號</th><th>序號有效日期</th><th>可使用次數</th><th>序號金幣</th></tr></thead><tbody>';
+  html += '<table class="data-table" style="margin-bottom:16px;white-space:nowrap"><thead><tr><th>順序</th><th>序號</th><th>可使用次數</th><th>序號金幣</th></tr></thead><tbody>';
   for (var s = 0; s < snCount; s++) {
     var sn = rpGenCode();
     var uses = Math.floor(Math.random()*5) + 1;
     var coins = [20, 50, 100, 200, 500][Math.floor(Math.random()*5)];
-    html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace">' + sn + '</td><td>' + item.time.split(' ')[0] + '</td><td style="text-align:center">' + uses + '</td><td style="text-align:right">' + coins + '</td></tr>';
+    html += '<tr><td style="text-align:center">' + (s+1) + '</td><td style="font-family:monospace">' + sn + '</td><td style="text-align:center">' + uses + '</td><td style="text-align:right">' + coins + '</td></tr>';
   }
   html += '</tbody></table>';
 
