@@ -53,6 +53,13 @@
             { name: '紅包紀錄', href: 'nova-guild-redpacket-records.html' }
           ]
         },
+        { name: '紅包管理', id: 'redpacketSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>',
+          children: [
+            { name: '紅包申請(前端)', href: 'nova-redpacket-apply.html' },
+            { name: '紅包審核', href: 'nova-redpacket-review.html' },
+            { name: '紅包紀錄', href: 'nova-redpacket-log.html' }
+          ]
+        },
         { name: '活動與任務', id: 'activitySub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
           children: [
             { name: '活動設定', href: 'nova-event-settings.html' },
