@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova 後台 - 紅包申請管理</title>
+<title>Nova 後台 - 序號管理</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFang TC',sans-serif;background:#F9FAFB;color:#1F2937;font-size:14px;display:flex;min-height:100vh}
@@ -161,31 +161,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <div class="main">
   <div class="topbar">
     <button class="topbar-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></button>
-    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">公會管理</a><span class="sep">&gt;</span><span class="current">紅包申請管理</span></div>
+    <div class="breadcrumb"><a href="#">首頁</a><span class="sep">&gt;</span><a href="#">基本設定</a><span class="sep">&gt;</span><span class="current">序號產生</span></div>
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg><h1>紅包申請管理</h1></div>
-    <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;margin-bottom:16px;font-size:13px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span style="font-weight:600;color:#16a34a">Tips</span><span style="color:#374151">紅包申請僅支援金幣類型，審核通過後自動產生序號</span></div>
+    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg><h1>序號管理</h1></div>
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;margin-bottom:16px;font-size:13px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span style="font-weight:600;color:#16a34a">Tips</span><span style="color:#374151">該功能僅支援金幣類型。</span></div>
     <div class="filter-card" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:flex-end">
-      <div class="filter-group" data-rule="order"><label>申請單號</label><div class="filter-input"><input type="text" placeholder="搜尋申請單號"></div><div class="filter-error"></div></div>
-      <div class="filter-group" data-rule="keyword"><label>公會名稱</label><div class="filter-input"><input type="text" placeholder="搜尋公會名稱"></div><div class="filter-error"></div></div>
-      <div class="filter-group" data-rule="keyword"><label>會長帳號</label><div class="filter-input"><input type="text" placeholder="搜尋會長帳號"></div><div class="filter-error"></div></div>
-      <div class="filter-group"><label>審核狀態</label><div class="filter-input"><select><option value="">全部狀態</option><option>待審核</option><option>已通過</option><option>已駁回</option></select></div></div>
-      <div class="filter-group"><label>申請模式</label><div class="filter-input"><select><option value="">全部模式</option><option>一組</option><option>多組</option><option>上傳</option></select></div></div>
-      <div class="filter-group"><label>是否白名單</label><div class="filter-input"><select><option value="">全部</option><option>是</option><option>否</option></select></div></div>
-      <div class="filter-group date-picker-wrap"><label>申請日期</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div>
+      <div class="filter-group" data-rule="keyword"><label>序號申請人</label><div class="filter-input"><input type="text" placeholder="搜尋申請人"></div><div class="filter-error"></div></div>
+      <div class="filter-group" data-rule="order"><label>序號群組編號</label><div class="filter-input"><input type="text" placeholder="搜尋群組編號"></div><div class="filter-error"></div></div>
+      <div class="filter-group"><label>序號狀態</label><div class="filter-input"><select><option value="">選擇序號狀態</option><option>已產生</option><option>已作廢</option></select></div></div>
+      <div class="filter-group"><label>VIP等級以上</label><div class="filter-input"><select><option value="">選擇VIP等級</option><option>不限制</option><option>VIP1</option><option>VIP2</option><option>VIP3</option><option>VIP4</option><option>VIP5</option><option>VIP6</option></select></div></div>
+      <div class="filter-group"><label>序號類型</label><div class="filter-input"><select><option value="">選擇序號類型</option><option>紅包序號</option><option>推廣序號</option></select></div></div>
+      <div class="filter-group" data-rule="keyword"><label>序號申請原因</label><div class="filter-input"><input type="text" placeholder="搜尋申請原因"></div><div class="filter-error"></div></div>
+      <div class="filter-group date-picker-wrap"><label>申請日期</label><div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇時間日期</span></div></div>
+      <div class="filter-group" data-rule="order"><label>紅包訂單編號</label><div class="filter-input"><input type="text" placeholder="搜尋訂單編號"></div><div class="filter-error"></div></div>
       <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
-    <div class="pagination-bar"><span>第 1 頁，共 6 筆資料</span><span>每頁顯示 20 筆</span></div>
-    <div class="page-header" style="margin-bottom:12px"><span class="spacer"></span><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#2563EB;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500">匯出紀錄</button></div>
-    <table class="data-table"><thead><tr><th>申請單號</th><th>公會名稱</th><th>會長帳號</th><th>申請模式</th><th>申請總金額</th><th>扣除凍結</th><th>審核狀態</th><th>白名單</th><th>申請時間</th><th>操作</th></tr></thead><tbody>
-      <tr><td style="font-size:11px;color:#2563EB">RP20260116001</td><td>窩要煙牌</td><td>QAtest6</td><td>一組</td><td>15,000</td><td>15,000</td><td><span class="status-badge status-online">已通過</span></td><td>否</td><td style="color:#6B7280">2026-01-16 11:27</td><td><button class="btn-action" onclick="viewDetail(0)">查看詳情</button><button class="btn-action" onclick="viewSerials(0)">查看序號</button><button class="btn-action" onclick="viewClaims(0)">領取名單</button></td></tr>
-      <tr><td style="font-size:11px;color:#2563EB">RP20251119002</td><td>窩要煙牌</td><td>QAtest6</td><td>多組</td><td>45,000</td><td>30,000</td><td><span class="status-badge status-online">已通過</span></td><td>否</td><td style="color:#6B7280">2025-11-19 10:22</td><td><button class="btn-action" onclick="viewDetail(1)">查看詳情</button><button class="btn-action" onclick="viewSerials(1)">查看序號</button><button class="btn-action" onclick="viewClaims(1)">領取名單</button></td></tr>
-      <tr><td style="font-size:11px;color:#2563EB">RP20251107003</td><td>窩要煙牌</td><td>QAtest6</td><td>上傳</td><td>6,000</td><td>6,000</td><td><span class="status-badge status-offline">已駁回</span></td><td>否</td><td style="color:#6B7280">2025-11-07 17:04</td><td><button class="btn-action" onclick="viewDetail(2)">查看詳情</button><button class="btn-action disabled">查看序號</button><button class="btn-action disabled">領取名單</button></td></tr>
-      <tr><td style="font-size:11px;color:#2563EB">RP20260505004</td><td>龍之谷</td><td>maxmom1</td><td>一組</td><td>80,000</td><td>50,000</td><td><span class="status-badge status-maint">待審核</span></td><td>否</td><td style="color:#6B7280">2026-05-05 14:04</td><td><button class="btn-action" onclick="viewDetail(3)">查看詳情</button><button class="btn-action" style="background:#16a34a;color:#fff;border-color:#16a34a" onclick="approveApp(3)">審核通過</button><button class="btn-action btn-danger" onclick="rejectApp(3)">駁回</button></td></tr>
-      <tr><td style="font-size:11px;color:#2563EB">RP20260429005</td><td>皇家俱樂部</td><td>henry1</td><td>多組</td><td>30,000</td><td>20,000</td><td><span class="status-badge status-online">已通過</span></td><td>是</td><td style="color:#6B7280">2026-04-29 14:12</td><td><button class="btn-action" onclick="viewDetail(4)">查看詳情</button><button class="btn-action" onclick="viewSerials(4)">查看序號</button><button class="btn-action" onclick="viewClaims(4)">領取名單</button><button class="btn-action btn-danger" onclick="disableSerials(4)">停用序號</button></td></tr>
-      <tr><td style="font-size:11px;color:#2563EB">RP20260429006</td><td>黃金獵人</td><td>henry1</td><td>一組</td><td>10,000</td><td>10,000</td><td><span class="status-badge status-online">已通過</span></td><td>是</td><td style="color:#6B7280">2026-04-29 14:12</td><td><button class="btn-action" onclick="viewDetail(5)">查看詳情</button><button class="btn-action" onclick="viewSerials(5)">查看序號</button><button class="btn-action" onclick="viewClaims(5)">領取名單</button><button class="btn-action btn-danger" onclick="disableSerials(5)">停用序號</button></td></tr>
+    <div class="pagination-bar"><span>第 1 頁，共 20 筆資料</span><span>每頁顯示 20 筆</span></div>
+    <div class="page-header" style="margin-bottom:12px"><span class="spacer"></span><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:none;background:#2563EB;color:#fff;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;margin-right:8px">新增序號群組</button><button class="btn-add" style="padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;color:#374151;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500">匯出報表</button></div>
+    <table class="data-table"><thead><tr><th>序號群組編號</th><th>VIP</th><th>序號申請類型</th><th>序號申請原因</th><th>序號申請人</th><th>序號申請日期</th><th>紅包訂單編號</th><th>序號狀態</th><th>操作</th></tr></thead><tbody>
+      <tr><td style="font-size:11px;color:#2563EB">019e6216-567f-7f18-9267-22ef02814508</td><td>不限制</td><td>紅包序號</td><td>測試領取</td><td>maomao1</td><td style="color:#6B7280">2026-05-26 10:21</td><td>202605063525</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(0)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019e49e7-74b7-7561-b6ab-6543312ba77e</td><td>不限制</td><td>推廣序號</td><td>測試</td><td>maomao1</td><td style="color:#6B7280">2026-05-21 17:39</td><td>-</td><td><span class="status-badge status-offline">已作廢</span></td><td><button class="btn-action" onclick="viewDetail(1)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019e1fc7-1446-7785-9698-8a44ed886022</td><td>不限制</td><td>紅包序號</td><td>tttt</td><td>superadmin</td><td style="color:#6B7280">2026-05-13 13:20</td><td>202605132927</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(2)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019e014b-c26f-72ac-b074-928af5dcadde</td><td>不限制</td><td>推廣序號</td><td>新增序號測試</td><td>paul11</td><td style="color:#6B7280">2026-05-07 15:16</td><td>-</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(3)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019e005b-6dac-7c32-a009-c625e1a07b04</td><td>不限制</td><td>推廣序號</td><td>vip6測試</td><td>paul11</td><td style="color:#6B7280">2026-05-07 10:54</td><td>-</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(4)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019df6b5-248f-7d7f-b8d2-667c125aec0b</td><td>不限制</td><td>紅包序號</td><td>casper</td><td>casper</td><td style="color:#6B7280">2026-05-05 13:55</td><td>202605057171</td><td><span class="status-badge status-offline">已作廢</span></td><td><button class="btn-action" onclick="viewDetail(5)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019df0f3-1ab2-7933-96fa-ec20b8997de5</td><td>不限制</td><td>紅包序號</td><td>公會會長紅包</td><td>maomao1</td><td style="color:#6B7280">2026-05-04 11:05</td><td>202604217712</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(6)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019dd7de-3a33-7e85-883d-cba15d78f413</td><td>不限制</td><td>推廣序號</td><td>Test Enable Flag</td><td>henry1</td><td style="color:#6B7280">2026-04-29 14:12</td><td>-</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(7)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019dd7dd-cb8c-7393-8ae1-32cb004aae64</td><td>不限制</td><td>推廣序號</td><td>Test Disable Flag</td><td>henry1</td><td style="color:#6B7280">2026-04-29 14:12</td><td>-</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(8)">詳情</button></td></tr>
+      <tr><td style="font-size:11px;color:#2563EB">019dd73d-b3a2-78a1-9a08-58baf6f0c755</td><td>不限制</td><td>推廣序號</td><td>Test Vip3 Create</td><td>henry1</td><td style="color:#6B7280">2026-04-29 11:17</td><td>-</td><td><span class="status-badge status-online">已產生</span></td><td><button class="btn-action" onclick="viewDetail(9)">詳情</button></td></tr>
     </tbody></table>
   </div>
 </div>
@@ -197,7 +202,7 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   if(isMobile){
     document.querySelector('.sidebar').classList.toggle('show');
     let ov=document.querySelector('.sidebar-overlay');
-    if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});}
+    if(!ov){ov=document.createElement('div');ov.className='sidebar-overlay';document.body.appendChild(ov);ov.addEventListener('click',function(){document.querySelector('.sidebar').classList.remove('show');ov.classList.remove('show');});;}
     ov.classList.toggle('show');
   }else{
     document.body.classList.toggle('sidebar-collapsed');
@@ -220,37 +225,10 @@ document.querySelector('.btn-search')?.addEventListener('click', function(e) {
     if (!val) return;
     let errorMsg = '';
     switch(rule) {
-      case 'account':
-        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
-        for (const acc of accounts) {
-          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
-        }
-        break;
-      case 'nickname':
-        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
-        break;
       case 'order':
-        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
-        break;
-      case 'phone':
-        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
-        break;
-      case 'date':
-        if (val.includes('~')) {
-          const parts = val.split('~').map(s => s.trim());
-          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
-        } else {
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-        }
-        break;
+        if (!/^[a-zA-Z0-9_\-]{4,50}$/.test(val)) { errorMsg = '編號格式：4~50字元英數'; } break;
       case 'keyword':
-        if (val.length < 1) errorMsg = '請輸入搜尋內容';
-        break;
-      case 'amount':
-        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
-        break;
+        if (val.length < 1) { errorMsg = '請輸入搜尋內容'; } break;
     }
     if (errorMsg) {
       valid = false;
@@ -267,58 +245,34 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
 
 // Serial data
 var serialData = [
-  {id:'RP20260116001',guild:'窩要煙牌',applicant:'QAtest6',mode:'一組',qty:3,points:1000,groups:1,total:15000,frozen:15000,status:'已通過',whitelist:false,applyTime:'2026-01-16 11:27',reviewer:'Admin',reviewTime:'2026-01-16 12:00',rejectReason:'',guildScope:['窩要煙牌'],serials:[{code:'XYRP-A3K9M',points:1000,times:5,claimed:3,remain:2,status:'可領取'}]},
-  {id:'RP20251119002',guild:'窩要煙牌',applicant:'QAtest6',mode:'多組',qty:5,points:2000,groups:3,total:45000,frozen:30000,status:'已通過',whitelist:false,applyTime:'2025-11-19 10:22',reviewer:'Admin',reviewTime:'2025-11-19 11:00',rejectReason:'',guildScope:['窩要煙牌'],serials:[{code:'XYRP-B7F2N',points:2000,times:3,claimed:3,remain:0,status:'已領完'},{code:'XYRP-D4G1K',points:2000,times:3,claimed:1,remain:2,status:'可領取'},{code:'XYRP-E9J5L',points:5000,times:3,claimed:0,remain:3,status:'可領取'}]},
-  {id:'RP20251107003',guild:'窩要煙牌',applicant:'QAtest6',mode:'上傳',qty:0,points:0,groups:3,total:6000,frozen:6000,status:'已駁回',whitelist:false,applyTime:'2025-11-07 17:04',reviewer:'Admin',reviewTime:'2025-11-07 18:30',rejectReason:'金額設定不合理',guildScope:['窩要煙牌'],serials:[]},
-  {id:'RP20260505004',guild:'龍之谷',applicant:'maxmom1',mode:'一組',qty:8,points:10000,groups:1,total:80000,frozen:50000,status:'待審核',whitelist:false,applyTime:'2026-05-05 14:04',reviewer:'',reviewTime:'',rejectReason:'',guildScope:['龍之谷','黃金獵人'],serials:[]},
-  {id:'RP20260429005',guild:'皇家俱樂部',applicant:'henry1',mode:'多組',qty:3,points:10000,groups:3,total:30000,frozen:20000,status:'已通過',whitelist:true,applyTime:'2026-04-29 14:12',reviewer:'系統(白名單)',reviewTime:'2026-04-29 14:12',rejectReason:'',guildScope:['皇家俱樂部','龍之谷'],serials:[{code:'XYRP-F2M8Q',points:10000,times:3,claimed:3,remain:0,status:'已領完'},{code:'XYRP-G6N3R',points:10000,times:3,claimed:2,remain:1,status:'可領取'},{code:'XYRP-H1P7S',points:10000,times:3,claimed:0,remain:3,status:'可領取'}]},
-  {id:'RP20260429006',guild:'黃金獵人',applicant:'henry1',mode:'一組',qty:2,points:5000,groups:1,total:10000,frozen:10000,status:'已通過',whitelist:true,applyTime:'2026-04-29 14:12',reviewer:'系統(白名單)',reviewTime:'2026-04-29 14:12',rejectReason:'',guildScope:['黃金獵人'],serials:[{code:'XYRP-C5H8P',points:5000,times:10,claimed:0,remain:10,status:'已失效'}]}
+  {id:'019e6216-567f-7f18-9267-22ef02814508',vip:'不限制',type:'紅包序號',reason:'測試領取',applicant:'maomao1',date:'2026-05-26 10:21',orderNo:'202605063525',status:'已產生'},
+  {id:'019e49e7-74b7-7561-b6ab-6543312ba77e',vip:'不限制',type:'推廣序號',reason:'測試',applicant:'maomao1',date:'2026-05-21 17:39',orderNo:'-',status:'已作廢'},
+  {id:'019e1fc7-1446-7785-9698-8a44ed886022',vip:'不限制',type:'紅包序號',reason:'tttt',applicant:'superadmin',date:'2026-05-13 13:20',orderNo:'202605132927',status:'已產生'},
+  {id:'019e014b-c26f-72ac-b074-928af5dcadde',vip:'不限制',type:'推廣序號',reason:'新增序號測試',applicant:'paul11',date:'2026-05-07 15:16',orderNo:'-',status:'已產生'},
+  {id:'019e005b-6dac-7c32-a009-c625e1a07b04',vip:'不限制',type:'推廣序號',reason:'vip6測試',applicant:'paul11',date:'2026-05-07 10:54',orderNo:'-',status:'已產生'},
+  {id:'019df6b5-248f-7d7f-b8d2-667c125aec0b',vip:'不限制',type:'紅包序號',reason:'casper',applicant:'casper',date:'2026-05-05 13:55',orderNo:'202605057171',status:'已作廢'},
+  {id:'019df0f3-1ab2-7933-96fa-ec20b8997de5',vip:'不限制',type:'紅包序號',reason:'公會會長紅包',applicant:'maomao1',date:'2026-05-04 11:05',orderNo:'202604217712',status:'已產生'},
+  {id:'019dd7de-3a33-7e85-883d-cba15d78f413',vip:'不限制',type:'推廣序號',reason:'Test Enable Flag',applicant:'henry1',date:'2026-04-29 14:12',orderNo:'-',status:'已產生'},
+  {id:'019dd7dd-cb8c-7393-8ae1-32cb004aae64',vip:'不限制',type:'推廣序號',reason:'Test Disable Flag',applicant:'henry1',date:'2026-04-29 14:12',orderNo:'-',status:'已產生'},
+  {id:'019dd73d-b3a2-78a1-9a08-58baf6f0c755',vip:'不限制',type:'推廣序號',reason:'Test Vip3 Create',applicant:'henry1',date:'2026-04-29 11:17',orderNo:'-',status:'已產生'}
 ];
 
 function viewDetail(idx) {
   var d = serialData[idx];
-  var html = '<div class="modal-section"><h4>申請資訊</h4><div class="modal-info">';
-  html += '<div class="item"><span class="label">申請單號</span><span class="val" style="color:#2563EB">'+d.id+'</span></div>';
-  html += '<div class="item"><span class="label">公會名稱</span><span class="val">'+d.guild+'</span></div>';
-  html += '<div class="item"><span class="label">會長帳號</span><span class="val">'+d.applicant+'</span></div>';
-  html += '<div class="item"><span class="label">申請模式</span><span class="val">'+d.mode+'</span></div>';
-  html += '<div class="item"><span class="label">申請總金額</span><span class="val">'+d.total.toLocaleString()+' 金幣</span></div>';
-  html += '<div class="item"><span class="label">扣除凍結金幣</span><span class="val">'+d.frozen.toLocaleString()+'</span></div>';
-  html += '<div class="item"><span class="label">可領取公會</span><span class="val">'+d.guildScope.join('、')+'</span></div>';
-  html += '<div class="item"><span class="label">是否白名單</span><span class="val">'+(d.whitelist?'是':'否')+'</span></div>';
-  html += '<div class="item"><span class="label">申請時間</span><span class="val">'+d.applyTime+'</span></div>';
-  html += '<div class="item"><span class="label">審核狀態</span><span class="val">'+d.status+'</span></div>';
+  var html = '<div class="modal-section"><h4>序號群組資訊</h4><div class="modal-info">';
+  html += '<div class="item"><span class="label">群組編號</span><span class="val" style="color:#2563EB">'+d.id+'</span></div>';
+  html += '<div class="item"><span class="label">VIP等級</span><span class="val">'+d.vip+'</span></div>';
+  html += '<div class="item"><span class="label">序號類型</span><span class="val">'+d.type+'</span></div>';
+  html += '<div class="item"><span class="label">申請原因</span><span class="val">'+d.reason+'</span></div>';
+  html += '<div class="item"><span class="label">申請人</span><span class="val">'+d.applicant+'</span></div>';
+  html += '<div class="item"><span class="label">申請日期</span><span class="val">'+d.date+'</span></div>';
+  html += '<div class="item"><span class="label">紅包訂單編號</span><span class="val">'+d.orderNo+'</span></div>';
+  html += '<div class="item"><span class="label">序號狀態</span><span class="val">'+d.status+'</span></div>';
   html += '</div></div>';
-  if (d.reviewer) {
-    html += '<div class="modal-section"><h4>審核資訊</h4><div class="modal-info">';
-    html += '<div class="item"><span class="label">審核人員</span><span class="val">'+d.reviewer+'</span></div>';
-    html += '<div class="item"><span class="label">審核時間</span><span class="val">'+d.reviewTime+'</span></div>';
-    if (d.rejectReason) html += '<div class="item"><span class="label">駁回原因</span><span class="val" style="color:#DC2626">'+d.rejectReason+'</span></div>';
-    html += '</div></div>';
-  }
-  showModal('紅包申請詳情 - '+d.id, html, idx);
+  showModal('序號群組詳情', html);
 }
 
-function viewSerials(idx) {
-  var d = serialData[idx];
-  var html = '<div class="modal-section"><h4>紅包序號列表</h4><table class="serial-table"><thead><tr><th>序號</th><th>每包點數</th><th>可領取次數</th><th>已領取</th><th>剩餘</th><th>狀態</th></tr></thead><tbody>';
-  if (d.serials.length === 0) {
-    html += '<tr><td colspan="6" style="text-align:center;color:#9CA3AF;padding:20px">尚未產生序號</td></tr>';
-  } else {
-    d.serials.forEach(function(s){
-      var sc = s.status==='可領取'?'#16a34a':s.status==='已領完'?'#9CA3AF':'#DC2626';
-      html += '<tr><td style="color:#2563EB;font-weight:500">'+s.code+'</td><td>'+s.points.toLocaleString()+'</td><td>'+s.times+'</td><td>'+s.claimed+'</td><td>'+s.remain+'</td><td style="color:'+sc+'">'+s.status+'</td></tr>';
-    });
-  }
-  html += '</tbody></table></div>';
-  showModal('查看序號 - '+d.id, html, idx);
-}
-
-function approveApp(idx) { alert('已審核通過申請 '+serialData[idx].id+'，系統將自動產生紅包序號'); }
-function rejectApp(idx) { var r=prompt('請輸入駁回原因：');if(r)alert('已駁回申請 '+serialData[idx].id+'，金幣與凍結金幣已退回'); }
-function disableSerials(idx) { if(confirm('確定要停用 '+serialData[idx].id+' 的所有序號？'))alert('已停用所有序號'); }
-
-function showModal(title, body, idx) {
+function showModal(title, body) {
   var m = document.getElementById('detailModal');
   m.querySelector('.modal-header h3').textContent = title;
   m.querySelector('.modal-body').innerHTML = body;
@@ -327,25 +281,6 @@ function showModal(title, body, idx) {
 }
 
 function closeModal() { document.getElementById('detailModal').classList.remove('show'); }
-
-function viewClaims(idx) {
-  var d = serialData[idx];
-  var html = '<div class="modal-section"><h4>領取名單</h4><table class="serial-table"><thead><tr><th>領取時間</th><th>會員帳號</th><th>序號</th><th>領取金額</th></tr></thead><tbody>';
-  if (d.status === '已通過' && d.serials.length > 0 && d.serials.some(function(s){return s.claimed>0;})) {
-    var names=['Player002','Player003','User298225','User646941','User973087'];
-    var ci=0;
-    d.serials.forEach(function(s){
-      for(var i=0;i<s.claimed&&ci<5;i++){
-        html += '<tr><td>2026-01-'+(16+ci)+' '+(10+ci)+':30</td><td>'+names[ci]+'</td><td style="color:#2563EB">'+s.code+'</td><td>'+s.points.toLocaleString()+'</td></tr>';
-        ci++;
-      }
-    });
-  } else {
-    html += '<tr><td colspan="4" style="text-align:center;color:#9CA3AF;padding:20px">尚無領取紀錄</td></tr>';
-  }
-  html += '</tbody></table></div>';
-  showModal('領取名單 - '+d.id, html, idx);
-}
 </script>
 <script src="components/date-picker.js"></script>
 
