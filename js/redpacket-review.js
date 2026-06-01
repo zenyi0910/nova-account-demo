@@ -97,12 +97,12 @@ function renderRpTable() {
 
   var rows = '';
   if (pageData.length === 0) {
-    rows = '<tr><td colspan="13" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
+    rows = '<tr><td colspan="12" style="text-align:center;color:#9CA3AF;padding:24px">無資料</td></tr>';
   } else {
     pageData.forEach(function(item, idx) {
       var ops = '';
       if (item.status === 'pending') {
-        ops = '<div style="display:flex;gap:6px;flex-wrap:wrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
+        ops = '<div style="display:flex;gap:6px;flex-wrap:nowrap">' + rpBtnApprove(item.id) + rpBtnReject(item.id) + '</div>';
       } else {
         ops = '<a href="javascript:void(0)" onclick="rpDetail(\'' + item.id + '\')" style="color:oklch(0.777 0.152 181.912);font-size:12px">檢視詳情</a>';
       }
@@ -115,7 +115,7 @@ function renderRpTable() {
         '<td>' + rpModeText(item.mode) + '</td>' +
         '<td>' + item.time + '</td>' +
         '<td style="text-align:right">' + item.totalAmount.toLocaleString() + '</td>' +
-        '<td style="text-align:right">' + item.frozenDeduct.toLocaleString() + '</td>' +
+
         '<td>' + rpStatusText(item.status) + '</td>' +
         '<td>' + (item.reviewer || '-') + '</td>' +
         '<td>' + (item.reviewTime || '-') + '</td>' +
@@ -136,7 +136,7 @@ function renderRpTable() {
 
   document.getElementById('rpTableWrap').innerHTML = topBar +
     '<div style="overflow-x:auto"><table class="data-table" style="white-space:nowrap"><thead><tr>' +
-    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請模式</th><th>申請日期</th><th style="text-align:right">申請金額</th><th style="text-align:right">凍結扣除</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th>審核操作</th>' +
+    '<th style="text-align:center">順序</th><th>紅包訂單編號</th><th>公會名稱</th><th>公會等級</th><th>會長帳號</th><th>申請模式</th><th>申請日期</th><th style="text-align:right">申請金額</th><th>審核狀態</th><th>審核人員</th><th>審核日期</th><th style="min-width:140px">審核操作</th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + bottomBar;
 }
 
@@ -171,7 +171,6 @@ function rpApprove(id) {
   html += '<tr><td style="padding:6px 10px;color:#6B7280">公會 / 會長</td><td style="padding:6px 10px">' + item.guild + ' / ' + item.leader + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請模式</td><td style="padding:6px 10px">' + rpModeText(item.mode) + '</td></tr>';
   html += '<tr><td style="padding:6px 10px;color:#6B7280">申請總金額</td><td style="padding:6px 10px;font-weight:600">' + item.totalAmount.toLocaleString() + '</td></tr>';
-  html += '<tr><td style="padding:6px 10px;color:#6B7280">扣除凍結金幣</td><td style="padding:6px 10px">' + item.frozenDeduct.toLocaleString() + '</td></tr>';
   html += '</table>';
   html += '<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:12px 16px;margin-bottom:12px">';
   html += '<p style="font-size:12px;font-weight:600;color:#166534;margin-bottom:8px">通過後將產生以下序號：</p>';
@@ -268,8 +267,8 @@ function rpDetail(id) {
     ['申請單號', item.id], ['公會名稱', item.guild],
     ['公會等級', 'Lv.' + item.guildLv], ['會長帳號', item.leader],
     ['申請模式', rpModeText(item.mode)], ['白名單', item.whitelist ? '<span style="color:#00bba7;font-weight:600">是（自動通過）</span>' : '<span style="color:#6a7282">否（需人工審核）</span>'],
-    ['申請總金額', item.totalAmount.toLocaleString()], ['扣除凍結金幣', item.frozenDeduct.toLocaleString()],
-    ['審核狀態', rpStatusText(item.status)], ['申請時間', item.time],
+    ['申請總金額', item.totalAmount.toLocaleString()], ['審核狀態', rpStatusText(item.status)],
+    ['申請時間', item.time],
     ['可領取公會', (item.guildScope||[]).join('、')]
   ];
   if (item.reviewer) {
