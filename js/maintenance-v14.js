@@ -11,19 +11,7 @@ const suppliers = [
   {id:'startest',name:'星運測試商'}
 ];
 
-// 付款通道資料
-const paymentChannels = [
-  {id:'c1',supplier:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05'},
-  {id:'c2',supplier:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004'},
-  {id:'c3',supplier:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B'},
-  {id:'c4',supplier:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01'},
-  {id:'c5',supplier:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09'},
-  {id:'c6',supplier:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001'},
-  {id:'c7',supplier:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01'},
-  {id:'c8',supplier:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01'},
-  {id:'c9',supplier:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A'},
-  {id:'c10',supplier:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B'}
-];
+// 付款通道資料（已移除）
 
 const maintSchedules = [
   { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
@@ -137,19 +125,11 @@ function renderSchedItem(s, idx, isActive, isExpired) {
   let scopeBadge = '';
   if (s.scope === '星幣') {
     scopeBadge = `<span style="background:#DBEAFE;color:#1E40AF;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>`;
-  } else if (s.scope === '付款通道') {
-    scopeBadge = `<span style="background:#FEF3C7;color:#D97706;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">付款通道</span>`;
   } else {
     scopeBadge = `<span style="background:#E5E7EB;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
   }
   
   let detailInfo = '';
-  if (s.scope === '付款通道' && s.supplier && s.channels) {
-    detailInfo = `<div style="margin-top:4px;font-size:11px;color:#6B7280">
-      <div>供應商：${s.supplier}</div>
-      <div>通道：${s.channels.join('、')}</div>
-    </div>`;
-  }
   
   return `<div class="sched-item${cls}">
     ${clockIcon}
@@ -190,33 +170,33 @@ function renderHistoryTable() {
   const items = maintHistory;
   const columns = [
     { label: '範圍', width: '60px' },
-    { label: '操作時間', width: '140px' },
-    { label: '維護時間', width: '240px' },
+    { label: '開始時間', width: '140px' },
+    { label: '結束時間', width: '140px' },
     { label: '公告內容' },
     { label: '備註' },
-    { label: '操作者/異動者', width: '130px' },
-    { label: '狀態', width: '80px' }
+    { label: '操作者', width: '70px' },
+    { label: '操作時間', width: '140px' },
+    { label: '狀態', width: '80px' },
+    { label: '異動者', width: '70px' }
   ];
   const rows = items.map(r => {
-    // 範圍 badge 統一灰底，不要太花
-    const scopeBadge = `<span style="display:inline-block;background:#F3F4F6;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">${r.scope}</span>`;
+    const scopeBadge = r.scope === '星幣'
+      ? `<span style="display:inline-block;background:#DBEAFE;color:#1E40AF;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>`
+      : `<span style="display:inline-block;background:#E5E7EB;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`;
     const statusBadge = r.status === '已刪除'
       ? `<span class="status-badge" style="background:#FEE2E2;color:#991B1B;white-space:nowrap">已刪除</span>`
       : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`;
-    // 操作者/異動者：已刪除時異動者紅色顯示，無異動者顯示 -
-    const modifier = (r.modifier && r.modifier !== '-') ? r.modifier : '-';
-    const personDisplay = r.status === '已刪除'
-      ? `${r.operator || '-'} / <span style="color:#DC2626;font-weight:500">${modifier}</span>`
-      : `${r.operator || '-'} / <span style="color:#9CA3AF">${modifier}</span>`;
     return {
       cells: [
         scopeBadge,
-        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)} ~ ${fmtDT(r.end)}</span>`,
+        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)}</span>`,
+        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.end)}</span>`,
         r.content,
         r.remark || '-',
-        personDisplay,
-        statusBadge
+        r.operator || '-',
+        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
+        statusBadge,
+        r.modifier || '-'
       ]
     };
   });
@@ -236,17 +216,8 @@ function openMaintSchedModal() {
 }
 
 function togglePaymentFields() {
-  const scope = document.getElementById('schedScope').value;
-  const paymentFields = document.getElementById('paymentFields');
-  const contentField = document.getElementById('contentField');
-  
-  if (scope === '付款通道') {
-    paymentFields.style.display = '';
-    contentField.style.display = 'none';
-  } else {
-    paymentFields.style.display = 'none';
-    contentField.style.display = '';
-  }
+  document.getElementById('paymentFields').style.display = 'none';
+  document.getElementById('contentField').style.display = '';
 }
 
 function updateChannelOptions() {
@@ -293,30 +264,10 @@ function addMaintSched() {
   }
 
   let content = '';
-  let supplier = '';
-  let channels = [];
 
-  if (scope === '付款通道') {
-    const supplierEl = document.getElementById('schedSupplier');
-    const supplierId = supplierEl.value;
-    
-    if (!supplierId) {
-      UI.toast('請選擇供應商', 'error'); return;
-    }
-    
-    const checkedChannels = Array.from(document.querySelectorAll('.channel-checkbox:checked'));
-    if (checkedChannels.length === 0) {
-      UI.toast('請至少選擇一個付款通道', 'error'); return;
-    }
-    
-    supplier = suppliers.find(s => s.id === supplierId).name;
-    channels = checkedChannels.map(cb => `${cb.dataset.name} (${cb.dataset.code})`);
-    content = `${supplier} 付款通道維護`;
-  } else {
-    content = document.getElementById('schedContent').value.trim();
-    if (!content) {
-      UI.toast('請填寫公告內容', 'error'); return;
-    }
+  content = document.getElementById('schedContent').value.trim();
+  if (!content) {
+    UI.toast('請填寫公告內容', 'error'); return;
   }
 
   // Parse "2026-05-14 03:00:00 ~ 2026-05-14 05:00:59"
@@ -338,11 +289,6 @@ function addMaintSched() {
   const newSched = {
     id: ++schedIdCounter, start, end, content, remark, operator: 'casper', scope
   };
-  
-  if (scope === '付款通道') {
-    newSched.supplier = supplier;
-    newSched.channels = channels;
-  }
   
   maintSchedules.push(newSched);
 
