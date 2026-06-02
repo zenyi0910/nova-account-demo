@@ -130,6 +130,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .filter-error{font-size:11px;color:#DC2626;margin-top:3px;display:none}
 .filter-group.has-error .filter-error{display:block}
 .filter-group.has-error .filter-input{border-color:#DC2626}
+.ad-img{width:60px;height:40px;border-radius:4px;overflow:hidden;background:#F3F4F6;display:flex;align-items:center;justify-content:center}
+.ad-img img{width:100%;height:100%;object-fit:cover}
+.ad-img.no-img{flex-direction:column;gap:2px}
+.ad-img.no-img span{font-size:9px;color:#9CA3AF}
+.display-status{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:2px 6px}
+.display-status.on{color:#0891B2}
+.display-status.off{color:#9CA3AF}
+.pagination-bar .spacer{flex:1}
+.drag-col{cursor:grab;width:40px;text-align:center}
+.dragging{opacity:0.5;background:#EEF2FF!important}
+.drag-over{border-top:2px solid #6366F1}
+.data-table th.drag-col{background:#F5F5F5}
 </style>
 </head>
 <body>
@@ -144,20 +156,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div class="topbar-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>提醒：資料與紀錄僅供測試用途</div>
   </div>
   <div class="content">
-    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg><h1>廣告排序清單</h1></div>
-    <div class="pagination-bar"><span>共 6 個廣告位（拖曳調整排序）</span></div>
-    <table class="data-table"><thead><tr><th>排序</th><th>廣告名稱</th><th>位置</th><th>連結</th><th>展示期間</th><th>狀態</th></tr></thead><tbody>
-      <tr><td style="font-weight:500">1</td><td>五月首儲 Banner</td><td>首頁頂部</td><td>/event/may-deposit</td><td style="color:#6B7280">2026-05-01 ~ 2026-05-31</td><td><span class="status-badge status-online">展示中</span></td></tr>
-      <tr><td style="font-weight:500">2</td><td>VIP 專屬優惠</td><td>首頁頂部</td><td>/vip/exclusive</td><td style="color:#6B7280">2026-05-01 ~ 2026-05-15</td><td><span class="status-badge status-online">展示中</span></td></tr>
-      <tr><td style="font-weight:500">3</td><td>新遊戲上線</td><td>大廳側欄</td><td>/games/new</td><td style="color:#6B7280">2026-05-03 ~ 2026-05-20</td><td><span class="status-badge status-online">展示中</span></td></tr>
-      <tr><td style="font-weight:500">4</td><td>公會招募</td><td>大廳側欄</td><td>/guild/recruit</td><td style="color:#6B7280">2026-05-01 ~ 2026-06-01</td><td><span class="status-badge status-online">展示中</span></td></tr>
-      <tr><td style="font-weight:500">5</td><td>端午預告</td><td>首頁底部</td><td>/event/dragon-boat</td><td style="color:#6B7280">2026-05-20 ~ 2026-06-10</td><td><span class="status-badge status-maint">未開始</span></td></tr>
+    <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><h1>廣告排序清單</h1></div>
+    <div class="pagination-bar"><span>總共 6 筆資料</span><div class="spacer"></div><button class="btn-export" id="editSortBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>編輯排序</button><button class="btn-batch" id="cancelSortBtn" style="display:none">取消</button><button class="btn-export" id="saveSortBtn" style="display:none;background:#D97706;border-color:#D97706"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>儲存排序</button></div>
+    <table class="data-table" id="sortTable"><thead><tr><th class="drag-col" style="display:none;width:40px"></th><th>順序</th><th>廣告圖片</th><th>活動標題</th><th>起始時間</th><th>結束時間</th><th>顯示</th></tr></thead><tbody>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">1</td><td><div class="ad-img"><img src="https://picsum.photos/seed/mission/120/80" alt=""></div></td><td>三日</td><td style="color:#6B7280">2026-05-18 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">2</td><td><div class="ad-img"><img src="https://picsum.photos/seed/deposit20/120/80" alt=""></div></td><td>儲值優惠活動</td><td style="color:#6B7280">2026-02-06 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">3</td><td><div class="ad-img no-img"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><span>未設置</span></div></td><td>歡迎加入公會獲取金幣</td><td style="color:#6B7280">2026-01-29 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">4</td><td><div class="ad-img no-img"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg><span>未設置</span></div></td><td>加入捷徑 送1000</td><td style="color:#6B7280">2026-02-23 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">5</td><td><div class="ad-img"><img src="https://picsum.photos/seed/hamster/120/80" alt=""></div></td><td>test</td><td style="color:#6B7280">2025-12-16 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
+      <tr draggable="false"><td class="drag-col" style="display:none"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg></td><td style="font-weight:500">6</td><td><div class="ad-img"><img src="https://picsum.photos/seed/demo-stamp/120/80" alt=""></div></td><td>zacktest</td><td style="color:#6B7280">2026-04-08 00:00</td><td style="color:#6B7280">不限時</td><td><span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span></td></tr>
     </tbody></table>
   </div>
 </div>
 
 <script>
-
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   const isMobile=window.innerWidth<=768;
   if(isMobile){
@@ -169,67 +181,79 @@ document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
     document.body.classList.toggle('sidebar-collapsed');
   }
 });
-
 function toggleUserMenu(){const el=document.querySelector('.sidebar-user');el.classList.toggle('open');event.stopPropagation();}
 document.addEventListener('click',function(e){const u=document.querySelector('.sidebar-user');if(u&&!u.contains(e.target))u.classList.remove('open');});
 function toggleSub(id){const el=document.getElementById(id);el.classList.toggle('open');const chev=el.previousElementSibling?.querySelector('.sidebar-chevron');if(chev)chev.classList.toggle('open');}
 
-// Field validation
-document.querySelector('.btn-search')?.addEventListener('click', function(e) {
-  let valid = true;
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-  document.querySelectorAll('.filter-group[data-rule]').forEach(group => {
-    const rule = group.dataset.rule;
-    const input = group.querySelector('input');
-    if (!input) return;
-    const val = input.value.trim();
-    if (!val) return;
-    let errorMsg = '';
-    switch(rule) {
-      case 'account':
-        const accounts = val.split(',').map(s => s.trim()).filter(s => s);
-        for (const acc of accounts) {
-          if (!/^[a-zA-Z0-9_]{2,20}$/.test(acc)) { errorMsg = '帳號格式：2~20字元英數底線'; break; }
-        }
-        break;
-      case 'nickname':
-        if (val.length < 1 || val.length > 16) errorMsg = '暱稱長度：1~16字元';
-        break;
-      case 'order':
-        if (!/^[a-zA-Z0-9_-]{4,30}$/.test(val)) errorMsg = '編號格式：4~30字元英數';
-        break;
-      case 'phone':
-        if (!/^09\d{8}$/.test(val)) errorMsg = '格式：09開頭共10碼';
-        break;
-      case 'date':
-        if (val.includes('~')) {
-          const parts = val.split('~').map(s => s.trim());
-          const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-          if (!dateRe.test(parts[0]) || !dateRe.test(parts[1])) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-          else if (parts[0] > parts[1]) errorMsg = '開始日期不可大於結束日期';
-        } else {
-          if (!/^\d{4}-\d{2}-\d{2}$/.test(val)) errorMsg = '格式：YYYY-MM-DD ~ YYYY-MM-DD';
-        }
-        break;
-      case 'keyword':
-        if (val.length < 1) errorMsg = '請輸入搜尋內容';
-        break;
-      case 'amount':
-        if (!/^\d+(\.\d{1,2})?$/.test(val)) errorMsg = '請輸入有效金額';
-        break;
-    }
-    if (errorMsg) {
-      valid = false;
-      const errEl = group.querySelector('.filter-error');
-      if (errEl) errEl.textContent = errorMsg;
+// Drag sort
+(function(){
+  const editBtn=document.getElementById('editSortBtn');
+  const cancelBtn=document.getElementById('cancelSortBtn');
+  const saveBtn=document.getElementById('saveSortBtn');
+  const table=document.getElementById('sortTable');
+  let editing=false, dragRow=null;
+
+  function enterEdit(){
+    editing=true;
+    editBtn.style.display='none';
+    cancelBtn.style.display='flex';
+    saveBtn.style.display='flex';
+    table.querySelectorAll('.drag-col').forEach(el=>el.style.display='');
+    table.querySelectorAll('tbody tr').forEach(tr=>tr.setAttribute('draggable','true'));
+  }
+  function exitEdit(){
+    editing=false;
+    editBtn.style.display='flex';
+    cancelBtn.style.display='none';
+    saveBtn.style.display='none';
+    table.querySelectorAll('.drag-col').forEach(el=>el.style.display='none');
+    table.querySelectorAll('tbody tr').forEach(tr=>tr.setAttribute('draggable','false'));
+  }
+  function renumber(){
+    table.querySelectorAll('tbody tr').forEach((tr,i)=>{
+      const td=tr.querySelectorAll('td:not(.drag-col)')[0];
+      if(td)td.textContent=i+1;
+    });
+  }
+  editBtn.addEventListener('click',enterEdit);
+  cancelBtn.addEventListener('click',exitEdit);
+  saveBtn.addEventListener('click',function(){renumber();exitEdit();alert('排序已儲存');});
+
+  table.addEventListener('dragstart',function(e){
+    if(!editing)return;
+    dragRow=e.target.closest('tr');
+    if(dragRow)dragRow.classList.add('dragging');
+  });
+  table.addEventListener('dragover',function(e){
+    if(!editing||!dragRow)return;
+    e.preventDefault();
+    const tr=e.target.closest('tr');
+    if(tr&&tr!==dragRow&&tr.parentElement.tagName==='TBODY'){
+      table.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+      tr.classList.add('drag-over');
     }
   });
-});
-document.querySelector('.btn-reset')?.addEventListener('click', function() {
-  document.querySelectorAll('.filter-group input').forEach(i => i.value = '');
-  document.querySelectorAll('.filter-group select').forEach(s => s.selectedIndex = 0);
-  document.querySelectorAll('.filter-error').forEach(el => el.textContent = '');
-});
+  table.addEventListener('drop',function(e){
+    if(!editing||!dragRow)return;
+    e.preventDefault();
+    const tr=e.target.closest('tr');
+    if(tr&&tr!==dragRow&&tr.parentElement.tagName==='TBODY'){
+      const tbody=tr.parentElement;
+      const rows=Array.from(tbody.children);
+      const fromIdx=rows.indexOf(dragRow),toIdx=rows.indexOf(tr);
+      if(fromIdx<toIdx)tr.after(dragRow);else tr.before(dragRow);
+      renumber();
+    }
+    table.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    dragRow.classList.remove('dragging');
+    dragRow=null;
+  });
+  table.addEventListener('dragend',function(){
+    if(dragRow)dragRow.classList.remove('dragging');
+    table.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    dragRow=null;
+  });
+})();
 </script>
 </body>
 </html>
