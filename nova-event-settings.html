@@ -293,10 +293,11 @@ document.getElementById('addBtn').addEventListener('click',function(){alert('開
 document.querySelector('.btn-search').addEventListener('click',function(){alert('搜尋條件已送出');});
 document.querySelector('#actTable').addEventListener('click',function(e){
   const btn=e.target.closest('button');
+  const menuItem=e.target.closest('.more-menu-item');
+  if(menuItem){alert('開啟活動詳情頁');return;}
   if(!btn)return;
   if(btn.classList.contains('btn-edit')){alert('開啟編輯表單');}
   else if(btn.classList.contains('btn-delete')){if(confirm('確定刪除此活動？'))alert('已刪除');}
-  else if(btn.closest('.more-menu-item')){alert('開啟活動詳情頁');}
 });
 </script>
 <script src="components/date-picker.js"></script>
