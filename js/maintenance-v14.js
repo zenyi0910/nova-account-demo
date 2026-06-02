@@ -14,11 +14,14 @@ const suppliers = [
 // 付款通道資料（已移除）
 
 const maintSchedules = [
-  { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
-  { id: 2, start: '2026-05-16T02:00', end: '2026-05-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper', scope: '全站' },
-  { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
-  { id: 4, start: '2026-05-17T01:00', end: '2026-05-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
-  { id: 5, start: '2026-05-18T02:00', end: '2026-05-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
+  { id: 1, start: '2026-06-14T03:00', end: '2026-06-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
+  { id: 2, start: '2026-06-16T02:00', end: '2026-06-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper', scope: '全站' },
+  { id: 3, start: '2026-06-15T01:00', end: '2026-06-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
+  { id: 4, start: '2026-06-17T01:00', end: '2026-06-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
+  { id: 5, start: '2026-06-18T02:00', end: '2026-06-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
+  { id: 6, start: '2026-06-20T03:00', end: '2026-06-20T05:00', content: '伺服器效能優化', remark: '提升載入速度', operator: 'admin', scope: '全站' },
+  { id: 7, start: '2026-06-22T01:00', end: '2026-06-22T02:30', content: '星幣排行榜重算', remark: '月度排名', operator: 'casper', scope: '星幣' },
+  { id: 8, start: '2026-06-25T02:00', end: '2026-06-25T04:00', content: 'CDN 節點更新', remark: '新增節點', operator: 'admin', scope: '全站' },
 ];
 
 const maintHistory = [
@@ -36,7 +39,6 @@ const maintHistory = [
 ];
 
 let currentMaintTab = '全部';
-let showHistory = false;
 let schedIdCounter = 300;
 
 function switchMaintTab(tab) {
@@ -94,8 +96,6 @@ function renderScheduleList() {
   html += `<option value="星幣"${currentMaintTab==='星幣'?' selected':''}>星幣</option>`;
   html += `</select>`;
   html += `<span class="spacer"></span>`;
-  html += `<button class="btn btn-outline" style="padding:4px 12px;font-size:12px" onclick="toggleHistory()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 歷史記錄</button>`;
-  html += ` `;
   html += UI.btn.add('新增排程', 'openMaintSchedModal()', {sm: true});
   html += `<button class="btn-sched-clear" onclick="clearAllMaintSched()" title="全部清除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`;
   html += `</div>`;
@@ -181,7 +181,6 @@ let historyPage = 1;
 const historyPageSize = 20;
 
 function renderHistoryTable() {
-  if (!showHistory) return '';
   const items = maintHistory;
   const total = items.length;
   const totalPages = Math.max(1, Math.ceil(total / historyPageSize));
@@ -225,9 +224,13 @@ function renderHistoryTable() {
   // 分頁上方
   html += `<div class="pagination-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280"><span>第 ${historyPage} 頁，共 ${total} 筆資料</span><span>每頁顯示 <select style="border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px" disabled><option>${historyPageSize}</option></select> 筆</span></div>`;
   html += UI.table.create(columns, rows);
-  // 分頁下方
+  // 分頁下方（左：頁碼選擇，右：< 1 2 > 按鈕）
   html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:#6B7280">`;
-  html += `<div><select style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px"><option>第 ${historyPage} 頁</option></select></div>`;
+  html += `<div><select style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px;font-family:inherit" onchange="historyPage=parseInt(this.value);renderMaintenance()">`;
+  for (let i = 1; i <= totalPages; i++) {
+    html += `<option value="${i}"${i===historyPage?' selected':''}>第 ${i} 頁</option>`;
+  }
+  html += `</select></div>`;
   html += `<div style="display:flex;align-items:center;gap:4px">`;
   html += `<button class="btn btn-outline" style="padding:4px 10px;font-size:12px" ${historyPage<=1?'disabled':''} onclick="historyPage--;renderMaintenance()">‹</button>`;
   for (let i = 1; i <= totalPages; i++) {
