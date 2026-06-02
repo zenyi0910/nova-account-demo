@@ -198,7 +198,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span id="pageInfo">第 1 頁，共 3 筆資料</span><span style="flex:1"></span><span style="font-size:12px;color:#6B7280">每頁顯示</span><select style="border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px;margin:0 4px"><option>20</option><option>50</option><option>100</option></select><span style="font-size:12px;color:#6B7280">筆</span></div>
-    <table class="data-table" id="actTable"><thead><tr><th>活動圖片</th><th>標題</th><th>廣告</th><th>形式</th><th style="cursor:pointer">開始時間 ↕</th><th style="cursor:pointer">結束時間 ↕</th><th>狀態</th><th>顯示</th><th>幣別</th><th>操作</th></tr></thead><tbody id="actBody"></tbody></table>
+    <table class="data-table" id="actTable"><thead><tr><th>活動圖片</th><th>標題</th><th>形式</th><th style="cursor:pointer">開始時間 ↕</th><th style="cursor:pointer">結束時間 ↕</th><th>狀態</th><th>顯示</th><th>幣別</th><th>操作</th></tr></thead><tbody id="actBody"></tbody></table>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
       <select style="border:1px solid #E5E7EB;border-radius:4px;padding:4px 8px;font-size:12px"><option>第 1 頁</option></select>
       <div style="display:flex;gap:4px"><button class="btn-batch" style="padding:4px 8px;min-width:30px;justify-content:center" disabled>&lt;</button><button class="btn-export" style="padding:4px 8px;min-width:30px;justify-content:center">1</button><button class="btn-batch" style="padding:4px 8px;min-width:30px;justify-content:center" disabled>&gt;</button></div>
@@ -256,7 +256,6 @@ function renderTab(idx){
   const body=document.getElementById('actBody');
   body.innerHTML=cfg.data.map(r=>{
     const imgHtml=r.img?`<div class="activity-img"><img src="${r.img}" alt=""></div>`:`<div class="activity-img"></div>`;
-    const adHtml=r.ad?'<span class="ad-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.586 2.586A2 2 0 0011.172 2H4a2 2 0 00-2 2v7.172a2 2 0 00.586 1.414l8.704 8.704a2.426 2.426 0 003.42 0l6.58-6.58a2.426 2.426 0 000-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>廣告</span>':'<span style="color:#9CA3AF;font-size:12px">-</span>';
     const toggleCls=r.on?'on':'off';
     const toggleLabel=r.on?'啟用':'停用';
     const displayHtml=r.on?`<span class="display-status on"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.062 12.348a1 1 0 010-.696 10.75 10.75 0 0119.876 0 1 1 0 010 .696 10.75 10.75 0 01-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span>`:`<span class="display-status off"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0020 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>已停用</span>`;
@@ -264,7 +263,6 @@ function renderTab(idx){
     return `<tr>
       <td>${imgHtml}</td>
       <td><a class="activity-link">${r.title}</a></td>
-      <td>${adHtml}</td>
       <td>${r.form}</td>
       <td style="color:#6B7280;font-size:12px">${r.start}</td>
       <td style="color:#6B7280;font-size:12px">${r.end}</td>
