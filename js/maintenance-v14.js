@@ -252,37 +252,7 @@ function openMaintSchedModal() {
   UI.modal.open('maintSchedModal');
 }
 
-function togglePaymentFields() {
-  document.getElementById('paymentFields').style.display = 'none';
-  document.getElementById('contentField').style.display = '';
-}
 
-function updateChannelOptions() {
-  const supplierId = document.getElementById('schedSupplier').value;
-  const channelList = document.getElementById('channelList');
-  const selectAll = document.getElementById('selectAllChannels');
-  
-  if (!supplierId) {
-    channelList.innerHTML = '';
-    selectAll.checked = false;
-    return;
-  }
-  
-  const channels = paymentChannels.filter(c => c.supplier === supplierId);
-  channelList.innerHTML = channels.map(c => 
-    `<label style="display:block;margin-bottom:4px;cursor:pointer">
-      <input type="checkbox" class="channel-checkbox" value="${c.id}" data-name="${c.name}" data-code="${c.code}" style="margin-right:6px">
-      ${c.name} (${c.code})
-    </label>`
-  ).join('');
-  selectAll.checked = false;
-}
-
-function toggleAllChannels() {
-  const selectAll = document.getElementById('selectAllChannels');
-  const checkboxes = document.querySelectorAll('.channel-checkbox');
-  checkboxes.forEach(cb => cb.checked = selectAll.checked);
-}
 
 function updateRemarkCount() {
   const remark = document.getElementById('schedRemark').value;
