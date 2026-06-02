@@ -114,15 +114,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .more-menu-item:hover{background:#F3F4F6}
 .ad-badge{display:inline-flex;align-items:center;gap:3px;font-size:12px;color:#22D3EE}
 .display-status{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:2px 6px}
-.display-status.on{color:#22D3EE}
+.display-status.on{color:#06B6D4}
 .display-status.off{color:#9CA3AF}
 .activity-img{width:48px;height:48px;border-radius:6px;overflow:hidden;background:#F3F4F6}
 .activity-img img{width:100%;height:100%;object-fit:cover}
 .activity-link{color:#2563EB;font-weight:500;font-size:12px;cursor:pointer;text-decoration:none}
 .activity-link:hover{text-decoration:underline}
 .currency-badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500}
-.currency-gold{color:#FBBF24}
-.currency-star{color:#A78BFA}
+.currency-gold{color:#F59E0B}
+.currency-star{color:#4F46E5}
 .action-cell{display:flex;align-items:center;gap:4px}
 .status-badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:500}
 .status-online{background:#DCFCE7;color:#166534}
@@ -256,11 +256,11 @@ function renderTab(idx){
   const body=document.getElementById('actBody');
   body.innerHTML=cfg.data.map(r=>{
     const imgHtml=r.img?`<div class="activity-img"><img src="${r.img}" alt=""></div>`:`<div class="activity-img"></div>`;
-    const adHtml=r.ad?'<span class="ad-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>廣告</span>':'-';
+    const adHtml=r.ad?'<span class="ad-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.586 2.586A2 2 0 0011.172 2H4a2 2 0 00-2 2v7.172a2 2 0 00.586 1.414l8.704 8.704a2.426 2.426 0 003.42 0l6.58-6.58a2.426 2.426 0 000-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>廣告</span>':'<span style="color:#9CA3AF;font-size:12px">-</span>';
     const toggleCls=r.on?'on':'off';
     const toggleLabel=r.on?'啟用':'停用';
-    const displayHtml=r.on?`<span class="display-status on"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span>`:`<span class="display-status off"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>已停用</span>`;
-    const currHtml=r.currency.map(c=>c==='金幣'?'<span class="currency-badge currency-gold"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 11-5.66-5.66"/></svg>金幣</span>':'<span class="currency-badge currency-star"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>星幣</span>').join('<br>');
+    const displayHtml=r.on?`<span class="display-status on"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.062 12.348a1 1 0 010-.696 10.75 10.75 0 0119.876 0 1 1 0 010 .696 10.75 10.75 0 01-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>顯示中</span>`:`<span class="display-status off"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0020 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/></svg>已停用</span>`;
+    const currHtml=r.currency.map(c=>c==='金幣'?'<span class="currency-badge currency-gold"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 11 0-5.66"/></svg>金幣</span>':'<span class="currency-badge currency-star"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.83 14.83a4 4 0 11 0-5.66"/></svg>星幣</span>').join('<br>');
     return `<tr>
       <td>${imgHtml}</td>
       <td><a class="activity-link">${r.title}</a></td>
