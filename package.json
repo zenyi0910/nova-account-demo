@@ -1,0 +1,27 @@
+{
+  "name": "nova-account-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "verify": "node scripts/verify-prototype.js",
+    "test": "node scripts/verify-prototype.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zenyi0910/nova-account-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zenyi0910/nova-account-demo/issues"
+  },
+  "homepage": "https://github.com/zenyi0910/nova-account-demo#readme",
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
