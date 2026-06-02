@@ -35,7 +35,7 @@ const maintHistory = [
   { id: 302, start: '2026-04-28T02:00', end: '2026-04-28T03:30', content: '星幣積分調整', remark: '規則變更', operator: 'casper', modifier: 'admin', opTime: '2026-04-28T04:00', scope: '星幣', status: '已刪除' },
 ];
 
-let currentMaintTab = '全站';
+let currentMaintTab = '全部';
 let showHistory = false;
 let schedIdCounter = 300;
 
@@ -72,17 +72,30 @@ function renderMaintenance() {
 function renderScheduleList() {
   const now = new Date();
   const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const active = maintSchedules.filter(s => new Date(s.end) >= now);
-  const expired = maintSchedules.filter(s => {
+  
+  // 篩選
+  let filtered = maintSchedules;
+  if (currentMaintTab !== '全部') {
+    filtered = maintSchedules.filter(s => s.scope === currentMaintTab);
+  }
+  const active = filtered.filter(s => new Date(s.end) >= now);
+  const expired = filtered.filter(s => {
     const end = new Date(s.end);
     return end < now && end >= oneMonthAgo;
   });
 
-  let html = `<div class="sched-section">`;
-  // Header: title + filter + add + clear
+  let html = `<div class="sched-section" style="background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06)">`;
+  // Header
   html += `<div class="sched-header">`;
   html += `${UI.icon.clock} <span class="sched-title">維護排程</span>`;
+  html += `<select style="margin-left:12px;border:1px solid #E5E7EB;border-radius:6px;padding:4px 10px;font-size:12px;font-family:inherit;color:#374151;background:#F9FAFB;cursor:pointer" onchange="switchMaintTab(this.value)">`;
+  html += `<option value="全部"${currentMaintTab==='全部'?' selected':''}>全部</option>`;
+  html += `<option value="全站"${currentMaintTab==='全站'?' selected':''}>全站</option>`;
+  html += `<option value="星幣"${currentMaintTab==='星幣'?' selected':''}>星幣</option>`;
+  html += `</select>`;
   html += `<span class="spacer"></span>`;
+  html += `<button class="btn btn-outline" style="padding:4px 12px;font-size:12px" onclick="toggleHistory()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 歷史記錄</button>`;
+  html += ` `;
   html += UI.btn.add('新增排程', 'openMaintSchedModal()', {sm: true});
   html += `<button class="btn-sched-clear" onclick="clearAllMaintSched()" title="全部清除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`;
   html += `</div>`;
@@ -90,7 +103,7 @@ function renderScheduleList() {
   if (active.length === 0 && expired.length === 0) {
     html += `<div style="text-align:center;padding:40px;color:#9CA3AF">目前無排程</div>`;
   } else {
-    // Collapsed view: first item full, second with gradient
+    // Collapsed view
     let collapsed = '';
     let expanded = '';
     if (active.length > 0) {
@@ -101,9 +114,7 @@ function renderScheduleList() {
           renderSchedItem(active[1], 1, false) + `</div>`;
       }
     }
-    // Expanded: all active
     active.forEach((s, i) => { expanded += renderSchedItem(s, i, true); });
-    // Expired section
     if (expired.length > 0) {
       expanded += `<div class="expired-toggle" onclick="toggleExpiredMaint()"><span>近一個月已結束</span><svg id="expiredMaintArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>`;
       expanded += `<div id="expiredMaintList" class="expired-list" style="display:none">`;
@@ -166,8 +177,17 @@ function clearAllMaintSched() {
   UI.toast('已清除所有排程');
 }
 
+let historyPage = 1;
+const historyPageSize = 20;
+
 function renderHistoryTable() {
+  if (!showHistory) return '';
   const items = maintHistory;
+  const total = items.length;
+  const totalPages = Math.max(1, Math.ceil(total / historyPageSize));
+  const start = (historyPage - 1) * historyPageSize;
+  const pageData = items.slice(start, start + historyPageSize);
+
   const columns = [
     { label: '範圍', width: '60px' },
     { label: '開始時間', width: '140px' },
@@ -179,7 +199,7 @@ function renderHistoryTable() {
     { label: '狀態', width: '80px' },
     { label: '異動者', width: '70px' }
   ];
-  const rows = items.map(r => {
+  const rows = pageData.map(r => {
     const scopeBadge = r.scope === '星幣'
       ? `<span style="display:inline-block;background:#DBEAFE;color:#1E40AF;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>`
       : `<span style="display:inline-block;background:#E5E7EB;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`;
@@ -200,8 +220,22 @@ function renderHistoryTable() {
       ]
     };
   });
-  let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
+  let html = `<div style="background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06)">`;
+  html += `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
+  // 分頁上方
+  html += `<div class="pagination-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280"><span>第 ${historyPage} 頁，共 ${total} 筆資料</span><span>每頁顯示 <select style="border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px" disabled><option>${historyPageSize}</option></select> 筆</span></div>`;
   html += UI.table.create(columns, rows);
+  // 分頁下方
+  html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:#6B7280">`;
+  html += `<div><select style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px"><option>第 ${historyPage} 頁</option></select></div>`;
+  html += `<div style="display:flex;align-items:center;gap:4px">`;
+  html += `<button class="btn btn-outline" style="padding:4px 10px;font-size:12px" ${historyPage<=1?'disabled':''} onclick="historyPage--;renderMaintenance()">‹</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    html += `<button class="btn ${i===historyPage?'btn-dark':'btn-outline'}" style="padding:4px 10px;font-size:12px" onclick="historyPage=${i};renderMaintenance()">${i}</button>`;
+  }
+  html += `<button class="btn btn-outline" style="padding:4px 10px;font-size:12px" ${historyPage>=totalPages?'disabled':''} onclick="historyPage++;renderMaintenance()">›</button>`;
+  html += `</div></div>`;
+  html += `</div>`;
   return html;
 }
 
