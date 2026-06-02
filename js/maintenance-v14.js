@@ -218,34 +218,27 @@ function renderHistoryTable() {
   const pageData = items.slice(start, start + historyPageSize);
 
   const columns = [
-    { label: '範圍', width: '60px' },
-    { label: '開始時間', width: '140px' },
-    { label: '結束時間', width: '140px' },
+    { label: '維護範圍', width: '70px' },
+    { label: '維護開始時間', width: '140px' },
+    { label: '維護結束時間', width: '140px' },
     { label: '公告內容' },
-    { label: '備註' },
     { label: '操作者', width: '70px' },
     { label: '操作時間', width: '140px' },
-    { label: '狀態', width: '80px' },
-    { label: '異動者', width: '70px' }
+    { label: '備註' }
   ];
   const rows = pageData.map(r => {
     const scopeBadge = r.scope === '星幣'
       ? `<span style="display:inline-block;background:#DBEAFE;color:#1E40AF;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">星幣</span>`
       : `<span style="display:inline-block;background:#E5E7EB;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">全站</span>`;
-    const statusBadge = r.status === '已刪除'
-      ? `<span class="status-badge" style="background:#FEE2E2;color:#991B1B;white-space:nowrap">已刪除</span>`
-      : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`;
     return {
       cells: [
         scopeBadge,
         `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)}</span>`,
         `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.end)}</span>`,
         r.content,
-        r.remark || '-',
         r.operator || '-',
         r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-        statusBadge,
-        r.modifier || '-'
+        r.remark || '-'
       ]
     };
   });
