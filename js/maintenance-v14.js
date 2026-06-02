@@ -69,6 +69,9 @@ function renderMaintenance() {
   let html = renderScheduleList();
   html += `<div style="margin-top:24px">${renderHistoryTable()}</div>`;
   container.innerHTML = html;
+  // Init history filter date picker
+  const hdp = document.getElementById('histEndDatePicker');
+  if (hdp && !hdp._dpInstance && window.NovaDatePicker) { NovaDatePicker.init(hdp); hdp._dpInstance = true; }
 }
 
 function renderScheduleList() {
@@ -179,9 +182,36 @@ function clearAllMaintSched() {
 
 let historyPage = 1;
 const historyPageSize = 20;
+let histFilterScope = '全部';
+let histFilterEndDate = '';
+
+function filterHistory() {
+  histFilterScope = document.getElementById('histScopeFilter')?.value || '全部';
+  histFilterEndDate = document.getElementById('histEndDateRange')?.value || '';
+  historyPage = 1;
+  renderMaintenance();
+}
+function resetHistFilter() {
+  histFilterScope = '全部';
+  histFilterEndDate = '';
+  const s = document.getElementById('histScopeFilter'); if(s) s.value='全部';
+  const d = document.getElementById('histEndDateDisplay'); if(d) d.textContent='選擇日期範圍';
+  const h = document.getElementById('histEndDateRange'); if(h) h.value='';
+  historyPage = 1;
+  renderMaintenance();
+}
 
 function renderHistoryTable() {
-  const items = maintHistory;
+  let items = maintHistory;
+  if (histFilterScope !== '全部') items = items.filter(r => r.scope === histFilterScope);
+  if (histFilterEndDate) {
+    const parts = histFilterEndDate.split(' ~ ');
+    if (parts.length === 2) {
+      const from = new Date(parts[0]);
+      const to = new Date(parts[1]);
+      items = items.filter(r => { const d = new Date(r.end); return d >= from && d <= to; });
+    }
+  }
   const total = items.length;
   const totalPages = Math.max(1, Math.ceil(total / historyPageSize));
   const start = (historyPage - 1) * historyPageSize;
@@ -221,6 +251,13 @@ function renderHistoryTable() {
   });
   let html = `<div style="background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06)">`;
   html += `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
+  // Filter bar
+  html += `<div style="display:flex;align-items:flex-end;gap:16px;margin-bottom:12px;padding:12px 16px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:8px">`;
+  html += `<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#6B7280">維護範圍</label><select id="histScopeFilter" class="form-control" style="width:120px;font-size:12px;padding:6px 8px"><option value="全部"${histFilterScope==='全部'?' selected':''}>全部</option><option value="全站"${histFilterScope==='全站'?' selected':''}>全站</option><option value="星幣"${histFilterScope==='星幣'?' selected':''}>星幣</option></select></div>`;
+  html += `<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;font-weight:500;color:#6B7280">結束時間</label><div class="date-picker-wrap" id="histEndDatePicker"><div class="date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display" id="histEndDateDisplay">${histFilterEndDate||'選擇日期範圍'}</span></div><input type="hidden" id="histEndDateRange" value="${histFilterEndDate}"></div></div>`;
+  html += `<button class="btn btn-dark" style="padding:6px 16px;font-size:12px" onclick="filterHistory()">搜尋</button>`;
+  html += `<button class="btn btn-outline" style="padding:6px 16px;font-size:12px" onclick="resetHistFilter()">重置</button>`;
+  html += `</div>`;
   // 分頁上方
   html += `<div class="pagination-bar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280"><span>第 ${historyPage} 頁，共 ${total} 筆資料</span><span>每頁顯示 <select style="border:1px solid #E5E7EB;border-radius:4px;padding:2px 6px;font-size:12px" disabled><option>${historyPageSize}</option></select> 筆</span></div>`;
   html += UI.table.create(columns, rows);
