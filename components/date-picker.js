@@ -70,7 +70,7 @@
     ];
   }
 
-  function renderCal(container, year, month, rs, re, maxDate, onClick){
+  function renderCal(container, year, month, rs, re, maxDate, onClick, minDate){
     const title=container.querySelector('.dp2-cal-header span');
     const grid=container.querySelector('.dp2-grid');
     title.textContent=year+'年 '+(month+1)+'月';
@@ -83,6 +83,7 @@
       const date=new Date(year,month,d);
       let cls='dd';
       if(date>maxDate) cls+=' disabled';
+      if(minDate&&date<minDate) cls+=' disabled';
       if(date.toDateString()===today.toDateString()) cls+=' today';
       if(rs&&re&&date>=rs&&date<=re) cls+=' in-range';
       if(rs&&date.toDateString()===rs.toDateString()) cls+=' range-start';
@@ -151,11 +152,12 @@
     clampTime(shI,23);clampTime(smI,59);clampTime(ssI,59);
     clampTime(ehI,23);clampTime(emI,59);clampTime(esI,59);
 
-    let lY=today.getFullYear(),lM=today.getMonth()-1;
+    let lY=today.getFullYear(),lM=today.getMonth()-(wrap.dataset.mode==='future'?0:1);
     if(lM<0){lM=11;lY--;}
-    let rY=today.getFullYear(),rM=today.getMonth();
+    let rY=today.getFullYear(),rM=today.getMonth()+(wrap.dataset.mode==='future'?1:0);
     let rs=null,re=null,selecting=false;
-    const maxDate=yesterday;
+    const maxDate=wrap.dataset.mode==='future'?new Date(today.getFullYear()+2,11,31):yesterday;
+    const minDate=wrap.dataset.mode==='future'?today:null;
     const shortcuts=getShortcuts();
     const quickDiv=panel.querySelector('.dp2-quick');
 
@@ -195,8 +197,8 @@
     }
 
     function render(){
-      renderCal(panel.querySelector('.dp2-cal-left'),lY,lM,rs,re,maxDate,onDateClick);
-      renderCal(panel.querySelector('.dp2-cal-right'),rY,rM,rs,re,maxDate,onDateClick);
+      renderCal(panel.querySelector('.dp2-cal-left'),lY,lM,rs,re,maxDate,onDateClick,minDate);
+      renderCal(panel.querySelector('.dp2-cal-right'),rY,rM,rs,re,maxDate,onDateClick,minDate);
     }
 
     // Left cal nav
