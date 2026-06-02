@@ -280,24 +280,27 @@ function viewDetail(idx) {
     html += '<tr><td>'+s.seq+'</td><td style="color:#2563EB;font-weight:500">'+s.code+'</td><td>'+s.expire+'</td><td>'+s.times+'</td><td>'+s.coins.toLocaleString()+'</td></tr>';
   });
   html += '</tbody></table></div>';
-  // 快速入口（紅包序號才有）
-  if (d.type === '紅包序號') {
-    html += '<div class="modal-section"><h4>快速入口</h4><button style="display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-family:inherit;color:#374151" onclick="openClaimDetail(\''+d.orderNo+'\')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>領取明細</button></div>';
-  }
+  // 快速入口（兩種類型都有）
+  html += '<div class="modal-section"><h4>快速入口</h4><button style="display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-family:inherit;color:#374151" onclick="openClaimDetail(\''+d.id+'\')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>領取明細</button></div>';
   showModal('序號群組詳情', html);
 }
 
-function openClaimDetail(orderNo) {
-  var idx = serialData.findIndex(function(d){ return d.orderNo === orderNo; });
+function openClaimDetail(idOrOrder) {
+  var idx = serialData.findIndex(function(d){ return d.id === idOrOrder || d.orderNo === idOrOrder; });
   var d = idx >= 0 ? serialData[idx] : serialData[0];
   var totalTimes = 0; d.serials.forEach(function(s){ totalTimes += s.times; });
   var claimed = Math.min(3, totalTimes);
   // 摘要區塊
-  var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px">';
-  html += '<span style="color:#6B7280">可領取次數</span><strong>' + claimed + '/' + totalTimes + '</strong>';
-  html += '<span style="color:#6B7280;margin-left:12px">可領取公會</span>';
-  if (d.guildScope && d.guildScope.length > 0) {
-    d.guildScope.forEach(function(g){ html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">' + g + '</span>'; });
+  var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12px;flex-wrap:wrap">';
+  if (d.type === '推廣序號') {
+    html += '<span style="color:#6B7280">VIP 限制</span><strong>' + d.vip + '</strong>';
+    html += '<span style="color:#6B7280;margin-left:12px">可領取次數</span><strong>' + claimed + '/' + totalTimes + '</strong>';
+  } else {
+    html += '<span style="color:#6B7280">可領取次數</span><strong>' + claimed + '/' + totalTimes + '</strong>';
+    html += '<span style="color:#6B7280;margin-left:12px">可領取公會</span>';
+    if (d.guildScope && d.guildScope.length > 0) {
+      d.guildScope.forEach(function(g){ html += '<span style="display:inline-block;padding:2px 8px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;font-size:11px;color:#4338CA;margin:0 4px 0 0">' + g + '</span>'; });
+    }
   }
   html += '</div>';
   // 表格
@@ -312,7 +315,8 @@ function openClaimDetail(orderNo) {
     html += '<tr><td style="text-align:center">' + (i+1) + '</td><td>' + claimTime + '</td><td style="font-family:monospace;color:#2563EB">' + code + '</td><td style="text-align:center">' + coins + '</td><td>' + member + '</td></tr>';
   }
   html += '</tbody></table>';
-  showModal('紅包紀錄 - 領取明細', html);
+  var modalTitle = d.type === '推廣序號' ? '推廣序號 - 領取明細' : '紅包紀錄 - 領取明細';
+  showModal(modalTitle, html);
 }
 
 function showModal(title, body) {
