@@ -124,6 +124,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .currency-gold{color:#F59E0B}
 .currency-star{color:#4F46E5}
 .action-cell{display:flex;align-items:center;gap:4px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:10px;width:900px;max-width:90vw;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid #E5E7EB}
+.modal-header h2{font-size:16px;font-weight:600;color:#111827;flex:1}
+.modal-close{background:none;border:none;cursor:pointer;color:#6B7280;padding:4px}
+.modal-close svg{width:18px;height:18px}
+.modal-body{padding:20px;overflow-y:auto;flex:1}
+.form-row{display:flex;gap:16px;margin-bottom:14px}
+.form-group{flex:1;display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:12px;font-weight:500;color:#374151}
+.form-group label .req{color:#DC2626}
+.form-group input,.form-group select,.form-group textarea{border:1px solid #E5E7EB;border-radius:8px;padding:8px 12px;font-size:13px;font-family:inherit;background:#F9FAFB;outline:none;transition:border .15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#2BB5A0}
+.form-group textarea{min-height:100px;resize:vertical}
+.form-group .hint{font-size:11px;color:#9CA3AF;margin-top:2px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 20px;border-top:1px solid #E5E7EB}
+.modal-footer .btn-cancel{padding:8px 16px;border-radius:8px;border:none;background:#E8E9EB;color:#111;font-size:13px;cursor:pointer;font-family:inherit}
+.modal-footer .btn-save{padding:8px 16px;border-radius:8px;border:none;background:#2BB5A0;color:#fff;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500}
+.checkbox-wrap{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151}
 .status-badge{display:inline-block;padding:3px 10px;border-radius:9999px;font-size:11px;font-weight:500}
 .status-online{background:#DCFCE7;color:#166534}
 .status-maint{background:#FEF3C7;color:#92400E}
@@ -206,7 +226,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
 </div>
 
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header"><h2 id="modalTitle">編輯活動</h2><button class="modal-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>活動標題<span class="req">*</span></label><input type="text" id="editTitle" placeholder="請輸入活動標題"></div>
+        <div class="form-group"><label>狀態</label><div style="display:flex;align-items:center;gap:6px;padding:8px 0"><button class="toggle on" id="editStatus" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button><span class="toggle-label on" id="editStatusLabel">啟用</span></div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>活動形式<span class="req">*</span></label><select id="editForm"><option>純文字</option><option>抽抽樂</option><option>儲值</option><option>加入捷徑</option></select></div>
+        <div class="form-group"><label>幣別<span class="req">*</span></label><select id="editCurrency"><option>金幣</option><option>星幣</option><option>金幣, 星幣</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>開始時間<span class="req">*</span></label><input type="datetime-local" id="editStart"></div>
+        <div class="form-group"><label>結束時間 <span class="checkbox-wrap"><input type="checkbox" id="editNoLimit"><span>不限時</span></span></label><input type="datetime-local" id="editEnd"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>活動內容<span class="req">*</span></label><textarea id="editContent" placeholder="請輸入活動內容"></textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>連結</label><input type="url" id="editLink" placeholder="請輸入連結網址"><div class="hint">注意：若填寫「連結」，則「連結按鈕名稱」為必填。</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>連結按鈕名稱</label><input type="text" id="editLinkName" placeholder="請輸入連結按鈕名稱"></div>
+        <div class="form-group"><label>顯示模式<span class="req">*</span></label><select id="editDisplayMode"><option>每次登入皆顯示</option><option>僅顯示一次</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal()">取消</button><button class="btn-save" onclick="closeModal();alert('已儲存')">儲存</button></div>
+  </div>
+</div>
+
 <script>
+function openModal(title){
+  document.getElementById('modalTitle').textContent='編輯'+tabConfig[currentTab].name;
+  document.getElementById('editTitle').value=title||'';
+  document.getElementById('editModal').classList.add('open');
+}
+function closeModal(){document.getElementById('editModal').classList.remove('open');}
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   const isMobile=window.innerWidth<=768;
   if(isMobile){
@@ -294,7 +351,7 @@ document.querySelector('#actTable').addEventListener('click',function(e){
   const menuItem=e.target.closest('.more-menu-item');
   if(menuItem){alert('開啟活動詳情頁');return;}
   if(!btn)return;
-  if(btn.classList.contains('btn-edit')){alert('開啟編輯表單');}
+  if(btn.classList.contains('btn-edit')){const title=btn.closest('tr').querySelector('.activity-link')?.textContent||'';openModal(title);}
   else if(btn.classList.contains('btn-delete')){if(confirm('確定刪除此活動？'))alert('已刪除');}
 });
 </script>
