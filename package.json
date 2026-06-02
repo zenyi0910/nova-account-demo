@@ -8,6 +8,7 @@
   },
   "scripts": {
     "verify": "node scripts/verify-prototype.js",
+    "verify:json": "JSON_REPORT=1 node scripts/verify-prototype.js",
     "test": "node scripts/verify-prototype.js"
   },
   "repository": {

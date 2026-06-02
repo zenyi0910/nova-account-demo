@@ -286,17 +286,32 @@ async function main() {
 
   // Report
   let hasError = false;
+  const jsonReport = { timestamp: new Date().toISOString(), files: allIssues, summary: {} };
+  
   if (Object.keys(allIssues).length === 0) {
-    console.log('✅ All prototypes passed verification.');
+    if (!process.env.JSON_REPORT) console.log('✅ All prototypes passed verification.');
   } else {
+    let highCount = 0, medCount = 0, lowCount = 0;
     for (const [file, issues] of Object.entries(allIssues)) {
-      console.log(`\n❌ ${file}:`);
+      if (!process.env.JSON_REPORT) console.log(`\n❌ ${file}:`);
       for (const issue of issues) {
-        const icon = issue.severity === 'high' ? '🔴' : issue.severity === 'medium' ? '🟡' : '⚪';
-        console.log(`  ${icon} [${issue.severity}] ${issue.msg}`);
+        if (issue.severity === 'high') highCount++;
+        else if (issue.severity === 'medium') medCount++;
+        else lowCount++;
+        if (!process.env.JSON_REPORT) {
+          const icon = issue.severity === 'high' ? '🔴' : issue.severity === 'medium' ? '🟡' : '⚪';
+          console.log(`  ${icon} [${issue.severity}] ${issue.msg}`);
+        }
         if (issue.severity === 'high') hasError = true;
       }
     }
+    jsonReport.summary = { high: highCount, medium: medCount, low: lowCount };
+  }
+
+  if (process.env.JSON_REPORT) {
+    const reportPath = process.env.JSON_REPORT === '1' ? '/tmp/nova-verify-report.json' : process.env.JSON_REPORT;
+    fs.writeFileSync(reportPath, JSON.stringify(jsonReport, null, 2));
+    console.log(`Report written to ${reportPath}`);
   }
 
   process.exit(hasError ? 1 : 0);

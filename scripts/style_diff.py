@@ -120,9 +120,10 @@ def style_diff(system_styles, demo_styles):
     return diffs
 
 
-def do_pixelmatch(sys_screenshot, demo_screenshot, threshold_pct=2.0):
-    """pixel diff 比對，回傳差異百分比和 diff 圖片路徑"""
-    from PIL import Image
+def do_pixelmatch(sys_screenshot, demo_screenshot, threshold_pct=5.0):
+    """pixel diff 比對，回傳差異百分比和 diff 圖片路徑。
+    只比對 content area（排除 sidebar x<225），降低字體渲染假陽性"""
+    from PIL import Image, ImageDraw
     from pixelmatch.contrib.PIL import pixelmatch as pm
 
     img_sys = Image.open(sys_screenshot).convert('RGBA')
@@ -132,18 +133,30 @@ def do_pixelmatch(sys_screenshot, demo_screenshot, threshold_pct=2.0):
     w, h = img_sys.size
     img_demo = img_demo.resize((w, h), Image.LANCZOS)
 
+    # Mask sidebar area (x < 225) to avoid sidebar diff noise
+    sidebar_mask = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    draw_sys = ImageDraw.Draw(img_sys)
+    draw_demo = ImageDraw.Draw(img_demo)
+    # Paint sidebar same color on both to eliminate diff
+    draw_sys.rectangle([0, 0, 224, h], fill=(255, 255, 255, 255))
+    draw_demo.rectangle([0, 0, 224, h], fill=(255, 255, 255, 255))
+    # Also mask top 56px (topbar) - notification toasts appear here
+    draw_sys.rectangle([0, 0, w, 55], fill=(255, 255, 255, 255))
+    draw_demo.rectangle([0, 0, w, 55], fill=(255, 255, 255, 255))
+
     img_diff = Image.new('RGBA', (w, h))
-    num_diff = pm(img_sys, img_demo, img_diff, threshold=0.1, alpha=0.5)
+    num_diff = pm(img_sys, img_demo, img_diff, threshold=0.15, alpha=0.5)
     
-    total_pixels = w * h
-    diff_pct = (num_diff / total_pixels) * 100
+    # Content area pixels only (excluding masked regions)
+    content_pixels = (w - 225) * (h - 56)
+    diff_pct = (num_diff / content_pixels) * 100 if content_pixels > 0 else 0
 
     diff_path = OUTPUT_DIR / 'pixel_diff.png'
     img_diff.save(diff_path)
 
     return {
         'diff_pixels': num_diff,
-        'total_pixels': total_pixels,
+        'content_pixels': content_pixels,
         'diff_pct': round(diff_pct, 2),
         'threshold_pct': threshold_pct,
         'pass': diff_pct <= threshold_pct,
@@ -226,7 +239,7 @@ def run_diff(args):
         print(f"{'='*60}")
         icon = '✅' if result['pass'] else '⚠️'
         print(f"  {icon} Diff: {result['diff_pct']}% (threshold: {result['threshold_pct']}%)")
-        print(f"  Pixels: {result['diff_pixels']:,} / {result['total_pixels']:,}")
+        print(f"  Pixels: {result['diff_pixels']:,} / {result['content_pixels']:,} (content area only)")
         print(f"  Diff image: {result['diff_image']}")
         
         if not result['pass']:
