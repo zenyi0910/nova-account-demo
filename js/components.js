@@ -186,8 +186,10 @@ const UI = {
     create(columns, rows, opts = {}) {
       let html = '<table class="data-table"><thead><tr>';
       columns.forEach(col => {
-        const w = col.width ? ` style="width:${col.width}"` : '';
-        html += `<th${w}>${col.label}</th>`;
+        let s = [];
+        if (col.width) s.push(`width:${col.width}`);
+        s.push('white-space:nowrap');
+        html += `<th style="${s.join(';')}">${col.label}</th>`;
       });
       html += '</tr></thead><tbody>';
       if (rows.length === 0) {

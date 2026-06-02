@@ -219,11 +219,11 @@ function renderHistoryTable() {
 
   const columns = [
     { label: '維護範圍', width: '70px' },
-    { label: '維護開始時間', width: '140px' },
-    { label: '維護結束時間', width: '140px' },
+    { label: '維護開始時間', width: '140px', nowrap: true },
+    { label: '維護結束時間', width: '140px', nowrap: true },
     { label: '公告內容' },
     { label: '操作者', width: '70px' },
-    { label: '操作時間', width: '140px' },
+    { label: '操作時間', width: '140px', nowrap: true },
     { label: '備註' }
   ];
   const rows = pageData.map(r => {
