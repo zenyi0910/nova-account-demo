@@ -1,360 +1,151 @@
-// Nova 系統維護 JS — 排程列表模式（類似三方支付維護排程）
+/**
+ * Nova 系統維護 v15
+ * 維護範圍：全站 / 星幣（移除付款通道）
+ */
 
-// 供應商資料
-const suppliers = [
-  {id:'mycard',name:'MyCard'},
-  {id:'gash',name:'Gash'},
-  {id:'linepay',name:'LINE Pay'},
-  {id:'ecpay',name:'綠界科技'},
-  {id:'esun',name:'玉山銀行'},
-  {id:'fetnet',name:'遠傳電信'},
-  {id:'startest',name:'星運測試商'}
+// === Mock Data ===
+var maintData = {
+  scope: '全站',
+  startTime: '2026-05-25 12:42:00',
+  endTime: '2026-05-25 12:42:59',
+  maintainType: '維護更新',
+  maintainUrl: '/systemMaintenance',
+  content: '緊急維護中，敬請見諒',
+  memo: '測試',
+  subDomain: 'https://sewer.edcft.click'
+};
+
+var historyData = [
+  {id:1, scope:'全站', start:'2026-05-25 12:42:00', end:'2026-05-25 12:42:59', type:'維護更新', operator:'casper', createdAt:'2026-05-25 12:41:30'},
+  {id:2, scope:'星幣', start:'2026-05-20 03:00:00', end:'2026-05-20 05:00:00', type:'緊急更新', operator:'superadmin', createdAt:'2026-05-20 02:55:00'},
+  {id:3, scope:'全站', start:'2026-05-15 02:00:00', end:'2026-05-15 04:00:00', type:'維護更新', operator:'casper', createdAt:'2026-05-15 01:50:00'},
+  {id:4, scope:'全站', start:'2026-05-10 01:00:00', end:'2026-05-10 03:30:00', type:'維護更新', operator:'superadmin', createdAt:'2026-05-10 00:45:00'},
+  {id:5, scope:'星幣', start:'2026-05-05 22:00:00', end:'2026-05-06 02:00:00', type:'緊急更新', operator:'casper', createdAt:'2026-05-05 21:50:00'},
+  {id:6, scope:'全站', start:'2026-04-28 03:00:00', end:'2026-04-28 06:00:00', type:'維護更新', operator:'superadmin', createdAt:'2026-04-28 02:55:00'},
+  {id:7, scope:'全站', start:'2026-04-20 02:00:00', end:'2026-04-20 04:00:00', type:'維護更新', operator:'casper', createdAt:'2026-04-20 01:50:00'},
+  {id:8, scope:'星幣', start:'2026-04-15 01:00:00', end:'2026-04-15 03:00:00', type:'緊急更新', operator:'superadmin', createdAt:'2026-04-15 00:45:00'},
+  {id:9, scope:'全站', start:'2026-04-10 03:00:00', end:'2026-04-10 05:00:00', type:'維護更新', operator:'casper', createdAt:'2026-04-10 02:50:00'},
+  {id:10, scope:'全站', start:'2026-04-05 02:00:00', end:'2026-04-05 04:30:00', type:'維護更新', operator:'superadmin', createdAt:'2026-04-05 01:55:00'},
+  {id:11, scope:'星幣', start:'2026-03-30 01:00:00', end:'2026-03-30 03:00:00', type:'緊急更新', operator:'casper', createdAt:'2026-03-30 00:50:00'},
+  {id:12, scope:'全站', start:'2026-03-25 03:00:00', end:'2026-03-25 05:00:00', type:'維護更新', operator:'superadmin', createdAt:'2026-03-25 02:50:00'}
 ];
 
-// 付款通道資料
-const paymentChannels = [
-  {id:'c1',supplier:'mycard',method:'點數卡',name:'點數卡',code:'COPGAM05'},
-  {id:'c2',supplier:'mycard',method:'電信帳單',name:'手機小額付款',code:'HE0004'},
-  {id:'c3',supplier:'mycard',method:'線上轉點',name:'信用卡3D',code:'CHANNEL_1E8B'},
-  {id:'c4',supplier:'gash',method:'點數卡',name:'點數卡',code:'GASH_PNT01'},
-  {id:'c5',supplier:'gash',method:'會員扣點',name:'錢包扣點',code:'COPGAM09'},
-  {id:'c6',supplier:'linepay',method:'行動支付',name:'LINE Pay',code:'LP_001'},
-  {id:'c7',supplier:'ecpay',method:'信用卡',name:'信用卡一次付',code:'EC_CC01'},
-  {id:'c8',supplier:'ecpay',method:'ATM轉帳',name:'ATM虛擬帳號',code:'EC_ATM01'},
-  {id:'c9',supplier:'startest',method:'測試支付',name:'測試通道A',code:'TEST_A'},
-  {id:'c10',supplier:'startest',method:'測試支付',name:'測試通道B',code:'TEST_B'}
-];
+// === Render ===
+function renderMaint() {
+  var html = '';
+  // Header
+  html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">';
+  html += '<button class="btn-add" onclick="openHistoryModal()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 歷史紀錄</button>';
+  html += '<div class="seg-control">';
+  html += '<button class="seg-btn' + (maintData.scope === '全站' ? ' active' : '') + '" onclick="switchScope(\'全站\')">全站</button>';
+  html += '<button class="seg-btn' + (maintData.scope === '星幣' ? ' active' : '') + '" onclick="switchScope(\'星幣\')">星幣</button>';
+  html += '</div></div>';
 
-const maintSchedules = [
-  { id: 1, start: '2026-05-14T03:00', end: '2026-05-14T05:00', content: '系統例行維護，暫停所有服務', remark: '每月定期維護', operator: 'casper', scope: '全站' },
-  { id: 2, start: '2026-05-16T02:00', end: '2026-05-16T04:00', content: '版本更新 v2.4.0', remark: '新功能上線', operator: 'casper', scope: '全站' },
-  { id: 3, start: '2026-05-15T01:00', end: '2026-05-15T03:00', content: '星幣系統維護', remark: '資料庫優化', operator: 'casper', scope: '星幣' },
-  { id: 4, start: '2026-05-17T01:00', end: '2026-05-17T03:00', content: '星幣結算調整', remark: '匯率更新', operator: 'admin', scope: '星幣' },
-  { id: 5, start: '2026-05-18T02:00', end: '2026-05-18T04:00', content: '資料庫備份', remark: '例行備份', operator: 'casper', scope: '全站' },
-];
+  // Form card
+  html += '<div style="background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.1)">';
+  html += '<div class="form-row">';
+  html += '<div class="form-group"><label>維護開始時間</label><input type="datetime-local" class="form-control" id="maintStart" value="' + toDatetimeLocal(maintData.startTime) + '"></div>';
+  html += '<div class="form-group"><label>維護結束時間</label><input type="datetime-local" class="form-control" id="maintEnd" value="' + toDatetimeLocal(maintData.endTime) + '"></div>';
+  html += '</div>';
+  html += '<div class="form-row">';
+  html += '<div class="form-group"><label>維護類型 <span style="color:#DC2626">*</span></label><select class="form-control" id="maintType"><option' + (maintData.maintainType==='維護更新'?' selected':'') + '>維護更新</option><option' + (maintData.maintainType==='緊急更新'?' selected':'') + '>緊急更新</option></select></div>';
+  html += '<div class="form-group"><label>維護網址</label><input type="text" class="form-control" id="maintUrl" placeholder="請輸入維護網址" value="' + maintData.maintainUrl + '"></div>';
+  html += '</div>';
+  html += '<div class="form-group" style="margin-bottom:16px"><label>維護公告內容 <span style="color:#DC2626">*</span></label><textarea class="form-control" id="maintContent" rows="3" placeholder="輸入跑馬燈內容">' + maintData.content + '</textarea></div>';
+  html += '<div class="form-row">';
+  html += '<div class="form-group"><label>備註 <span style="color:#DC2626">*</span></label><textarea class="form-control" id="maintMemo" rows="2" placeholder="請輸入備註">' + maintData.memo + '</textarea></div>';
+  html += '<div class="form-group"><label>維護白名單域名</label><input type="text" class="form-control" id="maintWhitelist" placeholder="請輸入維護白名單域名" value="' + maintData.subDomain + '"></div>';
+  html += '</div>';
+  html += '<div style="display:flex;justify-content:flex-end;margin-top:16px"><button class="btn btn-dark" onclick="saveMaint()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg> 儲存</button></div>';
+  html += '</div>';
 
-const maintHistory = [
-  { id: 100, start: '2026-05-12T22:00', end: '2026-05-13T01:00', content: '緊急修補安全漏洞', remark: 'CVE-2026-1234', operator: 'admin', modifier: '-', opTime: '2026-05-12T21:45', scope: '全站', status: '已完成' },
-  { id: 101, start: '2026-05-11T22:00', end: '2026-05-12T01:00', content: '緊急熱修復', remark: '登入異常', operator: 'admin', modifier: '-', opTime: '2026-05-11T21:30', scope: '全站', status: '已完成' },
-  { id: 102, start: '2026-04-23T14:20', end: '2026-04-23T14:30', content: '緊急維護中，敬請見諒', remark: '測試2', operator: 'casper', modifier: 'admin', opTime: '2026-04-23T15:00', scope: '全站', status: '已刪除' },
-  { id: 103, start: '2026-04-15T03:00', end: '2026-04-15T05:00', content: '支付系統緊急修復', remark: '支付異常', operator: 'admin', modifier: '-', opTime: '2026-04-15T02:50', scope: '全站', status: '已完成' },
-  { id: 104, start: '2026-04-01T02:00', end: '2026-04-01T04:00', content: '系統版本升級 v2.3.1', remark: '季度更新', operator: 'casper', modifier: '-', opTime: '2026-04-01T01:50', scope: '全站', status: '已完成' },
-  { id: 105, start: '2026-03-15T02:00', end: '2026-03-15T04:00', content: '資料庫遷移', remark: '效能優化', operator: 'admin', modifier: '-', opTime: '2026-03-15T01:45', scope: '全站', status: '已完成' },
-  { id: 201, start: '2026-05-11T23:00', end: '2026-05-12T00:30', content: '星幣結算異常修復', remark: '緊急處理', operator: 'admin', modifier: '-', opTime: '2026-05-11T22:50', scope: '星幣', status: '已完成' },
-  { id: 202, start: '2026-04-20T03:00', end: '2026-04-20T04:30', content: '星幣交易異常修復', remark: '交易卡頓', operator: 'admin', modifier: '-', opTime: '2026-04-20T02:45', scope: '星幣', status: '已完成' },
-  { id: 203, start: '2026-03-28T02:00', end: '2026-03-28T03:00', content: '星幣匯率調整', remark: '例行調整', operator: 'casper', modifier: '-', opTime: '2026-03-28T01:50', scope: '星幣', status: '已完成' },
-  { id: 301, start: '2026-05-10T01:00', end: '2026-05-10T03:00', content: '星幣系統例行維護', remark: '排行榜重算', operator: 'admin', modifier: '-', opTime: '2026-05-10T00:50', scope: '星幣', status: '已完成' },
-  { id: 302, start: '2026-04-28T02:00', end: '2026-04-28T03:30', content: '星幣積分調整', remark: '規則變更', operator: 'casper', modifier: 'admin', opTime: '2026-04-28T04:00', scope: '星幣', status: '已刪除' },
-];
-
-let currentMaintTab = '全站';
-let showHistory = false;
-let schedIdCounter = 300;
-
-function switchMaintTab(tab) {
-  currentMaintTab = tab;
-  renderMaintenance();
+  document.getElementById('maintContent').innerHTML = html;
 }
 
-function toggleHistory() {
-  showHistory = !showHistory;
-  renderMaintenance();
+function toDatetimeLocal(str) {
+  return str ? str.replace(' ', 'T').substring(0, 16) : '';
 }
 
-function fmtDT(dt) {
-  const d = new Date(dt);
-  const y = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const dd = String(d.getDate()).padStart(2,'0');
-  const hh = String(d.getHours()).padStart(2,'0');
-  const mi = String(d.getMinutes()).padStart(2,'0');
-  return `${y}-${mm}-${dd} ${hh}:${mi}`;
-}
-function fmtDTLong(dt) {
-  return new Date(dt).toLocaleString('zh-TW', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+function switchScope(scope) {
+  maintData.scope = scope;
+  renderMaint();
 }
 
-function renderMaintenance() {
-  const container = document.getElementById('maintContent');
-  let html = renderScheduleList();
-  html += `<div style="margin-top:24px">${renderHistoryTable()}</div>`;
-  container.innerHTML = html;
+function saveMaint() {
+  maintData.startTime = document.getElementById('maintStart').value.replace('T', ' ') + ':00';
+  maintData.endTime = document.getElementById('maintEnd').value.replace('T', ' ') + ':00';
+  maintData.maintainType = document.getElementById('maintType').value;
+  maintData.maintainUrl = document.getElementById('maintUrl').value;
+  maintData.content = document.getElementById('maintContent').value;
+  maintData.memo = document.getElementById('maintMemo').value;
+  maintData.subDomain = document.getElementById('maintWhitelist').value;
+  showToast('儲存成功', 'success');
 }
 
-function renderScheduleList() {
-  const now = new Date();
-  const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const active = maintSchedules.filter(s => new Date(s.end) >= now);
-  const expired = maintSchedules.filter(s => {
-    const end = new Date(s.end);
-    return end < now && end >= oneMonthAgo;
+// === History Modal ===
+var histPage = 1;
+var histPageSize = 10;
+
+function openHistoryModal() {
+  histPage = 1;
+  var html = '<div class="modal-overlay show" id="histModal" style="display:flex">';
+  html += '<div class="modal" style="max-width:750px;transition:all .3s">';
+  html += '<div class="modal-header"><h3>歷史紀錄</h3>';
+  html += '<div style="display:flex;align-items:center;gap:4px">';
+  html += '<button style="background:none;border:none;cursor:pointer;color:#6B7280;padding:4px" onclick="var m=this.closest(\'.modal\');if(m.style.maxWidth===\'100%\'){m.style.maxWidth=\'750px\';m.style.width=\'90%\';m.style.height=\'\';m.style.maxHeight=\'85vh\';m.style.borderRadius=\'12px\'}else{m.style.maxWidth=\'100%\';m.style.width=\'100%\';m.style.height=\'100vh\';m.style.maxHeight=\'100vh\';m.style.borderRadius=\'0\'}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>';
+  html += '<button class="modal-close" onclick="closeHistModal()">&times;</button></div></div>';
+  html += '<div class="modal-body" id="histBody"></div>';
+  html += '<div class="modal-footer" id="histFooter"></div>';
+  html += '</div></div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+  renderHistory();
+}
+
+function closeHistModal() {
+  var m = document.getElementById('histModal');
+  if (m) m.remove();
+}
+
+function renderHistory() {
+  var total = historyData.length;
+  var totalPages = Math.ceil(total / histPageSize);
+  var start = (histPage - 1) * histPageSize;
+  var pageData = historyData.slice(start, start + histPageSize);
+
+  var html = '<div style="margin-bottom:12px;display:flex;justify-content:space-between;font-size:12px;color:#6B7280"><span>第 ' + histPage + ' 頁，共 ' + total + ' 筆資料</span><span>每頁顯示 ' + histPageSize + ' 筆</span></div>';
+  html += '<table class="data-table"><thead><tr><th>維護範圍</th><th>開始時間</th><th>結束時間</th><th>維護類型</th><th>操作人員</th><th>建立時間</th></tr></thead><tbody>';
+  pageData.forEach(function(r) {
+    html += '<tr><td><span class="status-badge ' + (r.scope === '全站' ? 'status-online' : 'status-maint') + '">' + r.scope + '</span></td>';
+    html += '<td>' + r.start + '</td><td>' + r.end + '</td>';
+    html += '<td>' + r.type + '</td><td>' + r.operator + '</td><td>' + r.createdAt + '</td></tr>';
   });
+  html += '</tbody></table>';
+  document.getElementById('histBody').innerHTML = html;
 
-  let html = `<div class="sched-section">`;
-  // Header: title + filter + add + clear
-  html += `<div class="sched-header">`;
-  html += `${UI.icon.clock} <span class="sched-title">維護排程</span>`;
-  html += `<span class="spacer"></span>`;
-  html += UI.btn.add('新增排程', 'openMaintSchedModal()', {sm: true});
-  html += `<button class="btn-sched-clear" onclick="clearAllMaintSched()" title="全部清除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`;
-  html += `</div>`;
-
-  if (active.length === 0 && expired.length === 0) {
-    html += `<div style="text-align:center;padding:40px;color:#9CA3AF">目前無排程</div>`;
-  } else {
-    // Collapsed view: first item full, second with gradient
-    let collapsed = '';
-    let expanded = '';
-    if (active.length > 0) {
-      collapsed += renderSchedItem(active[0], 0, true);
-      if (active.length > 1) {
-        collapsed += `<div class="sched-fade-wrap">` +
-          `<div class="sched-fade-overlay"><span onclick="expandSchedList()" class="more-btn">更多 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span></div>` +
-          renderSchedItem(active[1], 1, false) + `</div>`;
-      }
-    }
-    // Expanded: all active
-    active.forEach((s, i) => { expanded += renderSchedItem(s, i, true); });
-    // Expired section
-    if (expired.length > 0) {
-      expanded += `<div class="expired-toggle" onclick="toggleExpiredMaint()"><span>近一個月已結束</span><svg id="expiredMaintArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></div>`;
-      expanded += `<div id="expiredMaintList" class="expired-list" style="display:none">`;
-      expired.forEach((s, i) => { expanded += renderSchedItem(s, i, false, true); });
-      expanded += `</div>`;
-    }
-
-    html += `<div id="schedCollapsed">${collapsed}</div>`;
-    html += `<div id="schedExpanded" style="display:none">${expanded}</div>`;
+  // pagination
+  var phtml = '<div style="display:flex;align-items:center;gap:4px">';
+  phtml += '<button class="btn btn-outline" style="padding:4px 10px;font-size:12px" ' + (histPage<=1?'disabled':'') + ' onclick="histPage--;renderHistory()">‹</button>';
+  for (var i = 1; i <= totalPages; i++) {
+    phtml += '<button class="btn ' + (i===histPage?'btn-dark':'btn-outline') + '" style="padding:4px 10px;font-size:12px" onclick="histPage=' + i + ';renderHistory()">' + i + '</button>';
   }
-  html += `</div>`;
-  return html;
+  phtml += '<button class="btn btn-outline" style="padding:4px 10px;font-size:12px" ' + (histPage>=totalPages?'disabled':'') + ' onclick="histPage++;renderHistory()">›</button>';
+  phtml += '</div>';
+  document.getElementById('histFooter').innerHTML = phtml;
 }
 
-function renderSchedItem(s, idx, isActive, isExpired) {
-  const clockIcon = `<svg class="sched-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
-  const cls = isExpired ? ' expired' : (isActive ? '' : ' faded');
-  
-  let scopeBadge = '';
-  if (s.scope === '星幣') {
-    scopeBadge = `<span style="background:#DBEAFE;color:#1E40AF;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">星幣</span>`;
-  } else if (s.scope === '付款通道') {
-    scopeBadge = `<span style="background:#FEF3C7;color:#D97706;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">付款通道</span>`;
-  } else {
-    scopeBadge = `<span style="background:#E5E7EB;color:#374151;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:500">全站</span>`;
-  }
-  
-  let detailInfo = '';
-  if (s.scope === '付款通道' && s.supplier && s.channels) {
-    detailInfo = `<div style="margin-top:4px;font-size:11px;color:#6B7280">
-      <div>供應商：${s.supplier}</div>
-      <div>通道：${s.channels.join('、')}</div>
-    </div>`;
-  }
-  
-  return `<div class="sched-item${cls}">
-    ${clockIcon}
-    ${scopeBadge}
-    <span class="time">${fmtDTLong(s.start)} ~ ${fmtDTLong(s.end)}</span>
-    <span class="note">${s.content}${detailInfo}</span>
-    <span class="spacer"></span>
-    <span style="color:#374151;font-size:12px;margin-right:12px">操作者：${s.operator}</span>
-    ${isExpired ? '' : `<button class="del-btn" onclick="delMaintSched(${idx})" title="刪除"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>`}
-  </div>`;
+// === Toast ===
+function showToast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast ' + (type || 'success') + ' show';
+  setTimeout(function() { el.className = 'toast'; }, 2500);
 }
 
-function expandSchedList() {
-  document.getElementById('schedCollapsed').style.display = 'none';
-  document.getElementById('schedExpanded').style.display = '';
-}
-
-function toggleExpiredMaint() {
-  const el = document.getElementById('expiredMaintList');
-  const arrow = document.getElementById('expiredMaintArrow');
-  if (el.style.display === 'none') {
-    el.style.display = '';
-    arrow.style.transform = 'rotate(180deg)';
-  } else {
-    el.style.display = 'none';
-    arrow.style.transform = '';
-  }
-}
-
-function clearAllMaintSched() {
-  if (!confirm('確定清除所有排程？')) return;
-  maintSchedules.length = 0;
-  renderMaintenance();
-  UI.toast('已清除所有排程');
-}
-
-function renderHistoryTable() {
-  const items = maintHistory;
-  const columns = [
-    { label: '範圍', width: '60px' },
-    { label: '操作時間', width: '140px' },
-    { label: '維護時間', width: '240px' },
-    { label: '公告內容' },
-    { label: '備註' },
-    { label: '操作者/異動者', width: '130px' },
-    { label: '狀態', width: '80px' }
-  ];
-  const rows = items.map(r => {
-    // 範圍 badge 統一灰底，不要太花
-    const scopeBadge = `<span style="display:inline-block;background:#F3F4F6;color:#374151;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap">${r.scope}</span>`;
-    const statusBadge = r.status === '已刪除'
-      ? `<span class="status-badge" style="background:#FEE2E2;color:#991B1B;white-space:nowrap">已刪除</span>`
-      : `<span class="status-badge status-online" style="white-space:nowrap">已完成</span>`;
-    // 操作者/異動者：已刪除時異動者紅色顯示，無異動者顯示 -
-    const modifier = (r.modifier && r.modifier !== '-') ? r.modifier : '-';
-    const personDisplay = r.status === '已刪除'
-      ? `${r.operator || '-'} / <span style="color:#DC2626;font-weight:500">${modifier}</span>`
-      : `${r.operator || '-'} / <span style="color:#9CA3AF">${modifier}</span>`;
-    return {
-      cells: [
-        scopeBadge,
-        r.opTime ? `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.opTime)}</span>` : '-',
-        `<span style="color:#6B7280;white-space:nowrap">${fmtDT(r.start)} ~ ${fmtDT(r.end)}</span>`,
-        r.content,
-        r.remark || '-',
-        personDisplay,
-        statusBadge
-      ]
-    };
-  });
-  let html = `<div class="sched-header" style="margin-bottom:10px">${UI.icon.clock} <span class="sched-title">歷史記錄</span></div>`;
-  html += UI.table.create(columns, rows);
-  return html;
-}
-
-function openMaintSchedModal() {
-  // 初始化供應商下拉選單
-  const supplierSelect = document.getElementById('schedSupplier');
-  if (supplierSelect) {
-    supplierSelect.innerHTML = '<option value="">請選擇供應商</option>' +
-      suppliers.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-  }
-  UI.modal.open('maintSchedModal');
-}
-
+// === 移除付款通道 ===
 function togglePaymentFields() {
-  const scope = document.getElementById('schedScope').value;
-  const paymentFields = document.getElementById('paymentFields');
-  const contentField = document.getElementById('contentField');
-  
-  if (scope === '付款通道') {
-    paymentFields.style.display = '';
-    contentField.style.display = 'none';
-  } else {
-    paymentFields.style.display = 'none';
-    contentField.style.display = '';
-  }
+  var scope = document.getElementById('schedScope').value;
+  document.getElementById('paymentFields').style.display = 'none';
 }
 
-function updateChannelOptions() {
-  const supplierId = document.getElementById('schedSupplier').value;
-  const channelList = document.getElementById('channelList');
-  const selectAll = document.getElementById('selectAllChannels');
-  
-  if (!supplierId) {
-    channelList.innerHTML = '';
-    selectAll.checked = false;
-    return;
-  }
-  
-  const channels = paymentChannels.filter(c => c.supplier === supplierId);
-  channelList.innerHTML = channels.map(c => 
-    `<label style="display:block;margin-bottom:4px;cursor:pointer">
-      <input type="checkbox" class="channel-checkbox" value="${c.id}" data-name="${c.name}" data-code="${c.code}" style="margin-right:6px">
-      ${c.name} (${c.code})
-    </label>`
-  ).join('');
-  selectAll.checked = false;
-}
-
-function toggleAllChannels() {
-  const selectAll = document.getElementById('selectAllChannels');
-  const checkboxes = document.querySelectorAll('.channel-checkbox');
-  checkboxes.forEach(cb => cb.checked = selectAll.checked);
-}
-
-function updateRemarkCount() {
-  const remark = document.getElementById('schedRemark').value;
-  const limit = document.getElementById('remarkLimit');
-  limit.textContent = `(${remark.length}/50)`;
-}
-
-function addMaintSched() {
-  const rangeEl = document.getElementById('schedDateRange');
-  const scopeEl = document.getElementById('schedScope');
-  const scope = scopeEl ? scopeEl.value : '全站';
-  const remark = document.getElementById('schedRemark').value.trim();
-
-  if (!rangeEl || !rangeEl.value) {
-    UI.toast('請選擇維護時間', 'error'); return;
-  }
-
-  let content = '';
-  let supplier = '';
-  let channels = [];
-
-  if (scope === '付款通道') {
-    const supplierEl = document.getElementById('schedSupplier');
-    const supplierId = supplierEl.value;
-    
-    if (!supplierId) {
-      UI.toast('請選擇供應商', 'error'); return;
-    }
-    
-    const checkedChannels = Array.from(document.querySelectorAll('.channel-checkbox:checked'));
-    if (checkedChannels.length === 0) {
-      UI.toast('請至少選擇一個付款通道', 'error'); return;
-    }
-    
-    supplier = suppliers.find(s => s.id === supplierId).name;
-    channels = checkedChannels.map(cb => `${cb.dataset.name} (${cb.dataset.code})`);
-    content = `${supplier} 付款通道維護`;
-  } else {
-    content = document.getElementById('schedContent').value.trim();
-    if (!content) {
-      UI.toast('請填寫公告內容', 'error'); return;
-    }
-  }
-
-  // Parse "2026-05-14 03:00:00 ~ 2026-05-14 05:00:59"
-  const parts = rangeEl.value.split(' ~ ');
-  if (parts.length !== 2) {
-    UI.toast('時間格式錯誤', 'error'); return;
-  }
-
-  const start = parts[0].replace(' ', 'T').substring(0, 16);
-  const end = parts[1].replace(' ', 'T').substring(0, 16);
-
-  // 開始時間必須在當前時間 10 分鐘之後
-  const startDate = new Date(start);
-  const minStart = new Date(Date.now() + 10 * 60 * 1000);
-  if (startDate < minStart) {
-    UI.toast('開始時間必須在當前時間 10 分鐘之後', 'error'); return;
-  }
-
-  const newSched = {
-    id: ++schedIdCounter, start, end, content, remark, operator: 'casper', scope
-  };
-  
-  if (scope === '付款通道') {
-    newSched.supplier = supplier;
-    newSched.channels = channels;
-  }
-  
-  maintSchedules.push(newSched);
-
-  UI.modal.close('maintSchedModal');
-  renderMaintenance();
-  UI.toast('排程新增成功');
-}
-function delMaintSched(idx) {
-  if (!confirm('確定刪除此排程？')) return;
-  maintSchedules.splice(idx, 1);
-  renderMaintenance();
-  UI.toast('排程已刪除');
-}
-
-document.addEventListener('DOMContentLoaded', renderMaintenance);
+// === Init ===
+renderMaint();
