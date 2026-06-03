@@ -4,167 +4,177 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>即時 KPI 牆 - Nova Analytics</title>
+<link rel="stylesheet" href="insight/components/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
-a{color:#3B82F6;text-decoration:none}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:240px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-right:1px solid rgba(148,163,184,.15);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10;transition:width .3s ease}
-.sidebar.collapsed{width:60px}
-.sidebar.collapsed .sidebar-logo-text{display:none}
-.sidebar.collapsed .menu-item{justify-content:center;padding:12px 0;font-size:0;overflow:hidden;border-left:none}
-.sidebar.collapsed .menu-item svg{font-size:initial;width:20px;height:20px}
-.sidebar.collapsed .menu-item span{display:none}
-.sidebar.collapsed .menu-group-title{display:none}
-.sidebar.collapsed .sidebar-user-info{display:none}
-.sidebar.collapsed .sidebar-user{justify-content:center;padding:12px 0}
-.main.sidebar-collapsed{margin-left:60px}
-.sidebar-logo{padding:16px 20px;border-bottom:1px solid rgba(148,163,184,.15);display:flex;align-items:center;gap:12px;position:relative}
-.sidebar-logo-icon{width:40px;height:40px;flex-shrink:0}
-.sidebar-logo-icon img{width:40px;height:40px;display:block}
-.sidebar-logo-text{display:flex;flex-direction:column;line-height:1.2}
-.sidebar-logo-text .logo-nova{font-size:20px;font-weight:700;background:linear-gradient(to right,#3B82F6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sidebar-logo-text .logo-analytics{font-size:10px;font-weight:400;color:#94A3B8;letter-spacing:0.2em;text-transform:uppercase}
-.sidebar-menu{flex:1;padding:12px 8px;overflow-y:auto}
-.menu-group{padding:0}
-.menu-group+.menu-group{margin-top:16px}
-.menu-group-title{padding:8px 16px 4px;font-size:12px;color:#9CA3AF;font-weight:500;letter-spacing:.3px}
-.menu-item{display:flex;align-items:center;padding:10px 16px;color:#374151;cursor:pointer;transition:all .15s;font-size:14px;gap:10px;border-radius:8px;margin:2px 0;text-decoration:none}
-.menu-item:hover{background:rgba(59,130,246,.06);color:#1E293B}
-.menu-item.active{background:rgba(59,130,246,.1);color:#3B82F6;font-weight:500}
-.menu-item svg{width:16px;height:16px;flex-shrink:0}
-.sidebar-footer{padding:0;border-top:1px solid rgba(148,163,184,.15)}
-.sidebar-user{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:all .2s}
-.sidebar-user:hover{background:rgba(59,130,246,.06)}
-.sidebar-user-info{flex:1;min-width:0}
-.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
-.topbar{height:56px;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.12);display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:5;gap:12px}
-.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#94A3B8}
-.breadcrumb span.current{color:#1E293B;font-weight:500}
-.topbar-right{display:flex;align-items:center;gap:12px;margin-left:auto}
-.topbar-icon-btn{width:36px;height:36px;border:1px solid rgba(148,163,184,.15);border-radius:10px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748B;transition:all .2s}
-.topbar-icon-btn:hover{background:#fff;color:#334155;border-color:rgba(59,130,246,.3)}
-.content{padding:28px;flex:1}
-.card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,.05);margin-bottom:20px}
-.card-title{font-size:16px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px}
-.card-title::before{content:'';width:4px;height:20px;background:#2563EB;border-radius:2px}
-.card-desc{font-size:13px;color:#64748B;margin-top:4px}
-.filter-section{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,.05);margin-bottom:20px}
-.filter-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
-.filter-group{display:flex;flex-direction:column;gap:6px}
-.filter-label{font-size:12px;font-weight:500;color:#64748B}
-.filter-input,.filter-select{padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;outline:none;min-width:160px;background:#fff}
-.filter-select{cursor:pointer}
-.filter-input:focus,.filter-select:focus{border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
-.btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700}
-.btn-primary:hover{background:#1d4ed8}
-.btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}
-.btn-outline:hover{background:#F9FAFB}
-.table-wrap{overflow-x:auto;border-radius:8px}
-table{width:100%;border-collapse:collapse}
-th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap}
-td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#334155}
-tr:hover td{background:rgba(59,130,246,.02)}
-td a{color:#2563EB;font-weight:500}
-.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#64748B}
-.page-btn{padding:6px 11px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#64748B}
-.page-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}
-.page-btn:disabled{opacity:.4;cursor:not-allowed}
-.avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
-.sidebar-collapse-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:#fff;border:1px solid #E5E7EB;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#94A3B8;transition:all .2s}
-.sidebar-collapse-btn:hover{border-color:#3B82F6;color:#3B82F6}
-.note{font-size:13px;color:#64748B;margin-top:12px;padding:12px 16px;background:rgba(241,245,249,.5);border-radius:8px}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:3px}
-.mobile-menu-btn{display:none;width:36px;height:36px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;align-items:center;justify-content:center;cursor:pointer;color:#64748B;flex-shrink:0}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
-.sidebar-overlay.show{display:block}
-@media(max-width:768px){html,body{overflow-x:hidden;max-width:100vw}.sidebar{width:240px;transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:calc(100vw - 32px)}table{min-width:600px}.filter-section{overflow:hidden}}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.kpi-card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-.kpi-card h3{font-size:13px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
-.kpi-value{font-size:36px;font-weight:700;color:#0F172A;margin-bottom:12px}
-.kpi-unit{font-size:18px;color:#64748B;margin-left:4px}
-.kpi-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px}
-.kpi-label{color:#64748B;min-width:40px}
-.kpi-change{display:inline-flex;align-items:center;gap:4px;font-weight:600;font-size:12px}
-.kpi-change.up{color:#10B981}
-.kpi-change.down{color:#EF4444}
-.kpi-chart{height:80px;margin-top:16px;border-radius:8px;overflow:hidden}
-.kpi-chart svg{width:100%;height:100%;display:block}
-@media(max-width:768px){.kpi-grid{grid-template-columns:1fr}}
-.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
-.user-popover.show{display:block}
-.popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
-.popover-item:hover{background:#F3F4F6}
-.popover-logout{color:#3B82F6}
-.popover-divider{height:1px;background:#E5E7EB;margin:4px 0}
-.popover-user{display:flex;align-items:center;gap:10px;padding:10px 16px}
-.popover-avatar{width:32px;height:32px;border-radius:50%;background:#EAB308;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0}
-.popover-user-info{display:flex;flex-direction:column}
-.popover-user-name{font-size:13px;font-weight:600;color:#111827}
-.popover-user-email{font-size:11px;color:#6B7280}
-.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px}.sidebar-footer{flex-shrink:0;border-top:1px solid rgba(148,163,184,.15)}.sidebar-header{flex-shrink:0}
+.kpi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding:12px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi-header .date-range{font-size:13px;color:#475569}
+.kpi-header .refresh{display:flex;align-items:center;gap:8px;font-size:12px;color:#64748B}
+.kpi-header .refresh .dot{width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.kpi-header .time{font-size:20px;font-weight:700;color:#1E293B}
+
+.row1{display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-bottom:20px}
+.row1 .revenue-card{grid-row:1/2}
+.row1 .right-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:12px;align-content:stretch}
+.row1 .right-grid .mini-card{min-width:0;overflow:hidden}
+.revenue-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.revenue-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.revenue-card .label{font-size:14px;color:#64748B;font-weight:600;margin-bottom:4px}
+.revenue-card .value{font-size:52px;font-weight:700;color:#1E293B;white-space:nowrap}
+.revenue-card .change{font-size:13px;color:#10B981;font-weight:600;margin-left:12px;background:#ECFDF5;border-radius:12px;padding:2px 8px}
+.revenue-card .sub{font-size:12px;color:#94A3B8;margin-top:4px}
+.stacked-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;margin-top:12px}
+.stacked-bar .seg-blue{background:#3B82F6}
+.stacked-bar .seg-orange{background:#F59E0B}
+.bar-legend{display:flex;gap:16px;margin-top:8px;font-size:11px;color:#64748B}
+.bar-legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.coin-legends{display:flex;justify-content:space-between}
+.coin-leg{display:flex;align-items:flex-start;gap:6px;font-size:12px;color:#64748B}
+.coin-leg .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.coin-leg .coin-info{display:flex;flex-direction:column;line-height:1.3;align-items:flex-end}
+.coin-leg .coin-info span:first-child{color:#1E293B;font-weight:600}
+.coin-leg .coin-info span:last-child{color:#94A3B8}
+.mini-card .coin-legends{position:absolute;bottom:14px;left:20px;right:20px}
+
+.mini-card{padding:12px 16px 36px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);position:relative;transition:all .3s;cursor:default}
+.mini-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.mini-card .mc-label{font-size:14px;color:#64748B;font-weight:600;text-transform:uppercase}
+.mini-card .mc-row{margin-top:4px}
+.mini-card .mc-badge{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.mini-card .mc-vs{font-size:11px;color:#94A3B8}
+.mini-card .mc-change{font-size:12px;color:#10B981;font-weight:600;background:#ECFDF5;border-radius:12px;padding:2px 8px}
+.sparkline-wrap{height:32px;margin-top:8px}
+
+.row2{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.metric-card{padding:20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.metric-card .mc-label{font-size:11px;color:#64748B;font-weight:600}
+.metric-card .mc-row{display:flex;align-items:baseline;gap:10px;margin-top:6px}
+.metric-card .mc-value{font-size:26px;font-weight:700;color:#2563EB}
+.metric-card .mc-change{font-size:12px;color:#10B981;font-weight:600}
+.metric-card .mc-vs{font-size:11px;color:#94A3B8}
+
+.row3{display:grid;grid-template-columns:1fr 2fr;gap:20px}
+.gf-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.gf-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.gf-card .gf-title{font-size:14px;color:#64748B;font-weight:600}
+.gf-card .gf-value{font-size:32px;font-weight:700;margin-top:4px}
+.gf-card .gf-change{font-size:12px;color:#10B981;font-weight:600;margin-left:10px;background:#ECFDF5;border-radius:12px;padding:2px 8px}
+.gf-bar{display:grid;grid-template-columns:auto 1fr 56px 40px;align-items:center;gap:6px;font-size:12px;padding:4px 8px;border-radius:8px;margin-bottom:2px}
+.gf-bar:first-child{margin-top:0}
+.gf-bar .bar-track{height:8px;border-radius:4px;background:#E5E7EB;position:relative;overflow:hidden}
+.gf-bar .bar-fill{height:100%;border-radius:4px;position:absolute;left:0;top:0}
+.gf-bar .bar-label{font-weight:600;color:#374151}
+.gf-bar .bar-val{text-align:right;color:#374151;font-weight:500;white-space:nowrap}
+.gf-bar .bar-pct{text-align:right;color:#94A3B8;white-space:nowrap}
+
+.hourly-card{padding:24px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s;cursor:default}
+.hourly-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.hourly-card h3{font-size:14px;font-weight:600;color:#374151;margin:0 0 12px}
 </style>
 </head>
 <body>
 <div class="layout">
 <aside class="sidebar" id="analyticsSidebar"></aside>
-<script src="components/analytics-sidebar.js"></script>
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="document.getElementById('analyticsSidebar').classList.remove('mobile-open');this.classList.remove('show')"></div>
 <div class="main">
-<div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
-<div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">即時 KPI 牆</span></div>
-<span style="font-size:12px;color:#94A3B8;margin-left:auto;margin-right:12px">自動刷新 <span style="color:#3B82F6;font-weight:600">16:14</span></span>
-<div class="topbar-right">
-<div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>
-<div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-</div>
-</div>
+<div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">即時 KPI 牆</span></div><div class="topbar-right"><div id="kpiTime" style="font-size:20px;font-weight:700;color:#1E293B"></div><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#64748B"><span style="width:8px;height:8px;border-radius:50%;background:#10B981;display:inline-block"></span>自動刷新</div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div></div></div>
 <div class="content">
-<div class="kpi-grid">
-<div class="kpi-card">
-<h3>GIFT</h3>
-<div class="kpi-value">0</div>
-<div class="kpi-row"><span class="kpi-label">金幣</span><span class="kpi-change down">0%</span></div>
-<div class="kpi-row"><span class="kpi-label">星幣</span><span class="kpi-change down">0%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 55 L30 50 L60 52 L90 48 L120 45 L150 42 L170 40 L200 38" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M0 55 L30 50 L60 52 L90 48 L120 45 L150 42 L170 40 L200 38 L200 60 L0 60Z" fill="url(#blueGrad)" opacity=".3"/><defs><linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div>
+
+<!-- KPI Header -->
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:12px;color:#64748B">
+<span>資料日期：2026/05/25 00:00 - 23:59</span>
+<div style="display:flex;gap:16px;align-items:center"><span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3B82F6;margin-right:4px"></span>星幣</span><span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#F59E0B;margin-right:4px"></span>金幣</span></div>
 </div>
-<div class="kpi-card">
-<h3>REVENUE 營收</h3>
-<div class="kpi-value">5,755</div>
-<div class="kpi-row"><span class="kpi-label">金幣</span><span class="kpi-change up">100%</span></div>
-<div class="kpi-row"><span class="kpi-label">星幣</span><span class="kpi-change down">0%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 50 L30 45 L60 40 L90 35 L120 25 L150 20 L170 15 L200 10" fill="none" stroke="#10B981" stroke-width="2"/><path d="M0 50 L30 45 L60 40 L90 35 L120 25 L150 20 L170 15 L200 10 L200 60 L0 60Z" fill="url(#greenGrad)" opacity=".3"/><defs><linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs></svg></div>
+
+<!-- Row 1: Revenue (left, spans 2 rows) + right grid (3x2) -->
+<div class="row1">
+<div class="revenue-card" title="統計今日所有玩家的儲值總額（含星幣與金幣）">
+<div class="label">Revenue 營收</div>
+<div style="display:flex;align-items:flex-start;position:relative"><span class="value">1,286<span style="font-size:22px;font-weight:600">萬</span></span><div style="position:absolute;top:0;right:0;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sub">較昨日</div><span class="change">↑ 18%</span></div></div>
+<div class="sub">今日累積儲值 12,860,000</div>
+<div style="font-size:11px;color:#64748B;font-weight:600;margin-top:12px">平台組成（佔比）</div>
+<div class="stacked-bar"><div class="seg-blue" style="width:68%"></div><div class="seg-orange" style="width:32%"></div></div>
+<div class="coin-legends" style="margin-top:8px"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="kpi-card">
-<h3>RTP 殺率</h3>
-<div class="kpi-value">108<span class="kpi-unit">%</span></div>
-<div class="kpi-row"><span class="kpi-change up">108%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 30 L30 35 L60 28 L90 32 L120 25 L150 30 L170 28 L200 26" fill="none" stroke="#F59E0B" stroke-width="2"/><path d="M0 30 L30 35 L60 28 L90 32 L120 25 L150 30 L170 28 L200 26 L200 60 L0 60Z" fill="url(#amberGrad)" opacity=".2"/><defs><linearGradient id="amberGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/></linearGradient></defs></svg></div>
+<div class="right-grid">
+<div class="mini-card" title="毛收入，玩家總投注額減去總派彩額">
+<div class="mc-label">GGR</div>
+<div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
+<div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="kpi-card">
-<h3>PU 付費用戶</h3>
-<div class="kpi-value">12</div>
-<div class="kpi-row"><span class="kpi-change up">100%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 55 L30 50 L60 45 L90 40 L120 30 L150 25 L170 20 L200 15" fill="none" stroke="#8B5CF6" stroke-width="2"/><path d="M0 55 L30 50 L60 45 L90 40 L120 30 L150 25 L170 20 L200 15 L200 60 L0 60Z" fill="url(#purpleGrad)" opacity=".2"/><defs><linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8B5CF6"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/></linearGradient></defs></svg></div>
+<div class="mini-card" title="玩家在所有遊戲中的總投注金額">
+<div class="mc-label">押碼量</div>
+<div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
+<div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
-<div class="kpi-card">
-<h3>NU 新註冊</h3>
-<div class="kpi-value">23</div>
-<div class="kpi-row"><span class="kpi-change up">15%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 45 L30 42 L60 38 L90 40 L120 35 L150 30 L170 28 L200 22" fill="none" stroke="#06B6D4" stroke-width="2"/><path d="M0 45 L30 42 L60 38 L90 40 L120 35 L150 30 L170 28 L200 22 L200 60 L0 60Z" fill="url(#cyanGrad)" opacity=".2"/><defs><linearGradient id="cyanGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/></linearGradient></defs></svg></div>
+<div class="mini-card" title="Return to Player，玩家投注的回報率">
+<div class="mc-label">RTP</div>
+<div class="mc-row"><span class="mc-value" style="color:#1E293B">98.42%</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change" style="color:#EF4444;background:#FEF2F2">↓ 0.8%</span></div></div>
+<div class="sparkline-wrap"><canvas id="sparkRtp"></canvas></div>
 </div>
-<div class="kpi-card">
-<h3>LU 登入用戶</h3>
-<div class="kpi-value">156</div>
-<div class="kpi-row"><span class="kpi-change up">8%</span></div>
-<div class="kpi-chart"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 40 L30 38 L60 35 L90 30 L120 28 L150 25 L170 22 L200 18" fill="none" stroke="#EC4899" stroke-width="2"/><path d="M0 40 L30 38 L60 35 L90 30 L120 28 L150 25 L170 22 L200 18 L200 60 L0 60Z" fill="url(#pinkGrad)" opacity=".2"/><defs><linearGradient id="pinkGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#EC4899"/><stop offset="100%" stop-color="#EC4899" stop-opacity="0"/></linearGradient></defs></svg></div>
+<div class="mini-card" title="統計今日至少有一筆儲值的不重複玩家數">
+<div class="mc-label">PU 付費用戶</div>
+<div class="mc-row"><span class="mc-value">1,328</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 30%</span></div></div>
+<div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
+</div>
+<div class="mini-card" title="統計今日至少登入一次的不重複玩家數">
+<div class="mc-label">DAU 登入用戶</div>
+<div class="mc-row"><span class="mc-value">8,650</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 15%</span></div></div>
+<div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
+</div>
+<div class="mini-card" title="統計今日完成註冊的新玩家數">
+<div class="mc-label">NU 新註冊用戶</div>
+<div class="mc-row"><span class="mc-value">356</span><div class="mc-badge"><span class="mc-vs">較昨日</span><span class="mc-change">↑ 6%</span></div></div>
+<div class="coin-legends"><div class="coin-leg"><div class="dot" style="background:#3B82F6"></div><div class="coin-info"><span>68%</span><span>8,744,800</span></div></div><div class="coin-leg"><div class="dot" style="background:#F59E0B"></div><div class="coin-info"><span>32%</span><span>4,115,200</span></div></div></div>
 </div>
 </div>
 </div>
+
+<!-- Row 3: GF + Hourly chart -->
+<div class="row3">
+<div class="gf-card" style="position:relative" title="玩家、會長之間贈禮的金流方向與金額分佈">
+<div class="gf-title">GF 贈禮流向</div>
+<div style="position:absolute;top:24px;right:24px;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><span style="font-size:11px;color:#94A3B8">較昨日</span><span class="gf-change">↑ 12.4%</span></div>
+<div><span class="gf-value">$124,800</span></div>
+<div style="margin-top:16px">
+<div class="gf-bar"><span class="bar-label" style="background:rgba(59,130,246,.2);padding:2px 8px;border-radius:4px">P→P</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3B82F6"></div></div><span class="bar-val">$58,200</span><span class="bar-pct">46.6%</span></div>
+<div class="gf-bar"><span class="bar-label" style="background:rgba(34,197,94,.2);padding:2px 8px;border-radius:4px">P→G</span><div class="bar-track"><div class="bar-fill" style="width:71%;background:#22C55E"></div></div><span class="bar-val">$41,300</span><span class="bar-pct">33.1%</span></div>
+<div class="gf-bar"><span class="bar-label" style="background:rgba(249,115,22,.2);padding:2px 8px;border-radius:4px">G→P</span><div class="bar-track"><div class="bar-fill" style="width:32.4%;background:#F97316"></div></div><span class="bar-val">$18,900</span><span class="bar-pct">15.1%</span></div>
+<div class="gf-bar"><span class="bar-label" style="background:rgba(99,102,241,.2);padding:2px 8px;border-radius:4px">G→G</span><div class="bar-track"><div class="bar-fill" style="width:11%;background:#6366F1"></div></div><span class="bar-val">$6,400</span><span class="bar-pct">5.1%</span></div>
 </div>
 </div>
+<div class="hourly-card" title="統計每小時內至少有過一次投注行為的不重複玩家">
+<h3>每小時遊戲人數</h3>
+<div style="height:220px"><canvas id="chartHourly"></canvas></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<script src="components/analytics-sidebar.js"></script>
+<script src="insight/components/charts.js"></script>
+<script>
+// Clock
+function updateClock(){document.getElementById('kpiTime').textContent=new Date().toTimeString().slice(0,5)}
+setInterval(updateClock,60000);
+
+// RTP Sparkline
+new Chart(document.getElementById('sparkRtp'),{type:'line',data:{labels:['','','','','','','',''],datasets:[{data:[97.8,98.0,97.9,98.1,98.3,98.2,98.4,98.42],borderColor:'#10B981',borderWidth:1.5,pointRadius:0,tension:.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+
+// Hourly line chart
+var hours = Array.from({length:25},(_,i)=>i);
+var total = [0,0,0,0,0,10,20,80,190,130,120,180,210,120,780,0,0,0,0,0,0,0,0,0,0];
+var star = [0,0,0,0,0,0,0,0,20,0,100,0,100,70,640,150,0,0,0,0,0,0,0,0,0];
+var gold = [0,0,0,0,0,0,0,0,20,0,10,0,20,15,150,70,0,0,0,0,0,0,0,0,0];
+// datalabels plugin
+var datalabelsPlugin = {id:'datalabels',afterDatasetsDraw:function(chart){var ctx=chart.ctx;chart.data.datasets.forEach(function(ds,i){var colors=['#1E40AF','#8B5CF6','#F59E0B'];var meta=chart.getDatasetMeta(i);meta.data.forEach(function(el,idx){var val=ds.data[idx];if(val>0){ctx.save();ctx.font='bold 9px sans-serif';ctx.fillStyle=colors[i];ctx.textAlign='center';ctx.fillText(val,el.x,el.y-8);ctx.restore();}});});}};
+new Chart(document.getElementById('chartHourly'),{type:'line',data:{labels:hours.map(h=>h+':00'),datasets:[
+{label:'總計',data:total,borderColor:'#1E40AF',backgroundColor:'#1E40AF',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1E40AF',tension:.3,fill:false},
+{label:'星幣用戶',data:star,borderColor:'#8B5CF6',backgroundColor:'#8B5CF6',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#8B5CF6',tension:.3,fill:false},
+{label:'金幣用戶',data:gold,borderColor:'#F59E0B',backgroundColor:'#F59E0B',borderWidth:1.5,pointRadius:2,pointBackgroundColor:'#F59E0B',tension:.3,fill:false}
+]},plugins:[datalabelsPlugin],options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',align:'start',labels:{usePointStyle:true,pointStyle:'line',pointStyleWidth:20,padding:12,font:{size:11}}},tooltip:typeof TOOLTIP_STYLE!=='undefined'?TOOLTIP_STYLE:{}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#94A3B8',maxTicksLimit:13}},y:{grid:{color:'#F1F5F9'},ticks:{font:{size:9},color:'#94A3B8',stepSize:250,callback:function(v){return v===1000?'人次':v}},max:1000,title:{display:false}}}}});
+</script>
 </body>
 </html>
