@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>贈禮總表 - Nova Analytics</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
+a{color:#3B82F6;text-decoration:none}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-right:1px solid rgba(148,163,184,.15);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.main{margin-left:240px;flex:1;display:flex;flex-direction:column}
+.topbar{height:56px;background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.12);display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:5;gap:12px}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#94A3B8}.breadcrumb span.current{color:#1E293B;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.topbar-icon-btn{width:36px;height:36px;border:1px solid rgba(148,163,184,.15);border-radius:10px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748B}
+.content{padding:28px;flex:1}
+.card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,.05);margin-bottom:20px}
+.card-title{font-size:16px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;margin-bottom:4px}.card-title::before{content:'';width:4px;height:20px;background:#2563EB;border-radius:2px}
+.card-desc{font-size:13px;color:#64748B;margin-bottom:16px}
+.filter-section{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,.05);margin-bottom:20px}
+.filter-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:6px}.filter-label{font-size:12px;font-weight:500;color:#64748B}
+.filter-input,.filter-select{padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;outline:none;min-width:160px;background:#fff}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
+.btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700}
+.btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}
+.chart-placeholder{height:280px;background:linear-gradient(180deg,rgba(59,130,246,.05),rgba(59,130,246,.02));border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.chart-label{position:absolute;font-size:12px;color:#64748B}
+.chart-label.y-left{left:12px;top:12px}.chart-label.y-right{right:12px;top:12px}.chart-label.x{bottom:8px;left:50%}
+.chart-bar{position:absolute;bottom:40px;width:28px;border-radius:4px 4px 0 0}
+.chart-line{position:absolute;width:6px;height:6px;border-radius:50%;border:2px solid}
+.mobile-menu-btn{display:none;width:36px;height:36px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;align-items:center;justify-content:center;cursor:pointer;color:#64748B;flex-shrink:0}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}.sidebar-overlay.show{display:block}
+.legend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:#64748B;flex-wrap:wrap}.legend-item{display:flex;align-items:center;gap:4px}.legend-dot{width:10px;height:10px;border-radius:2px}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.content{padding:16px}.filter-row{flex-direction:column}.mobile-menu-btn{display:flex}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="analyticsSidebar"></aside>
+<script src="components/analytics-sidebar.js"></script>
+<div class="main">
+<div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>風控管理</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">贈禮總表</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div></div></div>
+<div class="content">
+<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/27 ~ 2026/06/03" readonly></div>
+<div class="filter-group"><label class="filter-label">VIP等級</label><select class="filter-select" multiple style="min-height:36px"><option selected>全部</option><option>VIP1</option><option>VIP2</option><option>VIP3</option><option>VIP4</option><option>VIP5</option><option>VIP6</option></select></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select" multiple style="min-height:36px"><option selected>全部</option><option>金幣</option><option>星幣</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button>
+</div></div>
+
+<div class="card">
+<div class="card-title">贈禮總覽趨勢</div>
+<div class="card-desc">每日贈禮總額、贈禮人數分析。堆疊長條圖（金幣/星幣贈禮總額）+ 折線圖（人數）。</div>
+<div class="chart-placeholder">
+<span class="chart-label y-left">幣量</span>
+<span class="chart-label y-right">人數</span>
+<span class="chart-label x">日期</span>
+<div class="chart-bar" style="left:60px;height:140px;background:#F59E0B;opacity:.7"></div>
+<div class="chart-bar" style="left:60px;height:80px;background:#8B5CF6;opacity:.7;bottom:40px"></div>
+<div class="chart-bar" style="left:110px;height:120px;background:#F59E0B;opacity:.7"></div>
+<div class="chart-bar" style="left:110px;height:70px;background:#8B5CF6;opacity:.7;bottom:40px"></div>
+<div class="chart-bar" style="left:160px;height:160px;background:#F59E0B;opacity:.7"></div>
+<div class="chart-bar" style="left:160px;height:90px;background:#8B5CF6;opacity:.7;bottom:40px"></div>
+<div class="chart-bar" style="left:210px;height:130px;background:#F59E0B;opacity:.7"></div>
+<div class="chart-bar" style="left:210px;height:75px;background:#8B5CF6;opacity:.7;bottom:40px"></div>
+<div class="chart-bar" style="left:260px;height:150px;background:#F59E0B;opacity:.7"></div>
+<div class="chart-bar" style="left:260px;height:85px;background:#8B5CF6;opacity:.7;bottom:40px"></div>
+<div class="chart-line" style="left:72px;bottom:200px;background:#EF4444;border-color:#EF4444"></div>
+<div class="chart-line" style="left:122px;bottom:180px;background:#EF4444;border-color:#EF4444"></div>
+<div class="chart-line" style="left:172px;bottom:220px;background:#EF4444;border-color:#EF4444"></div>
+<div class="chart-line" style="left:222px;bottom:190px;background:#EF4444;border-color:#EF4444"></div>
+<div class="chart-line" style="left:272px;bottom:210px;background:#EF4444;border-color:#EF4444"></div>
+<div class="chart-line" style="left:72px;bottom:160px;background:#3B82F6;border-color:#3B82F6"></div>
+<div class="chart-line" style="left:122px;bottom:145px;background:#3B82F6;border-color:#3B82F6"></div>
+<div class="chart-line" style="left:172px;bottom:175px;background:#3B82F6;border-color:#3B82F6"></div>
+<div class="chart-line" style="left:222px;bottom:155px;background:#3B82F6;border-color:#3B82F6"></div>
+<div class="chart-line" style="left:272px;bottom:165px;background:#3B82F6;border-color:#3B82F6"></div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>金幣贈禮總額</div>
+<div class="legend-item"><div class="legend-dot" style="background:#8B5CF6"></div>星幣贈禮總額</div>
+<div class="legend-item"><div class="legend-dot" style="background:#EF4444;border-radius:50%"></div>金幣人數</div>
+<div class="legend-item"><div class="legend-dot" style="background:#3B82F6;border-radius:50%"></div>星幣人數</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-title">遊戲健康度趨勢-星幣</div>
+<div class="card-desc">公會長每日贈禮總額、收禮總額、請公會長贈與的人數、贈與給公會長的人數分析。雙Y軸長條圖+雙折線圖。</div>
+<div class="chart-placeholder">
+<span class="chart-label y-left">幣量</span>
+<span class="chart-label y-right">人數</span>
+<span class="chart-label x">日期</span>
+<div class="chart-bar" style="left:80px;height:100px;background:#10B981;opacity:.6"></div>
+<div class="chart-bar" style="left:108px;height:130px;background:#06B6D4;opacity:.6"></div>
+<div class="chart-bar" style="left:160px;height:110px;background:#10B981;opacity:.6"></div>
+<div class="chart-bar" style="left:188px;height:120px;background:#06B6D4;opacity:.6"></div>
+<div class="chart-bar" style="left:240px;height:95px;background:#10B981;opacity:.6"></div>
+<div class="chart-bar" style="left:268px;height:140px;background:#06B6D4;opacity:.6"></div>
+</div>
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#10B981"></div>贈禮給公會長的總額</div>
+<div class="legend-item"><div class="legend-dot" style="background:#06B6D4"></div>公會長贈出去的總額</div>
+<div class="legend-item"><div class="legend-dot" style="background:#F59E0B;border-radius:50%"></div>贈禮給公會長的人數</div>
+<div class="legend-item"><div class="legend-dot" style="background:#EF4444;border-radius:50%"></div>收禮給公會長的人數</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('analyticsSidebar').classList.remove('mobile-open');this.classList.remove('show')"></div>
+</body>
+</html>
