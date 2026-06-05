@@ -180,6 +180,52 @@ function toggleAll(el){const dd=el.closest('.multi-select-dropdown');const cbs=d
 document.querySelectorAll('#sourceSelect input[type=checkbox]:not([value=all])').forEach(cb=>{cb.addEventListener('change',function(){const dd=this.closest('.multi-select-dropdown');const allCb=dd.querySelector('[value=all]');allCb.checked=false;const checked=dd.querySelectorAll('input:checked:not([value=all])');if(checked.length===0)allCb.checked=true;updateSourceDisplay()})});
 function updateSourceDisplay(){const dd=document.querySelector('#sourceSelect .multi-select-dropdown');const allCb=dd.querySelector('[value=all]');const display=document.querySelector('#sourceSelect .multi-select-display');if(allCb.checked){display.innerHTML='全部來源 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';return}const checked=dd.querySelectorAll('input:checked:not([value=all])');const text=checked.length<=2?Array.from(checked).map(c=>c.value).join(', '):'已選擇 '+checked.length+' 項';display.innerHTML=text+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>'}
 document.addEventListener('click',function(e){if(!e.target.closest('#sourceSelect'))document.getElementById('sourceSelect').classList.remove('open')});
+// 查詢按鈕 - 模擬篩選後資料變化
+document.querySelector('.btn-primary').addEventListener('click',function(){
+  const groupBy=document.getElementById('groupBySelect').value;
+  const desc=document.querySelector('.card-desc');
+  if(groupBy==='裝置平台'){
+    data.length=0;
+    data.push(
+      {date:'Android',nu:412,days:[18.2,9.5,7.1,6.3,5.8,4.9,6.1,3.2,1.8,1.1,2.4]},
+      {date:'iOS',nu:230,days:[14.8,7.2,6.5,5.1,4.7,3.9,5.2,2.8,1.5,0.9,1.8]},
+      {date:'PC',nu:74,days:[8.1,4.1,3.2,2.7,2.2,1.8,3.4,1.4,0.8,0.5,1.1]}
+    );
+    desc.textContent='追蹤用戶留存表現及趨勢變化。Group by: 裝置平台';
+  }else if(groupBy==='玩家來源'){
+    data.length=0;
+    data.push(
+      {date:'organic',nu:320,days:[16.5,8.8,6.9,5.7,5.2,4.3,5.8,3.0,1.6,1.0,2.1]},
+      {date:'AF',nu:185,days:[12.3,6.4,5.2,4.5,3.8,3.2,4.1,2.2,1.2,0.7,1.5]},
+      {date:'performancerevenues',nu:98,days:[9.8,5.1,4.0,3.4,2.9,2.4,3.3,1.7,0.9,0.5,1.0]},
+      {date:'motive_int',nu:72,days:[7.6,3.9,3.1,2.6,2.2,1.8,2.5,1.3,0.7,0.4,0.8]},
+      {date:'On-Mobi',nu:41,days:[5.4,2.8,2.2,1.8,1.5,1.3,1.8,0.9,0.5,0.3,0.5]}
+    );
+    desc.textContent='追蹤用戶留存表現及趨勢變化。Group by: 玩家來源';
+  }else{
+    data.length=0;
+    data.push(
+      {date:'2026/05/22',nu:64,days:[20.3,7.8,7.8,10.9,9.4,0,7.8,4.7,0,1.6,3.1]},
+      {date:'2026/05/23',nu:104,days:[21.2,10.6,6.7,5.8,1.9,6.7,9.6,3.9,1.0,0,3.9]},
+      {date:'2026/05/24',nu:82,days:[3.7,4.9,6.1,2.4,4.9,7.3,17.1,8.5,4.9,3.7,2.4]},
+      {date:'2026/05/25',nu:75,days:[12.0,5.3,8.0,0,4.0,9.3,6.7,2.7,1.3,0,null]},
+      {date:'2026/05/26',nu:65,days:[21.5,3.1,10.8,21.5,12.3,12.3,7.7,3.1,1.5,null,null]},
+      {date:'2026/05/27',nu:59,days:[10.2,17.0,3.4,1.7,6.8,0,0,1.7,null,null,null]},
+      {date:'2026/05/28',nu:46,days:[8.7,6.5,2.2,2.2,2.2,2.2,4.4,null,null,null,null]},
+      {date:'2026/05/29',nu:58,days:[12.1,13.8,10.3,6.9,12.1,8.6,null,null,null,null,null]},
+      {date:'2026/05/30',nu:72,days:[20.8,5.6,8.3,11.1,5.6,null,null,null,null,null,null]},
+      {date:'2026/05/31',nu:91,days:[7.7,4.4,13.2,7.7,null,null,null,null,null,null,null]}
+    );
+    desc.textContent='追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)';
+  }
+  data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100))});
+  currentPage=1;renderTable();
+  // 第一欄表頭跟著 group by 變
+  const firstTh=document.querySelector('#retentionTable th');
+  if(groupBy==='裝置平台')firstTh.textContent='裝置平台';
+  else if(groupBy==='玩家來源')firstTh.textContent='玩家來源';
+  else firstTh.textContent='註冊日期';
+});
 // CSV 匯出（格式A標準報表）
 document.getElementById('exportBtn').addEventListener('click',function(){
   const groupBy=document.getElementById('groupBySelect').value;
