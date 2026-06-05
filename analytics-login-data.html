@@ -84,7 +84,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="card">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
-<div id="legendBox" style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#FFB6D9" stroke-width="2" stroke-dasharray="4,2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-7d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#E91E79" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-30d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#9B59B6" stroke-width="2" stroke-dasharray="4,2"/></svg>30天前</span></div>
+<div id="legendBox" style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-7d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-30d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="1,2"/></svg>30天前</span></div>
 </div>
 <div class="chart-svg-wrap" style="height:220px;position:relative;margin-left:40px;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:0">
 <div style="position:absolute;left:-40px;top:-4px;font-size:11px;color:#94A3B8">人數</div>
@@ -122,7 +122,7 @@ const chartData = {
   star: {today:[0,0,0,0,0,0,1,1,0,1,1,0],d7:[1,0,3,1,2,1,0,0,1,4,0,0],d30:[7,5,15,8,7,8,11,9,5,11,8,11]},
   gold: {today:[0,0,0,0,0,0,0,1,0,0,1,0],d7:[1,0,1,1,1,0,0,0,1,2,0,0],d30:[3,3,8,4,3,4,5,5,2,5,4,5]}
 };
-const lineColors = {today:'#FFB6D9', d7:'#E91E79', d30:'#9B59B6'};
+const lineColors = {today:'#fbcfe8', d7:'#ec4899', d30:'#d8b4fe'};
 let currentCurrency = 'all';
 function selectCurrency(el, type) {
   const pills = document.querySelectorAll('.cur-pill');
@@ -148,7 +148,8 @@ function updateLines() {
     pl.setAttribute('fill','none');
     pl.setAttribute('stroke', lineColors[cfg.key]);
     pl.setAttribute('stroke-width','2');
-    pl.setAttribute('stroke-dasharray','10,6');
+    if(cfg.key === 'd7') pl.setAttribute('stroke-dasharray','10,6');
+    if(cfg.key === 'd30') pl.setAttribute('stroke-dasharray','2,4');
     pl.setAttribute('stroke-linecap','round');
     pl.setAttribute('stroke-linejoin','round');
     pl.classList.add('dyn');
