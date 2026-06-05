@@ -110,9 +110,14 @@ const data=[
 // 人數模擬
 data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100))});
 const tbody=document.getElementById('retentionBody');
+const perPage=50;
+let currentPage=1;
 function renderTable(){
   tbody.innerHTML='';
-  data.forEach(r=>{
+  const start=(currentPage-1)*perPage;
+  const end=start+perPage;
+  const pageData=data.slice(start,end);
+  pageData.forEach(r=>{
     const tr=document.createElement('tr');
     tr.innerHTML=`<td>${r.date}</td><td>${r.nu}</td>`+r.days.map((v,i)=>{
       if(v===null)return'<td>-</td>';
@@ -130,6 +135,27 @@ function renderTable(){
     else{const avg=(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1);html+=`<td style="background:${heatColor(parseFloat(avg))}">${avg}%</td>`;}
   }
   avgTr.innerHTML=html;tbody.appendChild(avgTr);
+  // 更新分頁
+  const totalPages=Math.ceil(data.length/perPage);
+  document.querySelector('.pagination>div:first-child').textContent='共 '+data.length+' 筆';
+  document.querySelector('.pagination>div:nth-child(2)').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
+  const pageNav=document.querySelector('.pagination>div:last-child');
+  pageNav.innerHTML='';
+  const btns=[
+    {label:'«',page:1,disabled:currentPage===1},
+    {label:'‹',page:currentPage-1,disabled:currentPage===1},
+    {label:currentPage,page:currentPage,active:true},
+    {label:'›',page:currentPage+1,disabled:currentPage===totalPages},
+    {label:'»',page:totalPages,disabled:currentPage===totalPages}
+  ];
+  btns.forEach(b=>{
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(b.active?' active':'');
+    btn.textContent=b.label;
+    btn.disabled=b.disabled;
+    if(!b.disabled&&!b.active)btn.onclick=()=>{currentPage=b.page;renderTable()};
+    pageNav.appendChild(btn);
+  });
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
