@@ -80,7 +80,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto;margin-right:12px">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><span style="font-size:12px;color:#64748B">幣別</span><span class="pill" onclick="selectCurrency(this)" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(59,130,246,.1);color:#3B82F6;border:1px solid rgba(59,130,246,.3)">全部</span><span class="pill" onclick="selectCurrency(this)" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(234,179,8,.08);color:#CA8A04;border:1px solid rgba(234,179,8,.3);opacity:0.4;border-style:dashed">星幣</span><span class="pill" onclick="selectCurrency(this)" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(245,158,11,.08);color:#D97706;border:1px solid rgba(245,158,11,.3);opacity:0.4;border-style:dashed">金幣</span></div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><span style="font-size:12px;color:#64748B">幣別</span><span class="pill" onclick="selectCurrency(this,'all')" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(59,130,246,.1);color:#3B82F6;border:1px solid rgba(59,130,246,.3)">全部</span><span class="pill" onclick="selectCurrency(this,'star')" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(234,179,8,.08);color:#CA8A04;border:1px solid rgba(234,179,8,.3);opacity:0.4;border-style:dashed">星幣</span><span class="pill" onclick="selectCurrency(this,'gold')" style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:13px;cursor:pointer;background:rgba(245,158,11,.08);color:#D97706;border:1px solid rgba(245,158,11,.3);opacity:0.4;border-style:dashed">金幣</span></div>
 <div class="card">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
@@ -120,31 +120,57 @@ function toggleLine(el, id) {
   line.style.display = visible ? 'none' : '';
   el.style.opacity = visible ? '0.35' : '1';
 }
-function selectCurrency(el) {
+const chartData = {
+  all: {today:[0,0,0,0,0,0,1,2,0,1,2,0],d7:[2,0,4,2,3,1,0,0,2,6,0,0],d30:[10,8,23,12,10,12,16,14,7,16,12,16]},
+  star: {today:[0,0,0,0,0,0,1,1,0,1,1,0],d7:[1,0,3,1,2,1,0,0,1,4,0,0],d30:[7,5,15,8,7,8,11,9,5,11,8,11]},
+  gold: {today:[0,0,0,0,0,0,0,1,0,0,1,0],d7:[1,0,1,1,1,0,0,0,1,2,0,0],d30:[3,3,8,4,3,4,5,5,2,5,4,5]}
+};
+let currentCurrency = 'all';
+function selectCurrency(el, type) {
   const pills = el.parentElement.querySelectorAll('.pill');
   pills.forEach(p => { p.style.opacity = '0.4'; p.style.borderStyle = 'dashed'; });
   el.style.opacity = '1';
   el.style.borderStyle = 'solid';
+  currentCurrency = type;
+  updateLines();
 }
-// Hover tooltip
+function updateLines() {
+  const d = chartData[currentCurrency];
+  const maxVal = 25;
+  function toPoints(arr) {
+    return arr.map((v, i) => (i * 40) + ',' + (200 - v / maxVal * 200)).join(' ');
+  }
+  document.getElementById('line-today').setAttribute('points', toPoints(d.today));
+  document.getElementById('line-7d').setAttribute('points', toPoints(d.d7));
+  document.getElementById('line-30d').setAttribute('points', toPoints(d.d30));
+}
 (function(){
   const chart = document.querySelector('.chart-svg-wrap');
-  const tip = document.createElement('div');
-  tip.style.cssText = 'position:absolute;display:none;background:rgba(15,23,42,.85);color:#fff;padding:6px 10px;border-radius:6px;font-size:11px;pointer-events:none;z-index:10;white-space:nowrap';
   chart.style.position = 'relative';
+  const tip = document.createElement('div');
+  tip.style.cssText = 'position:absolute;display:none;background:#fff;color:#334155;padding:10px 12px;border-radius:8px;font-size:12px;pointer-events:none;z-index:10;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid #E5E7EB;min-width:140px';
   chart.appendChild(tip);
-  const data = {today:[0,0,0,0,0,0,1,2,0,1,2,0],d7:[2,0,1,2,3,1,0,0,2,4,0,0],d30:[10,8,23,12,10,12,16,14,7,16,12,16]};
+  const vline = document.createElement('div');
+  vline.style.cssText = 'position:absolute;display:none;top:0;bottom:0;width:1px;border-left:1px dashed #B0B8C4;pointer-events:none;z-index:5';
+  chart.appendChild(vline);
   chart.addEventListener('mousemove', function(e){
     const rect = chart.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const w = rect.width;
     const idx = Math.min(11, Math.max(0, Math.round(x / w * 11)));
+    const snapX = (idx / 11) * w;
+    const d = chartData[currentCurrency];
+    vline.style.display = 'block';
+    vline.style.left = snapX + 'px';
     tip.style.display = 'block';
-    tip.style.left = (x+10)+'px';
-    tip.style.top = '10px';
-    tip.innerHTML = '<b>'+idx+' 時</b><br>今日: '+data.today[idx]+'<br>7天前: '+data.d7[idx]+'<br>30天前: '+data.d30[idx];
+    tip.style.left = Math.min(snapX + 12, w - 160) + 'px';
+    tip.style.top = '8px';
+    tip.innerHTML = '<div style="font-weight:600;margin-bottom:6px">' + idx + ':00</div>'
+      + '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#F472B6;border-radius:2px;flex-shrink:0"></span><span style="flex:1">今日</span><b>' + d.today[idx] + '</b></div>'
+      + '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#EC4899;border-radius:2px;flex-shrink:0"></span><span style="flex:1">7天前</span><b>' + d.d7[idx] + '</b></div>'
+      + '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#A78BFA;border-radius:2px;flex-shrink:0"></span><span style="flex:1">30天前</span><b>' + d.d30[idx] + '</b></div>';
   });
-  chart.addEventListener('mouseleave', function(){ tip.style.display = 'none'; });
+  chart.addEventListener('mouseleave', function(){ tip.style.display = 'none'; vline.style.display = 'none'; });
 })();
 </script>
 </body>
