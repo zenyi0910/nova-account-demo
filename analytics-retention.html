@@ -62,6 +62,12 @@ td a{color:#2563EB;font-weight:500}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .export-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid #E5E7EB;background:#fff;color:#64748B;font-weight:500;transition:all .2s}
 .export-btn:hover{background:#F9FAFB;border-color:#3B82F6;color:#3B82F6}
+.multi-select{position:relative;min-width:160px}
+.multi-select-display{padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.multi-select-dropdown{display:none;position:absolute;top:100%;left:0;margin-top:4px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);padding:8px;z-index:20;min-width:180px}
+.multi-select.open .multi-select-dropdown{display:block}
+.multi-select-dropdown label{display:flex;align-items:center;gap:8px;padding:6px 8px;font-size:13px;color:#334155;cursor:pointer;border-radius:4px}
+.multi-select-dropdown label:hover{background:#F1F5F9}
 .user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
 .popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
@@ -84,7 +90,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>運營數據分析</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">留存率</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
 <div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/06 - 2026/06/04" readonly></div>
-<div class="filter-group"><label class="filter-label">玩家來源</label><select class="filter-select" multiple style="min-width:140px"><option selected>全部來源</option><option>organic</option><option>AF</option><option>performancerevenues</option><option>motive_int</option><option>On-Mobi</option></select></div>
+<div class="filter-group"><label class="filter-label">玩家來源</label><div class="multi-select" id="sourceSelect"><div class="multi-select-display" onclick="this.parentElement.classList.toggle('open')">全部來源 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="multi-select-dropdown"><label><input type="checkbox" value="all" checked onchange="toggleAll(this)"> 全部來源</label><label><input type="checkbox" value="organic"> organic</label><label><input type="checkbox" value="AF"> AF</label><label><input type="checkbox" value="performancerevenues"> performancerevenues</label><label><input type="checkbox" value="motive_int"> motive_int</label><label><input type="checkbox" value="On-Mobi"> On-Mobi</label></div></div></div>
 <div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option><option>Android</option><option>iOS</option><option>PC</option></select></div>
 <div class="filter-group"><label class="filter-label">分組依據</label><select class="filter-select" id="groupBySelect"><option selected>日期</option><option>裝置平台</option><option>玩家來源</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
@@ -167,6 +173,11 @@ function renderTable(){
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
+// 多選下拉邏輯
+function toggleAll(el){const dd=el.closest('.multi-select-dropdown');const cbs=dd.querySelectorAll('input[type=checkbox]:not([value=all])');cbs.forEach(c=>c.checked=false);el.checked=true;updateSourceDisplay()}
+document.querySelectorAll('#sourceSelect input[type=checkbox]:not([value=all])').forEach(cb=>{cb.addEventListener('change',function(){const dd=this.closest('.multi-select-dropdown');const allCb=dd.querySelector('[value=all]');allCb.checked=false;const checked=dd.querySelectorAll('input:checked:not([value=all])');if(checked.length===0)allCb.checked=true;updateSourceDisplay()})});
+function updateSourceDisplay(){const dd=document.querySelector('#sourceSelect .multi-select-dropdown');const allCb=dd.querySelector('[value=all]');const display=document.querySelector('#sourceSelect .multi-select-display');if(allCb.checked){display.innerHTML='全部來源 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';return}const checked=dd.querySelectorAll('input:checked:not([value=all])');const text=checked.length<=2?Array.from(checked).map(c=>c.value).join(', '):'已選擇 '+checked.length+' 項';display.innerHTML=text+' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>'}
+document.addEventListener('click',function(e){if(!e.target.closest('#sourceSelect'))document.getElementById('sourceSelect').classList.remove('open')});
 // CSV 匯出（格式A標準報表）
 document.getElementById('exportBtn').addEventListener('click',function(){
   const groupBy=document.getElementById('groupBySelect').value;
