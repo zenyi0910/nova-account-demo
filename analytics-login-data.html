@@ -80,7 +80,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto;margin-right:12px">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><span style="font-size:12px;color:#64748B">幣別</span><div id="currencyToggle" style="display:inline-flex;border:1px solid #CCCCCC;border-radius:9999px;background:#fff;overflow:hidden"><span class="cur-pill" data-type="all" onclick="selectCurrency(this,'all')" style="padding:6px 16px;font-size:13px;cursor:pointer;color:#000;background:#E8E8E8;box-shadow:inset 0 2px 4px rgba(0,0,0,.15);border-right:1px solid #CCC">全部</span><span class="cur-pill" data-type="gold" onclick="selectCurrency(this,'gold')" style="padding:6px 16px;font-size:13px;cursor:pointer;color:#000;border-right:1px solid #CCC">金幣</span><span class="cur-pill" data-type="star" onclick="selectCurrency(this,'star')" style="padding:6px 16px;font-size:13px;cursor:pointer;color:#000">星幣</span></div></div>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><div style="display:inline-flex;border:1px solid #CCC;border-radius:9999px;background:#fff;overflow:hidden"><span class="cur-pill" data-type="all" onclick="selectCurrency(this,'all')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000;background:#E8E8E8;box-shadow:inset 0 2px 4px rgba(0,0,0,.15);border-right:1px solid #CCC">全部</span><span class="cur-pill" data-type="gold" onclick="selectCurrency(this,'gold')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000;border-right:1px solid #CCC">金幣</span><span class="cur-pill" data-type="star" onclick="selectCurrency(this,'star')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000">星幣</span></div></div>
 <div class="card">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
@@ -143,6 +143,19 @@ function updateLines() {
   document.getElementById('line-today').setAttribute('points', toPoints(d.today));
   document.getElementById('line-7d').setAttribute('points', toPoints(d.d7));
   document.getElementById('line-30d').setAttribute('points', toPoints(d.d30));
+  // draw square markers
+  const svg = document.querySelector('.chart-svg-wrap svg');
+  svg.querySelectorAll('.marker').forEach(m => m.remove());
+  const colors = {'today':'#FFB6D9','d7':'#E91E79','d30':'#9B59B6'};
+  ['today','d7','d30'].forEach(key => {
+    d[key].forEach((v, i) => {
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x', i*40-3); rect.setAttribute('y', 200-v/maxVal*200-3);
+      rect.setAttribute('width','6'); rect.setAttribute('height','6');
+      rect.setAttribute('fill', colors[key]); rect.classList.add('marker');
+      svg.appendChild(rect);
+    });
+  });
 }
 (function(){
   const chart = document.querySelector('.chart-svg-wrap');
@@ -172,6 +185,7 @@ function updateLines() {
   });
   chart.addEventListener('mouseleave', function(){ tip.style.display = 'none'; vline.style.display = 'none'; });
 })();
+updateLines();
 </script>
 </body>
 </html>
