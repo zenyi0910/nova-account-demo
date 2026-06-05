@@ -81,14 +81,34 @@ td a{color:#2563EB;font-weight:500}
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto;margin-right:12px">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
 <div class="filter-section"><div class="filter-row"><div class="filter-group"><span class="filter-label">幣別</span><div style="display:flex;gap:8px"><label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:#2563EB"> 全部</label><label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:#EAB308"> 星幣</label><label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer"><input type="checkbox" checked style="accent-color:#F59E0B"> 金幣</label></div></div><div class="filter-group"><span class="filter-label">日期範圍</span><input type="date" class="filter-input" value="2026-06-01"></div><div class="filter-group"><span class="filter-label">&nbsp;</span><input type="date" class="filter-input" value="2026-06-04"></div><div class="filter-group"><span class="filter-label">&nbsp;</span><button class="btn btn-primary" onclick="alert('篩選條件已套用')">查詢</button></div></div></div>
-<div class="chart-grid">
-<div class="chart-card"><h3 class="chart-title">DAU（每日活躍用戶）</h3><div class="chart-value">1,247</div><div class="chart-subtitle">今日最新</div><div class="chart-area"><svg viewBox="0 0 400 120" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 100 L50 85 L100 90 L150 70 L200 60 L250 55 L300 40 L350 35 L400 20" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M0 100 L50 85 L100 90 L150 70 L200 60 L250 55 L300 40 L350 35 L400 20 L400 120 L0 120Z" fill="url(#areaBlue)" opacity=".2"/><defs><linearGradient id="areaBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div></div>
-<div class="chart-card"><h3 class="chart-title">登入人數（每小時）</h3><div class="chart-value">86</div><div class="chart-subtitle">當前小時</div><div class="chart-area"><svg viewBox="0 0 400 120" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 90 L50 80 L100 75 L150 65 L200 50 L250 45 L300 55 L350 60 L400 45" fill="none" stroke="#10B981" stroke-width="2"/><path d="M0 90 L50 80 L100 75 L150 65 L200 50 L250 45 L300 55 L350 60 L400 45 L400 120 L0 120Z" fill="url(#areaGreen)" opacity=".2"/><defs><linearGradient id="areaGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#10B981" stop-opacity="0"/></linearGradient></defs></svg></div></div>
+<div class="card">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+<div><h3 class="chart-title">登入人數</h3><div style="display:flex;align-items:center;gap:12px;margin-top:8px"><span style="font-size:32px;font-weight:700;color:#0F172A">0</span><span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;color:#0D9488;background:linear-gradient(135deg,rgba(13,148,136,.08),rgba(6,182,212,.08));border:1px solid rgba(13,148,136,.2)">今日最新</span></div></div>
+<div style="display:flex;gap:16px;font-size:12px;color:#64748B"><span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:2px;background:#F472B6;border-radius:1px"></span>今日</span><span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:2px;background:#EC4899;border-radius:1px;border-top:1px dashed #EC4899"></span>7天前</span><span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:2px;background:#A78BFA;border-radius:1px;border-top:1px dotted #A78BFA"></span>30天前</span></div>
 </div>
-<div class="card" style="margin-top:20px;padding:20px 24px"><ul style="font-size:13px;color:#475569;line-height:2;list-style:disc;padding-left:20px">
-<li><strong>DAU（每日活躍用戶）：</strong> 當日不重複登入用戶數。同一用戶重複登入只計算 1 次。</li>
-<li><strong>登入人數（每小時）：</strong> 每小時不重複登入人數，用於觀察即時登入趨勢。</li>
-<li><strong>幣別篩選：</strong> 可勾選全部、星幣、金幣進行數據篩選。</li></ul></div></div>
+<div style="height:240px;position:relative;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;margin-left:36px;padding:8px 0">
+<div style="position:absolute;left:-36px;top:0;font-size:11px;color:#94A3B8">12</div>
+<div style="position:absolute;left:-36px;top:20%;font-size:11px;color:#94A3B8">10</div>
+<div style="position:absolute;left:-36px;top:40%;font-size:11px;color:#94A3B8">8</div>
+<div style="position:absolute;left:-36px;top:60%;font-size:11px;color:#94A3B8">6</div>
+<div style="position:absolute;left:-36px;top:80%;font-size:11px;color:#94A3B8">4</div>
+<div style="position:absolute;left:-36px;bottom:16px;font-size:11px;color:#94A3B8">2</div>
+<div style="position:absolute;left:-36px;bottom:-4px;font-size:11px;color:#94A3B8">0</div>
+<div style="position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none"><div style="border-top:1px dashed #F1F5F9;width:100%"></div><div style="border-top:1px dashed #F1F5F9;width:100%"></div><div style="border-top:1px dashed #F1F5F9;width:100%"></div><div style="border-top:1px dashed #F1F5F9;width:100%"></div><div style="border-top:1px dashed #F1F5F9;width:100%"></div><div style="border-top:1px dashed #F1F5F9;width:100%"></div></div>
+<svg viewBox="0 0 480 200" preserveAspectRatio="none" style="width:100%;height:100%;display:block;position:relative;z-index:1">
+<polyline points="0,200 40,200 80,200 120,200 160,200 200,200 240,183 280,175 320,200 360,183 400,175 440,200" fill="none" stroke="#F472B6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="0,200 40,200 80,133 120,167 160,150 200,175 240,200 280,200 320,175 360,150 400,200 440,200" fill="none" stroke="#EC4899" stroke-width="2" stroke-dasharray="6,4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="0,117 40,100 80,0 120,83 160,117 200,83 240,50 280,67 320,133 360,50 400,83 440,50" fill="none" stroke="#A78BFA" stroke-width="2" stroke-dasharray="2,3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<div style="position:absolute;bottom:-20px;left:0;right:0;display:flex;justify-content:space-between;font-size:11px;color:#94A3B8"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span></div>
+<div style="position:absolute;bottom:-20px;right:-16px;font-size:11px;color:#94A3B8">時</div>
+<div style="position:absolute;left:-36px;top:-16px;font-size:11px;color:#94A3B8">人數</div>
+</div>
+</div>
+<div class="card" style="margin-top:40px;padding:20px 24px"><ul style="font-size:13px;color:#475569;line-height:2;list-style:disc;padding-left:20px">
+<li><strong>登入人數：</strong> 統計每小時不重複登入人數，同一人重複登入只計算 1 次</li>
+<li><strong>對比線：</strong> 同時顯示今日、7天前、30天前的趨勢對比</li>
+<li><strong>幣別篩選：</strong> 可勾選全部、星幣、金幣進行數據篩選</li></ul></div></div>
 </div>
 </div>
 </body>
