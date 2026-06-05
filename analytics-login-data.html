@@ -84,7 +84,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="card">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
-<div id="legendBox" style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"></div>
+<div id="legendBox" style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#FFB6D9" stroke-width="2" stroke-dasharray="4,2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-7d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#E91E79" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-30d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#9B59B6" stroke-width="2" stroke-dasharray="4,2"/></svg>30天前</span></div>
 </div>
 <div class="chart-svg-wrap" style="height:220px;position:relative;margin-left:40px;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:0">
 <div style="position:absolute;left:-40px;top:-4px;font-size:11px;color:#94A3B8">人數</div>
@@ -118,24 +118,11 @@ function toggleLine(el, id) {
   document.querySelectorAll('.marker-'+id).forEach(m => m.style.display = visible ? 'none' : '');
 }
 const chartData = {
+  all: {today:[0,0,0,0,0,0,1,2,0,1,2,0],d7:[2,0,4,2,3,1,0,0,2,6,0,0],d30:[10,8,23,12,10,12,16,14,7,16,12,16]},
   star: {today:[0,0,0,0,0,0,1,1,0,1,1,0],d7:[1,0,3,1,2,1,0,0,1,4,0,0],d30:[7,5,15,8,7,8,11,9,5,11,8,11]},
   gold: {today:[0,0,0,0,0,0,0,1,0,0,1,0],d7:[1,0,1,1,1,0,0,0,1,2,0,0],d30:[3,3,8,4,3,4,5,5,2,5,4,5]}
 };
-const lineConfig = {
-  single: [
-    {id:'line-today', key:'today', color:'#FFB6D9', dash:'10,6', width:2},
-    {id:'line-7d', key:'d7', color:'#E91E79', dash:'10,6', width:2},
-    {id:'line-30d', key:'d30', color:'#9B59B6', dash:'10,6', width:2}
-  ],
-  all: [
-    {id:'line-today-gold', key:'today', src:'gold', color:'#FFB6D9', dash:'10,6', width:2, label:'今日·金幣'},
-    {id:'line-today-star', key:'today', src:'star', color:'#FFB6D9', dash:'4,4', width:1.5, label:'今日·星幣'},
-    {id:'line-7d-gold', key:'d7', src:'gold', color:'#E91E79', dash:'10,6', width:2, label:'7天前·金幣'},
-    {id:'line-7d-star', key:'d7', src:'star', color:'#E91E79', dash:'4,4', width:1.5, label:'7天前·星幣'},
-    {id:'line-30d-gold', key:'d30', src:'gold', color:'#9B59B6', dash:'10,6', width:2, label:'30天前·金幣'},
-    {id:'line-30d-star', key:'d30', src:'star', color:'#9B59B6', dash:'4,4', width:1.5, label:'30天前·星幣'}
-  ]
-};
+const lineColors = {today:'#FFB6D9', d7:'#E91E79', d30:'#9B59B6'};
 let currentCurrency = 'all';
 function selectCurrency(el, type) {
   const pills = document.querySelectorAll('.cur-pill');
@@ -144,81 +131,39 @@ function selectCurrency(el, type) {
   el.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,.15)';
   currentCurrency = type;
   updateLines();
-  updateLegend();
 }
 function updateLines() {
   const svg = document.querySelector('.chart-svg-wrap svg');
-  const maxVal = 25;
-  const svgW = 440, svgH = 200;
+  const d = chartData[currentCurrency];
+  const maxVal = 25, svgW = 440, svgH = 200;
   function toPoints(arr) {
     const step = svgW / (arr.length - 1);
     return arr.map((v, i) => Math.round(i * step) + ',' + Math.round(svgH - v / maxVal * svgH)).join(' ');
   }
   svg.querySelectorAll('.dyn').forEach(m => m.remove());
-  if(currentCurrency === 'all') {
-    lineConfig.all.forEach(cfg => {
-      const pl = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-      pl.setAttribute('id', cfg.id);
-      pl.setAttribute('points', toPoints(chartData[cfg.src][cfg.key]));
-      pl.setAttribute('fill','none');
-      pl.setAttribute('stroke', cfg.color);
-      pl.setAttribute('stroke-width', cfg.width);
-      pl.setAttribute('stroke-linecap','round');
-      pl.setAttribute('stroke-linejoin','round');
-      if(cfg.dash) pl.setAttribute('stroke-dasharray', cfg.dash);
-      pl.classList.add('dyn');
-      svg.appendChild(pl);
-      const step = svgW / (chartData[cfg.src][cfg.key].length - 1);
-      chartData[cfg.src][cfg.key].forEach((v,i) => {
-        const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
-        const cx = Math.round(i*step), cy = Math.round(svgH-v/maxVal*svgH);
-        r.setAttribute('x',cx-2.5); r.setAttribute('y',cy-2.5);
-        r.setAttribute('width','5'); r.setAttribute('height','5');
-        r.setAttribute('fill', cfg.dash ? '#fff' : cfg.color);
-        r.setAttribute('stroke', cfg.color); r.setAttribute('stroke-width','1');
-        r.classList.add('dyn','marker-'+cfg.id);
-        svg.appendChild(r);
-      });
+  [{id:'line-today',key:'today'},{id:'line-7d',key:'d7'},{id:'line-30d',key:'d30'}].forEach(cfg => {
+    const pl = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    pl.setAttribute('id', cfg.id);
+    pl.setAttribute('points', toPoints(d[cfg.key]));
+    pl.setAttribute('fill','none');
+    pl.setAttribute('stroke', lineColors[cfg.key]);
+    pl.setAttribute('stroke-width','2');
+    pl.setAttribute('stroke-dasharray','10,6');
+    pl.setAttribute('stroke-linecap','round');
+    pl.setAttribute('stroke-linejoin','round');
+    pl.classList.add('dyn');
+    svg.appendChild(pl);
+    const step = svgW / (d[cfg.key].length - 1);
+    d[cfg.key].forEach((v,i) => {
+      const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      const cx = Math.round(i*step), cy = Math.round(svgH-v/maxVal*svgH);
+      r.setAttribute('x',cx-3); r.setAttribute('y',cy-3);
+      r.setAttribute('width','6'); r.setAttribute('height','6');
+      r.setAttribute('fill', lineColors[cfg.key]);
+      r.classList.add('dyn','marker-'+cfg.id);
+      svg.appendChild(r);
     });
-  } else {
-    const d = chartData[currentCurrency];
-    lineConfig.single.forEach(cfg => {
-      const pl = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-      pl.setAttribute('id', cfg.id);
-      pl.setAttribute('points', toPoints(d[cfg.key]));
-      pl.setAttribute('fill','none');
-      pl.setAttribute('stroke', cfg.color);
-      pl.setAttribute('stroke-width', cfg.width);
-      pl.setAttribute('stroke-linecap','round');
-      pl.setAttribute('stroke-linejoin','round');
-      if(cfg.dash) pl.setAttribute('stroke-dasharray', cfg.dash);
-      pl.classList.add('dyn');
-      svg.appendChild(pl);
-      const step = svgW / (d[cfg.key].length - 1);
-      d[cfg.key].forEach((v,i) => {
-        const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
-        const cx = Math.round(i*step), cy = Math.round(svgH-v/maxVal*svgH);
-        r.setAttribute('x',cx-3); r.setAttribute('y',cy-3);
-        r.setAttribute('width','6'); r.setAttribute('height','6');
-        r.setAttribute('fill', cfg.color);
-        r.classList.add('dyn','marker-'+cfg.id);
-        svg.appendChild(r);
-      });
-    });
-  }
-}
-function updateLegend() {
-  const box = document.getElementById('legendBox');
-  if(currentCurrency === 'all') {
-    box.innerHTML = '<span style="font-size:11px;color:#94A3B8;margin-right:4px">長虛線=金幣 短虛線=星幣</span>'
-      + '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-today-gold\');toggleLine(this,\'line-today-star\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#FFB6D9" stroke-width="2" stroke-dasharray="4,2"/></svg>今日</span>'
-      + '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-7d-gold\');toggleLine(this,\'line-7d-star\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#E91E79" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span>'
-      + '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-30d-gold\');toggleLine(this,\'line-30d-star\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#9B59B6" stroke-width="2" stroke-dasharray="4,2"/></svg>30天前</span>';
-  } else {
-    box.innerHTML = '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-today\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#FFB6D9" stroke-width="2" stroke-dasharray="4,2"/></svg>今日</span>'
-      + '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-7d\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#E91E79" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span>'
-      + '<span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,\'line-30d\')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#9B59B6" stroke-width="2" stroke-dasharray="4,2"/></svg>30天前</span>';
-  }
+  });
 }
 (function(){
   const chart = document.querySelector('.chart-svg-wrap');
@@ -241,19 +186,10 @@ function updateLegend() {
     tip.style.left = Math.min(snapX + 12, w - 180) + 'px';
     tip.style.top = '8px';
     let html = '<div style="font-weight:600;margin-bottom:6px">' + idx + ':00</div>';
-    if(currentCurrency === 'all') {
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#FFB6D9;border-radius:2px"></span><span style="flex:1">今日·金</span><b>'+chartData.gold.today[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:2px;background:#FFB6D9;border:1px dashed #FFB6D9"></span><span style="flex:1">今日·星</span><b>'+chartData.star.today[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#E91E79;border-radius:2px"></span><span style="flex:1">7天前·金</span><b>'+chartData.gold.d7[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:2px;background:#E91E79;border:1px dashed #E91E79"></span><span style="flex:1">7天前·星</span><b>'+chartData.star.d7[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#9B59B6;border-radius:2px"></span><span style="flex:1">30天前·金</span><b>'+chartData.gold.d30[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:2px;background:#9B59B6;border:1px dashed #9B59B6"></span><span style="flex:1">30天前·星</span><b>'+chartData.star.d30[idx]+'</b></div>';
-    } else {
-      const d = chartData[currentCurrency];
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#FFB6D9;border-radius:2px"></span><span style="flex:1">今日</span><b>'+d.today[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#E91E79;border-radius:2px"></span><span style="flex:1">7天前</span><b>'+d.d7[idx]+'</b></div>';
-      html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#9B59B6;border-radius:2px"></span><span style="flex:1">30天前</span><b>'+d.d30[idx]+'</b></div>';
-    }
+    const d = chartData[currentCurrency];
+    html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#FFB6D9;border-radius:2px"></span><span style="flex:1">今日</span><b>'+d.today[idx]+'</b></div>';
+    html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#E91E79;border-radius:2px"></span><span style="flex:1">7天前</span><b>'+d.d7[idx]+'</b></div>';
+    html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#9B59B6;border-radius:2px"></span><span style="flex:1">30天前</span><b>'+d.d30[idx]+'</b></div>';
     tip.innerHTML = html;
   });
   chart.addEventListener('mouseleave', function(){ tip.style.display = 'none'; vline.style.display = 'none'; });
@@ -263,7 +199,6 @@ document.getElementById('line-today')?.remove();
 document.getElementById('line-7d')?.remove();
 document.getElementById('line-30d')?.remove();
 updateLines();
-updateLegend();
 </script>
 </body>
 </html>
