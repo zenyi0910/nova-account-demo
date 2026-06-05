@@ -98,7 +98,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="table-wrap"><table id="retentionTable"><thead id="retentionHead"></thead>
 <tbody id="retentionBody"></tbody></table></div>
 <p style="font-size:12px;color:#94A3B8;margin-top:12px">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</p>
-<div class="pagination"><div>共 50 筆</div><div>第 1 頁 / 1 頁</div><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div>
+<div class="pagination"><div></div><div style="display:flex;align-items:center;gap:12px"><span class="page-info">共 50 筆</span><span class="page-info">第 1 頁 / 1 頁</span><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div></div>
 <script src="components/date-picker.js"></script>
 <script>
 function heatColor(val){if(val===null)return{bg:'',color:'#334155'};const max=50;const ratio=Math.min(val/max,1);const bg=`rgba(59,130,246,${(ratio*0.6).toFixed(2)})`;const color=ratio>0.35?'#fff':'#334155';return{bg,color}}
@@ -163,9 +163,9 @@ function renderTable(){
   // 更新分頁（預設50列）
   const displayTotal=Math.max(data.length,50);
   const totalPages=Math.ceil(displayTotal/perPage);
-  document.querySelector('.pagination>div:first-child').textContent='共 '+displayTotal+' 筆';
-  document.querySelector('.pagination>div:nth-child(2)').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
-  const pageNav=document.querySelector('.pagination>div:last-child');
+  document.querySelector('.pagination>div:nth-child(2) .page-info:first-child').textContent='共 '+displayTotal+' 筆';
+  document.querySelector('.pagination>div:nth-child(2) .page-info:nth-child(2)').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
+  const pageNav=document.querySelector('.pagination>div:nth-child(2)>div:last-child');
   pageNav.innerHTML='';
   const btns=[
     {label:'«',page:1,disabled:currentPage===1},
