@@ -89,7 +89,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>運營數據分析</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">留存率</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/06 - 2026/06/04" readonly></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div></div></div>
 <div class="filter-group"><label class="filter-label">玩家來源</label><div class="multi-select" id="sourceSelect"><div class="multi-select-display" onclick="this.parentElement.classList.toggle('open')">全部來源 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div><div class="multi-select-dropdown"><label><input type="checkbox" value="all" checked onchange="toggleAll(this)"> 全部來源</label><label><input type="checkbox" value="organic"> organic</label><label><input type="checkbox" value="AF"> AF</label><label><input type="checkbox" value="performancerevenues"> performancerevenues</label><label><input type="checkbox" value="motive_int"> motive_int</label><label><input type="checkbox" value="On-Mobi"> On-Mobi</label></div></div></div>
 <div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option><option>Android</option><option>iOS</option><option>PC</option></select></div>
 <div class="filter-group"><label class="filter-label">分組依據</label><select class="filter-select" id="groupBySelect"><option selected>日期</option><option>裝置平台</option><option>玩家來源</option></select></div>
@@ -98,7 +98,8 @@ td a{color:#2563EB;font-weight:500}
 <div class="table-wrap"><table id="retentionTable"><thead id="retentionHead"></thead>
 <tbody id="retentionBody"></tbody></table></div>
 <p style="font-size:12px;color:#94A3B8;margin-top:12px">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</p>
-<div class="pagination"><div>共 10 筆</div><div>第 1 頁 / 1 頁</div><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div>
+<div class="pagination"><div>共 50 筆</div><div>第 1 頁 / 1 頁</div><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div>
+<script src="components/date-picker.js"></script>
 <script>
 function heatColor(val){if(val===null)return{bg:'',color:'#334155'};const max=50;const ratio=Math.min(val/max,1);const bg=`rgba(59,130,246,${(ratio*0.6).toFixed(2)})`;const color=ratio>0.35?'#fff':'#334155';return{bg,color}}
 const data=[
@@ -149,9 +150,10 @@ function renderTable(){
     else{const avg=(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1);const h=heatColor(parseFloat(avg));html+=`<td style="background:${h.bg};color:${h.color}">${avg}%</td>`;}
   }
   avgTr.innerHTML=html;tbody.appendChild(avgTr);
-  // 更新分頁
-  const totalPages=Math.ceil(data.length/perPage);
-  document.querySelector('.pagination>div:first-child').textContent='共 '+data.length+' 筆';
+  // 更新分頁（預設50列）
+  const displayTotal=Math.max(data.length,50);
+  const totalPages=Math.ceil(displayTotal/perPage);
+  document.querySelector('.pagination>div:first-child').textContent='共 '+displayTotal+' 筆';
   document.querySelector('.pagination>div:nth-child(2)').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
   const pageNav=document.querySelector('.pagination>div:last-child');
   pageNav.innerHTML='';
