@@ -94,7 +94,7 @@ td a{color:#2563EB;font-weight:500}
 <p style="font-size:12px;color:#94A3B8;margin-top:12px">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</p>
 <div class="pagination"><div>共 10 筆</div><div>第 1 頁 / 1 頁</div><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div>
 <script>
-function heatColor(val){if(val===null)return{bg:'',color:'#334155'};if(val>=20)return{bg:'#60a5fa',color:'#fff'};if(val>=15)return{bg:'#93c5fd',color:'#1e3a5f'};if(val>=10)return{bg:'#bfdbfe',color:'#1e3a5f'};if(val>=5)return{bg:'#dbeafe',color:'#334155'};if(val>=2)return{bg:'#eff6ff',color:'#334155'};return{bg:'#f8fafc',color:'#334155'}}
+function heatColor(val){if(val===null)return{bg:'',color:'#334155'};const max=50;const ratio=Math.min(val/max,1);const bg=`rgba(59,130,246,${(ratio*0.6).toFixed(2)})`;const color=ratio>0.35?'#fff':'#334155';return{bg,color}}
 const data=[
 {date:'2026/05/26',nu:210,days:[42.8,28.5,23.5,20.0,17.7,15.5,13.7,12.2,10.9,10.1,9.5,8.9,8.3,7.8,7.3,6.9,6.5,6.1,5.8,5.4,5.1,null,null,null,null,null,null,null,null,null]},
 {date:'2026/05/27',nu:182,days:[41.0,27.3,22.5,19.2,17.0,14.9,13.2,11.8,10.5,9.8,9.1,8.6,8.0,7.5,7.1,6.7,6.3,5.9,5.6,5.3,5.0,4.7,null,null,null,null,null,null,null,null]},
