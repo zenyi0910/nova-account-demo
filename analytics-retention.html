@@ -59,6 +59,9 @@ td a{color:#2563EB;font-weight:500}
 .sidebar-overlay.show{display:block}
 @media(max-width:768px){html,body{overflow-x:hidden;max-width:100vw}.sidebar{width:240px;transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:calc(100vw - 32px)}table{min-width:600px}.filter-section{overflow:hidden}}
 #retentionTable td{text-align:center;font-size:12px;min-width:70px}#retentionTable th{text-align:center;font-size:11px;min-width:70px;white-space:nowrap}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.export-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid #E5E7EB;background:#fff;color:#64748B;font-weight:500;transition:all .2s}
+.export-btn:hover{background:#F9FAFB;border-color:#3B82F6;color:#3B82F6}
 .user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
 .popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
@@ -83,15 +86,15 @@ td a{color:#2563EB;font-weight:500}
 <div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/05/06 - 2026/06/04" readonly></div>
 <div class="filter-group"><label class="filter-label">玩家來源</label><select class="filter-select" multiple style="min-width:140px"><option selected>全部來源</option><option>organic</option><option>AF</option><option>performancerevenues</option><option>motive_int</option><option>On-Mobi</option></select></div>
 <div class="filter-group"><label class="filter-label">裝置平台</label><select class="filter-select"><option>全部平台</option><option>Android</option><option>iOS</option><option>PC</option></select></div>
-<div class="filter-group"><label class="filter-label">Group by</label><select class="filter-select" id="groupBySelect"><option selected>日期</option><option>裝置平台</option><option>玩家來源</option></select></div>
-<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button><button class="btn btn-outline" id="downloadBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載</button></div></div>
-<div class="card"><div class="card-title">留存率熱力圖報表</div><div class="card-desc">追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%)</div>
+<div class="filter-group"><label class="filter-label">分組依據</label><select class="filter-select" id="groupBySelect"><option selected>日期</option><option>裝置平台</option><option>玩家來源</option></select></div>
+<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
+<div class="card"><div class="card-header"><div><div class="card-title">留存率熱力圖報表</div><div class="card-desc">追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)</div></div><button class="export-btn" id="exportBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出 CSV</button></div>
 <div class="table-wrap"><table id="retentionTable"><thead><tr><th>註冊日期</th><th>NU (新增)</th><th>Day +1 R1</th><th>Day +2 R2</th><th>Day +3 R3</th><th>Day +4 R4</th><th>Day +5 R5</th><th>Day +6 R6</th><th>Day +7 R7</th><th>Day +8 R8</th><th>Day +9 R9</th><th>Day +10 R10</th><th>Day +11 R11</th><th>Day +12 R12</th><th>Day +13 R13</th><th>Day +14 R14</th><th>Day +15 R15</th><th>Day +16 R16</th><th>Day +17 R17</th><th>Day +18 R18</th><th>Day +19 R19</th><th>Day +20 R20</th><th>Day +21 R21</th><th>Day +22 R22</th><th>Day +23 R23</th><th>Day +24 R24</th><th>Day +25 R25</th><th>Day +26 R26</th><th>Day +27 R27</th><th>Day +28 R28</th><th>Day +29 R29</th><th>Day +30 R30</th></tr></thead>
 <tbody id="retentionBody"></tbody></table></div>
 <p style="font-size:12px;color:#94A3B8;margin-top:12px">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</p>
 <div class="pagination"><div>共 10 筆</div><div>第 1 頁 / 1 頁</div><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div>
 <script>
-function heatColor(val){if(val===null)return'';if(val>=40)return'#0d9488';if(val>=30)return'#14b8a6';if(val>=20)return'#5eead4';if(val>=10)return'#99f6e4';if(val>=5)return'#ccfbf1';return'#f0fdfa'}
+function heatColor(val){if(val===null)return'';if(val>=20)return'#1e40af';if(val>=15)return'#3b82f6';if(val>=10)return'#60a5fa';if(val>=5)return'#93c5fd';if(val>=2)return'#dbeafe';return'#eff6ff'}
 const data=[
 {date:'2026/05/26',nu:210,days:[42.8,28.5,23.5,20.0,17.7,15.5,13.7,12.2,10.9,10.1,9.5,8.9,8.3,7.8,7.3,6.9,6.5,6.1,5.8,5.4,5.1,null,null,null,null,null,null,null,null,null]},
 {date:'2026/05/27',nu:182,days:[41.0,27.3,22.5,19.2,17.0,14.9,13.2,11.8,10.5,9.8,9.1,8.6,8.0,7.5,7.1,6.7,6.3,5.9,5.6,5.3,5.0,4.7,null,null,null,null,null,null,null,null]},
@@ -130,6 +133,28 @@ function renderTable(){
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
+// CSV 匯出
+document.getElementById('exportBtn').addEventListener('click',function(){
+  let csv='註冊日期,NU (新增)';
+  for(let i=1;i<=30;i++)csv+=`,Day +${i} R${i}`;
+  csv+='\n';
+  data.forEach(r=>{
+    csv+=r.date+','+r.nu;
+    r.days.forEach((v,i)=>{csv+=','+(v===null?'-':v+'% ('+r.counts[i]+')')});
+    csv+='\n';
+  });
+  // 平均列
+  csv+='平均,'+Math.round(data.reduce((s,r)=>s+r.nu,0)/data.length);
+  for(let i=0;i<30;i++){
+    const vals=data.map(r=>r.days[i]).filter(v=>v!==null);
+    csv+=','+(vals.length===0?'-':(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1)+'%');
+  }
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const link=document.createElement('a');
+  link.href=URL.createObjectURL(blob);
+  link.download='留存率_'+new Date().toISOString().slice(0,10)+'.csv';
+  link.click();
+});
 </script>
 </div>
 </div>
