@@ -159,26 +159,44 @@ function renderTable(){
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
-// CSV 匯出
+// CSV 匯出（格式A標準報表）
 document.getElementById('exportBtn').addEventListener('click',function(){
-  let csv='註冊日期,NU (新增)';
-  for(let i=1;i<=30;i++)csv+=`,Day +${i} R${i}`;
+  const groupBy=document.getElementById('groupBySelect').value;
+  const dateRange=document.querySelector('input[readonly]').value;
+  const source=document.querySelector('select[multiple]').selectedOptions.length===1?'全部來源':'已選擇 '+document.querySelector('select[multiple]').selectedOptions.length+' 項';
+  const platform=document.querySelectorAll('.filter-select')[1].value;
+  
+  let csv='留存率熱力圖報表 (Group by: '+groupBy+')\n';
+  csv+='日期範圍: '+dateRange+' | 玩家來源: '+source+' | 裝置平台: '+platform+'\n\n';
+  
+  // 表頭
+  csv+=',註冊日期';
+  for(let i=1;i<=30;i++)csv+=',Day +'+i+',,';
+  csv+='\n,';
+  for(let i=0;i<=30;i++)csv+=',留存率,人數';
   csv+='\n';
+  
+  // 資料列
   data.forEach(r=>{
     csv+=r.date+','+r.nu;
-    r.days.forEach((v,i)=>{csv+=','+(v===null?'-':v+'% ('+r.counts[i]+')')});
+    r.days.forEach((v,i)=>{
+      if(v===null)csv+=',,-';
+      else csv+=','+(v/100).toFixed(3)+','+r.counts[i];
+    });
     csv+='\n';
   });
-  // 平均列
-  csv+='平均,'+Math.round(data.reduce((s,r)=>s+r.nu,0)/data.length);
+  
+  // 加權平均列
+  csv+='加權平均 / 總和,=SUM(B'+(data.length+5)+':B'+(data.length+4)+')';
   for(let i=0;i<30;i++){
-    const vals=data.map(r=>r.days[i]).filter(v=>v!==null);
-    csv+=','+(vals.length===0?'-':(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1)+'%');
+    const colIdx=String.fromCharCode(67+i*2);
+    csv+=',=SUM('+colIdx+(5)+':'+colIdx+(data.length+4)+')/B'+(data.length+5)+',=SUM('+colIdx+(5)+':'+colIdx+(data.length+4)+')';
   }
+  
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const link=document.createElement('a');
   link.href=URL.createObjectURL(blob);
-  link.download='留存率_'+new Date().toISOString().slice(0,10)+'.csv';
+  link.download='留存率_'+groupBy+'_'+new Date().toISOString().slice(0,10)+'.csv';
   link.click();
 });
 </script>
