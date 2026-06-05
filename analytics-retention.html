@@ -150,6 +150,16 @@ function renderTable(){
     else{const avg=(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1);const h=heatColor(parseFloat(avg));html+=`<td style="background:${h.bg};color:${h.color}">${avg}%</td>`;}
   }
   avgTr.innerHTML=html;tbody.appendChild(avgTr);
+  // 總和列
+  const sumTr=document.createElement('tr');
+  sumTr.style.fontWeight='600';sumTr.style.background='#F1F5F9';
+  let sumHtml='<td>總和</td><td>'+data.reduce((s,r)=>s+r.nu,0)+'</td>';
+  for(let i=0;i<maxDays;i++){
+    const vals=data.map(r=>r.counts&&r.counts[i]!==null&&r.counts[i]!==undefined?r.counts[i]:0);
+    const hasData=data.some(r=>r.days[i]!==null&&r.days[i]!==undefined);
+    sumHtml+=hasData?'<td>'+vals.reduce((s,v)=>s+v,0)+'</td>':'<td>—</td>';
+  }
+  sumTr.innerHTML=sumHtml;tbody.appendChild(sumTr);
   // 更新分頁（預設50列）
   const displayTotal=Math.max(data.length,50);
   const totalPages=Math.ceil(displayTotal/perPage);
