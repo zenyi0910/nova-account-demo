@@ -60,7 +60,8 @@ td a{color:#2563EB;font-weight:500}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
 .sidebar-overlay.show{display:block}
 @media(max-width:768px){html,body{overflow-x:hidden;max-width:100vw}.sidebar{width:240px;transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:calc(100vw - 32px)}table{min-width:600px}.filter-section{overflow:hidden}}
-.vip-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:#ECFDF5;color:#059669;white-space:nowrap}
+.vip-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;background:#F1F5F9;color:#64748B;white-space:nowrap}
+.modal-box .vip-badge{background:#52c41a;color:#fff}
 .win-link{color:#2563EB;font-weight:500;cursor:pointer}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
 .modal-overlay[style*="flex"]{display:flex}
@@ -68,6 +69,8 @@ td a{color:#2563EB;font-weight:500}
 .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
 .modal-title{display:flex;flex-direction:column;gap:4px}
 .modal-rank{font-size:13px;color:#64748B}
+.modal-rank span{color:#2563EB}
+.modal-box table tr:nth-child(even) td{background:#f0f7ff}
 .modal-close{width:32px;height:32px;border:none;background:none;font-size:20px;cursor:pointer;color:#64748B;display:flex;align-items:center;justify-content:center;border-radius:6px}.modal-close:hover{background:#F1F5F9}
 .user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
 .user-popover.show{display:block}
@@ -87,7 +90,6 @@ td a{color:#2563EB;font-weight:500}
 <div class="layout">
 <aside class="sidebar" id="analyticsSidebar"></aside>
 <script src="components/analytics-sidebar.js"></script>
-<script src="components/date-picker.js"></script>
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>遊戲數據</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">玩家排行榜</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
@@ -129,7 +131,7 @@ const players=[
 function openDetail(idx){
 const p=players[idx];
 document.getElementById('modalTitle').innerHTML='<span class="card-title" style="margin-bottom:0">帳號 UID : '+p.uid+' / 暱稱 : '+p.nick+'</span>';
-document.getElementById('modalRank').textContent='排名: '+(idx+1);
+document.getElementById('modalRank').innerHTML='排名: <span>'+(idx+1)+'</span>';
 let html='';
 p.games.forEach(g=>{
 html+='<tr><td>'+g.cat+'</td><td>'+g.name+'</td><td><a href="#">'+g.bet.toLocaleString()+'</a></td><td><span class="vip-badge">VIP '+p.vip+'</span></td><td>金幣</td></tr>';
@@ -138,6 +140,27 @@ document.getElementById('modalBody').innerHTML=html;
 document.getElementById('modalPagination').innerHTML='<div>共 '+p.games.length+' 筆</div><div style="display:flex;align-items:center;gap:16px"><span class="pag-text">第 1 頁 / 1 頁</span><nav style="display:flex;align-items:center;gap:4px"><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 18-6-6 6-6"/><path d="M7 6v12"/></svg></button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><button class="page-btn active">1</button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 18 6-6-6-6"/><path d="M17 6v12"/></svg></button></nav></div>';
 document.getElementById('detailModal').style.display='flex';
 }
+// Sort functionality
+document.querySelectorAll('th').forEach((th,i)=>{
+if(!th.closest('#detailModal')){
+th.addEventListener('click',()=>{
+const tbody=th.closest('table').querySelector('tbody');
+const rows=[...tbody.querySelectorAll('tr')];
+const dir=th.dataset.dir==='asc'?'desc':'asc';
+th.closest('tr').querySelectorAll('th').forEach(h=>h.dataset.dir='');
+th.dataset.dir=dir;
+rows.sort((a,b)=>{
+let av=a.cells[i]?.textContent.replace(/[,+]/g,'').trim();
+let bv=b.cells[i]?.textContent.replace(/[,+]/g,'').trim();
+const an=parseFloat(av),bn=parseFloat(bv);
+if(!isNaN(an)&&!isNaN(bn))return dir==='asc'?an-bn:bn-an;
+return dir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+});
+rows.forEach(r=>tbody.appendChild(r));
+});
+}
+});
 </script>
+<script src="components/date-picker.js"></script>
 </body>
 </html>
