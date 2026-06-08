@@ -83,8 +83,10 @@ td a{color:#2563EB;font-weight:500}
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right" style="margin-left:12px"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
 <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><div class="chart-toggle" style="display:inline-flex;border:1px solid #2563EB;border-radius:8px;overflow:hidden"><button class="ct-btn active" data-type="all" onclick="toggleChart(this,'all')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;transition:all .2s">全部</button><button class="ct-btn active" data-type="gold" onclick="toggleChart(this,'gold')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;border-left:1px solid rgba(255,255,255,.3);transition:all .2s">金幣</button><button class="ct-btn active" data-type="star" onclick="toggleChart(this,'star')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;border-left:1px solid rgba(255,255,255,.3);transition:all .2s">星幣</button></div></div>
-<div id="chartsContainer" style="display:flex;flex-wrap:wrap;gap:8px;max-width:1400px">
-<div class="card" id="chart-all" style="flex:1 1 calc(33.333% - 6px);min-width:420px;padding:28px 32px">
+<div id="chartsContainer" style="display:flex;gap:8px;max-width:1400px;position:relative;align-items:stretch">
+<button id="navPrev" class="chart-nav-btn" onclick="navChart(-1)" style="display:none;position:absolute;left:-18px;top:50%;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid #E5E7EB;background:#fff;cursor:pointer;font-size:18px;color:#64748B;box-shadow:0 2px 6px rgba(0,0,0,.1)">‹</button>
+<button id="navNext" class="chart-nav-btn" onclick="navChart(1)" style="display:none;position:absolute;right:-18px;top:50%;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid #E5E7EB;background:#fff;cursor:pointer;font-size:18px;color:#64748B;box-shadow:0 2px 6px rgba(0,0,0,.1)">›</button>
+<div class="card chart-card" id="chart-all" style="flex:2 1 0;min-width:0;padding:28px 32px">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">全部 登入人數</div><div style="display:flex;align-items:center;gap:12px"><span style="font-size:36px;font-weight:700;color:#0F172A">0</span><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div></div>
 <div style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'all','today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'all','d7')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,3"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'all','d30')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="2,2"/></svg>30天前</span></div>
@@ -96,7 +98,7 @@ td a{color:#2563EB;font-weight:500}
 <div style="position:absolute;bottom:-20px;right:-12px;font-size:11px;color:#94A3B8">時</div>
 </div>
 </div>
-<div class="card" id="chart-gold" style="flex:1 1 calc(33.333% - 6px);min-width:420px;padding:28px 32px">
+<div class="card chart-card" id="chart-gold" style="flex:1 1 0;min-width:0;padding:28px 32px">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">金幣 登入人數</div><div style="display:flex;align-items:center;gap:12px"><span style="font-size:36px;font-weight:700;color:#0F172A">0</span><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div></div>
 <div style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','d7')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,3"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','d30')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="2,2"/></svg>30天前</span></div>
@@ -108,7 +110,7 @@ td a{color:#2563EB;font-weight:500}
 <div style="position:absolute;bottom:-20px;right:-12px;font-size:11px;color:#94A3B8">時</div>
 </div>
 </div>
-<div class="card" id="chart-star" style="flex:1 1 calc(33.333% - 6px);min-width:420px;padding:28px 32px">
+<div class="card chart-card" id="chart-star" style="flex:1 1 0;min-width:0;padding:28px 32px">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
 <div><div style="font-size:14px;color:#64748B;margin-bottom:6px">星幣 登入人數</div><div style="display:flex;align-items:center;gap:12px"><span style="font-size:36px;font-weight:700;color:#0F172A">0</span><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div></div>
 <div style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','d7')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,3"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','d30')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="2,2"/></svg>30天前</span></div>
@@ -127,6 +129,9 @@ td a{color:#2563EB;font-weight:500}
 <style>
 @keyframes drawLine { to { stroke-dashoffset: 0; } }
 @keyframes fadeIn { to { opacity: 1; } }
+.chart-nav-btn:hover{background:#F3F4F6;color:#2563EB;border-color:#2563EB}
+@media(max-width:1100px){#chartsContainer{flex-wrap:nowrap;overflow:hidden}.chart-card{flex:0 0 calc(50% - 4px)!important}.chart-nav-btn{display:flex!important;align-items:center;justify-content:center}}
+@media(max-width:768px){#chartsContainer{flex-direction:column;flex-wrap:nowrap}.chart-card{flex:none!important;width:100%!important;min-width:0!important}.chart-nav-btn{display:none!important}}
 </style>
 <script>
 const chartData = {
@@ -146,8 +151,38 @@ function toggleChart(btn, type) {
   updateLayout();
 }
 function updateLayout() {
-  // no-op, flex-wrap handles layout automatically
+  const w = window.innerWidth;
+  const cards = document.querySelectorAll('.chart-card');
+  const prev = document.getElementById('navPrev');
+  const next = document.getElementById('navNext');
+  if(w > 1100) {
+    // 寬螢幕：全部顯示
+    cards.forEach(c => { c.style.display=''; c.style.transform=''; });
+    prev.style.display='none'; next.style.display='none';
+  } else if(w > 768) {
+    // 中螢幕：顯示當前兩張
+    applyNavView();
+  } else {
+    // 窄螢幕：全部垂直排列
+    cards.forEach(c => { c.style.display=''; c.style.transform=''; });
+    prev.style.display='none'; next.style.display='none';
+  }
 }
+let navIdx = 0;
+function navChart(dir) {
+  const cards = [...document.querySelectorAll('.chart-card')].filter(c=>c.style.display!=='none'||!c.dataset.hidden);
+  navIdx = Math.max(0, Math.min(cards.length - 2, navIdx + dir));
+  applyNavView();
+}
+function applyNavView() {
+  const cards = [...document.querySelectorAll('.chart-card')];
+  const visibleCards = cards.filter(c => !c.dataset.hidden);
+  visibleCards.forEach((c,i) => { c.style.display = (i>=navIdx && i<navIdx+2) ? '' : 'none'; });
+  document.getElementById('navPrev').style.display = navIdx > 0 ? '' : 'none';
+  document.getElementById('navNext').style.display = navIdx < visibleCards.length - 2 ? '' : 'none';
+}
+window.addEventListener('resize', updateLayout);
+setTimeout(updateLayout, 100);
 function toggleLine(el, chartType, lineKey) {
   lineHidden[chartType][lineKey] = !lineHidden[chartType][lineKey];
   el.style.opacity = lineHidden[chartType][lineKey] ? '0.35' : '1';
