@@ -87,7 +87,7 @@ td a{color:#2563EB;font-weight:500}
 <div style="margin-top:12px;display:flex;gap:4px"><button class="gran-btn active" onclick="switchGran(this)">日</button><button class="gran-btn" onclick="switchGran(this)">週</button><button class="gran-btn" onclick="switchGran(this)">月</button><button class="gran-btn" onclick="switchGran(this)">年</button></div></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="card-title"><span>金幣總量趨勢</span></div><button class="btn btn-outline" style="font-size:12px;padding:6px 12px" onclick="exportCSV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 匯出</button></div><div class="card-desc">系統貨幣流通與儲備構成分析</div>
 <div class="chart-legend" style="display:flex;gap:20px;margin-bottom:12px;font-size:12px;justify-content:center"><span class="legend-item" style="display:flex;align-items:center;gap:4px;cursor:pointer" onclick="toggleDataset(0,this)"><span style="width:8px;height:8px;background:#F97316;border-radius:50%"></span>金幣數值</span><span class="legend-item" style="display:flex;align-items:center;gap:4px;cursor:pointer" onclick="toggleDataset(1,this)"><span style="width:8px;height:8px;background:#8B5CF6;border-radius:50%"></span>星幣數值</span></div>
-<div style="height:320px;padding-top:20px"><canvas id="coinChart"></canvas></div></div></div>
+<div style="height:340px;position:relative"><div style="position:absolute;top:0;left:0;font-size:12px;color:#94A3B8">幣量</div><canvas id="coinChart" style="padding-top:20px"></canvas></div></div></div>
 </div>
 </div>
 <style>
@@ -124,8 +124,8 @@ const granData={
   year:{labels:['2024年','2025年','2026年'],gold:[1800000000,2500000000,2812000000],star:[20000000,30000000,36000000]}
 };
 let coinChart=new Chart(document.getElementById('coinChart'),{type:'bar',data:{labels:granData.day.labels,datasets:[{label:'金幣數值',data:granData.day.gold,backgroundColor:'#F97316',stack:'stack'},{label:'星幣數值',data:granData.day.star,backgroundColor:'#8B5CF6',stack:'stack'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,usePointStyle:true,backgroundColor:'#fff',titleColor:'#64748B',bodyColor:'#1E293B',borderColor:'#E5E7EB',borderWidth:1,padding:{top:12,bottom:12,left:14,right:14},boxPadding:6,titleFont:{size:12},bodyFont:{size:13,weight:'bold'},bodySpacing:8,callbacks:{title:function(items){return items[0].label},label:function(ctx){return ctx.dataset.label+'　'+ctx.raw.toLocaleString()},afterBody:function(items){const total=items.reduce((s,i)=>s+i.raw,0);return '─────────────────\n全部 UID 持幣總額　'+total.toLocaleString()},labelColor:function(ctx){return{borderColor:ctx.dataset.backgroundColor,backgroundColor:ctx.dataset.backgroundColor,borderWidth:2,borderRadius:4}}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:false},ticks:{callback:function(v){if(v>=1e9)return(v/1e9).toFixed(1)+'B';if(v>=1e6)return(v/1e6).toFixed(0)+'M';return v}},grid:{color:'#E5E7EB',borderDash:[3,3]}}}}});
-// 幣量 label on top of y-axis
-Chart.register({id:'yTopLabel',afterDraw(chart){const{ctx,chartArea}=chart;ctx.save();ctx.font='12px Inter,sans-serif';ctx.fillStyle='#94A3B8';ctx.textAlign='left';ctx.fillText('幣量',chartArea.left-10,chartArea.top-10);ctx.restore();}});
+// 幣量 label - now using HTML element above, remove plugin
+Chart.register({id:'yTopLabel',afterDraw(chart){}});
 function switchGranChart(gran){
   const d=granData[gran];
   coinChart.data.labels=d.labels;
