@@ -97,7 +97,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>遊戲數據</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">玩家排行榜</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
 <div class="filter-group"><label class="filter-label">日期範圍</label><div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">2026/06/01 - 2026/06/07</span></div></div></div>
-<div class="filter-group"><label class="filter-label">帳號/暱稱</label><input type="text" class="filter-input" placeholder="搜尋帳號或暱稱" style="min-width:220px"></div>
+<div class="filter-group"><label class="filter-label">帳號/暱稱</label><div style="display:flex;position:relative"><select class="filter-select" id="searchType" style="min-width:auto;width:110px;border-radius:8px 0 0 8px;border-right:none"><option value="account">會員帳號</option><option value="nickname">會員暱稱</option></select><div style="position:relative;flex:1"><input type="text" class="filter-input" id="searchInput" placeholder="搜尋帳號" style="min-width:160px;border-radius:0 8px 8px 0" oninput="showSuggestions(this.value)" onfocus="showSuggestions(this.value)" onblur="setTimeout(()=>document.getElementById('suggestBox').style.display='none',200)"><div id="suggestBox" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;margin-top:4px;box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:50;max-height:180px;overflow-y:auto"></div></div></div></div>
 <div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option><option>金幣</option><option>星幣</option></select></div>
 <button class="btn btn-primary" onclick="alert('已查詢')">查詢</button><button class="btn btn-outline">重置</button></div></div>
 <div class="card"><div class="card-title">玩家贏分排行榜</div><div class="card-desc">分析排行期間內，玩家的輸贏表現、押注倍率與帳戶狀態。</div>
@@ -163,6 +163,19 @@ rows.forEach(r=>tbody.appendChild(r));
 });
 }
 });
+// Search suggestions
+const searchType=document.getElementById('searchType');
+const searchInput=document.getElementById('searchInput');
+searchType.addEventListener('change',()=>{searchInput.placeholder=searchType.value==='account'?'搜尋帳號':'搜尋暱稱（2-14字元）';searchInput.value='';document.getElementById('suggestBox').style.display='none';});
+function showSuggestions(val){
+  const box=document.getElementById('suggestBox');
+  if(!val||val.length<1){box.style.display='none';return;}
+  const field=searchType.value==='account'?'uid':'nick';
+  const matches=players.filter(p=>p[field].toLowerCase().includes(val.toLowerCase())).slice(0,5);
+  if(!matches.length){box.style.display='none';return;}
+  box.innerHTML=matches.map(p=>'<div style="padding:10px 14px;cursor:pointer;font-size:13px;color:#334155;border-bottom:1px solid #F1F5F9" onmousedown="document.getElementById(\'searchInput\').value=\''+p[field]+'\';document.getElementById(\'suggestBox\').style.display=\'none\'">'+p[field].replace(new RegExp('('+val+')','gi'),'<b style=\"color:#2563EB\">$1</b>')+'</div>').join('');
+  box.style.display='block';
+}
 </script>
 <script src="components/date-picker.js"></script>
 </body>
