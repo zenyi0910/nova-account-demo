@@ -86,7 +86,7 @@ td a{color:#2563EB;font-weight:500}
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div>
 <div style="margin-top:12px;display:flex;gap:4px"><button class="gran-btn active" onclick="switchGran(this)">日</button><button class="gran-btn" onclick="switchGran(this)">週</button><button class="gran-btn" onclick="switchGran(this)">月</button><button class="gran-btn" onclick="switchGran(this)">年</button></div></div>
 <div class="card"><div class="card-title" style="justify-content:space-between"><span>金幣總量趨勢</span><button class="btn btn-outline" style="font-size:12px;padding:6px 12px" onclick="exportCSV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 匯出</button></div><div class="card-desc">系統貨幣流通與儲備構成分析</div>
-<div class="chart-legend" style="display:flex;gap:20px;margin-bottom:12px;font-size:12px;justify-content:center"><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#3B82F6;border-radius:50%"></span>全部 UID 持幣總額</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#F97316;border-radius:50%"></span>金幣數值</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#8B5CF6;border-radius:50%"></span>星幣數值</span></div>
+<div class="chart-legend" style="display:flex;gap:20px;margin-bottom:12px;font-size:12px;justify-content:center"><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#F97316;border-radius:50%"></span>金幣數值</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;background:#8B5CF6;border-radius:50%"></span>星幣數值</span></div>
 <div style="height:320px"><canvas id="coinChart"></canvas></div></div></div>
 </div>
 </div>
@@ -101,17 +101,36 @@ tfoot td{border-bottom:none}
 function switchGran(btn){
   btn.parentNode.querySelectorAll('.gran-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+  const map={'日':'day','週':'week','月':'month','年':'year'};
+  switchGranChart(map[btn.textContent]);
 }
 function exportCSV(){
-  const csv='日期,全部 UID 持幣總額,金幣數值,星幣數值\n1d,2847500000,2810000000,37500000\n2d,2852000000,2815000000,37000000\n3d,2845000000,2808000000,37000000\n4d,2654504500,2615751056,38753444\n5d,2848000000,2812000000,36000000\n6d,2835000000,2798000000,37000000\n7d,2810000000,1200000000,38000000\n8d,2780000000,50000000,37500000';
+  const active=document.querySelector('.gran-btn.active').textContent;
+  const map={'日':'day','週':'week','月':'month','年':'year'};
+  const d=granData[map[active]];
+  let csv='日期,金幣數值,星幣數值,合計\n';
+  d.labels.forEach((l,i)=>{csv+=l+','+d.gold[i]+','+d.star[i]+','+(d.gold[i]+d.star[i])+'\n';});
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='金幣總量趨勢_2026-06.csv';
+  a.download='金幣總量趨勢_'+active+'.csv';
   a.click();
 }
 // Chart.js
-new Chart(document.getElementById('coinChart'),{type:'line',data:{labels:['1d','2d','3d','4d','5d','6d','7d','8d'],datasets:[{label:'全部 UID 持幣總額',data:[2847500000,2852000000,2845000000,2654504500,2848000000,2835000000,2810000000,2780000000],borderColor:'#3B82F6',backgroundColor:'rgba(59,130,246,.02)',pointRadius:4,pointBackgroundColor:'#3B82F6',tension:.3,fill:false},{label:'金幣數值',data:[2810000000,2815000000,2808000000,2615751056,2812000000,2798000000,1200000000,50000000],borderColor:'#F97316',backgroundColor:'rgba(249,115,22,.1)',pointRadius:4,pointBackgroundColor:'#F97316',tension:.3,fill:true},{label:'星幣數值',data:[37500000,37000000,37000000,38753444,36000000,37000000,38000000,37500000],borderColor:'#8B5CF6',backgroundColor:'rgba(139,92,246,.02)',pointRadius:4,pointBackgroundColor:'#8B5CF6',tension:.3,fill:false}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,usePointStyle:true,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+'　'+ctx.raw.toLocaleString()},labelColor:function(ctx){return{borderColor:ctx.dataset.borderColor,backgroundColor:ctx.dataset.borderColor,borderRadius:4}}}}},scales:{x:{grid:{display:false}},y:{title:{display:true,text:'幣量',color:'#94A3B8'},ticks:{callback:function(v){if(v>=1e9)return(v/1e9).toFixed(0)+'B';if(v>=1e6)return(v/1e6).toFixed(0)+'M';return v}},grid:{color:'#E5E7EB',borderDash:[3,3]}}}}});
+const granData={
+  day:{labels:['6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8'],gold:[2810000000,2815000000,2808000000,2615751056,2812000000,2798000000,1200000000,50000000],star:[37500000,37000000,37000000,38753444,36000000,37000000,38000000,37500000]},
+  week:{labels:['5/5','5/12','5/19','5/26','6/2'],gold:[2780000000,2820000000,2805000000,2830000000,2812000000],star:[36000000,37500000,37200000,38000000,36000000]},
+  month:{labels:['1月','2月','3月','4月','5月','6月'],gold:[2500000000,2600000000,2700000000,2750000000,2800000000,2812000000],star:[30000000,32000000,34000000,35000000,37000000,36000000]},
+  year:{labels:['2024年','2025年','2026年'],gold:[1800000000,2500000000,2812000000],star:[20000000,30000000,36000000]}
+};
+let coinChart=new Chart(document.getElementById('coinChart'),{type:'bar',data:{labels:granData.day.labels,datasets:[{label:'金幣數值',data:granData.day.gold,backgroundColor:'#F97316',stack:'total'},{label:'星幣數值',data:granData.day.star,backgroundColor:'#8B5CF6',stack:'total'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,usePointStyle:true,callbacks:{label:function(ctx){return ' '+ctx.dataset.label+'　'+ctx.raw.toLocaleString()},labelColor:function(ctx){return{borderColor:ctx.dataset.backgroundColor,backgroundColor:ctx.dataset.backgroundColor,borderRadius:4}}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:true,text:'幣量',color:'#94A3B8'},ticks:{callback:function(v){if(v>=1e9)return(v/1e9).toFixed(1)+'B';if(v>=1e6)return(v/1e6).toFixed(0)+'M';return v}},grid:{color:'#E5E7EB',borderDash:[3,3]}}}}});
+function switchGranChart(gran){
+  const d=granData[gran];
+  coinChart.data.labels=d.labels;
+  coinChart.data.datasets[0].data=d.gold;
+  coinChart.data.datasets[1].data=d.star;
+  coinChart.update();
+}
 </script>
 <script src="components/date-picker.js"></script>
 </body>
