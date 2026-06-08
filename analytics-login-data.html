@@ -197,8 +197,8 @@ function renderChart(type) {
   const maxVal = niceMax(rawMax) || 10;
   // 動態計算 SVG 寬度（根據實際容器寬度）
   const wrapRect = wrap.getBoundingClientRect();
-  const svgW = Math.max(440, wrapRect.width - 10);
-  const svgH = 200;
+  const svgW = Math.round(wrapRect.width);
+  const svgH = Math.round(wrapRect.height);
   svg.setAttribute('viewBox', '0 0 '+svgW+' '+svgH);
   // 動態更新 Y 軸刻度
   wrap.querySelectorAll('.y-label-dyn').forEach(el => el.remove());
@@ -216,9 +216,13 @@ function renderChart(type) {
   }
   svg.querySelectorAll('.dyn').forEach(m => m.remove());
   // 更新背景網格線
-  svg.querySelectorAll('line').forEach(line => {
-    const y = line.getAttribute('y1');
-    line.setAttribute('x2', svgW);
+  svg.querySelectorAll('line').forEach(line => line.remove());
+  [0.2, 0.4, 0.6, 0.8].forEach(pct => {
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1','0'); l.setAttribute('x2', svgW);
+    l.setAttribute('y1', Math.round(svgH*pct)); l.setAttribute('y2', Math.round(svgH*pct));
+    l.setAttribute('stroke','#F1F5F9'); l.setAttribute('stroke-width','1');
+    svg.appendChild(l);
   });
   let delay = 0;
   [{key:'today'},{key:'d7'},{key:'d30'}].forEach(cfg => {
