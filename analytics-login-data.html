@@ -177,9 +177,11 @@ function applyNavView() {
   visibleCards.forEach((c,i) => { c.style.display = (i>=navIdx && i<navIdx+2) ? '' : 'none'; });
   document.getElementById('navPrev').style.display = navIdx > 0 ? '' : 'none';
   document.getElementById('navNext').style.display = navIdx < visibleCards.length - 2 ? '' : 'none';
+  // 重繪可見圖表
+  setTimeout(()=>{ visibleCards.forEach(c => { if(c.style.display!=='none') renderChart(c.querySelector('[data-chart]').dataset.chart); }); }, 50);
 }
-window.addEventListener('resize', ()=>{ updateLayout(); renderChart('all'); renderChart('gold'); renderChart('star'); });
-setTimeout(()=>{ updateLayout(); renderChart('all'); renderChart('gold'); renderChart('star'); }, 100);
+window.addEventListener('resize', ()=>{ updateLayout(); document.querySelectorAll('.chart-card').forEach(c=>{ if(c.style.display!=='none') renderChart(c.querySelector('[data-chart]').dataset.chart); }); });
+setTimeout(()=>{ updateLayout(); document.querySelectorAll('.chart-card').forEach(c=>{ if(c.style.display!=='none') renderChart(c.querySelector('[data-chart]').dataset.chart); }); }, 100);
 function toggleLine(el, chartType, lineKey) {
   lineHidden[chartType][lineKey] = !lineHidden[chartType][lineKey];
   el.style.opacity = lineHidden[chartType][lineKey] ? '0.35' : '1';
