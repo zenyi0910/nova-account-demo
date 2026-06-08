@@ -83,7 +83,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right" style="margin-left:12px"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
 <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><div class="chart-toggle" style="display:inline-flex;border:1px solid #2563EB;border-radius:8px;overflow:hidden"><button class="ct-btn active" data-type="all" onclick="toggleChart(this,'all')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;transition:all .2s">全部</button><button class="ct-btn active" data-type="gold" onclick="toggleChart(this,'gold')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;border-left:1px solid rgba(255,255,255,.3);transition:all .2s">金幣</button><button class="ct-btn active" data-type="star" onclick="toggleChart(this,'star')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;border-left:1px solid rgba(255,255,255,.3);transition:all .2s">星幣</button></div></div>
-<div id="chartsContainer" style="display:flex;flex-wrap:nowrap;gap:8px;max-width:1400px;position:relative;align-items:stretch">
+<div id="chartsContainer" style="display:flex;flex-wrap:nowrap;gap:8px;position:relative;align-items:stretch">
 <button id="navPrev" class="chart-nav-btn" onclick="navChart(-1)" style="display:none;position:absolute;left:-18px;top:50%;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid #E5E7EB;background:#fff;cursor:pointer;font-size:18px;color:#64748B;box-shadow:0 2px 6px rgba(0,0,0,.1)">‹</button>
 <button id="navNext" class="chart-nav-btn" onclick="navChart(1)" style="display:none;position:absolute;right:-18px;top:50%;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1px solid #E5E7EB;background:#fff;cursor:pointer;font-size:18px;color:#64748B;box-shadow:0 2px 6px rgba(0,0,0,.1)">›</button>
 <div class="card chart-card" id="chart-all" style="flex:2 1 0;min-width:0;padding:28px 32px">
@@ -181,8 +181,8 @@ function applyNavView() {
   document.getElementById('navPrev').style.display = navIdx > 0 ? '' : 'none';
   document.getElementById('navNext').style.display = navIdx < visibleCards.length - 2 ? '' : 'none';
 }
-window.addEventListener('resize', updateLayout);
-setTimeout(updateLayout, 100);
+window.addEventListener('resize', ()=>{ updateLayout(); renderChart('all'); renderChart('gold'); renderChart('star'); });
+setTimeout(()=>{ updateLayout(); renderChart('all'); renderChart('gold'); renderChart('star'); }, 100);
 function toggleLine(el, chartType, lineKey) {
   lineHidden[chartType][lineKey] = !lineHidden[chartType][lineKey];
   el.style.opacity = lineHidden[chartType][lineKey] ? '0.35' : '1';
@@ -197,7 +197,7 @@ function renderChart(type) {
   const rawMax = Math.max(...allVals);
   // 智能刻度：找最近的 nice number
   function niceMax(v) { if(v<=10) return 10; if(v<=25) return 25; if(v<=50) return 50; const mag=Math.pow(10,Math.floor(Math.log10(v))); const opts=[1,2,2.5,5,10]; for(let o of opts){const n=mag*o;if(n>=v)return n;} return Math.ceil(v/mag)*mag; }
-  const maxVal = niceMax(rawMax) || 25;
+  const maxVal = niceMax(rawMax) || 10;
   // 動態計算 SVG 寬度（根據實際容器寬度）
   const wrapRect = wrap.getBoundingClientRect();
   const svgW = Math.max(440, wrapRect.width - 10);
