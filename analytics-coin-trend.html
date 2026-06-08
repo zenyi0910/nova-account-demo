@@ -81,7 +81,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>金幣數據分析</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">金幣總量趨勢</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">月份選擇</label><div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">2026 年 6月</span></div></div></div>
+<div class="filter-group"><label class="filter-label">月份選擇</label><div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px" onclick="toggleMonthPicker()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display" id="monthDisplay">2026 年 6月</span></div><div class="month-dropdown" id="monthDropdown" style="display:none;position:absolute;top:42px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);padding:12px;z-index:50;width:240px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><button onclick="changeYear(-1)" style="border:none;background:none;cursor:pointer;font-size:16px;color:#64748B">‹</button><span id="yearLabel" style="font-weight:600">2026</span><button onclick="changeYear(1)" style="border:none;background:none;cursor:pointer;font-size:16px;color:#64748B">›</button></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px" id="monthGrid"></div></div></div></div>
 <div class="filter-group"><label class="filter-label">VIP 等級</label><select class="filter-select"><option>全部 VIP</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
 <div class="card"><div class="card-title">金幣總量趨勢</div><div class="card-desc">系統貨幣流通與儲備構成分析</div>
@@ -89,7 +89,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="chart-placeholder"><svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 20 L50 22 L100 21 L150 23 L200 22 L250 24 L300 25 L350 30 L400 35" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M0 25 L50 27 L100 26 L150 28 L200 27 L250 29 L300 30 L350 80 L400 140" fill="none" stroke="#F97316" stroke-width="2"/><path d="M0 140 L50 140 L100 141 L150 140 L200 141 L250 140 L300 141 L350 140 L400 141" fill="none" stroke="#8B5CF6" stroke-width="2"/></svg></div></div>
 <div class="card"><div class="card-title">數據清單</div><div class="card-desc">依時間粒度顯示金幣數據明細</div>
 <div class="granularity-switch" style="display:flex;gap:4px;margin-bottom:16px"><button class="gran-btn active" onclick="switchGran(this)">日</button><button class="gran-btn" onclick="switchGran(this)">週</button><button class="gran-btn" onclick="switchGran(this)">月</button><button class="gran-btn" onclick="switchGran(this)">年</button></div>
-<div class="table-wrap"><table><thead><tr><th>日期 <span class="drill" title="下鑽">＋</span><span class="drill" title="上探">－</span></th><th>Revenue</th><th>GGR 金幣</th><th>GGR 星幣</th><th>押碼量 金幣</th><th>押碼量 星幣</th><th>RTP</th><th>PU</th><th>DAU</th><th>NU</th></tr></thead>
+<div class="table-wrap"><table><thead><tr><th>日期</th><th>Revenue</th><th>GGR 金幣</th><th>GGR 星幣</th><th>押碼量 金幣</th><th>押碼量 星幣</th><th>RTP</th><th>PU</th><th>DAU</th><th>NU</th></tr></thead>
 <tbody>
 <tr><td>6/1</td><td>125,000</td><td>98,000</td><td>27,000</td><td>1,200,000</td><td>350,000</td><td>91.2%</td><td>45</td><td>320</td><td>12</td></tr>
 <tr><td>6/2</td><td>132,000</td><td>102,000</td><td>30,000</td><td>1,350,000</td><td>380,000</td><td>89.8%</td><td>52</td><td>345</td><td>8</td></tr>
@@ -107,7 +107,6 @@ td a{color:#2563EB;font-weight:500}
 .gran-btn{padding:6px 16px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#64748B;transition:all .2s}
 .gran-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}
 .gran-btn:hover:not(.active){background:#F9FAFB}
-.drill{cursor:pointer;font-size:14px;color:#94A3B8;margin-left:4px}.drill:hover{color:#2563EB}
 tfoot td{border-bottom:none}
 </style>
 <script>
@@ -115,6 +114,25 @@ function switchGran(btn){
   btn.parentNode.querySelectorAll('.gran-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
+let pickerYear=2026, pickerMonth=6;
+function toggleMonthPicker(){
+  const dd=document.getElementById('monthDropdown');
+  dd.style.display=dd.style.display==='none'?'block':'none';
+  renderMonths();
+}
+function changeYear(d){pickerYear+=d;document.getElementById('yearLabel').textContent=pickerYear;renderMonths();}
+function renderMonths(){
+  const grid=document.getElementById('monthGrid');
+  grid.innerHTML='';
+  for(let m=1;m<=12;m++){
+    const btn=document.createElement('button');
+    btn.textContent=m+'月';
+    btn.style.cssText='padding:6px;border:1px solid #E5E7EB;border-radius:4px;background:'+(m===pickerMonth&&pickerYear===2026?'#2563EB':'#fff')+';color:'+(m===pickerMonth&&pickerYear===2026?'#fff':'#334155')+';cursor:pointer;font-size:12px';
+    btn.onclick=function(){pickerMonth=m;document.getElementById('monthDisplay').textContent=pickerYear+' 年 '+m+'月';document.getElementById('monthDropdown').style.display='none';renderMonths();};
+    grid.appendChild(btn);
+  }
+}
+renderMonths();
 </script>
 </body>
 </html>
