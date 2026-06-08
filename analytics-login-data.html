@@ -146,12 +146,14 @@ function toggleChart(btn, type) {
   const isActive = btn.classList.contains('active');
   btn.style.background = isActive ? '#2563EB' : '#fff';
   btn.style.color = isActive ? '#fff' : '#2563EB';
-  document.getElementById('chart-'+type).style.display = isActive ? '' : 'none';
-  updateLayout();
+  const card = document.getElementById('chart-'+type);
+  card.style.display = isActive ? '' : 'none';
+  card.dataset.hidden = isActive ? '' : '1';
 }
 function updateLayout() {
-  const cards = document.querySelectorAll('.chart-card');
-  cards.forEach(c => { c.style.display=''; });
+  document.querySelectorAll('.chart-card').forEach(c => {
+    if(!c.dataset.hidden) c.style.display='';
+  });
   document.getElementById('navPrev').style.display='none';
   document.getElementById('navNext').style.display='none';
 }
@@ -268,8 +270,8 @@ document.querySelectorAll('.chart-svg-wrap').forEach(chart => {
     const rect = chart.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const w = rect.width;
-    const idx = Math.min(11, Math.max(0, Math.round(x/w*11)));
-    const snapX = (idx/11)*w;
+    const idx = Math.min(23, Math.max(0, Math.round(x/w*23)));
+    const snapX = (idx/23)*w;
     vline.style.display = 'block'; vline.style.left = snapX+'px';
     tip.style.display = 'block'; tip.style.left = Math.min(snapX+12, w-160)+'px'; tip.style.top = '8px';
     const type = chart.dataset.chart;
