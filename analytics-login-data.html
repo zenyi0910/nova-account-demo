@@ -200,7 +200,7 @@ function renderChart(type) {
   const maxVal = niceMax(rawMax) || 10;
   // 動態計算 SVG 寬度（根據實際容器寬度）
   const wrapRect = wrap.getBoundingClientRect();
-  const svgW = Math.round(wrapRect.width);
+  const svgW = Math.max(440, Math.round(wrapRect.width));
   const svgH = Math.round(wrapRect.height);
   svg.setAttribute('viewBox', '0 0 '+svgW+' '+svgH);
   // 動態更新 Y 軸刻度
