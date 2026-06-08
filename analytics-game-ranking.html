@@ -45,8 +45,9 @@ a{color:#3B82F6;text-decoration:none}
 .btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}.btn-outline:hover{background:#F9FAFB}
 .table-wrap{overflow-x:auto;border-radius:8px}
 table{width:100%;border-collapse:collapse}
-th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap}
-td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#334155}
+th{background:#F9FAFB;padding:14px 16px;text-align:left;font-size:13px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:#334155}
+td{padding:14px 16px;border-bottom:1px solid #F1F5F9;font-size:14px;color:#334155}
 tr:hover td{background:rgba(59,130,246,.02)}
 td a{color:#2563EB;font-weight:500}
 .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#64748B}
@@ -80,7 +81,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>遊戲數據</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">遊戲排行榜</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/06/01 - 2026/06/07" style="min-width:200px"></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><div style="display:flex;gap:8px;align-items:center"><input type="date" class="filter-input" value="2026-06-01" style="min-width:140px"><span style="color:#94A3B8">~</span><input type="date" class="filter-input" value="2026-06-07" style="min-width:140px"></div></div>
 <div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option><option>星幣</option><option>金幣</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
 
@@ -94,5 +95,31 @@ td a{color:#2563EB;font-weight:500}
 <div class="pagination"><div>顯示排名：<select class="filter-select" style="min-width:100px;padding:4px 10px;font-size:12px"><option>前 100 名</option><option>前 50 名</option><option>前 200 名</option></select></div><div style="display:flex;align-items:center;gap:8px"><span>共 16 筆　第 1 頁 / 1 頁</span><div style="display:flex;gap:4px"><button class="page-btn" disabled>|&lt;</button><button class="page-btn" disabled>&lt;</button><button class="page-btn active">1</button><button class="page-btn" disabled>&gt;</button><button class="page-btn" disabled>&gt;|</button></div></div></div></div></div>
 </div>
 </div>
+<script>
+document.querySelectorAll('th').forEach((th, i) => {
+  if (i === 0) return;
+  th.addEventListener('click', function() {
+    const table = this.closest('table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const idx = Array.from(this.parentNode.children).indexOf(this);
+    const asc = this.dataset.sort !== 'asc';
+    this.parentNode.querySelectorAll('th').forEach(h => h.dataset.sort = '');
+    this.dataset.sort = asc ? 'asc' : 'desc';
+    rows.sort((a, b) => {
+      let va = a.children[idx]?.textContent.trim().replace(/[,%+]/g, '') || '';
+      let vb = b.children[idx]?.textContent.trim().replace(/[,%+]/g, '') || '';
+      const na = parseFloat(va.replace(/,/g, '')), nb = parseFloat(vb.replace(/,/g, ''));
+      if (!isNaN(na) && !isNaN(nb)) return asc ? na - nb : nb - na;
+      return asc ? va.localeCompare(vb, 'zh') : vb.localeCompare(va, 'zh');
+    });
+    rows.forEach(r => tbody.appendChild(r));
+    // 更新 svg 顏色
+    this.parentNode.querySelectorAll('th svg').forEach(s => s.style.opacity = '.5');
+    const svg = this.querySelector('svg');
+    if (svg) svg.style.opacity = '1';
+  });
+});
+</script>
 </body>
 </html>
