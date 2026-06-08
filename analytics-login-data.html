@@ -198,7 +198,11 @@ function renderChart(type) {
   // 智能刻度：找最近的 nice number
   function niceMax(v) { if(v<=10) return 10; if(v<=25) return 25; if(v<=50) return 50; const mag=Math.pow(10,Math.floor(Math.log10(v))); const opts=[1,2,2.5,5,10]; for(let o of opts){const n=mag*o;if(n>=v)return n;} return Math.ceil(v/mag)*mag; }
   const maxVal = niceMax(rawMax) || 25;
-  const svgW = 440, svgH = 200;
+  // 動態計算 SVG 寬度（根據實際容器寬度）
+  const wrapRect = wrap.getBoundingClientRect();
+  const svgW = Math.max(440, wrapRect.width - 10);
+  const svgH = 200;
+  svg.setAttribute('viewBox', '0 0 '+svgW+' '+svgH);
   // 動態更新 Y 軸刻度
   wrap.querySelectorAll('.y-label-dyn').forEach(el => el.remove());
   const ySteps = [1, 0.8, 0.6, 0.4, 0.2, 0];
@@ -214,6 +218,11 @@ function renderChart(type) {
     return arr.map((v,i) => Math.round(i*step)+','+Math.round(svgH-v/maxVal*svgH)).join(' ');
   }
   svg.querySelectorAll('.dyn').forEach(m => m.remove());
+  // 更新背景網格線
+  svg.querySelectorAll('line').forEach(line => {
+    const y = line.getAttribute('y1');
+    line.setAttribute('x2', svgW);
+  });
   let delay = 0;
   [{key:'today'},{key:'d7'},{key:'d30'}].forEach(cfg => {
     if (lineHidden[type][cfg.key]) return;
