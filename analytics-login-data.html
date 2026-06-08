@@ -82,76 +82,83 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>管理總覽</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">登入數據</span></div><span style="font-size:12px;color:#94A3B8;margin-left:auto;margin-right:12px">自動刷新 <span style="color:#3B82F6;font-weight:600">12:21</span></span><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><div style="display:inline-flex;border:1px solid #CCC;border-radius:9999px;background:#fff;overflow:hidden"><span class="cur-pill" data-type="all" onclick="selectCurrency(this,'all')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000;background:#E8E8E8;box-shadow:inset 0 2px 4px rgba(0,0,0,.15);border-right:1px solid #CCC">全部</span><span class="cur-pill" data-type="gold" onclick="selectCurrency(this,'gold')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000;border-right:1px solid #CCC">金幣</span><span class="cur-pill" data-type="star" onclick="selectCurrency(this,'star')" style="padding:7px 18px;font-size:13px;cursor:pointer;color:#000">星幣</span></div></div>
-<div class="card">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;padding:0 4px"><div class="chart-toggle" style="display:inline-flex;border:1px solid #2563EB;border-radius:8px;overflow:hidden"><button class="ct-btn active" data-type="gold" onclick="toggleChart(this,'gold')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;transition:all .2s">金幣</button><button class="ct-btn active" data-type="star" onclick="toggleChart(this,'star')" style="padding:7px 20px;font-size:13px;cursor:pointer;border:none;background:#2563EB;color:#fff;font-weight:500;border-left:1px solid rgba(255,255,255,.3);transition:all .2s">星幣</button></div></div>
+<div id="chartsContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div class="card" id="chart-gold">
 <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
-<div><div style="font-size:14px;color:#64748B;margin-bottom:6px">登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
-<div id="legendBox" style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-7d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'line-30d')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="1,2"/></svg>30天前</span></div>
+<div><div style="font-size:14px;color:#64748B;margin-bottom:6px">金幣 登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
+<div style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','d7')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'gold','d30')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="1,2"/></svg>30天前</span></div>
 </div>
-<div class="chart-svg-wrap" style="height:220px;position:relative;margin-left:40px;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:0">
+<div class="chart-svg-wrap" data-chart="gold" style="height:220px;position:relative;margin-left:40px;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:0">
 <div style="position:absolute;left:-40px;top:-4px;font-size:11px;color:#94A3B8">人數</div>
-<div style="position:absolute;left:-32px;top:0;font-size:11px;color:#94A3B8">25</div>
-<div style="position:absolute;left:-32px;top:20%;font-size:11px;color:#94A3B8">20</div>
-<div style="position:absolute;left:-32px;top:40%;font-size:11px;color:#94A3B8">15</div>
-<div style="position:absolute;left:-32px;top:60%;font-size:11px;color:#94A3B8">10</div>
-<div style="position:absolute;left:-32px;top:80%;font-size:11px;color:#94A3B8">5</div>
-<div style="position:absolute;left:-32px;bottom:-4px;font-size:11px;color:#94A3B8">0</div>
-<svg viewBox="0 0 440 200" preserveAspectRatio="none" style="width:100%;height:100%;display:block">
-<line x1="0" y1="40" x2="440" y2="40" stroke="#F1F5F9" stroke-width="1"/>
-<line x1="0" y1="80" x2="440" y2="80" stroke="#F1F5F9" stroke-width="1"/>
-<line x1="0" y1="120" x2="440" y2="120" stroke="#F1F5F9" stroke-width="1"/>
-<line x1="0" y1="160" x2="440" y2="160" stroke="#F1F5F9" stroke-width="1"/>
-</svg>
+<div style="position:absolute;left:-32px;top:0;font-size:11px;color:#94A3B8">25</div><div style="position:absolute;left:-32px;top:20%;font-size:11px;color:#94A3B8">20</div><div style="position:absolute;left:-32px;top:40%;font-size:11px;color:#94A3B8">15</div><div style="position:absolute;left:-32px;top:60%;font-size:11px;color:#94A3B8">10</div><div style="position:absolute;left:-32px;top:80%;font-size:11px;color:#94A3B8">5</div><div style="position:absolute;left:-32px;bottom:-4px;font-size:11px;color:#94A3B8">0</div>
+<svg viewBox="0 0 440 200" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><line x1="0" y1="40" x2="440" y2="40" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="80" x2="440" y2="80" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="120" x2="440" y2="120" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="160" x2="440" y2="160" stroke="#F1F5F9" stroke-width="1"/></svg>
 <div style="position:absolute;bottom:-20px;left:0;right:0;display:flex;justify-content:space-between;font-size:11px;color:#94A3B8"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span></div>
 <div style="position:absolute;bottom:-20px;right:-12px;font-size:11px;color:#94A3B8">時</div>
+</div>
+</div>
+<div class="card" id="chart-star">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
+<div><div style="font-size:14px;color:#64748B;margin-bottom:6px">星幣 登入人數</div><div style="font-size:36px;font-weight:700;color:#0F172A;margin-bottom:8px">0</div><span style="display:inline-flex;align-items:center;padding:3px 10px;border-radius:16px;font-size:12px;color:#0EA5E9;border:1px solid #0EA5E9">今日最新</span></div>
+<div style="display:flex;gap:16px;font-size:12px;color:#64748B;padding-top:4px"><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','today')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#fbcfe8" stroke-width="2"/></svg>今日</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','d7')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#ec4899" stroke-width="2" stroke-dasharray="4,2"/></svg>7天前</span><span class="legend-item" style="display:flex;align-items:center;gap:3px;cursor:pointer" onclick="toggleLine(this,'star','d30')"><svg width="16" height="4"><line x1="0" y1="2" x2="16" y2="2" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="1,2"/></svg>30天前</span></div>
+</div>
+<div class="chart-svg-wrap" data-chart="star" style="height:220px;position:relative;margin-left:40px;border-left:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:0">
+<div style="position:absolute;left:-40px;top:-4px;font-size:11px;color:#94A3B8">人數</div>
+<div style="position:absolute;left:-32px;top:0;font-size:11px;color:#94A3B8">25</div><div style="position:absolute;left:-32px;top:20%;font-size:11px;color:#94A3B8">20</div><div style="position:absolute;left:-32px;top:40%;font-size:11px;color:#94A3B8">15</div><div style="position:absolute;left:-32px;top:60%;font-size:11px;color:#94A3B8">10</div><div style="position:absolute;left:-32px;top:80%;font-size:11px;color:#94A3B8">5</div><div style="position:absolute;left:-32px;bottom:-4px;font-size:11px;color:#94A3B8">0</div>
+<svg viewBox="0 0 440 200" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><line x1="0" y1="40" x2="440" y2="40" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="80" x2="440" y2="80" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="120" x2="440" y2="120" stroke="#F1F5F9" stroke-width="1"/><line x1="0" y1="160" x2="440" y2="160" stroke="#F1F5F9" stroke-width="1"/></svg>
+<div style="position:absolute;bottom:-20px;left:0;right:0;display:flex;justify-content:space-between;font-size:11px;color:#94A3B8"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span></div>
+<div style="position:absolute;bottom:-20px;right:-12px;font-size:11px;color:#94A3B8">時</div>
+</div>
 </div>
 </div>
 <div class="card" style="margin-top:40px;padding:20px 24px"><p style="font-size:13px;color:#475569;line-height:1.8"><strong>登入人數：</strong>統計每小時遊戲的人數。即使同一個人重複登入多次，也只會計算為 1 人。</p></div></div>
 </div>
 </div>
 <script>
-function toggleLine(el, id) {
-  const line = document.getElementById(id);
-  if(!line) return;
-  const visible = line.style.display !== 'none';
-  line.style.display = visible ? 'none' : '';
-  el.style.opacity = visible ? '0.35' : '1';
-  // hide markers for this line
-  document.querySelectorAll('.marker-'+id).forEach(m => m.style.display = visible ? 'none' : '');
-}
 const chartData = {
-  all: {today:[0,0,0,0,0,0,1,2,0,1,2,0],d7:[2,0,4,2,3,1,0,0,2,6,0,0],d30:[10,8,23,12,10,12,16,14,7,16,12,16]},
-  star: {today:[0,0,0,0,0,0,1,1,0,1,1,0],d7:[1,0,3,1,2,1,0,0,1,4,0,0],d30:[7,5,15,8,7,8,11,9,5,11,8,11]},
-  gold: {today:[0,0,0,0,0,0,0,1,0,0,1,0],d7:[1,0,1,1,1,0,0,0,1,2,0,0],d30:[3,3,8,4,3,4,5,5,2,5,4,5]}
+  gold: {today:[0,0,0,0,0,0,0,1,0,0,1,0],d7:[1,0,1,1,1,0,0,0,1,2,0,0],d30:[3,3,8,4,3,4,5,5,2,5,4,5]},
+  star: {today:[0,0,0,0,0,0,1,1,0,1,1,0],d7:[1,0,3,1,2,1,0,0,1,4,0,0],d30:[7,5,15,8,7,8,11,9,5,11,8,11]}
 };
 const lineColors = {today:'#fbcfe8', d7:'#ec4899', d30:'#d8b4fe'};
-let currentCurrency = 'all';
-function selectCurrency(el, type) {
-  const pills = document.querySelectorAll('.cur-pill');
-  pills.forEach(p => { p.style.background = '#fff'; p.style.boxShadow = 'none'; });
-  el.style.background = '#E8E8E8';
-  el.style.boxShadow = 'inset 0 2px 4px rgba(0,0,0,.15)';
-  currentCurrency = type;
-  updateLines();
+const lineHidden = {gold:{today:false,d7:false,d30:false}, star:{today:false,d7:false,d30:false}};
+
+function toggleChart(btn, type) {
+  btn.classList.toggle('active');
+  const isActive = btn.classList.contains('active');
+  btn.style.background = isActive ? '#2563EB' : '#fff';
+  btn.style.color = isActive ? '#fff' : '#2563EB';
+  document.getElementById('chart-'+type).style.display = isActive ? '' : 'none';
+  updateLayout();
 }
-function updateLines() {
-  const svg = document.querySelector('.chart-svg-wrap svg');
-  const d = chartData[currentCurrency];
+function updateLayout() {
+  const container = document.getElementById('chartsContainer');
+  const visible = container.querySelectorAll('.card:not([style*="display: none"])');
+  container.style.gridTemplateColumns = visible.length === 2 ? '1fr 1fr' : '1fr';
+}
+function toggleLine(el, chartType, lineKey) {
+  lineHidden[chartType][lineKey] = !lineHidden[chartType][lineKey];
+  el.style.opacity = lineHidden[chartType][lineKey] ? '0.35' : '1';
+  renderChart(chartType);
+}
+function renderChart(type) {
+  const wrap = document.querySelector('.chart-svg-wrap[data-chart="'+type+'"]');
+  const svg = wrap.querySelector('svg');
+  const d = chartData[type];
   const maxVal = 25, svgW = 440, svgH = 200;
   function toPoints(arr) {
     const step = svgW / (arr.length - 1);
-    return arr.map((v, i) => Math.round(i * step) + ',' + Math.round(svgH - v / maxVal * svgH)).join(' ');
+    return arr.map((v,i) => Math.round(i*step)+','+Math.round(svgH-v/maxVal*svgH)).join(' ');
   }
   svg.querySelectorAll('.dyn').forEach(m => m.remove());
-  [{id:'line-today',key:'today'},{id:'line-7d',key:'d7'},{id:'line-30d',key:'d30'}].forEach(cfg => {
+  [{key:'today'},{key:'d7'},{key:'d30'}].forEach(cfg => {
+    if (lineHidden[type][cfg.key]) return;
     const pl = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-    pl.setAttribute('id', cfg.id);
     pl.setAttribute('points', toPoints(d[cfg.key]));
     pl.setAttribute('fill','none');
     pl.setAttribute('stroke', lineColors[cfg.key]);
     pl.setAttribute('stroke-width','2');
-    if(cfg.key === 'd7') pl.setAttribute('stroke-dasharray','10,6');
-    if(cfg.key === 'd30') pl.setAttribute('stroke-dasharray','2,4');
+    if(cfg.key==='d7') pl.setAttribute('stroke-dasharray','10,6');
+    if(cfg.key==='d30') pl.setAttribute('stroke-dasharray','2,4');
     pl.setAttribute('stroke-linecap','round');
     pl.setAttribute('stroke-linejoin','round');
     pl.classList.add('dyn');
@@ -159,20 +166,18 @@ function updateLines() {
     const step = svgW / (d[cfg.key].length - 1);
     d[cfg.key].forEach((v,i) => {
       const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      const cx = Math.round(i*step), cy = Math.round(svgH-v/maxVal*svgH);
-      r.setAttribute('x',cx-3); r.setAttribute('y',cy-3);
+      r.setAttribute('x',Math.round(i*step)-3); r.setAttribute('y',Math.round(svgH-v/maxVal*svgH)-3);
       r.setAttribute('width','6'); r.setAttribute('height','6');
       r.setAttribute('fill', lineColors[cfg.key]);
-      r.classList.add('dyn','marker-'+cfg.id);
+      r.classList.add('dyn');
       svg.appendChild(r);
     });
   });
 }
-(function(){
-  const chart = document.querySelector('.chart-svg-wrap');
-  chart.style.position = 'relative';
+// Tooltip for each chart
+document.querySelectorAll('.chart-svg-wrap').forEach(chart => {
   const tip = document.createElement('div');
-  tip.style.cssText = 'position:absolute;display:none;background:#fff;color:#334155;padding:10px 12px;border-radius:8px;font-size:12px;pointer-events:none;z-index:10;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid #E5E7EB;min-width:160px';
+  tip.style.cssText = 'position:absolute;display:none;background:#fff;color:#334155;padding:10px 12px;border-radius:8px;font-size:12px;pointer-events:none;z-index:10;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid #E5E7EB;min-width:140px';
   chart.appendChild(tip);
   const vline = document.createElement('div');
   vline.style.cssText = 'position:absolute;display:none;top:0;bottom:0;width:1px;border-left:1px dashed #B0B8C4;pointer-events:none;z-index:5';
@@ -181,27 +186,22 @@ function updateLines() {
     const rect = chart.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const w = rect.width;
-    const idx = Math.min(11, Math.max(0, Math.round(x / w * 11)));
-    const snapX = (idx / 11) * w;
-    vline.style.display = 'block';
-    vline.style.left = snapX + 'px';
-    tip.style.display = 'block';
-    tip.style.left = Math.min(snapX + 12, w - 180) + 'px';
-    tip.style.top = '8px';
-    let html = '<div style="font-weight:600;margin-bottom:6px">' + idx + ':00</div>';
-    const d = chartData[currentCurrency];
+    const idx = Math.min(11, Math.max(0, Math.round(x/w*11)));
+    const snapX = (idx/11)*w;
+    vline.style.display = 'block'; vline.style.left = snapX+'px';
+    tip.style.display = 'block'; tip.style.left = Math.min(snapX+12, w-160)+'px'; tip.style.top = '8px';
+    const type = chart.dataset.chart;
+    const d = chartData[type];
+    let html = '<div style="font-weight:600;margin-bottom:6px">'+idx+':00</div>';
     html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#FFB6D9;border-radius:2px"></span><span style="flex:1">今日</span><b>'+d.today[idx]+'</b></div>';
     html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#E91E79;border-radius:2px"></span><span style="flex:1">7天前</span><b>'+d.d7[idx]+'</b></div>';
     html += '<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><span style="width:8px;height:8px;background:#9B59B6;border-radius:2px"></span><span style="flex:1">30天前</span><b>'+d.d30[idx]+'</b></div>';
     tip.innerHTML = html;
   });
-  chart.addEventListener('mouseleave', function(){ tip.style.display = 'none'; vline.style.display = 'none'; });
-})();
-// remove static polylines (now dynamic)
-document.getElementById('line-today')?.remove();
-document.getElementById('line-7d')?.remove();
-document.getElementById('line-30d')?.remove();
-updateLines();
+  chart.addEventListener('mouseleave', function(){ tip.style.display='none'; vline.style.display='none'; });
+});
+renderChart('gold');
+renderChart('star');
 </script>
 </body>
 </html>
