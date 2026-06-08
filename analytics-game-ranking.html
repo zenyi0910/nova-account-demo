@@ -80,21 +80,17 @@ td a{color:#2563EB;font-weight:500}
 <div class="main">
 <div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>遊戲數據</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">遊戲排行榜</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
 <div class="content"><div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">時間範圍</label><select class="filter-select"><option>今日</option><option>本週</option><option>本月</option></select></div>
-<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option><option>老虎機</option><option>捕魚</option><option>棋牌</option></select></div>
+<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/06/01 - 2026/06/07" style="min-width:200px"></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option><option>USD</option><option>THB</option><option>VND</option></select></div>
 <button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button></div></div>
-<div class="game-tabs">
-<div class="game-tab active">熱門度</div>
-<div class="game-tab">營收</div>
-<div class="game-tab">活躍玩家</div></div>
-<div class="card"><div class="card-title">遊戲營收排行趨勢</div><div class="card-desc">前 5 名遊戲近 7 日營收走勢</div><div style="height:200px;border-radius:8px;overflow:hidden;margin-top:16px"><svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 110 L50 95 L100 100 L150 80 L200 65 L250 60 L300 40 L350 35 L400 20" fill="none" stroke="#3B82F6" stroke-width="2"/><path d="M0 110 L50 95 L100 100 L150 80 L200 65 L250 60 L300 40 L350 35 L400 20 L400 150 L0 150Z" fill="url(#dBlue)" opacity=".1"/><path d="M0 80 L50 90 L100 85 L150 95 L200 100 L250 90 L300 85 L350 80 L400 75" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="5 3"/><defs><linearGradient id="dBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div></div>
+
 <div class="card"><div class="card-title">遊戲排行榜</div><div class="card-desc">追蹤各遊戲的表現與玩家偏好。</div>
-<div class="table-wrap"><table><thead><tr><th style="width:60px">排名</th><th>遊戲名稱</th><th>遊戲類型</th><th>幣別</th><th>遊戲人數</th><th>遊戲局數</th><th>投注額</th><th>營收</th></tr></thead>
-<tbody><tr><td style="font-weight:700;color:#3B82F6">1</td><td>金龍傳說</td><td>老虎機</td><td>USD</td><td>523</td><td>12,450</td><td>2,580,000</td><td>258,000</td></tr>
-<tr><td style="font-weight:700;color:#3B82F6">2</td><td>捕魚達人</td><td>捕魚</td><td>THB</td><td>412</td><td>8,920</td><td>1,850,000</td><td>185,000</td></tr>
-<tr><td style="font-weight:700;color:#3B82F6">3</td><td>百家樂</td><td>棋牌</td><td>USD</td><td>385</td><td>6,780</td><td>3,200,000</td><td>320,000</td></tr>
-<tr><td>4</td><td>水果派對</td><td>老虎機</td><td>VND</td><td>298</td><td>7,650</td><td>1,420,000</td><td>142,000</td></tr>
-<tr><td>5</td><td>德州撲克</td><td>棋牌</td><td>THB</td><td>256</td><td>4,890</td><td>2,100,000</td><td>210,000</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th style="width:50px">No.</th><th>類別</th><th>遊戲名稱</th><th>遊戲代碼</th><th>遊戲廠商</th><th>幣別</th><th>遊戲人數</th><th>押注總額</th><th>押注局數</th><th>贏分總額</th><th>Net Win</th><th>RTP</th></tr></thead>
+<tbody><tr><td>1</td><td>電動</td><td>財神倍倍發 X4096</td><td>499</td><td>VA</td><td>USD</td><td>3</td><td>900,000</td><td>18</td><td>878,000</td><td>+22,000</td><td>97.6%</td></tr>
+<tr><td>2</td><td>電動</td><td>財神倍倍發 X4096</td><td>499</td><td>VA</td><td>THB</td><td>3</td><td>60,062,100</td><td>10,855</td><td>48,066,320</td><td>+11,995,780</td><td>80.0%</td></tr>
+<tr><td>3</td><td>電動</td><td>金龍傳說</td><td>312</td><td>JDB</td><td>USD</td><td>5</td><td>45,200,000</td><td>8,920</td><td>38,420,000</td><td>+6,780,000</td><td>85.0%</td></tr>
+<tr><td>4</td><td>捕魚</td><td>捕魚達人</td><td>201</td><td>SA</td><td>VND</td><td>12</td><td>32,100,000</td><td>6,780</td><td>28,890,000</td><td>+3,210,000</td><td>90.0%</td></tr>
+<tr><td>5</td><td>棋牌</td><td>百家樂</td><td>105</td><td>DG</td><td>THB</td><td>8</td><td>28,500,000</td><td>4,890</td><td>25,650,000</td><td>+2,850,000</td><td>90.0%</td></tr></tbody></table></div>
 <div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div></div>
 </div>
 </div>
