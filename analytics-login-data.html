@@ -147,7 +147,7 @@ function renderCombinedChart() {
     const pts=toPoints(chartData[type].today);
     const poly=document.createElementNS('http://www.w3.org/2000/svg','polygon');
     poly.setAttribute('points',pts.map(p=>p[0]+','+p[1]).join(' ')+' '+W+','+H+' 0,'+H);
-    const fillColors={all:'rgba(37,99,235,0.06)',gold:'rgba(234,88,12,0.06)',star:'rgba(124,58,237,0.06)'};
+    const fillColors={all:'rgba(37,99,235,0.12)',gold:'rgba(234,88,12,0.12)',star:'rgba(124,58,237,0.12)'};
     poly.setAttribute('fill',fillColors[type]);poly.setAttribute('stroke','none');
     poly.dataset.lineKey=type+'-today';
     svg.appendChild(poly);
