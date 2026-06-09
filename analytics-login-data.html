@@ -130,8 +130,9 @@ td a{color:#2563EB;font-weight:500}
 </div>
 <style>
 .eye-toggle svg{transition:all .2s}.eye-toggle.hidden svg{stroke:#CBD5E1}
-#chartsContainer{display:flex;flex-wrap:wrap;gap:12px}
-.chart-card{flex:1 1 calc(33.3% - 8px);min-width:400px}
+#chartsContainer{display:flex;flex-wrap:nowrap;gap:12px}
+.chart-card{flex:1 1 0;min-width:0}
+@media(max-width:1500px){#chartsContainer{flex-direction:column}.chart-card{width:100%}}
 </style>
 <script>
 const chartData = {
