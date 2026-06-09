@@ -85,8 +85,9 @@ td a{color:#2563EB;font-weight:500}
 <div class="card" style="padding:28px 32px">
 <div style="font-size:16px;font-weight:700;color:#0F172A;margin-bottom:4px;display:flex;align-items:center;gap:8px"><span style="width:4px;height:20px;background:#2563EB;border-radius:2px;display:inline-block"></span>登入人數合併圖</div>
 <div style="font-size:13px;color:#64748B;margin-bottom:20px">全部、金幣、星幣 (0-24小時, 今日, 7天前, 30天前)</div>
+<div id="chartLegend" style="display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:center;font-size:11px;color:#64748B;padding:0 0 16px 0;margin-bottom:4px"></div>
 <div id="combinedChart" style="position:relative;height:340px;margin-left:55px;margin-right:20px;margin-bottom:60px">
-<div style="position:absolute;left:-52px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:11px;color:#64748B;white-space:nowrap">登入人數 (人)</div>
+<div style="position:absolute;left:-52px;top:-8px;font-size:11px;color:#64748B;white-space:nowrap">人數</div>
 <div id="yLabels" style="position:absolute;left:-45px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:#94A3B8"></div>
 <svg id="chartSvg" style="width:100%;height:100%;display:block;overflow:visible"></svg>
 <div id="xLabels" style="position:absolute;bottom:-28px;left:0;right:0;font-size:10px;color:#94A3B8"></div>
@@ -95,7 +96,6 @@ td a{color:#2563EB;font-weight:500}
 <div id="crosshair" style="position:absolute;top:0;bottom:0;width:1px;border-left:1px dashed #94A3B8;display:none;pointer-events:none;z-index:5"></div>
 <div id="tooltip" style="position:absolute;display:none;background:rgba(255,255,255,.96);border:1px solid #E5E7EB;border-radius:10px;padding:10px 14px;font-size:11px;z-index:10;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.1);min-width:180px"></div>
 </div>
-<div id="chartLegend" style="display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:center;font-size:11px;color:#64748B;padding:8px 0;border-top:1px solid #F1F5F9;margin-top:12px"></div>
 </div>
 <div class="card" style="margin-top:20px;padding:20px 24px"><p style="font-size:13px;color:#475569;line-height:1.8"><strong>登入人數：</strong>統計每小時遊戲的人數。即使同一個人重複登入多次，也只會計算為 1 人。</p></div>
 </div>
@@ -116,8 +116,8 @@ const lineWidth = {today:2.5, d7:1.8, d30:1.2};
 const dashStyle = {today:'', d7:'8,5', d30:'3,4'};
 const labels = {all:'全部',gold:'金幣',star:'星幣'};
 const timeLabels = {today:'今日',d7:'7天前',d30:'30天前'};
-const icons = {all:'👤',gold:'👑',star:'⭐'};
-const lineVisible = {all:{today:true,d7:false,d30:false},gold:{today:true,d7:false,d30:false},star:{today:true,d7:false,d30:false}};
+const icons = {all:'[全]',gold:'[金]',star:'[星]'};
+const lineVisible = {all:{today:true,d7:true,d30:true},gold:{today:true,d7:true,d30:true},star:{today:true,d7:true,d30:true}};
 let hoverLine = null;
 
 function renderCombinedChart() {
