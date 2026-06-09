@@ -243,19 +243,7 @@ function renderChart(type) {
     pl.setAttribute('stroke-linejoin','round');
     pl.classList.add('dyn');
     svg.appendChild(pl);
-    // Draw animation - use clip-path instead of dasharray to preserve line style
-    const len = pl.getTotalLength();
-    if(cfg.key==='today') {
-      pl.style.strokeDasharray = len;
-      pl.style.strokeDashoffset = len;
-      pl.style.animation = 'drawLine 1.2s ease '+delay+'s forwards';
-    } else {
-      // For dashed/dotted lines, use opacity animation instead
-      pl.style.opacity = '0';
-      pl.style.animation = 'fadeIn 0.8s ease '+delay+'s forwards';
-    }
-    delay += 0.3;
-    // Markers with fade-in
+    // Markers
     const step = svgW / (d[cfg.key].length - 1);
     d[cfg.key].forEach((v,i) => {
       const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
@@ -263,8 +251,6 @@ function renderChart(type) {
       r.setAttribute('width','4'); r.setAttribute('height','4');
       r.setAttribute('fill', lineColors[cfg.key]);
       r.classList.add('dyn');
-      r.style.opacity = '0';
-      r.style.animation = 'fadeIn 0.3s ease '+(delay-0.3+i*0.04)+'s forwards';
       svg.appendChild(r);
     });
   });
