@@ -26,7 +26,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .chat-tabs .back-tab{background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .chat-tabs .tab-group{display:flex;flex:1;gap:4px}
 .chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
-.chat-tabs .tab-group button.active{color:#fff;background:#3b82f6;border-color:#3b82f6;font-weight:700}
+.chat-tabs .tab-group button.active{color:#452201;background:#fbbf24;border-color:#fbbf24;font-weight:700}
 .chat-tabs .tab-group button .notif{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%}
 
 /* Private chat info */
@@ -140,7 +140,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
   <div class="chat-tabs">
     <button class="back-tab">&lt; 回列表</button>
     <div class="tab-group">
-      <button>公頻</button>
+      <button>公頻<span class="notif"></span></button>
       <button class="active">私聊</button>
       <button>公會</button>
       <button>公告<span class="notif"></span></button>
