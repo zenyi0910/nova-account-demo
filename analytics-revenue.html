@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>營收報表 - Nova Analytics</title>
+<title>營運報表 - Nova Analytics</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
@@ -37,42 +37,38 @@ a{color:#3B82F6;text-decoration:none}
 .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.08)}
 .card-title{font-size:16px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;margin-bottom:4px}.card-title::before{content:'';width:4px;height:20px;background:#2563EB;border-radius:2px}
 .card-desc{font-size:13px;color:#64748B;margin-bottom:16px}
-.filter-section{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);margin-bottom:20px;transition:.3s cubic-bezier(.4,0,.2,1)}
+.filter-section{position:relative;z-index:20;background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);margin-bottom:20px;transition:.3s cubic-bezier(.4,0,.2,1)}
 .filter-section:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.08)}
-.filter-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
-.filter-group{display:flex;flex-direction:column;gap:6px}.filter-label{font-size:12px;font-weight:500;color:#64748B}
-.filter-input,.filter-select{padding:8px 14px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;outline:none;min-width:160px;background:#fff}.filter-select{cursor:pointer}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
+.filter-row{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.filter-group{display:flex;flex-direction:column;gap:6px}.filter-label{font-size:12px;font-weight:500;color:#64748B;display:flex;align-items:center;gap:4px}
+.filter-input,.filter-select{padding:10px 16px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px;outline:none;min-width:180px;height:40px;background:#fff}.filter-select{cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:14px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500;height:40px}
 .btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700}.btn-primary:hover{background:#1d4ed8}
 .btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}.btn-outline:hover{background:#F9FAFB}
+.btn-download{background:#fff;color:#64748B;border:1px solid #E5E7EB;font-size:13px;padding:8px 14px;height:36px}.btn-download:hover{background:#F9FAFB}
 .table-wrap{overflow-x:auto;border-radius:8px}
 table{width:100%;border-collapse:collapse}
-th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap}
-td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#334155}
+th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap;cursor:pointer}
+td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#334155;white-space:nowrap}
 tr:hover td{background:rgba(59,130,246,.02)}
 td a{color:#2563EB;font-weight:500}
+tfoot td{font-weight:600;background:#F9FAFB;border-top:2px solid #E5E7EB}
+.sort-icon{width:14px;height:14px;vertical-align:middle;margin-left:2px;color:#9CA3AF}
 .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#64748B}
-.page-btn{padding:6px 11px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#64748B}.page-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}.page-btn:disabled{opacity:.4;cursor:not-allowed}
+.page-btn{width:36px;height:36px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;cursor:pointer;font-size:12px;color:#64748B;display:inline-flex;align-items:center;justify-content:center}.page-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}.page-btn:disabled{opacity:.4;cursor:not-allowed}
 .avatar{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#3B82F6,#06B6D4);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
 .sidebar-collapse-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:#fff;border:1px solid #E5E7EB;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#94A3B8;transition:all .2s}.sidebar-collapse-btn:hover{border-color:#3B82F6;color:#3B82F6}
-::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:3px}
+.granularity-switch{display:flex;gap:4px;margin-bottom:16px}
+.gran-btn{padding:6px 16px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:13px;color:#64748B;transition:all .2s}.gran-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}
+.note{font-size:12px;color:#3B82F6;margin-top:12px}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;border-radius:6px;padding:6px 10px;font-size:11px;white-space:nowrap;z-index:50}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1E293B}
+.tip-wrap{position:relative;display:inline-flex;align-items:center}
+.tip-wrap:hover .tip-box{display:block}
 .mobile-menu-btn{display:none;width:36px;height:36px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;align-items:center;justify-content:center;cursor:pointer;color:#64748B;flex-shrink:0}
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
-.sidebar-overlay.show{display:block}
-@media(max-width:768px){html,body{overflow-x:hidden;max-width:100vw}.sidebar{width:240px;transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:calc(100vw - 32px)}table{min-width:600px}.filter-section{overflow:hidden}}
-
-.user-popover{display:none;position:fixed;left:248px;bottom:12px;background:#fff;border:1px solid rgba(148,163,184,.15);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);min-width:220px;z-index:100;overflow:hidden}
-.user-popover.show{display:block}
-.popover-item{display:flex;align-items:center;gap:10px;padding:10px 16px;font-size:13px;color:#374151;cursor:pointer;transition:all .15s}
-.popover-item:hover{background:#F3F4F6}
-.popover-logout{color:#3B82F6}
-.popover-divider{height:1px;background:#E5E7EB;margin:4px 0}
-.popover-user{display:flex;align-items:center;gap:10px;padding:10px 16px}
-.popover-avatar{width:32px;height:32px;border-radius:50%;background:#EAB308;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;flex-shrink:0}
-.popover-user-info{display:flex;flex-direction:column}
-.popover-user-name{font-size:13px;font-weight:600;color:#111827}
-.popover-user-email{font-size:11px;color:#6B7280}
-.sidebar-nav{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px}.sidebar-footer{flex-shrink:0;border-top:1px solid rgba(148,163,184,.15)}.sidebar-header{flex-shrink:0}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}.sidebar-overlay.show{display:block}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:100}.sidebar.mobile-open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.content{padding:16px}.filter-row{flex-direction:column}.filter-input,.filter-select{width:100%}.mobile-menu-btn{display:flex}.table-wrap{max-width:calc(100vw - 32px)}table{min-width:900px}}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#D0D5DD;border-radius:3px}
 </style>
 </head>
 <body>
@@ -80,22 +76,136 @@ td a{color:#2563EB;font-weight:500}
 <aside class="sidebar" id="analyticsSidebar"></aside>
 <script src="components/analytics-sidebar.js"></script>
 <div class="main">
-<div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>運營數據分析</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">營收報表</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
-<div class="content"><div class="filter-section"><div class="filter-row">
-<div class="filter-group"><label class="filter-label">日期範圍</label><input type="text" class="filter-input" value="2026/04/28 - 2026/05/05" readonly></div>
-<div class="filter-group"><label class="filter-label">遊戲類型</label><select class="filter-select"><option>全部遊戲</option></select></div>
-<button class="btn btn-primary">查詢</button><button class="btn btn-outline">重置</button>
+<div class="topbar"><button class="mobile-menu-btn" onclick="document.getElementById('analyticsSidebar').classList.add('mobile-open');document.getElementById('sidebarOverlay').classList.add('show')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><div class="breadcrumb"><span>運營數據分析</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span class="current">營運報表</span></div><div class="topbar-right"><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div><div class="topbar-icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div></div></div>
+<div class="content">
+<!-- Filter Section -->
+<div class="filter-section"><div class="filter-row">
+<div class="filter-group"><label class="filter-label">日期範圍</label>
+<div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">2026/06/01 - 2026/06/09</span></div></div>
+</div>
+<div class="filter-group"><label class="filter-label"><span>VIP 等級</span><span class="tip-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#9CA3AF;cursor:help"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="tip-box">統計當日該玩家的VIP等級</span></span></label><select class="filter-select"><option>全部 VIP</option><option>VIP 0</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option></select></div>
+<div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option><option>金幣</option><option>星幣</option></select></div>
+<button class="btn btn-primary" onclick="doQuery()">查詢</button><button class="btn btn-outline" onclick="doReset()">重置</button>
 </div></div>
-<div class="card"><div class="card-title">營收趨勢</div><div class="card-desc">平台每日營收走勢</div><div style="height:200px;border-radius:8px;overflow:hidden;margin-top:16px"><svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:100%;display:block"><path d="M0 120 L50 100 L100 110 L150 85 L200 70 L250 65 L300 45 L350 40 L400 25" fill="none" stroke="#3B82F6" stroke-width="2.5"/><path d="M0 120 L50 100 L100 110 L150 85 L200 70 L250 65 L300 45 L350 40 L400 25 L400 150 L0 150Z" fill="url(#aBlue)" opacity=".15"/><defs><linearGradient id="aBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs></svg></div></div>
-<div class="card"><div class="card-title">營收報表</div><div class="card-desc">追蹤平台整體營收表現與趨勢分析。</div>
-<div class="table-wrap"><table><thead><tr><th>日期</th><th>總營收</th><th>儲值金額</th><th>遊戲消耗</th><th>淨利潤</th><th>利潤率(%)</th></tr></thead>
-<tbody><tr><td>2026/05/05</td><td>5,755</td><td>5,755</td><td>0</td><td>5,755</td><td>100.0</td></tr>
-<tr><td>2026/05/04</td><td>0</td><td>0</td><td>0</td><td>0</td><td>-</td></tr>
-<tr><td>2026/05/03</td><td>2,100</td><td>2,100</td><td>850</td><td>1,250</td><td>59.5</td></tr>
-<tr><td>2026/05/02</td><td>3,200</td><td>3,200</td><td>1,400</td><td>1,800</td><td>56.3</td></tr>
-<tr><td>2026/05/01</td><td>1,500</td><td>1,500</td><td>600</td><td>900</td><td>60.0</td></tr></tbody></table></div>
-<div class="pagination"><div>共 5 筆</div><div style="display:flex;gap:4px"><button class="page-btn active">1</button></div></div></div></div>
+
+<!-- Data Card -->
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+<div class="card-title"><span>營運報表數據</span></div>
+<button class="btn-download" onclick="exportCSV()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 下載</button>
+</div>
+<div class="card-desc">分析不同日期與渠道的營收貢獻度。</div>
+
+<!-- Granularity Switch -->
+<div class="granularity-switch">
+<button class="gran-btn active" onclick="switchGran(this,'day')">日</button>
+<button class="gran-btn" onclick="switchGran(this,'week')">週</button>
+<button class="gran-btn" onclick="switchGran(this,'month')">月</button>
+<button class="gran-btn" onclick="switchGran(this,'year')">年</button>
+</div>
+
+<div class="table-wrap"><table id="revenueTable">
+<thead><tr>
+<th onclick="sortTable(0)">日期<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(1)">Revenue<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(2)">PU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(3)">DAU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(4)">NU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(5)">ARPPU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(6)">ARPU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(7)">Pay Rate<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(8)">贈禮金額<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(9)">贈禮人數<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(10)">首儲人數<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(11)">CCU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+<th onclick="sortTable(12)">PCU<svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg></th>
+</tr></thead>
+<tbody id="tableBody"></tbody>
+<tfoot id="tableFoot"></tfoot>
+</table></div>
+<div class="note">* 指標定義：ARPPU = 營收/PU, ARPU = 營收/DAU, 付費率 = (PU/DAU) × 100%。</div>
+<div class="pagination"><div id="pageInfo">共 50 筆</div><div style="display:flex;align-items:center;gap:4px"><span id="pageDetail" style="margin-right:8px">第 1 頁 / 1 頁</span><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 18-6-6 6-6"/><path d="M7 6v12"/></svg></button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><button class="page-btn active">1</button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button><button class="page-btn" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 18 6-6-6-6"/><path d="M17 6v12"/></svg></button></div></div>
 </div>
 </div>
+</div>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('analyticsSidebar').classList.remove('mobile-open');this.classList.remove('show')"></div>
+<script src="components/date-picker.js"></script>
+<script>
+// Mock data generator
+function genData(gran){
+  const rows=[];const now=new Date(2026,5,9);
+  const count=gran==='day'?50:gran==='week'?12:gran==='month'?6:3;
+  for(let i=0;i<count;i++){
+    let dateStr='';
+    if(gran==='day'){const d=new Date(now);d.setDate(d.getDate()-count+1+i);dateStr=d.getFullYear()+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getDate().toString().padStart(2,'0');}
+    else if(gran==='week'){const d=new Date(now);d.setDate(d.getDate()-7*(count-1-i));const mon=new Date(d);mon.setDate(d.getDate()-d.getDay()+1);dateStr=mon.getFullYear()+'/'+(mon.getMonth()+1).toString().padStart(2,'0')+'/'+mon.getDate().toString().padStart(2,'0');}
+    else if(gran==='month'){const d=new Date(2026,i,1);dateStr=d.getFullYear()+'/'+(d.getMonth()+1)+'月';}
+    else{dateStr=(2024+i)+'年';}
+    const rev=Math.floor(Math.random()*50000)+5000;
+    const pu=Math.floor(Math.random()*80)+10;
+    const dau=Math.floor(Math.random()*500)+100;
+    const nu=Math.floor(Math.random()*50)+5;
+    const arppu=Math.round(rev/pu);
+    const arpu=Math.round(rev/dau);
+    const payRate=((pu/dau)*100).toFixed(2);
+    const gift=Math.floor(Math.random()*10000);
+    const giftP=Math.floor(Math.random()*20);
+    const firstPay=Math.floor(Math.random()*10);
+    const ccu=Math.floor(Math.random()*200)+50;
+    const pcu=Math.floor(Math.random()*150)+30;
+    rows.push([dateStr,rev,pu,dau,nu,arppu,arpu,payRate,gift,giftP,firstPay,ccu,pcu]);
+  }
+  return rows;
+}
+let currentData=genData('day');let currentGran='day';let sortCol=-1;let sortAsc=true;
+
+function renderTable(){
+  const tbody=document.getElementById('tableBody');
+  const tfoot=document.getElementById('tableFoot');
+  let html='';
+  currentData.forEach(r=>{
+    html+='<tr><td>'+r[0]+'</td><td><a href="javascript:void(0)">'+r[1].toLocaleString()+'</a></td>';
+    for(let i=2;i<r.length;i++){html+='<td>'+(i===7?r[i]+'%':r[i].toLocaleString())+'</td>';}
+    html+='</tr>';
+  });
+  tbody.innerHTML=html;
+  // Compute totals and averages
+  const sumIdx=[1,2,3,4,8,9,10];const avgIdx=[5,6,7];
+  const sums=new Array(13).fill(0);
+  currentData.forEach(r=>{for(let i=1;i<13;i++)sums[i]+=parseFloat(r[i]);});
+  const n=currentData.length||1;
+  let sumRow='<tr><td style="font-weight:700">總和</td>';
+  let avgRow='<tr><td style="font-weight:700">平均</td>';
+  for(let i=1;i<13;i++){
+    if(sumIdx.includes(i)){sumRow+='<td>'+Math.round(sums[i]).toLocaleString()+'</td>';} else{sumRow+='<td>-</td>';}
+    if(avgIdx.includes(i)){avgRow+='<td>'+(sums[i]/n).toFixed(i===7?2:0)+(i===7?'%':'')+'</td>';} else{avgRow+='<td>-</td>';}
+  }
+  sumRow+='</tr>';avgRow+='</tr>';
+  tfoot.innerHTML=sumRow+avgRow;
+  document.getElementById('pageInfo').textContent='共 '+currentData.length+' 筆';
+  document.getElementById('pageDetail').textContent='第 1 頁 / 1 頁';
+}
+
+function switchGran(el,gran){
+  document.querySelectorAll('.gran-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');currentGran=gran;currentData=genData(gran);sortCol=-1;renderTable();
+}
+function sortTable(col){
+  if(sortCol===col){sortAsc=!sortAsc;}else{sortCol=col;sortAsc=true;}
+  currentData.sort((a,b)=>{const va=typeof a[col]==='string'?a[col]:a[col];const vb=typeof b[col]==='string'?b[col]:b[col];if(typeof va==='number')return sortAsc?va-vb:vb-va;return sortAsc?va.localeCompare(vb):vb.localeCompare(va);});
+  renderTable();
+}
+function doQuery(){currentData=genData(currentGran);renderTable();alert('已重新查詢');}
+function doReset(){document.querySelectorAll('.filter-select').forEach(s=>s.selectedIndex=0);currentData=genData('day');document.querySelectorAll('.gran-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);});currentGran='day';renderTable();}
+function exportCSV(){
+  const headers=['日期','Revenue','PU','DAU','NU','ARPPU','ARPU','Pay Rate(%)','贈禮金額','贈禮人數','首儲人數','CCU','PCU'];
+  let csv='\uFEFF'+headers.join(',')+'\n';
+  currentData.forEach(r=>{csv+=r.join(',')+'\n';});
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='revenue_report_'+currentGran+'.csv';a.click();URL.revokeObjectURL(url);
+}
+renderTable();
+</script>
 </body>
 </html>
