@@ -111,15 +111,18 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .claim-modal-body .info-row .value{color:var(--text-primary);font-weight:600}
 .claim-modal-body .btn-claim{width:100%;margin-top:16px;padding:12px;border-radius:20px;border:none;background:linear-gradient(135deg,#dc2626,#f59e0b);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(220,38,38,.3)}
 
-/* Step indicators */
-.step-bar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(0,0,0,.85);padding:6px 12px;display:flex;align-items:center;gap:6px;z-index:300;border-radius:8px 8px 0 0}
-.step-bar .step{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,.5);white-space:nowrap}
+/* Step indicators - collapsible floating pill */
+.step-bar{position:fixed;top:8px;right:8px;z-index:300}
+.step-toggle{background:rgba(0,0,0,.75);color:#fbbf24;border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px}
+.step-panel{display:none;position:absolute;top:28px;right:0;background:rgba(0,0,0,.85);padding:8px 10px;border-radius:8px;flex-direction:column;gap:3px;min-width:120px}
+.step-bar.open .step-panel{display:flex}
+.step-bar .step{display:flex;align-items:center;gap:4px;font-size:10px;color:rgba(255,255,255,.5);white-space:nowrap}
 .step-bar .step.active{color:#fbbf24;font-weight:600}
-.step-bar .step-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)}
+.step-bar .step-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3)}
 .step-bar .step.active .step-dot{background:#fbbf24}
-.step-bar .step-arrow{color:rgba(255,255,255,.3);font-size:10px}
-.step-nav{margin-left:auto;display:flex;gap:6px}
-.step-nav button{padding:4px 10px;border-radius:4px;font-size:11px;border:none;cursor:pointer}
+.step-bar .step-arrow{display:none}
+.step-nav{display:flex;gap:4px;margin-top:4px}
+.step-nav button{padding:3px 8px;border-radius:4px;font-size:10px;border:none;cursor:pointer}
 .step-nav .prev-step{background:rgba(255,255,255,.15);color:#fff}
 .step-nav .next-step{background:#fbbf24;color:#452201;font-weight:600}
 </style>
@@ -253,20 +256,19 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
   </div>
 </div>
 
-<!-- Step navigation bar -->
-<div class="step-bar">
-  <div class="step active" data-step="1"><span class="step-dot"></span>1.發紅包</div>
-  <span class="step-arrow">›</span>
-  <div class="step" data-step="2"><span class="step-dot"></span>2.輸入序號</div>
-  <span class="step-arrow">›</span>
-  <div class="step" data-step="3"><span class="step-dot"></span>3.紅包卡片</div>
-  <span class="step-arrow">›</span>
-  <div class="step" data-step="4"><span class="step-dot"></span>4.查看內容</div>
-  <span class="step-arrow">›</span>
-  <div class="step" data-step="5"><span class="step-dot"></span>5.已領取</div>
-  <div class="step-nav">
-    <button class="prev-step" onclick="prevStep()">‹</button>
-    <button class="next-step" onclick="nextStep()">›</button>
+<!-- Step navigation bar (collapsible) -->
+<div class="step-bar" id="stepBar">
+  <button class="step-toggle" onclick="document.getElementById('stepBar').classList.toggle('open')">Step <span id="stepNum">1</span>/5 ▾</button>
+  <div class="step-panel">
+    <div class="step active" data-step="1"><span class="step-dot"></span>1.發紅包</div>
+    <div class="step" data-step="2"><span class="step-dot"></span>2.輸入序號</div>
+    <div class="step" data-step="3"><span class="step-dot"></span>3.紅包卡片</div>
+    <div class="step" data-step="4"><span class="step-dot"></span>4.查看內容</div>
+    <div class="step" data-step="5"><span class="step-dot"></span>5.已領取</div>
+    <div class="step-nav">
+      <button class="prev-step" onclick="prevStep()">‹</button>
+      <button class="next-step" onclick="nextStep()">›</button>
+    </div>
   </div>
 </div>
 
@@ -275,6 +277,7 @@ let currentStep=1;
 function setStep(n){
   currentStep=n;
   document.querySelectorAll('.step').forEach(s=>{s.classList.toggle('active',+s.dataset.step===n)});
+  document.getElementById('stepNum').textContent=n;
   hideSendModal();hideClaimModal();
   document.getElementById('redpacketMsg').style.display='none';
   document.getElementById('cardBtn').className='redpacket-btn';
