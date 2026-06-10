@@ -18,16 +18,16 @@
 html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);overflow-x:hidden}
 .mobile-frame{width:100%;max-width:430px;margin:0 auto;position:relative;min-height:100vh;background:var(--bg-page);display:flex;flex-direction:column}
 
-/* Header */
-.chat-header{position:sticky;top:36px;z-index:50;background:linear-gradient(135deg,#7f1d1d,#991b1b);padding:12px 16px;display:flex;align-items:center;gap:10px}
-.chat-header .back-btn{color:#fff;background:none;border:none;cursor:pointer;font-size:18px}
-.chat-header .chat-title{color:#fff;font-size:15px;font-weight:700;flex:1}
-.chat-header .chat-subtitle{color:rgba(255,255,255,.6);font-size:11px}
+/* Header - removed, system doesn't have it */
+.chat-header{display:none}
 
 /* Tabs */
-.chat-tabs{display:flex;background:var(--orange-gradient);padding:3px;margin:0 16px 0;border-radius:var(--radius-full)}
-.chat-tabs button{flex:1;padding:8px 0;font-size:13px;font-weight:500;color:#fff;background:none;border:none;cursor:pointer;border-radius:9999px;transition:all .2s}
-.chat-tabs button.active{color:#452201;background:#fff;font-weight:700}
+.chat-tabs{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--bg-card)}
+.chat-tabs .back-tab{background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.chat-tabs .tab-group{display:flex;flex:1;gap:4px}
+.chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
+.chat-tabs .tab-group button.active{color:#fff;background:#3b82f6;border-color:#3b82f6;font-weight:700}
+.chat-tabs .tab-group button .notif{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%}
 
 /* Private chat info */
 .private-info{padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,0,0,.06);background:var(--bg-card)}
@@ -64,12 +64,17 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .claim-success svg{width:14px;height:14px}
 
 /* Input bar */
-.chat-input-bar{position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid rgba(0,0,0,.06);padding:8px 12px;display:flex;align-items:center;gap:8px;z-index:10}
+.chat-input-bar{position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid rgba(0,0,0,.06);padding:8px 12px;display:flex;flex-direction:column;gap:6px;z-index:10}
+.chat-target{font-size:12px;color:var(--text-primary);font-weight:600;padding:0 4px}
+.chat-input-row{display:flex;align-items:center;gap:8px}
 .chat-input-bar input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;color:var(--text-primary)}
 .chat-input-bar input::placeholder{color:#ccc}
+.img-btn{width:32px;height:32px;border-radius:8px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7c3aed}
+.emoji-btn{width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:#9ca3af}
 .redpacket-trigger{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-trigger svg{width:20px;height:20px;color:#fbbf24}
-.send-btn{background:var(--orange-gradient);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.send-btn{background:#3b82f6;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.settings-float{position:fixed;bottom:70px;right:calc(50% - 195px);width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9ca3af;z-index:5}
 
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -107,7 +112,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .claim-modal-body .btn-claim{width:100%;margin-top:16px;padding:12px;border-radius:20px;border:none;background:linear-gradient(135deg,#dc2626,#f59e0b);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(220,38,38,.3)}
 
 /* Step indicators */
-.step-bar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(0,0,0,.85);padding:8px 16px;display:flex;align-items:center;gap:8px;z-index:300;height:36px}
+.step-bar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(0,0,0,.85);padding:6px 12px;display:flex;align-items:center;gap:6px;z-index:300;border-radius:8px 8px 0 0}
 .step-bar .step{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,.5);white-space:nowrap}
 .step-bar .step.active{color:#fbbf24;font-weight:600}
 .step-bar .step-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)}
@@ -130,11 +135,13 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
   </div>
 
   <div class="chat-tabs">
-    <button>< 回列表</button>
-    <button>公頻</button>
-    <button class="active">私聊</button>
-    <button>公會</button>
-    <button>公告</button>
+    <button class="back-tab">&lt; 回列表</button>
+    <div class="tab-group">
+      <button>公頻</button>
+      <button class="active">私聊</button>
+      <button>公會</button>
+      <button>公告<span class="notif"></span></button>
+    </div>
   </div>
 
   <div class="private-info">
@@ -188,13 +195,21 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
     </div>
   </div>
 
+  <!-- Settings float button -->
+  <button class="settings-float"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+
   <!-- Input bar -->
   <div class="chat-input-bar">
-    <input type="text" placeholder="輸入訊息..." id="msgInput">
-    <button class="redpacket-trigger" onclick="showSendModal()" title="發紅包">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z" opacity=".3"/></svg>
-    </button>
-    <button class="send-btn">送出</button>
+    <div class="chat-target">私聊：樂發發金庫</div>
+    <div class="chat-input-row">
+      <button class="img-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+      <input type="text" placeholder="請輸入訊息" id="msgInput">
+      <button class="emoji-btn">☺</button>
+      <button class="redpacket-trigger" onclick="showSendModal()" title="發紅包">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+      </button>
+      <button class="send-btn">送出</button>
+    </div>
   </div>
 </div>
 
