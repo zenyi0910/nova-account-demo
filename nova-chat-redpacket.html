@@ -241,10 +241,6 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
               <button class="redpacket-btn" id="cardBtn">領紅包</button>
             </div>
           </div>
-          <div class="claim-success" id="claimSuccess" style="display:none">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-            已成功領取 1,000 金幣
-          </div>
         </div>
         <div class="msg-meta">
           <div class="reply-link">回覆</div>
@@ -373,7 +369,6 @@ function setStep(n){
   document.getElementById('redpacketMsg').style.display='none';
   document.getElementById('cardBtn').className='redpacket-btn';
   document.getElementById('cardBtn').textContent='領紅包';
-  document.getElementById('claimSuccess').style.display='none';
   document.getElementById('sendSuccessMsg').style.display='none';
   document.getElementById('claimSuccessMsg').style.display='none';
   document.getElementById('redpacketCard').style.pointerEvents='auto';
@@ -388,7 +383,6 @@ function setStep(n){
     document.getElementById('redpacketMsg').style.display='flex';
     document.getElementById('cardBtn').className='redpacket-btn claimed';
     document.getElementById('cardBtn').textContent='已領取';
-    document.getElementById('claimSuccess').style.display='flex';
     document.getElementById('claimSuccessMsg').style.display='flex';
     document.getElementById('redpacketCard').style.pointerEvents='none';
   }
