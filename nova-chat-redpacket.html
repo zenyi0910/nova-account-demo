@@ -15,14 +15,18 @@
   --font-stack:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);overflow-x:hidden}
-.mobile-frame{width:100%;max-width:430px;margin:0 auto;position:relative;min-height:100vh;background:var(--bg-page);display:flex;flex-direction:column}
+html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);overflow:hidden;display:flex;justify-content:center;align-items:center}
+.phone-frame{position:relative;width:430px;height:932px;max-height:95vh;border-radius:50px;border:10px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 60px rgba(0,0,0,.5);overflow:hidden;display:flex;flex-direction:column}
+.phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
+.phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
+@media(max-width:500px){.phone-frame{width:100vw;height:100vh;max-height:none;border-radius:0;border:none;box-shadow:none}.phone-frame::before,.phone-frame::after{display:none}}
+.mobile-frame{width:100%;height:100%;position:relative;background:var(--bg-page);display:flex;flex-direction:column;border-radius:40px;overflow:hidden}
 
 /* Header - removed, system doesn't have it */
 .chat-header{display:none}
 
 /* Tabs */
-.chat-tabs{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--bg-card)}
+.chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-card)}
 .chat-tabs .back-tab{background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .chat-tabs .tab-group{display:flex;flex:1;gap:4px}
 .chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
@@ -64,7 +68,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .claim-success svg{width:14px;height:14px}
 
 /* Input bar */
-.chat-input-bar{position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid rgba(0,0,0,.06);padding:8px 12px;display:flex;flex-direction:column;gap:6px;z-index:10}
+.chat-input-bar{position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid rgba(0,0,0,.06);padding:8px 12px 20px;display:flex;flex-direction:column;gap:6px;z-index:10}
 .chat-target{font-size:12px;color:var(--text-primary);font-weight:600;padding:0 4px}
 .chat-input-row{display:flex;align-items:center;gap:8px}
 .chat-input-bar input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;color:var(--text-primary)}
@@ -74,7 +78,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 .redpacket-trigger{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-trigger svg{width:20px;height:20px;color:#fbbf24}
 .send-btn{background:#3b82f6;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
-.settings-float{position:fixed;bottom:70px;right:calc(50% - 195px);width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9ca3af;z-index:5}
+.settings-float{position:absolute;bottom:70px;right:12px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9ca3af;z-index:5}
 
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -128,6 +132,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
 </style>
 </head>
 <body>
+<div class="phone-frame">
 <div class="mobile-frame">
   <div class="chat-header">
     <button class="back-btn">‹</button>
@@ -159,7 +164,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
       <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
       <div class="msg-content">
         <div class="sender">樂發發金庫</div>
-        <div class="bubble">Ksi5AQ</div>
+        <div class="bubble">fnHTt6</div>
         <div class="reply-link">回覆</div>
         <div class="time">下午 01:59</div>
       </div>
@@ -215,6 +220,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
     </div>
   </div>
 </div>
+</div><!-- /phone-frame -->
 
 <!-- Send Redpacket Modal (Step 2) -->
 <div class="modal-overlay" id="sendModal">
@@ -231,7 +237,7 @@ html,body{height:100%;font-family:var(--font-stack);background:var(--bg-page);ov
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 14l2 2 4-4"/></svg>
         </button>
       </div>
-      <div class="input-hint">範例：HB52088</div>
+      <div class="input-hint">範例：PeJ00i</div>
       <div class="send-modal-actions">
         <button class="btn-cancel" onclick="hideSendModal()">取消</button>
         <button class="btn-send" onclick="sendRedpacket()">發送</button>
