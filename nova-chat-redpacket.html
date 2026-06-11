@@ -125,16 +125,20 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .send-modal-actions .btn-send{flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
 
 /* Claim modal */
-.claim-modal-top{background:linear-gradient(135deg,#dc2626,#991b1b);padding:24px 20px;text-align:center;position:relative}
-.claim-modal-top::before{content:'';display:none}
-.claim-modal-top::after{content:'';display:none}
-.claim-modal-icon{width:64px;height:64px;margin:0 auto 12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 8px rgba(0,0,0,.2)}
-.claim-modal-top h3{color:#fff;font-size:16px;font-weight:700}
+.claim-modal-top{background:#fffdf5;padding:20px 20px 16px;text-align:center;position:relative;border-bottom:1px solid rgba(0,0,0,.06)}
+.claim-modal-top .modal-deco{display:flex;justify-content:center;align-items:flex-start;gap:0;margin-bottom:12px}
+.claim-modal-top .modal-lantern{width:14px;display:flex;flex-direction:column;align-items:center}
+.claim-modal-top .modal-lantern::before{content:'';display:block;width:6px;height:2px;background:#d4a017;border-radius:1px}
+.claim-modal-top .modal-lantern::after{content:'';display:block;width:10px;height:14px;background:radial-gradient(ellipse,#f87171,#dc2626);border-radius:5px;border:1px solid #fbbf24;margin-top:1px}
+.claim-modal-top .modal-vine{width:60px;height:10px;position:relative;margin:2px 4px 0}
+.claim-modal-top .modal-vine::before{content:'';position:absolute;top:2px;left:0;right:0;height:6px;border:1.5px solid #d4a017;border-top:none;border-radius:0 0 50% 50%/0 0 100% 100%}
+.claim-modal-icon{width:120px;height:100px;margin:0 auto 8px;position:relative;display:flex;align-items:center;justify-content:center}
+.claim-modal-top h3{color:#333;font-size:16px;font-weight:700}
 .claim-modal-body{padding:20px;text-align:center}
 .claim-modal-body .info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:13px}
 .claim-modal-body .info-row .label{color:var(--text-secondary)}
 .claim-modal-body .info-row .value{color:var(--text-primary);font-weight:600}
-.claim-modal-body .btn-claim{width:100%;margin-top:16px;padding:12px;border-radius:20px;border:none;background:linear-gradient(135deg,#dc2626,#f59e0b);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(220,38,38,.3)}
+.claim-modal-body .btn-claim{width:100%;margin-top:16px;padding:12px;border-radius:20px;border:none;background:#10b981;color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(16,185,129,.3)}
 
 /* Step indicators - collapsible floating pill */
 .step-bar{position:fixed;top:8px;right:8px;z-index:300}
@@ -182,7 +186,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
   <div class="chat-messages" id="chatMessages">
     <div class="date-divider">05/28（四）</div>
     <div class="msg-row">
-      <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
+      <div class="avatar" style="background:#e8d5b7;display:flex;align-items:center;justify-content:center;overflow:hidden"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="28" r="14" fill="#f97316"/><circle cx="24" cy="26" r="12" fill="#fdba74"/><circle cx="19" cy="24" r="2.5" fill="#fff"/><circle cx="19" cy="24" r="1.5" fill="#1a1a1a"/><circle cx="29" cy="24" r="2.5" fill="#fff"/><circle cx="29" cy="24" r="1.5" fill="#1a1a1a"/><path d="M21 29 Q24 32 27 29" stroke="#1a1a1a" stroke-width="1.5" fill="none"/><path d="M12 16 L18 22 L14 22z" fill="#f97316"/><path d="M36 16 L30 22 L34 22z" fill="#f97316"/><rect x="18" y="12" width="12" height="6" rx="3" fill="#dc2626"/></svg></div>
       <div class="msg-content">
         <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="bubble">fnHTt6</div>
@@ -193,7 +197,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
       </div>
     </div>
     <div class="msg-row">
-      <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
+      <div class="avatar" style="background:#e8d5b7;display:flex;align-items:center;justify-content:center;overflow:hidden"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="28" r="14" fill="#f97316"/><circle cx="24" cy="26" r="12" fill="#fdba74"/><circle cx="19" cy="24" r="2.5" fill="#fff"/><circle cx="19" cy="24" r="1.5" fill="#1a1a1a"/><circle cx="29" cy="24" r="2.5" fill="#fff"/><circle cx="29" cy="24" r="1.5" fill="#1a1a1a"/><path d="M21 29 Q24 32 27 29" stroke="#1a1a1a" stroke-width="1.5" fill="none"/><path d="M12 16 L18 22 L14 22z" fill="#f97316"/><path d="M36 16 L30 22 L34 22z" fill="#f97316"/><rect x="18" y="12" width="12" height="6" rx="3" fill="#dc2626"/></svg></div>
       <div class="msg-content">
         <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="bubble">紅包碼～貢獻發放</div>
@@ -206,7 +210,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 
     <!-- Redpacket card (step 3-5) -->
     <div class="msg-row" id="redpacketMsg" style="display:none">
-      <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
+      <div class="avatar" style="background:#e8d5b7;display:flex;align-items:center;justify-content:center;overflow:hidden"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="28" r="14" fill="#f97316"/><circle cx="24" cy="26" r="12" fill="#fdba74"/><circle cx="19" cy="24" r="2.5" fill="#fff"/><circle cx="19" cy="24" r="1.5" fill="#1a1a1a"/><circle cx="29" cy="24" r="2.5" fill="#fff"/><circle cx="29" cy="24" r="1.5" fill="#1a1a1a"/><path d="M21 29 Q24 32 27 29" stroke="#1a1a1a" stroke-width="1.5" fill="none"/><path d="M12 16 L18 22 L14 22z" fill="#f97316"/><path d="M36 16 L30 22 L34 22z" fill="#f97316"/><rect x="18" y="12" width="12" height="6" rx="3" fill="#dc2626"/></svg></div>
       <div class="msg-content">
         <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()">
@@ -253,7 +257,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
     <div class="chat-input-row">
       <button class="img-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
       <div class="input-wrap">
-        <input type="text" placeholder="請輸入訊息" id="msgInput">
+        <input type="text" placeholder="連線中..." id="msgInput">
         <button class="emoji-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
       </div>
       <button class="redpacket-trigger" onclick="showSendModal()" title="發紅包">
@@ -293,8 +297,28 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 <div class="modal-overlay" id="claimModal">
   <div class="modal-box">
     <div class="claim-modal-top">
-      <button class="close-btn" onclick="hideClaimModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
-      <div class="claim-modal-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg></div>
+      <button class="close-btn" onclick="hideClaimModal()" style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,.1);color:#666;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
+      <div class="modal-deco">
+        <div class="modal-lantern"></div>
+        <div class="modal-vine"></div>
+        <div class="modal-lantern"></div>
+      </div>
+      <div class="claim-modal-icon">
+        <svg viewBox="0 0 120 100" fill="none">
+          <rect x="30" y="30" width="60" height="55" rx="4" fill="#dc2626"/>
+          <path d="M30 30h60l-30 12z" fill="#b91c1c"/>
+          <path d="M30 25l30 12 30-12v6l-30 10-30-10z" fill="#a11a1a" opacity=".7"/>
+          <circle cx="60" cy="60" r="12" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <text x="60" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">福</text>
+          <circle cx="28" cy="70" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+          <text x="28" y="74" text-anchor="middle" font-size="7" fill="#991b1b">幣</text>
+          <circle cx="92" cy="70" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+          <text x="92" y="74" text-anchor="middle" font-size="7" fill="#991b1b">幣</text>
+          <circle cx="42" cy="85" r="6" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+          <circle cx="78" cy="85" r="6" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+          <path d="M45 90 Q60 98 75 90" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+        </svg>
+      </div>
       <h3>紅包內容</h3>
     </div>
     <div class="claim-modal-body">
