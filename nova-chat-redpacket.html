@@ -79,6 +79,8 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .redpacket-bottom{margin-top:10px;display:flex;justify-content:center}
 .redpacket-btn{background:#10b981;color:#fff;border:none;border-radius:20px;padding:7px 24px;font-size:12px;font-weight:600;cursor:pointer}
 .redpacket-btn.claimed{background:#999;color:#fff;cursor:default}
+.redpacket-btn.expired{background:#999;color:#fff;cursor:default}
+.claim-modal-body .info-text.expired-text{color:#dc2626;font-weight:600}
 
 /* Claim success */
 .claim-success{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--brand-green);margin-top:4px}
@@ -329,13 +331,14 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 
 <!-- Step navigation bar (collapsible) -->
 <div class="step-bar" id="stepBar">
-  <button class="step-toggle" onclick="document.getElementById('stepBar').classList.toggle('open')">Step <span id="stepNum">1</span>/5 ▾</button>
+  <button class="step-toggle" onclick="document.getElementById('stepBar').classList.toggle('open')">Step <span id="stepNum">1</span>/6 ▾</button>
   <div class="step-panel">
     <div class="step active" data-step="1"><span class="step-dot"></span>1.發紅包</div>
     <div class="step" data-step="2"><span class="step-dot"></span>2.輸入序號</div>
     <div class="step" data-step="3"><span class="step-dot"></span>3.紅包卡片</div>
     <div class="step" data-step="4"><span class="step-dot"></span>4.查看內容</div>
     <div class="step" data-step="5"><span class="step-dot"></span>5.已領取</div>
+    <div class="step" data-step="6"><span class="step-dot"></span>6.已過期</div>
     <div class="step-nav">
       <button class="prev-step" onclick="prevStep()">‹</button>
       <button class="next-step" onclick="nextStep()">›</button>
@@ -366,10 +369,22 @@ function setStep(n){
     document.getElementById('claimSuccess').style.display='flex';
     document.getElementById('redpacketCard').style.pointerEvents='none';
   }
+  if(n===6){
+    document.getElementById('redpacketMsg').style.display='flex';
+    document.getElementById('cardBtn').className='redpacket-btn expired';
+    document.getElementById('cardBtn').textContent='已過期';
+    document.getElementById('redpacketCard').style.pointerEvents='none';
+    showClaimModal();
+    document.querySelector('.btn-claim').textContent='已過期';
+    document.querySelector('.btn-claim').style.background='#999';
+    document.querySelector('.btn-claim').style.cursor='default';
+    document.querySelector('.claim-modal-body .info-text:last-of-type').classList.add('expired-text');
+    document.querySelector('.claim-modal-body .info-text:last-of-type .value').textContent='2026/05/01 23:59（已過期）';
+  }
   // Auto scroll to bottom
   setTimeout(()=>{const c=document.getElementById('chatMessages');c.scrollTop=c.scrollHeight;},50);
 }
-function nextStep(){if(currentStep<5)setStep(currentStep+1);}
+function nextStep(){if(currentStep<6)setStep(currentStep+1);}
 function prevStep(){if(currentStep>1)setStep(currentStep-1);}
 function showSendModal(){document.getElementById('sendModal').classList.add('show');}
 function hideSendModal(){document.getElementById('sendModal').classList.remove('show');}
