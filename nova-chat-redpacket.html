@@ -78,9 +78,9 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .chat-input-row{display:flex;align-items:center;gap:8px;background:transparent;border-radius:0;padding:0;height:40px}
 .chat-input-bar input{flex:1;border:none;border-radius:16px;padding:4px 36px 4px 12px;font-size:14px;outline:none;color:var(--text-primary);background:transparent;height:38px}
 .chat-input-bar input::placeholder{color:#999}
-.img-btn{width:44px;height:44px;border-radius:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#4A8FE7}
+.img-btn{width:44px;height:44px;border-radius:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#555}
 .img-btn svg{width:24px;height:24px}
-.emoji-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#452201}
+.emoji-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#888}
 .emoji-btn svg{width:22px;height:22px}
 .input-wrap{position:relative;flex:1;display:flex;align-items:center;background:#fff;border-radius:16px;padding:0;height:38px}
 .redpacket-trigger{width:40px;height:40px;border-radius:8px;background:#dc2626;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
@@ -228,13 +228,13 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
   <div class="chat-input-bar">
     <div class="chat-target">私聊：樂發發金庫 <span style="display:inline-block;background:#a855f7;color:#fff;font-size:10px;padding:1px 4px;border-radius:3px;margin-left:4px;font-weight:600">私</span></div>
     <div class="chat-input-row">
-      <button class="img-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
+      <button class="img-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></button>
       <div class="input-wrap">
         <input type="text" placeholder="請輸入訊息" id="msgInput">
         <button class="emoji-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
       </div>
       <button class="redpacket-trigger" onclick="showSendModal()" title="發紅包">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="14" rx="2" fill="#fbbf24"/><path d="M4 6h16v4H4z" fill="#f59e0b"/><circle cx="12" cy="13" r="3" fill="#dc2626"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="8" width="14" height="12" rx="2" fill="#dc2626"/><path d="M5 8h14v3H5z" fill="#b91c1c"/><path d="M9 5c0 0 1.5 3 3 3s3-3 3-3" stroke="#fbbf24" stroke-width="2" fill="#fbbf24"/><ellipse cx="12" cy="4" rx="3" ry="1.5" fill="#fbbf24"/></svg>
       </button>
       <button class="send-btn">送出</button>
     </div>
