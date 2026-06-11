@@ -8,7 +8,7 @@
 :root{
   --brand-primary:#4DD0C2;--brand-gold:#f4b63f;--brand-red:#991b1b;--brand-orange:#d97706;--brand-green:#10b981;
   --text-primary:#452201;--text-secondary:rgba(69,34,1,.6);--text-white:#fff;
-  --bg-card:#fafafa;--bg-page:#F8DFB8;
+  --bg-card:#fafafa;--bg-page:#FFEABB;
   --radius-lg:24px;--radius-md:12px;--radius-sm:8px;--radius-full:9999px;
   --shadow-card:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);
   --orange-gradient:linear-gradient(135deg,#f59e0b,#d97706);
@@ -27,9 +27,9 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 
 /* Tabs */
 .chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-page)}
-.chat-tabs .back-tab{background:#8B3030;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-.chat-tabs .tab-group{display:flex;flex:1;gap:4px}
-.chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
+.chat-tabs .back-tab{background:#E8907F;color:#fff;border:none;border-radius:0 20px 20px 0;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.chat-tabs .tab-group{display:flex;flex:1;gap:4px;background:rgba(255,255,255,0.87);border-radius:20px;padding:4px 8px}
+.chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:14px;font-weight:600;color:var(--text-primary);background:transparent;border:none;border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
 .chat-tabs .tab-group button.active{color:#fff;background:#D4951A;border-color:#D4951A;font-weight:700}
 .chat-tabs .tab-group button .notif{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%}
 
