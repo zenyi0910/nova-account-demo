@@ -46,7 +46,8 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .msg-row .avatar{width:48px;height:48px;border-radius:50%;background:#e5e7eb;flex-shrink:0;overflow:hidden}
 .msg-row .avatar img{width:100%;height:100%;object-fit:cover}
 .msg-content{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px}
-.msg-content .sender{font-size:11px;color:var(--text-secondary);margin-bottom:2px;width:100%}
+.msg-content .sender{font-size:11px;color:var(--text-secondary);margin-bottom:2px;width:100%;display:flex;align-items:center;gap:4px}
+.msg-content .sender .badge-private{background:#7C3AED;color:#fff;font-size:9px;padding:1px 4px;border-radius:3px;font-weight:600}
 .msg-content .bubble{background:#fff;border:none;border-radius:16px;padding:4px 12px;font-size:14px;color:var(--text-primary);max-width:240px;word-break:break-all}
 .msg-content .time{font-size:10px;color:rgba(69,34,1,.3)}
 .msg-content .reply-link{font-size:11px;color:rgba(69,34,1,.3);cursor:pointer}
@@ -68,9 +69,9 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .claim-success svg{width:14px;height:14px}
 
 /* Input bar */
-.chat-input-bar{position:sticky;bottom:0;background:var(--bg-page);border-top:none;padding:0 8px 20px;display:flex;flex-direction:column;gap:8px;z-index:10}
-.chat-target{font-size:14px;color:var(--text-primary);font-weight:600;padding:4px 8px 0;background:#E5E7EB;border-radius:8px 8px 0 0;margin:0 8px}
-.chat-input-row{display:flex;align-items:center;gap:4px;background:#E5E7EB;border-radius:9999px;padding:0;height:40px}
+.chat-input-bar{position:sticky;bottom:0;background:#E5E7EB;border-top:none;padding:8px 8px 20px;display:flex;flex-direction:column;gap:8px;z-index:10;margin:0 8px;border-radius:12px}
+.chat-target{font-size:14px;color:var(--text-primary);font-weight:600;padding:4px 8px 0}
+.chat-input-row{display:flex;align-items:center;gap:4px;background:transparent;border-radius:9999px;padding:0;height:40px}
 .chat-input-bar input{flex:1;border:none;border-radius:16px;padding:4px 36px 4px 12px;font-size:14px;outline:none;color:var(--text-primary);background:transparent;height:38px}
 .chat-input-bar input::placeholder{color:#999}
 .img-btn{width:44px;height:44px;border-radius:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#4A8FE7}
@@ -167,7 +168,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
     <div class="msg-row">
       <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
       <div class="msg-content">
-        <div class="sender">樂發發金庫</div>
+        <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="bubble">fnHTt6</div>
         <div class="msg-meta">
           <div class="reply-link">回覆</div>
@@ -178,7 +179,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
     <div class="msg-row">
       <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
       <div class="msg-content">
-        <div class="sender">樂發發金庫</div>
+        <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="bubble">紅包碼～貢獻發放</div>
         <div class="msg-meta">
           <div class="reply-link">回覆</div>
@@ -191,7 +192,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
     <div class="msg-row" id="redpacketMsg" style="display:none">
       <div class="avatar" style="background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700">樂</div>
       <div class="msg-content">
-        <div class="sender">樂發發金庫</div>
+        <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()">
           <div class="redpacket-top">
             <div class="redpacket-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg></div>
