@@ -26,8 +26,8 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .chat-header{display:none}
 
 /* Tabs */
-.chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-page)}
-.chat-tabs .back-tab{background:#C44A3A;color:#fff;border:none;border-radius:0 9999px 9999px 0;padding:2px 14px 2px 0;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;width:80px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(196,74,58,.48),inset -2px -4px 2px rgba(160,38,28,1),inset 0 2px 1px rgba(255,200,180,.3);margin-left:-12px}
+.chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-page);position:relative}
+.chat-tabs .back-tab{background:#C44A3A;color:#fff;border:none;border-radius:0 9999px 9999px 0;padding:2px 14px 2px 0;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;width:80px;height:48px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(196,74,58,.48),inset -2px -4px 2px rgba(160,38,28,1),inset 0 2px 1px rgba(255,200,180,.3);margin-left:-12px;position:absolute;left:0}
 .chat-tabs .tab-group{display:flex;width:220px;gap:4px;background:rgba(255,255,255,0.87);border-radius:9999px;padding:4px 8px;margin:0 auto}
 .chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:14px;font-weight:600;color:var(--text-primary);background:transparent;border:none;border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
 .chat-tabs .tab-group button.active{color:#fff;background:#2B7FFF;border-color:#2B7FFF;font-weight:700}
@@ -73,14 +73,15 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .chat-input-row{display:flex;align-items:center;gap:4px;background:#E5E7EB;border-radius:9999px;padding:0;height:40px}
 .chat-input-bar input{flex:1;border:none;border-radius:16px;padding:4px 36px 4px 12px;font-size:14px;outline:none;color:var(--text-primary);background:transparent;height:38px}
 .chat-input-bar input::placeholder{color:#999}
-.img-btn{width:44px;height:44px;border-radius:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#452201}
+.img-btn{width:44px;height:44px;border-radius:10px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#4A8FE7}
 .img-btn svg{width:24px;height:24px}
 .emoji-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#452201}
 .emoji-btn svg{width:22px;height:22px}
 .input-wrap{position:relative;flex:1;display:flex;align-items:center;background:#fff;border-radius:16px;padding:0;height:38px}
 .redpacket-trigger{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-trigger svg{width:20px;height:20px;color:#fbbf24}
-.send-btn{background:linear-gradient(135deg,#9ABDF3,#6B84AA);color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-size:14px;font-weight:500;cursor:pointer;width:80px;height:40px;box-shadow:0 4px 8px rgba(107,132,170,.4),inset 0 1px 1px rgba(255,255,255,.3)}
+.send-btn{background:#B0B0B0;color:#fff;border:none;border-radius:9999px;padding:8px 16px;font-size:14px;font-weight:500;cursor:pointer;width:80px;height:40px;box-shadow:0 4px 8px rgba(0,0,0,.15),inset 0 1px 1px rgba(255,255,255,.3);transition:background .2s}
+.send-btn.active{background:#4A8FE7;box-shadow:0 4px 8px rgba(74,143,231,.4),inset 0 1px 1px rgba(255,255,255,.3)}
 .settings-float{display:none}
 
 /* Modal overlay */
@@ -335,6 +336,11 @@ async function pasteClipboard(){
   try{const t=await navigator.clipboard.readText();document.getElementById('codeInput').value=t;}
   catch(e){alert('無法存取剪貼簿，請手動貼上');}
 }
+// Send btn active state
+const msgInput=document.getElementById('msgInput');
+const sendBtn=document.querySelector('.send-btn');
+msgInput.addEventListener('input',()=>{sendBtn.classList.toggle('active',msgInput.value.trim().length>0);});
+
 </script>
 </body>
 </html>
