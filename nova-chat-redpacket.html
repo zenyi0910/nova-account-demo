@@ -8,7 +8,7 @@
 :root{
   --brand-primary:#4DD0C2;--brand-gold:#f4b63f;--brand-red:#991b1b;--brand-orange:#d97706;--brand-green:#10b981;
   --text-primary:#452201;--text-secondary:rgba(69,34,1,.6);--text-white:#fff;
-  --bg-card:#fafafa;--bg-page:#FFFDE7;
+  --bg-card:#fafafa;--bg-page:#F5E6C8;
   --radius-lg:24px;--radius-md:12px;--radius-sm:8px;--radius-full:9999px;
   --shadow-card:0 4px 8px rgba(174,108,108,.48),inset -2px -4px 2px rgba(210,184,184,1),inset 0 2px 1px rgba(255,253,247,.48);
   --orange-gradient:linear-gradient(135deg,#f59e0b,#d97706);
@@ -26,15 +26,15 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .chat-header{display:none}
 
 /* Tabs */
-.chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-card)}
+.chat-tabs{display:flex;align-items:center;gap:6px;padding:40px 12px 8px;background:var(--bg-page)}
 .chat-tabs .back-tab{background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .chat-tabs .tab-group{display:flex;flex:1;gap:4px}
 .chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
-.chat-tabs .tab-group button.active{color:#452201;background:#fbbf24;border-color:#fbbf24;font-weight:700}
+.chat-tabs .tab-group button.active{color:#fff;background:#4A3728;border-color:#4A3728;font-weight:700}
 .chat-tabs .tab-group button .notif{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%}
 
 /* Private chat info */
-.private-info{padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,0,0,.06);background:var(--bg-card)}
+.private-info{padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(0,0,0,.06);background:var(--bg-page)}
 .private-info .avatar{width:28px;height:28px;border-radius:50%;background:var(--orange-gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
 .private-info .name{font-size:13px;color:var(--text-primary);font-weight:600}
 .private-info .badge{background:var(--brand-green);color:#fff;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:600}
@@ -68,16 +68,16 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .claim-success svg{width:14px;height:14px}
 
 /* Input bar */
-.chat-input-bar{position:sticky;bottom:0;background:var(--bg-card);border-top:1px solid rgba(0,0,0,.06);padding:8px 12px 20px;display:flex;flex-direction:column;gap:6px;z-index:10}
+.chat-input-bar{position:sticky;bottom:0;background:var(--bg-page);border-top:none;padding:8px 12px 20px;display:flex;flex-direction:column;gap:6px;z-index:10}
 .chat-target{font-size:12px;color:var(--text-primary);font-weight:600;padding:0 4px}
 .chat-input-row{display:flex;align-items:center;gap:8px}
-.chat-input-bar input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;color:var(--text-primary)}
+.chat-input-bar input{flex:1;border:none;border-radius:20px;padding:8px 14px;font-size:13px;outline:none;color:var(--text-primary);background:#fff}
 .chat-input-bar input::placeholder{color:#ccc}
 .img-btn{width:32px;height:32px;border-radius:8px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#7c3aed}
 .emoji-btn{width:32px;height:32px;border-radius:50%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;color:#9ca3af}
 .redpacket-trigger{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-trigger svg{width:20px;height:20px;color:#fbbf24}
-.send-btn{background:#3b82f6;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.send-btn{background:linear-gradient(135deg,#D4874D,#a0603a);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
 .settings-float{position:absolute;bottom:70px;right:12px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9ca3af;z-index:5}
 
 /* Modal overlay */
