@@ -54,18 +54,25 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .msg-meta{display:flex;flex-direction:column;align-items:flex-start;gap:2px;align-self:flex-end;padding-bottom:2px}
 
 /* Red packet card */
-.redpacket-card{width:240px;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s;border:2px solid #c9302c;position:relative;background:#fffdf5}
+.redpacket-card{width:260px;border-radius:8px;cursor:pointer;transition:transform .15s;position:relative;background:#fffdf5;padding:4px}
 .redpacket-card:active{transform:scale(.97)}
-.redpacket-card::before{content:'🏮';position:absolute;top:4px;left:8px;font-size:16px}
-.redpacket-card::after{content:'🏮';position:absolute;top:4px;right:8px;font-size:16px}
-.redpacket-top{padding:16px 12px;display:flex;align-items:center;gap:12px;background:#fffdf5}
-.redpacket-icon{width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.redpacket-icon svg{width:48px;height:48px}
-.redpacket-top .rp-text{display:flex;flex-direction:column;gap:2px}
+.rp-frame{border:1.5px solid #c9302c;border-radius:6px;position:relative;padding:16px 12px 12px;overflow:visible}
+.rp-frame::before,.rp-frame::after{content:'';position:absolute;top:-6px;width:14px;height:20px;background:linear-gradient(180deg,#fbbf24 0%,#dc2626 30%,#dc2626 90%,#fbbf24 100%);border-radius:3px}
+.rp-frame::before{left:12px}
+.rp-frame::after{right:12px}
+.rp-corner{position:absolute;width:16px;height:16px;border-color:#d4a017;border-style:solid}
+.rp-corner.tl{top:2px;left:2px;border-width:2px 0 0 2px;border-radius:4px 0 0 0}
+.rp-corner.tr{top:2px;right:2px;border-width:2px 2px 0 0;border-radius:0 4px 0 0}
+.rp-corner.bl{bottom:2px;left:2px;border-width:0 0 2px 2px;border-radius:0 0 0 4px}
+.rp-corner.br{bottom:2px;right:2px;border-width:0 2px 2px 0;border-radius:0 0 4px 0}
+.redpacket-top{display:flex;align-items:center;gap:12px}
+.redpacket-icon{width:52px;height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.redpacket-icon svg{width:48px;height:56px}
+.redpacket-top .rp-text{display:flex;flex-direction:column;gap:4px}
 .redpacket-top h4{color:#333;font-size:13px;font-weight:600}
 .redpacket-top p{color:#888;font-size:11px}
-.redpacket-bottom{background:#fffdf5;padding:8px 16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px dashed rgba(201,48,44,.2)}
-.redpacket-btn{background:#10b981;color:#fff;border:none;border-radius:20px;padding:8px 24px;font-size:12px;font-weight:600;cursor:pointer}
+.redpacket-bottom{margin-top:8px;display:flex;justify-content:flex-end}
+.redpacket-btn{background:#10b981;color:#fff;border:none;border-radius:20px;padding:6px 20px;font-size:12px;font-weight:600;cursor:pointer}
 .redpacket-btn.claimed{background:#999;color:#fff;cursor:default}
 
 /* Claim success */
@@ -198,19 +205,22 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
       <div class="msg-content">
         <div class="sender">樂發發金庫 <span class="badge-private">私</span></div>
         <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()">
-          <div class="redpacket-top">
-            <div class="redpacket-icon"><svg viewBox="0 0 48 48" fill="none"><rect x="8" y="12" width="32" height="28" rx="3" fill="#dc2626"/><path d="M8 12h32v8H8z" fill="#b91c1c"/><circle cx="24" cy="26" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1"/><text x="24" y="30" text-anchor="middle" font-size="10" font-weight="bold" fill="#991b1b">福</text></svg></div>
-            <div class="rp-text">
-              <h4>收到一份公會紅包</h4>
-              <p>來自 樂發發金庫</p>
+          <div class="rp-frame">
+            <span class="rp-corner tl"></span><span class="rp-corner tr"></span><span class="rp-corner bl"></span><span class="rp-corner br"></span>
+            <div class="redpacket-top">
+              <div class="redpacket-icon"><svg viewBox="0 0 48 60" fill="none"><rect x="8" y="14" width="32" height="38" rx="3" fill="#dc2626"/><path d="M8 14h32v10H8z" fill="#b91c1c"/><path d="M8 14l16 8 16-8" fill="#a11a1a"/><circle cx="24" cy="36" r="9" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="24" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#991b1b">福</text></svg></div>
+              <div class="rp-text">
+                <h4>收到一份公會紅包</h4>
+                <p>來自 樂發發金庫</p>
+              </div>
+            </div>
+            <div class="redpacket-bottom">
+              <button class="redpacket-btn" id="cardBtn">領紅包</button>
             </div>
           </div>
-          <div class="redpacket-bottom">
-            <button class="redpacket-btn" id="cardBtn">領紅包</button>
-            <div class="claim-success" id="claimSuccess" style="display:none">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-              已成功領取 1,000 金幣
-            </div>
+          <div class="claim-success" id="claimSuccess" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            已成功領取 1,000 金幣
           </div>
         </div>
         <div class="msg-meta">
