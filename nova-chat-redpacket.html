@@ -15,7 +15,7 @@
   --font-stack:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(circle at center,#ffeb3b 0%,#f44336 70%,#b71c1c 100%);overflow:hidden;display:flex;justify-content:center;align-items:center}
+html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:hidden;display:flex;justify-content:center;align-items:center}
 .phone-frame{position:relative;width:430px;height:932px;max-height:95vh;border-radius:50px;border:10px solid #1a1a1a;background:#000;box-shadow:0 0 0 3px #333,0 0 60px rgba(0,0,0,.5);overflow:hidden;display:flex;flex-direction:column;margin:0 auto}
 .phone-frame::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#1a1a1a;border-radius:14px;z-index:100;pointer-events:none}
 .phone-frame::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:#555;border-radius:3px;z-index:100;pointer-events:none}
@@ -206,6 +206,14 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
       </div>
     </div>
 
+    <!-- Send success toast (step 3+) -->
+    <div class="msg-row send-success-row" id="sendSuccessMsg" style="display:none">
+      <div class="claim-success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+        已成功發送 1,000 金幣紅包
+      </div>
+    </div>
+
     <!-- Redpacket card (step 3-5) -->
     <div class="msg-row" id="redpacketMsg" style="display:none">
       <div class="avatar" style="background:#e8d5b7;display:flex;align-items:center;justify-content:center;overflow:hidden"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="28" r="14" fill="#f97316"/><circle cx="24" cy="26" r="12" fill="#fdba74"/><circle cx="19" cy="24" r="2.5" fill="#fff"/><circle cx="19" cy="24" r="1.5" fill="#1a1a1a"/><circle cx="29" cy="24" r="2.5" fill="#fff"/><circle cx="29" cy="24" r="1.5" fill="#1a1a1a"/><path d="M21 29 Q24 32 27 29" stroke="#1a1a1a" stroke-width="1.5" fill="none"/><path d="M12 16 L18 22 L14 22z" fill="#f97316"/><path d="M36 16 L30 22 L34 22z" fill="#f97316"/><rect x="18" y="12" width="12" height="6" rx="3" fill="#dc2626"/></svg></div>
@@ -242,14 +250,6 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
           <div class="reply-link">回覆</div>
           <div class="time">下午 02:01</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Send success toast (step 3+) -->
-    <div class="msg-row send-success-row" id="sendSuccessMsg" style="display:none">
-      <div class="claim-success">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-        已成功發送 1,000 金幣紅包
       </div>
     </div>
 
