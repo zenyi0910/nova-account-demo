@@ -30,7 +30,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .chat-tabs .back-tab{background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .chat-tabs .tab-group{display:flex;flex:1;gap:4px}
 .chat-tabs .tab-group button{flex:1;padding:7px 0;font-size:13px;font-weight:500;color:var(--text-primary);background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;cursor:pointer;transition:all .2s;position:relative}
-.chat-tabs .tab-group button.active{color:#452201;background:#fbbf24;border-color:#fbbf24;font-weight:700}
+.chat-tabs .tab-group button.active{color:#fff;background:#1e3a5f;border-color:#1e3a5f;font-weight:700}
 .chat-tabs .tab-group button .notif{position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#ef4444;border-radius:50%}
 
 /* Private chat info */
@@ -54,8 +54,6 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .redpacket-card{width:220px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:transform .15s}
 .redpacket-card:active{transform:scale(.97)}
 .redpacket-top{background:linear-gradient(135deg,#dc2626,#991b1b);padding:16px;text-align:center;position:relative}
-.redpacket-top::before{content:'';position:absolute;top:8px;left:8px;width:20px;height:20px;background:rgba(255,215,0,.3);border-radius:50%}
-.redpacket-top::after{content:'';position:absolute;top:4px;right:12px;width:16px;height:28px;background:rgba(255,215,0,.2);border-radius:4px}
 .redpacket-icon{width:48px;height:48px;margin:0 auto 8px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-top h4{color:#fff;font-size:13px;font-weight:600}
 .redpacket-top p{color:rgba(255,255,255,.8);font-size:11px;margin-top:2px}
@@ -78,7 +76,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 .redpacket-trigger{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .redpacket-trigger svg{width:20px;height:20px;color:#fbbf24}
 .send-btn{background:#3b82f6;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer}
-.settings-float{position:absolute;bottom:70px;right:12px;width:36px;height:36px;border-radius:10px;background:rgba(0,0,0,.06);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#9ca3af;z-index:5}
+.settings-float{display:none}
 
 /* Modal overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
@@ -105,8 +103,8 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
 
 /* Claim modal */
 .claim-modal-top{background:linear-gradient(135deg,#dc2626,#991b1b);padding:24px 20px;text-align:center;position:relative}
-.claim-modal-top::before{content:'🏮';position:absolute;top:8px;left:16px;font-size:20px;opacity:.6}
-.claim-modal-top::after{content:'🏮';position:absolute;top:8px;right:16px;font-size:20px;opacity:.6}
+.claim-modal-top::before{content:'';display:none}
+.claim-modal-top::after{content:'';display:none}
 .claim-modal-icon{width:64px;height:64px;margin:0 auto 12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 4px 8px rgba(0,0,0,.2)}
 .claim-modal-top h3{color:#fff;font-size:16px;font-weight:700}
 .claim-modal-body{padding:20px;text-align:center}
@@ -186,7 +184,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
         <div class="sender">樂發發金庫</div>
         <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()">
           <div class="redpacket-top">
-            <div class="redpacket-icon">🧧</div>
+            <div class="redpacket-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg></div>
             <h4>收到一份公會紅包</h4>
             <p>來自 樂發發金庫</p>
           </div>
@@ -251,7 +249,7 @@ html,body{height:100%;font-family:var(--font-stack);background:radial-gradient(c
   <div class="modal-box">
     <div class="claim-modal-top">
       <button class="close-btn" onclick="hideClaimModal()" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.2);color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
-      <div class="claim-modal-icon">🧧</div>
+      <div class="claim-modal-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/></svg></div>
       <h3>紅包內容</h3>
     </div>
     <div class="claim-modal-body">
@@ -310,7 +308,14 @@ function showSendModal(){document.getElementById('sendModal').classList.add('sho
 function hideSendModal(){document.getElementById('sendModal').classList.remove('show');}
 function showClaimModal(){document.getElementById('claimModal').classList.add('show');}
 function hideClaimModal(){document.getElementById('claimModal').classList.remove('show');}
-function sendRedpacket(){hideSendModal();setStep(3);}
+function sendRedpacket(){
+  const code=document.getElementById('codeInput').value.trim();
+  if(!code||!/^[A-Za-z0-9]{6}$/.test(code)){
+    alert('紅包序號格式錯誤，請輸入6碼英數混合序號（如 fnHTt6）');
+    return;
+  }
+  hideSendModal();setStep(3);
+}
 function claimRedpacket(){hideClaimModal();setStep(5);}
 async function pasteClipboard(){
   try{const t=await navigator.clipboard.readText();document.getElementById('codeInput').value=t;}
