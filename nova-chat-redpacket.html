@@ -58,7 +58,7 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
 .msg-meta{display:flex;flex-direction:column;align-items:flex-start;gap:2px;align-self:flex-end;padding-bottom:2px}
 
 /* Red packet card */
-.redpacket-card{width:240px;border-radius:8px;cursor:pointer;transition:transform .15s;position:relative;background:transparent;padding:0;margin-left:-36px;margin-top:-18px}
+.redpacket-card{width:200px;border-radius:8px;cursor:pointer;transition:transform .15s;position:relative;background:transparent;padding:0;margin-left:0;margin-top:0}
 .redpacket-card:active{transform:scale(.97)}
 .rp-frame{border:none;border-radius:6px;position:relative;padding:28px 14px 14px;overflow:visible;background:url('images/rp-frame-bg.jpg') center/cover no-repeat;border-image:url('images/rp-frame-bg.jpg') 30 round}
 .rp-deco-top{display:none}
@@ -225,7 +225,7 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
         <div class="sender">Casper <span class="badge-private">私</span></div>
         <div style="display:flex;align-items:flex-start;gap:4px;width:100%">
           <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()" style="flex-shrink:0;position:relative">
-            <img src="assets/rp_frame_chinese.jpg" style="width:100%;height:auto;display:block;border-radius:6px">
+            <img src="assets/rp_frame_chinese.png" style="width:100%;height:auto;display:block">
             <div style="position:absolute;inset:0;display:flex;align-items:center;padding:12px 14px;gap:12px">
               <img src="assets/rp_envelope_front.png" style="width:72px;height:90px;object-fit:contain;flex-shrink:0">
               <div style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
