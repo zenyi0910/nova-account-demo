@@ -224,8 +224,9 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
       <div class="msg-content" style="flex-wrap:wrap;align-items:flex-start;gap:2px">
         <div class="sender">Casper <span class="badge-private">私</span></div>
         <div style="display:flex;align-items:flex-end;gap:6px;width:100%">
-          <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()" style="flex-shrink:0">
-            <div class="rp-frame" style="border:none;padding:45px 35px 30px;background:url('assets/rp_frame_deco.png') center/100% 100% no-repeat;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+          <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()" style="flex-shrink:0;position:relative">
+            <img src="assets/rp_frame_deco.png" style="width:100%;height:auto;display:block">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:38px 28px 24px;gap:8px">
               <div class="redpacket-top">
                 <div class="redpacket-icon"><img src="assets/rp_envelope_front.png" style="width:48px;height:60px;object-fit:contain"></div>
                 <div class="rp-text">
