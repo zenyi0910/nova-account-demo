@@ -224,18 +224,9 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
       <div class="msg-content">
         <div class="sender">Casper <span class="badge-private">私</span></div>
         <div class="redpacket-card" id="redpacketCard" onclick="showClaimModal()">
-          <div class="rp-frame">
-            <div class="rp-deco-top">
-              <div class="rp-lantern"><div class="rp-lantern-tassel"></div></div>
-              <div class="rp-vine"></div>
-              <div class="rp-lantern"><div class="rp-lantern-tassel"></div></div>
-            </div>
-            <span class="rp-corner tl"><svg viewBox="0 0 14 14"><path d="M0 14 C0 6 2 2 14 0" fill="none" stroke="#d4a017" stroke-width="2"/><path d="M0 10 C0 4 4 0 10 0" fill="none" stroke="#d4a017" stroke-width="1" opacity=".5"/></svg></span>
-            <span class="rp-corner tr"><svg viewBox="0 0 14 14"><path d="M0 14 C0 6 2 2 14 0" fill="none" stroke="#d4a017" stroke-width="2"/><path d="M0 10 C0 4 4 0 10 0" fill="none" stroke="#d4a017" stroke-width="1" opacity=".5"/></svg></span>
-            <span class="rp-corner bl"><svg viewBox="0 0 14 14"><path d="M0 14 C0 6 2 2 14 0" fill="none" stroke="#d4a017" stroke-width="2"/><path d="M0 10 C0 4 4 0 10 0" fill="none" stroke="#d4a017" stroke-width="1" opacity=".5"/></svg></span>
-            <span class="rp-corner br"><svg viewBox="0 0 14 14"><path d="M0 14 C0 6 2 2 14 0" fill="none" stroke="#d4a017" stroke-width="2"/><path d="M0 10 C0 4 4 0 10 0" fill="none" stroke="#d4a017" stroke-width="1" opacity=".5"/></svg></span>
+          <div class="rp-frame" style="border:none;padding:0;background:url('assets/rp_frame_deco.png') center/contain no-repeat;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center">
             <div class="redpacket-top">
-              <div class="redpacket-icon"><svg viewBox="0 0 48 60" fill="none"><rect x="8" y="12" width="32" height="40" rx="3" fill="#dc2626"/><path d="M8 12h32l-16 8z" fill="#b91c1c"/><path d="M8 12l16 8 16-8v4l-16 6-16-6z" fill="#a11a1a" opacity=".6"/><circle cx="24" cy="36" r="10" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="24" y="40" text-anchor="middle" font-size="11" font-weight="bold" fill="#991b1b">福</text></svg></div>
+              <div class="redpacket-icon"><img src="assets/rp_envelope_front.png" style="width:48px;height:60px;object-fit:contain"></div>
               <div class="rp-text">
                 <h4>收到一份公會紅包</h4>
                 <p>來自 Casper</p>
@@ -275,12 +266,7 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
         <button class="emoji-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
       </div>
       <button class="redpacket-trigger" onclick="showSendModal()" title="發紅包">
-        <svg viewBox="0 0 40 40" fill="none">
-          <rect x="4" y="6" width="32" height="28" rx="3" fill="#dc2626"/>
-          <circle cx="20" cy="10" r="4" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
-          <path d="M12 16 Q20 12 28 16" stroke="#fbbf24" stroke-width="2" fill="none"/>
-          <path d="M14 22 L20 18 L26 22 L20 26z" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
-        </svg>
+        <img src="assets/rp_envelope_front.png" style="width:24px;height:24px;object-fit:contain">
       </button>
       <button class="send-btn">送出</button>
     </div>
@@ -321,21 +307,7 @@ html,body{height:100%;font-family:var(--font-stack);background:#1a1a1a;overflow:
         <button class="close-btn" onclick="hideClaimModal()">✕</button>
       </div>
       <div class="claim-modal-icon">
-        <svg viewBox="0 0 140 140" fill="none">
-          <rect x="50" y="60" width="40" height="50" rx="3" fill="#dc2626"/>
-          <path d="M50 60h40l-20 8z" fill="#b91c1c"/>
-          <circle cx="70" cy="80" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <text x="70" y="84" text-anchor="middle" font-size="9" font-weight="bold" fill="#991b1b">福</text>
-          <circle cx="40" cy="45" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <circle cx="55" cy="35" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <circle cx="70" cy="30" r="9" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <circle cx="85" cy="35" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <circle cx="100" cy="45" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <ellipse cx="45" cy="50" rx="6" ry="4" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
-          <ellipse cx="95" cy="50" rx="6" ry="4" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
-          <ellipse cx="110" cy="70" rx="8" ry="5" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-          <text x="110" y="73" text-anchor="middle" font-size="6" fill="#991b1b">幣</text>
-        </svg>
+        <img src="assets/rp_envelope_gold.png" style="width:120px;height:120px;object-fit:contain">
       </div>
     </div>
     <div class="claim-modal-body">
