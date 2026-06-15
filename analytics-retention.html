@@ -45,11 +45,18 @@ a{color:#3B82F6;text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
 .btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700}.btn-primary:hover{background:#1d4ed8}
 .btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}.btn-outline:hover{background:#F9FAFB}
-.table-wrap{overflow-x:auto;border-radius:8px}
+.table-wrap{overflow:auto;border-radius:8px;max-height:70vh;position:relative}
 table{width:100%;border-collapse:collapse}
-th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap}
+th{background:#F9FAFB;padding:12px 14px;text-align:left;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap;position:sticky;top:0;z-index:3}
+th:first-child{position:sticky;left:0;z-index:4;background:#F9FAFB}
 td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#334155}
+td:first-child{position:sticky;left:0;background:#fff;z-index:2}
 tr:hover td{background:rgba(59,130,246,.02)}
+tr:hover td:first-child{background:rgba(59,130,246,.02)}
+.sticky-summary td{position:sticky;bottom:0;z-index:2;border-top:2px solid #E5E7EB}
+.sticky-summary td:first-child{z-index:4}
+.sticky-summary-avg td{bottom:38px}
+.sticky-summary-sum td{bottom:0}
 td a{color:#2563EB;font-weight:500}
 .pagination{display:flex;align-items:center;justify-content:space-between;margin-top:16px;font-size:13px;color:#64748B}
 .page-btn{padding:6px 11px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;cursor:pointer;font-size:12px;color:#64748B}.page-btn.active{background:#2563EB;color:#fff;border-color:#2563EB}.page-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -99,38 +106,121 @@ td a{color:#2563EB;font-weight:500}
 <div class="card"><div class="card-header"><div><div class="card-title">留存率熱力圖報表</div><div class="card-desc">追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)</div></div><button class="export-btn" id="exportBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出 CSV</button></div>
 <div class="table-wrap"><table id="retentionTable"><thead id="retentionHead"></thead>
 <tbody id="retentionBody"></tbody></table></div>
-<div class="pagination"><div style="font-size:12px;color:#94A3B8">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</div><div style="display:flex;align-items:center;gap:16px"><span class="page-info">共 50 筆</span><span class="page-info">第 1 頁 / 1 頁</span><div style="display:flex;gap:4px"><button class="page-btn" disabled>«</button><button class="page-btn" disabled>‹</button><button class="page-btn active">1</button><button class="page-btn" disabled>›</button><button class="page-btn" disabled>»</button></div></div></div></div></div>
+<div class="pagination"><div style="font-size:12px;color:#94A3B8">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</div><div><span class="page-info-text">共 100 筆（含平均、總和共 102 列）</span></div></div></div></div>
 <script src="components/date-picker.js"></script>
 <script>
 function heatColor(val){if(val===null)return{bg:'',color:'#334155'};const max=50;const ratio=Math.min(val/max,1);const bg=`rgba(59,130,246,${(ratio*0.6).toFixed(2)})`;const color=ratio>0.35?'#fff':'#334155';return{bg,color}}
 const data=[
-{date:'2026/05/22',nu:64,days:[20.3,7.8,7.8,10.9,9.4,0,7.8,4.7,0,1.6,3.1]},
-{date:'2026/05/23',nu:104,days:[21.2,10.6,6.7,5.8,1.9,6.7,9.6,3.9,1.0,0,3.9]},
-{date:'2026/05/24',nu:82,days:[3.7,4.9,6.1,2.4,4.9,7.3,17.1,8.5,4.9,3.7,2.4]},
-{date:'2026/05/25',nu:75,days:[12.0,5.3,8.0,0,4.0,9.3,6.7,2.7,1.3,0,null]},
-{date:'2026/05/26',nu:65,days:[21.5,3.1,10.8,21.5,12.3,12.3,7.7,3.1,1.5,null,null]},
-{date:'2026/05/27',nu:59,days:[10.2,17.0,3.4,1.7,6.8,0,0,1.7,null,null,null]},
-{date:'2026/05/28',nu:46,days:[8.7,6.5,2.2,2.2,2.2,2.2,4.4,null,null,null,null]},
-{date:'2026/05/29',nu:58,days:[12.1,13.8,10.3,6.9,12.1,8.6,null,null,null,null,null]},
-{date:'2026/05/30',nu:72,days:[20.8,5.6,8.3,11.1,5.6,null,null,null,null,null,null]},
-{date:'2026/05/31',nu:91,days:[7.7,4.4,13.2,7.7,null,null,null,null,null,null,null]}
+{date:'2026/03/07',nu:116,days:[18.8,26.4,15.9,11.7,8.6,16.4,10.7,8.9,0,0,0]},
+{date:'2026/03/08',nu:112,days:[17.4,17.7,22.4,18.2,10.5,13.9,15.0,0,9.9,5.7,0]},
+{date:'2026/03/09',nu:54,days:[20.4,26.7,13.6,15.6,12.7,10.0,6.2,0.2,4.4,0,6.8]},
+{date:'2026/03/10',nu:45,days:[25.8,27.8,21.9,23.3,16.2,15.8,2.7,3.1,1.6,0,0]},
+{date:'2026/03/11',nu:47,days:[23.1,21.8,25.3,12.1,12.7,15.2,13.2,10.4,0,4.7,0.5]},
+{date:'2026/03/12',nu:66,days:[19.6,20.6,27.8,19.7,15.9,15.5,15.5,11.9,0.7,0,0]},
+{date:'2026/03/13',nu:69,days:[18.1,29.1,21.1,21.0,10.4,12.5,16.2,9.8,0,0,3.9]},
+{date:'2026/03/14',nu:103,days:[21.2,23.9,26.4,15.9,10.5,20.5,10.2,1.0,0,0,2.0]},
+{date:'2026/03/15',nu:122,days:[23.8,15.5,18.1,25.4,15.5,20.0,15.8,0,8.5,5.4,0.6]},
+{date:'2026/03/16',nu:69,days:[29.3,19.9,16.7,12.0,7.1,16.1,13.5,15.1,9.2,2.6,0]},
+{date:'2026/03/17',nu:115,days:[21.8,24.7,21.7,11.9,19.2,13.1,14.5,8.0,0,0,0]},
+{date:'2026/03/18',nu:81,days:[31.1,27.8,16.9,10.4,21.0,19.7,3.4,7.3,0,6.7,4.3]},
+{date:'2026/03/19',nu:51,days:[27.6,29.6,14.6,17.9,16.7,19.9,16.9,11.6,8.0,5.9,0]},
+{date:'2026/03/20',nu:120,days:[27.4,21.5,20.3,11.4,10.6,9.9,11.4,3.2,0.5,0,2.1]},
+{date:'2026/03/21',nu:64,days:[18.1,15.0,17.3,17.7,11.5,12.3,10.6,11.1,11.1,3.7,0]},
+{date:'2026/03/22',nu:95,days:[29.9,17.5,13.6,16.4,13.8,12.0,13.7,10.3,12.7,0,0]},
+{date:'2026/03/23',nu:78,days:[29.8,16.2,15.1,18.1,9.2,7.4,9.4,13.5,0,7.4,5.7]},
+{date:'2026/03/24',nu:47,days:[17.8,30.5,25.4,25.0,21.8,18.1,4.7,7.3,0.4,0.9,0]},
+{date:'2026/03/25',nu:83,days:[17.0,20.7,26.8,22.1,11.6,15.6,13.7,12.0,7.6,2.3,0]},
+{date:'2026/03/26',nu:62,days:[32.5,23.8,20.7,21.5,7.9,13.8,10.0,13.1,0,9.9,0]},
+{date:'2026/03/27',nu:58,days:[18.1,15.6,25.8,16.0,22.1,13.6,11.3,0.1,0,5.0,1.0]},
+{date:'2026/03/28',nu:75,days:[32.0,17.8,23.5,13.3,13.3,15.2,6.8,4.6,9.0,0,0]},
+{date:'2026/03/29',nu:107,days:[32.9,15.7,15.4,13.7,21.9,18.6,16.1,5.4,0,7.8,3.3]},
+{date:'2026/03/30',nu:113,days:[32.7,27.4,20.5,20.2,15.9,19.4,3.7,13.6,1.2,8.7,3.9]},
+{date:'2026/03/31',nu:54,days:[21.4,24.2,23.5,12.8,17.1,8.7,9.8,14.0,10.5,0,0]},
+{date:'2026/04/01',nu:70,days:[17.7,19.8,14.1,25.2,9.6,11.6,13.3,8.5,0,9.6,3.1]},
+{date:'2026/04/02',nu:54,days:[25.7,27.9,21.3,11.9,9.0,9.4,16.4,12.2,10.8,8.9,0]},
+{date:'2026/04/03',nu:66,days:[27.7,20.2,21.0,23.5,22.6,16.5,16.8,3.3,0,7.3,0]},
+{date:'2026/04/04',nu:87,days:[17.4,26.3,17.3,24.4,19.8,18.3,15.0,3.8,9.6,0,6.0]},
+{date:'2026/04/05',nu:95,days:[20.6,27.6,19.4,14.4,19.7,8.1,2.4,2.6,2.3,8.3,7.5]},
+{date:'2026/04/06',nu:70,days:[22.6,22.7,22.9,23.0,12.3,4.9,16.0,3.7,6.3,10.2,0]},
+{date:'2026/04/07',nu:111,days:[24.0,26.2,17.0,19.2,15.2,10.7,11.2,3.6,8.3,0,6.8]},
+{date:'2026/04/08',nu:103,days:[28.0,29.5,23.8,12.7,13.9,19.7,16.7,9.5,7.6,0,6.4]},
+{date:'2026/04/09',nu:99,days:[21.9,21.0,18.4,14.2,9.0,11.2,17.0,10.3,11.4,4.3,0]},
+{date:'2026/04/10',nu:105,days:[30.3,19.4,15.4,22.1,16.7,9.7,9.1,10.3,5.2,7.2,7.4]},
+{date:'2026/04/11',nu:129,days:[19.7,15.9,20.2,19.6,12.4,17.6,14.0,10.3,0.6,0,0]},
+{date:'2026/04/12',nu:66,days:[32.7,24.3,24.3,16.8,21.2,13.7,13.5,5.6,3.4,0,3.0]},
+{date:'2026/04/13',nu:48,days:[29.5,18.0,24.9,20.6,14.4,13.4,16.7,1.4,0,1.9,0.5]},
+{date:'2026/04/14',nu:106,days:[26.5,29.7,26.3,19.3,18.5,12.6,15.3,8.3,11.4,6.4,0]},
+{date:'2026/04/15',nu:68,days:[29.0,27.9,16.4,21.9,14.8,8.3,9.0,10.9,0.8,0,6.3]},
+{date:'2026/04/16',nu:45,days:[19.2,18.2,23.1,20.8,8.0,11.0,10.7,6.2,0.3,1.2,6.5]},
+{date:'2026/04/17',nu:109,days:[32.1,14.8,26.1,18.7,14.6,19.6,6.8,5.7,11.3,7.9,0.6]},
+{date:'2026/04/18',nu:129,days:[25.7,24.2,15.5,13.0,14.0,5.0,7.4,10.4,3.5,0,0]},
+{date:'2026/04/19',nu:51,days:[32.7,23.0,26.5,19.0,17.6,5.8,8.9,13.4,0,0,0]},
+{date:'2026/04/20',nu:93,days:[22.2,26.7,18.1,21.5,20.3,8.5,3.3,0,5.6,10.5,0]},
+{date:'2026/04/21',nu:118,days:[18.1,29.8,12.6,10.0,11.0,17.9,11.9,3.3,4.6,0,7.2]},
+{date:'2026/04/22',nu:94,days:[28.2,26.8,14.7,19.2,19.0,6.3,15.1,14.9,0,0,0]},
+{date:'2026/04/23',nu:121,days:[31.5,20.5,27.1,12.7,16.5,17.8,5.9,10.7,1.8,5.4,4.9]},
+{date:'2026/04/24',nu:107,days:[29.5,20.1,18.9,15.4,15.1,10.0,15.6,12.7,0,9.9,2.2]},
+{date:'2026/04/25',nu:93,days:[28.3,21.5,23.7,24.9,11.3,17.4,10.6,7.2,4.0,6.2,0]},
+{date:'2026/04/26',nu:66,days:[30.3,15.9,26.1,13.4,14.4,14.3,8.1,0,10.6,0,0]},
+{date:'2026/04/27',nu:68,days:[22.4,28.6,23.2,13.9,7.2,19.7,3.4,11.0,4.8,6.6,3.0]},
+{date:'2026/04/28',nu:117,days:[28.4,21.7,12.3,14.2,13.5,8.4,12.6,5.4,5.9,0.0,7.9]},
+{date:'2026/04/29',nu:105,days:[22.3,25.7,16.3,13.5,8.9,7.6,3.9,8.1,9.2,0,0]},
+{date:'2026/04/30',nu:96,days:[21.4,23.9,24.2,19.0,22.7,17.8,6.7,5.3,1.8,5.8,0]},
+{date:'2026/05/01',nu:40,days:[32.6,23.4,23.2,11.5,20.9,12.4,16.0,8.7,4.5,1.5,0]},
+{date:'2026/05/02',nu:41,days:[21.0,28.3,13.8,10.5,14.9,13.7,13.0,1.9,10.0,9.7,0]},
+{date:'2026/05/03',nu:66,days:[18.9,26.7,21.7,22.2,10.6,12.9,9.2,6.6,10.8,10.3,0]},
+{date:'2026/05/04',nu:114,days:[18.0,29.9,13.6,21.7,17.0,8.7,3.3,3.3,5.8,0,0]},
+{date:'2026/05/05',nu:123,days:[26.5,19.2,15.7,20.8,18.2,11.8,13.0,14.3,9.6,4.5,2.6]},
+{date:'2026/05/06',nu:60,days:[23.8,23.2,22.4,24.0,20.2,5.6,4.7,4.4,9.0,3.6,0]},
+{date:'2026/05/07',nu:50,days:[24.5,19.4,18.4,13.9,15.6,11.5,11.6,13.7,8.8,4.2,0]},
+{date:'2026/05/08',nu:64,days:[32.4,27.9,21.2,24.7,23.0,15.3,6.3,0.1,9.1,2.0,2.4]},
+{date:'2026/05/09',nu:70,days:[19.9,23.9,22.2,17.4,8.5,10.1,7.3,10.2,10.7,0,3.1]},
+{date:'2026/05/10',nu:71,days:[27.6,20.9,24.2,10.1,8.4,8.5,3.9,11.9,10.8,7.7,0]},
+{date:'2026/05/11',nu:104,days:[24.4,15.4,20.3,19.5,15.0,11.6,2.8,3.8,0,0,6.1]},
+{date:'2026/05/12',nu:97,days:[18.9,30.1,21.7,13.3,9.5,13.3,10.8,1.0,12.9,9.1,0]},
+{date:'2026/05/13',nu:50,days:[27.4,17.0,26.9,14.2,18.3,11.1,9.7,7.1,4.3,0,0]},
+{date:'2026/05/14',nu:111,days:[25.1,28.6,25.8,13.9,19.6,11.1,16.9,7.6,10.1,0,0]},
+{date:'2026/05/15',nu:110,days:[26.3,25.1,25.8,16.6,14.7,9.8,14.2,5.5,11.9,8.4,7.7]},
+{date:'2026/05/16',nu:65,days:[26.1,18.2,24.4,10.2,18.9,15.8,15.0,5.7,7.6,7.6,7.7]},
+{date:'2026/05/17',nu:98,days:[32.4,16.5,27.4,14.8,8.6,18.0,3.6,14.1,0,0,5.9]},
+{date:'2026/05/18',nu:54,days:[18.2,27.0,16.2,19.5,13.4,5.8,7.3,10.3,5.5,9.8,2.0]},
+{date:'2026/05/19',nu:97,days:[31.0,15.1,13.1,19.6,21.7,20.5,13.9,6.4,0,4.6,6.0]},
+{date:'2026/05/20',nu:91,days:[19.7,19.3,12.5,14.7,7.9,10.2,8.9,3.4,3.6,5.4,0]},
+{date:'2026/05/21',nu:57,days:[18.3,28.4,21.9,13.4,21.6,6.8,9.4,3.6,1.1,0,4.9]},
+{date:'2026/05/22',nu:71,days:[27.8,17.0,19.1,15.0,16.4,14.7,8.8,3.5,10.5,0,0]},
+{date:'2026/05/23',nu:96,days:[18.7,20.6,17.7,14.2,18.2,4.9,15.3,5.8,0,8.3,4.5]},
+{date:'2026/05/24',nu:41,days:[31.6,26.4,25.3,23.9,19.4,8.2,14.8,3.0,0.0,0,4.1]},
+{date:'2026/05/25',nu:119,days:[27.9,16.7,13.6,19.5,7.6,17.1,2.5,5.3,0,9.1,0]},
+{date:'2026/05/26',nu:88,days:[19.8,16.6,20.6,25.0,15.5,19.1,15.3,3.6,10.2,2.2,4.9]},
+{date:'2026/05/27',nu:130,days:[30.9,27.4,19.5,10.7,19.1,8.1,12.8,10.3,3.4,8.0,0.9]},
+{date:'2026/05/28',nu:46,days:[29.7,14.7,20.6,16.8,17.8,15.3,11.4,12.7,12.0,0,0]},
+{date:'2026/05/29',nu:38,days:[26.9,29.6,17.2,19.3,17.4,14.7,9.4,10.7,7.4,0,0]},
+{date:'2026/05/30',nu:39,days:[21.9,22.4,13.6,23.7,9.2,11.8,12.7,11.4,12.1,1.2,3.9]},
+{date:'2026/05/31',nu:54,days:[31.2,25.0,25.3,19.4,22.0,9.0,13.0,3.0,4.1,0,0]},
+{date:'2026/06/01',nu:122,days:[22.9,28.9,22.3,10.5,11.4,20.0,17.2,12.7,0,0,2.2]},
+{date:'2026/06/02',nu:37,days:[17.8,19.8,27.8,22.1,10.3,17.8,10.9,8.9,10.0,0,4.4]},
+{date:'2026/06/03',nu:111,days:[17.0,28.2,14.3,11.6,11.0,7.3,12.6,0,0,7.1,0]},
+{date:'2026/06/04',nu:76,days:[17.3,18.7,14.0,16.2,8.8,5.5,9.2,5.3,6.5,1.7,0]},
+{date:'2026/06/05',nu:113,days:[17.7,27.0,25.9,17.8,14.3,19.9,3.0,7.2,3.4,5.5,null]},
+{date:'2026/06/06',nu:97,days:[28.4,21.6,26.4,14.7,9.4,6.5,12.0,8.9,8.4,null,null]},
+{date:'2026/06/07',nu:83,days:[32.9,23.0,19.3,19.2,8.6,15.7,15.6,9.9,null,null,null]},
+{date:'2026/06/08',nu:105,days:[28.5,17.9,19.2,13.2,12.4,11.8,8.7,null,null,null,null]},
+{date:'2026/06/09',nu:47,days:[22.0,19.5,16.1,24.8,18.0,12.1,null,null,null,null,null]},
+{date:'2026/06/10',nu:46,days:[30.3,16.0,13.5,21.3,20.0,null,null,null,null,null,null]},
+{date:'2026/06/11',nu:106,days:[18.0,29.8,21.0,20.2,null,null,null,null,null,null,null]},
+{date:'2026/06/12',nu:87,days:[22.7,25.1,24.0,null,null,null,null,null,null,null,null]},
+{date:'2026/06/13',nu:127,days:[17.8,19.1,null,null,null,null,null,null,null,null,null]},
+{date:'2026/06/14',nu:74,days:[22.6,null,null,null,null,null,null,null,null,null,null]}
 ];
 // 人數模擬
 data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100))});
 const tbody=document.getElementById('retentionBody');
 const thead=document.getElementById('retentionHead');
-const perPage=50;
-let currentPage=1;
-// 動態計算最大天數
-const maxDays=Math.max(...data.map(r=>r.days.filter(v=>v!==null).length));
+const maxDays=11;
 function renderTable(){
-  // 動態表頭
   thead.innerHTML='<tr><th>註冊日期</th><th>NU (新增)</th>'+Array.from({length:maxDays},(_, i)=>`<th>Day +${i+1} R${i+1}</th>`).join('')+'</tr>';
   tbody.innerHTML='';
-  const start=(currentPage-1)*perPage;
-  const end=start+perPage;
-  const pageData=data.slice(start,end);
-  pageData.forEach(r=>{
+  data.forEach(r=>{
     const tr=document.createElement('tr');
     let cells=`<td>${r.date}</td><td>${r.nu}</td>`;
     for(let i=0;i<maxDays;i++){
@@ -141,48 +231,30 @@ function renderTable(){
     tr.innerHTML=cells;
     tbody.appendChild(tr);
   });
-  // 平均留存率列
+  // 平均留存率列（sticky）
   const avgTr=document.createElement('tr');
+  avgTr.className='sticky-summary sticky-summary-avg';
   avgTr.style.fontWeight='600';avgTr.style.background='#F8FAFC';
-  let html='<td>平均</td><td>'+Math.round(data.reduce((s,r)=>s+r.nu,0)/data.length)+'</td>';
+  let html='<td style="background:#F8FAFC">平均</td><td style="background:#F8FAFC">'+Math.round(data.reduce((s,r)=>s+r.nu,0)/data.length)+'</td>';
   for(let i=0;i<maxDays;i++){
     const vals=data.map(r=>r.days[i]).filter(v=>v!==null&&v!==undefined);
-    if(vals.length===0){html+='<td>—</td>';}
-    else{const avg=(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1);const h=heatColor(parseFloat(avg));html+=`<td style="background:${h.bg};color:${h.color}">${avg}%</td>`;}
+    if(vals.length===0){html+='<td style="background:#F8FAFC">—</td>';}
+    else{const avg=(vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1);const h=heatColor(parseFloat(avg));html+=`<td style="background:${h.bg||'#F8FAFC'};color:${h.color}">${avg}%</td>`;}
   }
   avgTr.innerHTML=html;tbody.appendChild(avgTr);
-  // 總和列
+  // 總和列（sticky）
   const sumTr=document.createElement('tr');
+  sumTr.className='sticky-summary sticky-summary-sum';
   sumTr.style.fontWeight='600';sumTr.style.background='#F1F5F9';
-  let sumHtml='<td>總和</td><td>'+data.reduce((s,r)=>s+r.nu,0)+'</td>';
+  let sumHtml='<td style="background:#F1F5F9">總和</td><td style="background:#F1F5F9">'+data.reduce((s,r)=>s+r.nu,0)+'</td>';
   for(let i=0;i<maxDays;i++){
     const vals=data.map(r=>r.counts&&r.counts[i]!==null&&r.counts[i]!==undefined?r.counts[i]:0);
     const hasData=data.some(r=>r.days[i]!==null&&r.days[i]!==undefined);
-    sumHtml+=hasData?'<td>'+vals.reduce((s,v)=>s+v,0)+'</td>':'<td>—</td>';
+    sumHtml+=hasData?`<td style="background:#F1F5F9">${vals.reduce((s,v)=>s+v,0)}</td>`:'<td style="background:#F1F5F9">—</td>';
   }
   sumTr.innerHTML=sumHtml;tbody.appendChild(sumTr);
-  // 更新分頁（預設50列）
-  const displayTotal=Math.max(data.length,50);
-  const totalPages=Math.ceil(displayTotal/perPage);
-  document.querySelector('.pagination>div:nth-child(2) .page-info:first-child').textContent='共 '+displayTotal+' 筆';
-  document.querySelector('.pagination>div:nth-child(2) .page-info:nth-child(2)').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
-  const pageNav=document.querySelector('.pagination>div:nth-child(2)>div:last-child');
-  pageNav.innerHTML='';
-  const btns=[
-    {label:'«',page:1,disabled:currentPage===1},
-    {label:'‹',page:currentPage-1,disabled:currentPage===1},
-    {label:currentPage,page:currentPage,active:true},
-    {label:'›',page:currentPage+1,disabled:currentPage===totalPages},
-    {label:'»',page:totalPages,disabled:currentPage===totalPages}
-  ];
-  btns.forEach(b=>{
-    const btn=document.createElement('button');
-    btn.className='page-btn'+(b.active?' active':'');
-    btn.textContent=b.label;
-    btn.disabled=b.disabled;
-    if(!b.disabled&&!b.active)btn.onclick=()=>{currentPage=b.page;renderTable()};
-    pageNav.appendChild(btn);
-  });
+  // 更新筆數
+  document.querySelector('.page-info-text').textContent='共 '+data.length+' 筆（含平均、總和共 '+(data.length+2)+' 列）';
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
@@ -230,7 +302,7 @@ document.querySelector('.btn-primary').addEventListener('click',function(){
     desc.textContent='追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)';
   }
   data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100))});
-  currentPage=1;renderTable();
+  renderTable();
   // 第一欄表頭跟著 group by 變
   const firstTh=document.querySelector('#retentionTable th');
   if(groupBy==='裝置平台')firstTh.textContent='裝置平台';
