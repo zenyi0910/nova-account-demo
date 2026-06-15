@@ -6,7 +6,7 @@
 <title>留存率 - Nova Analytics</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F9FAFB;color:#1E293B;font-size:14px;line-height:1.5;min-height:100vh;overflow-x:hidden}
 a{color:#3B82F6;text-decoration:none}
 .layout{display:flex;min-height:100vh}
 .sidebar{width:240px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-right:1px solid rgba(148,163,184,.15);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10;transition:width .3s ease}
@@ -33,7 +33,7 @@ a{color:#3B82F6;text-decoration:none}
 .topbar-icon-btn{width:36px;height:36px;border:1px solid rgba(148,163,184,.15);border-radius:10px;background:rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#64748B;transition:all .2s}
 .topbar-icon-btn:hover{background:#fff;color:#334155;border-color:rgba(59,130,246,.3)}
 .content{padding:28px;flex:1}
-.card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);margin-bottom:20px;transition:.3s cubic-bezier(.4,0,.2,1)}
+.card{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06);margin-bottom:20px;transition:.3s cubic-bezier(.4,0,.2,1);overflow-x:auto}
 .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.12),0 4px 12px rgba(0,0,0,.08)}
 .card-title{font-size:16px;font-weight:700;color:#0F172A;display:flex;align-items:center;gap:8px;margin-bottom:4px}.card-title::before{content:'';width:4px;height:20px;background:#2563EB;border-radius:2px}
 .card-desc{font-size:13px;color:#64748B;margin-bottom:16px}
@@ -261,7 +261,7 @@ function renderTable(){
   sumTr.innerHTML=sumHtml;tbody.appendChild(sumTr);
   // 更新分頁
   const totalPages=Math.ceil(data.length/perPage);
-  document.querySelector('.page-info-text').textContent='共 '+data.length+' 筆（含平均、總和共 '+(data.length+3)+' 列）';
+  document.querySelector('.page-info-text').textContent='共 '+data.length+' 筆';
   document.querySelector('.page-info-page').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
   const pageNav=document.querySelector('.page-nav');
   pageNav.innerHTML='';
