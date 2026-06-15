@@ -45,7 +45,7 @@ a{color:#3B82F6;text-decoration:none}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;transition:all .2s;font-weight:500}
 .btn-primary{background:#2563EB;color:#fff;border:none;font-weight:700}.btn-primary:hover{background:#1d4ed8}
 .btn-outline{background:#fff;color:#64748B;border:1px solid #E5E7EB}.btn-outline:hover{background:#F9FAFB}
-.table-wrap{overflow:auto;border-radius:8px;max-height:calc(100vh - 280px);position:relative}
+.table-wrap{overflow:auto;border-radius:8px;max-height:600px;position:relative}
 table{width:100%;border-collapse:collapse}
 th{background:#F9FAFB;padding:12px 14px;text-align:center;font-size:12px;color:#64748B;font-weight:600;border-bottom:1px solid #E5E7EB;white-space:nowrap;position:sticky;top:0;z-index:3}
 th:first-child{position:sticky;left:0;z-index:4;background:#F9FAFB}
@@ -54,8 +54,8 @@ td{padding:12px 14px;border-bottom:1px solid #F1F5F9;font-size:13px;color:#33415
 td:first-child{position:sticky;left:0;background:#fff;z-index:2}
 tr:hover td{background:rgba(59,130,246,.02)}
 tr:hover td:first-child{background:rgba(59,130,246,.02)}
-.sticky-summary td{position:sticky;bottom:0;z-index:2;border-top:2px solid #E5E7EB}
-.sticky-summary-avg td{bottom:38px;background:#F8FAFC!important}
+.sticky-summary td{position:sticky;bottom:0;z-index:2}
+.sticky-summary-avg td{bottom:38px;background:#F8FAFC!important;border-top:2px solid #E5E7EB}
 .sticky-summary-sum td{bottom:0;background:#F1F5F9!important}
 .sticky-summary td:first-child{z-index:4}
 td a{color:#2563EB;font-weight:500}
@@ -107,7 +107,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="card"><div class="card-header"><div><div class="card-title">留存率熱力圖報表</div><div class="card-desc">追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)</div></div><button class="export-btn" id="exportBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出 CSV</button></div>
 <div class="table-wrap"><table id="retentionTable"><thead id="retentionHead"></thead>
 <tbody id="retentionBody"></tbody></table></div>
-<div class="pagination"><div style="font-size:12px;color:#94A3B8">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</div><div style="display:flex;align-items:center;gap:16px"><span class="page-info-text">共 100 筆（含平均、總和共 103 列）</span><span class="page-info-page">第 1 頁 / 1 頁</span></div></div></div></div>
+<div class="pagination"><div style="font-size:12px;color:#94A3B8">* 留存率計算方式：( X / Y ) × 100%（其中 X 為該日留存人數，Y 為註冊日新增人數）。</div><div style="display:flex;align-items:center;gap:16px"><span class="page-info-text">共 100 筆</span><span class="page-info-page">第 1 頁 / 5 頁</span><div class="page-nav" style="display:flex;gap:4px"></div></div></div></div></div>
 <script src="components/date-picker.js"></script>
 <script>
 function heatColor(val){if(val===null)return{bg:'',color:'#334155'};const max=50;const ratio=Math.min(val/max,1);const bg=`rgba(59,130,246,${(ratio*0.6).toFixed(2)})`;const color=ratio>0.35?'#fff':'#334155';return{bg,color}}
@@ -218,10 +218,15 @@ data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100)
 const tbody=document.getElementById('retentionBody');
 const thead=document.getElementById('retentionHead');
 const maxDays=30;
+const perPage=20;
+let currentPage=1;
 function renderTable(){
   thead.innerHTML='<tr><th>註冊日期</th><th>NU (新增)</th>'+Array.from({length:maxDays},(_, i)=>`<th>Day +${i+1}<span class="th-sub">R${i+1}</span></th>`).join('')+'</tr>';
   tbody.innerHTML='';
-  data.forEach(r=>{
+  const start=(currentPage-1)*perPage;
+  const end=start+perPage;
+  const pageData=data.slice(start,end);
+  pageData.forEach(r=>{
     const tr=document.createElement('tr');
     let cells=`<td>${r.date}</td><td>${r.nu}</td>`;
     for(let i=0;i<maxDays;i++){
@@ -254,8 +259,31 @@ function renderTable(){
     sumHtml+=hasData?`<td>${vals.reduce((s,v)=>s+v,0)}</td>`:'<td>—</td>';
   }
   sumTr.innerHTML=sumHtml;tbody.appendChild(sumTr);
-  // 更新筆數
+  // 更新分頁
+  const totalPages=Math.ceil(data.length/perPage);
   document.querySelector('.page-info-text').textContent='共 '+data.length+' 筆（含平均、總和共 '+(data.length+3)+' 列）';
+  document.querySelector('.page-info-page').textContent='第 '+currentPage+' 頁 / '+totalPages+' 頁';
+  const pageNav=document.querySelector('.page-nav');
+  pageNav.innerHTML='';
+  const btns=[
+    {label:'«',page:1,disabled:currentPage===1},
+    {label:'‹',page:currentPage-1,disabled:currentPage===1}
+  ];
+  const startPage=Math.max(1,currentPage-2);
+  const endPage=Math.min(totalPages,currentPage+2);
+  for(let i=startPage;i<=endPage;i++){
+    btns.push({label:i,page:i,active:i===currentPage});
+  }
+  btns.push({label:'›',page:currentPage+1,disabled:currentPage===totalPages});
+  btns.push({label:'»',page:totalPages,disabled:currentPage===totalPages});
+  btns.forEach(b=>{
+    const btn=document.createElement('button');
+    btn.className='page-btn'+(b.active?' active':'');
+    btn.textContent=b.label;
+    btn.disabled=b.disabled;
+    if(!b.disabled&&!b.active)btn.onclick=()=>{currentPage=b.page;renderTable()};
+    pageNav.appendChild(btn);
+  });
 }
 renderTable();
 document.querySelector('.card-desc').textContent=`追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)`;
@@ -303,7 +331,7 @@ document.querySelector('.btn-primary').addEventListener('click',function(){
     desc.textContent='追蹤用戶留存表現及趨勢變化。當前展示：百分比 (%) + 實際數量 (人)';
   }
   data.forEach(r=>{r.counts=r.days.map((v,i)=>v===null?null:Math.round(r.nu*v/100))});
-  renderTable();
+  currentPage=1;renderTable();
   // 第一欄表頭跟著 group by 變
   const firstTh=document.querySelector('#retentionTable th');
   if(groupBy==='裝置平台')firstTh.textContent='裝置平台';
