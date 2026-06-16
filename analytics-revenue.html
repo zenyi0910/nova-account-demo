@@ -138,6 +138,20 @@ tfoot{position:sticky;bottom:0;z-index:2}
 </div>
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="document.getElementById('analyticsSidebar').classList.remove('mobile-open');this.classList.remove('show')"></div>
+<!-- Detail Modal -->
+<div id="detailModal" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.4);align-items:center;justify-content:center">
+<div style="background:#fff;border-radius:16px;width:90%;max-width:900px;max-height:80vh;overflow:auto;padding:28px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+<button onclick="closeDetail()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#64748B">×</button>
+<button onclick="exportDetailCSV()" style="position:absolute;top:16px;right:56px;background:#fff;border:1px solid #D0D5DD;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載</button>
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><div style="width:4px;height:20px;background:#2563EB;border-radius:2px"></div><h3 style="margin:0;font-size:16px;font-weight:700" id="detailTitle">日期明細</h3></div>
+<p style="font-size:13px;color:#64748B;margin:4px 0 16px">該日累計 Revenue: <span id="detailRevenue" style="color:#16A34A;font-weight:700"></span></p>
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+<thead><tr><th style="text-align:left;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">時間</th><th style="text-align:left;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">UID</th><th style="text-align:left;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">暱稱</th><th style="text-align:left;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">VIP</th><th style="text-align:right;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">儲值金額</th><th style="text-align:left;padding:10px 12px;background:#F9FAFB;border-bottom:1px solid #E5E7EB;font-size:12px;color:#64748B">註冊日</th></tr></thead>
+<tbody id="detailBody"></tbody>
+</table>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:#64748B"><span id="detailCount"></span><span id="detailPage">第 1 頁 / 1 頁</span></div>
+</div>
+</div>
 <script src="components/date-picker.js"></script>
 <script>
 // Mock data generator
@@ -173,7 +187,7 @@ function renderTable(){
   const tfoot=document.getElementById('tableFoot');
   let html='';
   currentData.forEach(r=>{
-    html+='<tr><td>'+r[0]+'</td><td><a href="javascript:void(0)">'+r[1].toLocaleString()+'</a></td>';
+    html+='<tr><td>'+r[0]+'</td><td><a href="javascript:void(0)" onclick="openDetail(\''+r[0]+'\','+r[1]+')">'+r[1].toLocaleString()+'</a></td>';
     for(let i=2;i<r.length;i++){html+='<td>'+(i===7?r[i]+'%':r[i].toLocaleString())+'</td>';}
     html+='</tr>';
   });
@@ -212,6 +226,56 @@ function exportCSV(){
   currentData.forEach(r=>{csv+=r.join(',')+'\n';});
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='revenue_report_'+currentGran+'.csv';a.click();URL.revokeObjectURL(url);
+}
+
+// Detail modal
+let detailData=[];
+function openDetail(date,revenue){
+  document.getElementById('detailTitle').textContent='日期明細 — '+date;
+  document.getElementById('detailRevenue').textContent=revenue.toLocaleString();
+  // Generate mock detail
+  const count=Math.floor(Math.random()*6)+2;
+  detailData=[];
+  let remain=revenue;
+  for(let i=0;i<count;i++){
+    const h=String(Math.floor(Math.random()*12)+6).padStart(2,'0');
+    const m=String(Math.floor(Math.random()*60)).padStart(2,'0');
+    const s=String(Math.floor(Math.random()*60)).padStart(2,'0');
+    const uid='019e6745-'+Math.random().toString(16).slice(2,6)+'-7d51-'+Math.random().toString(16).slice(2,6)+'-e4c6cb103838';
+    const nick='User'+Math.floor(Math.random()*900000+100000);
+    const vip=Math.floor(Math.random()*8);
+    const amt=i<count-1?Math.floor(Math.random()*(remain/(count-i)*1.5))+500:remain;
+    remain-=amt;if(remain<0)remain=0;
+    const regM=String(Math.floor(Math.random()*12)+1).padStart(2,'0');
+    const regD=String(Math.floor(Math.random()*28)+1).padStart(2,'0');
+    detailData.push({time:date+' '+h+':'+m+':'+s,uid,nick,vip,amt,reg:'2025/'+regM+'/'+regD});
+  }
+  detailData.sort((a,b)=>a.time.localeCompare(b.time));
+  renderDetail();
+  const modal=document.getElementById('detailModal');
+  modal.style.display='flex';
+}
+function closeDetail(){document.getElementById('detailModal').style.display='none';}
+document.getElementById('detailModal').addEventListener('click',function(e){if(e.target===this)closeDetail();});
+function renderDetail(){
+  let html='';
+  detailData.forEach(d=>{
+    html+='<tr><td style="padding:10px 12px;border-bottom:1px solid #F1F5F9">'+d.time+'</td>';
+    html+='<td style="padding:10px 12px;border-bottom:1px solid #F1F5F9"><a href="javascript:void(0)" style="color:#2563EB">'+d.uid+'</a></td>';
+    html+='<td style="padding:10px 12px;border-bottom:1px solid #F1F5F9">'+d.nick+'</td>';
+    html+='<td style="padding:10px 12px;border-bottom:1px solid #F1F5F9"><span style="background:#ECFDF5;color:#059669;padding:2px 8px;border-radius:10px;font-size:12px">VIP '+d.vip+'</span></td>';
+    html+='<td style="padding:10px 12px;border-bottom:1px solid #F1F5F9;text-align:right;color:#16A34A;font-weight:600">'+d.amt.toLocaleString()+'</td>';
+    html+='<td style="padding:10px 12px;border-bottom:1px solid #F1F5F9">'+d.reg+'</td></tr>';
+  });
+  document.getElementById('detailBody').innerHTML=html;
+  document.getElementById('detailCount').textContent='共 '+detailData.length+' 筆';
+  document.getElementById('detailPage').textContent='第 1 頁 / 1 頁';
+}
+function exportDetailCSV(){
+  let csv='\uFEFF時間,UID,暱稱,VIP,儲值金額,註冊日\n';
+  detailData.forEach(d=>{csv+=d.time+','+d.uid+','+d.nick+',VIP '+d.vip+','+d.amt+','+d.reg+'\n';});
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='revenue_detail.csv';a.click();URL.revokeObjectURL(url);
 }
 renderTable();
 </script>
