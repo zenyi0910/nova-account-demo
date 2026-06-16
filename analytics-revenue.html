@@ -82,6 +82,12 @@ tfoot td{font-weight:600;background:#F9FAFB;border-top:2px solid #E5E7EB}
 <div class="filter-section"><div class="filter-row">
 <div class="filter-group"><label class="filter-label">日期範圍</label>
 <div class="date-picker-wrap" style="position:relative"><div class="date-picker-trigger filter-input" style="cursor:pointer;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">2026/06/01 - 2026/06/09</span></div></div>
+<div class="granularity-switch" style="margin-top:8px;margin-bottom:0">
+<button class="gran-btn active" onclick="switchGran(this,'day')">日</button>
+<button class="gran-btn" onclick="switchGran(this,'week')">週</button>
+<button class="gran-btn" onclick="switchGran(this,'month')">月</button>
+<button class="gran-btn" onclick="switchGran(this,'year')">年</button>
+</div>
 </div>
 <div class="filter-group"><label class="filter-label"><span>VIP 等級</span><span class="tip-wrap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#9CA3AF;cursor:help"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="tip-box">統計當日該玩家的VIP等級</span></span></label><select class="filter-select"><option>全部 VIP</option><option>VIP 0</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option></select></div>
 <div class="filter-group"><label class="filter-label">幣別</label><select class="filter-select"><option>全部幣別</option><option>金幣</option><option>星幣</option></select></div>
@@ -96,13 +102,7 @@ tfoot td{font-weight:600;background:#F9FAFB;border-top:2px solid #E5E7EB}
 </div>
 <div class="card-desc">分析不同日期與渠道的營收貢獻度。</div>
 
-<!-- Granularity Switch -->
-<div class="granularity-switch">
-<button class="gran-btn active" onclick="switchGran(this,'day')">日</button>
-<button class="gran-btn" onclick="switchGran(this,'week')">週</button>
-<button class="gran-btn" onclick="switchGran(this,'month')">月</button>
-<button class="gran-btn" onclick="switchGran(this,'year')">年</button>
-</div>
+
 
 <div class="table-wrap"><table id="revenueTable">
 <thead><tr>
