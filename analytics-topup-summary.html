@@ -91,11 +91,13 @@ td a{color:#2563EB;font-weight:500}
 <div class="filter-group"><label class="filter-label">VIP 等級</label><button class="filter-btn">全部 VIP<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
 <div class="filter-group"><label class="filter-label">儲值方式</label><button class="filter-btn">全部方式<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
 <div class="filter-group"><label class="filter-label">裝置平台</label><button class="filter-btn">全部平台<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
-<div class="filter-group"><label class="filter-label">儲值幣別</label><button class="filter-btn">金幣, 星幣<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
+<div class="filter-group"><label class="filter-label">儲值幣別（多選）</label><div style="position:relative"><button class="filter-btn" onclick="this.nextElementSibling.classList.toggle('show')">金幣, 星幣<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:140px"><label style="display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;font-size:13px;border-radius:6px;transition:background .15s"><input type="checkbox" checked style="accent-color:#3B82F6"> 金幣</label><label style="display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;font-size:13px;border-radius:6px;transition:background .15s"><input type="checkbox" checked style="accent-color:#F59E0B"> 星幣</label></div></div></div>
+<style>.currency-popover.show{display:block!important}</style>
 <div class="filter-group" style="align-self:flex-end"><button class="btn-query">查詢</button></div>
 <div class="filter-group" style="align-self:flex-end"><button class="btn-reset">重置</button></div>
 </div></div>
-<div class="card"><div class="card-header"><div class="card-title">儲值總覽趨勢</div><div class="card-desc">每日儲值點數總額（不含贈點）、付費人數分析</div></div><div class="card-content"><div id="trendChart" style="height:320px;margin-top:16px"></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">儲值點數總額</div><div class="card-desc">每日儲值獲得點數（不含贈點）、付費人數分析</div></div><div class="card-content"><div id="trendChart" style="height:320px;margin-top:16px"></div></div></div>
+<div class="card"><div class="card-header"><div class="card-title">儲值幣別堆疊</div><div class="card-desc">每日金幣與星幣儲值獲得點數堆疊趨勢</div></div><div class="card-content"><div id="stackChart" style="height:280px;margin-top:16px"></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
 <div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">儲值分佈</div><div class="card-desc">分析玩家儲值金額的區間與人數佔比。</div></div><div class="card-content"><div id="distChart" style="height:288px;margin-top:12px"></div></div></div>
 <div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">渠道儲值佔比</div><div class="card-desc">分析各儲值管道的金額貢獻度與佔比。</div></div><div class="card-content"><div style="margin-top:12px"><label class="filter-label">Group by</label><button class="filter-btn" style="margin-top:6px">通路商<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div><div id="pieChart" style="height:240px;margin-top:8px"></div><div style="font-size:11px;color:#94A3B8;margin-top:4px">＊點擊區塊檢視明細</div></div></div>
@@ -105,18 +107,31 @@ td a{color:#2563EB;font-weight:500}
 </div>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 <script>
-// 儲值總覽趨勢 - 堆疊柱狀圖 + 折線
+// 儲值點數總額 - 堆疊柱狀圖 + 折線
 const trend = echarts.init(document.getElementById('trendChart'));
 trend.setOption({
   tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){var s=p[0].axisValue+'<br/>';p.forEach(function(i){s+=i.marker+i.seriesName+'：'+(i.seriesName==='付費人數'?i.value+' 人':i.value.toLocaleString()+' 點')+'<br/>'});return s}},
   legend:{data:['金幣','星幣','付費人數'],top:0,textStyle:{fontSize:12,color:'#64748B'}},
   grid:{left:50,right:50,top:40,bottom:30},
-  xAxis:{type:'category',data:['4/28','4/29','4/30','5/1','5/2','5/3','5/4'],axisLine:{lineStyle:{color:'#E5E7EB'}},axisLabel:{color:'#94A3B8'}},
-  yAxis:[{type:'value',name:'幣量',nameLocation:'end',nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8'},splitLine:{lineStyle:{color:'#F1F5F9'}}},{type:'value',name:'付費人數（人）',nameLocation:'end',nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8'},splitLine:{show:false}}],
+  xAxis:{type:'category',data:['4/28','4/29','4/30','5/1','5/2','5/3','5/4','5/5'],axisLine:{lineStyle:{color:'#E5E7EB'}},axisLabel:{color:'#94A3B8'}},
+  yAxis:[{type:'value',name:'點數',nameLocation:'end',nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8',formatter:function(v){return v>=10000?(v/10000)+'萬':v}},splitLine:{lineStyle:{color:'#F1F5F9'}}},{type:'value',name:'付費人數（人）',nameLocation:'end',nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8'},splitLine:{show:false}}],
   series:[
-    {name:'金幣',type:'bar',stack:'total',data:[8000,9500,7000,10500,8500,9500,7500],itemStyle:{color:'#3B82F6',borderRadius:[0,0,2,2]},barWidth:'60%'},
-    {name:'星幣',type:'bar',stack:'total',data:[2000,1500,1500,2500,1400,1500,1500],itemStyle:{color:'#F59E0B',borderRadius:[2,2,0,0]}},
-    {name:'付費人數',type:'line',yAxisIndex:1,data:[4,5,3,6,4,5,3],symbol:'circle',symbolSize:8,itemStyle:{color:'#EF4444'},lineStyle:{width:2}}
+    {name:'金幣',type:'bar',stack:'total',data:[80000,95000,70000,105000,85000,95000,75000,88000],itemStyle:{color:'#3B82F6',borderRadius:[0,0,2,2]},barWidth:'60%'},
+    {name:'星幣',type:'bar',stack:'total',data:[20000,15000,15000,25000,14000,15000,15000,18000],itemStyle:{color:'#F59E0B',borderRadius:[2,2,0,0]}},
+    {name:'付費人數',type:'line',yAxisIndex:1,data:[4,5,3,6,4,5,3,4],symbol:'circle',symbolSize:8,itemStyle:{color:'#EF4444'},lineStyle:{width:2}}
+  ]
+});
+// 儲值幣別堆疊長條圖
+const stack = echarts.init(document.getElementById('stackChart'));
+stack.setOption({
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){var s='<b>'+p[0].axisValue+'</b><br/>';var total=0;p.forEach(function(i){s+=i.marker+i.seriesName+'：'+i.value.toLocaleString()+' 點<br/>';total+=i.value});s+='<b>合計：'+total.toLocaleString()+' 點</b>';return s}},
+  legend:{data:['金幣','星幣'],top:0,textStyle:{fontSize:12,color:'#64748B'}},
+  grid:{left:50,right:20,top:40,bottom:30},
+  xAxis:{type:'category',data:['4/28','4/29','4/30','5/1','5/2','5/3','5/4','5/5'],axisLine:{lineStyle:{color:'#E5E7EB'}},axisLabel:{color:'#94A3B8'}},
+  yAxis:{type:'value',name:'儲值獲得點數',nameLocation:'end',nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8',formatter:function(v){return v>=10000?(v/10000)+'萬':v}},splitLine:{lineStyle:{color:'#F1F5F9'}}},
+  series:[
+    {name:'金幣',type:'bar',stack:'currency',data:[80000,95000,70000,105000,85000,95000,75000,88000],itemStyle:{color:'#3B82F6',borderRadius:[0,0,0,0]},barWidth:'50%'},
+    {name:'星幣',type:'bar',stack:'currency',data:[20000,15000,15000,25000,14000,15000,15000,18000],itemStyle:{color:'#F59E0B',borderRadius:[3,3,0,0]}}
   ]
 });
 // 儲值分佈 - 柱狀圖
@@ -149,5 +164,5 @@ pie.on('click',function(p){
   modal.addEventListener('click',function(e){if(e.target===modal)modal.remove()});
   document.body.appendChild(modal);
 });
-window.addEventListener('resize',function(){trend.resize();dist.resize();pie.resize()});
+window.addEventListener('resize',function(){trend.resize();stack.resize();dist.resize();pie.resize()});
 </script>
