@@ -218,27 +218,38 @@ const pieDataSets = {
 };
 function renderPie(key){
   const supplierBreakdown = {
-    '信用卡':[{s:'MyCard',v:15},{s:'FOG',v:14}],
-    '行動支付':[{s:'LINE Pay',v:10},{s:'0918綠界',v:11}],
-    '線上轉點':[{s:'MyCard',v:15}],
-    '銀行轉帳':[{s:'MyCard',v:8},{s:'0918綠界',v:4}],
-    '電信帳單':[{s:'中華電信',v:12}],
     '點數卡':[{s:'MyCard',v:4},{s:'Gash',v:4}],
-    '免費抵扣':[{s:'FOG',v:3}]
+    '線上轉點':[{s:'MyCard',v:15}],
+    '免費抵扣':[{s:'FOG',v:3}],
+    '電信帳單':[{s:'中華電信',v:12}],
+    '行動支付':[{s:'LINE Pay',v:10},{s:'0918綠界',v:11}],
+    '銀行轉帳':[{s:'MyCard',v:8},{s:'0918綠界',v:4}],
+    '信用卡':[{s:'MyCard',v:15},{s:'FOG',v:14}],
+    '公會會長大禮包':[{s:'Gash',v:4}],
+    '會員扣點':[{s:'Gash',v:10}],
+    'OpenXin':[{s:'FOG',v:1}],
+    '超商儲值':[{s:'中華電信',v:2}]
   };
   const channelBreakdown = {
     'MyCard':[{s:'信用卡',v:15},{s:'線上轉點',v:15},{s:'銀行轉帳',v:8},{s:'點數卡',v:4}],
-    'Gash':[{s:'點數卡',v:4},{s:'信用卡',v:10},{s:'行動支付',v:8},{s:'銀行轉帳',v:6}],
-    'FOG':[{s:'信用卡',v:14},{s:'免費抵扣',v:3},{s:'行動支付',v:1}],
+    'Gash':[{s:'點數卡',v:4},{s:'信用卡',v:10},{s:'行動支付',v:8},{s:'公會會長大禮包',v:4},{s:'會員扣點',v:10}],
+    'FOG':[{s:'信用卡',v:14},{s:'免費抵扣',v:3},{s:'OpenXin',v:1}],
     'LINE Pay':[{s:'行動支付',v:10}],
     '0918綠界':[{s:'行動支付',v:11},{s:'銀行轉帳',v:4}],
-    '中華電信':[{s:'電信帳單',v:12}]
+    '中華電信':[{s:'電信帳單',v:12},{s:'超商儲值',v:2}]
   };
   pie.setOption({
     tooltip:{trigger:'item',backgroundColor:'#fff',borderColor:'#E5E7EB',borderWidth:1,padding:[12,16],textStyle:{color:'#374151',fontSize:13},extraCssText:'border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1);',formatter:function(p){
       var s='<div style="color:#94A3B8;font-size:12px;margin-bottom:6px">'+p.name+'</div>';
       s+='<div style="margin-bottom:4px">儲值總額：<b style="color:#10B981;font-size:16px">'+p.value+'</b> 萬點</div>';
-      s+='<div>佔比：<b style="color:#2563EB;font-size:16px">'+p.percent+'%</b></div>';
+      s+='<div style="margin-bottom:8px">佔比：<b style="color:#2563EB;font-size:16px">'+p.percent+'%</b></div>';
+      var bd=(key==='supplier'?channelBreakdown:supplierBreakdown)[p.name]||[];
+      if(bd.length){
+        var total=bd.reduce(function(a,b){return a+b.v},0);
+        var label=key==='supplier'?'支付方式':'供應商';
+        s+='<div style="border-top:1px solid #E5E7EB;padding-top:6px;margin-top:4px;font-size:12px;color:#64748B;font-weight:500">'+label+'明細</div>';
+        bd.forEach(function(d){s+='<div style="display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-top:3px"><span>'+d.s+'</span><span style="color:#374151;font-weight:500">'+d.v+'萬點 ('+(d.v/total*100).toFixed(1)+'%)</span></div>'});
+      }
       return s;
     }},
     legend:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11}},
