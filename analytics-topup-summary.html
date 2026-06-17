@@ -181,7 +181,7 @@ document.querySelectorAll('.vip-option').forEach(function(el){
 </div>
 <div style="padding:0 24px;overflow-y:auto;flex:1">
 <table style="width:100%;border-collapse:collapse;font-size:13px">
-<thead><tr><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">日期</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">UID</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">購買品項</th><th style="text-align:center;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">VIP</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB" id="modalExtraHeader">支付方式</th><th style="text-align:right;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">金額</th></tr></thead>
+<thead><tr><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">日期</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">UID</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB" id="modalExtraHeader">支付方式</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">購買品項</th><th style="text-align:center;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">VIP</th><th style="text-align:right;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">金額</th></tr></thead>
 <tbody id="modalBody"></tbody>
 </table>
 </div>
@@ -338,7 +338,7 @@ function showDetail(name){
   document.getElementById('modalTitle').innerHTML='<span style="display:inline-block;width:4px;height:18px;background:#165DFC;border-radius:2px;margin-right:8px"></span>'+name+' – 詳細玩家清單';
   document.getElementById("modalSubtitle").innerHTML="<span style=\"color:#6B7280\">該渠道累計儲值：</span><span style=\"color:#165DFC;font-weight:700\">" + data.total + "</span>";
   var html='';data.rows.forEach(function(r){
-    html+='<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:10px 12px">'+r.d+'</td><td style="padding:10px 12px;color:#165DFC;font-weight:600">'+r.uid+'</td><td style="padding:10px 12px">'+r.item+'</td><td style="padding:10px 12px;text-align:center">'+vipBadge(r.vip)+'</td><td style="padding:10px 12px">'+(r.ch||'-')+'</td><td style="padding:10px 12px;text-align:right;color:#10B981;font-weight:600">'+r.amt.toLocaleString()+'</td></tr>';
+    html+='<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:10px 12px">'+r.d+'</td><td style="padding:10px 12px;color:#165DFC;font-weight:600">'+r.uid+'</td><td style="padding:10px 12px">'+(r.ch||'-')+'</td><td style="padding:10px 12px">'+r.item+'</td><td style="padding:10px 12px;text-align:center">'+vipBadge(r.vip)+'</td><td style="padding:10px 12px;text-align:right;color:#10B981;font-weight:600">'+r.amt.toLocaleString()+'</td></tr>';
   });
   document.getElementById('modalBody').innerHTML=html;
   document.getElementById('modalPaging').textContent='顯示第 1 至 '+Math.min(data.rows.length,10)+' 筆，共 '+data.rows.length+' 筆';
