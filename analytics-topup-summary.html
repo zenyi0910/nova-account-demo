@@ -40,6 +40,7 @@ a{color:#3B82F6;text-decoration:none}
 .card-desc{font-size:12px;color:#6b7280;margin-top:6px;font-weight:500}
 .card-content{padding:0 24px}
 .filter-section{background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:26px;padding:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);margin-bottom:24px;position:relative;z-index:20}
+.currency-popover.show{display:block!important}
 .filter-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:6px}.filter-label{font-size:14px;font-weight:600;color:#64748B}
 .filter-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px;height:40px;background:#F8FAFC;color:#1E293B;cursor:pointer;white-space:nowrap;transition:all .15s}.filter-btn:hover{border-color:#94A3B8}
@@ -91,8 +92,19 @@ td a{color:#2563EB;font-weight:500}
 <div class="filter-group"><label class="filter-label">VIP 等級</label><button class="filter-btn">全部 VIP<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
 <div class="filter-group"><label class="filter-label">儲值方式</label><button class="filter-btn">全部方式<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
 <div class="filter-group"><label class="filter-label">裝置平台</label><button class="filter-btn">全部平台<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button></div>
-<div class="filter-group"><label class="filter-label">儲值幣別（多選）</label><div style="position:relative"><button class="filter-btn" onclick="this.nextElementSibling.classList.toggle('show')">金幣, 星幣<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:140px"><label style="display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;font-size:13px;border-radius:6px;transition:background .15s"><input type="checkbox" checked style="accent-color:#3B82F6"> 金幣</label><label style="display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;font-size:13px;border-radius:6px;transition:background .15s"><input type="checkbox" checked style="accent-color:#F59E0B"> 星幣</label></div></div></div>
-<style>.currency-popover.show{display:block!important}</style>
+<div class="filter-group"><label class="filter-label">儲值幣別</label><div style="position:relative"><button class="filter-btn" onclick="this.nextElementSibling.classList.toggle('show')">全部幣別<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:160px"><div class="currency-option" data-value="all" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;font-size:13px;border-radius:6px;background:#EFF6FF;color:#2563EB;font-weight:500"><span>全部幣別</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="currency-option" data-value="star" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;font-size:13px;border-radius:6px;color:#374151"><span>星幣</span></div><div class="currency-option" data-value="gold" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;font-size:13px;border-radius:6px;color:#374151"><span>金幣</span></div></div></div></div>
+<script>
+document.querySelectorAll('.currency-option').forEach(function(el){
+  el.addEventListener('click',function(){
+    document.querySelectorAll('.currency-option').forEach(function(o){o.style.background='transparent';o.style.color='#374151';o.style.fontWeight='400';const chk=o.querySelector('svg');if(chk)chk.remove()});
+    this.style.background='#EFF6FF';this.style.color='#2563EB';this.style.fontWeight='500';
+    const checkmark=document.createElementNS('http://www.w3.org/2000/svg','svg');checkmark.setAttribute('width','16');checkmark.setAttribute('height','16');checkmark.setAttribute('viewBox','0 0 24 24');checkmark.setAttribute('fill','none');checkmark.setAttribute('stroke','currentColor');checkmark.setAttribute('stroke-width','3');const poly=document.createElementNS('http://www.w3.org/2000/svg','polyline');poly.setAttribute('points','20 6 9 17 4 12');checkmark.appendChild(poly);this.appendChild(checkmark);
+    const labels={'all':'全部幣別','star':'星幣','gold':'金幣'};
+    this.closest('.currency-popover').previousElementSibling.childNodes[0].textContent=labels[this.dataset.value];
+    this.closest('.currency-popover').classList.remove('show');
+  });
+});
+</script>
 <div class="filter-group" style="align-self:flex-end"><button class="btn-query">查詢</button></div>
 <div class="filter-group" style="align-self:flex-end"><button class="btn-reset">重置</button></div>
 </div></div>
