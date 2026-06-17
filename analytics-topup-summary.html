@@ -171,27 +171,12 @@ const pieDataSets = {
     {value:6,name:'中華電信',itemStyle:{color:'#EF4444'}}
   ],
   supplierChannel: [
-    {value:12,name:'MyCard - 點數卡',itemStyle:{color:'#3B82F6'}},
-    {value:10,name:'MyCard - 線上轉點',itemStyle:{color:'#60A5FA'}},
-    {value:8,name:'MyCard - 銀行轉帳',itemStyle:{color:'#93C5FD'}},
-    {value:6,name:'MyCard - 電信帳單',itemStyle:{color:'#BFDBFE'}},
-    {value:5,name:'MyCard - 信用卡',itemStyle:{color:'#DBEAFE'}},
-    {value:14,name:'Gash - 點數卡',itemStyle:{color:'#F59E0B'}},
-    {value:10,name:'Gash - 會員扣點',itemStyle:{color:'#FCD34D'}},
-    {value:4,name:'Gash - 公會會長大禮包',itemStyle:{color:'#FDE68A'}},
-    {value:18,name:'FOG - 信用卡',itemStyle:{color:'#10B981'}},
-    {value:6,name:'LINE Pay - 行動支付',itemStyle:{color:'#8B5CF6'}},
-    {value:3,name:'中華電信 - 電信帳單',itemStyle:{color:'#EF4444'}},
-    {value:2,name:'中華電信 - 超商儲值',itemStyle:{color:'#FCA5A5'}},
-    {value:2,name:'OpenXin - 免費抵扣',itemStyle:{color:'#06B6D4'}}
-  ],
-  channel: [
-    {value:23,name:'點數卡',itemStyle:{color:'#3B82F6'}},
-    {value:18,name:'信用卡',itemStyle:{color:'#F59E0B'}},
+    {value:26,name:'點數卡',itemStyle:{color:'#3B82F6'}},
+    {value:23,name:'信用卡',itemStyle:{color:'#F59E0B'}},
     {value:10,name:'線上轉點',itemStyle:{color:'#10B981'}},
     {value:10,name:'會員扣點',itemStyle:{color:'#8B5CF6'}},
     {value:8,name:'銀行轉帳',itemStyle:{color:'#EC4899'}},
-    {value:6,name:'電信帳單',itemStyle:{color:'#EF4444'}},
+    {value:9,name:'電信帳單',itemStyle:{color:'#EF4444'}},
     {value:6,name:'行動支付',itemStyle:{color:'#F97316'}},
     {value:4,name:'公會會長大禮包',itemStyle:{color:'#06B6D4'}},
     {value:2,name:'免費抵扣',itemStyle:{color:'#84CC16'}},
@@ -201,8 +186,28 @@ const pieDataSets = {
 };
 function renderPie(key){
   const isMany = pieDataSets[key].length > 6;
+  const supplierBreakdown = {
+    '點數卡':[{s:'MyCard',v:12},{s:'Gash',v:14}],
+    '信用卡':[{s:'MyCard',v:5},{s:'FOG',v:18}],
+    '線上轉點':[{s:'MyCard',v:10}],
+    '會員扣點':[{s:'Gash',v:10}],
+    '銀行轉帳':[{s:'MyCard',v:8}],
+    '電信帳單':[{s:'MyCard',v:6},{s:'中華電信',v:3}],
+    '行動支付':[{s:'LINE Pay',v:6}],
+    '公會會長大禮包':[{s:'Gash',v:4}],
+    '免費抵扣':[{s:'OpenXin',v:2}],
+    '超商儲值':[{s:'中華電信',v:2}],
+    'OpenXin':[{s:'OpenXin',v:1}]
+  };
   pie.setOption({
-    tooltip:{trigger:'item',formatter:'{b}<br/>金額：{c} 萬點<br/>佔比：{d}%'},
+    tooltip:{trigger:'item',formatter:function(p){
+      if(!isMany) return p.name+'<br/>金額：'+p.value+' 萬點<br/>佔比：'+p.percent+'%';
+      var s='<b>'+p.name+'</b><br/>總金額：'+p.value+' 萬點 ('+p.percent+'%)<br/><br/>';
+      var bd=supplierBreakdown[p.name]||[];
+      var total=bd.reduce(function(a,b){return a+b.v},0);
+      bd.forEach(function(d){s+=d.s+'：'+d.v+'萬點 ('+(d.v/total*100).toFixed(1)+'%)<br/>'});
+      return s;
+    }},
     legend:isMany?{show:true,orient:'horizontal',bottom:0,left:'center',textStyle:{color:'#64748B',fontSize:10},type:'scroll',pageIconSize:10}:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11},type:'plain'},
     grid:{show:false},
     xAxis:{show:false},
