@@ -200,7 +200,6 @@ const pieDataSets = {
   ]
 };
 function renderPie(key){
-  const isMany = pieDataSets[key].length > 6;
   const supplierBreakdown = {
     '信用卡':[{s:'MyCard',v:15},{s:'FOG',v:14}],
     '行動支付':[{s:'LINE Pay',v:10},{s:'0918綠界',v:11}],
@@ -210,12 +209,21 @@ function renderPie(key){
     '點數卡':[{s:'MyCard',v:4},{s:'Gash',v:4}],
     '免費抵扣':[{s:'FOG',v:3}]
   };
+  const channelBreakdown = {
+    'MyCard':[{s:'信用卡',v:15},{s:'線上轉點',v:15},{s:'銀行轉帳',v:8},{s:'點數卡',v:4}],
+    'Gash':[{s:'點數卡',v:4},{s:'信用卡',v:10},{s:'行動支付',v:8},{s:'銀行轉帳',v:6}],
+    'FOG':[{s:'信用卡',v:14},{s:'免費抵扣',v:3},{s:'行動支付',v:1}],
+    'LINE Pay':[{s:'行動支付',v:10}],
+    '0918綠界':[{s:'行動支付',v:11},{s:'銀行轉帳',v:4}],
+    '中華電信':[{s:'電信帳單',v:12}]
+  };
   pie.setOption({
     tooltip:{trigger:'item',formatter:function(p){
-      if(key==='supplier') return p.name+'<br/>金額：'+p.value+' 萬點<br/>佔比：'+p.percent+'%';
       var s='<b>'+p.name+'</b><br/>總金額：'+p.value+' 萬點 ('+p.percent+'%)<br/><br/>';
-      var bd=supplierBreakdown[p.name]||[];
+      var bd=(key==='supplier'?channelBreakdown:supplierBreakdown)[p.name]||[];
       var total=bd.reduce(function(a,b){return a+b.v},0);
+      var label=key==='supplier'?'支付方式':'供應商';
+      s+='<b>'+label+'明細：</b><br/>';
       bd.forEach(function(d){s+=d.s+'：'+d.v+'萬點 ('+(d.v/total*100).toFixed(1)+'%)<br/>'});
       return s;
     }},
