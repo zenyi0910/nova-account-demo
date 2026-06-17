@@ -220,7 +220,7 @@ function renderPie(key){
       return s;
     }},
     legend:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11}},
-    series:[{type:'pie',radius:['0%','70%'],center:['35%','50%'],data:pieDataSets[key],label:{show:key==='supplierChannel',formatter:'{d}%',fontSize:11,color:'#fff',position:'inside'},labelLine:{show:false},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}}]
+    series:[{type:'pie',radius:['0%','60%'],center:['35%','50%'],data:pieDataSets[key],label:{show:true,formatter:'{d}%',fontSize:11,color:'#374151',position:'outside'},labelLine:{show:true,length:10,length2:8,lineStyle:{color:'#94A3B8'}},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}}]
   },true);
 }
 renderPie('supplier');
