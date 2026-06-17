@@ -189,11 +189,11 @@ stack.setOption({
 // 儲值分佈 - 柱狀圖
 const dist = echarts.init(document.getElementById('distChart'));
 dist.setOption({
-  tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(p){return '儲值金額：'+p[0].name+'<br/>'+p[0].marker+'人數：'+p[0].value+' 人'}},
+  tooltip:{trigger:'axis',axisPointer:{type:'line',lineStyle:{type:'dashed',color:'#94A3B8'}},formatter:function(p){return '<b>'+p[0].name+'</b> 儲值區間<br/>人數：'+p[0].value+' 人'}},
   grid:{left:60,right:60,top:30,bottom:45},
   xAxis:{type:'category',name:'儲值金額',nameLocation:'end',nameGap:8,nameTextStyle:{color:'#64748B',fontSize:12},data:['300以下','301~1k','1k~3k','3k~5k','5k+'],axisLine:{show:true,lineStyle:{color:'#E5E7EB'}},axisTick:{show:false},axisLabel:{color:'#94A3B8',fontSize:11}},
   yAxis:{type:'value',name:'人數（人）',nameLocation:'end',nameGap:10,nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8'},splitLine:{lineStyle:{color:'#F1F5F9'}},axisLine:{show:false}},
-  series:[{type:'bar',data:[11,6,2,1,2],itemStyle:{color:'#10B981',borderRadius:[3,3,0,0]},barWidth:'50%',label:{show:true,position:'top',formatter:'{c} 人',fontSize:11,color:'#334155'},emphasis:{itemStyle:{color:'#059669'}}}]
+  series:[{type:'bar',data:[11,6,2,1,2],itemStyle:{color:'#10B981',borderRadius:[3,3,0,0]},barWidth:'50%',label:{show:true,position:'top',formatter:'{c} 人',fontSize:11,color:'#334155'},emphasis:{itemStyle:{color:'#3B82F6'}}}]
 });
 // 渠道儲值佔比 - 圓餅圖（可切換 Group by）
 const pieEl = document.getElementById('pieChart');
