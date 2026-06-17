@@ -141,7 +141,7 @@ document.querySelectorAll('.payment-option').forEach(function(el){
   checkbox.addEventListener('click',function(e){e.stopPropagation()});
 });
 </script>
-<div class="filter-group" style="align-self:flex-end;flex:1;display:flex;gap:8px"><button class="btn-query" style="flex:3">查詢</button><button class="btn-reset" style="flex:1;padding:8px 16px;border:1px solid #E5E7EB;border-radius:8px;background:#fff;color:#374151;font-size:14px;height:40px;cursor:pointer;white-space:nowrap">重置</button></div>
+<div class="filter-group" style="align-self:flex-end;display:flex;flex-direction:row;gap:8px;min-width:200px"><button class="btn-query" style="flex:3;min-width:0">查詢</button><button class="btn-reset" style="flex:1;min-width:0">重置</button></div>
 </div></div>
 <div class="card"><div class="card-header"><div class="card-title">儲值總覽趨勢</div><div class="card-desc">每日儲值點數總額（不含贈點）、贈禮總額與付費人數分析</div></div><div class="card-content"><div id="trendChart" style="height:320px;margin-top:16px"></div></div></div>
 <div class="card"><div class="card-header"><div class="card-title">儲值幣別堆疊</div><div class="card-desc">每日金幣與星幣儲值獲得點數堆疊趨勢</div></div><div class="card-content"><div id="stackChart" style="height:280px;margin-top:16px"></div></div></div>
@@ -256,7 +256,7 @@ function renderPie(key){
       return s;
     }},
     legend:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11}},
-    series:[{type:'pie',radius:['0%','55%'],center:['30%','50%'],data:pieDataSets[key],label:{show:true,formatter:'{b} {d}%',fontSize:10,color:'#374151',position:'outside',alignTo:'labelLine',overflow:'truncate',width:80},labelLine:{show:true,length:12,length2:8,lineStyle:{color:'#99A1AF'}},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}}]
+    series:[{type:'pie',radius:['0%','55%'],center:['30%','50%'],data:pieDataSets[key],label:{show:true,formatter:function(p){return p.percent>5?p.name+' '+p.percent+'%':p.percent+'%'},fontSize:10,color:'#374151',position:'outside'},labelLine:{show:true,length:12,length2:8,lineStyle:{color:'#99A1AF'}},labelLayout:{hideOverlap:true},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}}]
   },true);
 }
 renderPie('supplier');
