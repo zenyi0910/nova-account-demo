@@ -111,7 +111,7 @@ document.querySelectorAll('.currency-option').forEach(function(el){
 <div class="card"><div class="card-header"><div class="card-title">儲值總覽趨勢</div><div class="card-desc">每日儲值點數總額（不含贈點）、贈禮總額與付費人數分析</div></div><div class="card-content"><div id="trendChart" style="height:320px;margin-top:16px"></div></div></div>
 <div class="card"><div class="card-header"><div class="card-title">儲值幣別堆疊</div><div class="card-desc">每日金幣與星幣儲值獲得點數堆疊趨勢</div></div><div class="card-content"><div id="stackChart" style="height:280px;margin-top:16px"></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
-<div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">儲值分佈</div><div class="card-desc">分析玩家儲值金額的區間與人數佔比。</div></div><div class="card-content"><div id="distChart" style="height:288px;margin-top:12px"></div></div></div>
+<div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">儲值分佈</div><div class="card-desc">分析玩家儲值金額的區間與人數佔比。</div></div><div class="card-content"><div id="distChart" style="height:320px;margin-top:12px"></div></div></div>
 <div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">渠道儲值佔比</div><div class="card-desc">分析各儲值管道的金額貢獻度與佔比。</div></div><div class="card-content"><div style="margin-top:12px;position:relative"><label class="filter-label">分組依據</label><div style="position:relative;display:inline-block;margin-left:8px"><button class="filter-btn" style="margin-top:0" onclick="this.nextElementSibling.classList.toggle('show')">供應商<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:180px"><div class="groupby-option" data-key="supplier" style="padding:6px 8px;font-size:13px;color:#2563EB;font-weight:500;cursor:pointer;border-radius:6px;background:#EFF6FF">供應商</div><div class="groupby-option" data-key="supplierChannel" style="padding:6px 8px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px">供應商與支付方式</div></div></div></div><div id="pieChart" style="height:320px;margin-top:8px"></div><div style="font-size:11px;color:#94A3B8;margin-top:4px">＊點擊區塊檢視明細</div></div></div>
 </div>
 </div>
@@ -171,17 +171,17 @@ const pieDataSets = {
     {value:6,name:'中華電信',itemStyle:{color:'#EF4444'}}
   ],
   supplierChannel: [
-    {value:26,name:'點數卡',itemStyle:{color:'#3B82F6'}},
-    {value:23,name:'信用卡',itemStyle:{color:'#F59E0B'}},
-    {value:10,name:'線上轉點',itemStyle:{color:'#10B981'}},
-    {value:10,name:'會員扣點',itemStyle:{color:'#8B5CF6'}},
-    {value:8,name:'銀行轉帳',itemStyle:{color:'#EC4899'}},
-    {value:9,name:'電信帳單',itemStyle:{color:'#EF4444'}},
-    {value:6,name:'行動支付',itemStyle:{color:'#F97316'}},
-    {value:4,name:'公會會長大禮包',itemStyle:{color:'#06B6D4'}},
-    {value:2,name:'免費抵扣',itemStyle:{color:'#84CC16'}},
-    {value:2,name:'超商儲值',itemStyle:{color:'#6366F1'}},
-    {value:1,name:'OpenXin',itemStyle:{color:'#14B8A6'}}
+    {value:26,name:'點數卡',itemStyle:{color:'#1E40AF'}},
+    {value:23,name:'信用卡',itemStyle:{color:'#2563EB'}},
+    {value:10,name:'線上轉點',itemStyle:{color:'#3B82F6'}},
+    {value:10,name:'會員扣點',itemStyle:{color:'#60A5FA'}},
+    {value:8,name:'銀行轉帳',itemStyle:{color:'#93C5FD'}},
+    {value:9,name:'電信帳單',itemStyle:{color:'#BFDBFE'}},
+    {value:6,name:'行動支付',itemStyle:{color:'#DBEAFE'}},
+    {value:4,name:'公會會長大禮包',itemStyle:{color:'#EFF6FF'}},
+    {value:2,name:'免費抵扣',itemStyle:{color:'#F0F9FF'}},
+    {value:2,name:'超商儲值',itemStyle:{color:'#F5F5F5'}},
+    {value:1,name:'OpenXin',itemStyle:{color:'#E5E7EB'}}
   ]
 };
 function renderPie(key){
