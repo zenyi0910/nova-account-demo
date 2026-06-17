@@ -217,18 +217,34 @@ function renderPie(key){
     '0918綠界':[{s:'行動支付',v:11},{s:'銀行轉帳',v:4}],
     '中華電信':[{s:'電信帳單',v:12}]
   };
+  // 外圈數據：供應商模式外圈=支付方式，支付方式模式外圈=供應商
+  const supplierColors={'MyCard':'#3B82F6','Gash':'#F59E0B','FOG':'#10B981','LINE Pay':'#8B5CF6','0918綠界':'#F97316','中華電信':'#EF4444'};
+  const channelColors={'信用卡':'#1E40AF','行動支付':'#2563EB','線上轉點':'#3B82F6','銀行轉帳':'#60A5FA','電信帳單':'#93C5FD','點數卡':'#BFDBFE','免費抵扣':'#DBEAFE'};
+  var outerData=[];
+  if(key==='supplier'){
+    pieDataSets.supplier.forEach(function(item){
+      var bd=channelBreakdown[item.name]||[];
+      bd.forEach(function(d){outerData.push({value:d.v,name:d.s+'('+item.name+')',itemStyle:{color:channelColors[d.s]||'#94A3B8'}})});
+    });
+  }else{
+    pieDataSets.supplierChannel.forEach(function(item){
+      var bd=supplierBreakdown[item.name]||[];
+      bd.forEach(function(d){outerData.push({value:d.v,name:d.s+'('+item.name+')',itemStyle:{color:supplierColors[d.s]||'#94A3B8'}})});
+    });
+  }
   pie.setOption({
-    tooltip:{trigger:'item',formatter:function(p){
-      var s='<b>'+p.name+'</b><br/>總金額：'+p.value+' 萬點 ('+p.percent+'%)<br/><br/>';
-      var bd=(key==='supplier'?channelBreakdown:supplierBreakdown)[p.name]||[];
-      var total=bd.reduce(function(a,b){return a+b.v},0);
-      var label=key==='supplier'?'支付方式':'供應商';
-      s+='<b>'+label+'明細：</b><br/>';
-      bd.forEach(function(d){s+=d.s+'：'+d.v+'萬點 ('+(d.v/total*100).toFixed(1)+'%)<br/>'});
+    tooltip:{trigger:'item',backgroundColor:'#fff',borderColor:'#E5E7EB',borderWidth:1,padding:[12,16],textStyle:{color:'#374151',fontSize:13},extraCssText:'border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1);',formatter:function(p){
+      if(p.seriesIndex===1){var parts=p.name.split('(');return '<div style="color:#94A3B8;font-size:12px;margin-bottom:6px">'+parts[0]+'</div><div>金額：<b style="color:#10B981;font-size:16px">'+p.value+'</b> 萬點</div>'}
+      var s='<div style="color:#94A3B8;font-size:12px;margin-bottom:6px">'+p.name+'</div>';
+      s+='<div style="margin-bottom:4px">儲值總額：<b style="color:#10B981;font-size:16px">'+p.value+'</b> 萬點</div>';
+      s+='<div>佔比：<b style="color:#2563EB;font-size:16px">'+p.percent+'%</b></div>';
       return s;
     }},
-    legend:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11}},
-    series:[{type:'pie',radius:['0%','60%'],center:['35%','50%'],data:pieDataSets[key],label:{show:true,formatter:'{d}%',fontSize:11,color:'#374151',position:'outside'},labelLine:{show:true,length:10,length2:8,lineStyle:{color:'#94A3B8'}},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}}]
+    legend:{show:true,orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11},data:pieDataSets[key].map(function(d){return d.name})},
+    series:[
+      {type:'pie',radius:['0%','50%'],center:['35%','50%'],data:pieDataSets[key],label:{show:true,formatter:'{b}\n{d}%',fontSize:11,color:'#374151',position:'outside',overflow:'break'},labelLine:{show:true,length:15,length2:10,lineStyle:{color:'#94A3B8'}},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'}}},
+      {type:'pie',radius:['52%','62%'],center:['35%','50%'],data:outerData,label:{show:false},labelLine:{show:false},emphasis:{itemStyle:{shadowBlur:6,shadowColor:'rgba(0,0,0,.15)'}}}
+    ]
   },true);
 }
 renderPie('supplier');
