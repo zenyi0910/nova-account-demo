@@ -100,7 +100,7 @@ td a{color:#2563EB;font-weight:500}
 <div class="card"><div class="card-header"><div class="card-title">儲值幣別堆疊</div><div class="card-desc">每日金幣與星幣儲值獲得點數堆疊趨勢</div></div><div class="card-content"><div id="stackChart" style="height:280px;margin-top:16px"></div></div></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
 <div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">儲值分佈</div><div class="card-desc">分析玩家儲值金額的區間與人數佔比。</div></div><div class="card-content"><div id="distChart" style="height:288px;margin-top:12px"></div></div></div>
-<div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">渠道儲值佔比</div><div class="card-desc">分析各儲值管道的金額貢獻度與佔比。</div></div><div class="card-content"><div style="margin-top:12px;position:relative"><label class="filter-label">Group by</label><div style="position:relative;display:inline-block;margin-left:8px"><button class="filter-btn" style="margin-top:0" onclick="this.nextElementSibling.classList.toggle('show')">供應商<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:160px"><div style="padding:6px 8px;font-size:13px;color:#2563EB;font-weight:500;cursor:pointer;border-radius:6px;background:#EFF6FF">供應商</div><div style="padding:6px 8px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px">支付方式</div><div style="padding:6px 8px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px">付款通道</div></div></div></div><div style="font-size:11px;color:#94A3B8;margin-top:8px">供應商：MyCard、Gash、LINE Pay、0918綠界、中華電信</div><div id="pieChart" style="height:240px;margin-top:8px"></div><div style="font-size:11px;color:#94A3B8;margin-top:4px">＊點擊區塊檢視明細</div></div></div>
+<div class="card" style="margin-bottom:0"><div class="card-header"><div class="card-title">渠道儲值佔比</div><div class="card-desc">分析各儲值管道的金額貢獻度與佔比。</div></div><div class="card-content"><div style="margin-top:12px;position:relative"><label class="filter-label">Group by</label><div style="position:relative;display:inline-block;margin-left:8px"><button class="filter-btn" style="margin-top:0" onclick="this.nextElementSibling.classList.toggle('show')">通路商<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="currency-popover" style="display:none;position:absolute;top:44px;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;z-index:50;min-width:180px"><div class="groupby-option" data-key="supplier" style="padding:6px 8px;font-size:13px;color:#2563EB;font-weight:500;cursor:pointer;border-radius:6px;background:#EFF6FF">通路商</div><div class="groupby-option" data-key="supplierChannel" style="padding:6px 8px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px">通路商與支付管道</div><div class="groupby-option" data-key="channel" style="padding:6px 8px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px">支付管道</div></div></div></div><div style="font-size:11px;color:#94A3B8;margin-top:8px">通路商：MyCard、Gash、FOG、LINE Pay、中華電信</div><div id="pieChart" style="height:240px;margin-top:8px"></div><div style="font-size:11px;color:#94A3B8;margin-top:4px">＊點擊區塊檢視明細</div></div></div>
 </div>
 </div>
 </div>
@@ -147,21 +147,67 @@ dist.setOption({
   yAxis:{type:'value',name:'人數（人）',nameLocation:'end',nameGap:10,nameTextStyle:{color:'#64748B',fontSize:12},axisLabel:{color:'#94A3B8'},splitLine:{lineStyle:{color:'#F1F5F9'}},axisLine:{show:false}},
   series:[{type:'bar',data:[11,6,2,1,2],itemStyle:{color:'#10B981',borderRadius:[3,3,0,0]},barWidth:'50%',label:{show:true,position:'top',formatter:'{c} 人',fontSize:11,color:'#334155'},emphasis:{itemStyle:{color:'#059669'}}}]
 });
-// 渠道儲值佔比 - 圓餅圖（依系統供應商）
-const pie = echarts.init(document.getElementById('pieChart'));
-pie.setOption({
-  tooltip:{trigger:'item',formatter:'{b}<br/>金額：{c} 萬點<br/>佔比：{d}%'},
-  legend:{orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:12}},
-  series:[{type:'pie',radius:['0%','70%'],center:['35%','50%'],data:[{value:38,name:'MyCard',itemStyle:{color:'#3B82F6'}},{value:28,name:'Gash',itemStyle:{color:'#F59E0B'}},{value:18,name:'LINE Pay',itemStyle:{color:'#10B981'}},{value:10,name:'0918綠界',itemStyle:{color:'#8B5CF6'}},{value:6,name:'中華電信',itemStyle:{color:'#EF4444'}}],label:{show:true,formatter:'{d}%',fontSize:12,color:'#fff',position:'inside'},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'},label:{show:true,fontSize:14,fontWeight:'bold'}}}]
+// 渠道儲值佔比 - 圓餅圖（可切換 Group by）
+const pieEl = document.getElementById('pieChart');
+const pie = echarts.init(pieEl);
+const pieDataSets = {
+  supplier: [
+    {value:38,name:'MyCard',itemStyle:{color:'#3B82F6'}},
+    {value:28,name:'Gash',itemStyle:{color:'#F59E0B'}},
+    {value:18,name:'FOG',itemStyle:{color:'#10B981'}},
+    {value:10,name:'LINE Pay',itemStyle:{color:'#8B5CF6'}},
+    {value:6,name:'中華電信',itemStyle:{color:'#EF4444'}}
+  ],
+  supplierChannel: [
+    {value:15,name:'MyCard - 信用卡',itemStyle:{color:'#3B82F6'}},
+    {value:10,name:'MyCard - 點數卡',itemStyle:{color:'#60A5FA'}},
+    {value:8,name:'MyCard - 銀行轉帳',itemStyle:{color:'#93C5FD'}},
+    {value:5,name:'MyCard - 線上轉點',itemStyle:{color:'#BFDBFE'}},
+    {value:16,name:'Gash - 點數卡',itemStyle:{color:'#F59E0B'}},
+    {value:12,name:'Gash - 錢包扣點',itemStyle:{color:'#FCD34D'}},
+    {value:18,name:'FOG - 信用卡',itemStyle:{color:'#10B981'}},
+    {value:6,name:'LINE Pay - LINE Pay',itemStyle:{color:'#8B5CF6'}},
+    {value:4,name:'LINE Pay - 全支付',itemStyle:{color:'#A78BFA'}},
+    {value:4,name:'中華電信 - 聯名支付',itemStyle:{color:'#EF4444'}},
+    {value:2,name:'中華電信 - 市話支付',itemStyle:{color:'#FCA5A5'}}
+  ],
+  channel: [
+    {value:37,name:'信用卡',itemStyle:{color:'#3B82F6'}},
+    {value:26,name:'點數卡',itemStyle:{color:'#F59E0B'}},
+    {value:12,name:'錢包扣點',itemStyle:{color:'#10B981'}},
+    {value:8,name:'銀行轉帳',itemStyle:{color:'#8B5CF6'}},
+    {value:6,name:'LINE Pay',itemStyle:{color:'#EC4899'}},
+    {value:5,name:'線上轉點',itemStyle:{color:'#06B6D4'}},
+    {value:4,name:'全支付',itemStyle:{color:'#F97316'}},
+    {value:2,name:'市話支付',itemStyle:{color:'#EF4444'}}
+  ]
+};
+function renderPie(key){
+  pie.setOption({
+    tooltip:{trigger:'item',formatter:'{b}<br/>金額：{c} 萬點<br/>佔比：{d}%'},
+    legend:{orient:'vertical',right:10,top:'middle',textStyle:{color:'#64748B',fontSize:11}},
+    series:[{type:'pie',radius:['0%','70%'],center:['35%','50%'],data:pieDataSets[key],label:{show:true,formatter:'{d}%',fontSize:11,color:'#fff',position:'inside'},emphasis:{itemStyle:{shadowBlur:10,shadowColor:'rgba(0,0,0,.2)'},label:{show:true,fontSize:13,fontWeight:'bold'}}}]
+  },true);
+}
+renderPie('supplier');
+// Group by 切換
+document.querySelectorAll('.groupby-option').forEach(function(el){
+  el.addEventListener('click',function(){
+    document.querySelectorAll('.groupby-option').forEach(function(o){o.style.color='#374151';o.style.fontWeight='400';o.style.background='transparent'});
+    this.style.color='#2563EB';this.style.fontWeight='500';this.style.background='#EFF6FF';
+    renderPie(this.dataset.key);
+    this.closest('.currency-popover').classList.remove('show');
+    this.closest('.currency-popover').previousElementSibling.textContent=this.textContent;
+  });
 });
 // 圓餅圖點擊彈窗明細
 pie.on('click',function(p){
   const details = {
-    'MyCard':[{item:'信用卡3D',amount:'15萬',pct:'39.5%'},{item:'點數卡',amount:'10萬',pct:'26.3%'},{item:'銀行轉帳',amount:'8萬',pct:'21.1%'},{item:'線上轉點',amount:'5萬',pct:'13.2%'}],
+    'MyCard':[{item:'信用卡',amount:'15萬',pct:'39.5%'},{item:'點數卡',amount:'10萬',pct:'26.3%'},{item:'銀行轉帳',amount:'8萬',pct:'21.1%'},{item:'線上轉點',amount:'5萬',pct:'13.2%'}],
     'Gash':[{item:'點數卡',amount:'16萬',pct:'57.1%'},{item:'錢包扣點',amount:'12萬',pct:'42.9%'}],
-    'LINE Pay':[{item:'LINE Pay',amount:'18萬',pct:'100%'}],
-    '0918綠界':[{item:'0918 linepay',amount:'6萬',pct:'60%'},{item:'0918全支付',amount:'2萬',pct:'20%'},{item:'0918銀行轉帳',amount:'2萬',pct:'20%'}],
-    '中華電信':[{item:'中華電信聯名支付',amount:'4萬',pct:'66.7%'},{item:'市話支付',amount:'2萬',pct:'33.3%'}]
+    'FOG':[{item:'信用卡',amount:'18萬',pct:'100%'}],
+    'LINE Pay':[{item:'LINE Pay',amount:'6萬',pct:'60%'},{item:'全支付',amount:'4萬',pct:'40%'}],
+    '中華電信':[{item:'聯名支付',amount:'4萬',pct:'66.7%'},{item:'市話支付',amount:'2萬',pct:'33.3%'}]
   };
   const rows = (details[p.name]||[]).map(d=>'<tr><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9">'+d.item+'</td><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9;text-align:right">'+d.amount+'</td><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9;text-align:right">'+d.pct+'</td></tr>').join('');
   const modal = document.createElement('div');
