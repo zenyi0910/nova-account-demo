@@ -174,20 +174,20 @@ document.querySelectorAll('.vip-option').forEach(function(el){
 </div>
 <!-- 明細 Modal -->
 <div id="detailModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;background:rgba(0,0,0,.4);align-items:center;justify-content:center">
-<div style="background:#fff;border-radius:16px;width:720px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)">
+<div style="background:#fff;border-radius:16px;width:900px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)">
 <div style="padding:20px 24px;border-bottom:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:flex-start">
-<div><div class="card-title" id="modalTitle" style="font-size:16px"></div><div id="modalSubtitle" style="font-size:13px;color:#3B82F6;margin-top:4px"></div></div>
-<div style="display:flex;align-items:center;gap:12px"><button style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #3B82F6;border-radius:6px;background:#fff;color:#3B82F6;font-size:12px;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出 Excel</button><button onclick="document.getElementById('detailModal').style.display='none'" style="border:none;background:none;font-size:20px;color:#94A3B8;cursor:pointer;padding:4px">×</button></div>
+<div><div id="modalTitle" style="font-size:16px;font-weight:700;color:#1E293B;display:flex;align-items:center"></div><div id="modalSubtitle" style="font-size:13px;color:#3B82F6;margin-top:4px"></div></div>
+<div style="display:flex;align-items:center;gap:12px"><button style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #3B82F6;border-radius:6px;background:#fff;color:#3B82F6;font-size:12px;cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出 Excel</button><button onclick="document.getElementById('detailModal').style.display='none'" style="border:none;background:none;font-size:22px;color:#94A3B8;cursor:pointer;padding:4px">×</button></div>
 </div>
-<div style="padding:16px 24px;overflow-y:auto;flex:1">
+<div style="padding:0 24px;overflow-y:auto;flex:1">
 <table style="width:100%;border-collapse:collapse;font-size:13px">
-<thead><tr style="border-bottom:2px solid #E5E7EB"><th style="text-align:left;padding:8px 12px;color:#64748B;font-weight:600">日期</th><th style="text-align:left;padding:8px 12px;color:#64748B;font-weight:600">UID</th><th style="text-align:left;padding:8px 12px;color:#64748B;font-weight:600">購買品項</th><th style="text-align:center;padding:8px 12px;color:#64748B;font-weight:600">VIP</th><th style="text-align:right;padding:8px 12px;color:#64748B;font-weight:600">金額</th></tr></thead>
+<thead><tr><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">日期</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">UID</th><th style="text-align:left;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">購買品項</th><th style="text-align:center;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">VIP</th><th style="text-align:right;padding:12px 12px;color:#64748B;font-weight:600;border-bottom:2px solid #E5E7EB">金額</th></tr></thead>
 <tbody id="modalBody"></tbody>
 </table>
 </div>
-<div style="padding:12px 24px;border-top:1px solid #E5E7EB;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#64748B">
+<div style="padding:12px 24px;background:#F9FAFB;border-top:1px solid #E5E7EB;border-radius:0 0 16px 16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#64748B">
 <span id="modalPaging"></span>
-<div style="display:flex;gap:4px" id="modalPages"></div>
+<div style="display:flex;gap:4px;align-items:center" id="modalPages"></div>
 </div>
 </div>
 </div>
@@ -318,7 +318,7 @@ var modalData={
   '0918綠界':{total:'15,400',rows:[{d:'2026/05/27 14:00',uid:'500001',item:'銀行轉帳儲值',vip:6,amt:6480},{d:'2026/05/26 11:00',uid:'500002',item:'行動支付儲值',vip:9,amt:3290}]},
   '中華電信':{total:'14,200',rows:[{d:'2026/05/27 09:00',uid:'600001',item:'電信帳單代付',vip:7,amt:6480},{d:'2026/05/25 17:00',uid:'600002',item:'超商儲值',vip:2,amt:330}]}
 };
-function vipBadge(v){var colors=['#9CA3AF','#9CA3AF','#9CA3AF','#9CA3AF','#6EE7B7','#6EE7B7','#FCD34D','#FCD34D','#FCD34D','#FBBF24','#FBBF24','#F97316','#F97316'];return '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;background:'+colors[Math.min(v,12)]+';color:#fff">VIP '+v+'</span>'}
+function vipBadge(v){var bg,color;if(v>=10){bg='#D1FAE5';color='#059669'}else if(v>=7){bg='#FEF3C7';color='#D97706'}else if(v>=4){bg='#FEE2E2';color='#DC2626'}else{bg='#F3F4F6';color='#6B7280'};return '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;background:'+bg+';color:'+color+'">VIP '+v+'</span>'}
 function showDetail(name){
   var data=modalData[name]||{total:'0',rows:[]};
   document.getElementById('modalTitle').innerHTML='<span style="display:inline-block;width:4px;height:16px;background:#3B82F6;border-radius:2px;margin-right:8px"></span>'+name+' – 詳細玩家清單';
@@ -327,8 +327,12 @@ function showDetail(name){
     html+='<tr style="border-bottom:1px solid #F1F5F9"><td style="padding:10px 12px">'+r.d+'</td><td style="padding:10px 12px;color:#3B82F6">'+r.uid+'</td><td style="padding:10px 12px">'+r.item+'</td><td style="padding:10px 12px;text-align:center">'+vipBadge(r.vip)+'</td><td style="padding:10px 12px;text-align:right;color:#3B82F6;font-weight:600">'+r.amt.toLocaleString()+'</td></tr>';
   });
   document.getElementById('modalBody').innerHTML=html;
-  document.getElementById('modalPaging').textContent='顯示第1至'+data.rows.length+'筆，共'+data.rows.length+'筆';
-  document.getElementById('modalPages').innerHTML='<span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#3B82F6;color:#fff;font-size:11px">1</span>';
+  document.getElementById('modalPaging').textContent='顯示第1至'+Math.min(data.rows.length,10)+'筆，共'+data.rows.length+'筆';
+  var totalPages=Math.ceil(data.rows.length/10)||1;
+  var pagesHtml='<span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #E5E7EB;color:#64748B;font-size:11px;cursor:pointer">⟨|</span><span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #E5E7EB;color:#64748B;font-size:11px;cursor:pointer">‹</span>';
+  for(var i=1;i<=totalPages;i++){pagesHtml+='<span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:11px;cursor:pointer;'+(i===1?'background:#3B82F6;color:#fff':'border:1px solid #E5E7EB;color:#374151')+'">'+i+'</span>'}
+  pagesHtml+='<span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #E5E7EB;color:#64748B;font-size:11px;cursor:pointer">›</span><span style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid #E5E7EB;color:#64748B;font-size:11px;cursor:pointer">|⟩</span>';
+  document.getElementById('modalPages').innerHTML=pagesHtml;
   document.getElementById('detailModal').style.display='flex';
 }
 pie.on('click',function(p){showDetail(p.name)});
