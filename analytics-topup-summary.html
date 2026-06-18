@@ -135,6 +135,32 @@ document.addEventListener('click',function(e){
       popover.style.display='none';
     });
   }
+  // 日曆格子點擊
+  var calendars=popover.querySelectorAll('div[style*="grid-template-columns"]');
+  var selectedStart=null,selectedEnd=null;
+  calendars.forEach(function(cal,calIdx){
+    var cells=cal.children;
+    for(var c=7;c<cells.length;c++){
+      if(cells[c].style.cursor==='pointer'){
+        cells[c].addEventListener('click',function(){
+          var day=parseInt(this.textContent);
+          var month=calIdx===0?4:5;// 5月=index4, 6月=index5
+          var clicked=new Date(2026,month,day);
+          if(!selectedStart||selectedEnd){selectedStart=clicked;selectedEnd=null;
+            calendars.forEach(function(g){for(var x=7;x<g.children.length;x++){if(g.children[x].style.cursor==='pointer'){g.children[x].style.background='';g.children[x].style.color='#374151';}}});
+            this.style.background='#2563EB';this.style.color='#fff';
+          } else {
+            selectedEnd=clicked<selectedStart?selectedStart:clicked;
+            if(clicked<selectedStart){selectedStart=clicked;}
+            this.style.background='#2563EB';this.style.color='#fff';
+            function fmt2(d){return d.getFullYear()+'/'+(''+(d.getMonth()+1)).padStart(2,'0')+'/'+(''+ d.getDate()).padStart(2,'0');}
+            dateBtn.childNodes[1].textContent=fmt2(selectedStart)+' - '+fmt2(selectedEnd);
+            popover.style.display='none';
+          }
+        });
+      }
+    }
+  });
 })();
 document.querySelectorAll('.currency-option').forEach(function(el){
   el.addEventListener('click',function(){
@@ -331,7 +357,8 @@ document.querySelectorAll('.groupby-option').forEach(function(el){
     this.style.color='#2563EB';this.style.fontWeight='500';this.style.background='#EFF6FF';
     renderPie(this.dataset.key);
     this.closest('.currency-popover').classList.remove('show');
-    this.closest('.currency-popover').previousElementSibling.textContent=this.textContent;
+    var gbBtn=this.closest('.currency-popover').previousElementSibling;
+    gbBtn.childNodes[0].textContent=this.textContent;
   });
 });
 // 圓餅圖點擊彈窗明細
