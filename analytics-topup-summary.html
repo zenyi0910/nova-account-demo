@@ -115,15 +115,14 @@ document.addEventListener('click',function(e){
 (function(){
   var dateBtn=document.querySelector('.filter-group:first-child .filter-btn');
   var popover=dateBtn.nextElementSibling;
-  var shortcuts=popover.querySelectorAll('div[style*="cursor:pointer"]');
-  var shortcutParent=popover.querySelector('div>div:first-child');
+  var shortcutParent=popover.children[0].children[0];
   if(!shortcutParent)return;
   var items=shortcutParent.children;
   for(var i=0;i<items.length;i++){
     items[i].addEventListener('click',function(){
       for(var j=0;j<items.length;j++){items[j].style.color='#374151';items[j].style.border='1px solid transparent';}
       this.style.color='#2563EB';this.style.border='1px solid #3B82F6';
-      var t=this.textContent,now=new Date(2026,5,18),y,m,d,start,end;
+      var t=this.textContent,start,end;
       if(t==='昨天'){start=end=new Date(2026,5,17);}
       else if(t==='本週'){start=new Date(2026,5,15);end=new Date(2026,5,21);}
       else if(t==='上週'){start=new Date(2026,5,8);end=new Date(2026,5,14);}
