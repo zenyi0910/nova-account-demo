@@ -43,7 +43,7 @@ a{color:#3B82F6;text-decoration:none}
 .currency-popover.show{display:block!important}
 .filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
 .filter-group{display:flex;flex-direction:column;gap:6px;min-width:150px}.filter-label{font-size:14px;font-weight:600;color:#64748B}
-.filter-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px;height:40px;min-width:160px;background:#F8FAFC;color:#1E293B;cursor:pointer;white-space:nowrap;transition:all .15s;justify-content:space-between}.filter-btn:hover{border-color:#94A3B8;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.filter-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px;height:40px;min-width:180px;background:#F8FAFC;color:#1E293B;cursor:pointer;white-space:nowrap;transition:all .15s;justify-content:space-between}.filter-btn:hover{border-color:#94A3B8;background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06)}
 .filter-btn svg{width:16px;height:16px;color:#94A3B8;flex-shrink:0}
 .btn-query{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;border:none;border-radius:8px;font-size:14px;height:40px;background:#2563EB;color:#fff;font-weight:700;cursor:pointer;transition:all .15s}.btn-query:hover{background:#1d4ed8}
 .btn-reset{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 24px;border:1px solid #E2E8F0;border-radius:8px;font-size:14px;height:40px;background:#F8FAFC;color:#64748B;font-weight:500;cursor:pointer;transition:all .15s}.btn-reset:hover{background:#F1F5F9}
@@ -111,6 +111,32 @@ document.addEventListener('click',function(e){
     document.querySelectorAll('.currency-popover').forEach(function(pop){pop.style.display='none'});
   }
 });
+// 日期快捷選擇
+(function(){
+  var dateBtn=document.querySelector('.filter-group:first-child .filter-btn');
+  var popover=dateBtn.nextElementSibling;
+  var shortcuts=popover.querySelectorAll('div[style*="cursor:pointer"]');
+  var shortcutParent=popover.querySelector('div>div:first-child');
+  if(!shortcutParent)return;
+  var items=shortcutParent.children;
+  for(var i=0;i<items.length;i++){
+    items[i].addEventListener('click',function(){
+      for(var j=0;j<items.length;j++){items[j].style.color='#374151';items[j].style.border='1px solid transparent';}
+      this.style.color='#2563EB';this.style.border='1px solid #3B82F6';
+      var t=this.textContent,now=new Date(2026,5,18),y,m,d,start,end;
+      if(t==='昨天'){start=end=new Date(2026,5,17);}
+      else if(t==='本週'){start=new Date(2026,5,15);end=new Date(2026,5,21);}
+      else if(t==='上週'){start=new Date(2026,5,8);end=new Date(2026,5,14);}
+      else if(t==='本月'){start=new Date(2026,5,1);end=new Date(2026,5,30);}
+      else if(t==='上個月'){start=new Date(2026,4,1);end=new Date(2026,4,31);}
+      else if(t==='近7天'){start=new Date(2026,5,12);end=new Date(2026,5,18);}
+      else if(t==='近30天'){start=new Date(2026,4,20);end=new Date(2026,5,18);}
+      function fmt(d){return d.getFullYear()+'/'+(''+(d.getMonth()+1)).padStart(2,'0')+'/'+(''+ d.getDate()).padStart(2,'0');}
+      dateBtn.childNodes[1].textContent=fmt(start)+' - '+fmt(end);
+      popover.style.display='none';
+    });
+  }
+})();
 document.querySelectorAll('.currency-option').forEach(function(el){
   el.addEventListener('click',function(){
     document.querySelectorAll('.currency-option').forEach(function(o){o.style.background='transparent';o.style.color='#374151';o.style.fontWeight='400';const chk=o.querySelector('svg');if(chk)chk.remove()});
