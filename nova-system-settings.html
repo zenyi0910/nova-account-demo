@@ -92,6 +92,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .status-maint{background:#FEF3C7;color:#92400E}
 .status-offline{background:#FEE2E2;color:#991B1B}
 .pagination-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:12px;color:#6B7280}
+.tabs{display:flex;gap:0;background:#f1f2f4;border-radius:10px;padding:3px;margin-bottom:20px;width:fit-content}
+.tabs button{padding:8px 16px;font-size:12px;font-weight:500;border:none;background:transparent;color:#64748b;cursor:pointer;border-radius:7px;transition:all .2s;white-space:nowrap}
+.tabs button.active{background:#fff;color:#1e293b;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.settings-list{display:flex;flex-direction:column;gap:16px}
+.setting-card{background:#fff;border:1px solid #E5E7EB;border-radius:10px;padding:24px 0;display:flex;flex-direction:column;gap:24px}
+.card-header{padding:0 24px;display:grid;gap:6px}
+.card-title{font-size:14px;font-weight:600;color:#1e293b;line-height:1}
+.card-desc{font-size:12px;color:#94a3b8}
+.card-content{padding:0 24px}
+.card-value{margin-top:8px;padding:8px;background:#f9fafb;border-radius:6px}
+.card-value pre{font-size:12px;white-space:pre-wrap;font-family:inherit;color:#1e293b}
+.card-footer{padding:0 24px;display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.btn-edit-card{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;height:32px;font-size:12px;font-weight:500;border:1px solid #e5e7eb;background:#14b8a6;color:rgba(255,255,255,.9);border-radius:6px;cursor:pointer;transition:all .15s;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.btn-edit-card:hover{opacity:.7}
+.btn-edit-card svg{width:14px;height:14px}
 
 
 .sidebar-user{position:relative;cursor:pointer}
@@ -145,6 +162,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   </div>
   <div class="content">
     <div class="page-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><h1>系統設定</h1></div>
+    <div class="tabs">
+      <button class="active" onclick="switchTab('general')">一般設定</button>
+      <button onclick="switchTab('feature')">功能設定</button>
+      <button onclick="switchTab('security')">安全相關設定</button>
+      <button onclick="switchTab('content')">內容管理設定</button>
+      <button onclick="switchTab('thirdparty')">第三方整合設定</button>
+      <button onclick="switchTab('risk')">公會風控設定</button>
+    </div>
+    <div id="tab-general" class="tab-content active">
     <div class="pagination-bar"><span>系統全域設定</span></div>
     <table class="data-table"><thead><tr><th>設定項目</th><th>目前值</th><th>說明</th><th>狀態</th></tr></thead><tbody>
       <tr><td style="font-weight:500">平台名稱</td><td>Nova 星運娛樂城</td><td>顯示在前台的平台名稱</td><td><span class="status-badge status-online">啟用</span></td></tr>
@@ -155,10 +181,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <tr><td style="font-weight:500">每日提領次數</td><td>3 次</td><td>每位用戶每日提領上限</td><td><span class="status-badge status-online">啟用</span></td></tr>
       <tr><td style="font-weight:500">VIP 升級門檻</td><td>累計儲值</td><td>VIP 等級計算方式</td><td><span class="status-badge status-online">啟用</span></td></tr>
     </tbody></table>
+    </div>
+    <div id="tab-security" class="tab-content">
+      <div class="settings-list">
+        <div class="setting-card"><div class="card-header"><div class="card-title">最大登入嘗試次數</div><div class="card-desc">最大登入嘗試次數</div></div><div class="card-content"><div class="card-value"><pre>5</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">登入鎖定時間（分鐘）</div><div class="card-desc">登入失敗鎖定時間（分鐘）</div></div><div class="card-content"><div class="card-value"><pre>30</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">驗證碼有效期（分鐘）</div><div class="card-desc">手機驗證碼有效期（分鐘）</div></div><div class="card-content"><div class="card-value"><pre>5</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">帳號鎖定時間（分鐘）</div><div class="card-desc">帳號鎖定時間（分鐘）</div></div><div class="card-content"><div class="card-value"><pre>15</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">IP 鎖定時間（分鐘）</div><div class="card-desc">IP 鎖定時間（分鐘）</div></div><div class="card-content"><div class="card-value"><pre>60</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">單一帳號最大登入失敗次數</div><div class="card-desc">單一帳號最大登入失敗次數</div></div><div class="card-content"><div class="card-value"><pre>5</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">單一 IP 最大登入失敗次數</div><div class="card-desc">單一 IP 最大登入失敗次數</div></div><div class="card-content"><div class="card-value"><pre>20000</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">手機驗證碼長度</div><div class="card-desc">手機驗證碼長度</div></div><div class="card-content"><div class="card-value"><pre>6</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+        <div class="setting-card"><div class="card-header"><div class="card-title">聊天公頻慢速模式（Slow Mode）</div><div class="card-desc">兩次發言之間的冷卻時間（秒），0 = 關閉。範圍：0 ~ 36000</div></div><div class="card-content"><div class="card-value"><pre>60</pre></div></div><div class="card-footer"><button class="btn-edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
+
+function switchTab(tab) {
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+  const el = document.getElementById('tab-' + tab);
+  if (el) el.classList.add('active');
+}
 
 document.querySelector('.topbar-toggle')?.addEventListener('click',function(){
   const isMobile=window.innerWidth<=768;
