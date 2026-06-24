@@ -18,7 +18,7 @@ body{font-family:ui-sans-serif,system-ui,sans-serif;background:#f8fafc;min-heigh
 .sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;color:#374151;font-size:14px;transition:background .15s;text-decoration:none;min-height:38px}
 .sidebar-item:hover{background:#F3F4F6}
 .sidebar-item.active{background:#EEF2FF;font-weight:600;color:#4338CA}
-.sidebar-item svg{width:18px;height:18px;color:#6B7280;flex-shrink:0}
+.sidebar-item svg{width:18px;height:18px;min-width:18px;min-height:18px;color:#6B7280;flex-shrink:0}
 .sidebar-chevron{margin-left:auto;color:#9CA3AF;transition:transform .2s}
 .sidebar-chevron.open{transform:rotate(90deg)}
 .sidebar-sub{padding-left:14px;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s cubic-bezier(.25,.1,.25,1),opacity .3s ease .05s}
@@ -66,7 +66,7 @@ body{font-family:ui-sans-serif,system-ui,sans-serif;background:#f8fafc;min-heigh
 </style>
 </head>
 <body>
-<aside class="sidebar" id="sidebar"></aside>
+<nav class="sidebar" id="sidebar"></nav>
 
 <main class="main">
   <div class="breadcrumb"><a href="#">首頁</a> / 基本設定 / 系統設定</div>
