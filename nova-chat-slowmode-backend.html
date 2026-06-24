@@ -7,14 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:ui-sans-serif,system-ui,sans-serif;background:#f8fafc;min-height:100vh;display:flex}
-.sidebar{width:240px;background:#fff;border-right:1px solid #e5e7eb;padding:16px 0;flex-shrink:0;height:100vh;overflow-y:auto}
-.sidebar-logo{padding:0 16px 16px;font-size:18px;font-weight:700;color:#1e293b;display:flex;align-items:center;gap:8px}
-.sidebar-logo .badge{font-size:10px;background:#ef4444;color:#fff;padding:1px 6px;border-radius:4px}
-.menu-group-title{font-size:11px;color:#94a3b8;padding:8px 16px 4px;font-weight:600;letter-spacing:.5px}
-.menu-item{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:14px;color:#475569;cursor:pointer;transition:all .15s}
-.menu-item:hover{background:#f1f5f9}
-.menu-item.active{background:#eff6ff;color:#2563eb;font-weight:600}
-.menu-item svg{width:18px;height:18px;flex-shrink:0}
+.sidebar{width:240px;background:#fff;border-right:1px solid #e5e7eb;flex-shrink:0;height:100vh;overflow-y:auto}
 .main{flex:1;padding:24px 32px;overflow-y:auto}
 .breadcrumb{font-size:12px;color:#94a3b8;margin-bottom:20px}
 .breadcrumb a{color:#2563eb;text-decoration:none}
@@ -37,18 +30,11 @@ body{font-family:ui-sans-serif,system-ui,sans-serif;background:#f8fafc;min-heigh
 .btn-edit{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;height:32px;font-size:12px;font-weight:500;border:1px solid #e5e7eb;background:#14b8a6;color:rgba(255,255,255,.9);border-radius:6px;cursor:pointer;transition:all .15s;box-shadow:0 1px 2px rgba(0,0,0,.05)}
 .btn-edit:hover{opacity:.7}
 .btn-edit svg{width:14px;height:14px}
-/* Highlight new */
-.setting-card.highlight{border-left:3px solid #10b981;background:#f0fdf4;animation:pulse 2s ease-in-out 3}
-@keyframes pulse{0%,100%{background:#f0fdf4}50%{background:#dcfce7}}
-.new-badge{display:inline-block;background:#10b981;color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;font-weight:600;margin-left:6px;vertical-align:middle}
+
 </style>
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sidebar-logo">Nova <span class="badge">測試後台</span></div>
-  <div class="menu-group-title">基本設定</div>
-  <div class="menu-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>系統設定</div>
-</aside>
+<aside class="sidebar" id="sidebar"></aside>
 
 <main class="main">
   <div class="breadcrumb"><a href="#">首頁</a> / 基本設定 / 系統設定</div>
@@ -105,12 +91,13 @@ body{font-family:ui-sans-serif,system-ui,sans-serif;background:#f8fafc;min-heigh
       <div class="card-footer"><button class="btn-edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div>
     </div>
     <!-- NEW: Slow Mode -->
-    <div class="setting-card highlight">
-      <div class="card-header"><div class="card-title">聊天公頻慢速模式（Slow Mode）<span class="new-badge">NEW</span></div><div class="card-desc">兩次發言之間的冷卻時間（秒），0 = 關閉。範圍：0 ~ 36000</div></div>
+    <div class="setting-card">
+      <div class="card-header"><div class="card-title">聊天公頻慢速模式（Slow Mode）</div><div class="card-desc">兩次發言之間的冷卻時間（秒），0 = 關閉。範圍：0 ~ 36000</div></div>
       <div class="card-content"><div class="card-value"><pre>60</pre></div></div>
       <div class="card-footer"><button class="btn-edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>編輯</button></div>
     </div>
   </div>
 </main>
+<script src="components/sidebar.js"></script>
 </body>
 </html>
