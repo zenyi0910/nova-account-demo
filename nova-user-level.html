@@ -82,6 +82,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .op-btn.danger:hover{background:#FEF2F2}
 .sort-handle{cursor:grab;color:#9CA3AF;font-size:16px}
 .member-count{color:#2563EB;cursor:pointer;text-decoration:underline}
+.level-name-link{color:#2563EB;cursor:pointer;text-decoration:none}
+.level-name-link:hover{text-decoration:underline}
+.icon-btn{width:32px;height:32px;border:none;background:none;cursor:pointer;color:#6B7280;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;transition:background .15s}
+.icon-btn:hover{background:#F3F4F6}
+.more-menu-wrap{position:relative;display:inline-block}
+.more-menu{display:none;position:absolute;right:0;top:100%;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);min-width:140px;z-index:50;padding:4px}
+.more-menu.open{display:block}
+.more-menu-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:13px;color:#374151;cursor:pointer;border-radius:6px;white-space:nowrap}
+.more-menu-item:hover{background:#F3F4F6}
+.more-menu-item.danger{color:#DC2626}
+.more-menu-item.safe{color:#16A34A}
 
 /* Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:center;justify-content:center}
@@ -131,8 +142,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
     <div id="listView">
       <div class="page-header">
         <div>
-          <div class="page-title">用戶層級管理</div>
-          <div class="page-subtitle">共 <span id="totalCount">5</span> 個層級</div>
+          <div class="page-title">用戶層級</div>
+          <div class="page-subtitle">總共 <span id="totalCount">5</span> 筆資料</div>
         </div>
         <div class="header-actions">
           <button class="btn btn-primary" onclick="openAddModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>新增層級</button>
@@ -304,17 +315,30 @@ function renderTable() {
   tbody.innerHTML = filtered.map(l => `
     <tr data-id="${l.id}">
       <td><span class="sort-handle">⠿</span> ${l.sort}</td>
-      <td>${l.name}${l.isDefault ? ' <span class="badge-default">預設</span>' : ''}</td>
+      <td><span class="level-name-link" onclick="showDetail(${l.id})">${l.name}</span></td>
       <td>${l.status === 'safe' ? '<span class="badge-safe"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>安全</span>' : '<span class="badge-danger"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>危險</span>'}</td>
       <td><span class="member-count" onclick="showDetail(${l.id})">${l.members.toLocaleString()}</span></td>
-      <td>
-        <button class="op-btn" onclick="showDetail(${l.id})">檢視</button>
-        <button class="op-btn" onclick="openEditModal(${l.id})">編輯</button>
-        ${l.status === 'safe' ? `<button class="op-btn danger" onclick="toggleStatus(${l.id})">設為危險</button>` : `<button class="op-btn safe" onclick="toggleStatus(${l.id})">設為安全</button>`}
+      <td style="white-space:nowrap">
+        <button class="icon-btn" title="編輯" onclick="openEditModal(${l.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="icon-btn" title="刪除" onclick="deleteLevel(${l.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>
+        <div class="more-menu-wrap">
+          <button class="icon-btn" onclick="toggleMenu(event,${l.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button>
+          <div class="more-menu" id="menu-${l.id}">
+            <div class="more-menu-item" onclick="showDetail(${l.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>檢視詳情</div>
+            ${l.status === 'safe' ? `<div class="more-menu-item danger" onclick="toggleStatus(${l.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>設為危險</div>` : `<div class="more-menu-item safe" onclick="toggleStatus(${l.id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>設為安全</div>`}
+          </div>
+        </div>
       </td>
     </tr>
   `).join('');
 }
+
+function toggleMenu(e, id) {
+  e.stopPropagation();
+  document.querySelectorAll('.more-menu.open').forEach(m => { if(m.id !== 'menu-'+id) m.classList.remove('open'); });
+  document.getElementById('menu-'+id).classList.toggle('open');
+}
+document.addEventListener('click', () => { document.querySelectorAll('.more-menu.open').forEach(m => m.classList.remove('open')); });
 
 function filterTable() { renderTable(); }
 
@@ -340,7 +364,7 @@ function renderDetail(id) {
   const l = levels.find(x => x.id === id);
   if (!l) return;
   document.getElementById('detailTitle').textContent = l.name;
-  document.getElementById('detailBadge').innerHTML = l.isDefault ? '<span class="badge-default">預設層級</span>' : '';
+  document.getElementById('detailBadge').innerHTML = '';
   const banner = document.getElementById('detailBanner');
   if (l.status === 'safe') {
     banner.innerHTML = `<div class="detail-banner safe"><svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="text" style="color:#16A34A">此為安全等級</span><span class="toggle-link" onclick="toggleStatus(${l.id})">設為危險等級</span></div>`;
@@ -431,16 +455,21 @@ function saveLevel() {
   if (currentDetailId) renderDetail(currentDetailId);
 }
 
-function deleteLevelFromDetail() {
-  const l = levels.find(x => x.id === currentDetailId);
+function deleteLevel(id) {
+  const l = levels.find(x => x.id === id);
   if (!l) return;
   if (l.isDefault) { alert('預設層級不可刪除'); return; }
   if (l.members > 0) { alert('已有用戶參照此設定，不可刪除'); return; }
   if (confirm(`確定刪除「${l.name}」？此操作無法復原。`)) {
-    const idx = levels.findIndex(x => x.id === currentDetailId);
+    const idx = levels.findIndex(x => x.id === id);
     levels.splice(idx, 1);
-    showListView();
+    renderTable();
   }
+}
+
+function deleteLevelFromDetail() {
+  deleteLevel(currentDetailId);
+  if (!levels.find(x => x.id === currentDetailId)) showListView();
 }
 
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
