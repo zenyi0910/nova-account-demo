@@ -224,7 +224,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <div class="modal-overlay" id="addModal">
   <div class="modal" style="width:900px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column">
     <div class="modal-header">
-      <div class="modal-title" id="modalTitle">新增層級</div>
+      <div class="modal-title" id="modalTitle">新增用戶層級</div>
       <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
     </div>
     <div class="modal-body" style="flex:1;overflow-y:auto">
@@ -239,15 +239,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div style="margin-top:8px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-          <label style="font-size:12px;color:#374151;font-weight:500">帳號</label>
+          <label style="font-size:12px;color:#374151;font-weight:500">新增帳號</label>
           <span id="addAccError" style="font-size:11px;color:#DC2626;display:none">每筆帳號須為 3-30 字元的英文、數字或 _ 符號</span>
         </div>
-        <div style="position:relative">
-          <div style="position:relative">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" class="form-input" id="addAccInput" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="width:100%;height:36px;padding-left:32px" oninput="onAccInput(this)">
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <div style="position:relative;flex:1">
+            <div style="position:relative">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" class="form-input" id="addAccInput" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="width:100%;height:36px;padding-left:32px" oninput="onAccInput(this)">
+            </div>
+            <div id="addAccDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;z-index:10"></div>
           </div>
-          <div id="addAccDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;z-index:10"></div>
+          <button class="btn btn-primary" onclick="doAddAccounts()" style="height:36px;white-space:nowrap">新增</button>
+          <button class="btn btn-outline" onclick="clearAddAccInput()" style="height:36px;white-space:nowrap;background:#E0F2FE;color:#0369A1;border-color:#BAE6FD">清除</button>
         </div>
       </div>
       <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:8px">
@@ -420,15 +424,19 @@ function renderDetailModal(id, editable) {
     </div>
     ${editable ? `<div style="margin-top:8px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-        <label style="font-size:12px;color:#374151;font-weight:500">帳號</label>
+        <label style="font-size:12px;color:#374151;font-weight:500">新增帳號</label>
         <span id="editAccError" style="font-size:11px;color:#DC2626;display:none">每筆帳號須為 3-30 字元的英文、數字或 _ 符號</span>
       </div>
-      <div style="position:relative">
-        <div style="position:relative">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <input type="text" class="form-input" id="addUserInput" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="width:100%;height:36px;padding-left:32px" oninput="onAccInput(this)">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="position:relative;flex:1">
+          <div style="position:relative">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" class="form-input" id="addUserInput" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="width:100%;height:36px;padding-left:32px" oninput="onAccInput(this)">
+          </div>
+          <div id="editAccDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;z-index:10"></div>
         </div>
-        <div id="editAccDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;z-index:10"></div>
+        <button class="btn btn-primary" onclick="doAddMember()" style="height:36px;white-space:nowrap">新增</button>
+        <button class="btn btn-outline" onclick="clearEditAccInput()" style="height:36px;white-space:nowrap;background:#E0F2FE;color:#0369A1;border-color:#BAE6FD">清除</button>
       </div>
     </div>` : ''}
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:12px">
@@ -558,7 +566,7 @@ function resetFilter() {
 
 function openAddModal() {
   editingId = null;
-  document.getElementById('modalTitle').textContent = '新增層級';
+  document.getElementById('modalTitle').textContent = '新增用戶層級';
   document.getElementById('levelNameInput').value = '';
   document.getElementById('addModal').classList.add('open');
 }
@@ -666,6 +674,34 @@ function doAddMember() {
   closeModal('addMemberModal');
 }
 function exportMembers() { alert('已匯出 CSV 檔案'); }
+
+function doAddAccounts() {
+  const input = document.getElementById('addAccInput');
+  if (input.value.trim()) {
+    alert('新增成功');
+    input.value = '';
+    document.getElementById('addAccDropdown').style.display='none';
+    document.getElementById('addAccError').style.display='none';
+    input.style.background='#fff';
+    input.style.borderColor='#E5E7EB';
+  }
+}
+function clearAddAccInput() {
+  const input = document.getElementById('addAccInput');
+  input.value = '';
+  document.getElementById('addAccDropdown').style.display='none';
+  document.getElementById('addAccError').style.display='none';
+  input.style.background='#fff';
+  input.style.borderColor='#E5E7EB';
+}
+function clearEditAccInput() {
+  const input = document.getElementById('addUserInput');
+  input.value = '';
+  document.getElementById('editAccDropdown').style.display='none';
+  document.getElementById('editAccError').style.display='none';
+  input.style.background='#fff';
+  input.style.borderColor='#E5E7EB';
+}
 
 const mockAccounts = ['aaron1','adB4737','admincloud001','admintcloud','akr4085','annann','arU0737','player001','player002','player003','player004','player005','player006','player007'];
 function onAccInput(el) {
