@@ -205,7 +205,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- View/Edit Modal (system style: centered, expand+close buttons) -->
 <div class="modal-overlay" id="detailModal">
-  <div class="modal" id="detailModalBox" style="width:720px;max-width:90vw;max-height:85vh;display:flex;flex-direction:column">
+  <div class="modal" id="detailModalBox" style="width:900px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column">
     <div class="modal-header">
       <div class="modal-title" id="detailModalTitle">層級名稱</div>
       <div style="display:flex;gap:4px">
@@ -351,24 +351,22 @@ function renderDetailModal(id, editable) {
     ? `<div class="form-group"><label class="form-label">層級名稱</label><input type="text" class="form-input" id="editNameInput" value="${l.name}"></div>`
     : `<div class="form-group"><label class="form-label">層級名稱</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.name}</div></div>`;
 
-  const actionsHtml = editable ? `
-    <div style="display:flex;gap:8px;margin:16px 0;justify-content:flex-end">
-      <button class="btn btn-outline" onclick="exportMembers()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出名單</button>
-      <button class="btn btn-outline" onclick="openImportModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>批次匯入</button>
-    </div>` : '';
-
-  const memberRows = mockMembers.map(m => `
+  const memberRows = mockMembers.slice(0, 10).map((m, i) => `
     <tr>
       <td style="color:#2563EB">${m.account}</td>
       <td>${m.nickname}</td>
       <td>${m.joinedAt}</td>
-      ${editable ? `<td><button class="op-btn danger" onclick="removeMember('${m.account}')">移除</button></td>` : '<td>-</td>'}
+      <td><a href="nova-event-settings.html" style="color:#2563EB;text-decoration:none;font-size:12px">${['登入獎勵','每日簽到','儲值優惠','新手任務',''][i % 5]}</a></td>
+      ${editable ? `<td><button class="op-btn danger" onclick="removeMember('${m.account}')">移除</button></td>` : ''}
     </tr>`).join('');
+
+  const tableHeaders = editable
+    ? '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th><th>操作</th>'
+    : '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th>';
 
   document.getElementById('detailModalBody').innerHTML = `
     ${bannerHtml}
     ${nameField}
-    <div class="form-group"><label class="form-label">狀態</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.status === 'safe' ? '<span class="badge-safe" style="font-size:13px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>安全</span>' : '<span class="badge-danger" style="font-size:13px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>危險</span>'}</div></div>
     <div class="form-group"><label class="form-label">用戶數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><label class="form-label" style="margin:0">用戶名單</label>
       ${editable ? `<div style="display:flex;gap:8px">
@@ -378,11 +376,22 @@ function renderDetailModal(id, editable) {
     </div>
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden">
       <table class="detail-table" style="margin:0">
-        <thead><tr><th>帳號</th><th>暱稱</th><th>加入時間</th><th>操作</th></tr></thead>
+        <thead><tr>${tableHeaders}</tr></thead>
         <tbody>${memberRows}</tbody>
       </table>
     </div>
-    <div class="pagination"><span>共 ${mockMembers.length} 筆</span></div>
+    <div class="pagination" style="justify-content:space-between">
+      <span>共 ${l.members.toLocaleString()} 筆</span>
+      <div style="display:flex;align-items:center;gap:4px">
+        <button class="page-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <span style="padding:0 4px;color:#9CA3AF">...</span>
+        <button class="page-btn">${Math.ceil(l.members/20)}</button>
+        <button class="page-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button>
+      </div>
+    </div>
     ${editable ? `<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
       <input type="text" class="form-input" id="addUserInput" placeholder="輸入帳號新增..." style="flex:1;height:36px">
       <button class="btn btn-primary" onclick="doAddMember()" style="height:36px;white-space:nowrap">新增</button>
