@@ -357,7 +357,7 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
   // 產生固定隨機資料
   function seededRand(seed){ return function(){ seed=(seed*16807)%2147483647; return(seed-1)/2147483646; }; }
   const rand = seededRand(42);
-  const allUsers = [];
+  window.allUsers = [];
   for(let i=0;i<TOTAL;i++){
     const r = rand;
     const suffixes = ['001','888','999','520','168','666']; const nick = nicknames[Math.floor(r()*nicknames.length)] + suffixes[Math.floor(r()*suffixes.length)] + String(Math.floor(r()*9000)+1000);
