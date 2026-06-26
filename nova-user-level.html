@@ -155,13 +155,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
       </div>
       <div class="filter-section">
-        <select class="filter-select" id="statusFilter" onchange="filterTable()">
-          <option value="">選擇狀態</option>
-          <option value="safe">安全</option>
-          <option value="danger">危險</option>
-        </select>
-        <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" oninput="filterTable()">
-        <div style="margin-left:auto;display:flex;gap:8px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:12px;color:#6B7280;font-weight:500">狀態</label>
+          <select class="filter-select" id="statusFilter" onchange="filterTable()" style="min-width:160px">
+            <option value="">選擇狀態</option>
+            <option value="safe">安全</option>
+            <option value="danger">危險</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+          <label style="font-size:12px;color:#6B7280;font-weight:500">搜尋</label>
+          <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" style="width:100%">
+        </div>
+        <div style="display:flex;gap:8px;align-self:flex-end">
           <button class="btn btn-search" onclick="filterTable()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>搜尋</button>
           <button class="btn btn-reset" onclick="resetFilter()">重置</button>
         </div>
@@ -174,11 +180,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <table class="data-table" id="levelTable">
           <thead>
             <tr>
-              <th style="width:50px">排序</th>
+              <th>排序</th>
               <th>層級名稱</th>
               <th>狀態</th>
               <th>用戶數</th>
-              <th style="text-align:right">操作</th>
+              <th style="width:120px;text-align:right">操作</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
