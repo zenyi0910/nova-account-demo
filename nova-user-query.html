@@ -239,6 +239,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-group" data-rule="phone"><label>手機號碼</label><div class="filter-input"><input type="text" placeholder="搜尋手機號碼"></div><div class="filter-error"></div></div>
       <div class="filter-group"><label>註冊來源</label><div class="filter-input"><select><option value="">請選擇註冊來源</option><option>手機</option><option>LINE</option><option>Telegram</option><option>OpenXin</option></select></div></div>
       <div class="filter-group"><label>是否禁言</label><div class="filter-input"><select><option value="">全部</option><option>是</option><option>否</option></select></div></div>
+      <div class="filter-group"><label>用戶層級</label><div class="filter-input"><select id="levelFilter"><option value="">全部</option><option>預設</option><option>VVIP</option><option>貴賓</option><option>高風險</option><option>觀察中</option></select></div></div>
       <div class="filter-group"><label>VIP 等級</label><div class="filter-input"><select><option value="">全部</option><option>VIP 1</option><option>VIP 2</option><option>VIP 3</option><option>VIP 4</option><option>VIP 5</option><option>VIP 6</option></select></div></div>
       <div class="filter-group filter-wide date-picker-wrap"><label>註冊時間</label>
           <div class="filter-input date-picker-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="date-display">選擇日期範圍</span></div>
@@ -246,7 +247,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="filter-actions"><button class="btn-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>搜尋</button><button class="btn-reset">重置</button></div>
     </div>
     <div class="pagination-bar"><span id="paginationInfo">共 2,847 位用戶</span><div style="display:flex;align-items:center;gap:8px"><label style="font-size:12px;color:#6B7280">每頁顯示</label><select id="pageSizeSelect" style="border:1px solid #E5E7EB;border-radius:6px;padding:4px 8px;font-size:12px;background:#fff;cursor:pointer"><option value="20" selected>20 筆</option><option value="50">50 筆</option><option value="100">100 筆</option></select></div></div>
-    <table class="data-table"><thead><tr><th>暱稱</th><th>所屬公會</th><th>帳號</th><th>註冊來源</th><th>綁定手機</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th><th style="width:50px">操作</th></tr></thead><tbody id="userTableBody"></tbody></table>
+    <table class="data-table"><thead><tr><th>暱稱</th><th>所屬公會</th><th>帳號</th><th>註冊來源</th><th>綁定手機</th><th>用戶層級</th><th>VIP</th><th>註冊時間</th><th>最後登入</th><th>狀態</th><th style="width:50px">操作</th></tr></thead><tbody id="userTableBody"></tbody></table>
     <div class="pagination-footer" id="paginationFooter"></div>
   </div>
 </div>
@@ -349,14 +350,28 @@ document.querySelector('.btn-reset')?.addEventListener('click', function() {
     const hasPhone = r()>0.4;
 const phone = hasPhone ? '09'+String(Math.floor(r()*90000000+10000000)) : '-';
     const vip = Math.floor(r()*6)+1;
+    const levels = ['預設','預設','預設','預設','VVIP','貴賓','高風險','觀察中'];
+    const level = levels[Math.floor(r()*levels.length)];
     const baseDate = new Date(2025,6,1);
     const regDate = new Date(baseDate.getTime() + Math.floor(r()*300)*86400000);
     const lastLogin = new Date(regDate.getTime() + Math.floor(r()*60)*86400000);
     const statusIdx = r()<0.82?0:(r()<0.6?1:2);
-    allUsers.push({nick,guild:guilds[guildIdx],acct,src,phone,vip,regDate,lastLogin,status:statuses[statusIdx]});
+    allUsers.push({nick,guild:guilds[guildIdx],acct,src,phone,vip,level,regDate,lastLogin,status:statuses[statusIdx]});
   }
   // 按註冊時間降序
   allUsers.sort((a,b)=>b.regDate-a.regDate);
+
+  // Handle URL param ?level=XXX
+  const urlParams = new URLSearchParams(window.location.search);
+  const levelParam = urlParams.get('level');
+  if (levelParam) {
+    const levelSelect = document.getElementById('levelFilter');
+    if (levelSelect) {
+      for (let opt of levelSelect.options) {
+        if (opt.value === levelParam || opt.textContent === levelParam) { opt.selected = true; break; }
+      }
+    }
+  }
 
   let currentPage = 1;
   let pageSize = 20;
@@ -380,6 +395,7 @@ const phone = hasPhone ? '09'+String(Math.floor(r()*90000000+10000000)) : '-';
       <td style="font-family:monospace;font-size:12px">${u.acct}</td>
       <td><span class="source-badge">${u.src.name}</span></td>
       <td style="color:${u.phone==='-'?'#9CA3AF':'#374151'}">${u.phone==='—'||u.phone==='-'?'未綁定':u.phone}</td>
+      <td>${u.level||'預設'}</td>
       <td>VIP ${u.vip}</td>
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.regDate)}</td>
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.lastLogin)}</td>
