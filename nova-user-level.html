@@ -109,6 +109,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .modal-close:hover{background:#E5E7EB}
 .modal-body{padding:24px}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;padding:16px 24px;border-top:1px solid #E5E7EB}
+.btn-cancel{background:#393939;color:#fff;border:none}
+.btn-cancel:hover{background:#4B5563}
+.btn-save{background:#6B7280;color:#fff;border:none}
+.btn-save:hover{background:#4B5563}
 .form-group{margin-bottom:16px}
 .form-label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
 .form-input{width:100%;padding:10px 14px;border:1px solid #E5E7EB;border-radius:8px;font-size:14px}
@@ -156,16 +160,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
       <div class="filter-section">
         <div style="display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:12px;color:#6B7280;font-weight:500">層級名稱</label>
+          <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" style="min-width:200px">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
           <label style="font-size:12px;color:#6B7280;font-weight:500">狀態</label>
           <select class="filter-select" id="statusFilter" onchange="filterTable()" style="min-width:160px">
             <option value="">選擇狀態</option>
             <option value="safe">安全</option>
             <option value="danger">危險</option>
           </select>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px;flex:1">
-          <label style="font-size:12px;color:#6B7280;font-weight:500">搜尋</label>
-          <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" style="width:100%">
         </div>
         <div style="display:flex;gap:8px;align-self:flex-end">
           <button class="btn btn-search" onclick="filterTable()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>搜尋</button>
@@ -226,8 +230,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('addModal')">取消</button>
-      <button class="btn btn-primary" onclick="saveLevel()">儲存</button>
+      <button class="btn btn-cancel" onclick="closeModal('addModal')">取消</button>
+      <button class="btn btn-save" onclick="saveLevel()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>儲存</button>
     </div>
   </div>
 </div>
@@ -253,7 +257,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('importModal')">取消</button>
+      <button class="btn btn-cancel" onclick="closeModal('importModal')">取消</button>
       <button class="btn btn-primary" onclick="doImport()">匯入</button>
     </div>
   </div>
@@ -273,7 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('addMemberModal')">取消</button>
+      <button class="btn btn-cancel" onclick="closeModal('addMemberModal')">取消</button>
       <button class="btn btn-primary" onclick="doAddMember()">新增</button>
     </div>
   </div>
@@ -384,8 +388,8 @@ function renderDetailModal(id, editable) {
     const canDelete = !l.isDefault;
     document.getElementById('detailModalFooter').innerHTML = `
       ${canDelete ? `<button class="btn btn-danger" onclick="deleteLevelFromDetail()" style="margin-right:auto"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>刪除</button>` : ''}
-      <button class="btn btn-outline" onclick="closeModal('detailModal')">取消</button>
-      <button class="btn btn-primary" onclick="saveFromDetail()">儲存</button>`;
+      <button class="btn btn-cancel" onclick="closeModal('detailModal')">取消</button>
+      <button class="btn btn-save" onclick="saveFromDetail()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>儲存</button>`;
   } else {
     document.getElementById('detailModalFooter').innerHTML = `<button class="btn btn-outline" onclick="closeModal('detailModal')">關閉</button>`;
   }
