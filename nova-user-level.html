@@ -55,12 +55,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .page-subtitle{font-size:13px;color:#6B7280;margin-top:2px}
 .header-actions{display:flex;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
-.btn-primary{background:#2BB5A0;color:#fff}
+.btn-primary{background:#22C55E;color:#fff}
 .btn-primary:hover{opacity:.85}
 .btn-outline{background:#fff;color:#374151;border:1px solid #D0D5DD}
 .btn-outline:hover{background:#F9FAFB}
 .btn-danger{background:#EF4444;color:#fff}
 .btn-danger:hover{opacity:.85}
+.btn-search{background:#1F2937;color:#fff}
+.btn-search:hover{background:#374151}
 
 .filter-section{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06)}
 .filter-input{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;height:36px;min-width:200px}
@@ -143,29 +145,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="page-header">
         <div>
           <div class="page-title">用戶層級</div>
-          <div class="page-subtitle">總共 <span id="totalCount">5</span> 筆資料</div>
+          <div class="page-subtitle"></div>
         </div>
         <div class="header-actions">
           <button class="btn btn-primary" onclick="openAddModal()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>新增層級</button>
-          <button class="btn btn-outline" onclick="toggleSortMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg><span id="sortBtnText">儲存排序</span></button>
         </div>
       </div>
       <div class="filter-section">
-        <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" oninput="filterTable()">
         <select class="filter-select" id="statusFilter" onchange="filterTable()">
-          <option value="">全部狀態</option>
+          <option value="">選擇狀態</option>
           <option value="safe">安全</option>
           <option value="danger">危險</option>
         </select>
+        <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" oninput="filterTable()">
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-search" onclick="filterTable()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>搜尋</button>
+          <button class="btn btn-outline" onclick="resetFilter()">重置</button>
+        </div>
       </div>
       <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #F1F5F9">
+          <span style="font-size:13px;color:#6B7280">總共 <span id="totalCount">5</span> 筆資料</span>
+          <button class="btn btn-outline" onclick="toggleSortMode()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg><span id="sortBtnText">編輯排序</span></button>
+        </div>
         <table class="data-table" id="levelTable">
           <thead>
             <tr>
               <th style="width:50px">排序</th>
               <th>層級名稱</th>
               <th>狀態</th>
-              <th>會員數</th>
+              <th>用戶數</th>
               <th>操作</th>
             </tr>
           </thead>
@@ -225,6 +234,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="form-group">
         <label class="form-label">匯入方式</label>
         <p style="font-size:12px;color:#6B7280;margin-bottom:8px">支援 CSV / Excel，或貼上帳號（一行一筆）</p>
+        <a href="#" onclick="downloadCsvTemplate()" style="font-size:12px;color:#2563EB;margin-bottom:8px;display:inline-block">下載 CSV 範例檔案</a>
         <textarea class="form-input" style="height:120px;resize:vertical" placeholder="player001&#10;player002&#10;player003"></textarea>
       </div>
     </div>
@@ -239,13 +249,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <div class="modal-overlay" id="addMemberModal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">手動新增玩家</div>
+      <div class="modal-title">手動新增用戶</div>
       <button class="modal-close" onclick="closeModal('addMemberModal')">&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">玩家帳號</label>
-        <input type="text" class="form-input" placeholder="請輸入玩家帳號">
+        <label class="form-label">用戶帳號</label>
+        <input type="text" class="form-input" placeholder="請輸入用戶帳號">
       </div>
     </div>
     <div class="modal-footer">
@@ -340,9 +350,9 @@ function renderDetailModal(id, editable) {
     ${bannerHtml}
     ${nameField}
     <div class="form-group"><label class="form-label">狀態</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.status === 'safe' ? '<span class="badge-safe" style="font-size:13px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>安全</span>' : '<span class="badge-danger" style="font-size:13px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>危險</span>'}</div></div>
-    <div class="form-group"><label class="form-label">會員數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
+    <div class="form-group"><label class="form-label">用戶數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
     ${actionsHtml}
-    <div style="margin-top:8px"><label class="form-label">玩家名單</label></div>
+    <div style="margin-top:8px"><label class="form-label">用戶名單</label></div>
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden">
       <table class="detail-table" style="margin:0">
         <thead><tr><th>帳號</th><th>暱稱</th><th>加入時間</th><th>操作</th></tr></thead>
@@ -422,7 +432,7 @@ function toggleStatus(id) {
   const l = levels.find(x => x.id === id);
   if (!l) return;
   const newStatus = l.status === 'safe' ? '危險' : '安全';
-  if (confirm(`確定將「${l.name}」設為${newStatus}等級？\n${l.status === 'safe' ? '該層級所有玩家將無法進行贈禮交易。' : '該層級所有玩家將恢復正常交易。'}`)) {
+  if (confirm(`確定將「${l.name}」設為${newStatus}等級？\n${l.status === 'safe' ? '該層級所有用戶將無法進行贈禮交易。' : '該層級所有用戶將恢復正常交易。'}`)) {
     l.status = l.status === 'safe' ? 'danger' : 'safe';
     renderTable();
     if (document.getElementById('detailModal').classList.contains('open')) {
@@ -445,6 +455,12 @@ function removeMember(account) {
 }
 
 function showListView() {}
+
+function resetFilter() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('statusFilter').value = '';
+  renderTable();
+}
 
 function openAddModal() {
   editingId = null;
@@ -491,7 +507,25 @@ function doAddMember() {
   closeModal('addMemberModal');
 }
 function exportMembers() { alert('已匯出 CSV 檔案'); }
-function toggleSortMode() { alert('排序已儲存'); }
+function toggleSortMode() {
+  const btn = document.getElementById('sortBtnText');
+  if (btn.textContent === '編輯排序') {
+    btn.textContent = '儲存排序';
+    document.querySelectorAll('.sort-handle').forEach(h => h.style.cursor = 'grab');
+    alert('已進入排序模式，可拖曳調整順序');
+  } else {
+    btn.textContent = '編輯排序';
+    alert('排序已儲存');
+  }
+}
+function downloadCsvTemplate() {
+  const csv = '\uFEFFaccount\nplayer001\nplayer002\nplayer003\n';
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'import_template.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
 
 // Init
 renderTable();
