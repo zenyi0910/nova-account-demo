@@ -10,7 +10,8 @@
       items: [
         { name: '用戶管理', id: 'userSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
           children: [
-            { name: '用戶查詢', href: 'nova-user-query.html' }
+            { name: '用戶查詢', href: 'nova-user-query.html' },
+            { name: '用戶層級', href: 'nova-user-level.html' }
           ]
         },
         { name: '帳務管理', id: 'financeSub', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/><path d="M12 18V6"/></svg>',
