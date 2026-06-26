@@ -220,15 +220,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 
 <!-- Add/Edit Modal -->
 <div class="modal-overlay" id="addModal">
-  <div class="modal">
+  <div class="modal" style="width:900px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">新增層級</div>
       <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="flex:1;overflow-y:auto">
       <div class="form-group">
         <label class="form-label">層級名稱</label>
         <input type="text" class="form-input" id="levelNameInput" placeholder="請輸入層級名稱">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><label class="form-label" style="margin:0">用戶名單</label>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
+        </div>
+      </div>
+      <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:8px">
+        <table class="detail-table" style="margin:0">
+          <thead><tr><th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th><th>操作</th></tr></thead>
+          <tbody><tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">尚無用戶</td></tr></tbody>
+        </table>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+        <input type="text" class="form-input" placeholder="輸入帳號新增..." style="flex:1;height:36px">
+        <button class="btn btn-primary" onclick="alert('新增成功')" style="height:36px;white-space:nowrap">新增</button>
       </div>
     </div>
     <div class="modal-footer">
@@ -242,25 +257,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 <div class="modal-overlay" id="importModal">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">批次匯入名單</div>
+      <div class="modal-title">匯入名單</div>
       <button class="modal-close" onclick="closeModal('importModal')">&times;</button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">匯入方式</label>
-        <p style="font-size:12px;color:#6B7280;margin-bottom:8px">支援 CSV / Excel，或貼上帳號（一行一筆）</p>
-        <a href="#" onclick="downloadCsvTemplate()" style="font-size:12px;color:#2563EB;margin-bottom:12px;display:inline-block">下載 CSV 範例檔案</a>
-        <div style="border:2px dashed #CBD5E1;border-radius:12px;padding:32px;text-align:center;background:#fff">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:12px;color:#6B7280">匯入上限 ≤ 1000 帳號、支援 CSV 格式</span>
+          <a href="#" onclick="downloadCsvTemplate()" style="font-size:12px;color:#2563EB">下載 CSV 範例</a>
+        </div>
+        <div id="dropZone" style="border:2px dashed #CBD5E1;border-radius:12px;padding:32px;text-align:center;background:#fff;cursor:pointer" ondragover="event.preventDefault();this.style.borderColor='#2BB5A0'" ondragleave="this.style.borderColor='#CBD5E1'" ondrop="handleDrop(event)">
           <div style="width:48px;height:48px;border-radius:50%;background:#E0F7F4;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
           <div style="font-size:14px;font-weight:500;color:#0F766E;margin-bottom:4px">點擊或拖放檔案至此處</div>
-          <div style="font-size:12px;color:#9CA3AF;margin-bottom:12px">支援 CSV、Excel 格式</div>
-          <button type="button" class="btn btn-outline" style="font-size:12px;padding:6px 14px">選擇檔案</button>
+          <div style="font-size:12px;color:#9CA3AF;margin-bottom:12px">支援 CSV 格式</div>
+          <button type="button" class="btn btn-outline" style="font-size:12px;padding:6px 14px" onclick="document.getElementById('csvFileInput').click()">選擇檔案</button>
+          <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleFileSelect(this)">
+        </div>
+        <div id="uploadProgress" style="display:none;margin-top:12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span id="fileName" style="font-size:12px;color:#374151"></span><span id="progressPct" style="font-size:12px;color:#6B7280">0%</span></div>
+          <div style="height:6px;background:#E5E7EB;border-radius:3px;overflow:hidden"><div id="progressBar" style="height:100%;background:#2BB5A0;border-radius:3px;width:0%;transition:width .3s"></div></div>
+          <div id="uploadStatus" style="font-size:11px;color:#16A34A;margin-top:4px;display:none">✓ 格式驗證通過，可以匯入</div>
+          <div id="uploadError" style="font-size:11px;color:#DC2626;margin-top:4px;display:none"></div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-cancel" onclick="closeModal('importModal')">取消</button>
-      <button class="btn btn-primary" onclick="doImport()">匯入</button>
+      <button class="btn btn-save" id="importBtn" disabled style="opacity:0.5;cursor:not-allowed" onclick="doImport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入</button>
     </div>
   </div>
 </div>
@@ -369,10 +392,12 @@ function renderDetailModal(id, editable) {
     ${nameField}
     <div class="form-group"><label class="form-label">用戶數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><label class="form-label" style="margin:0">用戶名單</label>
-      ${editable ? `<div style="display:flex;gap:8px">
+      ${editable && l.members > 0 ? `<div style="display:flex;gap:8px">
         <button class="btn btn-outline" onclick="exportMembers()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出名單</button>
-        <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>批次匯入</button>
-      </div>` : ''}
+        <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
+      </div>` : (editable ? `<div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
+      </div>` : '')}
     </div>
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden">
       <table class="detail-table" style="margin:0">
@@ -538,6 +563,71 @@ function openAddMemberModal() { document.getElementById('addMemberModal').classL
 function doImport() {
   alert('匯入完成：成功 3 筆、重複 0 筆、失敗 0 筆');
   closeModal('importModal');
+  // Reset import state
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('importBtn').disabled = true;
+  document.getElementById('importBtn').style.opacity = '0.5';
+  document.getElementById('importBtn').style.cursor = 'not-allowed';
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  e.currentTarget.style.borderColor = '#CBD5E1';
+  const file = e.dataTransfer.files[0];
+  if (file) validateAndUpload(file);
+}
+
+function handleFileSelect(input) {
+  const file = input.files[0];
+  if (file) validateAndUpload(file);
+}
+
+function validateAndUpload(file) {
+  const progress = document.getElementById('uploadProgress');
+  const bar = document.getElementById('progressBar');
+  const pct = document.getElementById('progressPct');
+  const nameEl = document.getElementById('fileName');
+  const status = document.getElementById('uploadStatus');
+  const error = document.getElementById('uploadError');
+  const importBtn = document.getElementById('importBtn');
+
+  progress.style.display = 'block';
+  status.style.display = 'none';
+  error.style.display = 'none';
+  nameEl.textContent = file.name;
+  bar.style.width = '0%';
+  pct.textContent = '0%';
+  importBtn.disabled = true;
+  importBtn.style.opacity = '0.5';
+  importBtn.style.cursor = 'not-allowed';
+
+  if (!file.name.endsWith('.csv')) {
+    error.textContent = '✗ 格式錯誤：僅支援 CSV 格式';
+    error.style.display = 'block';
+    bar.style.width = '100%';
+    bar.style.background = '#EF4444';
+    pct.textContent = '失敗';
+    return;
+  }
+
+  bar.style.background = '#2BB5A0';
+  let progress_val = 0;
+  const interval = setInterval(() => {
+    progress_val += Math.random() * 30 + 10;
+    if (progress_val >= 100) {
+      progress_val = 100;
+      clearInterval(interval);
+      pct.textContent = '100%';
+      bar.style.width = '100%';
+      status.style.display = 'block';
+      importBtn.disabled = false;
+      importBtn.style.opacity = '1';
+      importBtn.style.cursor = 'pointer';
+    } else {
+      pct.textContent = Math.floor(progress_val) + '%';
+      bar.style.width = Math.floor(progress_val) + '%';
+    }
+  }, 300);
 }
 function doAddMember() {
   alert('新增成功');
