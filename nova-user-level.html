@@ -57,12 +57,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
 .btn-primary{background:#22C55E;color:#fff}
 .btn-primary:hover{opacity:.85}
-.btn-outline{background:#fff;color:#374151;border:1px solid #D0D5DD}
+.btn-outline{background:#fff;color:#374151;border:1px solid #E5E7EB}
 .btn-outline:hover{background:#F9FAFB}
 .btn-danger{background:#EF4444;color:#fff}
 .btn-danger:hover{opacity:.85}
-.btn-search{background:#1F2937;color:#fff}
-.btn-search:hover{background:#374151}
+.btn-search{background:#393939;color:#fff;border:none}
+.btn-search:hover{background:#4B5563}
+.btn-reset{background:#fff;color:#374151;border:1px solid #E5E7EB}
+.btn-reset:hover{background:#F9FAFB}
 
 .filter-section{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06)}
 .filter-input{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;height:36px;min-width:200px}
@@ -75,6 +77,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .data-table tr:hover td{background:#F8FAFC}
 .badge-safe{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;background:#DCFCE7;color:#16A34A}
 .badge-danger{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;background:#FEE2E2;color:#DC2626}
+.toggle-switch{width:36px;height:20px;border-radius:10px;position:relative;display:inline-block;vertical-align:middle;cursor:pointer}
+.toggle-switch.on{background:#2BB5A0}
+.toggle-switch.off{background:#D4D4D8}
+.toggle-switch::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;transition:left .2s}
+.toggle-switch.on::after{left:18px}
+.toggle-switch.off::after{left:2px}
+.status-text{font-size:12px;margin-left:6px;font-weight:500}
+.status-text.on{color:#22C55E}
+.status-text.off{color:#9CA3AF}
 .badge-default{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500;background:#E0F2FE;color:#0284C7}
 .op-btn{padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;border:1px solid #E5E7EB;background:#fff;color:#374151;transition:all .15s}
 .op-btn:hover{background:#F3F4F6}
@@ -160,7 +171,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         <input type="text" class="filter-input" placeholder="搜尋層級名稱..." id="searchInput" oninput="filterTable()">
         <div style="margin-left:auto;display:flex;gap:8px">
           <button class="btn btn-search" onclick="filterTable()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>搜尋</button>
-          <button class="btn btn-outline" onclick="resetFilter()">重置</button>
+          <button class="btn btn-reset" onclick="resetFilter()">重置</button>
         </div>
       </div>
       <div class="card">
@@ -419,7 +430,7 @@ function renderTable() {
     <tr data-id="${l.id}">
       <td><span class="sort-handle">⠿</span> ${l.sort}</td>
       <td><span class="level-name-link" onclick="showDetail(${l.id})">${l.name}</span></td>
-      <td>${l.status === 'safe' ? '<span class="badge-safe"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>安全</span>' : '<span class="badge-danger"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>危險</span>'}</td>
+      <td><span class="toggle-switch ${l.status === 'safe' ? 'on' : 'off'}" onclick="toggleStatus(${l.id})"></span><span class="status-text ${l.status === 'safe' ? 'on' : 'off'}">${l.status === 'safe' ? '安全' : '危險'}</span></td>
       <td><span class="member-count" onclick="showDetail(${l.id})">${l.members.toLocaleString()}</span></td>
       <td style="white-space:nowrap">
         <button class="icon-btn" title="編輯" onclick="openEditModal(${l.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
