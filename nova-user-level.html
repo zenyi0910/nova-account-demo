@@ -363,7 +363,7 @@ function openEditModal(id) {
 function renderDetailModal(id, editable) {
   const l = levels.find(x => x.id === id);
   if (!l) return;
-  const title = editable ? l.name + '｜編輯' : l.name;
+  const title = editable ? l.name + '｜編輯用戶層級' : l.name;
   document.getElementById('detailModalTitle').textContent = title;
 
   const bannerHtml = l.status === 'safe'
@@ -380,7 +380,7 @@ function renderDetailModal(id, editable) {
       <td>${m.nickname}</td>
       <td>${m.joinedAt}</td>
       <td><a href="nova-event-settings.html" style="color:#2563EB;text-decoration:none;font-size:12px">${['登入獎勵','每日簽到','儲值優惠','新手任務',''][i % 5]}</a></td>
-      ${editable ? `<td><button class="op-btn danger" onclick="removeMember('${m.account}')">移除</button></td>` : ''}
+      ${editable ? `<td><button class="icon-btn delete" onclick="removeMember('${m.account}')" title="移除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>` : ''}
     </tr>`).join('');
 
   const tableHeaders = editable
@@ -399,6 +399,10 @@ function renderDetailModal(id, editable) {
         <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
       </div>` : '')}
     </div>
+    ${editable ? `<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+      <input type="text" class="form-input" id="addUserInput" placeholder="輸入帳號新增..." style="flex:1;height:36px">
+      <button class="btn btn-primary" onclick="doAddMember()" style="height:36px;white-space:nowrap">新增</button>
+    </div>` : ''}
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden">
       <table class="detail-table" style="margin:0">
         <thead><tr>${tableHeaders}</tr></thead>
@@ -417,10 +421,6 @@ function renderDetailModal(id, editable) {
         <button class="page-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button>
       </div>
     </div>
-    ${editable ? `<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-      <input type="text" class="form-input" id="addUserInput" placeholder="輸入帳號新增..." style="flex:1;height:36px">
-      <button class="btn btn-primary" onclick="doAddMember()" style="height:36px;white-space:nowrap">新增</button>
-    </div>` : ''}
   `;
 
   // Footer
