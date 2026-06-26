@@ -234,8 +234,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <div class="form-group">
         <label class="form-label">匯入方式</label>
         <p style="font-size:12px;color:#6B7280;margin-bottom:8px">支援 CSV / Excel，或貼上帳號（一行一筆）</p>
-        <a href="#" onclick="downloadCsvTemplate()" style="font-size:12px;color:#2563EB;margin-bottom:8px;display:inline-block">下載 CSV 範例檔案</a>
-        <textarea class="form-input" style="height:120px;resize:vertical" placeholder="player001&#10;player002&#10;player003"></textarea>
+        <a href="#" onclick="downloadCsvTemplate()" style="font-size:12px;color:#2563EB;margin-bottom:12px;display:inline-block">下載 CSV 範例檔案</a>
+        <div style="border:2px dashed #CBD5E1;border-radius:12px;padding:32px;text-align:center;background:#fff">
+          <div style="width:48px;height:48px;border-radius:50%;background:#E0F7F4;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <div style="font-size:14px;font-weight:500;color:#0F766E;margin-bottom:4px">點擊或拖放檔案至此處</div>
+          <div style="font-size:12px;color:#9CA3AF;margin-bottom:12px">支援 CSV、Excel 格式</div>
+          <button type="button" class="btn btn-outline" style="font-size:12px;padding:6px 14px">選擇檔案</button>
+        </div>
+        <div style="margin-top:12px">
+          <label class="form-label">或直接貼上帳號</label>
+          <textarea class="form-input" style="height:100px;resize:vertical" placeholder="player001&#10;player002&#10;player003"></textarea>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
