@@ -66,7 +66,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
 .btn-reset{background:#fff;color:#374151;border:1px solid #E5E7EB}
 .btn-reset:hover{background:#F9FAFB}
 
-.filter-section{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06)}
+.filter-section{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:16px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.06);flex-wrap:wrap}
 .filter-input{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;height:36px;min-width:200px}
 .filter-select{padding:8px 12px;border:1px solid #E5E7EB;border-radius:8px;font-size:13px;height:36px;background:#fff;cursor:pointer}
 
@@ -175,7 +175,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
             <option value="danger">危險</option>
           </select>
         </div>
-        <div style="display:flex;gap:8px;align-self:flex-end">
+        <div style="display:flex;gap:8px;align-self:flex-end;margin-left:auto">
           <button class="btn btn-search" onclick="filterTable()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>搜尋</button>
           <button class="btn btn-reset" onclick="resetFilter()">重置</button>
         </div>
@@ -238,7 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
         </div>
       </div>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-        <input type="text" class="form-input" placeholder="輸入帳號新增..." style="flex:1;height:36px">
+        <input type="text" class="form-input" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="flex:1;height:36px">
         <button class="btn btn-primary" onclick="alert('新增成功')" style="height:36px;white-space:nowrap">新增</button>
       </div>
       <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:8px">
@@ -410,7 +410,7 @@ function renderDetailModal(id, editable) {
       </div>` : ''))}
     </div>
     ${editable ? `<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-      <input type="text" class="form-input" id="addUserInput" placeholder="輸入帳號新增..." style="flex:1;height:36px">
+      <input type="text" class="form-input" id="addUserInput" placeholder="新增帳號（可以輸入多個，請以半形逗號隔開）" style="flex:1;height:36px">
       <button class="btn btn-primary" onclick="doAddMember()" style="height:36px;white-space:nowrap">新增</button>
     </div>` : ''}
     <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:12px">
