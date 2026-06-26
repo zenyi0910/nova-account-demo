@@ -363,7 +363,7 @@ function openEditModal(id) {
 function renderDetailModal(id, editable) {
   const l = levels.find(x => x.id === id);
   if (!l) return;
-  const title = editable ? l.name + '｜編輯用戶層級' : l.name;
+  const title = editable ? l.name + '｜編輯用戶層級' : l.name + '｜檢視用戶層級';
   document.getElementById('detailModalTitle').textContent = title;
 
   const bannerHtml = l.status === 'safe'
@@ -379,13 +379,20 @@ function renderDetailModal(id, editable) {
       <td style="color:#2563EB">${m.account}</td>
       <td>${m.nickname}</td>
       <td>${m.joinedAt}</td>
-      <td><a href="nova-event-settings.html" style="color:#2563EB;text-decoration:none;font-size:12px">${['登入獎勵','每日簽到','儲值優惠','新手任務',''][i % 5]}</a></td>
       ${editable ? `<td><button class="icon-btn delete" onclick="removeMember('${m.account}')" title="移除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>` : ''}
     </tr>`).join('');
 
   const tableHeaders = editable
-    ? '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th><th>操作</th>'
-    : '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th>';
+    ? '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>操作</th>'
+    : '<th>帳號</th><th>暱稱</th><th>加入時間</th>';
+
+  const activitiesHtml = `
+    <div style="margin-top:16px"><label class="form-label">參加中的活動</label></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <a href="nova-event-settings.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:6px;color:#0369A1;font-size:12px;text-decoration:none">登入獎勵</a>
+      <a href="nova-event-settings.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:6px;color:#0369A1;font-size:12px;text-decoration:none">每日簽到</a>
+      <a href="nova-event-settings.html" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:6px;color:#0369A1;font-size:12px;text-decoration:none">儲值優惠</a>
+    </div>`;
 
   document.getElementById('detailModalBody').innerHTML = `
     ${bannerHtml}
@@ -421,6 +428,7 @@ function renderDetailModal(id, editable) {
         <button class="page-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></button>
       </div>
     </div>
+    ${activitiesHtml}
   `;
 
   // Footer
