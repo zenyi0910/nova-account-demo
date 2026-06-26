@@ -237,15 +237,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
           <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
         </div>
       </div>
-      <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:8px">
-        <table class="detail-table" style="margin:0">
-          <thead><tr><th>帳號</th><th>暱稱</th><th>加入時間</th><th>參加活動</th><th>操作</th></tr></thead>
-          <tbody><tr><td colspan="5" style="text-align:center;color:#9CA3AF;padding:24px">尚無用戶</td></tr></tbody>
-        </table>
-      </div>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
         <input type="text" class="form-input" placeholder="輸入帳號新增..." style="flex:1;height:36px">
         <button class="btn btn-primary" onclick="alert('新增成功')" style="height:36px;white-space:nowrap">新增</button>
+      </div>
+      <div style="border:1px solid #E5E7EB;border-radius:8px;overflow:hidden;margin-top:8px">
+        <table class="detail-table" style="margin:0">
+          <thead><tr><th>帳號</th><th>暱稱</th><th>操作</th></tr></thead>
+          <tbody><tr><td colspan="3" style="text-align:center;color:#9CA3AF;padding:24px">尚無用戶</td></tr></tbody>
+        </table>
       </div>
     </div>
     <div class="modal-footer">
@@ -380,12 +380,12 @@ function renderDetailModal(id, editable) {
     <tr>
       <td style="color:#2563EB">${m.account}</td>
       <td>${m.nickname}</td>
-      <td>${m.joinedAt}</td>
+      ${editable ? '' : `<td>${m.joinedAt}</td>`}
       ${editable ? `<td><button class="icon-btn delete" onclick="removeMember('${m.account}')" title="移除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>` : ''}
     </tr>`).join('');
 
   const tableHeaders = editable
-    ? '<th>帳號</th><th>暱稱</th><th>加入時間</th><th>操作</th>'
+    ? '<th>帳號</th><th>暱稱</th><th>操作</th>'
     : '<th>帳號</th><th>暱稱</th><th>加入時間</th>';
 
   const activitiesHtml = `
@@ -402,11 +402,12 @@ function renderDetailModal(id, editable) {
     <div class="form-group"><label class="form-label">用戶數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><label class="form-label" style="margin:0">用戶名單</label>
       ${editable && l.members > 0 ? `<div style="display:flex;gap:8px">
-        <button class="btn btn-outline" onclick="exportMembers()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出名單</button>
         <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
       </div>` : (editable ? `<div style="display:flex;gap:8px">
         <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
-      </div>` : '')}
+      </div>` : (l.members > 0 ? `<div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="exportMembers()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出名單</button>
+      </div>` : ''))}
     </div>
     ${editable ? `<div style="display:flex;gap:8px;margin-top:8px;align-items:center">
       <input type="text" class="form-input" id="addUserInput" placeholder="輸入帳號新增..." style="flex:1;height:36px">
@@ -433,7 +434,7 @@ function renderDetailModal(id, editable) {
         </div>
       </div>
     </div>
-    ${activitiesHtml}
+    ${!editable ? activitiesHtml : ''}
   `;
 
   // Footer
