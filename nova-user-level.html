@@ -227,7 +227,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
   <div class="modal" style="width:900px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column">
     <div class="modal-header">
       <div class="modal-title" id="modalTitle">新增用戶層級</div>
-      <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
+      <div style="display:flex;gap:4px">
+        <button class="modal-close" onclick="toggleAddFullscreen()" title="展開"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+        <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
+      </div>
     </div>
     <div class="modal-body" style="flex:1;overflow-y:auto">
       <div class="form-group">
@@ -350,6 +353,21 @@ const mockMembers = [
 let currentDetailId = null;
 let editingId = null;
 let isFullscreen = false;
+
+let isAddFullscreen = false;
+function toggleAddFullscreen() {
+  const box = document.querySelector('#addModal .modal');
+  isAddFullscreen = !isAddFullscreen;
+  if (isAddFullscreen) {
+    box.style.width = '95vw';
+    box.style.maxWidth = '95vw';
+    box.style.maxHeight = '95vh';
+  } else {
+    box.style.width = '900px';
+    box.style.maxWidth = '92vw';
+    box.style.maxHeight = '88vh';
+  }
+}
 
 function toggleFullscreen() {
   const box = document.getElementById('detailModalBox');
