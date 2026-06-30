@@ -435,10 +435,8 @@ function renderDetailModal(id, editable) {
     <div class="form-group"><label class="form-label">用戶數</label><div style="padding:10px 14px;background:#F8FAFC;border-radius:8px;font-size:14px">${l.members.toLocaleString()} 人</div></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px"><label class="form-label" style="margin:0">用戶名單</label>
       ${editable && l.members > 0 ? `<div style="display:flex;gap:8px">
-        <button class="btn btn-outline btn-download-result" onclick="downloadImportResult()" style="font-size:12px;padding:6px 12px;display:none;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載結果檔</button>
         <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
       </div>` : (editable ? `<div style="display:flex;gap:8px">
-        <button class="btn btn-outline btn-download-result" onclick="downloadImportResult()" style="font-size:12px;padding:6px 12px;display:none;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載結果檔</button>
         <button class="btn btn-outline" onclick="openImportModal()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>匯入名單</button>
       </div>` : (l.members > 0 ? `<div style="display:flex;gap:8px">
         <button class="btn btn-outline" onclick="exportMembers()" style="font-size:12px;padding:6px 12px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>匯出名單</button>
@@ -631,14 +629,21 @@ function doImport() {
     {account:'player001',error:'重複：該帳號已存在於此層級'},
     {account:'xyz!!',error:'格式錯誤：帳號僅限 3-30 字元英數字或底線'},
   ];
-  alert('匯入完成：成功 3 筆、重複 1 筆、失敗 1 筆');
-  closeModal('importModal');
-  document.getElementById('uploadProgress').style.display = 'none';
+  var success = lastImportResult.filter(function(r){return !r.error}).length;
+  var dup = lastImportResult.filter(function(r){return r.error.indexOf('重複')===0}).length;
+  var fail = lastImportResult.filter(function(r){return r.error && r.error.indexOf('重複')!==0}).length;
+  // Show result in import modal
+  var resultHtml = '<div id="importResultArea" style="margin-top:12px;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px">';
+  resultHtml += '<div style="font-size:13px;color:#166534;font-weight:500;margin-bottom:8px">匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆。請在儲存前下載結果檔確認</div>';
+  resultHtml += '<button class="btn btn-outline" onclick="downloadImportResult()" style="font-size:12px;padding:6px 12px;display:inline-flex;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載結果檔</button>';
+  resultHtml += '</div>';
+  var existing = document.getElementById('importResultArea');
+  if(existing) existing.remove();
+  document.querySelector('#importModal .modal-body .form-group').insertAdjacentHTML('beforeend', resultHtml);
+  // Disable import button
   document.getElementById('importBtn').disabled = true;
   document.getElementById('importBtn').style.opacity = '0.5';
   document.getElementById('importBtn').style.cursor = 'not-allowed';
-  // Show download result button
-  document.querySelectorAll('.btn-download-result').forEach(function(b){ b.style.display = 'inline-flex'; });
 }
 function downloadImportResult() {
   if (!lastImportResult) return;
