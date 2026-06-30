@@ -421,7 +421,7 @@ const phone = hasPhone ? '09'+String(Math.floor(r()*90000000+10000000)) : '-';
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.regDate)}</td>
       <td style="color:#6B7280;font-size:12px">${fmtDate(u.lastLogin)}</td>
       <td><span class="status-badge ${u.status.cls}">${u.status.name}</span></td>
-      <td><button onclick="openUserDetail(${start + i})" style="background:none;border:none;cursor:pointer;padding:4px;color:#6B7280"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></td>
+      <td><button onclick="showActionMenu(event,${start + i})" style="background:none;border:none;cursor:pointer;padding:4px;color:#6B7280"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></button></td>
     </tr>`).join('');
 
     info.textContent = `第 ${currentPage} 頁，共 ${TOTAL.toLocaleString()} 筆資料`;
@@ -610,7 +610,7 @@ function renderBasicInfo(u) {
         </div>
         <div>
           <label style="font-size:12px;color:#6B7280;font-weight:500">用戶層級</label>
-          <p style="font-size:14px;color:#2563EB;margin:4px 0 0">${u.level||'預設'}</p>
+          <p style="font-size:14px;color:${u.level==='高風險'||u.level==='觀察中'?'#DC2626':'#16A34A'};font-weight:500;margin:4px 0 0">${u.level||'預設'}</p>
         </div>
         <div>
           <label style="font-size:12px;color:#6B7280;font-weight:500">VIP 等級</label>
@@ -656,9 +656,66 @@ function renderBasicInfo(u) {
         <div style="background:#fff;border-radius:10px;padding:16px"><div style="font-size:18px;font-weight:700">$0</div><div style="font-size:12px;color:#6B7280;margin-top:4px">最後一筆儲值金額</div></div>
         <div style="background:#fff;border-radius:10px;padding:16px"><div style="font-size:18px;font-weight:700">-</div><div style="font-size:12px;color:#6B7280;margin-top:4px">最後一筆儲值時間</div></div>
       </div>
+    </div>
+    <div style="background:#F9FAFB;border-radius:10px;padding:24px;margin-top:16px">
+      <h3 style="font-size:14px;font-weight:500;color:#374151;margin:0 0 16px">層級管理</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${['預設','VVIP','貴賓','高風險','觀察中'].map(lv => {
+          const isActive = (u.level||'預設') === lv;
+          const isDanger = lv==='高風險'||lv==='觀察中';
+          const bg = isActive ? (isDanger ? '#FEE2E2' : '#F0FDF4') : '#fff';
+          const border = isActive ? (isDanger ? '#FECACA' : '#BBF7D0') : '#E5E7EB';
+          const color = isActive ? (isDanger ? '#DC2626' : '#16A34A') : '#374151';
+          return '<span style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid '+border+';background:'+bg+';color:'+color+'">'+(isActive?'<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>':'')+lv+'</span>';
+        }).join('')}
+      </div>
     </div>`;
 }
 
+
+// === Action Menu (操作功能) ===
+function showActionMenu(e, idx) {
+  e.stopPropagation();
+  let menu = document.getElementById('actionMenu');
+  if(!menu) {
+    menu = document.createElement('div');
+    menu.id = 'actionMenu';
+    menu.style.cssText = 'position:fixed;z-index:999;background:#fff;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);padding:6px 0;min-width:160px;display:none';
+    menu.innerHTML = `
+      <div style="padding:8px 14px;font-size:12px;font-weight:600;color:#6B7280">操作功能</div>
+      <div class="action-item" data-action="detail" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#2563EB;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>檢視詳情</div>
+      <div class="action-item" data-action="status" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>狀態管理</div>
+      <div class="action-item" data-action="vip" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M2 4l3 12h14l3-12-5 4-5-6-5 6z"/><path d="M5 16h14v2H5z"/></svg>VIP管理</div>
+      <div class="action-item" data-action="manual" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>人工存提</div>
+      <div class="action-item" data-action="reset" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#EA580C;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>歸零禁言次數</div>
+    `;
+    document.body.appendChild(menu);
+    menu.querySelectorAll('.action-item').forEach(item => {
+      item.addEventListener('mouseenter', function(){ this.style.background='#F3F4F6'; });
+      item.addEventListener('mouseleave', function(){ this.style.background=''; });
+      item.addEventListener('click', function(){
+        const action = this.dataset.action;
+        menu.style.display='none';
+        const userIdx = +menu.dataset.idx;
+        if(action==='detail') openUserDetail(userIdx);
+        else if(action==='status') alert('狀態管理 - '+allUsers[userIdx].acct);
+        else if(action==='vip') alert('VIP管理 - '+allUsers[userIdx].acct);
+        else if(action==='manual') alert('人工存提 - '+allUsers[userIdx].acct);
+        else if(action==='reset') alert('歸零禁言次數 - '+allUsers[userIdx].acct);
+      });
+    });
+    document.addEventListener('click', function(){ menu.style.display='none'; });
+  }
+  menu.dataset.idx = idx;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.display = 'block';
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.left = (rect.left - 120) + 'px';
+  // Prevent overflow
+  const menuRect = menu.getBoundingClientRect();
+  if(menuRect.right > window.innerWidth) menu.style.left = (window.innerWidth - menuRect.width - 8) + 'px';
+  if(menuRect.bottom > window.innerHeight) menu.style.top = (rect.top - menuRect.height - 4) + 'px';
+}
 </script>
 <script src="components/date-picker.js"></script>
 </body>
