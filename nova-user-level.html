@@ -622,6 +622,21 @@ function openAddMemberModal() { document.getElementById('addMemberModal').classL
 
 var lastImportResult = null;
 function doImport() {
+  if (!lastImportResult) return;
+  var success = lastImportResult.filter(function(r){return !r.error}).length;
+  var dup = lastImportResult.filter(function(r){return r.error.indexOf('重複')===0}).length;
+  var fail = lastImportResult.filter(function(r){return r.error && r.error.indexOf('重複')!==0}).length;
+  alert('匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆');
+  closeModal('importModal');
+  lastImportResult = null;
+  document.getElementById('uploadProgress').style.display = 'none';
+  var area = document.getElementById('importResultArea');
+  if(area) area.remove();
+  document.getElementById('importBtn').disabled = true;
+  document.getElementById('importBtn').style.opacity = '0.5';
+  document.getElementById('importBtn').style.cursor = 'not-allowed';
+}
+function showImportPreview() {
   lastImportResult = [
     {account:'player101',error:''},
     {account:'player102',error:''},
@@ -632,18 +647,17 @@ function doImport() {
   var success = lastImportResult.filter(function(r){return !r.error}).length;
   var dup = lastImportResult.filter(function(r){return r.error.indexOf('重複')===0}).length;
   var fail = lastImportResult.filter(function(r){return r.error && r.error.indexOf('重複')!==0}).length;
-  // Show result in import modal
-  var resultHtml = '<div id="importResultArea" style="margin-top:12px;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px">';
-  resultHtml += '<div style="font-size:13px;color:#166534;font-weight:500;margin-bottom:8px">匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆。請在儲存前下載結果檔確認</div>';
+  var resultHtml = '<div id="importResultArea" style="margin-top:12px;padding:12px;background:#FEF9C3;border:1px solid #FDE047;border-radius:8px">';
+  resultHtml += '<div style="font-size:13px;color:#854D0E;font-weight:500;margin-bottom:8px">匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆。請在匯入前下載結果檔確認</div>';
   resultHtml += '<button class="btn btn-outline" onclick="downloadImportResult()" style="font-size:12px;padding:6px 12px;display:inline-flex;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載結果檔</button>';
   resultHtml += '</div>';
   var existing = document.getElementById('importResultArea');
   if(existing) existing.remove();
   document.querySelector('#importModal .modal-body .form-group').insertAdjacentHTML('beforeend', resultHtml);
-  // Disable import button
-  document.getElementById('importBtn').disabled = true;
-  document.getElementById('importBtn').style.opacity = '0.5';
-  document.getElementById('importBtn').style.cursor = 'not-allowed';
+  // Enable import button
+  document.getElementById('importBtn').disabled = false;
+  document.getElementById('importBtn').style.opacity = '1';
+  document.getElementById('importBtn').style.cursor = 'pointer';
 }
 function downloadImportResult() {
   if (!lastImportResult) return;
@@ -705,9 +719,7 @@ function validateAndUpload(file) {
       pct.textContent = '100%';
       bar.style.width = '100%';
       status.style.display = 'block';
-      importBtn.disabled = false;
-      importBtn.style.opacity = '1';
-      importBtn.style.cursor = 'pointer';
+      showImportPreview();
     } else {
       pct.textContent = Math.floor(progress_val) + '%';
       bar.style.width = Math.floor(progress_val) + '%';
