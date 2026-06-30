@@ -647,8 +647,8 @@ function showImportPreview() {
   var success = lastImportResult.filter(function(r){return !r.error}).length;
   var dup = lastImportResult.filter(function(r){return r.error.indexOf('重複')===0}).length;
   var fail = lastImportResult.filter(function(r){return r.error && r.error.indexOf('重複')!==0}).length;
-  var resultHtml = '<div id="importResultArea" style="margin-top:12px;padding:12px;background:#FEF9C3;border:1px solid #FDE047;border-radius:8px">';
-  resultHtml += '<div style="font-size:13px;color:#854D0E;font-weight:500;margin-bottom:8px">匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆。請在匯入前下載結果檔確認</div>';
+  var resultHtml = '<div id="importResultArea" style="margin-top:12px;padding:12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px">';
+  resultHtml += '<div style="font-size:13px;color:#374151;font-weight:500;margin-bottom:8px">匯入完成：成功 '+success+' 筆、重複 '+dup+' 筆、失敗 '+fail+' 筆。請在匯入前下載結果檔確認</div>';
   resultHtml += '<button class="btn btn-outline" onclick="downloadImportResult()" style="font-size:12px;padding:6px 12px;display:inline-flex;align-items:center;gap:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>下載結果檔</button>';
   resultHtml += '</div>';
   var existing = document.getElementById('importResultArea');
