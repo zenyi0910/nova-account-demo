@@ -277,6 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Inter','Noto Sans TC','PingFa
       <button onclick="alert('狀態管理')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;background:#374151;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/></svg>狀態管理</button>
       <button onclick="alert('VIP管理')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;background:#374151;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l3 12h14l3-12-5 4-5-6-5 6z"/><path d="M5 16h14v2H5z"/></svg>VIP管理</button>
       <button onclick="alert('人工存提')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;background:#374151;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2"/><circle cx="12" cy="12" r="3"/></svg>人工存提</button>
+      <button onclick="openLevelModal(+document.getElementById('userDetailModal').dataset.idx)" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;background:#374151;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V10"/><path d="M9 20V4"/><path d="M13 20v-8"/><path d="M17 20V8"/></svg>層級管理</button>
       <button onclick="alert('歸零禁言次數')" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:none;background:#EA580C;color:#fff;font-size:12px;cursor:pointer;font-family:inherit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>歸零禁言次數</button>
       <button onclick="document.getElementById('userDetailModal').style.display='none'" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;border:1px solid #E5E7EB;background:#fff;color:#374151;font-size:12px;cursor:pointer;font-family:inherit">關閉</button>
     </div>
@@ -597,6 +598,7 @@ const phone = hasPhone ? '09'+String(Math.floor(r()*90000000+10000000)) : '-';
 function openUserDetail(idx) {
   const u = allUsers[idx];
   document.getElementById('userDetailModal').style.display='flex';
+  document.getElementById('userDetailModal').dataset.idx=idx;
   renderBasicInfo(u);
 }
 function switchTab(btn, idx) {
@@ -682,7 +684,6 @@ function showActionMenu(e, idx) {
       <div class="action-item" data-action="status" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0118.8-4.3M22 12.5a10 10 0 01-18.8 4.2"/></svg>狀態管理</div>
       <div class="action-item" data-action="vip" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M2 4l3 12h14l3-12-5 4-5-6-5 6z"/><path d="M5 16h14v2H5z"/></svg>VIP管理</div>
       <div class="action-item" data-action="manual" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2"/><circle cx="12" cy="12" r="3"/></svg>人工存提</div>
-      <div class="action-item" data-action="level" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V10"/><path d="M9 20V4"/><path d="M13 20v-8"/><path d="M17 20V8"/></svg>層級管理</div>
       <div class="action-item" data-action="reset" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;font-size:13px;color:#EA580C;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>歸零禁言次數</div>
     `;
     document.body.appendChild(menu);
@@ -697,7 +698,6 @@ function showActionMenu(e, idx) {
         else if(action==='status') alert('狀態管理 - '+allUsers[userIdx].acct);
         else if(action==='vip') alert('VIP管理 - '+allUsers[userIdx].acct);
         else if(action==='manual') alert('人工存提 - '+allUsers[userIdx].acct);
-        else if(action==='level') openLevelModal(userIdx);
         else if(action==='reset') alert('歸零禁言次數 - '+allUsers[userIdx].acct);
       });
     });
