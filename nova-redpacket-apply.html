@@ -366,7 +366,7 @@ function showAuditDetail(btn){
   var time=cells[0].textContent,user=cells[1].textContent,orderId=cells[2].textContent,type=cells[3].textContent,amount=cells[4].textContent,status=cells[5].textContent;
   var html='<div style="padding:8px">';
   html+='<div style="font-size:13px;color:#452201;margin-bottom:12px"><strong>可領取公會</strong> <span>窩要煙牌</span></div>';
-  
+  if(status.indexOf('已拒絕')!==-1){html+='<div style="font-size:13px;color:#dc2626;margin-bottom:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:8px 10px"><strong>駁回原因</strong> <span>因系統升級自動批次拒絕</span></div>';}
   html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table style="min-width:400px;width:100%;border-collapse:collapse;font-size:11px;color:#452201;white-space:nowrap"><thead><tr style="background:#3d2000;color:#fff"><th style="padding:6px 8px;font-weight:600">序號</th><th style="padding:6px 8px;font-weight:600">可使用次數</th><th style="padding:6px 8px;font-weight:600">金額</th></tr></thead>';
   html+='<tbody>';
   html+='<tr style="border-bottom:1px solid rgba(0,0,0,.06)"><td style="padding:6px 8px;text-align:center"><span style="display:inline-flex;align-items:center;gap:4px;background:#F3E8FF;border:1px solid #A855F7;border-radius:9999px;padding:2px 10px;font-size:11px;color:#7C3AED;font-weight:600">ZZ6mzv<svg viewBox=\'0 0 24 24\' width=\'12\' height=\'12\' fill=\'none\' stroke=\'#7C3AED\' stroke-width=\'2\'><rect x=\'9\' y=\'9\' width=\'13\' height=\'13\' rx=\'2\'/><path d=\'M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1\'/></svg></span></td><td style="padding:6px 8px;text-align:center">100</td><td style="padding:6px 8px;text-align:center">10</td></tr>';
