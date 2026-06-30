@@ -730,9 +730,9 @@ function openLevelModal(idx) {
     document.getElementById('levelModalClose').addEventListener('click', function(){ modal.style.display='none'; });
     document.getElementById('levelModalCancel').addEventListener('click', function(){ modal.style.display='none'; });
     document.getElementById('levelModalSave').addEventListener('click', function(){
-      const selected = modal.querySelector('.level-opt.selected');
-      if(selected) {
-        const newLevel = selected.dataset.level;
+      const sel = document.getElementById('levelSelect');
+      if(sel) {
+        const newLevel = sel.value;
         allUsers[+modal.dataset.idx].level = newLevel;
         modal.style.display='none';
         alert('已將用戶層級變更為「'+newLevel+'」');
@@ -749,36 +749,10 @@ function openLevelModal(idx) {
     </div>
     <div style="margin-bottom:8px">
       <div style="font-size:12px;color:#6B7280;margin-bottom:8px">選擇層級</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        ${levels.map(lv => {
-          const isActive = currentLevel === lv;
-          const isDanger = lv==='高風險'||lv==='觀察中';
-          const bg = isActive ? (isDanger ? '#FEE2E2' : '#F0FDF4') : '#fff';
-          const border = isActive ? (isDanger ? '#FECACA' : '#BBF7D0') : '#E5E7EB';
-          const color = isActive ? (isDanger ? '#DC2626' : '#16A34A') : '#374151';
-          return '<span class="level-opt'+(isActive?' selected':'')+'" data-level="'+lv+'" style="display:inline-flex;align-items:center;gap:4px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid '+border+';background:'+bg+';color:'+color+';cursor:pointer">'+(isActive?'<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>':'')+lv+'</span>';
-        }).join('')}
-      </div>
+      <select id="levelSelect" style="width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:13px;color:#374151;background:#fff;cursor:pointer">
+        ${levels.map(lv => '<option value="'+lv+'"'+(currentLevel===lv?' selected':'')+'>'+lv+'</option>').join('')}
+      </select>
     </div>`;
-  // Click to select
-  modal.querySelectorAll('.level-opt').forEach(opt => {
-    opt.addEventListener('click', function(){
-      modal.querySelectorAll('.level-opt').forEach(o => {
-        const lv2 = o.dataset.level;
-        const isDanger2 = lv2==='高風險'||lv2==='觀察中';
-        o.classList.remove('selected');
-        o.style.background='#fff'; o.style.borderColor='#E5E7EB'; o.style.color='#374151';
-        o.innerHTML = lv2;
-      });
-      this.classList.add('selected');
-      const lv = this.dataset.level;
-      const isDanger = lv==='高風險'||lv==='觀察中';
-      this.style.background = isDanger?'#FEE2E2':'#F0FDF4';
-      this.style.borderColor = isDanger?'#FECACA':'#BBF7D0';
-      this.style.color = isDanger?'#DC2626':'#16A34A';
-      this.innerHTML = '<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>'+lv;
-    });
-  });
   modal.style.display = 'flex';
 }
 </script>
