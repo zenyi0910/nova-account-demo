@@ -657,19 +657,7 @@ function renderBasicInfo(u) {
         <div style="background:#fff;border-radius:10px;padding:16px"><div style="font-size:18px;font-weight:700">-</div><div style="font-size:12px;color:#6B7280;margin-top:4px">最後一筆儲值時間</div></div>
       </div>
     </div>
-    <div style="background:#F9FAFB;border-radius:10px;padding:24px;margin-top:16px">
-      <h3 style="font-size:14px;font-weight:500;color:#374151;margin:0 0 16px">層級管理</h3>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        ${['預設','VVIP','貴賓','高風險','觀察中'].map(lv => {
-          const isActive = (u.level||'預設') === lv;
-          const isDanger = lv==='高風險'||lv==='觀察中';
-          const bg = isActive ? (isDanger ? '#FEE2E2' : '#F0FDF4') : '#fff';
-          const border = isActive ? (isDanger ? '#FECACA' : '#BBF7D0') : '#E5E7EB';
-          const color = isActive ? (isDanger ? '#DC2626' : '#16A34A') : '#374151';
-          return '<span style="display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid '+border+';background:'+bg+';color:'+color+'">'+(isActive?'<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>':'')+lv+'</span>';
-        }).join('')}
-      </div>
-    </div>`;
+    `;
 }
 
 
@@ -687,6 +675,7 @@ function showActionMenu(e, idx) {
       <div class="action-item" data-action="status" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>狀態管理</div>
       <div class="action-item" data-action="vip" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M2 4l3 12h14l3-12-5 4-5-6-5 6z"/><path d="M5 16h14v2H5z"/></svg>VIP管理</div>
       <div class="action-item" data-action="manual" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D9488" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>人工存提</div>
+      <div class="action-item" data-action="level" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#374151;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="2"><path d="M2 20h20"/><path d="M5 20V10"/><path d="M9 20V4"/><path d="M13 20v-8"/><path d="M17 20V8"/></svg>層級管理</div>
       <div class="action-item" data-action="reset" style="display:flex;align-items:center;gap:10px;padding:8px 14px;cursor:pointer;font-size:13px;color:#EA580C;transition:background .15s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>歸零禁言次數</div>
     `;
     document.body.appendChild(menu);
@@ -701,6 +690,7 @@ function showActionMenu(e, idx) {
         else if(action==='status') alert('狀態管理 - '+allUsers[userIdx].acct);
         else if(action==='vip') alert('VIP管理 - '+allUsers[userIdx].acct);
         else if(action==='manual') alert('人工存提 - '+allUsers[userIdx].acct);
+        else if(action==='level') openLevelModal(userIdx);
         else if(action==='reset') alert('歸零禁言次數 - '+allUsers[userIdx].acct);
       });
     });
@@ -715,6 +705,81 @@ function showActionMenu(e, idx) {
   const menuRect = menu.getBoundingClientRect();
   if(menuRect.right > window.innerWidth) menu.style.left = (window.innerWidth - menuRect.width - 8) + 'px';
   if(menuRect.bottom > window.innerHeight) menu.style.top = (rect.top - menuRect.height - 4) + 'px';
+}
+// === Level Management Modal ===
+function openLevelModal(idx) {
+  const u = allUsers[idx];
+  let modal = document.getElementById('levelModal');
+  if(!modal) {
+    modal = document.createElement('div');
+    modal.id = 'levelModal';
+    modal.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center';
+    modal.innerHTML = `<div style="background:#fff;width:480px;max-width:90vw;border-radius:10px;overflow:hidden;border:1px solid #E8E8E8">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E5E7EB">
+        <span style="font-size:15px;font-weight:600;color:#111827">層級管理</span>
+        <button id="levelModalClose" style="background:none;border:none;cursor:pointer;color:#666;padding:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      </div>
+      <div id="levelModalBody" style="padding:20px"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;padding:12px 20px;border-top:1px solid #E5E7EB;background:#F9FAFB">
+        <button id="levelModalCancel" style="padding:7px 16px;border:1px solid #E5E7EB;border-radius:6px;background:#fff;font-size:13px;color:#374151;cursor:pointer">取消</button>
+        <button id="levelModalSave" style="padding:7px 16px;border:none;border-radius:6px;background:#1F2937;font-size:13px;color:#fff;cursor:pointer">確認變更</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', function(e){ if(e.target===modal) modal.style.display='none'; });
+    document.getElementById('levelModalClose').addEventListener('click', function(){ modal.style.display='none'; });
+    document.getElementById('levelModalCancel').addEventListener('click', function(){ modal.style.display='none'; });
+    document.getElementById('levelModalSave').addEventListener('click', function(){
+      const selected = modal.querySelector('.level-opt.selected');
+      if(selected) {
+        const newLevel = selected.dataset.level;
+        allUsers[+modal.dataset.idx].level = newLevel;
+        modal.style.display='none';
+        alert('已將用戶層級變更為「'+newLevel+'」');
+      }
+    });
+  }
+  modal.dataset.idx = idx;
+  const levels = ['預設','VVIP','貴賓','高風險','觀察中'];
+  const currentLevel = u.level || '預設';
+  document.getElementById('levelModalBody').innerHTML = `
+    <div style="margin-bottom:16px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:4px">用戶帳號</div>
+      <div style="font-size:14px;font-weight:500;color:#111827">${u.acct} (${u.nick})</div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="font-size:12px;color:#6B7280;margin-bottom:8px">選擇層級</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${levels.map(lv => {
+          const isActive = currentLevel === lv;
+          const isDanger = lv==='高風險'||lv==='觀察中';
+          const bg = isActive ? (isDanger ? '#FEE2E2' : '#F0FDF4') : '#fff';
+          const border = isActive ? (isDanger ? '#FECACA' : '#BBF7D0') : '#E5E7EB';
+          const color = isActive ? (isDanger ? '#DC2626' : '#16A34A') : '#374151';
+          return '<span class="level-opt'+(isActive?' selected':'')+'" data-level="'+lv+'" style="display:inline-flex;align-items:center;gap:4px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid '+border+';background:'+bg+';color:'+color+';cursor:pointer">'+(isActive?'<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>':'')+lv+'</span>';
+        }).join('')}
+      </div>
+    </div>`;
+  // Click to select
+  modal.querySelectorAll('.level-opt').forEach(opt => {
+    opt.addEventListener('click', function(){
+      modal.querySelectorAll('.level-opt').forEach(o => {
+        const lv2 = o.dataset.level;
+        const isDanger2 = lv2==='高風險'||lv2==='觀察中';
+        o.classList.remove('selected');
+        o.style.background='#fff'; o.style.borderColor='#E5E7EB'; o.style.color='#374151';
+        o.innerHTML = lv2;
+      });
+      this.classList.add('selected');
+      const lv = this.dataset.level;
+      const isDanger = lv==='高風險'||lv==='觀察中';
+      this.style.background = isDanger?'#FEE2E2':'#F0FDF4';
+      this.style.borderColor = isDanger?'#FECACA':'#BBF7D0';
+      this.style.color = isDanger?'#DC2626':'#16A34A';
+      this.innerHTML = '<svg width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>'+lv;
+    });
+  });
+  modal.style.display = 'flex';
 }
 </script>
 <script src="components/date-picker.js"></script>
