@@ -414,11 +414,11 @@ function renderDetailModal(id, editable) {
       <td style="color:#2563EB">${m.account}</td>
       <td>${m.nickname}</td>
       ${editable ? '' : `<td>${m.joinedAt}</td>`}
-      ${editable ? `<td><button class="icon-btn delete" onclick="removeMember('${m.account}')" title="移除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>` : ''}
+      ${editable ? `<td style="text-align:right"><button class="icon-btn delete" onclick="removeMember('${m.account}')" title="移除"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button></td>` : ''}
     </tr>`).join('');
 
   const tableHeaders = editable
-    ? '<th>帳號</th><th>暱稱</th><th>操作</th>'
+    ? '<th>帳號</th><th>暱稱</th><th style="text-align:right">操作</th>'
     : '<th>帳號</th><th>暱稱</th><th>加入時間</th>';
 
   const activitiesHtml = `
