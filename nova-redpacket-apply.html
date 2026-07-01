@@ -232,6 +232,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
       <div class="rp-form-group"><label>紅包數量</label><input type="number" class="rp-input" id="sQty" placeholder="輸入紅包數量（份數）" min="1" oninput="calcS()"></div>
       <div class="rp-form-group"><label>每包點數</label><input type="number" class="rp-input" id="sAmt" placeholder="每包 1,000 ~ 1,000,000 金幣" min="1000" max="1000000" oninput="calcS()"><div class="rp-error" id="sAmtErr">每包金額需介於 1,000 ~ 1,000,000</div></div>
       <div class="rp-form-group"><label>申請次數</label><input type="number" class="rp-input" id="sTimes" placeholder="每組序號可領取次數" min="1" oninput="calcS()"></div>
+      <div class="rp-form-group"><label>申請原因</label><input type="text" class="rp-input" id="sReason" placeholder="請輸入申請原因"></div>
       <div class="rp-calc"><div class="row"><span class="label">紅包申請總金額</span><span class="value" id="sTotal">0</span></div></div>
     </div>
     <!-- Multi -->
@@ -241,7 +242,8 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
       <tbody id="mBody"><tr><td>1</td><td><input type="number" value="5" min="1" onchange="calcM()"></td><td><input type="number" value="1000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="3" min="1" onchange="calcM()"></td><td class="sub">15,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr>
       <tr><td>2</td><td><input type="number" value="10" min="1" onchange="calcM()"></td><td><input type="number" value="5000" min="1000" max="1000000" onchange="calcM()"></td><td><input type="number" value="1" min="1" onchange="calcM()"></td><td class="sub">50,000</td><td><button class="rp-del" onclick="delM(this)">✕</button></td></tr></tbody></table>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center"><button class="rp-add-btn" onclick="addM()">＋ 新增一組</button><span style="font-size:11px;color:rgba(69,34,1,.4)" id="mCount">2 / 30 組</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between"><button class="rp-add-btn" onclick="addM()">＋ 新增一組</button><span style="font-size:11px;color:rgba(69,34,1,.4)" id="mCount">2 / 30 組</span></div>
+      <div class="rp-form-group" style="margin-top:12px"><label>申請原因</label><input type="text" class="rp-input" id="mReason" placeholder="請輸入申請原因"></div>
       <div class="rp-calc" style="margin-top:12px"><div class="row"><span class="label">多組申請總金額</span><span class="value" id="mTotal">65,000</span></div></div>
     </div>
     <!-- Upload -->
@@ -264,6 +266,7 @@ body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;height:100vh;over
       <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="handleCSV(this)">
       <div id="csvInfo" style="display:none"></div>
       <div class="rp-error" id="csvErr"></div>
+      <div class="rp-form-group" style="margin-top:12px"><label>申請原因</label><input type="text" class="rp-input" id="uReason" placeholder="請輸入申請原因"></div>
     </div>
     <button class="rp-submit" onclick="submitRP()">提交紅包申請</button>
     </div>
