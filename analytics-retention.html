@@ -232,7 +232,7 @@ function renderTable(){
     for(let i=0;i<maxDays;i++){
       const v=r.days[i];
       if(v===null||v===undefined){cells+='<td>—</td>';}
-      else{const h=heatColor(v);cells+=`<td style="background:${h.bg};color:${h.color}"><div style="font-weight:600">${v}%</div><div style="font-size:11px;opacity:.7">${r.counts[i]}</div></td>`;}
+      else{const h=heatColor(v);cells+=`<td style="background:${h.bg};color:${h.color};cursor:pointer" onclick="showPlayerModal('${r.date}',${i+1},${r.counts[i]})"><div style="font-weight:600">${v}%</div><div style="font-size:11px;opacity:.7">${r.counts[i]}</div></td>`;}
     }
     tr.innerHTML=cells;
     tbody.appendChild(tr);
@@ -339,6 +339,39 @@ document.querySelector('.btn-primary').addEventListener('click',function(){
   else firstTh.textContent='註冊日期';
 });
 // CSV 匯出（格式A標準報表）
+// 玩家清單 modal
+const fakeNames=['王大明','李小華','陳志強','林美玲','張家豪','黃雅婷','劉建宏','吳佩珊','周俊傑','蔡宜蓁','鄭文凱','謝佳蓉','楊子翔','許雅萍','蘇冠宇','呂怡君','徐偉傑','潘思涵','郭育廷','何詩婷'];
+const fakeNicks=['暗夜獵人','星辰守護','冰霜法師','烈焰戰士','風語者','月影刺客','雷霆騎士','幻影弓手','聖光牧師','血色玫瑰','碎骨魔王','紫電天使','狂野獵手','鐵壁坦克','幽靈殺手','極光女巫','龍吟劍客','寒冰射手','雪域狼王','赤炎鳳凰'];
+function genPlayer(seed){
+  const s=(seed*9301+49297)%233280;
+  const idx=s%20;
+  const vip=Math.floor((s%10)+1);
+  const deposit=(Math.floor(s%50)+1)*1000;
+  const acct='U'+String(100000+s%90000);
+  return{acct,nick:fakeNicks[idx],vip:'VIP'+vip,deposit:deposit.toLocaleString()};
+}
+function showPlayerModal(date,day,count){
+  let overlay=document.getElementById('playerModalOverlay');
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.id='playerModalOverlay';
+    overlay.style.cssText='display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center';
+    overlay.innerHTML='<div style="background:#fff;border-radius:12px;width:600px;max-width:90vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.15)"><div style="display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid #E5E7EB"><h3 style="font-size:15px;font-weight:600;color:#111827;flex:1" id="playerModalTitle"></h3><button onclick="document.getElementById(\'playerModalOverlay\').style.display=\'none\'" style="background:none;border:none;font-size:20px;cursor:pointer;color:#6B7280;padding:4px 8px;border-radius:4px">✕</button></div><div style="padding:16px 20px;overflow-y:auto;flex:1" id="playerModalBody"></div></div>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click',function(e){if(e.target===overlay)overlay.style.display='none';});
+  }
+  document.getElementById('playerModalTitle').textContent=date+' / Day +'+day+' 留存玩家（'+count+' 人）';
+  const rows=[];
+  for(let i=0;i<Math.min(count,50);i++){
+    const p=genPlayer(date.replace(/\//g,'')*1000+day*100+i);
+    rows.push('<tr><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9">'+p.acct+'</td><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9">'+p.nick+'</td><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9;text-align:center">'+p.vip+'</td><td style="padding:8px 12px;border-bottom:1px solid #F1F5F9;text-align:right">'+p.deposit+'</td></tr>');
+  }
+  let html='<table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="background:#F9FAFB"><th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748B;font-weight:600">帳號</th><th style="padding:10px 12px;text-align:left;font-size:12px;color:#64748B;font-weight:600">暱稱</th><th style="padding:10px 12px;text-align:center;font-size:12px;color:#64748B;font-weight:600">VIP</th><th style="padding:10px 12px;text-align:right;font-size:12px;color:#64748B;font-weight:600">累積儲值</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
+  if(count>50)html+='<div style="text-align:center;padding:12px;font-size:12px;color:#94A3B8">顯示前 50 筆，共 '+count+' 筆</div>';
+  document.getElementById('playerModalBody').innerHTML=html;
+  overlay.style.display='flex';
+}
+
 document.getElementById('exportBtn').addEventListener('click',function(){
   const groupBy=document.getElementById('groupBySelect').value;
   const dateRange=document.querySelector('input[readonly]').value;
